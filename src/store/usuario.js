@@ -8,24 +8,24 @@ const dialog = ref( false )
 const item = ref ({})
 
 const guardar = item => {
-    const referencia = collection(firestore, 'admision')
+    const referencia = collection(firestore, 'usuario')
     return addDoc(referencia, item)
 }
 
 const actualizar = (item) => {
-    const referencia = doc(firestore, 'admision', item.id)
+    const referencia = doc(firestore, 'usuario', item.id)
     return updateDoc(referencia, item)
 }
 
 const eliminar = (id) => {
-    const referencia = doc(firestore, 'admision', id)
+    const referencia = doc(firestore, 'usuario', id)
     return deleteDoc(referencia)
 }
 
 const registro = ref([])
 
 const obtenerTodos = () => {
-    const referencia = collection(firestore, 'admision')
+    const referencia = collection(firestore, 'usuario')
     return onSnapshot(
         referencia, 
         collection => registro.value = collection.docs.map( doc => ({...doc.data(), id: doc.id })) 
@@ -33,7 +33,7 @@ const obtenerTodos = () => {
 }
 
 const leer = id => {
-    const referencia = doc(firestore, 'admision', id)
+    const referencia = doc(firestore, 'usuario', id)
     return getDoc( referencia ).then( doc => item.value = doc.data())
 }
 
@@ -52,3 +52,4 @@ export {
     eliminar,
     dialog
 }
+

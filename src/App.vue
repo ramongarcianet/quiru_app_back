@@ -1,10 +1,13 @@
 <script setup>
 import { onUnmounted, ref } from 'vue'
+/*
 import Formulario from './components/Formulario.vue'
 import Registro from './components/Registro.vue'
-
 import {dialog} from './store/admision'
-
+*/
+import Formulario from './components/usuario/Formulario.vue'
+import Registro from './components/usuario/Registro.vue'
+import {dialog} from './store/usuario'
 </script>
 
 <template>

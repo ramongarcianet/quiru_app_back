@@ -1,7 +1,7 @@
 <script setup>
 import { onUnmounted, ref } from 'vue'
-import {leerEnRegistro, eliminar} from '../store/admision'
-import {dialog} from '../store/admision'
+import {leerEnRegistro, eliminar} from '../../store/usuario'
+import {dialog} from '../../store/usuario.js'
 
 const confirmar = ref(false)
 
@@ -14,8 +14,11 @@ defineProps(['item'])
 <template>
 
     <li> 
+        <p>{{item.tipdoc}}</p> 
+        <p>{{item.numdoc}}</p> 
         <p>{{item.nombre}}</p> 
-        <p>{{item.fechaDeAdmisión}}</p> 
+        <p>{{item.fechanac}}</p>
+        <p>{{item.sexo}}</p>
         <Button @click="dialog=true, leerEnRegistro(item.id)"> Editar </Button>
         <Button @click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) ">  {{confirmar ? '¿Está seguro?' : 'Borrar'}} </Button>
     </li>

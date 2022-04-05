@@ -1,12 +1,8 @@
 <script setup>
 import { onUnmounted, ref } from 'vue'
-import {obtenerTodos, registro, leerEnRegistro, eliminar} from '../store/admision'
+import {obtenerTodos, registro, leerEnRegistro, eliminar} from '../../store/usuario'
 import Item from './Item.vue'
 const obtenerRegistro = obtenerTodos()
-
-/*onUnmounted( ()=> {
-  obtenerRegistro?.then( unsub => unsub())
-})*/
 
 const confirmar = ref(false)
 
