@@ -14,23 +14,38 @@ const guardarOActualizar = () => {
 
 <dialog :open="$attrs.dialog">
     <form @submit.prevent="e => guardarOActualizar()">
-    <Col>
-        <input placeholder="Nombre" v-model="item.nombre" required>
-        <Row>
         <Col>
-            <input placeholder="Apellido paterno" v-model="item.apellidoPaterno">
-        </Col>
-        <input placeholder="Apellido materno" v-model="item.apellidoMaterno">
+        <Row> 
+            <Col>
+                <input placeholder="Código" v-model="item.codigo" required>
+            </Col>
+            <Col>
+                <select placeholder="Tipo Documento" v-model="item.tipdoc"  required>
+                    <option value="DNI"> DNI</option>
+                    <option value="CE"> CE</option>
+                </select>
+            </Col>
+            <Col>
+                <input placeholder="Número Documento" v-model="item.numdoc" required>
+            </Col>
         </Row>
-        <input placeholder="Código" v-model="item.codigo">
-        <input placeholder="Número de documento" v-model="item.numeroDeDocumento">
         <Row>
-        <select placeholder="Ubigeo" v-model="item.ubigeo">
-            <option value="130101"> La Libertad</option>
-            <option value="010101"> Lima</option>
-        </select>  
-        <input type="date" v-model="item.fechaDeAdmisión">
+            <Col>
+                <input placeholder="Nombre" v-model="item.nombre" required>
+            </Col>
+            <Col>
+                <input placeholder="Apellido Paterno" v-model="item.apellidoPaterno"  required>
+            </Col>
+             <Col>
+                <input placeholder="Apellido Materno" v-model="item.apellidoMaterno"  required>
+            </Col>
         </Row>
+        <Row>
+            <Col>
+                <input placeholder="Fecha Admisión" type="date" v-model="item.fechaDeAdmisión"  required>
+            </Col>
+        </Row>       
+        <input placeholder="Comentario" v-model="item.Comentario"  required>             
         <Row>
             <Button type="button" @click="dialog = false"> Cancelar </Button>
             <Button> Guardar</Button>

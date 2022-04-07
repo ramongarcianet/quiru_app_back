@@ -9,10 +9,10 @@
 li {
     display: flex;
     align-items: center;
-    border: 1px solid black;
+    border: 1px solid grey;
     border-radius: 1rem;
-    padding: 0 1rem;
-    margin: .5rem
+    padding: 0 0.5rem;
+    margin: 0
 }
 
 

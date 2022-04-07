@@ -15,16 +15,19 @@ const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
         <Col>Tip Doc.</Col>
         <Col>Número Doc.</Col>
         <Col>Nombres</Col>
-        <Col>Fecha Nacimiento</Col>
+        <Col>Ape. Paterno</Col>
+        <Col>Ape. Materno</Col>
+        <Col>Fecha Nac.</Col>
         <Col>Sexo</Col>
         <Col></Col>   
         <Col></Col>                       
     </Row> 
-    <ul>
     <Item  v-for="item of registro"  :key="item.id"  :item="item">
         <Col>{{item.tipdoc}}</Col> 
         <Col>{{item.numdoc}}</Col> 
         <Col>{{item.nombre}}</Col> 
+        <Col>{{item.apellidoPaterno}}</Col> 
+        <Col>{{item.apellidoMaterno}}</Col>  
         <Col>{{item.fechanac}}</Col>
         <Col>{{item.sexo}}</Col>
         <Col>
@@ -34,7 +37,6 @@ const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
             <Button @click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) ">  {{confirmar ? '¿Está seguro?' : 'Borrar'}} </Button>
         </Col>  
     </Item>
-    </ul>
    
 </template>
 
