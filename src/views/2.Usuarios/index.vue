@@ -7,6 +7,7 @@ import {dialog} from '../../store/usuario'
 </script>
 <template>
 <h1>Usuario</h1>
+<row>
 <Container class="fluid">
     <Container>
       <Button @click="dialog=true"> Nuevo </Button>
@@ -14,4 +15,5 @@ import {dialog} from '../../store/usuario'
       <Registro />
     </Container>
   </Container>
+</row>
 </template>
