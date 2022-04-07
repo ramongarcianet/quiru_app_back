@@ -1,13 +1,12 @@
 <script setup>
 import {ref} from 'vue'
-import {item, guardar, actualizar}  from '../store/admision'
+import {item, guardar, actualizar, dialog}  from '../../store/admision'
 
 const guardarOActualizar = () => {
     if (item.value.id) actualizar(item.value).then(()=>item.value = {})
     else guardar( item.value).then(()=>item.value = {})
 }
 
-import {dialog} from '../store/admision'
 
 </script>
 
