@@ -16,6 +16,11 @@ const routes = [
         name: 'usuarios',
         component: ()=>import('../views/2.Usuarios/index.vue')
     },
+    {
+        path: '/odontograma',
+        name: 'odontograma',
+        component: ()=>import('../views/5.Odontograma/index.vue')
+    },
 ]
 
 const router = createRouter({
