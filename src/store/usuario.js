@@ -1,11 +1,16 @@
 import { ref } from 'vue';
 
-import {addDoc, collection, onSnapshot, getDoc, getFirestore, doc, updateDoc, deleteDoc} from 'firebase/firestore'
+import {addDoc, collection, onSnapshot, getDoc, getFirestore, doc, updateDoc, deleteDoc, setDoc} from 'firebase/firestore'
 import {firestore} from '../config/firebase'
 
 const dialog = ref( false )
 
 const item = ref ({})
+
+export const crearUsuarioConId = item => {
+    const referencia = doc(firestore, 'usuario', item.id)
+    return setDoc( referencia, item)
+}
 
 const guardar = item => {
     const referencia = collection(firestore, 'usuario')
