@@ -6,8 +6,10 @@ import Col from './components/uikit/Col.vue'
 import Row from './components/uikit/Row.vue'
 import Container from './components/uikit/Container.vue'
 import Item from './components/uikit/Item.vue'
-
 import router from './config/router'
+
+import './config/bootstrap-grid.css'
+
 iniciarFirebase()
 
 createApp(App)
