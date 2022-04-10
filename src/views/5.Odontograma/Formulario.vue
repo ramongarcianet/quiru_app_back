@@ -3,14 +3,13 @@
 
 import {ref} from 'vue'
 import {item, guardar, actualizar}  from '../../store/usuario'
-import {diagnostico,tratamiento} from '../../store/odontograma'
+import {diagnostico,tratamiento, procesar} from '../../store/odontograma'
 /*
 const guardarOActualizar = () => {
     if (item.value.id) actualizar(item.value).then(()=>item.value = {})
     else guardar( item.value).then(()=>item.value = {})
 }
 */
-
 </script>
 
 <template>
@@ -18,14 +17,14 @@ const guardarOActualizar = () => {
 <div id="headerVoz">
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12" style="text-align:center;">
-            <button type="submit" class="pulsingButton m-left type2" id="btnActivar" onclick="procesar()">
+            <button type="submit" class="pulsingButton m-left type2" id="btnActivar" @click="procesar()">
                 <i class="fa fa-microphone" style="font-size: 150px;" aria-hidden="true">
                 </i>
                 <p style="color: #bb0b7c; font-weight:bold; font-size:40px; font-family:Calibri; position:absolute; margin-top:-22px;">
                     Oye quiru
                 </p>
             </button>
-            <button type="submit" class="pulsingButton" id="btnEscuchando" onclick="procesar()" hidden="hidden">
+            <button type="submit" class="pulsingButton" id="btnEscuchando" @click="procesar()" hidden="hidden">
                 <div class="pulse-ring">
                     <svg width="250" height="200" viewBox="50 0 250 400">
                         <polyline stroke-linejoin="round" points="50,150 125,50 200,150" stroke="white" stroke-width="25" fill="none"></polyline>
@@ -48,10 +47,10 @@ const guardarOActualizar = () => {
     </div>
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12" style="text-align:center;">
-            <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" onclick="diagnostico('manual')" id="btnDiagnostico">
+            <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" @click="diagnostico('manual')" id="btnDiagnostico">
                 <span style="color:white">Diagnóstico</span>
             </button>
-            <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" onclick="tratamiento()">
+            <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" @click="tratamiento()">
                 <span style="color:white">Tratamiento</span>
             </button>
         </div>

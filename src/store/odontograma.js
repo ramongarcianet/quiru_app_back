@@ -1,4 +1,4 @@
-import odontojs from "./OdontoJS"
+//import odontojs from "./OdontoJS"
     var fila = "";
     var nro = 0;
     var isSpeech = false;
@@ -385,5 +385,6 @@ import odontojs from "./OdontoJS"
     }
     export {
         diagnostico,
-        tratamiento
+        tratamiento,
+        procesar
     }
