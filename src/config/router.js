@@ -20,6 +20,11 @@ const routes = [
         path: '/paciente',
         name: 'paciente',
         component: ()=>import('../views/3.Paciente/index.vue')
+    },
+    {
+        path: '/diccionario',
+        name: 'diccionario',
+        component: ()=>import('../views/4.Diccionario/index.vue')
     }
 ]
 
