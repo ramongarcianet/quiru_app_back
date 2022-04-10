@@ -17,13 +17,14 @@ const {push} = useRouter()
       <li @click="push({name:'index'})">Inicio</li>
       <li @click="push({name:'admision'})">Admisión</li>
       <li @click="push({name:'usuarios'})">Usuarios</li>
+      <li @click="push({name:'paciente'})">Paciente</li>
       <li>Cerrar sesión</li>
     </ul>
   </nav>
 
-  
+
   <router-view></router-view>
 
-  
+
 </template>
 
