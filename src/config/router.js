@@ -17,6 +17,7 @@ const routes = [
         component: ()=>import('../views/2.Usuarios/index.vue')
     },
     {
+
         path: '/paciente',
         name: 'paciente',
         component: ()=>import('../views/3.Paciente/index.vue')
@@ -25,7 +26,13 @@ const routes = [
         path: '/diccionario',
         name: 'diccionario',
         component: ()=>import('../views/4.Diccionario/index.vue')
+    },
+
+        path: '/odontograma',
+        name: 'odontograma',
+        component: ()=>import('../views/5.Odontograma/index.vue')
     }
+
 ]
 
 const router = createRouter({
