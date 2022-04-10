@@ -1,0 +1,656 @@
+﻿@{
+}
+<link href="~/css/StyleOdonT.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/css/custom.css">
+
+<link href="~/css/StyleSheet.css" rel="stylesheet" />
+<script src="~/Script/plugins/dropzone/min/dropzone.min.js"></script>
+<div class="content-header" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0" style="color:white;">Odontograma</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right" style="color:white;">
+                    <li class="breadcrumb-item white" style="color:white;">Home</li>
+                    <li class="breadcrumb-item active" style="color:white;">Odontograma</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<div id="headerVoz">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12" style="text-align:center;">
+            <button type="submit" class="pulsingButton m-left type2" id="btnActivar" onclick="procesar()">
+                <i class="fa fa-microphone" style="font-size: 150px;" aria-hidden="true">
+                </i>
+                <p style="color: #bb0b7c; font-weight:bold; font-size:40px; font-family:Calibri; position:absolute; margin-top:-22px;">
+                    Oye quiru
+                </p>
+            </button>
+            <button type="submit" class="pulsingButton" id="btnEscuchando" onclick="procesar()" hidden="hidden">
+                <div class="pulse-ring">
+                    <svg width="250" height="200" viewBox="50 0 250 400">
+                        <polyline stroke-linejoin="round" points="50,150 125,50 200,150" stroke="white" stroke-width="25" fill="none"></polyline>
+                        <polyline stroke-linejoin="bevel" points="50,250 125,150 200,250" stroke="white" stroke-width="25" fill="none"></polyline>
+                        <polyline stroke-linejoin="miter" points="50,350 125,250 200,350" stroke="white" stroke-width="25" fill="none"></polyline>
+                    </svg>
+                </div>
+                <i class="fa fa-microphone" style="font-size: 150px;" aria-hidden="true"></i>
+                <p style="color: #bb0b7c; font-weight:bold; font-size:40px; font-family:Calibri; position:absolute; margin-top:-22px;">
+                    Escuchando
+                </p>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <br />
+            <br />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12" style="text-align:center;">
+            <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" onclick="diagnostico('manual')" id="btnDiagnostico">
+                <span style="color:white">Diagnóstico</span>
+            </button>
+            <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" onclick="tratamiento()">
+                <span style="color:white">Tratamiento</span>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <br />
+            <br />
+        </div>
+    </div>
+</div>
+<div class="row" id="headerVozSmall">    
+    <div class="col-sm-12 col-md-12 col-lg-12" style="text-align:center;">
+        <button type="submit" class="pulsingButton m-left type2" id="btnActivarSmall" style="width:40px;height:40px;font-size:1em;line-height:1px">
+            <i class="fa fa-microphone" style="font-size: 28px;" aria-hidden="true">
+            </i>
+        </button>
+        <button type="submit" class="pulsingButton" style="width:40px;height:40px;font-size:1em;line-height:1px" id="btnEscuchandoSmall">
+            <div class="pulse-ring" style="width:40px;height:40px">
+                <svg width="30" height="30" viewBox="40 0 150 300">
+                    <polyline stroke-linejoin="round" points="50,150 125,50 200,150" stroke="white" stroke-width="25" fill="none"></polyline>
+                    <polyline stroke-linejoin="bevel" points="50,250 125,150 200,250" stroke="white" stroke-width="25" fill="none"></polyline>
+                    <polyline stroke-linejoin="miter" points="50,350 125,250 200,350" stroke="white" stroke-width="25" fill="none"></polyline>
+                </svg>
+            </div>
+            <i class="fa fa-microphone" style="font-size: 28px;" aria-hidden="true"></i>
+        </button>
+    </div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-sm-3 col-md-3 col-lg-3">
+
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6">
+        <div id="divNuevo">
+            <div class="modal-content">
+                <div class="modal-header" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);">
+                    <br />
+                    <h5 class="modal-title" id="exampleModalLabel" style="color:white">
+                        <span class="card-title" id="tituloTratamiento"></span>
+                    </h5>
+                    <br />
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group-sm">
+                                <label>Hallazgo:</label>
+                                <select class="form-control" id="comboHallazgo">
+                                    <option value="caries" selected="selected">Lesión de caries dental</option>
+                                    <option value="restauración">Restauración</option>
+                                    <option value="extracción">Extracción</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group-sm">
+                                <div class="dvPiezas" id="dvPiezas"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+
+                        </div>
+                        <div class="col-3" style="text-align:center">
+                            <div class="DienteCareiesDiv" id="DienteCareiesDiv"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <table border="1">
+                                <tr>
+                                    <th>Nro</th>
+                                    <th width="12%">Diente</th>
+                                    <th>Hallazgo</th>
+                                    <th>Pieza</th>
+                                    <th width="12%">Eliminar</th>
+                                </tr>
+                                <tbody id="tablaDetalle"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" onclick="grabar('manual')">
+                        <span style="color:white">Grabar</span>
+                    </button>
+                    <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" onclick="cerrar('manual')">
+                        <span style="color:white">Salir</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3 col-md-3 col-lg-3">
+
+    </div>
+</div>
+
+<!-- Modal duplicado-->
+<div class="modal fade" id="modalOdongramaDuplicado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);">
+                <h5 class="modal-title" id="exampleModalLabel" style="color:white">Diagnóstico</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <p style="text-align:center">El hallazgo y la pieza seleccionada ya existen en la lista</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid" id="odontograma">
+    <div class="col-lg-12" id="accordion">
+        <div class="card card-warning card-outline">
+            <a class="d-block w-100" data-toggle="collapse" href="#collapseFour">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="card-title w-100">
+                                ODONTOGRAMA INICIAL
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <div id="collapseFour" class="collapse" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- AREA CHART -->
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Diagnóstico</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart">
+                                        <div class="Odontograma" id="Diagnostico"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-warning card-outline">
+            <a class="d-block w-100" data-toggle="collapse" href="#collapseFive">
+                <div class="card-header">
+                    <h4 class="card-title w-100">
+                        ODONTOGRAMA DE EVOLUCIÓN
+                    </h4>
+                </div>
+            </a>
+            <div id="collapseFive" class="collapse" data-parent="#accordion">
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Diagnóstico</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart">
+                                        <div class="Odontograma" id="Tratamiento"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Script/plugins/jquery/jquery-3.2.1.min.js"></script>
+<script src="~/js/annyang.min.js"></script>
+<script src="~/js/OdontoJS.js"></script>
+<script>
+    //---inicializar variables
+    var fila = "";
+    var nro = 0;
+    var isSpeech = false;
+    $(document).ready(function () {
+        $('.Odontograma').load('../../html/Odontograma.html');
+        //$('.DienteDiv').load('../../html/Hallasgos/DienteDiv.html');
+        $('.DienteCareiesDiv').load('../../html/Hallasgos/DienteCareiesDiv.html');
+        $('.DienteIma').load('../../html/Hallasgos/DienteIma.html');
+        $('.dvPiezas').load('../../html/Hallasgos/ddlPiezas.html');
+        //GetDemoDto();
+        //grabarOdontograma();
+        var divNuevo = document.getElementById('divNuevo');
+        divNuevo.style.display = 'none';
+        var headerVozSmall = document.getElementById('headerVozSmall');
+        headerVozSmall.style.display = 'none';
+
+    });
+
+    function GetDemoDto() {
+        $.ajax({
+            type: "POST",
+            url: "/Odontograma/GetDemoDto",
+            contentType: "application/json; charset=utf-8",
+            //data: JSON.stringify(oOrgano),
+            success: function (d) {
+                console.log(d)
+            },
+            error: function (d) {
+
+            }
+        });
+    }
+    function grabarOdontograma() {
+        var employee = {}        
+        employee.Name = 'Juan'
+        employee.Designation = 'Gerente'
+        employee.Location = 'Milano'
+        
+                $.ajax({
+                    type: "POST",
+                    url: "/Odontograma/grabar",
+                    data: employee,
+                    success: function (response) {
+                        alert("Hello: " + response.name + ".\nCurrent Date and Time: " + response.fecha);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+        
+    }
+    //--ini speech recognition
+    if (annyang) {
+        annyang.setLanguage("es-PE");
+        var commands = {
+            'hola': activarVoz,
+            //'oye': activarVoz,
+            'oye kiru': activarVoz,
+            'oye kiro': activarVoz,
+            'detener': detenerVoz,
+            'comprimir': comprimir,
+            'diagnóstico': diagnostico,
+            'tratamiento': tratamiento,
+            'salir': cerrar,
+            'limpiar': limpiar,
+            'grabar': grabar,
+            'aceptar': aceptar
+        }
+        annyang.addCallback('result', function (phrases) {
+            var comandoTemp = phrases[0];
+            comandoTemp = comandoTemp.replace(/\s/g, '/');
+            var comandoAct = comandoTemp.split('/');
+            if (comandoAct[0].toLowerCase()=='oye') {
+                activarVoz();
+            }
+            if (isSpeech) {
+                var comandoTemp = phrases[0];
+                var comando = comandoTemp.replace(/\s/g, '')
+                if (comando != 'detener') {
+                    if (comando.toLowerCase() == 'odontogramainicial') {
+                        odontogramaInicial();
+                    } else {
+                        if (comando.toLowerCase() == 'odontogramadeevolución') {
+                            odontogramaEvolucion();
+                        } else {
+                            if (comando.toLowerCase() == 'especificaciones') {
+                                especificaciones();
+                            } else {
+                                if (comando.toLowerCase() == 'observaciones') {
+                                    observaciones();
+                                } else {
+                                    if (comando.toLowerCase() == 'terminar') {
+                                        terminar();
+                                    } else {
+
+                                        if (comando != 'comprimir' && comando != 'diagnóstico' && comando != 'tratamiento' && comando != 'salir') {
+
+                                            var inputespecificaciones = document.getElementById('inputDescription');
+                                            if (inputespecificaciones === document.activeElement) {
+                                                inputespecificaciones.value = comandoTemp;
+                                            }
+                                            var inputObservacion = document.getElementById('inputObservacion');
+                                            if (inputObservacion === document.activeElement) {
+                                                inputObservacion.value = comandoTemp;
+                                            }
+
+                                            comando = comandoTemp.replace(/\s/g, '/');
+                                            comandoCompleto = comando.split('/')
+                                            if (comandoCompleto[0] === 'pieza') {
+                                                limpiarCaries();
+                                                var comboPieza = document.getElementById('comboPieza');
+                                                comboPieza.value = comandoCompleto[1];
+
+                                            }
+                                            if (comandoCompleto[0] === 'hallazgo') {
+                                                limpiarCaries()
+                                                var comboHallazgo = document.getElementById('comboHallazgo');
+                                                comboHallazgo.value = comandoCompleto[1];
+                                            }
+                                            if (comandoCompleto[0] === 'caries') {
+                                                pintarDiente(comandoCompleto[1])
+                                            }
+                                            if (comandoCompleto[0] === 'eliminar') {
+                                                if (comandoCompleto[2] != undefined) {
+                                                    eliminarVoz(comandoCompleto[2])
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                }
+                            }
+
+
+                        }
+                    }
+                }
+            }
+        });
+        function odontogramaInicial() {
+            $('#collapseFour').collapse('show');
+            $('#collapseFive').collapse('hide');
+        }
+        function odontogramaEvolucion() {
+            $('#collapseFive').collapse('show');
+            $('#collapseFour').collapse('hide');
+        }
+        function activarVoz() {
+            isSpeech = true;
+            document.getElementById("btnEscuchando").hidden = false;//start
+            document.getElementById("btnActivar").hidden = true;
+        }
+
+        function detenerVoz() {
+            isSpeech = false;
+            document.getElementById("btnEscuchando").hidden = true;//stop
+            document.getElementById("btnActivar").hidden = false;
+        }
+
+        annyang.addCommands(commands);
+        annyang.start();
+    }
+    //--fin speech recognition   
+    function comprimir() {
+        if (isSpeech) {
+            $('#collapseFive').collapse('hide');
+            $('#collapseFour').collapse('hide');
+        }
+    }
+
+    function diagnostico(param) {
+        if (param === 'manual') {
+            var headerVoz = document.getElementById('headerVoz');
+            headerVoz.style.display = 'none';
+
+            var headerVozSmall = document.getElementById('headerVozSmall');
+            headerVozSmall.style.display = 'block';
+            //--activar small buttom
+            var btnActivarSmall = document.getElementById('btnActivarSmall');
+            var btnEscuchandoSmall = document.getElementById('btnEscuchandoSmall');
+            if (isSpeech === true) {
+                btnActivarSmall.hidden = true;
+                btnEscuchandoSmall.hidden = false;
+            } else {
+                btnActivarSmall.hidden = false;
+                btnEscuchandoSmall.hidden = true;
+            }
+
+            var divNuevo = document.getElementById('divNuevo');
+            divNuevo.style.display = 'block';
+
+            var odontograma = document.getElementById('odontograma');
+            odontograma.style.display = 'none';
+            var tituloTratamiento = document.getElementById('tituloTratamiento');
+            tituloTratamiento.innerText = 'Registro de Diagnóstico';
+
+            var comboPieza = document.getElementById('comboPieza');
+            comboPieza.value = '1.1';
+            var comboHallazgo = document.getElementById('comboHallazgo');
+            comboHallazgo.value = 'caries';
+            limpiarCaries();
+
+        } else {
+            if (isSpeech) {
+                var headerVoz = document.getElementById('headerVoz');
+                headerVoz.style.display = 'none';
+
+                var headerVozSmall = document.getElementById('headerVozSmall');
+                headerVozSmall.style.display = 'block';
+                //--activar small buttom
+                var btnActivarSmall = document.getElementById('btnActivarSmall');
+                var btnEscuchandoSmall = document.getElementById('btnEscuchandoSmall');
+                if (isSpeech === true) {
+                    btnActivarSmall.hidden = true;
+                    btnEscuchandoSmall.hidden = false;
+                } else {
+                    btnActivarSmall.hidden = false;
+                    btnEscuchandoSmall.hidden = true;
+                }
+
+                var divNuevo = document.getElementById('divNuevo');
+                divNuevo.style.display = 'block';
+
+                var odontograma = document.getElementById('odontograma');
+                odontograma.style.display = 'none';
+                var tituloTratamiento = document.getElementById('tituloTratamiento');
+                tituloTratamiento.innerText = 'Registro de Diagnóstico';
+
+                var comboPieza = document.getElementById('comboPieza');
+                comboPieza.value = '1.1';
+                var comboHallazgo = document.getElementById('comboHallazgo');
+                comboHallazgo.value = 'caries';
+                limpiarCaries();
+            }
+
+        }
+    }
+
+    function tratamiento() {
+        if (isSpeech) {
+            var divNuevo = document.getElementById('divNuevo');
+            divNuevo.style.display = 'block';
+
+            var odontograma = document.getElementById('odontograma');
+            odontograma.style.display = 'none';
+            var tituloTratamiento = document.getElementById('tituloTratamiento');
+            tituloTratamiento.innerText = 'Registro de Tratamiento';
+
+            var comboPieza = document.getElementById('comboPieza');
+            comboPieza.value = '1.1';
+            var comboHallazgo = document.getElementById('comboHallazgo');
+            comboHallazgo.value = 'caries';
+            limpiarCaries();
+        }
+    }
+    function cerrar(param) {
+        if (isSpeech || param==='manual') {
+            var headerVoz = document.getElementById('headerVoz');
+            headerVoz.style.display = 'block';
+
+            var headerVozSmall = document.getElementById('headerVozSmall');
+            headerVozSmall.style.display = 'none';
+
+            var divNuevo = document.getElementById('divNuevo');
+            divNuevo.style.display = 'none';
+
+            var odontograma = document.getElementById('odontograma');
+            odontograma.style.display = 'block';
+            //limpiar tabla
+            var tablaDetalle = document.getElementById('tablaDetalle');
+            nro = 0;
+            fila = "";
+            tablaDetalle.innerHTML = fila;
+        }
+    }
+    function limpiar() {
+        if (isSpeech) {
+            document.getElementById("inputDescription").value = '';
+            document.getElementById("inputObservacion").value = '';
+        }
+    }
+    function grabar(param) {
+        grabarOdontograma();
+        if (isSpeech || param === 'manual') {
+            var tablaDetalle = document.getElementById('tablaDetalle');
+            comboHallazgo = document.getElementById('comboHallazgo');
+            var hallazgo = comboHallazgo.options[comboHallazgo.selectedIndex];
+            comboPieza = document.getElementById('comboPieza');
+            var pieza = comboPieza.options[comboPieza.selectedIndex];
+
+            //hallazgo.value;  //hallazgo.text;
+            //--buscar el diente k no exista en la tabla
+            if (!buscarTabla(hallazgo.text, pieza.text)) {
+                nro = nro + 1;
+                fila += "<tr class='fila'><td>" + nro + "</td><td><img src='/images/tooth-solid.svg' style ='width:40%'/> </td><td>" + hallazgo.text + "</td><td>" + pieza.text + "</td> <td><button type='button' class='btn' onclick='eliminarManual(this)'><img src='/images/trash-can-solid.svg' style='width:40%' /></button> </td> </tr> ";
+                tablaDetalle.innerHTML = fila;
+
+            } else {
+                $('#modalOdongramaDuplicado').modal('show');
+            }
+            //$('#listaDientesAgregar').append("<div class='JuicioTop' id='Diente18'>content</div>");
+        }
+    }
+    function aceptar() {
+        if (isSpeech) {
+            $('#modalOdongramaDuplicado').modal('hide');
+        }
+    }
+
+    function procesar() {
+        var btnActivar = document.getElementById('btnActivar');
+        var btnEscuchando = document.getElementById('btnEscuchando');
+        if (isSpeech === true) {
+            btnActivar.hidden = false;
+            btnEscuchando.hidden = true;//stop
+            isSpeech = false;
+        } else {
+            btnActivar.hidden = true;
+            btnEscuchando.hidden = false;//start
+            isSpeech = true;
+        }
+    }
+    function pintarDiente(posicion) {
+        if (posicion === 'vestibular')
+            DienteCaries('btntopcar');
+        if (posicion === 'distal')
+            DienteCaries('btnleftCar');
+        if (posicion === 'oclusal')
+            DienteCaries('btncenterCar');
+        if (posicion === 'mesial')
+            DienteCaries('btnrigthCar');
+        if (posicion === 'palatino')
+            DienteCaries('btnbotCar');
+
+    }
+    function buscarTabla(hallazgo, pieza) {
+        var rows = document.getElementsByClassName("fila");
+        var resultado = false;
+        for (var i = 0; i < rows.length; i++) {
+            var columna = rows[i].getElementsByTagName("td");
+            var hallazgoTabla = columna[2].innerHTML.toLowerCase();
+            var piezaTabla = columna[3].innerHTML.toLowerCase();
+            if (hallazgoTabla == hallazgo.toLowerCase() && piezaTabla == pieza.toLowerCase()) {
+                resultado = true;
+                break;
+            }
+        }
+        return resultado;
+
+    }
+    function especificaciones() {
+        document.getElementById("inputDescription").focus();
+
+    }
+    function observaciones() {
+        document.getElementById("inputObservacion").focus();
+    }
+
+    function terminar() {
+        document.getElementById("btnDiagnostico").focus();
+    }
+    function eliminarManual(element) {
+        document.getElementById("tablaDetalle").deleteRow(element.parentNode.parentNode.rowIndex - 1);
+        var tablaDetalle = document.getElementById('tablaDetalle');
+        
+        var rows = document.getElementsByClassName("fila");
+        fila = "";
+        nro=0
+        for (var i = 0; i < rows.length; i++) {
+            nro++;
+            var columna = rows[i].getElementsByTagName("td");
+            var hallazgoTabla = columna[2].innerHTML;
+            var piezaTabla = columna[3].innerHTML;
+            fila += "<tr class='fila'><td>" + nro + "</td><td><img src='/images/tooth-solid.svg' style ='width:40%'/> </td><td>" + hallazgoTabla + "</td><td>" + piezaTabla + "</td> <td><button type='button' class='btn' onclick='eliminarManual(this)'><img src='/images/trash-can-solid.svg' style='width:40%' /></button> </td> </tr> ";
+
+        }
+        tablaDetalle.innerHTML = fila;
+        
+    }
+    function eliminarVoz(index) {
+        document.getElementById("tablaDetalle").deleteRow(index-1);
+        var tablaDetalle = document.getElementById('tablaDetalle');
+
+        var rows = document.getElementsByClassName("fila");
+        fila = "";
+        nro = 0
+        for (var i = 0; i < rows.length; i++) {
+            nro++;
+            var columna = rows[i].getElementsByTagName("td");
+            var hallazgoTabla = columna[2].innerHTML;
+            var piezaTabla = columna[3].innerHTML;
+            fila += "<tr class='fila'><td>" + nro + "</td><td><img src='/images/tooth-solid.svg' style ='width:40%'/> </td><td>" + hallazgoTabla + "</td><td>" + piezaTabla + "</td> <td><button type='button' class='btn' onclick='eliminarManual(this)'><img src='/images/trash-can-solid.svg' style='width:40%' /></button> </td> </tr> ";
+
+        }
+        tablaDetalle.innerHTML = fila;
+
+    }
+</script>
