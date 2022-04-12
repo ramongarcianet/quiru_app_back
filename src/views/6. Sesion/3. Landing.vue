@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 
-const {push: ruta} = useRouter()
+const {push} = useRouter()
 </script>
 <template>
 <h1>Bienvenido a quiru</h1>

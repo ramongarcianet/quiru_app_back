@@ -52,7 +52,7 @@ import {dialog} from '../../store/usuario'
                 </select> 
             </Col>
              <Col>
-                <input placeholder="Correo Electrónico" v-model="item.email"  required>
+                <input placeholder="Correo Electrónico" v-model="item.email" type='email'  required>
             </Col>
         </Row>
         <Row>

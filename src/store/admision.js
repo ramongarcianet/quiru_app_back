@@ -1,15 +1,18 @@
 import { ref } from 'vue';
 
-import {addDoc, collection, onSnapshot, getDoc, getFirestore, doc, updateDoc, deleteDoc} from 'firebase/firestore'
+import {addDoc, collection, onSnapshot, getDoc, getFirestore, doc, updateDoc, deleteDoc, query, where} from 'firebase/firestore'
 import {firestore} from '../config/firebase'
-
+import { miUsuario } from './sesion';
 const dialog = ref( false )
 
 const item = ref ({})
 
 const guardar = item => {
     const referencia = collection(firestore, 'admision')
-    return addDoc(referencia, item)
+    return addDoc(referencia, {
+        ...item,
+        odontologoId: miUsuario().uid
+    })
 }
 
 const actualizar = (item) => {
@@ -26,8 +29,9 @@ const registro = ref([])
 
 const obtenerTodos = () => {
     const referencia = collection(firestore, 'admision')
+    const busqueda = query( referencia, where( "odontologoId", "==", miUsuario().uid))
     return onSnapshot(
-        referencia, 
+        busqueda, 
         collection => registro.value = collection.docs.map( doc => ({...doc.data(), id: doc.id })) 
     )
 }
