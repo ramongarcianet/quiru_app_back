@@ -13,6 +13,8 @@ const {push} = useRouter()
       <li @click="push({name:'index'})">Inicio</li>
       <li @click="push({name:'admision'})">Admisión</li>
       <li @click="push({name:'usuarios'})">Usuarios</li>
+      <li @click="push({name:'paciente'})">Paciente</li>
+      <li @click="push({name:'diccionario'})">Diccionario</li>
       <li @click="push({name:'odontograma'})">Odontograma</li>
     </ul>
   </nav>
