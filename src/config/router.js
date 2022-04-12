@@ -20,10 +20,11 @@ const routes = [
             name: 'registro',
             component: ()=>import('../views/6. Sesion/2. Registro.vue')
         },
-    
+
       ]
     },
     {
+
         path:'/dashboard',
         component: ()=>import('../views/dashboard.vue'),
         children:[
@@ -44,6 +45,7 @@ const routes = [
             },
         ]
     }
+
 ]
 
 const router = createRouter({
