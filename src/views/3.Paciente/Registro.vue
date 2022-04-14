@@ -27,7 +27,7 @@ const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
         <Col>{{item.numeroDocumento}}</Col>
         <Col>{{item.nombre+ ' '+item.apellidoPaterno +' '+item.apellidoMaterno }}</Col>
         <Col>{{item.fechaNacimiento}}</Col>
-        <Col>{{(item.sexo=='01')?'FEMENINO':'MASCULINO'}}</Col>
+        <Col>{{(item.sexo=='M')?'MASCULINO':'FEMENINO'}}</Col>
         <Col>
             <Button @click="dialog=true, leerEnRegistro(item.id)"> Editar </Button>
         </Col>

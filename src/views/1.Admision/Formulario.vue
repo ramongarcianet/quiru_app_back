@@ -15,18 +15,18 @@ const guardarOActualizar = () => {
 <dialog :open="$attrs.dialog">
     <form @submit.prevent="e => guardarOActualizar()">
         <Col>
-        <Row> 
-            <Col>
+        <Row>
+          <!--   <Col>
                 <input placeholder="Código" v-model="item.codigo" required>
-            </Col>
+            </Col> -->
             <Col>
-                <select placeholder="Tipo Documento" v-model="item.tipdoc"  required>
+                <select placeholder="Tipo Documento" v-model="item.tipoDocumento"  required>
                     <option value="DNI"> DNI</option>
-                    <option value="CE"> CE</option>
+                    <option value="CE"> CARNET DE EXTRAJERIA</option>
                 </select>
             </Col>
             <Col>
-                <input placeholder="Número Documento" v-model="item.numdoc" required>
+                <input placeholder="Número Documento" v-model="item.numeroDocumento" required>
             </Col>
         </Row>
         <Row>
@@ -42,10 +42,10 @@ const guardarOActualizar = () => {
         </Row>
         <Row>
             <Col>
-                <input placeholder="Fecha Admisión" type="date" v-model="item.fechaDeAdmisión"  required>
+                <input placeholder="Fecha Admisión" type="date" v-model="item.fechaAdmisión"  required>
             </Col>
-        </Row>       
-        <input placeholder="Comentario" v-model="item.Comentario"  required>             
+        </Row>
+        <input placeholder="Comentario" v-model="item.Comentario"  required>
         <Row>
             <Button type="button" @click="dialog = false"> Cancelar </Button>
             <Button> Guardar</Button>

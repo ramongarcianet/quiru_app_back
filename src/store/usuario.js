@@ -5,7 +5,12 @@ import {firestore} from '../config/firebase'
 
 const dialog = ref( false )
 
-const item = ref ({})
+const item = ref ({
+    tipoDocumento:'DNI',
+    sexo:'M',
+    fechaNacimiento:new Date().toISOString().slice(0,10)
+
+})
 
 export const crearUsuarioConId = item => {
     const referencia = doc(firestore, 'usuario', item.id)
@@ -32,8 +37,8 @@ const registro = ref([])
 const obtenerTodos = () => {
     const referencia = collection(firestore, 'usuario')
     return onSnapshot(
-        referencia, 
-        collection => registro.value = collection.docs.map( doc => ({...doc.data(), id: doc.id })) 
+        referencia,
+        collection => registro.value = collection.docs.map( doc => ({...doc.data(), id: doc.id }))
     )
 }
 

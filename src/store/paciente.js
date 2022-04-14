@@ -5,7 +5,11 @@ import {firestore} from '../config/firebase'
 
 const dialog = ref( false )
 
-const item = ref ({})
+const item = ref ({
+    tipoDocumento:'DNI',
+    sexo:'M',
+    fechaNacimiento:new Date().toISOString().slice(0,10)
+})
 
 const guardar = item => {
     const referencia = collection(firestore, 'paciente')
