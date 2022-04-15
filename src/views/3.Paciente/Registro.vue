@@ -23,7 +23,7 @@ const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
         <Col></Col>
     </Row>
     <Item  v-for="item of registro"  :key="item.id"  :item="item">
-        <Col>{{(item.tipoDocumento=='01')? 'DNI': 'CARNET DE EXTRANJERIA'}}</Col>
+        <Col>{{(item.tipoDocumento=='DNI')? 'DNI': 'CARNET DE EXTRANJERIA'}}</Col>
         <Col>{{item.numeroDocumento}}</Col>
         <Col>{{item.nombre+ ' '+item.apellidoPaterno +' '+item.apellidoMaterno }}</Col>
         <Col>{{item.fechaNacimiento}}</Col>
