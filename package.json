@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "firebase": "^9.6.10",
+    "pug": "^3.0.2",
+    "sass": "^1.50.0",
     "vue": "^3.2.25",
     "vue-router": "^4.0.14"
   },

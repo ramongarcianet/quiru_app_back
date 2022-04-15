@@ -15,7 +15,7 @@ const guardar = item => {
     const referencia = collection(firestore, 'admision')
     return addDoc(referencia, {
         ...item,
-        odontologoId: miUsuario().uid
+        odontologoId: miUsuario()?.uid
     })
 }
 
@@ -32,8 +32,10 @@ const eliminar = (id) => {
 const registro = ref([])
 
 const obtenerTodos = () => {
+    if(!miUsuario() ) return
     const referencia = collection(firestore, 'admision')
-    const busqueda = query( referencia, where( "odontologoId", "==", miUsuario().uid))
+
+    const busqueda = query( referencia, where( "odontologoId", "==", miUsuario()?.uid))
     return onSnapshot(
         busqueda,
         collection => registro.value = collection.docs.map( doc => ({...doc.data(), id: doc.id }))

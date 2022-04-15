@@ -10,3 +10,10 @@ sesion()
 
 </template>
 
+<style lang="sass">
+html
+  height: -webkit-fill-available
+body
+  margin: 0
+  padding: 0
+</style>
