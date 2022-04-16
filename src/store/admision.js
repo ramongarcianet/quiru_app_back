@@ -51,6 +51,13 @@ const leerEnRegistro = id => {
     return item.value = registro.value.find( item  => item.id == id )
 }
 
+const limpiar=()=> {
+    item.value = {
+        tipoDocumento:'DNI',
+        fechaAdmisión:new Date().toISOString().slice(0,10)
+    }
+}
+
 export {
     registro,
     item,
@@ -60,5 +67,6 @@ export {
     leerEnRegistro,
     actualizar,
     eliminar,
+    limpiar,
     dialog
 }

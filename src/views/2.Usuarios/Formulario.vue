@@ -1,10 +1,10 @@
 <script setup>
 import {ref} from 'vue'
-import {item, guardar, actualizar}  from '../../store/usuario'
+import {item, guardar, actualizar,limpiar}  from '../../store/usuario'
 
 const guardarOActualizar = () => {
-    if (item.value.id) actualizar(item.value).then(()=>item.value = {})
-    else guardar( item.value).then(()=>item.value = {})
+    if (item.value.id) actualizar(item.value).then(()=>limpiar())
+    else guardar( item.value).then(()=>limpiar())
 }
 
 import {dialog} from '../../store/usuario'
@@ -72,8 +72,12 @@ import {dialog} from '../../store/usuario'
             </Col>
         </Row>
         <Row>
-            <Button type="button" @click="dialog = false"> Cancelar </Button>
+          <Col>
+            <Button type="button" @click="dialog = false; limpiar() "> Cancelar </Button>
+          </Col>
+          <Col>
             <Button> Guardar</Button>
+          </Col>
         </Row>
     </Col>
     </form>

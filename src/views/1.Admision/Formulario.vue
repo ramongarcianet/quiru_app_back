@@ -1,10 +1,10 @@
 <script setup>
 import {ref} from 'vue'
-import {item, guardar, actualizar, dialog}  from '../../store/admision'
+import {item, guardar, actualizar,limpiar, dialog}  from '../../store/admision'
 
 const guardarOActualizar = () => {
-    if (item.value.id) actualizar(item.value).then(()=>item.value = {})
-    else guardar( item.value).then(()=>item.value = {})
+    if (item.value.id) actualizar(item.value).then(()=>limpiar())
+    else guardar( item.value).then(()=>limpiar())
 }
 
 
@@ -45,10 +45,18 @@ const guardarOActualizar = () => {
                 <input placeholder="Fecha Admisión" type="date" v-model="item.fechaAdmisión"  required>
             </Col>
         </Row>
-        <input placeholder="Comentario" v-model="item.Comentario"  required>
         <Row>
-            <Button type="button" @click="dialog = false"> Cancelar </Button>
+            <Col>
+                <input placeholder="Comentario" v-model="item.Comentario"  required>
+            </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Button type="button" @click="dialog = false;limpiar()"> Cancelar </Button>
+          </Col>
+          <Col>
             <Button> Guardar</Button>
+          </Col>
         </Row>
     </Col>
     </form>

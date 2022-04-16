@@ -1,10 +1,10 @@
 <script setup>
 import { ref } from "vue";
-import { item, guardar, actualizar, dialog } from "../../store/paciente";
+import { item, guardar, actualizar,limpiar, dialog } from "../../store/paciente";
 
 const guardarOActualizar = () => {
-  if (item.value.id) actualizar(item.value).then(() => (item.value = {}));
-  else guardar(item.value).then(() => (item.value = {}));
+  if (item.value.id) actualizar(item.value).then(() => (limpiar()));
+  else guardar(item.value).then(() => (limpiar()));
 };
 
 </script>
@@ -47,8 +47,8 @@ const guardarOActualizar = () => {
             </Col>
           <Col>
             <select placeholder="Ubigeo" v-model="item.sexo">
-              <option value="F">FEMENINO</option>
               <option value="M">MASCULINO</option>
+              <option value="F">FEMENINO</option>
             </select>
           </Col>
           <Col>
@@ -85,8 +85,12 @@ const guardarOActualizar = () => {
         </Row>
 
         <Row>
-          <Button type="button" @click="dialog = false"> Cancelar </Button>
-          <Button> Guardar</Button>
+          <Col>
+            <Button type="button" @click="dialog = false; limpiar() "> Cancelar </Button>
+          </Col>
+          <Col>
+            <Button> Guardar</Button>
+          </Col>
         </Row>
       </Col>
     </form>

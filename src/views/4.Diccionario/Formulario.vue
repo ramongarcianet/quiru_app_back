@@ -1,12 +1,15 @@
 <script setup>
 import { ref } from "vue";
-import { item, guardar, actualizar, dialog } from "../../store/diccionario";
+import { item, guardar, actualizar,limpiar, dialog } from "../../store/diccionario";
 
 const guardarOActualizar = () => {
-  if (item.value.id) actualizar(item.value).then(() => (item.value = {}));
-  else guardar(item.value).then(() => (item.value = {}));
+  if (item.value.id) actualizar(item.value).then(() => (limpiar()));
+  else guardar(item.value).then(() => (limpiar()));
 };
-
+const cancelar = () =>{
+  dialog = false;
+  limpiar();
+};
 </script>
 
 <template>
@@ -30,8 +33,13 @@ const guardarOActualizar = () => {
         </Row>
 
         <Row>
-          <Button type="button" @click="dialog = false"> Cancelar </Button>
-          <Button> Guardar</Button>
+          <Col>
+            <Button type="button" @click="dialog = false; limpiar() "> Cancelar </Button>
+            <!-- <Button type="button" onClick="cancelar()"> Cancelar </Button> -->
+          </Col>
+          <Col>
+            <Button> Guardar</Button>
+          </Col>
         </Row>
       </Col>
     </form>
