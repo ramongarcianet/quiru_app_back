@@ -5,13 +5,17 @@ import {firestore} from '../config/firebase'
 import { miUsuario } from './sesion';
 const dialog = ref( false )
 
-const item = ref ({})
+const item = ref ({
+    tipoDocumento:'DNI',
+    fechaAdmisión:new Date().toISOString().slice(0,10)
+
+})
 
 const guardar = item => {
     const referencia = collection(firestore, 'admision')
     return addDoc(referencia, {
         ...item,
-        odontologoId: miUsuario().uid
+        odontologoId: miUsuario()?.uid
     })
 }
 
@@ -28,11 +32,13 @@ const eliminar = (id) => {
 const registro = ref([])
 
 const obtenerTodos = () => {
+    if(!miUsuario() ) return
     const referencia = collection(firestore, 'admision')
-    const busqueda = query( referencia, where( "odontologoId", "==", miUsuario().uid))
+
+    const busqueda = query( referencia, where( "odontologoId", "==", miUsuario()?.uid))
     return onSnapshot(
-        busqueda, 
-        collection => registro.value = collection.docs.map( doc => ({...doc.data(), id: doc.id })) 
+        busqueda,
+        collection => registro.value = collection.docs.map( doc => ({...doc.data(), id: doc.id }))
     )
 }
 
@@ -45,6 +51,13 @@ const leerEnRegistro = id => {
     return item.value = registro.value.find( item  => item.id == id )
 }
 
+const limpiar=()=> {
+    item.value = {
+        tipoDocumento:'DNI',
+        fechaAdmisión:new Date().toISOString().slice(0,10)
+    }
+}
+
 export {
     registro,
     item,
@@ -54,5 +67,6 @@ export {
     leerEnRegistro,
     actualizar,
     eliminar,
+    limpiar,
     dialog
 }

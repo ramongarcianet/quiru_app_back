@@ -19,24 +19,24 @@ const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
         <Col>Ape. Materno</Col>
         <Col>Fecha Nac.</Col>
         <Col>Sexo</Col>
-        <Col></Col>   
-        <Col></Col>                       
-    </Row> 
+        <Col></Col>
+        <Col></Col>
+    </Row>
     <Item  v-for="item of registro"  :key="item.id"  :item="item">
-        <Col>{{item.tipdoc}}</Col> 
-        <Col>{{item.numdoc}}</Col> 
-        <Col>{{item.nombre}}</Col> 
-        <Col>{{item.apellidoPaterno}}</Col> 
-        <Col>{{item.apellidoMaterno}}</Col>  
-        <Col>{{item.fechanac}}</Col>
+        <Col>{{item.tipoDocumento}}</Col>
+        <Col>{{item.numeroDocumento}}</Col>
+        <Col>{{item.nombre}}</Col>
+        <Col>{{item.apellidoPaterno}}</Col>
+        <Col>{{item.apellidoMaterno}}</Col>
+        <Col>{{item.fechaNacimiento}}</Col>
         <Col>{{item.sexo}}</Col>
         <Col>
             <Button @click="dialog=true, leerEnRegistro(item.id)"> Editar </Button>
-        </Col>            
-        <Col>    
+        </Col>
+        <Col>
             <Button @click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) ">  {{confirmar ? '¿Está seguro?' : 'Borrar'}} </Button>
-        </Col>  
+        </Col>
     </Item>
-   
+
 </template>
 

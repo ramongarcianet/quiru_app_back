@@ -1,10 +1,10 @@
 <script setup>
 import {ref} from 'vue'
-import {item, guardar, actualizar}  from '../../store/usuario'
+import {item, guardar, actualizar,limpiar}  from '../../store/usuario'
 
 const guardarOActualizar = () => {
-    if (item.value.id) actualizar(item.value).then(()=>item.value = {})
-    else guardar( item.value).then(()=>item.value = {})
+    if (item.value.id) actualizar(item.value).then(()=>limpiar())
+    else guardar( item.value).then(()=>limpiar())
 }
 
 import {dialog} from '../../store/usuario'
@@ -16,18 +16,18 @@ import {dialog} from '../../store/usuario'
 <dialog :open="$attrs.dialog">
     <form @submit.prevent="e => guardarOActualizar()">
     <Col>
-        <Row> 
-            <Col>
+        <Row>
+            <!-- <Col>
                 <input placeholder="Código" v-model="item.codigo" required>
-            </Col>
+            </Col> -->
             <Col>
-                <select placeholder="Tipo Documento" v-model="item.tipdoc"  required>
+                <select placeholder="Tipo Documento" v-model="item.tipoDocumento"  required>
                     <option value="DNI"> DNI</option>
-                    <option value="CE"> CE</option>
+                    <option value="CE"> CARNET DE EXTRANJERIA</option>
                 </select>
             </Col>
             <Col>
-                <input placeholder="Número Documento" v-model="item.numdoc" required>
+                <input placeholder="Número Documento" v-model="item.numeroDocumento" required>
             </Col>
         </Row>
         <Row>
@@ -43,35 +43,41 @@ import {dialog} from '../../store/usuario'
         </Row>
         <Row>
             <Col>
-                <input type="date" v-model="item.fechaDeNacimiento"  required>
+                <input type="date" v-model="item.fechaNacimiento"  required>
             </Col>
             <Col>
                 <select placeholder="Sexo" v-model="item.sexo"  required>
-                    <option value="M"> Masculino</option>
-                    <option value="F"> Femenino</option>
-                </select> 
+                    <option value="M"> MASCULINO</option>
+                    <option value="F"> FEMENINO</option>
+                </select>
             </Col>
              <Col>
                 <input placeholder="Correo Electrónico" v-model="item.email" type='email'  required>
             </Col>
         </Row>
         <Row>
-            <input placeholder="Dirección" v-model="item.direccion"  required>        
+            <Col>
+            <input placeholder="Dirección" v-model="item.direccion"  required>
+            </Col>
         </Row>
         <Row>
             <Col>
                 <input placeholder="Usuario" v-model="item.usuario" required>
             </Col>
             <Col>
-                <input type="password" pattern=".{6,}" placeholder="Password" v-model="item.password" required> 
+                <input type="password" pattern=".{6,}" placeholder="Password" v-model="item.password" required>
             </Col>
              <Col>
-                <input type="password" pattern=".{6,}" placeholder="Confirmar Password" v-model="item.confirmpassword" required> 
+                <input type="password" pattern=".{6,}" placeholder="Confirmar Password" v-model="item.confirmpassword" required>
             </Col>
         </Row>
         <Row>
-            <Button type="button" @click="dialog = false"> Cancelar </Button>
+          <Col>
+            <Button type="button" @click="dialog = false; limpiar() "> Cancelar </Button>
+          </Col>
+          <Col>
             <Button> Guardar</Button>
+          </Col>
         </Row>
     </Col>
     </form>

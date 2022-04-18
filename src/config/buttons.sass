@@ -1,0 +1,28 @@
+button
+    background-color: var(--color-primary)
+    height: var(--element-height)
+    border-radius: var(--element-border)
+    color: var(--color-white)
+    padding: .25rem 1rem
+    margin-right: .5rem
+    cursor: pointer
+    border: 0 
+    transition: .3s all
+    &:last-child
+        margin-right: 0
+
+    &.light-outlined
+        border: 1px solid var(--color-light)
+        &:hover
+            background: var(--color-light)
+            color: var(--color-primary)
+    &.active
+        background-color: var(--color-light)
+        color: var(--color-primary)
+    &.icon
+        width: var(--element-height)
+        border-radius: var(--element-height)
+        padding: 0
+        display: flex
+        justify-content: center
+        align-items: center

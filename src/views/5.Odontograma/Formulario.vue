@@ -1,19 +1,28 @@
-
 <script setup>
-
-import {ref} from 'vue'
-import {item, guardar, actualizar}  from '../../store/usuario'
-import {diagnostico,tratamiento, procesar} from '../../store/odontograma'
-/*
+import {onMounted, ref} from 'vue'
+import {diagnostico,tratamiento, procesar,cerrar, limpiar, grabar} from '../../store/odontograma'
+//import {} from '../5.Odontograma/Hallasgos/ddlPiezas.html'
 const guardarOActualizar = () => {
-    if (item.value.id) actualizar(item.value).then(()=>item.value = {})
-    else guardar( item.value).then(()=>item.value = {})
-}
-*/
+  if (item.value.id) actualizar(item.value).then(() => (limpiar()));
+  else guardar(item.value).then(() => (limpiar()));
+};
+onMounted (()=>{
+        var divNuevo = document.getElementById('divNuevo');
+        divNuevo.style.display = 'none';
+        var headerVozSmall = document.getElementById('headerVozSmall');
+        headerVozSmall.style.display = 'none';
+        var modalOdongramaDuplicado = document.getElementById('modalOdongramaDuplicado');
+        modalOdongramaDuplicado.style.display = 'none';
+        document.getElementById("btnEscuchando").hidden = true;//stop
+        document.getElementById("btnActivar").hidden = false;
+
+})
+
 </script>
 
 <template>
  <Row>
+
 <div id="headerVoz">
     <Col>
         <div class="col-sm-12 col-md-12 col-lg-12" style="text-align:center;">
@@ -62,7 +71,6 @@ const guardarOActualizar = () => {
     </div>
 </div>
 </Row>
-
 
 <div class="row">
     <div class="col-sm-3 col-md-3 col-lg-3">
@@ -125,7 +133,7 @@ const guardarOActualizar = () => {
                         <span style="color:white">Grabar</span>
                     </button>
                     <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" @click="cerrar()">
-                        <span style="color:white">Salir</span>
+<span style="color:white">Salir</span>
                     </button>
                 </div>
             </div>
@@ -183,6 +191,7 @@ const guardarOActualizar = () => {
         text-align: right;
         visibility: hidden;
     }
+
 
 .NotpulsingButton {
     border: none;
@@ -263,4 +272,5 @@ const guardarOActualizar = () => {
         opacity: 0;
     }
 }
+
 </style>

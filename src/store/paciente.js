@@ -5,7 +5,11 @@ import {firestore} from '../config/firebase'
 
 const dialog = ref( false )
 
-const item = ref ({})
+const item = ref ({
+    tipoDocumento:'DNI',
+    sexo:'M',
+    fechaNacimiento:new Date().toISOString().slice(0,10)
+})
 
 const guardar = item => {
     const referencia = collection(firestore, 'paciente')
@@ -40,6 +44,14 @@ const leer = id => {
 const leerEnRegistro = id => {
     return item.value = registro.value.find( item  => item.id == id )
 }
+const limpiar=()=> {
+    item.value = {
+        tipoDocumento:'DNI',
+        sexo:'M',
+        fechaNacimiento:new Date().toISOString().slice(0,10)
+
+    }
+}
 
 export {
     registro,
@@ -50,5 +62,6 @@ export {
     leerEnRegistro,
     actualizar,
     eliminar,
+    limpiar,
     dialog
 }

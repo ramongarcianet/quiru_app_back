@@ -40,6 +40,9 @@ const leer = id => {
 const leerEnRegistro = id => {
     return item.value = registro.value.find( item  => item.id == id )
 }
+const limpiar=()=> {
+    item.value = {}
+}
 
 export {
     registro,
@@ -50,5 +53,6 @@ export {
     leerEnRegistro,
     actualizar,
     eliminar,
+    limpiar,
     dialog
 }

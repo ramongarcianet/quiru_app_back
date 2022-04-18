@@ -1,13 +1,12 @@
 <script setup>
 import { ref } from "vue";
-import { item, guardar, actualizar } from "../../store/paciente";
+import { item, guardar, actualizar,limpiar, dialog } from "../../store/paciente";
 
 const guardarOActualizar = () => {
-  if (item.value.id) actualizar(item.value).then(() => (item.value = {}));
-  else guardar(item.value).then(() => (item.value = {}));
+  if (item.value.id) actualizar(item.value).then(() => (limpiar()));
+  else guardar(item.value).then(() => (limpiar()));
 };
 
-import { dialog } from "../../store/paciente";
 </script>
 
 <template>
@@ -17,8 +16,8 @@ import { dialog } from "../../store/paciente";
         <Row>
           <Col>
             <select placeholder="Ubigeo" v-model="item.tipoDocumento">
-              <option value="01">DNI</option>
-              <option value="02">CARNET DE EXTRANJERIA</option>
+              <option value="DNI">DNI</option>
+              <option value="CE">CARNET DE EXTRANJERIA</option>
             </select>
           </Col>
           <Col>
@@ -31,17 +30,14 @@ import { dialog } from "../../store/paciente";
         <Row>
           <Col>
             <input placeholder="Nombre" v-model="item.nombre" required
-          /></Col>
+          />
+          </Col>
           <Col>
-            <input
-              placeholder="Apellido paterno"
-              v-model="item.apellidoPaterno"
+            <input placeholder="Apellido paterno" v-model="item.apellidoPaterno" required
             />
           </Col>
           <Col>
-            <input
-              placeholder="Apellido materno"
-              v-model="item.apellidoMaterno"
+            <input  placeholder="Apellido materno"  v-model="item.apellidoMaterno" required
             />
           </Col>
         </Row>
@@ -51,40 +47,32 @@ import { dialog } from "../../store/paciente";
             </Col>
           <Col>
             <select placeholder="Ubigeo" v-model="item.sexo">
-              <option value="01">FEMENINO</option>
-              <option value="02">MASCULINO</option>
+              <option value="M">MASCULINO</option>
+              <option value="F">FEMENINO</option>
             </select>
           </Col>
           <Col>
-            <select placeholder="Ubigeo" v-model="item.departamento">
-              <option value="01">CUSCO</option>
-              <option value="02">TRUJILLO</option>
-            </select>
+              <input placeholder="Departamento" v-model="item.departamento" required
+            />
           </Col>
         </Row>
         <Row>
             <Col>
-            <input
-              placeholder="Dirección"
-              v-model="item.Direccion"
+            <input  placeholder="Dirección"  v-model="item.Direccion" required
             />
             </Col>
         </Row>
         <Row>
           <Col>
-            <input placeholder="Email" v-model="item.email" required
-          /></Col>
+            <input placeholder="Correo Electrónico" v-model="item.email" type='email'  required>
+        </Col>
           <Col>
-            <input
-              placeholder="Teléfono"
-              v-model="item.telefono"
+            <input placeholder="Teléfono" v-model="item.telefono" required
             />
           </Col>
           <Col>
-            <select placeholder="Constancia" v-model="item.constancia">
-              <option value="01">SI</option>
-              <option value="02">NO</option>
-            </select>
+            <input placeholder="Constancia informado" v-model="item.constancia" required
+            />
           </Col>
         </Row>
         <Row>
@@ -97,8 +85,12 @@ import { dialog } from "../../store/paciente";
         </Row>
 
         <Row>
-          <Button type="button" @click="dialog = false"> Cancelar </Button>
-          <Button> Guardar</Button>
+          <Col>
+            <Button type="button" @click="dialog = false; limpiar() "> Cancelar </Button>
+          </Col>
+          <Col>
+            <Button> Guardar</Button>
+          </Col>
         </Row>
       </Col>
     </form>
