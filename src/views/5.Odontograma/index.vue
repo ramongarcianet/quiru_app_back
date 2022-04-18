@@ -12,7 +12,7 @@ import {dialog} from '../../store/usuario'
     <Container>
       <Button @click="dialog=true"> Nuevo </Button>
       <Formulario :open='dialog' />
-      <Registro />
+ 
     </Container>
   </Container>
 </row>
