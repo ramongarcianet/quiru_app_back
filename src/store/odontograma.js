@@ -1,4 +1,5 @@
-//import odontojs from "./OdontoJS"
+import {limpiarCaries} from "./OdontoJS"
+
     var fila = "";
     var nro = 0;
     var isSpeech = false;
@@ -19,11 +20,11 @@
         });
     }
     function grabarOdontograma() {
-        var employee = {}        
+        var employee = {}
         employee.Name = 'Juan'
         employee.Designation = 'Gerente'
         employee.Location = 'Milano'
-        
+
                 $.ajax({
                     type: "POST",
                     url: "/Odontograma/grabar",
@@ -38,7 +39,7 @@
                         alert(response.responseText);
                     }
                 });
-        
+
     }
     //--ini speech recognition
     if (annyang) {
@@ -129,10 +130,10 @@
             }
         });
         function odontogramaInicial() {
-          
+
         }
         function odontogramaEvolucion() {
-         
+
         }
         function activarVoz() {
             isSpeech = true;
@@ -149,10 +150,10 @@
         annyang.addCommands(commands);
         annyang.start();
     }
-    //--fin speech recognition   
+    //--fin speech recognition
     function comprimir() {
         if (isSpeech) {
-   
+
         }
     }
 
@@ -177,8 +178,8 @@
             var divNuevo = document.getElementById('divNuevo');
             divNuevo.style.display = 'block';
 
-            var odontograma = document.getElementById('odontograma');
-            odontograma.style.display = 'none';
+            //var odontograma = document.getElementById('odontograma');
+            //odontograma.style.display = 'none';
             var tituloTratamiento = document.getElementById('tituloTratamiento');
             tituloTratamiento.innerText = 'Registro de Diagnóstico';
 
@@ -209,8 +210,8 @@
                 var divNuevo = document.getElementById('divNuevo');
                 divNuevo.style.display = 'block';
 
-                var odontograma = document.getElementById('odontograma');
-                odontograma.style.display = 'none';
+                //var odontograma = document.getElementById('odontograma');
+                //odontograma.style.display = 'none';
                 var tituloTratamiento = document.getElementById('tituloTratamiento');
                 tituloTratamiento.innerText = 'Registro de Diagnóstico';
 
@@ -350,7 +351,7 @@
     function eliminarManual(element) {
         document.getElementById("tablaDetalle").deleteRow(element.parentNode.parentNode.rowIndex - 1);
         var tablaDetalle = document.getElementById('tablaDetalle');
-        
+
         var rows = document.getElementsByClassName("fila");
         fila = "";
         nro=0
@@ -363,7 +364,7 @@
 
         }
         tablaDetalle.innerHTML = fila;
-        
+
     }
     function eliminarVoz(index) {
         document.getElementById("tablaDetalle").deleteRow(index-1);
@@ -386,5 +387,8 @@
     export {
         diagnostico,
         tratamiento,
-        procesar
+        procesar,
+        cerrar,
+        limpiar,
+        grabar
     }

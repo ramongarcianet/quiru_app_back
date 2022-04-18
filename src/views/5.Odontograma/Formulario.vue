@@ -1,18 +1,26 @@
-
 <script setup>
-
-import {ref} from 'vue'
-import {item, guardar, actualizar}  from '../../store/usuario'
-import {diagnostico,tratamiento, procesar} from '../../store/odontograma'
-/*
+import {onMounted, ref} from 'vue'
+import {diagnostico,tratamiento, procesar,cerrar, limpiar, grabar} from '../../store/odontograma'
+//import {} from '../5.Odontograma/Hallasgos/ddlPiezas.html'
 const guardarOActualizar = () => {
-    if (item.value.id) actualizar(item.value).then(()=>item.value = {})
-    else guardar( item.value).then(()=>item.value = {})
-}
-*/
+  if (item.value.id) actualizar(item.value).then(() => (limpiar()));
+  else guardar(item.value).then(() => (limpiar()));
+};
+onMounted (()=>{
+        var divNuevo = document.getElementById('divNuevo');
+        divNuevo.style.display = 'none';
+        var headerVozSmall = document.getElementById('headerVozSmall');
+        headerVozSmall.style.display = 'none';
+        var modalOdongramaDuplicado = document.getElementById('modalOdongramaDuplicado');
+        modalOdongramaDuplicado.style.display = 'none';
+        document.getElementById("btnEscuchando").hidden = true;//stop
+        document.getElementById("btnActivar").hidden = false;
+
+})
+
 </script>
 
-<template>
+<template >
 
 <div id="headerVoz">
     <div class="row">
@@ -63,7 +71,7 @@ const guardarOActualizar = () => {
     </div>
 </div>
 
-<div class="row" id="headerVozSmall">    
+<div class="row" id="headerVozSmall">
     <div class="col-sm-12 col-md-12 col-lg-12" style="text-align:center;">
         <button type="submit" class="pulsingButton m-left type2" id="btnActivarSmall" style="width:40px;height:40px;font-size:1em;line-height:1px">
             <i class="fa fa-microphone" style="font-size: 28px;" aria-hidden="true">
@@ -141,10 +149,10 @@ const guardarOActualizar = () => {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" onclick="grabar('manual')">
+                    <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" @click="grabar('manual')">
                         <span style="color:white">Grabar</span>
                     </button>
-                    <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" onclick="cerrar('manual')">
+                    <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" @click="cerrar('manual')">
                         <span style="color:white">Salir</span>
                     </button>
                 </div>
@@ -203,4 +211,5 @@ const guardarOActualizar = () => {
         text-align: right;
         visibility: hidden;
     }
+
 </style>

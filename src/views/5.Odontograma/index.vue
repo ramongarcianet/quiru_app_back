@@ -10,9 +10,9 @@ import {dialog} from '../../store/usuario'
 <row>
 <Container class="fluid">
     <Container>
-      <Button @click="dialog=true"> Nuevo </Button>
+      <!-- <Button @click="dialog=true"> Nuevo </Button> -->
       <Formulario :open='dialog' />
-      <Registro />
+      <!-- <Registro /> -->
     </Container>
   </Container>
 </row>

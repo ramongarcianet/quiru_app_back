@@ -1491,3 +1491,6 @@ function DienteDiscromico(value) {
 
     return false;
 }
+export {
+    limpiarCaries
+}
