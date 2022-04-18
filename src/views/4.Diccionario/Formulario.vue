@@ -6,10 +6,11 @@ const guardarOActualizar = () => {
   if (item.value.id) actualizar(item.value).then(() => (limpiar()));
   else guardar(item.value).then(() => (limpiar()));
 };
+/*
 const cancelar = () =>{
   dialog = false;
   limpiar();
-};
+};*/
 </script>
 
 <template>
