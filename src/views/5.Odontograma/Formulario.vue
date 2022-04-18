@@ -20,33 +20,33 @@ onMounted (()=>{
 
 </script>
 
-<template >
+<template>
+ <Row>
 
 <div id="headerVoz">
-    <div class="row">
+    <Col>
         <div class="col-sm-12 col-md-12 col-lg-12" style="text-align:center;">
-            <button type="submit" class="pulsingButton m-left type2" id="btnActivar" @click="procesar()">
-                <i class="fa fa-microphone" style="font-size: 150px;" aria-hidden="true">
-                </i>
-                <p style="color: #bb0b7c; font-weight:bold; font-size:40px; font-family:Calibri; position:absolute; margin-top:-22px;">
-                    Oye quiru
+            
+             <button type="submit" class="NotpulsingButton" style="visibility:visible;" id="btnActivar" @click="procesar()" >                
+                <i class="fa fa-microphone" ></i>
+                <p style="color: #bb0b7c; font-weight:bold; font-size:20px; font-family:Calibri; position:relative; margin-top:-22px;">
+                    QUIRU
                 </p>
             </button>
-            <button type="submit" class="pulsingButton" id="btnEscuchando" @click="procesar()" hidden="hidden">
+            <button type="submit" class="pulsingButton" style="visibility:hidden;" id="btnEscuchando" @click="procesar()" hidden="hidden">
                 <div class="pulse-ring">
-                    <svg width="250" height="200" viewBox="50 0 250 400">
+                    <svg width="60" height="60" viewBox="40 0 150 300">
                         <polyline stroke-linejoin="round" points="50,150 125,50 200,150" stroke="white" stroke-width="25" fill="none"></polyline>
-                        <polyline stroke-linejoin="bevel" points="50,250 125,150 200,250" stroke="white" stroke-width="25" fill="none"></polyline>
-                        <polyline stroke-linejoin="miter" points="50,350 125,250 200,350" stroke="white" stroke-width="25" fill="none"></polyline>
+                        <polyline stroke-linejoin="bevel" points="50,250 125,150 200,250" stroke="white" stroke-width="25" fill="none"></polyline>  
                     </svg>
                 </div>
-                <i class="fa fa-microphone" style="font-size: 150px;" aria-hidden="true"></i>
-                <p style="color: #bb0b7c; font-weight:bold; font-size:40px; font-family:Calibri; position:absolute; margin-top:-22px;">
+                <i class="fa fa-microphone" ></i>
+                <p style="color: #bb0b7c; font-weight:bold; font-size:20px; font-family:Calibri; position:absolute; margin-top:-22px;">
                     Escuchando
                 </p>
             </button>
         </div>
-    </div>
+    </Col>
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <br />
@@ -55,7 +55,7 @@ onMounted (()=>{
     </div>
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12" style="text-align:center;">
-            <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" @click="diagnostico('manual')" id="btnDiagnostico">
+            <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" @click="diagnostico()" id="btnDiagnostico">
                 <span style="color:white">Diagnóstico</span>
             </button>
             <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" @click="tratamiento()">
@@ -70,34 +70,14 @@ onMounted (()=>{
         </div>
     </div>
 </div>
-
-<div class="row" id="headerVozSmall">
-    <div class="col-sm-12 col-md-12 col-lg-12" style="text-align:center;">
-        <button type="submit" class="pulsingButton m-left type2" id="btnActivarSmall" style="width:40px;height:40px;font-size:1em;line-height:1px">
-            <i class="fa fa-microphone" style="font-size: 28px;" aria-hidden="true">
-            </i>
-        </button>
-        <button type="submit" class="pulsingButton" style="width:40px;height:40px;font-size:1em;line-height:1px" id="btnEscuchandoSmall">
-            <div class="pulse-ring" style="width:40px;height:40px">
-                <svg width="30" height="30" viewBox="40 0 150 300">
-                    <polyline stroke-linejoin="round" points="50,150 125,50 200,150" stroke="white" stroke-width="25" fill="none"></polyline>
-                    <polyline stroke-linejoin="bevel" points="50,250 125,150 200,250" stroke="white" stroke-width="25" fill="none"></polyline>
-                    <polyline stroke-linejoin="miter" points="50,350 125,250 200,350" stroke="white" stroke-width="25" fill="none"></polyline>
-                </svg>
-            </div>
-            <i class="fa fa-microphone" style="font-size: 28px;" aria-hidden="true"></i>
-        </button>
-    </div>
-
-</div>
-
+</Row>
 
 <div class="row">
     <div class="col-sm-3 col-md-3 col-lg-3">
 
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6">
-        <div id="divNuevo">
+        <div id="divNuevo" style="visibility: hidden;">
             <div class="modal-content">
                 <div class="modal-header" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);">
                     <br />
@@ -152,8 +132,8 @@ onMounted (()=>{
                     <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" @click="grabar('manual')">
                         <span style="color:white">Grabar</span>
                     </button>
-                    <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" @click="cerrar('manual')">
-                        <span style="color:white">Salir</span>
+                    <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" @click="cerrar()">
+<span style="color:white">Salir</span>
                     </button>
                 </div>
             </div>
@@ -211,5 +191,86 @@ onMounted (()=>{
         text-align: right;
         visibility: hidden;
     }
+
+
+.NotpulsingButton {
+    border: none;
+    padding: 0;
+    border-radius: 100%;
+    width: 70px;
+    height: 70px;
+    font-size: 3em;
+    color: #fff;
+    padding: 0;
+    margin: 0;
+    background: rgb(139, 199, 252);
+    position: relative;
+    z-index: 999;
+    display: inline-block;
+    line-height: 100px;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+}
+.pulsingButton {
+    border: none;
+    padding: 0;
+    border-radius: 100%;
+    width: 70px;
+    height: 70px;
+    font-size: 3em;
+    color: #fff;
+    padding: 0;
+    margin: 0;
+    background: red;
+    position: relative;
+    z-index: 999;
+    display: inline-block;
+    line-height: 100px;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+}
+
+.pulse-ring {
+    content: '';
+    width: 70px;
+    height: 70px;
+    background: #189BFF;
+    border: 5px solid #189BFF;
+    border-radius: 50%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    animation: pulsate infinite 1.5s;
+}
+
+@-webkit-keyframes pulsate {
+    0% {
+        -webkit-transform: scale(1, 1);
+        opacity: 1;
+    }
+
+    100% {
+        -webkit-transform: scale(1.3, 1.3);
+        opacity: 0;
+    }
+}
 
 </style>

@@ -157,110 +157,45 @@ import {limpiarCaries} from "./OdontoJS"
         }
     }
 
-    function diagnostico(param) {
-        if (param === 'manual') {
-            var headerVoz = document.getElementById('headerVoz');
-            headerVoz.style.display = 'none';
-
-            var headerVozSmall = document.getElementById('headerVozSmall');
-            headerVozSmall.style.display = 'block';
-            //--activar small buttom
-            var btnActivarSmall = document.getElementById('btnActivarSmall');
-            var btnEscuchandoSmall = document.getElementById('btnEscuchandoSmall');
-            if (isSpeech === true) {
-                btnActivarSmall.hidden = true;
-                btnEscuchandoSmall.hidden = false;
-            } else {
-                btnActivarSmall.hidden = false;
-                btnEscuchandoSmall.hidden = true;
-            }
-
-            var divNuevo = document.getElementById('divNuevo');
-            divNuevo.style.display = 'block';
-
-            //var odontograma = document.getElementById('odontograma');
-            //odontograma.style.display = 'none';
-            var tituloTratamiento = document.getElementById('tituloTratamiento');
-            tituloTratamiento.innerText = 'Registro de Diagnóstico';
-
-            var comboPieza = document.getElementById('comboPieza');
-            comboPieza.value = '1.1';
-            var comboHallazgo = document.getElementById('comboHallazgo');
-            comboHallazgo.value = 'caries';
+    function diagnostico() {
+        headerVoz.style = "visibility: hidden;";           
+        divNuevo.style = "visibility: visible;";
+            /*
+            var odontograma = document.getElementById('odontograma');
+            odontograma.style.display = 'none';
+            */
             limpiarCaries();
-
-        } else {
-            if (isSpeech) {
-                var headerVoz = document.getElementById('headerVoz');
-                headerVoz.style.display = 'none';
-
-                var headerVozSmall = document.getElementById('headerVozSmall');
-                headerVozSmall.style.display = 'block';
-                //--activar small buttom
-                var btnActivarSmall = document.getElementById('btnActivarSmall');
-                var btnEscuchandoSmall = document.getElementById('btnEscuchandoSmall');
-                if (isSpeech === true) {
-                    btnActivarSmall.hidden = true;
-                    btnEscuchandoSmall.hidden = false;
-                } else {
-                    btnActivarSmall.hidden = false;
-                    btnEscuchandoSmall.hidden = true;
-                }
-
-                var divNuevo = document.getElementById('divNuevo');
-                divNuevo.style.display = 'block';
-
-                //var odontograma = document.getElementById('odontograma');
-                //odontograma.style.display = 'none';
-                var tituloTratamiento = document.getElementById('tituloTratamiento');
-                tituloTratamiento.innerText = 'Registro de Diagnóstico';
-
-                var comboPieza = document.getElementById('comboPieza');
-                comboPieza.value = '1.1';
-                var comboHallazgo = document.getElementById('comboHallazgo');
-                comboHallazgo.value = 'caries';
-                limpiarCaries();
-            }
-
-        }
     }
 
     function tratamiento() {
-        if (isSpeech) {
-            var divNuevo = document.getElementById('divNuevo');
-            divNuevo.style.display = 'block';
-
+        headerVoz.style = "visibility: hidden;";           
+        divNuevo.style = "visibility: visible;";
+            /*
             var odontograma = document.getElementById('odontograma');
             odontograma.style.display = 'none';
-            var tituloTratamiento = document.getElementById('tituloTratamiento');
+            */
             tituloTratamiento.innerText = 'Registro de Tratamiento';
-
+            /*
             var comboPieza = document.getElementById('comboPieza');
             comboPieza.value = '1.1';
-            var comboHallazgo = document.getElementById('comboHallazgo');
+            */
             comboHallazgo.value = 'caries';
-            limpiarCaries();
-        }
+           // limpiarCaries();
     }
-    function cerrar(param) {
-        if (isSpeech || param==='manual') {
-            var headerVoz = document.getElementById('headerVoz');
-            headerVoz.style.display = 'block';
-
-            var headerVozSmall = document.getElementById('headerVozSmall');
-            headerVozSmall.style.display = 'none';
-
-            var divNuevo = document.getElementById('divNuevo');
-            divNuevo.style.display = 'none';
-
+    function cerrar() {
+  
+            headerVoz.style = "visibility: visible;";           
+            divNuevo.style = "visibility: hidden;";
+/*
             var odontograma = document.getElementById('odontograma');
             odontograma.style.display = 'block';
+           
             //limpiar tabla
             var tablaDetalle = document.getElementById('tablaDetalle');
             nro = 0;
             fila = "";
             tablaDetalle.innerHTML = fila;
-        }
+             */
     }
     function limpiar() {
         if (isSpeech) {
@@ -297,15 +232,13 @@ import {limpiarCaries} from "./OdontoJS"
     }
 
     function procesar() {
-        var btnActivar = document.getElementById('btnActivar');
-        var btnEscuchando = document.getElementById('btnEscuchando');
         if (isSpeech === true) {
-            btnActivar.hidden = false;
-            btnEscuchando.hidden = true;//stop
+            btnActivar.style = "visibility: hidden;";
+            btnEscuchando.style="visibility:visible;";
             isSpeech = false;
         } else {
-            btnActivar.hidden = true;
-            btnEscuchando.hidden = false;//start
+            btnActivar.style = "visibility: visible;";
+            btnEscuchando.style="visibility:hidden;";
             isSpeech = true;
         }
     }
