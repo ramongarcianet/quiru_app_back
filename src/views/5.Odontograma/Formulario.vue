@@ -27,8 +27,8 @@ onMounted (()=>{
 <div id="headerVoz">
     <Col>
         <div class="col-sm-12 col-md-12 col-lg-12" style="text-align:center;">
-            
-             <button type="submit" class="NotpulsingButton" style="visibility:visible;" id="btnActivar" @click="procesar()" >                
+
+             <button type="submit" class="NotpulsingButton" style="visibility:visible;" id="btnActivar" @click="procesar()" >
                 <i class="fa fa-microphone" ></i>
                 <p style="color: #bb0b7c; font-weight:bold; font-size:20px; font-family:Calibri; position:relative; margin-top:-22px;">
                     QUIRU
@@ -38,7 +38,7 @@ onMounted (()=>{
                 <div class="pulse-ring">
                     <svg width="60" height="60" viewBox="40 0 150 300">
                         <polyline stroke-linejoin="round" points="50,150 125,50 200,150" stroke="white" stroke-width="25" fill="none"></polyline>
-                        <polyline stroke-linejoin="bevel" points="50,250 125,150 200,250" stroke="white" stroke-width="25" fill="none"></polyline>  
+                        <polyline stroke-linejoin="bevel" points="50,250 125,150 200,250" stroke="white" stroke-width="25" fill="none"></polyline>
                     </svg>
                 </div>
                 <i class="fa fa-microphone" ></i>
@@ -56,10 +56,10 @@ onMounted (()=>{
     </div>
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12" style="text-align:center;">
-            <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" @click="diagnostico()" id="btnDiagnostico">
+            <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" @click="diagnostico('manual')" id="btnDiagnostico">
                 <span style="color:white">Diagnóstico</span>
             </button>
-            <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" @click="tratamiento()">
+            <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" @click="tratamiento('manual')">
                 <span style="color:white">Tratamiento</span>
             </button>
         </div>
@@ -94,7 +94,6 @@ onMounted (()=>{
                              <div class="col-4"><h4>Hallazgo:</h4></div>
                               <div class="col-8"><select class="form-control" id="comboHallazgo">
                                     <option value="caries" selected="selected">Lesión de caries dental</option>
-                                    <option value="restauración">Restauración</option>
                                     <option value="extracción">Extracción</option>
                                 </select></div>
                         </div>
@@ -154,7 +153,7 @@ onMounted (()=>{
                                     <option value="8.3">8.3</option>
                                     <option value="8.4">8.4</option>
                                     <option value="8.5">8.5</option>
-                                </select></div>                            
+                                </select></div>
                         </div>
                     </div>
                     <div class="row">
@@ -191,7 +190,7 @@ onMounted (()=>{
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12">                         
+                        <div class="col-12">
                             <Registro />
                         </div>
                     </div>
