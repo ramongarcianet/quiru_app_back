@@ -160,27 +160,21 @@ import {limpiarCaries} from "./OdontoJS"
     function diagnostico() {
         headerVoz.style = "visibility: hidden;";           
         divNuevo.style = "visibility: visible;";
-            /*
-            var odontograma = document.getElementById('odontograma');
-            odontograma.style.display = 'none';
-            */
-            limpiarCaries();
+        tipoReg.value="0";
+        var _tituloTratamiento = document.getElementById('tituloTratamiento');
+        _tituloTratamiento.innerText = 'Registro de Diagnóstico';
+        comboHallazgo.value = 'caries';
+        limpiarCaries();
     }
 
     function tratamiento() {
         headerVoz.style = "visibility: hidden;";           
         divNuevo.style = "visibility: visible;";
-            /*
-            var odontograma = document.getElementById('odontograma');
-            odontograma.style.display = 'none';
-            */
-            tituloTratamiento.innerText = 'Registro de Tratamiento';
-            /*
-            var comboPieza = document.getElementById('comboPieza');
-            comboPieza.value = '1.1';
-            */
-            comboHallazgo.value = 'caries';
-           // limpiarCaries();
+        tipoReg.value="1";
+        var _tituloTratamiento = document.getElementById('tituloTratamiento');
+        _tituloTratamiento.innerText = 'Registro de Tratamiento';
+        comboHallazgo.value = 'caries';
+        limpiarCaries();
     }
     function cerrar() {
   

@@ -12,13 +12,10 @@ const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
 <template>
 
       <Row>
-        <Col>Tip Doc.</Col>
-        <Col>Número Doc.</Col>
-        <Col>Nombres</Col>
-        <Col>Ape. Paterno</Col>
-        <Col>Ape. Materno</Col>
-        <Col>Fecha Nac.</Col>
-        <Col>Sexo</Col>
+        <Col>Nro</Col>
+        <Col>Diente</Col>
+        <Col>Hallazgo</Col>
+        <Col>Pieza</Col>
         <Col></Col>   
         <Col></Col>                       
     </Row> 
@@ -27,9 +24,6 @@ const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
         <Col>{{item.numdoc}}</Col> 
         <Col>{{item.nombre}}</Col> 
         <Col>{{item.apellidoPaterno}}</Col> 
-        <Col>{{item.apellidoMaterno}}</Col>  
-        <Col>{{item.fechanac}}</Col>
-        <Col>{{item.sexo}}</Col>
         <Col>
             <Button @click="dialog=true, leerEnRegistro(item.id)"> Editar </Button>
         </Col>            

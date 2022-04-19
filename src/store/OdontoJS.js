@@ -1354,26 +1354,24 @@ function limpiarRestauracion() {
     return false;
 }
 
-function DienteCaries(id) {
-    document.getElementById(id).style.background = (document.getElementById(id).value == 0) ? "red" : "blue";
-    document.getElementById(id).value = (document.getElementById(id).id == 0) ? "1" : "0";
-
-    //if (value == "btntopcar") {
-    //    document.getElementById("AreaTop").style.borderTopColor = "red";
-    //}
-    //if (value == "btnleftCar") {
-    //    document.getElementById("AreaLef").style.borderLeftColor = "red";
-    //}
-    //if (value == "btncenterCar") {
-    //    document.getElementById("Cuadrado").style.backgroundColor = "red";
-    //}
-    //if (value == "btnrigthCar") {
-    //    document.getElementById("AreaRig").style.borderRightColor = "red";
-    //}
-    //if (value == "btnbotCar") {
-    //    document.getElementById("AreaBot").style.borderBottomColor = "red";
-    //}
-
+export function DienteCaries(value) {
+    var _control = document.getElementById(value);
+    var tipoReg= document.getElementById("tipoReg");
+    var stle="width: 100%; height:60px;";
+    var clor="";
+    if (tipoReg.value == "1") {
+        clor="background-color: blue;";
+    }
+    else{
+        clor="background-color: red;";
+    }
+    if (value == "btntopcar") {
+        stle=stle + "border-radius: 90% 90% 0% 0%;";
+    }
+    if (value == "btnbotCar") {
+        stle=stle +"border-radius: 0% 0% 90% 90%;";
+    }
+    _control.style = stle +clor;  
     return false;
 }
 
@@ -1413,18 +1411,13 @@ function grabarDiagnostico() {
 }
 
 
-function limpiarCaries() {
-    //var IDControl = document.getElementById('hfIDControl').value;
-    document.getElementById("btntopcar").style.background = "";
-    document.getElementById("btnleftCar").style.background = "";
-    document.getElementById("btncenterCar").style.background = "";
-    document.getElementById("btnrigthCar").style.background = "";
-    document.getElementById("btnbotCar").style.background = "";
-    //document.getElementById(IDControl + "AreaTop").style.borderTopColor = "white";
-    //document.getElementById(IDControl + "AreaLef").style.borderLeftColor = "white";
-    //document.getElementById(IDControl + "Cuadrado").style.backgroundColor = "white";
-    //document.getElementById(IDControl + "AreaRig").style.borderRightColor = "white";
-    //document.getElementById(IDControl + "AreaBot").style.borderBottomColor = "white";
+export function limpiarCaries() {
+    var stle="width: 100%; height:60px;";
+    document.getElementById("btntopcar").style =stle + "border-radius: 90% 90% 0% 0%;";
+    document.getElementById("btnleftCar").style=stle;
+    document.getElementById("btncenterCar").style=stle;
+    document.getElementById("btnrigthCar").style=stle;
+    document.getElementById("btnbotCar").style=stle + " border-radius: 0% 0% 90% 90%;";
     return false;
 }
 function DientePulpar(value) {
@@ -1490,7 +1483,4 @@ function DienteDiscromico(value) {
     }
 
     return false;
-}
-export {
-    limpiarCaries
 }

@@ -1,7 +1,8 @@
 <script setup>
 import {onMounted, ref} from 'vue'
 import {diagnostico,tratamiento, procesar,cerrar, limpiar, grabar} from '../../store/odontograma'
-//import {} from '../5.Odontograma/Hallasgos/ddlPiezas.html'
+import {DienteCaries} from '../../store/OdontoJS'
+import Registro from './Registro.vue'
 const guardarOActualizar = () => {
   if (item.value.id) actualizar(item.value).then(() => (limpiar()));
   else guardar(item.value).then(() => (limpiar()));
@@ -10,9 +11,9 @@ onMounted (()=>{
         var divNuevo = document.getElementById('divNuevo');
         divNuevo.style.display = 'none';
         var headerVozSmall = document.getElementById('headerVozSmall');
-        headerVozSmall.style.display = 'none';
+        //headerVozSmall.style.display = 'none';
         var modalOdongramaDuplicado = document.getElementById('modalOdongramaDuplicado');
-        modalOdongramaDuplicado.style.display = 'none';
+        //modalOdongramaDuplicado.style.display = 'none';
         document.getElementById("btnEscuchando").hidden = true;//stop
         document.getElementById("btnActivar").hidden = false;
 
@@ -87,22 +88,73 @@ onMounted (()=>{
                     <br />
                 </div>
                 <div class="modal-body">
-
+                    <input id="tipoReg" type="hidden" value="0"/>
                     <div class="row">
                         <div class="col-6">
-                            <div class="form-group-sm">
-                                <label>Hallazgo:</label>
-                                <select class="form-control" id="comboHallazgo">
+                             <div class="col-4"><h4>Hallazgo:</h4></div>
+                              <div class="col-8"><select class="form-control" id="comboHallazgo">
                                     <option value="caries" selected="selected">Lesión de caries dental</option>
                                     <option value="restauración">Restauración</option>
                                     <option value="extracción">Extracción</option>
-                                </select>
-                            </div>
+                                </select></div>
                         </div>
                         <div class="col-6">
-                            <div class="form-group-sm">
-                                <div class="dvPiezas" id="dvPiezas"></div>
-                            </div>
+                             <div class="col-4"><h4>Pieza:</h4></div>
+                               <div class="col-8"> <select class="form-control" id="comboPieza">
+                                    <option selected>":::Seleccione Pieza:::</option>
+                                    <option value="1.1" selected>1.1</option>
+                                    <option value="1.2">1.2</option>
+                                    <option value="1.3">1.3</option>
+                                    <option value="1.4">1.4</option>
+                                    <option value="1.5">1.5</option>
+                                    <option value="1.6">1.6</option>
+                                    <option value="1.7">1.7</option>
+                                    <option value="1.8">1.8</option>
+                                    <option value="2.1">2.1</option>
+                                    <option value="2.2">2.2</option>
+                                    <option value="2.3">2.3</option>
+                                    <option value="2.4">2.4</option>
+                                    <option value="2.5">2.5</option>
+                                    <option value="2.6">2.6</option>
+                                    <option value="2.7">2.7</option>
+                                    <option value="2.8">2.8</option>
+                                    <option value="3.1">3.1</option>
+                                    <option value="3.2">3.2</option>
+                                    <option value="3.3">3.3</option>
+                                    <option value="3.4">3.4</option>
+                                    <option value="3.5">3.5</option>
+                                    <option value="3.6">3.6</option>
+                                    <option value="3.7">3.7</option>
+                                    <option value="3.8">3.8</option>
+                                    <option value="4.1">4.1</option>
+                                    <option value="4.2">4.2</option>
+                                    <option value="4.3">4.3</option>
+                                    <option value="4.4">4.4</option>
+                                    <option value="4.5">4.5</option>
+                                    <option value="4.6">4.6</option>
+                                    <option value="4.7">4.7</option>
+                                    <option value="4.8">4.8</option>
+                                    <option value="5.1">5.1</option>
+                                    <option value="5.2">5.2</option>
+                                    <option value="5.3">5.3</option>
+                                    <option value="5.4">5.4</option>
+                                    <option value="5.5">5.5</option>
+                                    <option value="6.1">6.1</option>
+                                    <option value="6.2">6.2</option>
+                                    <option value="6.3">6.3</option>
+                                    <option value="6.4">6.4</option>
+                                    <option value="6.5">6.5</option>
+                                    <option value="7.1">7.1</option>
+                                    <option value="7.2">7.2</option>
+                                    <option value="7.3">7.3</option>
+                                    <option value="7.4">7.4</option>
+                                    <option value="7.5">7.5</option>
+                                    <option value="8.1">8.1</option>
+                                    <option value="8.2">8.2</option>
+                                    <option value="8.3">8.3</option>
+                                    <option value="8.4">8.4</option>
+                                    <option value="8.5">8.5</option>
+                                </select></div>                            
                         </div>
                     </div>
                     <div class="row">
@@ -110,21 +162,37 @@ onMounted (()=>{
 
                         </div>
                         <div class="col-3" style="text-align:center">
-                            <div class="DienteCareiesDiv" id="DienteCareiesDiv"></div>
+                            <table border="0" style="width: 100%; border: 0px; border-collapse: collapse; border-spacing: 0px; border-style: none;">
+        <tr>
+            <td colspan="6" style="border: 0px; width: 240px;">
+                <button class="btn btn-primary start" ID="btntopcar" value="0" Style="width: 100%; height: 60px; border-radius: 90% 90% 0% 0%; "
+                        @click="DienteCaries('btntopcar')">
+                    Vestibular
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border: 0px; width: 80px;">
+                <button class="btn btn-primary start" ID="btnleftCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btnleftCar')">Distal</button>
+            </td>
+            <td colspan="2" style="border: 0px; width: 80px;">
+                <button class="btn btn-primary start" ID="btncenterCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btncenterCar')">Oclusal</button>
+            </td>
+            <td colspan="2" style="border: 0px; width: 80px;">
+                <button class="btn btn-primary start" ID="btnrigthCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btnrigthCar')">Mesial</button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6" style="border: 0px; width: 240px;">
+                <button class="btn btn-primary start" ID="btnbotCar" value="0" Style="width: 100%; height: 60px; border-radius: 0% 0% 90% 90%;" @click="DienteCaries('btnbotCar')">Palatino</button>
+            </td>
+        </tr>
+    </table>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12">
-                            <table border="1">
-                                <tr>
-                                    <th>Nro</th>
-                                    <th width="12%">Diente</th>
-                                    <th>Hallazgo</th>
-                                    <th>Pieza</th>
-                                    <th width="12%">Eliminar</th>
-                                </tr>
-                                <tbody id="tablaDetalle"></tbody>
-                            </table>
+                        <div class="col-12">                         
+                            <Registro />
                         </div>
                     </div>
                 </div>
@@ -144,26 +212,6 @@ onMounted (()=>{
     </div>
 </div>
 
-<!-- Modal duplicado-->
-<div class="modal fade" id="modalOdongramaDuplicado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);">
-                <h5 class="modal-title" id="exampleModalLabel" style="color:white">Diagnóstico</h5>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12">
-                        <p style="text-align:center">El hallazgo y la pieza seleccionada ya existen en la lista</p>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);">Aceptar</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <form @submit.prevent="e => guardarOActualizar()">
 </form>
@@ -271,6 +319,49 @@ onMounted (()=>{
         -webkit-transform: scale(1.3, 1.3);
         opacity: 0;
     }
+}
+
+.modal-header {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 1rem 1rem;
+  border-bottom: 1px solid #dee2e6;
+  border-top-left-radius: 0.3rem;
+  border-top-right-radius: 0.3rem;
+}
+
+.modal-header .close {
+  padding: 1rem 1rem;
+  margin: -1rem -1rem -1rem auto;
+}
+
+.modal-title {
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
+.modal-body {
+  position: relative;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  padding: 1rem;
+}
+
+.modal-footer {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding: 1rem;
+  border-top: 1px solid #dee2e6;
+  border-bottom-right-radius: 0.3rem;
+  border-bottom-left-radius: 0.3rem;
 }
 
 </style>
