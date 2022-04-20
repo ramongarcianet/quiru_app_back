@@ -1188,20 +1188,38 @@ function ChangeColorAbajo(value) {
     return false;
 }
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-function DienteAusente(value) {
-    var IDControl = document.getElementById('hfIDControl').value;
-    if (value == "A") {
-        document.getElementById(IDControl + 'Ausente').style.display = "block";
+export function ChangeHallazgo(event) {
+    if (event.target.value=="extraccion"){
+        DienteAusente("cvextraccion");
     }
-    if (value == "R") {
-        document.getElementById(IDControl + 'Extract').style.display = "block";
-    }
-    if (value == "L") {
-        document.getElementById(IDControl + 'Ausente').style.display = "none";
-        document.getElementById(IDControl + 'Extract').style.display = "none";
+    else
+    {
+        clearcanvas("cvextraccion")
     }
     return false;
 }
+export function clearcanvas(id) {
+    var canvas = document.getElementById(id);
+    var contexto = canvas.getContext("2d");
+	contexto.clearRect(0, 0, canvas.width, canvas.height);
+}
+export function DienteAusente(id) {
+    var canvas = document.getElementById(id);
+    if (canvas && canvas.getContext) {
+    var ctx = canvas.getContext("2d");
+        if (ctx) {
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = "#f00";
+            ctx.beginPath();
+            ctx.moveTo(20, 150);
+            ctx.lineTo(130, 20);
+            ctx.moveTo(40, 20);
+            ctx.lineTo(140, 150);
+            ctx.stroke();
+        }
+    }
+            return false;
+    }
 function DienteMovilidad(value) {
     if (value == "M1") {
 
