@@ -1365,10 +1365,21 @@ export function DienteCaries(value) {
     else{
         clor="background-color: red;";
     }
+    if (value == "btnleftCar") {
+        piezaleftCar.value="1";
+    }
+    if (value == "btncenterCar") {
+        piezacenterCar.value="1";
+    }
+    if (value == "btnrigthCar") {
+        piezarigthCar.value="1";
+    }
     if (value == "btntopcar") {
+        piezatopcar.value="1";
         stle=stle + "border-radius: 90% 90% 0% 0%;";
     }
     if (value == "btnbotCar") {
+        piezabotCar.value="1";
         stle=stle +"border-radius: 0% 0% 90% 90%;";
     }
     _control.style = stle +clor;  

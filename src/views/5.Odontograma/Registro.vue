@@ -1,6 +1,6 @@
 <script setup>
 import { onUnmounted, ref } from 'vue'
-import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog} from '../../store/usuario'
+import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog} from '../../store/odonto'
 const obtenerRegistro = obtenerTodos()
 
 const confirmar = ref(false)
@@ -16,17 +16,13 @@ const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
         <Col>Diente</Col>
         <Col>Hallazgo</Col>
         <Col>Pieza</Col>
-        <Col></Col>   
-        <Col></Col>                       
+        <Col></Col>                        
     </Row> 
     <Item  v-for="item of registro"  :key="item.id"  :item="item">
-        <Col>{{item.tipdoc}}</Col> 
-        <Col>{{item.numdoc}}</Col> 
-        <Col>{{item.nombre}}</Col> 
-        <Col>{{item.apellidoPaterno}}</Col> 
-        <Col>
-            <Button @click="dialog=true, leerEnRegistro(item.id)"> Editar </Button>
-        </Col>            
+        <Col>{{item.nroOdontograma}}</Col> 
+        <Col>{{item.diente}}</Col> 
+        <Col>{{item.hallazgo}}</Col> 
+        <Col>{{item.pieza}}</Col>             
         <Col>    
             <Button @click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) ">  {{confirmar ? '¿Está seguro?' : 'Borrar'}} </Button>
         </Col>  

@@ -2,11 +2,9 @@
 import {onMounted, ref} from 'vue'
 import {diagnostico,tratamiento, procesar,cerrar, limpiar, grabar} from '../../store/odontograma'
 import {DienteCaries} from '../../store/OdontoJS'
+import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar} from '../../store/odonto'
 import Registro from './Registro.vue'
-const guardarOActualizar = () => {
-  if (item.value.id) actualizar(item.value).then(() => (limpiar()));
-  else guardar(item.value).then(() => (limpiar()));
-};
+
 onMounted (()=>{
         var divNuevo = document.getElementById('divNuevo');
         divNuevo.style.display = 'none';
@@ -161,9 +159,11 @@ onMounted (()=>{
 
                         </div>
                         <div class="col-3" style="text-align:center">
+                            
                             <table border="0" style="width: 100%; border: 0px; border-collapse: collapse; border-spacing: 0px; border-style: none;">
         <tr>
             <td colspan="6" style="border: 0px; width: 240px;">
+                <input id="piezatopcar" type="hidden" value="0"/>
                 <button class="btn btn-primary start" ID="btntopcar" value="0" Style="width: 100%; height: 60px; border-radius: 90% 90% 0% 0%; "
                         @click="DienteCaries('btntopcar')">
                     Vestibular
@@ -172,23 +172,34 @@ onMounted (()=>{
         </tr>
         <tr>
             <td colspan="2" style="border: 0px; width: 80px;">
+                 <input id="piezaleftCar" type="hidden" value="0"/>
                 <button class="btn btn-primary start" ID="btnleftCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btnleftCar')">Distal</button>
             </td>
             <td colspan="2" style="border: 0px; width: 80px;">
+                 <input id="piezacenterCar" type="hidden" value="0"/>
                 <button class="btn btn-primary start" ID="btncenterCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btncenterCar')">Oclusal</button>
             </td>
             <td colspan="2" style="border: 0px; width: 80px;">
+                 <input id="piezarigthCar" type="hidden" value="0"/>
                 <button class="btn btn-primary start" ID="btnrigthCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btnrigthCar')">Mesial</button>
             </td>
         </tr>
         <tr>
             <td colspan="6" style="border: 0px; width: 240px;">
+                 <input id="piezabotCar" type="hidden" value="0"/>
                 <button class="btn btn-primary start" ID="btnbotCar" value="0" Style="width: 100%; height: 60px; border-radius: 0% 0% 90% 90%;" @click="DienteCaries('btnbotCar')">Palatino</button>
             </td>
         </tr>
     </table>
                         </div>
                     </div>
+                      <Row>
+                        <Col>
+                            <button type="submit" class="btn" @click="guardar()">
+                                <span style="color:white">Agregar a la lista</span>
+                            </button>
+                        </Col>
+                    </Row>
                     <div class="row">
                         <div class="col-12">
                             <Registro />
@@ -196,12 +207,7 @@ onMounted (()=>{
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" @click="grabar('manual')">
-                        <span style="color:white">Grabar</span>
-                    </button>
-                    <button type="submit" class="btn" style="background-image: linear-gradient( 135deg, #331575 20%, #bb0b7c);" @click="cerrar()">
-<span style="color:white">Salir</span>
-                    </button>
+                  
                 </div>
             </div>
         </div>
@@ -212,8 +218,7 @@ onMounted (()=>{
 </div>
 
 
-<form @submit.prevent="e => guardarOActualizar()">
-</form>
+
 </template>
 
 <style>
