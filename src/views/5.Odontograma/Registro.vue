@@ -12,14 +12,12 @@ const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
 <template>
 
       <Row>
-        <Col>Nro</Col>
         <Col>Diente</Col>
         <Col>Hallazgo</Col>
-        <Col>Pieza</Col>
+        <Col>Piezas</Col>
         <Col></Col>                        
     </Row> 
     <Item  v-for="item of registro"  :key="item.id"  :item="item">
-        <Col>{{item.nroOdontograma}}</Col> 
         <Col>{{item.diente}}</Col> 
         <Col>{{item.hallazgo}}</Col> 
         <Col>{{item.pieza}}</Col>             
