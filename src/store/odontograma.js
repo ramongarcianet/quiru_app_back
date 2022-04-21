@@ -1,5 +1,6 @@
+import { ref } from 'vue';
 import { limpiarCaries, DienteCaries,DienteAusente,DienteFracturado,clearcanvas } from "./OdontoJS"
-import { listaDiccionario, listaPieza, guardar } from "./odonto.js"
+import { registro, listaDiccionario, listaPieza, guardar, eliminar } from "./odonto.js"
 
 var isSpeech = false;
 
@@ -8,12 +9,11 @@ if (annyang) {
     annyang.setLanguage("es-PE");
     var commands = {
         'hola': activarVoz,
-        'oye kiru': activarVoz,
         'detener': detenerVoz,
         'diagnóstico': diagnostico,
         'tratamiento': tratamiento,
         'salir': cerrar,
-        'agregar': agregarLista
+        'agregar': agregarLista,
     }
     annyang.addCallback('result', function (frase) {
         if (isSpeech) {
@@ -21,7 +21,7 @@ if (annyang) {
             const comandoTemp = buscarPalabraCorrecta(frase);
             let comando = comandoTemp;
             if (comando != 'detener') {
-                if (comando != 'diagnóstico' && comando != 'tratamiento' && comando != 'salir') {
+                if (comando != 'hola' && comando != 'diagnóstico' && comando != 'tratamiento' && comando != 'salir' && comando != 'agregar') {
                     comando = comandoTemp.replace(/\s/g, '/');
                     const comandoCompleto = comando.split('/')
                     if (comandoCompleto[0] === 'hallazgo') {
@@ -80,7 +80,7 @@ function detenerVoz() {
 }
 
 function diagnostico(param) {
-    if (param === 'manual') {
+    if (isSpeech || (param === 'manual')) {
         headerVoz.style = "visibility: hidden;";
         divNuevo.style = "visibility: visible;";
         tipoReg.value = "0";
@@ -88,20 +88,11 @@ function diagnostico(param) {
         _tituloTratamiento.innerText = 'Registro de Diagnóstico';
         comboHallazgo.value = 'caries';
         limpiarCaries();
-    } else
-        if (isSpeech) {
-            headerVoz.style = "visibility: hidden;";
-            divNuevo.style = "visibility: visible;";
-            tipoReg.value = "0";
-            var _tituloTratamiento = document.getElementById('tituloTratamiento');
-            _tituloTratamiento.innerText = 'Registro de Diagnóstico';
-            comboHallazgo.value = 'caries';
-            limpiarCaries();
-        }
+    }
 }
 
 function tratamiento(param) {
-    if (param === 'manual') {
+    if (isSpeech || (param === 'manual')) {
         headerVoz.style = "visibility: hidden;";
         divNuevo.style = "visibility: visible;";
         tipoReg.value = "1";
@@ -109,17 +100,7 @@ function tratamiento(param) {
         _tituloTratamiento.innerText = 'Registro de Tratamiento';
         comboHallazgo.value = 'caries';
         limpiarCaries();
-    } else
-        if (isSpeech) {
-            headerVoz.style = "visibility: hidden;";
-            divNuevo.style = "visibility: visible;";
-            tipoReg.value = "1";
-            var _tituloTratamiento = document.getElementById('tituloTratamiento');
-            _tituloTratamiento.innerText = 'Registro de Tratamiento';
-            comboHallazgo.value = 'caries';
-            limpiarCaries();
-        }
-
+    }
 }
 function cerrar() {
     headerVoz.style = "visibility: visible;";
@@ -167,9 +148,8 @@ function pintarDiente(posicion) {
 }
 
 function eliminarDiente(pieza) {
-    if (isSpeech){
-        let a=1;
-    }
+   const idDiente= registro.value.find( item  => item.diente===pieza)?.id;
+   eliminar(idDiente)
 }
 function buscarPalabraCorrecta(arrayFrase) {
     let listDiccionario = listaDiccionario.value;
@@ -245,7 +225,6 @@ function buscarPalabraCorrecta(arrayFrase) {
             return ''
         }
 }
-
 export {
     diagnostico,
     tratamiento,
