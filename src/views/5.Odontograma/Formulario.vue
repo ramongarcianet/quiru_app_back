@@ -1,7 +1,7 @@
 <script setup>
 import {onMounted, ref} from 'vue'
 import {diagnostico,tratamiento, procesar,cerrar, limpiar, grabar} from '../../store/odontograma'
-import {DienteCaries,DienteAusente,ChangeHallazgo} from '../../store/OdontoJS'
+import {DienteCaries,DienteAusente,ChangeHallazgo,DienteFracturado} from '../../store/OdontoJS'
 import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar} from '../../store/odonto'
 import Registro from './Registro.vue'
 
@@ -93,7 +93,10 @@ onMounted (()=>{
                               <div class="col-8"><select class="form-control" id="comboHallazgo" @change="ChangeHallazgo($event)" >
                                     <option value="caries" selected="selected">Lesión de caries dental</option>
                                     <option value="extraccion">Extracción</option>
-                                </select></div>
+                                    <option value="ausente">Ausente</option>
+                                    <option value="fractura">Fractura</option>
+                                    <option value="fosas">Fosas y fisuras profundas</option>
+                                  </select></div>
                         </div>
                         <div class="col-6">
                              <div class="col-4"><h4>Pieza:</h4></div>
@@ -176,7 +179,7 @@ onMounted (()=>{
                             </td>
                             <td colspan="2" style="border: 0px; width: 80px;">
                             <input id="piezacenterCar" type="hidden" value="0"/>
-                             <canvas id="cvextraccion" width="150" height="200" style="position: absolute;margin-top: -50px;    margin-left: -40px;">Su navegador no soporta canvas :( </canvas>
+                             <canvas id="cvhallazgo" width="150" height="200" style="position: absolute;margin-top: -50px;    margin-left: -40px;">Su navegador no soporta canvas :( </canvas>
                             
                             <button class="btn btn-primary start" ID="btncenterCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btncenterCar')">Oclusal</button>
                             </td>

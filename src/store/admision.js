@@ -3,14 +3,19 @@ import { ref } from 'vue';
 import {addDoc, collection, onSnapshot, getDoc, getFirestore, doc, updateDoc, deleteDoc, query, where} from 'firebase/firestore'
 import {firestore} from '../config/firebase'
 import { miUsuario } from './sesion';
+import {useRouter} from 'vue-router'
 const dialog = ref( false )
-
 const item = ref ({
     tipoDocumento:'DNI',
     fechaAdmisión:new Date().toISOString().slice(0,10)
 
 })
 
+//const {push} = useRouter()
+const verOdontograma=()=>{
+    //this.useRouter.push('../views/7.Odontogramas/index.vue');
+    //push({name: "../views/7.Odontogramas/index.vue"})
+}
 const guardar = item => {
     const referencia = collection(firestore, 'admision')
     return addDoc(referencia, {
@@ -68,5 +73,6 @@ export {
     actualizar,
     eliminar,
     limpiar,
-    dialog
+    dialog,
+    verOdontograma
 }
