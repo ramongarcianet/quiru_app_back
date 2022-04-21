@@ -1,10 +1,12 @@
 <script setup>
 import {onMounted, ref} from 'vue'
-import {diagnostico,tratamiento, procesar,cerrar, limpiar, grabar} from '../../store/odontograma'
+import {diagnostico,tratamiento, procesar,cerrar, limpiar, agregarLista} from '../../store/odontograma'
 import {DienteCaries,DienteAusente,ChangeHallazgo} from '../../store/OdontoJS'
-import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar} from '../../store/odonto'
+import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar, obtenerTodoDiccionario, obtenerTodoPieza} from '../../store/odonto'
 import Registro from './Registro.vue'
 
+const listaDiccionario = obtenerTodoDiccionario()
+const listaPieza = obtenerTodoPieza()
 onMounted (()=>{
         var divNuevo = document.getElementById('divNuevo');
         divNuevo.style.display = 'none';
@@ -177,7 +179,7 @@ onMounted (()=>{
                             <td colspan="2" style="border: 0px; width: 80px;">
                             <input id="piezacenterCar" type="hidden" value="0"/>
                              <canvas id="cvextraccion" width="150" height="200" style="position: absolute;margin-top: -50px;    margin-left: -40px;">Su navegador no soporta canvas :( </canvas>
-                            
+
                             <button class="btn btn-primary start" ID="btncenterCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btncenterCar')">Oclusal</button>
                             </td>
                             <td colspan="2" style="border: 0px; width: 80px;">
@@ -196,7 +198,7 @@ onMounted (()=>{
                     </div>
                       <Row>
                         <Col>
-                            <button type="submit" class="btn" @click="guardar()">
+                            <button type="submit" class="btn" @click="agregarLista('manual')">
                                 <span style="color:white">Agregar a la lista</span>
                             </button>
                         </Col>
@@ -208,7 +210,7 @@ onMounted (()=>{
                     </div>
                 </div>
                 <div class="modal-footer">
-                  
+
                 </div>
             </div>
         </div>

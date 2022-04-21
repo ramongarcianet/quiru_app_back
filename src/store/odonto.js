@@ -17,8 +17,8 @@ export const crearUsuarioConId = item => {
     return setDoc( referencia, item)
 }
 
-const guardar = () => {
-    
+ const guardar = () => {
+
     const  fila = {
         nroOdontograma:'',
         diente:  comboPieza.value,
@@ -28,7 +28,7 @@ const guardar = () => {
     const referencia = collection(firestore, 'detalleOdontograma')
     clearcanvas("cvextraccion");
     return addDoc(referencia, fila)
-    
+
 }
 const actualizar = (item) => {
     const referencia = doc(firestore, 'detalleOdontograma', item.id)
@@ -71,6 +71,23 @@ function clearcanvas(id) {
     var contexto = canvas.getContext("2d");
 	contexto.clearRect(0, 0, canvas.width, canvas.height);
 }
+const listaDiccionario = []
+const obtenerTodoDiccionario = () => {
+    const referencia = collection(firestore, 'diccionario')
+    return onSnapshot(
+        referencia,
+        collection => listaDiccionario.value = collection.docs.map( doc => ({...doc.data(), id: doc.id }))
+    )
+}
+const listaPieza = []
+const obtenerTodoPieza = () => {
+    const referencia = collection(firestore, 'pieza')
+    return onSnapshot(
+        referencia,
+        collection => listaPieza.value = collection.docs.map( doc => ({...doc.data(), id: doc.id }))
+    )
+}
+
 export {
     registro,
     item,
@@ -81,6 +98,10 @@ export {
     actualizar,
     eliminar,
     limpiar,
+    obtenerTodoDiccionario,
+    listaDiccionario,
+    obtenerTodoPieza,
+    listaPieza,
     dialog
 }
 

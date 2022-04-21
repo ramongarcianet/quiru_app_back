@@ -1,46 +1,8 @@
-import { limpiarCaries,DienteCaries } from "./OdontoJS"
+import { limpiarCaries, DienteCaries } from "./OdontoJS"
+import { listaDiccionario, listaPieza, guardar } from "./odonto.js"
 
-var fila = "";
-var nro = 0;
 var isSpeech = false;
 
-function GetDemoDto() {
-
-    $.ajax({
-        type: "POST",
-        url: "/Odontograma/GetDemoDto",
-        contentType: "application/json; charset=utf-8",
-        //data: JSON.stringify(oOrgano),
-        success: function (d) {
-            console.log(d)
-        },
-        error: function (d) {
-
-        }
-    });
-}
-function grabarOdontograma() {
-    var employee = {}
-    employee.Name = 'Juan'
-    employee.Designation = 'Gerente'
-    employee.Location = 'Milano'
-
-    $.ajax({
-        type: "POST",
-        url: "/Odontograma/grabar",
-        data: employee,
-        success: function (response) {
-            alert("Hello: " + response.name + ".\nCurrent Date and Time: " + response.fecha);
-        },
-        failure: function (response) {
-            alert(response.responseText);
-        },
-        error: function (response) {
-            alert(response.responseText);
-        }
-    });
-
-}
 //--ini speech recognition
 if (annyang) {
     annyang.setLanguage("es-PE");
@@ -51,14 +13,12 @@ if (annyang) {
         'diagnóstico': diagnostico,
         'tratamiento': tratamiento,
         'salir': cerrar,
-        'grabar': grabar,
-        'aceptar': aceptar
+        'agregar': agregarLista
     }
     annyang.addCallback('result', function (frase) {
         if (isSpeech) {
             //--Buscar palabra mas correcta del dictadado
-            const indiceCorrecto= buscarIndiceCorrecto(frase);
-            const comandoTemp = frase[indiceCorrecto].trimLeft();
+            const comandoTemp = buscarPalabraCorrecta(frase);
             let comando = comandoTemp;
             if (comando != 'detener') {
                 if (comando != 'diagnóstico' && comando != 'tratamiento' && comando != 'salir') {
@@ -80,9 +40,9 @@ if (annyang) {
                     if (comandoCompleto[0] === 'limpiar') {
                         limpiarCaries();
                     }
-                    if (comandoCompleto[0] === 'eliminar') {
-                        if (comandoCompleto[2] != undefined) {
-                            eliminarVoz(comandoCompleto[2])
+                    if (comandoCompleto[0] === 'borrar') {
+                        if (comandoCompleto[1] != undefined) {
+                            eliminarDiente(comandoCompleto[1])
                         }
                     }
                 }
@@ -159,31 +119,9 @@ function limpiar() {
         document.getElementById("inputObservacion").value = '';
     }
 }
-function grabar(param) {
-    grabarOdontograma();
+function agregarLista(param) {
     if (isSpeech || param === 'manual') {
-        var tablaDetalle = document.getElementById('tablaDetalle');
-        comboHallazgo = document.getElementById('comboHallazgo');
-        var hallazgo = comboHallazgo.options[comboHallazgo.selectedIndex];
-        comboPieza = document.getElementById('comboPieza');
-        var pieza = comboPieza.options[comboPieza.selectedIndex];
-
-        //hallazgo.value;  //hallazgo.text;
-        //--buscar el diente k no exista en la tabla
-        if (!buscarTabla(hallazgo.text, pieza.text)) {
-            nro = nro + 1;
-            fila += "<tr class='fila'><td>" + nro + "</td><td><img src='/images/tooth-solid.svg' style ='width:40%'/> </td><td>" + hallazgo.text + "</td><td>" + pieza.text + "</td> <td><button type='button' class='btn' onclick='eliminarManual(this)'><img src='/images/trash-can-solid.svg' style='width:40%' /></button> </td> </tr> ";
-            tablaDetalle.innerHTML = fila;
-
-        } else {
-            $('#modalOdongramaDuplicado').modal('show');
-        }
-        //$('#listaDientesAgregar').append("<div class='JuicioTop' id='Diente18'>content</div>");
-    }
-}
-function aceptar() {
-    if (isSpeech) {
-        // $('#modalOdongramaDuplicado').modal('hide');
+        guardar()
     }
 }
 
@@ -211,78 +149,85 @@ function pintarDiente(posicion) {
         DienteCaries('btnbotCar');
 
 }
-function buscarTabla(hallazgo, pieza) {
-    var rows = document.getElementsByClassName("fila");
-    var resultado = false;
-    for (var i = 0; i < rows.length; i++) {
-        var columna = rows[i].getElementsByTagName("td");
-        var hallazgoTabla = columna[2].innerHTML.toLowerCase();
-        var piezaTabla = columna[3].innerHTML.toLowerCase();
-        if (hallazgoTabla == hallazgo.toLowerCase() && piezaTabla == pieza.toLowerCase()) {
-            resultado = true;
-            break;
-        }
+
+function eliminarDiente(pieza) {
+    if (isSpeech){
+        let a=1;
     }
-    return resultado;
-
 }
+function buscarPalabraCorrecta(arrayFrase) {
+    let listDiccionario = listaDiccionario.value;
+    let listPieza = listaPieza.value;
+    let firstWord = '';
+    let secondWord = '';
+    let uniqueWord = '';
+    let palabraTemp = '';
+    let codigoTemp = '';
+    let piezaEncontrada = '';
 
-function terminar() {
-    document.getElementById("btnDiagnostico").focus();
-}
-function eliminarManual(element) {
-    document.getElementById("tablaDetalle").deleteRow(element.parentNode.parentNode.rowIndex - 1);
-    var tablaDetalle = document.getElementById('tablaDetalle');
+    for (const item of listDiccionario) {
+        if ((item.codigo.indexOf("/") > 0) || (item.codigo === 'pieza') || (item.codigo === 'borrar')) {
+            if (item.codigo === 'pieza' || item.codigo === 'borrar') {
+                //firt word
+                for (let j = 0; j < arrayFrase.length; j++) {
+                    palabraTemp = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/');
+                    if (item.codigo === palabraTemp[0]) {
+                        firstWord = item.codigo;
+                        break;
+                    }
+                }
+                //second word
+                for (let j = 0; j < arrayFrase.length; j++) {
+                    palabraTemp = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/');
+                    piezaEncontrada = listPieza.filter((pieza) => pieza.codigo == palabraTemp[1]);
+                    if (piezaEncontrada.length > 0) {
+                        secondWord = piezaEncontrada[0].codigo;
+                        break;
+                    }
+                }
 
-    var rows = document.getElementsByClassName("fila");
-    fila = "";
-    nro = 0
-    for (var i = 0; i < rows.length; i++) {
-        nro++;
-        var columna = rows[i].getElementsByTagName("td");
-        var hallazgoTabla = columna[2].innerHTML;
-        var piezaTabla = columna[3].innerHTML;
-        fila += "<tr class='fila'><td>" + nro + "</td><td><img src='/images/tooth-solid.svg' style ='width:40%'/> </td><td>" + hallazgoTabla + "</td><td>" + piezaTabla + "</td> <td><button type='button' class='btn' onclick='eliminarManual(this)'><img src='/images/trash-can-solid.svg' style='width:40%' /></button> </td> </tr> ";
+            } else {
+                codigoTemp = item.codigo.split('/');
+                //firt word
+                for (let j = 0; j < arrayFrase.length; j++) {
+                    palabraTemp = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/');
+                    if (codigoTemp[0] === palabraTemp[0]) {
+                        firstWord = codigoTemp[0];
+                        break;
+                    }
+                }
+                //second word
+                for (let j = 0; j < arrayFrase.length; j++) {
+                    palabraTemp = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/');
+                    if (codigoTemp[1] === palabraTemp[1]) {
+                        secondWord = codigoTemp[1];
+                        break;
+                    }
+                }
+            }
 
-    }
-    tablaDetalle.innerHTML = fila;
-
-}
-function eliminarVoz(index) {
-    document.getElementById("tablaDetalle").deleteRow(index - 1);
-    var tablaDetalle = document.getElementById('tablaDetalle');
-
-    var rows = document.getElementsByClassName("fila");
-    fila = "";
-    nro = 0
-    for (var i = 0; i < rows.length; i++) {
-        nro++;
-        var columna = rows[i].getElementsByTagName("td");
-        var hallazgoTabla = columna[2].innerHTML;
-        var piezaTabla = columna[3].innerHTML;
-        fila += "<tr class='fila'><td>" + nro + "</td><td><img src='/images/tooth-solid.svg' style ='width:40%'/> </td><td>" + hallazgoTabla + "</td><td>" + piezaTabla + "</td> <td><button type='button' class='btn' onclick='eliminarManual(this)'><img src='/images/trash-can-solid.svg' style='width:40%' /></button> </td> </tr> ";
-
-    }
-    tablaDetalle.innerHTML = fila;
-
-}
-function buscarIndiceCorrecto(arrayFrase) {
-    let arrayClaves = ['detener','diagnóstico','tratamiento','salir','hallazgo','pieza','caries','limpiar','eliminar']
-    let indiceCorrecto=-1;
-    let palabraTemp= '';
-    for (let i = 0; i< arrayClaves.length;i++ ){
-        for (let j= 0; j< arrayFrase.length;j++) {
-            palabraTemp = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/');
-            if (arrayClaves[i] === palabraTemp[0]){
-                indiceCorrecto = j;
-                break;
+        } else {
+            //unique word
+            for (let j = 0; j < arrayFrase.length; j++) {
+                palabraTemp = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/');
+                if (item.codigo === palabraTemp[0]) {
+                    uniqueWord = item.codigo;
+                    break;
+                }
             }
         }
-        if (indiceCorrecto>-1){
+        if ((firstWord != '' && secondWord != '') || uniqueWord != '') {
             break;
         }
     }
-    return indiceCorrecto;
+    if (uniqueWord != '')
+        return uniqueWord
+    else
+        if (firstWord != '' && secondWord != '') {
+            return firstWord + '/' + secondWord;
+        } else {
+            return ''
+        }
 }
 export {
     diagnostico,
@@ -290,5 +235,6 @@ export {
     procesar,
     cerrar,
     limpiar,
-    grabar
+    agregarLista,
+    eliminarDiente
 }
