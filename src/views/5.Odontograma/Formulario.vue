@@ -182,13 +182,7 @@ onMounted (()=>{
                             </td>
                             <td colspan="2" style="border: 0px; width: 80px;">
                             <input id="piezacenterCar" type="hidden" value="0"/>
-<<<<<<< HEAD
-                             <canvas id="cvextraccion" width="150" height="200" style="position: absolute;margin-top: -50px;    margin-left: -40px;">Su navegador no soporta canvas :( </canvas>
-
-=======
                              <canvas id="cvhallazgo" width="150" height="200" style="position: absolute;margin-top: -50px;    margin-left: -40px;">Su navegador no soporta canvas :( </canvas>
-
->>>>>>> 8f7db51cf0ca0632ba09c5d6b9d8e4e0a7866d72
                             <button class="btn btn-primary start" ID="btncenterCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btncenterCar')">Oclusal</button>
                             </td>
                             <td colspan="2" style="border: 0px; width: 80px;">
