@@ -1,6 +1,6 @@
 <script setup>
 import { onUnmounted, ref } from 'vue'
-import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog} from '../../store/admision'
+import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog,verOdontograma} from '../../store/admision'
 
 const obtenerRegistro = obtenerTodos()
 
@@ -8,6 +8,7 @@ const obtenerRegistro = obtenerTodos()
 const confirmar = ref(false)
 
 const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
+
 </script>
 
 <template>
@@ -18,6 +19,7 @@ const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
     <Col>Fecha Admisión</Col>
     <Col></Col>
     <Col></Col>
+    <Col></Col>
 </Row>
 
 <Item v-for="item of registro" :key="item.id" :item="item">
@@ -25,6 +27,9 @@ const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
     <Col>{{item.numeroDocumento}}</Col>
     <Col>{{item.nombre+ ' '+item.apellidoPaterno +' '+item.apellidoMaterno }}</Col>
     <Col>{{item.fechaAdmisión}}</Col>
+    <Col>
+       <Button @click="dialog=true, verOdontograma(item.id)"> Odontograma </Button>
+    </Col>
     <Col>
        <Button @click="dialog=true, leerEnRegistro(item.id)"> Editar </Button>
     </Col>

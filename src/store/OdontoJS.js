@@ -1189,12 +1189,15 @@ function ChangeColorAbajo(value) {
 }
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 export function ChangeHallazgo(event) {
+    clearcanvas("cvhallazgo")
     if (event.target.value=="extraccion"){
-        DienteAusente("cvextraccion");
+        DienteAusente("cvhallazgo", "red");
     }
-    else
-    {
-        clearcanvas("cvextraccion")
+    else if (event.target.value=="ausente"){
+        DienteAusente("cvhallazgo", "blue");
+    }
+    else if (event.target.value=="fractura"){
+        DienteFracturado("cvhallazgo", "red");
     }
     return false;
 }
@@ -1203,13 +1206,13 @@ export function clearcanvas(id) {
     var contexto = canvas.getContext("2d");
 	contexto.clearRect(0, 0, canvas.width, canvas.height);
 }
-export function DienteAusente(id) {
+export function DienteAusente(id, color) {
     var canvas = document.getElementById(id);
     if (canvas && canvas.getContext) {
     var ctx = canvas.getContext("2d");
         if (ctx) {
             ctx.lineWidth = 5;
-            ctx.strokeStyle = "#f00";
+            ctx.strokeStyle = color;
             ctx.beginPath();
             ctx.moveTo(20, 150);
             ctx.lineTo(130, 20);
@@ -1256,15 +1259,21 @@ function DienteExtruido(value) {
     }
     return false;
 }
-function DienteFracturado(value) {
-    var IDControl = document.getElementById('hfIDControl').value;
-    if (value == "F") {
-        document.getElementById(IDControl + 'DivFractura').style.display = "block";
-    }
-    if (value == "L") {
-        document.getElementById(IDControl + 'DivFractura').style.display = "none";
-    }
-    return false;
+
+    export function DienteFracturado(id, color) {
+        var canvas = document.getElementById(id);
+        if (canvas && canvas.getContext) {
+        var ctx = canvas.getContext("2d");
+            if (ctx) {
+                ctx.lineWidth = 5;
+                ctx.strokeStyle = color;
+                ctx.beginPath();
+                ctx.moveTo(40, 20);
+                ctx.lineTo(140, 150);
+                ctx.stroke();
+            }
+        }
+                return false;
 }
 function DienteIntruido(value) {
     var IDControl = document.getElementById('hfIDControl').value;
