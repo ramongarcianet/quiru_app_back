@@ -1,4 +1,4 @@
-import { limpiarCaries, DienteCaries } from "./OdontoJS"
+import { limpiarCaries, DienteCaries,DienteAusente,DienteFracturado,clearcanvas } from "./OdontoJS"
 import { listaDiccionario, listaPieza, guardar } from "./odonto.js"
 
 var isSpeech = false;
@@ -27,7 +27,20 @@ if (annyang) {
                     if (comandoCompleto[0] === 'hallazgo') {
                         limpiarCaries()
                         let comboHallazgo = document.getElementById('comboHallazgo');
-                        comboHallazgo.value = comandoCompleto[1];
+                        if (comandoCompleto[1] ==='extraccion') {
+                            DienteAusente("cvhallazgo", "red");
+                            comboHallazgo.value = comandoCompleto[1];
+                        } else  if (comandoCompleto[1] ==='ausente') {
+                            DienteAusente("cvhallazgo", "blue");
+                            comboHallazgo.value = comandoCompleto[1];
+                        } else if (comandoCompleto[1] ==='fractura') {
+                            clearcanvas("cvhallazgo")
+                            DienteFracturado("cvhallazgo", "red");
+                            comboHallazgo.value = comandoCompleto[1];
+                        } else {
+                            clearcanvas("cvhallazgo")
+                            comboHallazgo.value = comandoCompleto[1];
+                        }
                     }
                     if (comandoCompleto[0] === 'pieza') {
                         limpiarCaries();
@@ -38,7 +51,7 @@ if (annyang) {
                         pintarDiente(comandoCompleto[1])
                     }
                     if (comandoCompleto[0] === 'limpiar') {
-                        limpiarCaries();
+                        limpiar();
                     }
                     if (comandoCompleto[0] === 'borrar') {
                         if (comandoCompleto[1] != undefined) {
@@ -109,14 +122,17 @@ function tratamiento(param) {
 
 }
 function cerrar() {
-
     headerVoz.style = "visibility: visible;";
     divNuevo.style = "visibility: hidden;";
 }
 function limpiar() {
     if (isSpeech) {
-        document.getElementById("inputDescription").value = '';
-        document.getElementById("inputObservacion").value = '';
+        let comboHallazgo = document.getElementById('comboHallazgo');
+        comboHallazgo.value = 'caries';
+        let comboPieza = document.getElementById('comboPieza');
+        comboPieza.value = '1.1';
+        limpiarCaries();
+        clearcanvas("cvhallazgo");
     }
 }
 function agregarLista(param) {
@@ -229,6 +245,7 @@ function buscarPalabraCorrecta(arrayFrase) {
             return ''
         }
 }
+
 export {
     diagnostico,
     tratamiento,
