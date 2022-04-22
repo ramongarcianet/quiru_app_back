@@ -118,7 +118,8 @@ function limpiar() {
 }
 function agregarLista(param) {
     if (isSpeech || param === 'manual') {
-        guardar()
+        guardar();
+        limpiar();
     }
 }
 
@@ -160,11 +161,10 @@ function buscarPalabraCorrecta(arrayFrase) {
     let secondWord = '';
     let uniqueWord = '';
     let palabraTemp = '';
-    let codigoTemp = '';
-    let piezaEncontrada = '';
+    let palabraEncontrada = '';
 
     for (const item of listDiccionario) {
-        if ((item.codigo.indexOf("/") > 0) || (item.codigo === 'pieza') || (item.codigo === 'borrar')) {
+        if ((item.codigo === 'hallazgo') || (item.codigo === 'pieza') || (item.codigo === 'borrar') || (item.codigo === 'caries')) {
             if (item.codigo === 'pieza' || item.codigo === 'borrar') {
                 //firt word
                 for (let j = 0; j < arrayFrase.length; j++) {
@@ -177,28 +177,47 @@ function buscarPalabraCorrecta(arrayFrase) {
                 //second word
                 for (let j = 0; j < arrayFrase.length; j++) {
                     palabraTemp = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/');
-                    piezaEncontrada = listPieza.filter((pieza) => pieza.codigo == palabraTemp[1]);
-                    if (piezaEncontrada.length > 0) {
-                        secondWord = piezaEncontrada[0].codigo;
+                    palabraEncontrada = listPieza.filter((pieza) => pieza.codigo == palabraTemp[1]);
+                    if (palabraEncontrada.length > 0) {
+                        secondWord = palabraEncontrada[0].codigo;
                         break;
                     }
                 }
 
-            } else {
-                codigoTemp = item.codigo.split('/');
+            } else if (item.codigo === 'caries') {
                 //firt word
                 for (let j = 0; j < arrayFrase.length; j++) {
                     palabraTemp = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/');
-                    if (codigoTemp[0] === palabraTemp[0]) {
-                        firstWord = codigoTemp[0];
+                    if (item.codigo === palabraTemp[0]) {
+                        firstWord = item.codigo;
                         break;
                     }
                 }
                 //second word
                 for (let j = 0; j < arrayFrase.length; j++) {
                     palabraTemp = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/');
-                    if (codigoTemp[1] === palabraTemp[1]) {
-                        secondWord = codigoTemp[1];
+                    palabraEncontrada = listCaries.filter((carie) => carie.codigo == palabraTemp[1]);
+                    if (palabraEncontrada.length > 0) {
+                        secondWord = palabraEncontrada[0].codigo;
+                        break;
+                    }
+                }
+
+            } else {//hallazgo
+                //firt word
+                for (let j = 0; j < arrayFrase.length; j++) {
+                    palabraTemp = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/');
+                    if (item.codigo === palabraTemp[0]) {
+                        firstWord = item.codigo;
+                        break;
+                    }
+                }
+                //second word
+                for (let j = 0; j < arrayFrase.length; j++) {
+                    palabraTemp = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/');
+                    palabraEncontrada = listHallazgo.filter((hallazgo) => hallazgo.codigo == palabraTemp[1]);
+                    if (palabraEncontrada.length > 0) {
+                        secondWord = palabraEncontrada[0].codigo;
                         break;
                     }
                 }
