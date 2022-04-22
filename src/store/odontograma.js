@@ -12,53 +12,53 @@ if (annyang) {
     }
     annyang.addCallback('result', function (frase) {
         //if (isSpeech) {
-            //--Buscar palabra mas correcta del dictadado
-            const comandoTemp = buscarPalabraCorrecta(frase);
-            let comando = comandoTemp;
-            if (comando === 'hola') {
-                activarVoz();
-                return;
-            }
-            if (isSpeech){
-                if (comando != '') {
-                    comando = comandoTemp.replace(/\s/g, '/');
-                    const comandoCompleto = comando.split('/')
-                    if (comandoCompleto[0] === 'detener') {
-                        detenerVoz();
-                    }
-                    if (comandoCompleto[0] === 'diagnóstico') {
-                        diagnostico('voz');
-                    }
-                    if (comandoCompleto[0] === 'tratamiento') {
-                        tratamiento('voz');
-                    }
-                    if (comandoCompleto[0] === 'agregar') {
-                        agregarLista('voz');
-                    }
-                    if (comandoCompleto[0] === 'hallazgo') {
-                        limpiarCaries()
-                        seleccionarHallazgo(comandoCompleto[1]);
-                    }
-                    if (comandoCompleto[0] === 'pieza') {
-                        limpiarCaries();
-                        let comboPieza = document.getElementById('comboPieza');
-                        comboPieza.value = comandoCompleto[1];
-                    }
-                    if (comandoCompleto[0] === 'caries') {
-                        pintarDiente(comandoCompleto[1])
-                    }
-                    if (comandoCompleto[0] === 'limpiar') {
-                        limpiar();
-                    }
-                    if (comandoCompleto[0] === 'borrar') {
-                        if (comandoCompleto[1] != undefined) {
-                            eliminarDiente(comandoCompleto[1])
-                        }
+        //--Buscar palabra mas correcta del dictadado
+        const comandoTemp = buscarPalabraCorrecta(frase);
+        let comando = comandoTemp;
+        if (comando === 'hola') {
+            activarVoz();
+            return;
+        }
+        if (isSpeech) {
+            if (comando != '') {
+                comando = comandoTemp.replace(/\s/g, '/');
+                const comandoCompleto = comando.split('/')
+                if (comandoCompleto[0] === 'detener') {
+                    detenerVoz();
+                }
+                if (comandoCompleto[0] === 'diagnóstico') {
+                    diagnostico('voz');
+                }
+                if (comandoCompleto[0] === 'tratamiento') {
+                    tratamiento('voz');
+                }
+                if (comandoCompleto[0] === 'agregar') {
+                    agregarLista('voz');
+                }
+                if (comandoCompleto[0] === 'hallazgo') {
+                    limpiarCaries()
+                    seleccionarHallazgo(comandoCompleto[1]);
+                }
+                if (comandoCompleto[0] === 'pieza') {
+                    limpiarCaries();
+                    let comboPieza = document.getElementById('comboPieza');
+                    comboPieza.value = comandoCompleto[1];
+                }
+                if (comandoCompleto[0] === 'caries') {
+                    pintarDiente(comandoCompleto[1])
+                }
+                if (comandoCompleto[0] === 'limpiar') {
+                    limpiar();
+                }
+                if (comandoCompleto[0] === 'borrar') {
+                    if (comandoCompleto[1] != undefined) {
+                        eliminarDiente(comandoCompleto[1])
                     }
                 }
             }
+        }
 
-       // }
+        // }
     });
     annyang.addCommands(commands);
     annyang.start();
@@ -113,7 +113,7 @@ function agregarLista(param) {
         limpiar();
     }
 }
-function seleccionarHallazgo(tipoHallazgo){
+function seleccionarHallazgo(tipoHallazgo) {
     let comboHallazgo = document.getElementById('comboHallazgo');
     if (tipoHallazgo === 'extraccion') {
         DienteAusente("cvhallazgo", "red");
@@ -167,64 +167,76 @@ function buscarPalabraCorrecta(arrayFrase) {
     let secondWord = '';
     let uniqueWord = '';
     let palabraTemp = '';
+    let palabraTemp1 = '';
+    let palabraTemp2 = '';
     let palabraEncontrada = '';
 
     for (const item of listDiccionario) {
         if ((item.codigo === 'hallazgo') || (item.codigo === 'pieza') || (item.codigo === 'borrar') || (item.codigo === 'caries')) {
             if (item.codigo === 'pieza' || item.codigo === 'borrar') {
-                //firt word
                 for (let j = 0; j < arrayFrase.length; j++) {
-                    palabraTemp = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/')[0];
-                    if (item.codigo === palabraTemp.toLowerCase()) {
-                        firstWord = item.codigo;
-                        break;
+                    //firt word
+                    if (firstWord === '') {
+                        palabraTemp1 = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/')[0];
+                        if (item.codigo === palabraTemp1.toLowerCase()) {
+                            firstWord = item.codigo;
+                        }
                     }
-                }
-                //second word
-                for (let j = 0; j < arrayFrase.length; j++) {
-                    palabraTemp = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/')[1];
-                    palabraEncontrada = listPieza.filter((pieza) => pieza.codigo == palabraTemp);
-                    if (palabraEncontrada.length > 0) {
-                        secondWord = palabraEncontrada[0].codigo;
-                        break;
+                    //second word
+                    if (secondWord === '') {
+                        palabraTemp2 = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/')[1];
+                        palabraEncontrada = listPieza.filter((pieza) => pieza.codigo == palabraTemp2);
+                        if (palabraEncontrada.length > 0) {
+                            secondWord = palabraEncontrada[0].codigo;
+                        }
+                    }
+                    if (firstWord != '' && secondWord != '') {
+                        break
                     }
                 }
 
             } else if (item.codigo === 'caries') {
                 //firt word
                 for (let j = 0; j < arrayFrase.length; j++) {
-                    palabraTemp = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/')[0];
-                    if (item.codigo === palabraTemp.toLowerCase()) {
-                        firstWord = item.codigo;
-                        break;
+                    //firt word
+                    if (firstWord === ''){
+                        palabraTemp1 = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/')[0];
+                        if (item.codigo === palabraTemp1.toLowerCase()) {
+                            firstWord = item.codigo;
+                        }
                     }
-                }
-                //second word
-                for (let j = 0; j < arrayFrase.length; j++) {
-                    palabraTemp = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/')[1];
-                    palabraEncontrada = listCaries.filter((carie) => carie.codigo == palabraTemp);
-                    if (palabraEncontrada.length > 0) {
-                        secondWord = palabraEncontrada[0].codigo;
-                        break;
+                    //second word
+                    if (secondWord === ''){
+                        palabraTemp2 = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/')[1];
+                        palabraEncontrada = listCaries.filter((carie) => carie.codigo == palabraTemp2);
+                        if (palabraEncontrada.length > 0) {
+                            secondWord = palabraEncontrada[0].codigo;
+                        }
+                    }
+                    if (firstWord != '' && secondWord != '') {
+                        break
                     }
                 }
 
             } else {//hallazgo
-                //firt word
                 for (let j = 0; j < arrayFrase.length; j++) {
-                    palabraTemp = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/')[0];
-                    if (item.codigo === palabraTemp.toLowerCase()) {
-                        firstWord = item.codigo;
-                        break;
+                    //firt word
+                    if (firstWord === ''){
+                        palabraTemp1 = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/')[0];
+                        if (item.codigo === palabraTemp1.toLowerCase()) {
+                            firstWord = item.codigo;
+                        }
                     }
-                }
-                //second word
-                for (let j = 0; j < arrayFrase.length; j++) {
-                    palabraTemp = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/')[1];
-                    palabraEncontrada = listHallazgo.filter((hallazgo) => hallazgo.codigo == palabraTemp);
-                    if (palabraEncontrada.length > 0) {
-                        secondWord = palabraEncontrada[0].codigo;
-                        break;
+                    //second word
+                    if (secondWord === '') {
+                        palabraTemp2 = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/')[1];
+                        palabraEncontrada = listHallazgo.filter((hallazgo) => hallazgo.codigo == palabraTemp2);
+                        if (palabraEncontrada.length > 0) {
+                            secondWord = palabraEncontrada[0].codigo;
+                        }
+                    }
+                    if (firstWord != '' && secondWord != '') {
+                        break
                     }
                 }
             }
