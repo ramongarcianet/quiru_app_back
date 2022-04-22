@@ -2,12 +2,14 @@
 import {onMounted, ref} from 'vue'
 import {diagnostico,tratamiento, procesar,cerrar, limpiar, agregarLista} from '../../store/odontograma'
 import {DienteCaries,DienteAusente,ChangeHallazgo,DienteFracturado} from '../../store/OdontoJS'
-import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar, obtenerTodoDiccionario, obtenerTodoPieza} from '../../store/odonto'
+import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar, obtenerTodoDiccionario, obtenerTodoPieza,obtenerTodoHallazgo,obtenerTodoCaries} from '../../store/odonto'
 
 import Registro from './Registro.vue'
 
 const listaDiccionario = obtenerTodoDiccionario()
 const listaPieza = obtenerTodoPieza()
+const listaHallazgo= obtenerTodoHallazgo()
+const listaCaries = obtenerTodoCaries()
 onMounted (()=>{
         var divNuevo = document.getElementById('divNuevo');
         divNuevo.style.display = 'none';

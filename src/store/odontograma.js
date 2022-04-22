@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import { limpiarCaries, DienteCaries,DienteAusente,DienteFracturado,clearcanvas } from "./OdontoJS"
-import { registro, listaDiccionario, listaPieza, guardar, eliminar } from "./odonto.js"
+import { registro, listaDiccionario, listaPieza,listaHallazgo,listaCaries,guardar, eliminar } from "./odonto.js"
 
 var isSpeech = false;
 
@@ -154,6 +154,8 @@ function eliminarDiente(pieza) {
 function buscarPalabraCorrecta(arrayFrase) {
     let listDiccionario = listaDiccionario.value;
     let listPieza = listaPieza.value;
+    let listHallazgo = listaHallazgo.value;
+    let listCaries = listaCaries.value;
     let firstWord = '';
     let secondWord = '';
     let uniqueWord = '';

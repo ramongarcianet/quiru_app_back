@@ -87,7 +87,22 @@ const obtenerTodoPieza = () => {
         collection => listaPieza.value = collection.docs.map( doc => ({...doc.data(), id: doc.id }))
     )
 }
-
+const listaHallazgo = []
+const obtenerTodoHallazgo = () => {
+    const referencia = collection(firestore, 'hallazgo')
+    return onSnapshot(
+        referencia,
+        collection => listaHallazgo.value = collection.docs.map( doc => ({...doc.data(), id: doc.id }))
+    )
+}
+const listaCaries = []
+const obtenerTodoCaries = () => {
+    const referencia = collection(firestore, 'caries')
+    return onSnapshot(
+        referencia,
+        collection => listaCaries.value = collection.docs.map( doc => ({...doc.data(), id: doc.id }))
+    )
+}
 export {
     registro,
     item,
@@ -102,6 +117,10 @@ export {
     listaDiccionario,
     obtenerTodoPieza,
     listaPieza,
+    obtenerTodoHallazgo,
+    listaHallazgo,
+    obtenerTodoCaries,
+    listaCaries,
     dialog
 }
 
