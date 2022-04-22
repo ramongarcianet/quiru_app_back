@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, ref} from 'vue'
-import {diagnostico,tratamiento, procesar,cerrar, limpiar, agregarLista} from '../../store/odontograma'
+import {diagnostico,tratamiento, procesar, limpiar, agregarLista} from '../../store/odontograma'
 import {DienteCaries,DienteAusente,ChangeHallazgo,DienteFracturado} from '../../store/OdontoJS'
 import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar, obtenerTodoDiccionario, obtenerTodoPieza,obtenerTodoHallazgo,obtenerTodoCaries} from '../../store/odonto'
 
