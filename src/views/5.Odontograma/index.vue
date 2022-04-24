@@ -28,7 +28,8 @@ onUnmounted(()=>{
     <Container>
       <FormPaciente></FormPaciente>
       <RegistroOdontograma /> 
-      <Button @click="guardar(route.params.idPaciente)"> Nuevo Odontograma</Button> 
+      <Button @click="guardar(route.params.idPaciente,'Diagnóstico')"> Nuevo Diagnóstico</Button> 
+      <Button @click="guardar(route.params.idPaciente,'Tratamiento')"> Nuevo Tratamiento</Button> 
       <Formulario :open='dialog' />
     
     </Container>

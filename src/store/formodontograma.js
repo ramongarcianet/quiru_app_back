@@ -17,10 +17,10 @@ const item = ref ({
 })
 
 
-const guardar = (idPaciente) => {
+const guardar = (idPaciente, tipo) => {
 
     const  fila = {
-        tipo:'',
+        tipo: tipo,
         especificaciones:'',
         observaciones:'',
         receta:'',
