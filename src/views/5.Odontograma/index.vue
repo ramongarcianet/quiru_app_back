@@ -1,18 +1,21 @@
 <script setup>
 
 import Formulario from './Formulario.vue'
-import Registro from './Registro.vue'
-import {dialog} from '../../store/usuario'
-
+import RegistroOdontograma from './RegistroOdontograma.vue'
+import {dialog,obtenerTodos, guardar} from '../../store/formodontograma'
+import FormOdontograma from './FormOdontograma.vue';
+import FormPaciente from '../3.Paciente/FormularioR.vue';
 </script>
 <template>
 <h1>Odontograma</h1>
 <row>
 <Container class="fluid">
     <Container>
-      <!-- <Button @click="dialog=true"> Nuevo </Button> -->
+      <FormPaciente></FormPaciente>
+      <RegistroOdontograma /> 
+      <Button @click="guardar()"> Nuevo Odontograma</Button> 
       <Formulario :open='dialog' />
-      <!-- <Registro /> -->
+    
     </Container>
   </Container>
 </row>
