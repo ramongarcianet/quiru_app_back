@@ -17,10 +17,10 @@ export const crearUsuarioConId = item => {
     return setDoc( referencia, item)
 }
 
- const guardar = () => {
+ const guardar = (Id) => {
 
     const  fila = {
-        nroOdontograma:'',
+        nroOdontograma:Id,
         diente:  comboPieza.value,
         hallazgo: comboHallazgo.value,
         pieza: ((piezatopcar.value=="1")?"Vestibular,":"")+((piezaleftCar.value=="1")?"Distal,":"")+ ((piezacenterCar.value=="1")?"Oclusal,":"")+((piezarigthCar.value=="1")?"Mesial,":"")+((piezabotCar.value=="1")?"Palatino,":"")

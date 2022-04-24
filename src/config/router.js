@@ -62,6 +62,11 @@ const routes = [
                 name: 'odontograma',
                 component: ()=>import('../views/5.Odontograma/index.vue')
             },
+            {
+                path: 'Detalle/:idOdontograma?',
+                name: 'Detalle',
+                component: ()=>import('../views/5.Odontograma/Detalle.vue')
+            },
         ]
     }
 

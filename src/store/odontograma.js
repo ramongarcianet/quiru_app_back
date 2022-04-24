@@ -78,7 +78,7 @@ function detenerVoz() {
 function diagnostico(param) {
     if (isSpeech || (param === 'manual')) {
         headerVoz.style = "visibility: hidden;";
-        divNuevo.style = "visibility: visible;";
+        //divNuevo.style = "visibility: visible;";
         tipoReg.value = "0";
         var _tituloTratamiento = document.getElementById('tituloTratamiento');
         _tituloTratamiento.innerText = 'Registro de Diagnóstico';
@@ -90,7 +90,7 @@ function diagnostico(param) {
 function tratamiento(param) {
     if (isSpeech || (param === 'manual')) {
         headerVoz.style = "visibility: hidden;";
-        divNuevo.style = "visibility: visible;";
+        //divNuevo.style = "visibility: visible;";
         tipoReg.value = "1";
         var _tituloTratamiento = document.getElementById('tituloTratamiento');
         _tituloTratamiento.innerText = 'Registro de Tratamiento';
@@ -108,10 +108,10 @@ function limpiar() {
     clearcanvas("cvhallazgo");
 }
 function agregarLista(param) {
-    if (isSpeech || param === 'manual') {
-        guardar();
+    //if (isSpeech) {
+        guardar(param);
         limpiar();
-    }
+   // }
 }
 function seleccionarHallazgo(tipoHallazgo) {
     let comboHallazgo = document.getElementById('comboHallazgo');
