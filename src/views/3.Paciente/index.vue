@@ -6,7 +6,7 @@ import {dialog} from '../../store/paciente'
 
 </script>
 <template>
-<h1>Paciente</h1>
+<h1>Pacientes</h1>
 <div class="container">
   <Button @click="dialog=true"> Nuevo </Button>
   <Formulario :open='dialog' />

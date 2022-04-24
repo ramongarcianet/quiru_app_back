@@ -58,7 +58,7 @@ const routes = [
                 component: ()=>import('../views/4.Diccionario/index.vue')
             },
             {
-                path: 'odontograma',
+                path: 'odontograma/:idPaciente?',
                 name: 'odontograma',
                 component: ()=>import('../views/5.Odontograma/index.vue')
             },

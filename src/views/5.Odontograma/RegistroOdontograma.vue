@@ -1,9 +1,6 @@
 <script setup>
 import { onUnmounted, ref } from 'vue'
-import {obtenerTodos, registroodonto, leerEnRegistro, eliminar, dialog} from '../../store/formodontograma'
-
-const obtenerRegistro = obtenerTodos()
-
+import {registroodonto, leerEnRegistro, eliminar, dialog} from '../../store/formodontograma'
 
 const confirmar = ref(false)
 

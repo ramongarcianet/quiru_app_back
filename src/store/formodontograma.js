@@ -6,6 +6,7 @@ import { miUsuario } from './sesion';
 import {useRouter} from 'vue-router'
 const dialog = ref( false )
 const regpasciente = ref([])
+
 const item = ref ({
         tipo:'',
         especificaciones:'',
@@ -16,7 +17,7 @@ const item = ref ({
 })
 
 
-const guardar = () => {
+const guardar = (idPaciente) => {
 
     const  fila = {
         tipo:'',
@@ -24,6 +25,7 @@ const guardar = () => {
         observaciones:'',
         receta:'',
         fechaRegistro:new Date().toISOString().slice(0,10),
+        idPaciente, 
         userId: miUsuario()?.uid
     }
     const referencia = collection(firestore, 'odontograma')
@@ -43,18 +45,16 @@ const eliminar = (id) => {
 
 const registroodonto = ref([])
 
-const obtenerTodos = () => {
-    if(!miUsuario() ) return
-
-    const referenciaPac = doc(firestore, 'paciente', "36HX0wfqBHcIU6iVg4RD")
-    getDoc( referenciaPac ).then( doc => regpasciente.value = doc.data())
-
+const obtenerTodos = (idPaciente) => {
+    console.log( 'funciona')
     const referencia = collection(firestore, 'odontograma')
-
-    const busqueda = query( referencia, where( "userId", "==", miUsuario()?.uid))
+    const busqueda = query( referencia, where( "idPaciente", "==", idPaciente) )
     return onSnapshot(
         busqueda,
-        collection => registroodonto.value = collection.docs.map( doc => ({...doc.data(), id: doc.id }))
+        collection => {
+            console.log('Hola')
+            registroodonto.value = collection.docs.map( doc => ({...doc.data(), id: doc.id }))
+        }
     )
 }
 

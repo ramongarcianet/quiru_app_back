@@ -10,7 +10,6 @@ const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
 </script>
 
 <template>
-
       <Row>
         <Col>Tip Doc.</Col>
         <Col>Número Doc.</Col>

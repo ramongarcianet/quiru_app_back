@@ -1,14 +1,12 @@
 <script setup>
 import { onUnmounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog} from '../../store/paciente'
 
 const obtenerRegistro = obtenerTodos()
-
-
 const confirmar = ref(false)
-
 const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
-
+const {push} = useRouter()
 </script>
 
 <template>
@@ -21,6 +19,8 @@ const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
         <Col>Sexo</Col>
         <Col></Col>
         <Col></Col>
+
+        <Col></Col>
     </Row>
     <Item  v-for="item of registro"  :key="item.id"  :item="item">
         <Col>{{(item.tipoDocumento=='DNI')? 'DNI': 'CARNET DE EXTRANJERIA'}}</Col>
@@ -28,6 +28,9 @@ const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
         <Col>{{item.nombre+ ' '+item.apellidoPaterno +' '+item.apellidoMaterno }}</Col>
         <Col>{{item.fechaNacimiento}}</Col>
         <Col>{{(item.sexo=='M')?'MASCULINO':'FEMENINO'}}</Col>
+        <Col>
+        </Col>
+            <Button @click="push({name: 'odontograma', params: {idPaciente: item.id} })"> Ver atenciones </Button>
         <Col>
             <Button @click="dialog=true, leerEnRegistro(item.id)"> Editar </Button>
         </Col>
