@@ -79,7 +79,7 @@ export function DienteCaries(value) {
         piezabotCar.value="1";
         stle=stle +"border-radius: 0% 0% 90% 90%;";
     }
-    _control.style = stle +clor;  
+    _control.style = stle +clor;
     return false;
 }
 
@@ -90,11 +90,16 @@ export function limpiarCaries() {
     document.getElementById("btncenterCar").style=stle;
     document.getElementById("btnrigthCar").style=stle;
     document.getElementById("btnbotCar").style=stle + " border-radius: 0% 0% 90% 90%;";
+    piezaleftCar.value="0";
+    piezacenterCar.value="0";
+    piezarigthCar.value="0";
+    piezatopcar.value="0";
+    piezabotCar.value="0";
     return false;
 }
 
 export function VerFormato() {
-    
+
      var canvas = document.getElementById('myCanvas');
      var context = canvas.getContext('2d');
      context.font = '8pt Calibri';
@@ -108,14 +113,14 @@ export function VerFormato() {
      iniciar_x=0;
      var arr = ['18', '17','16','15','14','13','12','11','21','22','23','24','25','26','27','28'];
      arr.forEach(function(entry) {
-        iniciar_x=iniciar_x+28;    
+        iniciar_x=iniciar_x+28;
         dibuja_contorno(context, iniciar_x, 20, medida, entry);
         context.fillText(entry, iniciar_x + 13, 15);
       }, this);
       iniciar_x=0;
       arr = ['1', '1','1','55','54','53','52','51','61','62','63','64','65','1','1','1'];
       arr.forEach(function(entry) {
-         iniciar_x=iniciar_x+28; 
+         iniciar_x=iniciar_x+28;
          if(entry !="1")   {
          dibuja_contorno(context, iniciar_x, 60, medida, entry);
          context.fillText(entry, iniciar_x + 13, 56);
@@ -124,7 +129,7 @@ export function VerFormato() {
        iniciar_x=0;
       arr = ['1', '1','1','85','84','83','82','81','71','72','73','74','75','1','1','1'];
       arr.forEach(function(entry) {
-         iniciar_x=iniciar_x+28; 
+         iniciar_x=iniciar_x+28;
          if(entry !="1")   {
          dibuja_contorno(context, iniciar_x, 100, medida,entry);
          context.fillText(entry, iniciar_x + 13, 135);
@@ -133,7 +138,7 @@ export function VerFormato() {
        iniciar_x=0;
        arr = ['48', '47','46','45','44','43','42','41','31','32','33','34','35','36','37','38'];
        arr.forEach(function(entry) {
-          iniciar_x=iniciar_x+28; 
+          iniciar_x=iniciar_x+28;
           if(entry !="1")   {
           dibuja_contorno(context, iniciar_x, 140, medida, entry);
           context.fillText(entry, iniciar_x + 13, 185);
@@ -192,7 +197,7 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza){
         ctx.stroke();
     }
     marcar_extraccion(ctx, inicio_x, med,inicio_y,pieza);
-    
+
 }
  // Funcion para sombrear diente completo
  function marcar_extraccion(contexto, inicio_x,medida,inicio_y,pieza){
@@ -207,8 +212,8 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza){
     ctx.moveTo(inicio_x+23,inicio_y);
     ctx.lineTo(inicio_x,inicio_y+23);
     ctx.stroke();
-    ctx.lineWidth = 1;  
-      // } 
-     //});        
- 
+    ctx.lineWidth = 1;
+      // }
+     //});
+
 }

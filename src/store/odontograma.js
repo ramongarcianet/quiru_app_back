@@ -8,18 +8,18 @@ var isSpeech = false;
 if (annyang) {
     annyang.setLanguage("es-PE");
     var commands = {
-        //'hola': activarVoz,
+        'hola': activarVoz
     }
     annyang.addCallback('result', function (frase) {
-        //if (isSpeech) {
+        if (isSpeech) {
         //--Buscar palabra mas correcta del dictadado
         const comandoTemp = buscarPalabraCorrecta(frase);
         let comando = comandoTemp;
-        if (comando === 'hola') {
+       /* if (comando === 'hola') {
             activarVoz();
             return;
-        }
-        if (isSpeech) {
+        }*/
+        //if (isSpeech) {
             if (comando != '') {
                 comando = comandoTemp.replace(/\s/g, '/');
                 const comandoCompleto = comando.split('/')
@@ -56,9 +56,9 @@ if (annyang) {
                     }
                 }
             }
-        }
+        //}
 
-        // }
+        }
     });
     annyang.addCommands(commands);
     annyang.start();
@@ -108,10 +108,13 @@ function limpiar() {
     clearcanvas("cvhallazgo");
 }
 function agregarLista(param) {
-    //if (isSpeech) {
+    let hallazgo = document.getElementById('comboHallazgo').value;
+    let pieza = document.getElementById('comboPieza').value;
+    const existeDiente = registro.value.find(item => item.diente === pieza &&  item.hallazgo === hallazgo)?.id
+    if (existeDiente == undefined){
         guardar(param);
         limpiar();
-   // }
+    }
 }
 function seleccionarHallazgo(tipoHallazgo) {
     let comboHallazgo = document.getElementById('comboHallazgo');
