@@ -3,7 +3,6 @@ import Formulario from './Formulario.vue'
 import RegistroOdontograma from './RegistroOdontograma.vue'
 import {dialog,obtenerTodos, guardar} from '../../store/formodontograma'
 import {leer as leerPaciente} from '../../store/paciente'
-import FormOdontograma from './FormOdontograma.vue';
 import FormPaciente from '../3.Paciente/FormularioR.vue';
 import { useRoute,useRouter } from 'vue-router';
 import { onUnmounted } from '@vue/runtime-core';

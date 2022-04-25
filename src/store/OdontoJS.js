@@ -1,4 +1,4 @@
-﻿
+﻿import {obtenerTodos} from '../store/odonto'
 export function ChangeHallazgo(event) {
     clearcanvas("cvhallazgo")
     if (event.target.value=="extraccion"){
@@ -94,6 +94,7 @@ export function limpiarCaries() {
 }
 
 export function VerFormato() {
+    
      var canvas = document.getElementById('myCanvas');
      var context = canvas.getContext('2d');
      context.font = '8pt Calibri';
@@ -108,7 +109,7 @@ export function VerFormato() {
      var arr = ['18', '17','16','15','14','13','12','11','21','22','23','24','25','26','27','28'];
      arr.forEach(function(entry) {
         iniciar_x=iniciar_x+28;    
-        dibuja_contorno(context, iniciar_x, 20, medida, separacion_x, 10);
+        dibuja_contorno(context, iniciar_x, 20, medida, entry);
         context.fillText(entry, iniciar_x + 13, 15);
       }, this);
       iniciar_x=0;
@@ -116,7 +117,7 @@ export function VerFormato() {
       arr.forEach(function(entry) {
          iniciar_x=iniciar_x+28; 
          if(entry !="1")   {
-         dibuja_contorno(context, iniciar_x, 60, medida, separacion_x, 10);
+         dibuja_contorno(context, iniciar_x, 60, medida, entry);
          context.fillText(entry, iniciar_x + 13, 56);
          }
        }, this);
@@ -125,7 +126,7 @@ export function VerFormato() {
       arr.forEach(function(entry) {
          iniciar_x=iniciar_x+28; 
          if(entry !="1")   {
-         dibuja_contorno(context, iniciar_x, 100, medida, separacion_x, 10);
+         dibuja_contorno(context, iniciar_x, 100, medida,entry);
          context.fillText(entry, iniciar_x + 13, 135);
          }
        }, this);
@@ -134,13 +135,13 @@ export function VerFormato() {
        arr.forEach(function(entry) {
           iniciar_x=iniciar_x+28; 
           if(entry !="1")   {
-          dibuja_contorno(context, iniciar_x, 140, medida, separacion_x, 10);
+          dibuja_contorno(context, iniciar_x, 140, medida, entry);
           context.fillText(entry, iniciar_x + 13, 185);
           }
         }, this);
 }
 
-function dibuja_contorno(context, inicio_x, inicio_y, med, separacion_x, separacion_y){
+function dibuja_contorno(context, inicio_x, inicio_y, med, pieza){
     var ctx = context;
     // Definiendo puntos de dibujo
     var cua = med/4;
@@ -190,15 +191,15 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, separacion_x, separac
         ctx.closePath();
         ctx.stroke();
     }
-    marcar_extraccion(ctx, inicio_x, med,inicio_y);
+    marcar_extraccion(ctx, inicio_x, med,inicio_y,pieza);
     
 }
  // Funcion para sombrear diente completo
- function marcar_extraccion(contexto, inicio_x,medida,inicio_y){
-    var ctx = contexto;
-    // Definiendo puntos de dibujo
+ function marcar_extraccion(contexto, inicio_x,medida,inicio_y,pieza){
+    //registro.forEach(element => {
+       //if(element.diente==pieza) {
+            var ctx = contexto;
     var med = medida;
-    //alert(num_diente);
     ctx.beginPath();
     ctx.lineWidth = 3;
     ctx.moveTo(inicio_x,inicio_y);
@@ -206,5 +207,8 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, separacion_x, separac
     ctx.moveTo(inicio_x+23,inicio_y);
     ctx.lineTo(inicio_x,inicio_y+23);
     ctx.stroke();
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 1;  
+      // } 
+     //});        
+ 
 }
