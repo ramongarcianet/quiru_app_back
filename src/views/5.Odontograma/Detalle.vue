@@ -1,13 +1,13 @@
 <script setup>
 import Formulario from './Formulario.vue'
 import RegistroOdontograma from './RegistroOdontograma.vue'
-import {dialog,obtenerTodos, guardar} from '../../store/formodontograma'
+import {obtenerTodos, guardar} from '../../store/formodontograma'
 import {leer as leerPaciente} from '../../store/paciente'
 import FormOdontograma from './FormOdontograma.vue';
 import FormPaciente from '../3.Paciente/FormularioR.vue';
-import { useRoute } from 'vue-router';
+import { useRoute ,useRouter} from 'vue-router';
 import { onUnmounted } from '@vue/runtime-core';
-
+const {push} = useRouter()
 const route = useRoute()
 let obtener
 
@@ -26,8 +26,8 @@ onUnmounted(()=>{
 <row>
 <Container class="fluid">
     <Container>
-      <Formulario :open='dialog' />
-    
+      <Formulario />
+      <Button @click="push({name: 'odontograma', params: {} })"> Volver </Button>
     </Container>
   </Container>
 </row>

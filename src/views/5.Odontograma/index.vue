@@ -5,9 +5,9 @@ import {dialog,obtenerTodos, guardar} from '../../store/formodontograma'
 import {leer as leerPaciente} from '../../store/paciente'
 import FormOdontograma from './FormOdontograma.vue';
 import FormPaciente from '../3.Paciente/FormularioR.vue';
-import { useRoute } from 'vue-router';
+import { useRoute,useRouter } from 'vue-router';
 import { onUnmounted } from '@vue/runtime-core';
-
+const {push} = useRouter()
 const route = useRoute()
 let obtener
 
@@ -30,6 +30,7 @@ onUnmounted(()=>{
       <RegistroOdontograma /> 
       <Button @click="guardar(route.params.idPaciente,'Diagnóstico')"> Nuevo Diagnóstico</Button> 
       <Button @click="guardar(route.params.idPaciente,'Tratamiento')"> Nuevo Tratamiento</Button>  
+      <Button @click="push({name: 'paciente', params: {} })"> Volver </Button>
     </Container>
   </Container>
 </row>
