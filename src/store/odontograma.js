@@ -103,7 +103,7 @@ function limpiar() {
     let comboHallazgo = document.getElementById('comboHallazgo');
     comboHallazgo.value = 'caries';
     let comboPieza = document.getElementById('comboPieza');
-    comboPieza.value = '1.1';
+    comboPieza.value = '11';
     limpiarCaries();
     clearcanvas("cvhallazgo");
 }
