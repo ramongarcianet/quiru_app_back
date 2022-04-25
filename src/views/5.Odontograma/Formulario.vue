@@ -1,10 +1,11 @@
 <script setup>
 import {onMounted, ref} from 'vue'
 import {diagnostico,tratamiento, procesar, limpiar, agregarLista} from '../../store/odontograma'
-import {DienteCaries,DienteAusente,ChangeHallazgo,DienteFracturado} from '../../store/OdontoJS'
+import {DienteCaries,DienteAusente,ChangeHallazgo,DienteFracturado, VerFormato} from '../../store/OdontoJS'
 import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar, obtenerTodoDiccionario, obtenerTodoPieza,obtenerTodoHallazgo,obtenerTodoCaries} from '../../store/odonto'
 import { useRoute } from 'vue-router';
 import Registro from './Registro.vue'
+import Col from '../../components/uikit/Col.vue';
 const route = useRoute()
 const listaDiccionario = obtenerTodoDiccionario()
 const listaPieza = obtenerTodoPieza()
@@ -21,13 +22,11 @@ onMounted (()=>{
         document.getElementById("btnActivar").hidden = false;
 
 })
-
+  
 </script>
 
 <template>
  <Row>
-
-<div id="headerVoz">
     <Col>
         <div class="col-sm-12 col-md-12 col-lg-12" style="text-align:center;">
 
@@ -51,139 +50,163 @@ onMounted (()=>{
             </button>
         </div>
     </Col>
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12">
-            <br />
-            <br />
-        </div>
-    </div>
-</div>
+</Row>
+    <input id="tipoReg" type="hidden" value="0"/>
+<Row>
+    <Col>
+        <Row>
+            <Col>
+                <h4>Hallazgo:</h4>
+                <select class="form-control" id="comboHallazgo" @change="ChangeHallazgo($event)" >
+                <option value="caries" selected="selected">Lesión de caries dental</option>
+                <option value="extraccion">Extracción</option>
+                <option value="ausente">Ausente</option>
+                <option value="fractura">Fractura</option>
+                <option value="fosas">Fosas y fisuras profundas</option>
+                </select>
+            </Col>
+            <Col></Col>
+            <Col>
+                <h4>Pieza:</h4>
+                <select class="form-control" id="comboPieza">
+                <option selected>":::Seleccione Pieza:::</option>
+                <option value="11" selected>11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="48">48</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="61">61</option>
+                <option value="62">62</option>
+                <option value="63">63</option>
+                <option value="64">64</option>
+                <option value="65">65</option>
+                <option value="71">71</option>
+                <option value="72">72</option>
+                <option value="73">73</option>
+                <option value="74">74</option>
+                <option value="75">75</option>
+                <option value="81">81</option>
+                <option value="82">82</option>
+                <option value="83">83</option>
+                <option value="84">84</option>
+                <option value="85">85</option>
+                </select>
+            </Col>
+            <Col></Col>
+        </Row>
+        <Row>
+            <Col></Col>
+            <Col>
+                <table border="0" style="width: 100%; border: 0px; border-collapse: collapse; border-spacing: 0px; border-style: none;">
+                <tr>
+                <td colspan="6" style="border: 0px; width: 240px;">
+                <input id="piezatopcar" type="hidden" value="0"/>
+                <button class="btn btn-primary start" ID="btntopcar" value="0" Style="width: 100%; height: 60px; border-radius: 90% 90% 0% 0%; "
+                @click="DienteCaries('btntopcar')">
+                Vestibular
+                </button>
+                </td>
+                </tr>
+                <tr>
+                <td colspan="2" style="border: 0px; width: 80px;">
+                <input id="piezaleftCar" type="hidden" value="0"/>
+                <button class="btn btn-primary start" ID="btnleftCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btnleftCar')">Distal</button>
+                </td>
+                <td colspan="2" style="border: 0px; width: 80px;">
+                <input id="piezacenterCar" type="hidden" value="0"/>
+                <canvas id="cvhallazgo" width="150" height="200" style="position: absolute;margin-top: -50px;    margin-left: -40px;">Su navegador no soporta canvas :( </canvas>
+                <button class="btn btn-primary start" ID="btncenterCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btncenterCar')">Oclusal</button>
+                </td>
+                <td colspan="2" style="border: 0px; width: 80px;">
+                <input id="piezarigthCar" type="hidden" value="0"/>
+                <button class="btn btn-primary start" ID="btnrigthCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btnrigthCar')">Mesial</button>
+                </td>
+                </tr>
+                <tr>
+                <td colspan="6" style="border: 0px; width: 240px;">
+                <input id="piezabotCar" type="hidden" value="0"/>
+                <button class="btn btn-primary start" ID="btnbotCar" value="0" Style="width: 100%; height: 60px; border-radius: 0% 0% 90% 90%;" @click="DienteCaries('btnbotCar')">Palatino</button>
+                </td>
+                </tr>
+                </table>
+            </Col>
+            <Col></Col>
+        </Row>
+        <Row>
+            <Col>
+                <button type="submit" class="btn" @click="agregarLista(route.params.idOdontograma)">
+                <span style="color:white">Agregar a la lista</span>
+                </button>
+                 <button type="submit" class="btn" @click="VerFormato()">
+                <span style="color:white">Ver formato</span>
+                </button>
+            </Col>
+        </Row>
+        <Row>
+            <Col>
+                <Registro />
+            </Col>
+        </Row>
+                 <Row>
+            <Col>
+                <h4>Receta</h4>
+                <textarea id="inputReceta" class="form-control" rows="4"></textarea>
+            </Col>
+        </Row>
+    </Col>
+    <Col>
+        <Row>
+            <Col>
+            <canvas id="myCanvas" width="500" height="250" style="border: 0; left:0px; top:0px;"></canvas>
+            </Col>
+        </Row>
+        <Row>
+            <Col>
+                <h4>Especficaciones</h4>
+                <textarea id="inputDescription" class="form-control" rows="4"></textarea>
+            </Col>
+        </Row>
+        <Row>
+            <Col>
+                <h4>Observaciones</h4>
+                <textarea id="inputObservacion" class="form-control" rows="4"></textarea>
+            </Col>
+        </Row>
+    </Col>
 </Row>
 
-<div class="row">
-    <input id="tipoReg" type="hidden" value="0"/>
-    <div class="row">
-        <div class="col-6">
-                <div class="col-4"><h4>Hallazgo:</h4></div>
-                <div class="col-8"><select class="form-control" id="comboHallazgo" @change="ChangeHallazgo($event)" >
-                    <option value="caries" selected="selected">Lesión de caries dental</option>
-                    <option value="extraccion">Extracción</option>
-                    <option value="ausente">Ausente</option>
-                    <option value="fractura">Fractura</option>
-                    <option value="fosas">Fosas y fisuras profundas</option>
-                    </select></div>
-        </div>
-        <div class="col-6">
-                <div class="col-4"><h4>Pieza:</h4></div>
-                <div class="col-8"> <select class="form-control" id="comboPieza">
-                    <option selected>":::Seleccione Pieza:::</option>
-                    <option value="1.1" selected>1.1</option>
-                    <option value="1.2">1.2</option>
-                    <option value="1.3">1.3</option>
-                    <option value="1.4">1.4</option>
-                    <option value="1.5">1.5</option>
-                    <option value="1.6">1.6</option>
-                    <option value="1.7">1.7</option>
-                    <option value="1.8">1.8</option>
-                    <option value="2.1">2.1</option>
-                    <option value="2.2">2.2</option>
-                    <option value="2.3">2.3</option>
-                    <option value="2.4">2.4</option>
-                    <option value="2.5">2.5</option>
-                    <option value="2.6">2.6</option>
-                    <option value="2.7">2.7</option>
-                    <option value="2.8">2.8</option>
-                    <option value="3.1">3.1</option>
-                    <option value="3.2">3.2</option>
-                    <option value="3.3">3.3</option>
-                    <option value="3.4">3.4</option>
-                    <option value="3.5">3.5</option>
-                    <option value="3.6">3.6</option>
-                    <option value="3.7">3.7</option>
-                    <option value="3.8">3.8</option>
-                    <option value="4.1">4.1</option>
-                    <option value="4.2">4.2</option>
-                    <option value="4.3">4.3</option>
-                    <option value="4.4">4.4</option>
-                    <option value="4.5">4.5</option>
-                    <option value="4.6">4.6</option>
-                    <option value="4.7">4.7</option>
-                    <option value="4.8">4.8</option>
-                    <option value="5.1">5.1</option>
-                    <option value="5.2">5.2</option>
-                    <option value="5.3">5.3</option>
-                    <option value="5.4">5.4</option>
-                    <option value="5.5">5.5</option>
-                    <option value="6.1">6.1</option>
-                    <option value="6.2">6.2</option>
-                    <option value="6.3">6.3</option>
-                    <option value="6.4">6.4</option>
-                    <option value="6.5">6.5</option>
-                    <option value="7.1">7.1</option>
-                    <option value="7.2">7.2</option>
-                    <option value="7.3">7.3</option>
-                    <option value="7.4">7.4</option>
-                    <option value="7.5">7.5</option>
-                    <option value="8.1">8.1</option>
-                    <option value="8.2">8.2</option>
-                    <option value="8.3">8.3</option>
-                    <option value="8.4">8.4</option>
-                    <option value="8.5">8.5</option>
-                </select></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-3">
-
-        </div>
-        <div class="col-3" style="text-align:center">
-            <table border="0" style="width: 100%; border: 0px; border-collapse: collapse; border-spacing: 0px; border-style: none;">
-            <tr>
-            <td colspan="6" style="border: 0px; width: 240px;">
-            <input id="piezatopcar" type="hidden" value="0"/>
-            <button class="btn btn-primary start" ID="btntopcar" value="0" Style="width: 100%; height: 60px; border-radius: 90% 90% 0% 0%; "
-            @click="DienteCaries('btntopcar')">
-            Vestibular
-            </button>
-            </td>
-            </tr>
-            <tr>
-            <td colspan="2" style="border: 0px; width: 80px;">
-            <input id="piezaleftCar" type="hidden" value="0"/>
-            <button class="btn btn-primary start" ID="btnleftCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btnleftCar')">Distal</button>
-            </td>
-            <td colspan="2" style="border: 0px; width: 80px;">
-            <input id="piezacenterCar" type="hidden" value="0"/>
-                <canvas id="cvhallazgo" width="150" height="200" style="position: absolute;margin-top: -50px;    margin-left: -40px;">Su navegador no soporta canvas :( </canvas>
-            <button class="btn btn-primary start" ID="btncenterCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btncenterCar')">Oclusal</button>
-            </td>
-            <td colspan="2" style="border: 0px; width: 80px;">
-            <input id="piezarigthCar" type="hidden" value="0"/>
-            <button class="btn btn-primary start" ID="btnrigthCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btnrigthCar')">Mesial</button>
-            </td>
-            </tr>
-            <tr>
-            <td colspan="6" style="border: 0px; width: 240px;">
-            <input id="piezabotCar" type="hidden" value="0"/>
-            <button class="btn btn-primary start" ID="btnbotCar" value="0" Style="width: 100%; height: 60px; border-radius: 0% 0% 90% 90%;" @click="DienteCaries('btnbotCar')">Palatino</button>
-            </td>
-            </tr>
-            </table>
-        </div>
-    </div>
-        <Row>
-        <Col>
-            <button type="submit" class="btn" @click="agregarLista(route.params.idOdontograma)">
-                <span style="color:white">Agregar a la lista</span>
-            </button>
-        </Col>
-    </Row>
-    <div class="row">
-        <div class="col-12">
-            <Registro />
-        </div>
-    </div>
-</div>
 </template>
 
 <style>
@@ -332,5 +355,16 @@ onMounted (()=>{
   border-bottom-right-radius: 0.3rem;
   border-bottom-left-radius: 0.3rem;
 }
-
+      #myCanvas {
+        border: 1px solid #9C9898;
+      }
+      #myCanvas2 {
+        border: 1px solid #9C9898;
+      }
+      #myCanvas3 {
+        border: 1px solid #9C9898;
+      }
+      #myCanvas4 {
+        border: 1px solid #9C9898;
+      }
 </style>
