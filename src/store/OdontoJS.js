@@ -93,8 +93,8 @@ export function limpiarCaries() {
     return false;
 }
 
-export function VerFormato() {
-    
+export function VerFormato(registro) {
+    console.log(registro)
      var canvas = document.getElementById('myCanvas');
      var context = canvas.getContext('2d');
      context.font = '8pt Calibri';
@@ -109,7 +109,7 @@ export function VerFormato() {
      var arr = ['18', '17','16','15','14','13','12','11','21','22','23','24','25','26','27','28'];
      arr.forEach(function(entry) {
         iniciar_x=iniciar_x+28;    
-        dibuja_contorno(context, iniciar_x, 20, medida, entry);
+        dibuja_contorno(context, iniciar_x, 20, medida, entry,registro);
         context.fillText(entry, iniciar_x + 13, 15);
       }, this);
       iniciar_x=0;
@@ -117,7 +117,7 @@ export function VerFormato() {
       arr.forEach(function(entry) {
          iniciar_x=iniciar_x+28; 
          if(entry !="1")   {
-         dibuja_contorno(context, iniciar_x, 60, medida, entry);
+         dibuja_contorno(context, iniciar_x, 60, medida, entry,registro);
          context.fillText(entry, iniciar_x + 13, 56);
          }
        }, this);
@@ -126,7 +126,7 @@ export function VerFormato() {
       arr.forEach(function(entry) {
          iniciar_x=iniciar_x+28; 
          if(entry !="1")   {
-         dibuja_contorno(context, iniciar_x, 100, medida,entry);
+         dibuja_contorno(context, iniciar_x, 100, medida,entry,registro);
          context.fillText(entry, iniciar_x + 13, 135);
          }
        }, this);
@@ -135,13 +135,13 @@ export function VerFormato() {
        arr.forEach(function(entry) {
           iniciar_x=iniciar_x+28; 
           if(entry !="1")   {
-          dibuja_contorno(context, iniciar_x, 140, medida, entry);
+          dibuja_contorno(context, iniciar_x, 140, medida, entry,registro);
           context.fillText(entry, iniciar_x + 13, 185);
           }
         }, this);
 }
 
-function dibuja_contorno(context, inicio_x, inicio_y, med, pieza){
+function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro){
     var ctx = context;
     // Definiendo puntos de dibujo
     var cua = med/4;
@@ -187,28 +187,39 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza){
         ctx.moveTo(inicio_x,inicio_y);
         ctx.lineTo(cua+inicio_x,cua+inicio_y);
         ctx.lineTo(cua+inicio_x,ter+inicio_y);
-        ctx.lineTo(inicio_x,med+inicio_y);
+        ctx.lineTo(inicio_x,med+inicio_y);        
         ctx.closePath();
         ctx.stroke();
     }
-    marcar_extraccion(ctx, inicio_x, med,inicio_y,pieza);
+    registro.forEach(element => {
+        if(element.diente==pieza){            
+        
+        if (element.hallazgo=="extraccion"){
+            marcar_linea(ctx, inicio_x, med,inicio_y,"red","");
+        }
+        else if (element.hallazgo=="ausente"){
+            marcar_linea(ctx, inicio_x, med,inicio_y,"blue","");
+        }
+        else if (element.hallazgo=="fractura"){
+            marcar_linea(ctx, inicio_x, med,inicio_y,"red","fractura");
+        }
+    }
+    });
     
 }
- // Funcion para sombrear diente completo
- function marcar_extraccion(contexto, inicio_x,medida,inicio_y,pieza){
-    //registro.forEach(element => {
-       //if(element.diente==pieza) {
-            var ctx = contexto;
+ // Funcion para marcar diente con (extraccion,ausente,fractura)
+ function marcar_linea(contexto, inicio_x,medida,inicio_y,color, tipo){
+    var ctx = contexto;
     var med = medida;
     ctx.beginPath();
     ctx.lineWidth = 3;
+    ctx.strokeStyle = color;
     ctx.moveTo(inicio_x,inicio_y);
     ctx.lineTo(inicio_x+23,inicio_y+23);
-    ctx.moveTo(inicio_x+23,inicio_y);
-    ctx.lineTo(inicio_x,inicio_y+23);
+    if(tipo !="fractura"){
+        ctx.moveTo(inicio_x+23,inicio_y);
+        ctx.lineTo(inicio_x,inicio_y+23);
+    } 
     ctx.stroke();
-    ctx.lineWidth = 1;  
-      // } 
-     //});        
- 
+    ctx.lineWidth = 1;     
 }

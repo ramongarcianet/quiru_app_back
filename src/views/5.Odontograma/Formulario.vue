@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, ref} from 'vue'
+import {onMounted, ref,watch} from 'vue'
 import {diagnostico,tratamiento, procesar, limpiar, agregarLista} from '../../store/odontograma'
 import {DienteCaries,DienteAusente,ChangeHallazgo,DienteFracturado, VerFormato} from '../../store/OdontoJS'
 import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar, obtenerTodoDiccionario, obtenerTodoPieza,obtenerTodoHallazgo,obtenerTodoCaries} from '../../store/odonto'
@@ -12,17 +12,19 @@ const listaPieza = obtenerTodoPieza()
 const listaHallazgo= obtenerTodoHallazgo()
 const listaCaries = obtenerTodoCaries()
 onMounted (()=>{
-       // var divNuevo = document.getElementById('divNuevo');
-        //divNuevo.style.display = 'none';
+
         var headerVozSmall = document.getElementById('headerVozSmall');
-        //headerVozSmall.style.display = 'none';
         var modalOdongramaDuplicado = document.getElementById('modalOdongramaDuplicado');
-        //modalOdongramaDuplicado.style.display = 'none';
-        document.getElementById("btnEscuchando").hidden = true;//stop
+        document.getElementById("btnEscuchando").hidden = true;
         document.getElementById("btnActivar").hidden = false;
 
 })
-  
+  watch( 
+  ()=> registro.value, 
+  ()=> {
+    VerFormato(registro.value);  
+  }
+)
 </script>
 
 <template>
@@ -168,9 +170,6 @@ onMounted (()=>{
             <Col>
                 <button type="submit" class="btn" @click="agregarLista(route.params.idOdontograma)">
                 <span style="color:white">Agregar a la lista</span>
-                </button>
-                 <button type="submit" class="btn" @click="VerFormato()">
-                <span style="color:white">Ver formato</span>
                 </button>
             </Col>
         </Row>
