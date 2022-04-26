@@ -79,7 +79,7 @@ export function DienteCaries(value) {
         piezabotCar.value="1";
         stle=stle +"border-radius: 0% 0% 90% 90%;";
     }
-    _control.style = stle +clor;  
+    _control.style = stle +clor;
     return false;
 }
 
@@ -90,6 +90,11 @@ export function limpiarCaries() {
     document.getElementById("btncenterCar").style=stle;
     document.getElementById("btnrigthCar").style=stle;
     document.getElementById("btnbotCar").style=stle + " border-radius: 0% 0% 90% 90%;";
+    piezaleftCar.value="0";
+    piezacenterCar.value="0";
+    piezarigthCar.value="0";
+    piezatopcar.value="0";
+    piezabotCar.value="0";
     return false;
 }
 
@@ -115,7 +120,7 @@ export function VerFormato(registro) {
       iniciar_x=0;
       arr = ['1', '1','1','55','54','53','52','51','61','62','63','64','65','1','1','1'];
       arr.forEach(function(entry) {
-         iniciar_x=iniciar_x+28; 
+         iniciar_x=iniciar_x+28;
          if(entry !="1")   {
          dibuja_contorno(context, iniciar_x, 60, medida, entry,registro);
          context.fillText(entry, iniciar_x + 13, 56);
@@ -124,7 +129,7 @@ export function VerFormato(registro) {
        iniciar_x=0;
       arr = ['1', '1','1','85','84','83','82','81','71','72','73','74','75','1','1','1'];
       arr.forEach(function(entry) {
-         iniciar_x=iniciar_x+28; 
+         iniciar_x=iniciar_x+28;
          if(entry !="1")   {
          dibuja_contorno(context, iniciar_x, 100, medida,entry,registro);
          context.fillText(entry, iniciar_x + 13, 135);
@@ -133,7 +138,7 @@ export function VerFormato(registro) {
        iniciar_x=0;
        arr = ['48', '47','46','45','44','43','42','41','31','32','33','34','35','36','37','38'];
        arr.forEach(function(entry) {
-          iniciar_x=iniciar_x+28; 
+          iniciar_x=iniciar_x+28;
           if(entry !="1")   {
           dibuja_contorno(context, iniciar_x, 140, medida, entry,registro);
           context.fillText(entry, iniciar_x + 13, 185);
