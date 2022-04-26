@@ -1,8 +1,9 @@
 import { ref } from 'vue';
 import { limpiarCaries, DienteCaries, DienteAusente, DienteFracturado, clearcanvas } from "./OdontoJS"
 import { registro, listaDiccionario, listaPieza, listaHallazgo, listaCaries, guardar, eliminar } from "./odonto.js"
-
-var isSpeech = false;
+import router from '../config/router'
+const {push} = router
+const isSpeech  = ref(false)
 
 //--ini speech recognition
 if (annyang) {
@@ -11,7 +12,7 @@ if (annyang) {
         'hola': activarVoz
     }
     annyang.addCallback('result', function (frase) {
-        if (isSpeech) {
+        if (isSpeech.value) {
         //--Buscar palabra mas correcta del dictadado
         const comandoTemp = buscarPalabraCorrecta(frase);
         let comando = comandoTemp;
@@ -19,7 +20,7 @@ if (annyang) {
             activarVoz();
             return;
         }*/
-        //if (isSpeech) {
+        //if (isSpeech.value) {
             if (comando != '') {
                 comando = comandoTemp.replace(/\s/g, '/');
                 const comandoCompleto = comando.split('/')
@@ -34,6 +35,9 @@ if (annyang) {
                 }
                 if (comandoCompleto[0] === 'agregar') {
                     agregarLista('voz');
+                }
+                if (comandoCompleto[0] === 'volver') {
+                    volver();
                 }
                 if (comandoCompleto[0] === 'hallazgo') {
                     limpiarCaries()
@@ -65,20 +69,14 @@ if (annyang) {
 }
 //--fin speech recognition
 function activarVoz() {
-    isSpeech = true;//start
-    btnActivar.style = "visibility: hidden;";
-    btnEscuchando.style = "visibility:visible;";
+    isSpeech.value = true;//start
 }
-
 function detenerVoz() {
-    isSpeech = false;//stop
-    btnActivar.style = "visibility: visible;";
-    btnEscuchando.style = "visibility:hidden;";
+    isSpeech.value = false;//stop
 }
 function diagnostico(param) {
-    if (isSpeech || (param === 'manual')) {
+    if (isSpeech.value || (param === 'manual')) {
         headerVoz.style = "visibility: hidden;";
-        //divNuevo.style = "visibility: visible;";
         tipoReg.value = "0";
         var _tituloTratamiento = document.getElementById('tituloTratamiento');
         _tituloTratamiento.innerText = 'Registro de Diagnóstico';
@@ -88,9 +86,8 @@ function diagnostico(param) {
 }
 
 function tratamiento(param) {
-    if (isSpeech || (param === 'manual')) {
+    if (isSpeech.value || (param === 'manual')) {
         headerVoz.style = "visibility: hidden;";
-        //divNuevo.style = "visibility: visible;";
         tipoReg.value = "1";
         var _tituloTratamiento = document.getElementById('tituloTratamiento');
         _tituloTratamiento.innerText = 'Registro de Tratamiento';
@@ -134,14 +131,10 @@ function seleccionarHallazgo(tipoHallazgo) {
     }
 }
 function procesar() {
-    if (isSpeech) {
-        btnActivar.style = "visibility: visible;";
-        btnEscuchando.style = "visibility:hidden;";
-        isSpeech = false; //stop
+    if (isSpeech.value) {
+        isSpeech.value = false; //stop
     } else {
-        btnActivar.style = "visibility: hidden;";
-        btnEscuchando.style = "visibility:visible;";
-        isSpeech = true; //start
+        isSpeech.value = true; //start
     }
 }
 function pintarDiente(posicion) {
@@ -160,6 +153,9 @@ function pintarDiente(posicion) {
 function eliminarDiente(pieza) {
     const idDiente = registro.value.find(item => item.diente === pieza)?.id;
     eliminar(idDiente)
+}
+function volver(){
+    push({name:'odontograma'})
 }
 function buscarPalabraCorrecta(arrayFrase) {
     let listDiccionario = listaDiccionario.value;
@@ -267,11 +263,14 @@ function buscarPalabraCorrecta(arrayFrase) {
             return ''
         }
 }
+
 export {
     diagnostico,
     tratamiento,
     procesar,
     limpiar,
     agregarLista,
-    eliminarDiente
+    eliminarDiente,
+    volver,
+    isSpeech
 }

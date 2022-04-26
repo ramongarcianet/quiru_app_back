@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, ref} from 'vue'
-import {diagnostico,tratamiento, procesar, limpiar, agregarLista} from '../../store/odontograma'
+import {diagnostico,tratamiento, procesar, limpiar, agregarLista,isSpeech} from '../../store/odontograma'
 import {DienteCaries,DienteAusente,ChangeHallazgo,DienteFracturado, VerFormato} from '../../store/OdontoJS'
 import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar, obtenerTodoDiccionario, obtenerTodoPieza,obtenerTodoHallazgo,obtenerTodoCaries} from '../../store/odonto'
 import { useRoute } from 'vue-router';
@@ -12,17 +12,10 @@ const listaPieza = obtenerTodoPieza()
 const listaHallazgo= obtenerTodoHallazgo()
 const listaCaries = obtenerTodoCaries()
 onMounted (()=>{
-       // var divNuevo = document.getElementById('divNuevo');
-        //divNuevo.style.display = 'none';
         var headerVozSmall = document.getElementById('headerVozSmall');
-        //headerVozSmall.style.display = 'none';
         var modalOdongramaDuplicado = document.getElementById('modalOdongramaDuplicado');
-        //modalOdongramaDuplicado.style.display = 'none';
-        document.getElementById("btnEscuchando").hidden = true;//stop
-        document.getElementById("btnActivar").hidden = false;
-
 })
-  
+
 </script>
 
 <template>
@@ -30,13 +23,13 @@ onMounted (()=>{
     <Col>
         <div class="col-sm-12 col-md-12 col-lg-12" style="text-align:center;">
 
-             <button type="submit" class="NotpulsingButton" style="visibility:visible;" id="btnActivar" @click="procesar()" >
+             <button v-if='!isSpeech' type="submit" class="NotpulsingButton" style="visibility:visible;" id="btnActivar" @click="procesar()" >
                 <i class="fa fa-microphone" ></i>
                 <p style="color: #bb0b7c; font-weight:bold; font-size:20px; font-family:Calibri; position:relative; margin-top:-22px;">
                     QUIRU
                 </p>
             </button>
-            <button type="submit" class="pulsingButton" style="visibility:hidden;" id="btnEscuchando" @click="procesar()" hidden="hidden">
+            <button v-if='isSpeech' type="submit" class="pulsingButton" style="visibility:visible;" id="btnEscuchando" @click="procesar()">
                 <div class="pulse-ring">
                     <svg width="60" height="60" viewBox="40 0 150 300">
                         <polyline stroke-linejoin="round" points="50,150 125,50 200,150" stroke="white" stroke-width="25" fill="none"></polyline>
