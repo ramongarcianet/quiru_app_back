@@ -1,9 +1,9 @@
 import { ref } from 'vue';
-import { limpiarCaries, DienteCaries, DienteAusente, DienteFracturado, clearcanvas } from "./OdontoJS"
+import { limpiarCaries, DienteCaries, DienteAusente, DienteFracturado, clearcanvas,VerFormato } from "./OdontoJS"
 import { registro, listaDiccionario, listaPieza, listaHallazgo, listaCaries, guardar, eliminar } from "./odonto.js"
 import router from '../config/router'
-const {push} = router
-const isSpeech  = ref(false)
+const {push} = router;
+const isSpeech  = ref(false);
 
 //--ini speech recognition
 if (annyang) {
@@ -35,6 +35,9 @@ if (annyang) {
                 }
                 if (comandoCompleto[0] === 'agregar') {
                     agregarLista('voz');
+                }
+                if (comandoCompleto[0] === 'formato') {
+                    verFormato();
                 }
                 if (comandoCompleto[0] === 'volver') {
                     volver();
@@ -105,6 +108,11 @@ function limpiar() {
     clearcanvas("cvhallazgo");
 }
 function agregarLista(param) {
+    let idOdontograma;
+    if (param ==='voz'){
+     idOdontograma = router.currentRoute.value.params.idOdontograma;
+     param = idOdontograma;
+    }
     let hallazgo = document.getElementById('comboHallazgo').value;
     let pieza = document.getElementById('comboPieza').value;
     const existeDiente = registro.value.find(item => item.diente === pieza &&  item.hallazgo === hallazgo)?.id
@@ -112,6 +120,9 @@ function agregarLista(param) {
         guardar(param);
         limpiar();
     }
+}
+function verFormato(){
+    VerFormato();
 }
 function seleccionarHallazgo(tipoHallazgo) {
     let comboHallazgo = document.getElementById('comboHallazgo');

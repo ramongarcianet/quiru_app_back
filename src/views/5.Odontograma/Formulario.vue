@@ -25,9 +25,9 @@ onMounted (()=>{
 
              <button v-if='!isSpeech' type="submit" class="NotpulsingButton" style="visibility:visible;" id="btnActivar" @click="procesar()" >
                 <i class="fa fa-microphone" ></i>
-                <p style="color: #bb0b7c; font-weight:bold; font-size:20px; font-family:Calibri; position:relative; margin-top:-22px;">
+               <!--  <p style="color: #bb0b7c; font-weight:bold; font-size:20px; font-family:Calibri; position:relative; margin-top:-22px;">
                     QUIRU
-                </p>
+                </p> -->
             </button>
             <button v-if='isSpeech' type="submit" class="pulsingButton" style="visibility:visible;" id="btnEscuchando" @click="procesar()">
                 <div class="pulse-ring">
@@ -37,9 +37,9 @@ onMounted (()=>{
                     </svg>
                 </div>
                 <i class="fa fa-microphone" ></i>
-                <p style="color: #bb0b7c; font-weight:bold; font-size:20px; font-family:Calibri; position:absolute; margin-top:-22px;">
+               <!--  <p style="color: #bb0b7c; font-weight:bold; font-size:20px; font-family:Calibri; position:absolute; margin-top:-22px;">
                     Escuchando
-                </p>
+                </p> -->
             </button>
         </div>
     </Col>
