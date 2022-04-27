@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, ref,watch} from 'vue'
-import {diagnostico,tratamiento, procesar, limpiar, agregarLista,isSpeech} from '../../store/odontograma'
+import {diagnostico,tratamiento, procesar, limpiar, agregarLista,isSpeech,terminar} from '../../store/odontograma'
 import {DienteCaries,DienteAusente,ChangeHallazgo,DienteFracturado, VerFormato} from '../../store/OdontoJS'
 import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar, obtenerTodoDiccionario, obtenerTodoPieza,obtenerTodoHallazgo,obtenerTodoCaries} from '../../store/odonto'
 import { useRoute } from 'vue-router';
@@ -12,12 +12,15 @@ const listaPieza = obtenerTodoPieza()
 const listaHallazgo= obtenerTodoHallazgo()
 const listaCaries = obtenerTodoCaries()
 
-  watch( 
-  ()=> registro.value, 
+  watch(
+  ()=> registro.value,
   ()=> {
-    VerFormato(registro.value);  
+    VerFormato(registro.value);
   }
 )
+onMounted(() => {
+    terminar();
+  })
 </script>
 
 <template>

@@ -1,9 +1,13 @@
 import { ref } from 'vue';
-import { limpiarCaries, DienteCaries, DienteAusente, DienteFracturado, clearcanvas,VerFormato } from "./OdontoJS"
+import { limpiarCaries, DienteCaries, DienteAusente, DienteFracturado, clearcanvas, VerFormato } from "./OdontoJS"
 import { registro, listaDiccionario, listaPieza, listaHallazgo, listaCaries, guardar, eliminar } from "./odonto.js"
 import router from '../config/router'
-const {push} = router;
-const isSpeech  = ref(false);
+const { push } = router;
+const isSpeech = ref(false);
+let recetaTemp = '';
+let especificacionesTemp = '';
+let observacionesTemp = '';
+
 
 //--ini speech recognition
 if (annyang) {
@@ -13,25 +17,40 @@ if (annyang) {
     }
     annyang.addCallback('result', function (frase) {
         if (isSpeech.value) {
-        //--Buscar palabra mas correcta del dictadado
-        const comandoTemp = buscarPalabraCorrecta(frase);
-        let comando = comandoTemp;
-       /* if (comando === 'hola') {
-            activarVoz();
-            return;
-        }*/
-        //if (isSpeech.value) {
+            //---insertar texto en inputs
+            let textoDictado = frase[0];
+            let existeEnDiciionario = buscarDiccionario(textoDictado);
+            if (existeEnDiciionario === 0){
+                let inputReceta = document.getElementById('inputReceta');
+                if (inputReceta === document.activeElement) {
+                    inputReceta.value = recetaTemp+ ' '+ textoDictado;
+                    recetaTemp = inputReceta.value;
+                }
+                let inputDescription = document.getElementById('inputDescription');
+                if (inputDescription === document.activeElement) {
+                    inputDescription.value = especificacionesTemp+ ' '+ textoDictado;
+                    especificacionesTemp = inputDescription.value;
+                }
+                let inputObservacion = document.getElementById('inputObservacion');
+                if (inputObservacion === document.activeElement) {
+                    inputObservacion.value = observacionesTemp+ ' '+ textoDictado;
+                    observacionesTemp = inputObservacion.value;
+                }
+                return;
+            }
+            //--Buscar palabra mas correcta del dictada
+            const comandoTemp = buscarPalabraCorrecta(frase);
+            let comando = comandoTemp;
+            /* if (comando === 'hola') {
+                 activarVoz();
+                 return;
+             }*/
+            //if (isSpeech.value) {
             if (comando != '') {
                 comando = comandoTemp.replace(/\s/g, '/');
                 const comandoCompleto = comando.split('/')
                 if (comandoCompleto[0] === 'detener') {
                     detenerVoz();
-                }
-                if (comandoCompleto[0] === 'diagnóstico') {
-                    diagnostico('voz');
-                }
-                if (comandoCompleto[0] === 'tratamiento') {
-                    tratamiento('voz');
                 }
                 if (comandoCompleto[0] === 'agregar') {
                     agregarLista('voz');
@@ -62,8 +81,20 @@ if (annyang) {
                         eliminarDiente(comandoCompleto[1])
                     }
                 }
+                if (comandoCompleto[0] === 'receta') {
+                    receta();
+                }
+                if (comandoCompleto[0] === 'especificaciones') {
+                    especificaciones();
+                }
+                if (comandoCompleto[0] === 'observaciones') {
+                    observaciones();
+                }
+                if (comandoCompleto[0] === 'terminar') {
+                    terminar();
+                }
             }
-        //}
+            //}
 
         }
     });
@@ -77,6 +108,7 @@ function activarVoz() {
 function detenerVoz() {
     isSpeech.value = false;//stop
 }
+
 function diagnostico(param) {
     if (isSpeech.value || (param === 'manual')) {
         headerVoz.style = "visibility: hidden;";
@@ -109,19 +141,19 @@ function limpiar() {
 }
 function agregarLista(param) {
     let idOdontograma;
-    if (param ==='voz'){
-     idOdontograma = router.currentRoute.value.params.idOdontograma;
-     param = idOdontograma;
+    if (param === 'voz') {
+        idOdontograma = router.currentRoute.value.params.idOdontograma;
+        param = idOdontograma;
     }
     let hallazgo = document.getElementById('comboHallazgo').value;
     let pieza = document.getElementById('comboPieza').value;
-    const existeDiente = registro.value.find(item => item.diente === pieza &&  item.hallazgo === hallazgo)?.id
-    if (existeDiente == undefined){
+    const existeDiente = registro.value.find(item => item.diente === pieza && item.hallazgo === hallazgo)?.id
+    if (existeDiente == undefined) {
         guardar(param);
         limpiar();
     }
 }
-function verFormato(){
+function verFormato() {
     VerFormato();
 }
 function seleccionarHallazgo(tipoHallazgo) {
@@ -165,8 +197,26 @@ function eliminarDiente(pieza) {
     const idDiente = registro.value.find(item => item.diente === pieza)?.id;
     eliminar(idDiente)
 }
-function volver(){
-    push({name:'odontograma'})
+function volver() {
+    push({ name: 'odontograma' })
+}
+function receta() {
+    document.getElementById("inputReceta").focus();
+}
+function especificaciones() {
+    document.getElementById("inputDescription").focus();
+}
+function observaciones() {
+    document.getElementById("inputObservacion").focus();
+}
+function terminar(){
+    document.getElementById("inputReceta").blur();
+    document.getElementById("inputDescription").blur();
+    document.getElementById("inputObservacion").blur();
+    recetaTemp = '';
+    especificacionesTemp = '';
+    observacionesTemp = '';
+
 }
 function buscarPalabraCorrecta(arrayFrase) {
     let listDiccionario = listaDiccionario.value;
@@ -209,14 +259,14 @@ function buscarPalabraCorrecta(arrayFrase) {
                 //firt word
                 for (let j = 0; j < arrayFrase.length; j++) {
                     //firt word
-                    if (firstWord === ''){
+                    if (firstWord === '') {
                         palabraTemp1 = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/')[0];
                         if (item.codigo === palabraTemp1.toLowerCase()) {
                             firstWord = item.codigo;
                         }
                     }
                     //second word
-                    if (secondWord === ''){
+                    if (secondWord === '') {
                         palabraTemp2 = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/')[1];
                         palabraEncontrada = listCaries.filter((carie) => carie.codigo == palabraTemp2);
                         if (palabraEncontrada.length > 0) {
@@ -231,7 +281,7 @@ function buscarPalabraCorrecta(arrayFrase) {
             } else {//hallazgo
                 for (let j = 0; j < arrayFrase.length; j++) {
                     //firt word
-                    if (firstWord === ''){
+                    if (firstWord === '') {
                         palabraTemp1 = arrayFrase[j].trimLeft().replace(/\s/g, '/').split('/')[0];
                         if (item.codigo === palabraTemp1.toLowerCase()) {
                             firstWord = item.codigo;
@@ -274,6 +324,17 @@ function buscarPalabraCorrecta(arrayFrase) {
             return ''
         }
 }
+function buscarDiccionario(buscar) {
+    let listDiccionario = listaDiccionario.value;
+    let buscarTemp1 = buscar.trimLeft().replace(/\s/g, '/').split('/')[0].toLowerCase();
+    let buscarTemp2 = buscar.trimLeft().toLowerCase();
+    if (buscarTemp1 === 'hallazgo' || buscarTemp1==='pieza' || buscarTemp1==='borrar' || buscarTemp1==='caries') {
+        return 1;
+    } else {
+        let palabraEncontrada = listDiccionario.filter((diccionario) => diccionario.codigo == buscarTemp2);
+        return palabraEncontrada.length;
+    }
+}
 
 export {
     diagnostico,
@@ -283,5 +344,6 @@ export {
     agregarLista,
     eliminarDiente,
     volver,
+    terminar,
     isSpeech
 }
