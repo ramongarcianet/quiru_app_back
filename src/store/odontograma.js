@@ -147,7 +147,8 @@ function agregarLista(param) {
     }
     let hallazgo = document.getElementById('comboHallazgo').value;
     let pieza = document.getElementById('comboPieza').value;
-    const existeDiente = registro.value.find(item => item.diente === pieza && item.hallazgo === hallazgo)?.id
+    //const existeDiente = registro.value.find(item => item.diente === pieza && item.hallazgo === hallazgo)?.id
+    const existeDiente = registro.value.find(item => item.diente === pieza)?.id
     if (existeDiente == undefined) {
         guardar(param);
         limpiar();
