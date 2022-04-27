@@ -10,6 +10,14 @@ export function ChangeHallazgo(event) {
     else if (event.target.value=="fractura"){
         DienteFracturado("cvhallazgo", "red");
     }
+    else if (event.target.value=="caries"){
+        var tipoReg= document.getElementById("tipoReg")
+        tipoReg.value="0"
+    }
+    else if (event.target.value=="restauracion"){
+        var tipoReg= document.getElementById("tipoReg")
+        tipoReg.value="1"
+    }
     return false;
 }
 export function clearcanvas(id) {
@@ -108,22 +116,30 @@ export function VerFormato(registro) {
      var medida = 23;
      var separacion_x = 15;
      var iniciar_x = 0;
-
+     var inicio_y=0;
      var x=0;
      iniciar_x=0;
      var arr = ['18', '17','16','15','14','13','12','11','21','22','23','24','25','26','27','28'];
      arr.forEach(function(entry) {
-        iniciar_x=iniciar_x+28;    
-        dibuja_contorno(context, iniciar_x, 20, medida, entry,registro);
-        context.fillText(entry, iniciar_x + 13, 15);
+        iniciar_x=iniciar_x+28;   
+        inicio_y=75;
+        context.fillText(entry, iniciar_x + 10, 45); 
+        dibuja_contorno(context, iniciar_x, inicio_y, medida, entry,registro);
+        marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top");
+        marcar_ControlTop(context, iniciar_x-12,inicio_y-75,medida);
+        context.fillStyle = 'blue';
       }, this);
       iniciar_x=0;
       arr = ['1', '1','1','55','54','53','52','51','61','62','63','64','65','1','1','1'];
       arr.forEach(function(entry) {
          iniciar_x=iniciar_x+28;
-         if(entry !="1")   {
-         dibuja_contorno(context, iniciar_x, 60, medida, entry,registro);
-         context.fillText(entry, iniciar_x + 13, 56);
+         if(entry !="1")   {         
+            inicio_y=180;
+            context.fillText(entry, iniciar_x + 10, 150);
+            dibuja_contorno(context, iniciar_x, inicio_y, medida, entry,registro);
+            marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top");
+            marcar_ControlTop(context, iniciar_x-12,inicio_y-75,medida);
+            context.fillStyle = 'blue';
          }
        }, this);
        iniciar_x=0;
@@ -131,8 +147,12 @@ export function VerFormato(registro) {
       arr.forEach(function(entry) {
          iniciar_x=iniciar_x+28;
          if(entry !="1")   {
-         dibuja_contorno(context, iniciar_x, 100, medida,entry,registro);
-         context.fillText(entry, iniciar_x + 13, 135);
+            inicio_y=213;
+            context.fillText(entry, iniciar_x + 10, 270);
+            dibuja_contorno(context, iniciar_x, inicio_y, medida, entry,registro);
+            marcar_cabecera(context, iniciar_x, medida,inicio_y + 47,"black","bot");
+            marcar_ControlBot(context, iniciar_x-12,inicio_y+50,medida);
+            context.fillStyle = 'blue';
          }
        }, this);
        iniciar_x=0;
@@ -140,8 +160,12 @@ export function VerFormato(registro) {
        arr.forEach(function(entry) {
           iniciar_x=iniciar_x+28;
           if(entry !="1")   {
-          dibuja_contorno(context, iniciar_x, 140, medida, entry,registro);
-          context.fillText(entry, iniciar_x + 13, 185);
+            inicio_y=315;
+            context.fillText(entry, iniciar_x + 10, 372);
+            dibuja_contorno(context, iniciar_x, inicio_y, medida, entry,registro);
+            marcar_cabecera(context, iniciar_x, medida,inicio_y + 47,"black","bot");
+            marcar_ControlBot(context, iniciar_x-12,inicio_y+50,medida);
+            context.fillStyle = 'blue';       
           }
         }, this);
 }
@@ -197,22 +221,108 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro){
         ctx.stroke();
     }
     registro.forEach(element => {
-        if(element.diente==pieza){            
-        
-        if (element.hallazgo=="extraccion"){
-            marcar_linea(ctx, inicio_x, med,inicio_y,"red","");
+        if(element.diente==pieza){                 
+            if (element.hallazgo=="extraccion"){
+                marcar_linea(ctx, inicio_x, med,inicio_y,"red","");
+            }
+            else if (element.hallazgo=="ausente"){
+                marcar_linea(ctx, inicio_x, med,inicio_y,"blue","");
+            }
+            else if (element.hallazgo=="fractura"){
+                marcar_linea(ctx, inicio_x, med,inicio_y,"red","fractura");
+            }
+            else if (element.hallazgo=="caries"){
+                var piezas = element.pieza;
+                var datos = piezas.split(",");
+                var seccion=0;
+                datos.forEach(item => {
+                    if (item=="Vestibular"){
+                        seccion=1;
+                    }
+                    if (item=="Distal"){
+                        seccion=4;
+                    }
+                    if (item=="Oclusal"){
+                        seccion=5;
+                    }
+                    if (item=="Mesial"){
+                        seccion=2;
+                    }
+                    if (item=="Palatino"){
+                        seccion=3;
+                    }
+                    dibuja_seccion(ctx, pieza, seccion, "red",med,inicio_x,inicio_y)
+                }); 
+                               
+            }
+            else if (element.hallazgo=="restauracion"){
+                var piezas = element.pieza;
+                var datos = piezas.split(",");
+                var seccion=0;
+                datos.forEach(item => {
+                    if (item=="Vestibular"){
+                        seccion=1;
+                    }
+                    if (item=="Distal"){
+                        seccion=4;
+                    }
+                    if (item=="Oclusal"){
+                        seccion=5;
+                    }
+                    if (item=="Mesial"){
+                        seccion=2;
+                    }
+                    if (item=="Palatino"){
+                        seccion=3;
+                    }
+                    dibuja_seccion(ctx, pieza, seccion, "blue",med,inicio_x,inicio_y)
+                }); 
+            }
         }
-        else if (element.hallazgo=="ausente"){
-            marcar_linea(ctx, inicio_x, med,inicio_y,"blue","");
-        }
-        else if (element.hallazgo=="fractura"){
-            marcar_linea(ctx, inicio_x, med,inicio_y,"red","fractura");
-        }
-    }
     });
-    
+    context.fillStyle = 'blue';
 }
- // Funcion para marcar diente con (extraccion,ausente,fractura)
+function marcar_cabecera(contexto, inicio_x,medida,inicio_y,color, tipo){
+    var ctx = contexto;
+    var med = medida;
+    ctx.beginPath();
+    //ctx.lineWidth = 3;
+    ctx.strokeStyle = color;
+    if(tipo=="bot")
+    {  
+        ctx.moveTo(inicio_x,inicio_y-25);
+        ctx.lineTo(inicio_x+10,inicio_y);
+        ctx.moveTo(inicio_x+23,inicio_y-25);
+        ctx.lineTo(inicio_x+10,inicio_y);  
+    }
+    else
+    {
+        ctx.moveTo(inicio_x+10,inicio_y-25);
+        ctx.lineTo(inicio_x+23,inicio_y);
+        ctx.moveTo(inicio_x+10,inicio_y-25);
+        ctx.lineTo(inicio_x,inicio_y);  
+    }
+    //ctx.moveTo(inicio_x+10,inicio_y-25);
+    //ctx.lineTo(inicio_x+23,inicio_y);
+    //ctx.moveTo(inicio_x+10,inicio_y-25);
+    //ctx.lineTo(inicio_x,inicio_y);
+    ctx.stroke();
+    ctx.lineWidth = 1;     
+}
+function marcar_ControlTop(ctx, inicio_x,inicio_y,med){
+    var cua = med/2;
+    var ter = cua*3;
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.moveTo(cua+inicio_x,cua+inicio_y);
+    ctx.lineTo(ter+inicio_x,cua+inicio_y);
+    ctx.lineTo(ter+inicio_x,ter+inicio_y);
+    ctx.lineTo(cua+inicio_x,ter+inicio_y);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = 'black';
+    ctx.stroke();  
+}
  function marcar_linea(contexto, inicio_x,medida,inicio_y,color, tipo){
     var ctx = contexto;
     var med = medida;
@@ -227,4 +337,99 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro){
     } 
     ctx.stroke();
     ctx.lineWidth = 1;     
+}
+function dibuja_seccion(contexto, num_diente, seccion, color_pas,medida,inicio_x,inicio_y){
+    var ctx = contexto;
+    var med = medida;
+    var cua = med/4;
+    var ter = cua*3;
+    var color_line = color_pas;
+    if (seccion==1){
+        if(ctx){
+            ctx.fillStyle = color_line;
+            ctx.beginPath();
+            ctx.moveTo(inicio_x,inicio_y);
+            ctx.lineTo(med+inicio_x,inicio_y);
+            ctx.lineTo(ter+inicio_x,cua+inicio_y);
+            ctx.lineTo(cua+inicio_x,cua+inicio_y);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+        }
+    }
+    /* 2da zona */
+    if (seccion==2){
+        if(ctx){
+            ctx.fillStyle = color_line;
+            ctx.beginPath();
+            ctx.moveTo(ter+inicio_x,cua+inicio_y);
+            ctx.lineTo(med+inicio_x,inicio_y);
+            ctx.lineTo(med+inicio_x,med+inicio_y);
+            ctx.lineTo(ter+inicio_x,ter+inicio_y);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+        }
+    }
+    /* 3ra zona */
+    if (seccion==3){
+        if(ctx){
+            ctx.fillStyle = color_line;
+            ctx.beginPath();
+            ctx.moveTo(cua+inicio_x,ter+inicio_y);
+            ctx.lineTo(ter+inicio_x,ter+inicio_y);
+            ctx.lineTo(med+inicio_x,med+inicio_y);
+            ctx.lineTo(inicio_x,med+inicio_y);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+        }
+    }
+    /* 4ta zona */
+    if (seccion==4){
+        if(ctx){
+            ctx.fillStyle = color_line;
+            ctx.beginPath();
+            ctx.moveTo(inicio_x,inicio_y);
+            ctx.lineTo(cua+inicio_x,cua+inicio_y);
+            ctx.lineTo(cua+inicio_x,ter+inicio_y);
+            ctx.lineTo(inicio_x,med+inicio_y);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+        }
+    }
+    /* 5ta zona(medio) */
+    if (seccion==5){
+        if(ctx){
+            ctx.fillStyle = color_line;
+            ctx.beginPath();
+            ctx.moveTo(cua+inicio_x,cua+inicio_y);
+            ctx.lineTo(ter+inicio_x,cua+inicio_y);
+            ctx.lineTo(ter+inicio_x,ter+inicio_y);
+            ctx.lineTo(cua+inicio_x,ter+inicio_y);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+        }
+    }
+}
+function marcar_ControlBot(ctx, inicio_x,inicio_y,med){
+    var cua = med/2;
+    var ter = cua*3;
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    ctx.moveTo(cua+inicio_x,cua+inicio_y);
+    ctx.lineTo(ter+inicio_x,cua+inicio_y);
+    ctx.lineTo(ter+inicio_x,ter+inicio_y);
+    ctx.lineTo(cua+inicio_x,ter+inicio_y);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = 'black';
+    ctx.stroke();  
 }

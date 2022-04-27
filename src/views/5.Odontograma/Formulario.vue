@@ -53,11 +53,11 @@ const listaCaries = obtenerTodoCaries()
             <Col>
                 <h4>Hallazgo:</h4>
                 <select class="form-control" id="comboHallazgo" @change="ChangeHallazgo($event)" >
-                <option value="caries" selected="selected">Lesión de caries dental</option>
+                <option value="caries" selected="selected">Caries</option>
                 <option value="extraccion">Extracción</option>
                 <option value="ausente">Ausente</option>
                 <option value="fractura">Fractura</option>
-                <option value="fosas">Fosas y fisuras profundas</option>
+                <option value="restauracion">Restauración</option>
                 </select>
             </Col>
             <Col></Col>
@@ -122,7 +122,9 @@ const listaCaries = obtenerTodoCaries()
             <Col></Col>
         </Row>
         <Row>
-            <Col></Col>
+            <Col>
+            <canvas id="cvhallazgo" width="150" height="200" style="">Su navegador no soporta canvas :( </canvas>
+            </Col>
             <Col>
                 <table border="0" style="width: 100%; border: 0px; border-collapse: collapse; border-spacing: 0px; border-style: none;">
                 <tr>
@@ -140,8 +142,7 @@ const listaCaries = obtenerTodoCaries()
                 <button class="btn btn-primary start" ID="btnleftCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btnleftCar')">Distal</button>
                 </td>
                 <td colspan="2" style="border: 0px; width: 80px;">
-                <input id="piezacenterCar" type="hidden" value="0"/>
-                <canvas id="cvhallazgo" width="150" height="200" style="position: absolute;margin-top: -50px;    margin-left: -40px;">Su navegador no soporta canvas :( </canvas>
+                <input id="piezacenterCar" type="hidden" value="0"/>                
                 <button class="btn btn-primary start" ID="btncenterCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btncenterCar')">Oclusal</button>
                 </td>
                 <td colspan="2" style="border: 0px; width: 80px;">
@@ -178,10 +179,17 @@ const listaCaries = obtenerTodoCaries()
             </Col>
         </Row>
     </Col>
-    <Col>
+    <Col><Row>
+            <Col>
+                <Row>
+                    <Col><h4>Odontogramas</h4></Col>
+                    <Col><h4>Fecha: ...........</h4></Col>                    
+                </Row>
+            </Col>
+        </Row>
         <Row>
             <Col>
-            <canvas id="myCanvas" width="500" height="250" style="border: 0; left:0px; top:0px;"></canvas>
+            <canvas id="myCanvas" width="500" height="400" style="border: 0; left:0px; top:0px;"></canvas>
             </Col>
         </Row>
         <Row>
