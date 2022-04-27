@@ -41,8 +41,7 @@ export function DienteAusente(id, color) {
         }
     }
             return false;
-    }
-
+}
 export function DienteFracturado(id, color) {
         var canvas = document.getElementById(id);
         if (canvas && canvas.getContext) {
@@ -58,7 +57,6 @@ export function DienteFracturado(id, color) {
         }
                 return false;
 }
-
 export function DienteCaries(value) {
     var _control = document.getElementById(value);
     var tipoReg= document.getElementById("tipoReg");
@@ -90,7 +88,6 @@ export function DienteCaries(value) {
     _control.style = stle +clor;
     return false;
 }
-
 export function limpiarCaries() {
     var stle="width: 100%; height:60px;";
     document.getElementById("btntopcar").style =stle + "border-radius: 90% 90% 0% 0%;";
@@ -105,7 +102,6 @@ export function limpiarCaries() {
     piezabotCar.value="0";
     return false;
 }
-
 export function VerFormato(registro) {
     console.log(registro)
      var canvas = document.getElementById('myCanvas');
@@ -125,8 +121,19 @@ export function VerFormato(registro) {
         inicio_y=75;
         context.fillText(entry, iniciar_x + 10, 45); 
         dibuja_contorno(context, iniciar_x, inicio_y, medida, entry,registro);
-        marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top");
         marcar_ControlTop(context, iniciar_x-12,inicio_y-75,medida);
+        if(entry=="18" ||entry=="17" || entry=="16" || entry=="28" ||entry=="27" || entry=="26"){
+            marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top_tri"); 
+        }
+        else if(entry=="13" ||entry=="12" || entry=="11" || entry=="21" ||entry=="22" || entry=="23"){
+            marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top");
+        }
+        else if(entry=="15" || entry=="25"){
+            marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top_one"); 
+        }
+        else if(entry=="14" || entry=="24"){
+            marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top_duo"); 
+        }
         context.fillStyle = 'blue';
       }, this);
       iniciar_x=0;
@@ -137,7 +144,13 @@ export function VerFormato(registro) {
             inicio_y=180;
             context.fillText(entry, iniciar_x + 10, 150);
             dibuja_contorno(context, iniciar_x, inicio_y, medida, entry,registro);
-            marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top");
+            if(entry=="55" ||entry=="54" || entry=="28" ||entry=="64" || entry=="65"){
+                marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top_tri"); 
+            }
+            else{
+                
+                marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top");
+            }            
             marcar_ControlTop(context, iniciar_x-12,inicio_y-75,medida);
             context.fillStyle = 'blue';
          }
@@ -150,7 +163,14 @@ export function VerFormato(registro) {
             inicio_y=213;
             context.fillText(entry, iniciar_x + 10, 270);
             dibuja_contorno(context, iniciar_x, inicio_y, medida, entry,registro);
-            marcar_cabecera(context, iniciar_x, medida,inicio_y + 47,"black","bot");
+            
+            if(entry=="85" ||entry=="84" ||entry=="74" || entry=="75"){
+                marcar_cabecera(context, iniciar_x, medida,inicio_y+ 47,"black","bot_duo"); 
+            }
+            else{
+                
+                marcar_cabecera(context, iniciar_x, medida,inicio_y + 47,"black","bot");
+            }     
             marcar_ControlBot(context, iniciar_x-12,inicio_y+50,medida);
             context.fillStyle = 'blue';
          }
@@ -162,14 +182,23 @@ export function VerFormato(registro) {
           if(entry !="1")   {
             inicio_y=315;
             context.fillText(entry, iniciar_x + 10, 372);
-            dibuja_contorno(context, iniciar_x, inicio_y, medida, entry,registro);
-            marcar_cabecera(context, iniciar_x, medida,inicio_y + 47,"black","bot");
+            dibuja_contorno(context, iniciar_x, inicio_y, medida, entry,registro);            
+            if(entry=="48" ||entry=="47" ||entry=="46" || entry=="36" || entry=="37" || entry=="38"){
+                marcar_cabecera(context, iniciar_x, medida,inicio_y+ 47,"black","bot_duo"); 
+            }
+            else if(entry=="41" ||entry=="42" ||entry=="43" || entry=="31" || entry=="32" || entry=="33"){
+                
+                marcar_cabecera(context, iniciar_x, medida,inicio_y + 47,"black","bot");
+            } 
+            else if(entry=="44" ||entry=="45" || entry=="34" || entry=="35"){
+                
+                marcar_cabecera(context, iniciar_x, medida,inicio_y + 47,"black","bot_one");
+            } 
             marcar_ControlBot(context, iniciar_x-12,inicio_y+50,medida);
             context.fillStyle = 'blue';       
           }
         }, this);
 }
-
 function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro){
     var ctx = context;
     // Definiendo puntos de dibujo
@@ -295,17 +324,69 @@ function marcar_cabecera(contexto, inicio_x,medida,inicio_y,color, tipo){
         ctx.moveTo(inicio_x+23,inicio_y-25);
         ctx.lineTo(inicio_x+10,inicio_y);  
     }
-    else
+    else  if(tipo=="top")
     {
         ctx.moveTo(inicio_x+10,inicio_y-25);
         ctx.lineTo(inicio_x+23,inicio_y);
         ctx.moveTo(inicio_x+10,inicio_y-25);
         ctx.lineTo(inicio_x,inicio_y);  
     }
-    //ctx.moveTo(inicio_x+10,inicio_y-25);
-    //ctx.lineTo(inicio_x+23,inicio_y);
-    //ctx.moveTo(inicio_x+10,inicio_y-25);
-    //ctx.lineTo(inicio_x,inicio_y);
+    else  if(tipo=="top_one")
+    {
+        ctx.moveTo(inicio_x+10,inicio_y-25);
+        ctx.lineTo(inicio_x+17,inicio_y);
+        ctx.moveTo(inicio_x+10,inicio_y-25);
+        ctx.lineTo(inicio_x+5,inicio_y);         
+    }
+    else  if(tipo=="top_duo")
+    {
+        ctx.moveTo(inicio_x+15,inicio_y-25);
+        ctx.lineTo(inicio_x+22,inicio_y);
+        ctx.moveTo(inicio_x+15,inicio_y-25);
+        ctx.lineTo(inicio_x+12,inicio_y);
+        ctx.moveTo(inicio_x+5,inicio_y-25);
+        ctx.lineTo(inicio_x+12,inicio_y);
+        ctx.moveTo(inicio_x+5,inicio_y-25);
+        ctx.lineTo(inicio_x,inicio_y);  
+
+        
+    }
+    else  if(tipo=="top_tri")
+    {
+        ctx.moveTo(inicio_x+5,inicio_y-25);
+        ctx.lineTo(inicio_x+10,inicio_y);
+        ctx.moveTo(inicio_x+5,inicio_y-25);
+        ctx.lineTo(inicio_x,inicio_y);  
+
+        ctx.moveTo(inicio_x+20,inicio_y-25);
+        ctx.lineTo(inicio_x+23,inicio_y);
+        ctx.moveTo(inicio_x+20,inicio_y-25);
+        ctx.lineTo(inicio_x+10,inicio_y); 
+
+        ctx.moveTo(inicio_x+10,inicio_y-25);
+        ctx.lineTo(inicio_x+15,inicio_y-10);
+        ctx.moveTo(inicio_x+10,inicio_y-25);
+        ctx.lineTo(inicio_x +7,inicio_y-10); 
+    }
+    else  if(tipo=="bot_duo")
+    {
+        ctx.moveTo(inicio_x,inicio_y-25);
+        ctx.lineTo(inicio_x+5,inicio_y);
+        ctx.moveTo(inicio_x+12,inicio_y-25);
+        ctx.lineTo(inicio_x+15,inicio_y);  
+
+        ctx.moveTo(inicio_x+12,inicio_y-25);
+        ctx.lineTo(inicio_x+5,inicio_y);
+        ctx.moveTo(inicio_x+23,inicio_y-25);
+        ctx.lineTo(inicio_x+15,inicio_y);
+    }
+    else if(tipo=="bot_one")
+    {  
+        ctx.moveTo(inicio_x+5,inicio_y-25);
+        ctx.lineTo(inicio_x+10,inicio_y);
+        ctx.moveTo(inicio_x+17,inicio_y-25);
+        ctx.lineTo(inicio_x+10,inicio_y);  
+    }
     ctx.stroke();
     ctx.lineWidth = 1;     
 }
