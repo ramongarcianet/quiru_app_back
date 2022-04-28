@@ -7,7 +7,6 @@ sesion()
 
   <router-view></router-view>
 
-
 </template>
 
 <style lang="sass">
@@ -16,4 +15,7 @@ html
 body
   margin: 0
   padding: 0
+@media (max-width 575px)
+  .container
+    padding: 0
 </style>

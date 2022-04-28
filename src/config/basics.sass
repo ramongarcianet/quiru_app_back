@@ -1,11 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,800;1,400&display=swap')
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap')
+
 :root
     --color-primary: #37DFBB
+    --color-primary-tint: #18b290
+
+    --color-primary-rgb: 55, 223, 187
     --color-light: #E8FFFA
     --color-white: #ffffff
     --color-dark: #02372C
     --color-danger: red
-    --font-family: 'Raleway', sans-serif
+    --color-transparent: transparent 
+    --font-family: 'Poppins', sans-serif
     --element-height: 35px
     --element-border: 14px
     --font-size-h1: 32px
@@ -17,8 +22,12 @@
 h1, h2, h3, h4, h5, h6, p, span, button, input, textarea, li, ::after
     font-family: var(--font-family)
 
+$sizes: h1, h2, h3, h4, h5, h6
+@each $size in $sizes 
+  #{""+$size} 
+    font-size: var(--font-size-+$size)
 
-$colors: primary, light, white, dark, danger
+$colors: primary, primary-tint, light, white, dark, danger, transparent
 
 @each $color in $colors 
   .#{""+$color} 
@@ -35,3 +44,4 @@ dialog
   border: none
   top: 0
   bottom: 0
+
