@@ -1,9 +1,13 @@
 <script setup>
 import { useRouter } from "vue-router";
-import Logo from "../../../assets/logoQuiru.vue"
+import Logo from "../../../assets/logoQuiru.vue";
 
-const {push} = useRouter()
+const { push } = useRouter();
 
+const listaDeRedes = [
+  { icono: "fa-brands fa-facebook", ruta: "" },
+  { icono: "fa-brands fa-instagram", ruta: "" },
+];
 </script>
 
 <template lang="pug">
@@ -15,8 +19,12 @@ const {push} = useRouter()
             p.m-0
                 small 2022 Quiru | Trujillo - Perú
         .d-flex
-            i.fa-brands.fa-facebook.fa-2x.primary-text.me-2
-            i.fa-brands.fa-instagram.fa-2x.primary-text
+            a(v-for='{icono, ruta} of listaDeRedes'  :href='ruta' target='_blank').me-3
+                i.fa-2x.primary-text(:class='icono')
     
 </template>
 
+<style lang="sass" scoped>
+.container
+    padding-top: 7rem
+</style>

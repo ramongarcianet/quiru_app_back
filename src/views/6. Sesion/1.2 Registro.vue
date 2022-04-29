@@ -1,35 +1,30 @@
 <script setup>
-import {item, crearCuenta} from '../../store/sesion'
-
-
+import { useRouter } from "vue-router";
+import { item, crearCuenta } from "../../store/sesion";
+const { push } = useRouter();
 </script>
 
 <template lang="pug">
-div
-    <h1>Registro</h1>
 
-    Form( :onPromise='()=>crearCuenta(item)' ) 
-        label Nombre
-        input( v-model='item.nombre' )
-        label Apellido paterno
-        input( v-model='item.apellidoPaterno' )
-        label Apellido materno
-        input( v-model='item.apellidoMaterno' )
-        label Correo electrónico
-        input( v-model='item.email' type='email' )
-        label Contraseña
-        input( v-model='item.password' type='password' )
-        button.light-outlined( type='submit') Registro
-    
+<h1>Registro</h1>
+Form( :onPromise='()=>crearCuenta(item)' ) 
+    label.form-label Nombre
+    input.form-control( v-model='item.nombre' placeholder='Nombre' required)
+    label.form-label Apellidos
+    .input-group
+        input.form-control( v-model='item.apellidoPaterno' placeholder="Apellido Paterno" required)
+        input.form-control( v-model='item.apellidoMaterno' placeholder="Apellido Materno" required)
+    label.form-label Correo electrónico
+    input.form-control( v-model='item.email' type='email' placeholder='Correo' required)
+    label.form-label Contraseña
+    input.form-control( v-model='item.password' type='password' placeholder='Contraseña' required)
+    button.btn.btn-outline-light( type='submit') Registro
+    p.mt-3 Tengo una cuenta  
+        strong.pointer.light-text( type='button' @click='push({name: "iniciar-sesion"})') Iniciar sesión
 </template>
 <style lang="sass" scoped>
-div
+
+form
     display: flex
     flex-direction: column
-    width: 90%
-    max-width: 400px
-    form
-        display: flex
-        flex-direction: column
-
 </style>

@@ -1,7 +1,10 @@
 <script setup>
-import Logo from '../../../assets/logoQuiru.vue'
-const props = defineProps(['modelValue'])
-const emit = defineEmits(['update:modelValue'])
+import Logo from "../../../assets/logoQuiru.vue";
+import marketing from "../../../store/marketing";
+const props = defineProps(["modelValue"]);
+const emit = defineEmits(["update:modelValue"]);
+
+const { item, agregar } = marketing;
 </script>
 <template lang="pug">
 aside.d-flex.flex-column( :class='{active: modelValue}' )
@@ -9,11 +12,13 @@ aside.d-flex.flex-column( :class='{active: modelValue}' )
         Logo.light-text
         p.mt-4.light-text Obtén tu acceso para ser de nuestros 
             strong primeros usuarios
-        .d-flex
-            input.w-100( placeholder='Ingresa tu correo' )
-            button.light
-                i.fa-solid.fa-chevron-right.primary-text
-#background( :class='{active: modelValue}' )
+    
+        Form( :onPromise='()=>agregar(item.email)')
+            .input-group
+                input.form-control( type='email' required placeholder='Ingresa tu correo' v-model='item.email')
+                button.btn.btn-light(type='submit')
+                    i.fa-solid.fa-chevron-right.primary-text
+#background( :class='{active: modelValue}' @click='$emit("update:modelValue", false)')
 button#close.transparent( @click='$emit("update:modelValue", false)' :class='{active: modelValue}' )
     i.fa-solid.fa-times.fa-3x.light-text
 </template>
@@ -27,18 +32,18 @@ p
 aside
     position: fixed
     left: -100%
-    transition: .3s all
+    transition: .3s left
 #background
     position: fixed
     right: -100%
-    transition: .3s all
+    transition: .3s right
 #close
     cursor: pointer
     position: fixed
     right: -100%
     top: -100%
     z-index: 110
-    transition: .3s all
+    transition: .3s right
     &.active
         right: 4rem
         top: 2rem
@@ -48,29 +53,31 @@ aside.active
     top: 0
     left: 0
     height: 100%
-    width: 60% 
-    padding: 1rem 
-    clip-path: polygon(100% 0, 0% 0%, 0% 99%, 75% 100%)     
-    background: rgba( var(--color-primary-rgb), 1) 
+    width: 60%
+    padding: 1rem
+    clip-path: polygon(100% 0, 0% 0%, 0% 99%, 75% 100%)
+    background: rgba( var(--color-primary-rgb), 1)
     z-index: 100
     justify-content: center
+    transition: .3s left
     form
         width: 80%
+
 #background.active
     position: fixed
     top: 0
     left: 0
     width: 100%
     height: 100vh
-    background: rgba( var(--color-primary-rgb), 0.3) 
+    background: rgba( var(--color-primary-rgb), 0.3)
     z-index: 90
-    
+
 @media (max-width: 576px)
     #close
         &.active
             right: 1rem
             top: 1rem
-    p 
+    p
         font-size: 2em
     aside
         position: fixed
@@ -80,8 +87,7 @@ aside.active
             width: 100%
         &.active
             width: calc(100% )
-            height: calc( 100vh - 4rem) 
+            height: calc( 100vh - 4rem)
             clip-path: polygon(100% 0, 0% 0%, 0% 100%, 100% 85%)
             justify-content: start
-           
 </style>
