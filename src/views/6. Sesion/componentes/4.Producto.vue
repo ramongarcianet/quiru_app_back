@@ -12,7 +12,7 @@
                         h1.primary-text Gestión de tus 
                             span.dark-text pacientes 
                         img.ms-3( width='60' src="https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/quiru%2Fgestion-pacientes.webp?alt=media&token=b7af13fd-834c-4945-9d53-c9e71bc59370")
-                span Ten el control total de tus citas y pacientes.  Te ayudamos a organizar su información en un solo panel, para que tu te puedas enfocar en brindar el mejor servicio e incrementes la cantidad de pacientes que puedes atender
+                span Ten el control total de tus citas y pacientes.  Te ayudamos a organizar su información en un solo panel, para que tú te puedas enfocar en brindar el mejor servicio e incrementes la cantidad de pacientes que puedes atender
                 button.mt-5 Iniciar prueba
 
 </template>
