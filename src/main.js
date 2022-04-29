@@ -9,8 +9,7 @@ import Item from './components/uikit/Item.vue'
 import Form from './components/uikit/Form.vue'
 
 import router from './config/router'
-import "bootstrap/scss/bootstrap.scss"
-import 'bootstrap'
+import "./config/bootstrap/scss/bootstrap.scss"
 import './config/basics.sass'
 import './config/buttons.sass'
 import './config/inputs.sass'
