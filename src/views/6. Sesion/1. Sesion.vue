@@ -1,19 +1,7 @@
 <template lang="pug">
-.container-fluid
-    .row 
-        .col-12.col-md-6.light
-        .col-12.col-md-6.primary
+.container-fluid.vh-100
+    .row.h-100 
+        .col-12.col-lg-6.light.d-none.d-lg-flex.h-100 
+        .col-12.col-lg-6.primary.d-flex.flex-column.h-100.justify-content-center.align-items-center
             router-view
 </template>
-<style lang="sass" scoped>
-.container-fluid
-    height: 100vh
-    padding: 0
-    .row
-        height: 100%
-        .col-12
-            height: 100%
-            display: flex
-            align-items: center
-            justify-content: center
-</style>
