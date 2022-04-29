@@ -44,7 +44,7 @@ let beneficios = [
             .col-12.col-md-5.d-flex.flex-column.justify-content-start.beneficios
                 h1.primary-text Beneficios por  
                     span.dark-text usar Quiru
-                span Tu nuevo asistente virtual reduce hasta un 75% en toma de datos en el registro de odontogramas, con ello te puedes enfocar en atender más pacientes    
+                span Tu nuevo asistente virtual reduce hasta un 75% en toma de datos en el registro de odontogramas, con ello te puedes enfocar en atender más pacientes.    
         .row
             .col-12.col-md-6.h-100.d-flex.align-items-end.mt-5
                 img.w-100(src="https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/quiru%2FGroup-74-_2_.webp?alt=media&token=3e4e327a-4ab1-47ad-8ad5-0b6eda3c8825")

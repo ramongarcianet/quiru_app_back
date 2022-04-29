@@ -44,8 +44,8 @@ let beneficios = [
             .col-12.col-md-8.d-flex.flex-column.justify-content-center.align-items-start.beneficios
                 ul.m-0.p-0
                     li.beneficios.d-flex.align-items-center.mb-4
-                        h1.dark-text Te gustaria usar quiru, pero aun tienes   
-                            span dudas 
+                        h1.primary-text ¿Te gustaria usar Quiru pero aún tienes 
+                            span.dark-text dudas?  
                         img.ms-3( width='60' src="https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/quiru%2Fevitar-perdida-de-informacion.webp?alt=media&token=b3c6d1ca-7b90-4d94-9f9d-7f55d4125e6b")
                 span Agenda una breve reunión con nosotros para resolver todas tus dudas,  con confianza. Atendemos todas las consultas que tengas.
                 button.btn.btn-primary.mt-5( @click='$emit("update:modelValue", true)') Conversemos

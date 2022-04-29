@@ -11,7 +11,7 @@ const { push } = useRouter();
             .col-12.col-md-5.d-flex.flex-column.justify-content-center
                 h1.primary-text Atiende a más pacientes y aumenta tus 
                     span.dark-text ganancias
-                span Olvídate de escribir notas o quitarte los guantes para hacer tus anotaciones y diagnósticos. Usa quiru tu nuevo asistente de voz y enfócate en brindar el mejor servicio a tus pacientes. 
+                span Olvídate de escribir notas o quitarte los guantes para hacer tus anotaciones y diagnósticos. Usa Quiru, tu nuevo asistente de voz y enfócate en brindar el mejor servicio a tus pacientes. 
                 button.btn.btn-primary.me-auto.mt-3( @click='$emit("update:modelValue", true)' ) Sé el primero
             .col-12.col-md-7.d-flex.align-items-end
                 img.w-100(src="https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/quiru%2FPortada-img.webp?alt=media&token=487cd780-bfe7-490f-a52a-7cb5033f673f")
