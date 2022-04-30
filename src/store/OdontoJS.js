@@ -120,17 +120,9 @@ export function VerDemo(event) {
      var HallazgoTipo=comboHallazgoTipo.value;
 
     iniciar_x=iniciar_x+28;   
-    inicio_y=200;
+    inicio_y=75;
     context.fillText(entry, iniciar_x + 100, 60); 
-    context.beginPath();
-    context.strokeStyle = "black";
-    context.moveTo(iniciar_x+100,inicio_y-130);
-    context.lineTo(iniciar_x+200,inicio_y);
-    context.moveTo(iniciar_x+100,inicio_y-130);
-    context.lineTo(iniciar_x,inicio_y);  
-    context.stroke();
-    context.lineWidth = 1; 
-    
+       
     dibuja_contornoDemo(context, iniciar_x, inicio_y, medida, entry,registro,HallazgoTipo);
 
     context.fillStyle = 'blue'; 

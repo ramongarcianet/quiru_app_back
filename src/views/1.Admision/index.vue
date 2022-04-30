@@ -2,13 +2,37 @@
 
 import Formulario from './Formulario.vue'
 import Registro from './Registro.vue'
-//import {dialog} from '../../store/admision'
+import {diagnostico,tratamiento, procesar, limpiar, agregarLista,isSpeech,terminar} from '../../store/odontograma'
 import {ChangeHallazgo,VerDemo} from '../../store/OdontoJS'
+import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar, obtenerTodoDiccionario, obtenerTodoPieza,obtenerTodoHallazgo,obtenerTodoCaries} from '../../store/odonto'
+const listaDiccionario = obtenerTodoDiccionario()
+const listaPieza = obtenerTodoPieza()
+const listaHallazgo= obtenerTodoHallazgo()
+const listaCaries = obtenerTodoCaries()
 </script>
 <template>
 <h1>Demo</h1>
 <div class="container">
     <input id="tipoReg" type="hidden" value="0"/>
+  <Row>
+    <Col>
+        <div class="col-sm-12 col-md-12 col-lg-12" style="text-align:center;">
+
+             <button v-if='!isSpeech' type="submit" class="NotpulsingButton" style="visibility:visible;" id="btnActivar" @click="procesar()" >
+                <i class="fa fa-microphone" ></i>
+            </button>
+            <button v-if='isSpeech' type="submit" class="pulsingButton" style="visibility:visible;" id="btnEscuchando" @click="procesar()">
+                <div class="pulse-ring">
+                    <svg width="60" height="60" viewBox="40 0 150 300">
+                        <polyline stroke-linejoin="round" points="50,150 125,50 200,150" stroke="white" stroke-width="25" fill="none"></polyline>
+                        <polyline stroke-linejoin="bevel" points="50,250 125,150 200,250" stroke="white" stroke-width="25" fill="none"></polyline>
+                    </svg>
+                </div>
+                <i class="fa fa-microphone" ></i>
+            </button>
+        </div>
+    </Col>
+</Row>
 <Row>
   <Col>
   <h4>Hallazgo:</h4>
@@ -90,17 +114,174 @@ import {ChangeHallazgo,VerDemo} from '../../store/OdontoJS'
   <option value="85">85</option>
   </select>
   </Col>
+  <Col><h4><br></h4><Button> Limpiar </Button></Col>
 </Row>
 <Row>
     <Col></Col>
     <Col>
       <canvas id="myCanvas" width="500" height="400" style="border: 0; left:0px; top:0px;"></canvas>    
     </Col>
-      <Col></Col>
+    <Col></Col>
 </Row>
- <!-- <Button @click="dialog=true"> Nuevo </Button>
-  <Formulario :open='dialog' />
-  <Registro />
-  -->
 </div>
 </template>
+
+<style>
+    .botonMicrofono {
+        border: none;
+        background: transparent
+    }
+
+    .imagenMicrofonoActivar {
+        height: 37px;
+        width: 16px;
+    }
+
+    .imagenMicrofonoEscuchar {
+        height: 37px;
+        width: 31px;
+        margin: auto
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        float: right;
+        text-align: right;
+        visibility: hidden;
+    }
+
+
+.NotpulsingButton {
+    border: none;
+    padding: 0;
+    border-radius: 100%;
+    width: 70px;
+    height: 70px;
+    font-size: 3em;
+    color: #fff;
+    padding: 0;
+    margin: 0;
+    background: rgb(139, 199, 252);
+    position: relative;
+    z-index: 999;
+    display: inline-block;
+    line-height: 100px;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+}
+.pulsingButton {
+    border: none;
+    padding: 0;
+    border-radius: 100%;
+    width: 70px;
+    height: 70px;
+    font-size: 3em;
+    color: #fff;
+    padding: 0;
+    margin: 0;
+    background: red;
+    position: relative;
+    z-index: 999;
+    display: inline-block;
+    line-height: 100px;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+}
+
+.pulse-ring {
+    content: '';
+    width: 70px;
+    height: 70px;
+    background: #189BFF;
+    border: 5px solid #189BFF;
+    border-radius: 50%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    animation: pulsate infinite 1.5s;
+}
+
+@-webkit-keyframes pulsate {
+    0% {
+        -webkit-transform: scale(1, 1);
+        opacity: 1;
+    }
+
+    100% {
+        -webkit-transform: scale(1.3, 1.3);
+        opacity: 0;
+    }
+}
+
+.modal-header {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 1rem 1rem;
+  border-bottom: 1px solid #dee2e6;
+  border-top-left-radius: 0.3rem;
+  border-top-right-radius: 0.3rem;
+}
+
+.modal-header .close {
+  padding: 1rem 1rem;
+  margin: -1rem -1rem -1rem auto;
+}
+
+.modal-title {
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
+.modal-body {
+  position: relative;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  padding: 1rem;
+}
+
+.modal-footer {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding: 1rem;
+  border-top: 1px solid #dee2e6;
+  border-bottom-right-radius: 0.3rem;
+  border-bottom-left-radius: 0.3rem;
+}
+      #myCanvas {
+        border: 1px solid #9C9898;
+      }
+      #myCanvas2 {
+        border: 1px solid #9C9898;
+      }
+      #myCanvas3 {
+        border: 1px solid #9C9898;
+      }
+      #myCanvas4 {
+        border: 1px solid #9C9898;
+      }
+</style>
