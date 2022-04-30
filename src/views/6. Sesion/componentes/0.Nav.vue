@@ -12,7 +12,7 @@ const rutas = [
   { title: "Contacto", ruta: "#contacto" },
 ];
 const router = [
-//    { title: "Alpha", ruta: () => push({ name: "iniciar-sesion" }) }
+    { title: "Alpha", ruta: () => push({ name: "iniciar-sesion" }) }
 ];
 </script>
 <template lang="pug">

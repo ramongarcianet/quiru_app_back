@@ -102,6 +102,31 @@ export function limpiarCaries() {
     piezabotCar.value="0";
     return false;
 }
+export function VerDemo(event) {
+    clearcanvas('myCanvas');
+     var registro=comboHallazgo.value;
+     var canvas = document.getElementById('myCanvas');
+     var context = canvas.getContext('2d');
+     context.font = '56pt Calibri';
+     context.textAlign = 'center';
+     context.fillStyle = 'blue';
+     var medida = 200;
+     var separacion_x = 50;
+     var iniciar_x = 0;
+     var inicio_y=0;
+     var x=0;
+     iniciar_x=0;
+     var entry=event.target.value;
+     var HallazgoTipo=comboHallazgoTipo.value;
+
+    iniciar_x=iniciar_x+28;   
+    inicio_y=75;
+    context.fillText(entry, iniciar_x + 100, 60); 
+       
+    dibuja_contornoDemo(context, iniciar_x, inicio_y, medida, entry,registro,HallazgoTipo);
+
+    context.fillStyle = 'blue'; 
+}
 export function VerFormato(registro) {
     console.log(registro)
      var canvas = document.getElementById('myCanvas');
@@ -513,4 +538,120 @@ function marcar_ControlBot(ctx, inicio_x,inicio_y,med){
     ctx.fill();
     ctx.strokeStyle = 'black';
     ctx.stroke();  
+}
+function dibuja_contornoDemo(context, inicio_x, inicio_y, med, pieza, registro,HallazgoTipo){
+    var ctx = context;
+    // Definiendo puntos de dibujo
+    var cua = med/4;
+    var ter = cua*3;
+    var color_line = 'black';
+    /* 1ra zona */
+    if(ctx){
+        ctx.strokeStyle = color_line;
+        ctx.beginPath();
+        ctx.moveTo(inicio_x,inicio_y);
+        ctx.lineTo(med+inicio_x,inicio_y);
+        ctx.lineTo(ter+inicio_x,cua+inicio_y);
+        ctx.lineTo(cua+inicio_x,cua+inicio_y);
+        ctx.closePath();
+        ctx.stroke();
+    }
+    /* 2da zona */
+    if(ctx){
+        ctx.strokeStyle = color_line;
+        ctx.beginPath();
+        ctx.moveTo(ter+inicio_x,cua+inicio_y);
+        ctx.lineTo(med+inicio_x,inicio_y);
+        ctx.lineTo(med+inicio_x,med+inicio_y);
+        ctx.lineTo(ter+inicio_x,ter+inicio_y);
+        ctx.closePath();
+        ctx.stroke();
+    }
+    /* 3ra zona */
+    if(ctx){
+        ctx.strokeStyle = color_line;
+        ctx.beginPath();
+        ctx.moveTo(cua+inicio_x,ter+inicio_y);
+        ctx.lineTo(ter+inicio_x,ter+inicio_y);
+        ctx.lineTo(med+inicio_x,med+inicio_y);
+        ctx.lineTo(inicio_x,med+inicio_y);
+        ctx.closePath();
+        ctx.stroke();
+    }
+    /* 4ta zona */
+    if(ctx){
+        ctx.strokeStyle = color_line;
+        ctx.beginPath();
+        ctx.moveTo(inicio_x,inicio_y);
+        ctx.lineTo(cua+inicio_x,cua+inicio_y);
+        ctx.lineTo(cua+inicio_x,ter+inicio_y);
+        ctx.lineTo(inicio_x,med+inicio_y);        
+        ctx.closePath();
+        ctx.stroke();
+    }              
+    if (registro=="extraccion"){
+        marcar_lineaLanding(ctx, inicio_x, med,inicio_y,"red","");
+    }
+    else if (registro=="ausente"){
+        marcar_lineaLanding(ctx, inicio_x, med,inicio_y,"blue","");
+    }
+    else if (registro=="fractura"){
+        marcar_lineaLanding(ctx, inicio_x, med,inicio_y,"red","fractura");
+    }
+    else if (registro=="caries"){
+        var item = HallazgoTipo;
+        var seccion=0;
+        if (item=="Vestibular"){
+            seccion=1;
+        }
+        if (item=="Distal"){
+            seccion=4;
+        }
+        if (item=="Oclusal"){
+            seccion=5;
+        }
+        if (item=="Mesial"){
+            seccion=2;
+        }
+        if (item=="Palatino"){
+            seccion=3;
+        }
+        dibuja_seccion(ctx, pieza, seccion, "red",med,inicio_x,inicio_y)                       
+    }
+    else if (registro=="restauracion"){
+        var item = HallazgoTipo;
+        var seccion=0;
+        if (item=="Vestibular"){
+            seccion=1;
+        }
+        if (item=="Distal"){
+            seccion=4;
+        }
+        if (item=="Oclusal"){
+            seccion=5;
+        }
+        if (item=="Mesial"){
+            seccion=2;
+        }
+        if (item=="Palatino"){
+            seccion=3;
+        }
+        dibuja_seccion(ctx, pieza, seccion, "blue",med,inicio_x,inicio_y)
+    }
+    context.fillStyle = 'blue';
+}
+function marcar_lineaLanding(contexto, inicio_x,medida,inicio_y,color, tipo){
+    var ctx = contexto;
+    var med = medida;
+    ctx.beginPath();
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = color;
+    ctx.moveTo(inicio_x,inicio_y);
+    ctx.lineTo(inicio_x+200,inicio_y+200);
+    if(tipo !="fractura"){
+        ctx.moveTo(inicio_x+200,inicio_y);
+        ctx.lineTo(inicio_x,inicio_y+200);
+    } 
+    ctx.stroke();
+    ctx.lineWidth = 1;     
 }

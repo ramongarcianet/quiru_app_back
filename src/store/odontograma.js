@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { limpiarCaries, DienteCaries, DienteAusente, DienteFracturado, clearcanvas, VerFormato } from "./OdontoJS"
+import { limpiarCaries, DienteCaries, DienteAusente, DienteFracturado, clearcanvas, VerFormato as verOdontograma} from "./OdontoJS"
 import { registro, listaDiccionario, listaPieza, listaHallazgo, listaCaries, guardar, eliminar } from "./odonto.js"
 import router from '../config/router'
 const { push } = router;
@@ -56,7 +56,7 @@ if (annyang) {
                     agregarLista('voz');
                 }
                 if (comandoCompleto[0] === 'formato') {
-                    verFormato();
+                    verOdontograma();
                 }
                 if (comandoCompleto[0] === 'volver') {
                     volver();
@@ -153,9 +153,6 @@ function agregarLista(param) {
         guardar(param);
         limpiar();
     }
-}
-function verFormato() {
-    VerFormato();
 }
 function seleccionarHallazgo(tipoHallazgo) {
     let comboHallazgo = document.getElementById('comboHallazgo');

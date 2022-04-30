@@ -74,70 +74,76 @@ input#tipoReg(type="hidden", value="0")
     <Col>
         <Row>
             <Col>
-                .input-group
-                    select.form-control#comboHallazgo(@change="ChangeHallazgo($event)")
-                        option(selected, disabled) Hallazgo
-                        option(value="caries", selected) Caries
-                        option(value="extraccion") Extracción
-                        option(value="ausente") Ausente
-                        option(value="fractura") Fractura
-                        option(value="restauracion") Restauración
-                
-                    select.form-control#comboPieza
-                        option(selected, disabled) Pieza
-                        option(value="11") 11
-                        option(value="12") 12
-                        option(value="13") 13
-                        option(value="14") 14
-                        option(value="15") 15
-                        option(value="16") 16
-                        option(value="17") 17
-                        option(value="18") 18
-                        option(value="21") 21
-                        option(value="22") 22
-                        option(value="23") 23
-                        option(value="24") 24
-                        option(value="25") 25
-                        option(value="26") 26
-                        option(value="27") 27
-                        option(value="28") 28
-                        option(value="31") 31
-                        option(value="32") 32
-                        option(value="33") 33
-                        option(value="34") 34
-                        option(value="35") 35
-                        option(value="36") 36
-                        option(value="37") 37
-                        option(value="38") 38
-                        option(value="41") 41
-                        option(value="42") 42
-                        option(value="43") 43
-                        option(value="44") 44
-                        option(value="45") 45
-                        option(value="46") 46
-                        option(value="47") 47
-                        option(value="48") 48
-                        option(value="51") 51
-                        option(value="52") 52
-                        option(value="53") 53
-                        option(value="54") 54
-                        option(value="55") 55
-                        option(value="61") 61
-                        option(value="62") 62
-                        option(value="63") 63
-                        option(value="64") 64
-                        option(value="65") 65
-                        option(value="71") 71
-                        option(value="72") 72
-                        option(value="73") 73
-                        option(value="74") 74
-                        option(value="75") 75
-                        option(value="81") 81
-                        option(value="82") 82
-                        option(value="83") 83
-                        option(value="84") 84
-                        option(value="85") 85
+                <h4>Hallazgo:</h4>
+                <select class="form-control" id="comboHallazgo" @change="ChangeHallazgo($event)" >
+                    <option selected>:::Seleccione:::</option>
+                    <option value="caries">Caries</option>
+                    <option value="extraccion">Extracción</option>
+                    <option value="ausente">Ausente</option>
+                    <option value="fractura">Fractura</option>
+                    <option value="restauracion">Restauración</option>
+                </select>
             </Col>
+            <Col></Col>
+            <Col>
+                <h4>Pieza:</h4>
+                <select class="form-control" id="comboPieza">
+                <option selected>:::Seleccione:::</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="48">48</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="61">61</option>
+                <option value="62">62</option>
+                <option value="63">63</option>
+                <option value="64">64</option>
+                <option value="65">65</option>
+                <option value="71">71</option>
+                <option value="72">72</option>
+                <option value="73">73</option>
+                <option value="74">74</option>
+                <option value="75">75</option>
+                <option value="81">81</option>
+                <option value="82">82</option>
+                <option value="83">83</option>
+                <option value="84">84</option>
+                <option value="85">85</option>
+                </select>
+            </Col>
+            <Col></Col>
         </Row>
         <Row>
             <Col>
