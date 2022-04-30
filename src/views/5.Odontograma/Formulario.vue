@@ -56,19 +56,20 @@ onMounted(() => {
             <Col>
                 <h4>Hallazgo:</h4>
                 <select class="form-control" id="comboHallazgo" @change="ChangeHallazgo($event)" >
-                <option value="caries" selected="selected">Caries</option>
-                <option value="extraccion">Extracción</option>
-                <option value="ausente">Ausente</option>
-                <option value="fractura">Fractura</option>
-                <option value="restauracion">Restauración</option>
+                    <option selected>:::Seleccione:::</option>
+                    <option value="caries">Caries</option>
+                    <option value="extraccion">Extracción</option>
+                    <option value="ausente">Ausente</option>
+                    <option value="fractura">Fractura</option>
+                    <option value="restauracion">Restauración</option>
                 </select>
             </Col>
             <Col></Col>
             <Col>
                 <h4>Pieza:</h4>
                 <select class="form-control" id="comboPieza">
-                <option selected>":::Seleccione Pieza:::</option>
-                <option value="11" selected>11</option>
+                <option selected>:::Seleccione:::</option>
+                <option value="11">11</option>
                 <option value="12">12</option>
                 <option value="13">13</option>
                 <option value="14">14</option>
