@@ -1,6 +1,8 @@
 import {addDoc, collection, onSnapshot, setDoc, getDoc, getFirestore, doc, updateDoc, deleteDoc, query, where, arrayUnion} from 'firebase/firestore'
-import {firestore} from '../config/firebase'
+import {firestore, analytics} from '../config/firebase'
 import {ref} from 'vue'
+import { logEvent } from 'firebase/analytics'
+
 export default {
     item: ref({}),
     agregar: (email) => {
@@ -11,5 +13,6 @@ export default {
                 creadoEl: new Date()
             })
         } )
-    }
+    },
+    registrarEvento: (eventName) => logEvent(analytics, eventName) 
 }

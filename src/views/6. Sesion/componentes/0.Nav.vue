@@ -1,8 +1,9 @@
 <script setup>
 import { useRouter } from "vue-router";
 import Logo from "../../../assets/logoQuiru.vue";
-
+import marketing from "../../../store/marketing";
 const { push } = useRouter();
+const {registrarEvento} = marketing
 
 const rutas = [
   { title: "Beneficios", ruta: "#beneficios" },
@@ -10,19 +11,21 @@ const rutas = [
   { title: "Precio", ruta: "#precio" },
   { title: "Contacto", ruta: "#contacto" },
 ];
-const router = [{ title: "Alpha", ruta: () => push({ name: "iniciar-sesion" }) }];
+const router = [
+//    { title: "Alpha", ruta: () => push({ name: "iniciar-sesion" }) }
+];
 </script>
 <template lang="pug">
 nav.w-100
     .container.d-flex.w-100
-        img(src="https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/Group%2073%20(1).png?alt=media&token=13f628f8-46ea-41f4-a4f4-b4d2aa604323")
+        Img(src="https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/Group%2073%20(1).png?alt=media&token=13f628f8-46ea-41f4-a4f4-b4d2aa604323")
         .d-none.d-md-flex.align-items-center
             a( v-for='{title, ruta} of rutas' :href='ruta') 
                 h4 {{title}}
             a( v-for='{title, ruta} of router' @click='()=>ruta()') 
                 h4 {{title}}
             
-        button.btn.btn-primary.ms-auto( @click='$emit("update:modelValue", true)' ) Probar
+        button.btn.btn-primary.ms-auto( @click='$emit("update:modelValue", true), registrarEvento("activacion_btn_nav")' ) Probar
 //-Primer segmento     
 
 </template>

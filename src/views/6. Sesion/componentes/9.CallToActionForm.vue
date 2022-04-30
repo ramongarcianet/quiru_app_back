@@ -4,7 +4,8 @@ import marketing from "../../../store/marketing";
 const props = defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue"]);
 
-const { item, agregar } = marketing;
+const { item, agregar, registrarEvento } = marketing;
+
 </script>
 <template lang="pug">
 aside.d-flex.flex-column( :class='{active: modelValue}' )
@@ -13,7 +14,7 @@ aside.d-flex.flex-column( :class='{active: modelValue}' )
         p.mt-4.light-text Obtén tu acceso para ser de nuestros 
             strong primeros usuarios
     
-        Form( :onPromise='()=>agregar(item.email)')
+        Form( :onPromise='()=> agregar(item.email)' :onSuccess='()=> registrarEvento("act_btn_price")')
             .input-group
                 input.form-control( type='email' required placeholder='Ingresa tu correo' v-model='item.email')
                 button.btn.btn-light(type='submit')

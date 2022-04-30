@@ -7,6 +7,10 @@ import Row from './components/uikit/Row.vue'
 import Container from './components/uikit/Container.vue'
 import Item from './components/uikit/Item.vue'
 import Form from './components/uikit/Form.vue'
+import Dialog from './components/uikit/Dialog.vue'
+import Img from './components/uikit/Img.vue'
+
+
 
 import router from './config/router'
 import "./config/bootstrap/scss/bootstrap.scss"
@@ -25,6 +29,8 @@ createApp(App)
 .component("Container", Container)
 .component("Item", Item)
 .component("Form", Form)
+.component("Img", Img)
+.component("Dialog", Dialog)
 
 
 .use(router)

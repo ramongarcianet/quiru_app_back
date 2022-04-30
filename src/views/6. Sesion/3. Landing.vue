@@ -3,11 +3,11 @@ import { useRouter } from "vue-router";
 import { ref } from 'vue'
 import Nav from "./componentes/0.Nav.vue"
 import Header from "./componentes/1.Header.vue"
-import Beneficios from "./componentes/2.Beneficios.vue"
-import Refuerzo from "./componentes/3.Refuerzo.vue"
-import Producto from "./componentes/4.Producto.vue"
-import Refuerzo2 from "./componentes/5.Refuerzo2.vue"
-import CallToAction from "./componentes/6.Refuerzo3.vue"
+import Solucion from "./componentes/2.Solucion.vue"
+import PropuestaDeValor1 from "./componentes/3.PropuestaDeValor1.vue"
+import PropuestaDeValor2 from "./componentes/4.PropuestaDeValor2.vue"
+import PropuestaDeValor3 from "./componentes/5.PropuestaDeValor3.vue"
+import Precio from "./componentes/6.Precio.vue"
 import Preguntas from "./componentes/7.Preguntas.vue"
 import Footer from "./componentes/8.Footer.vue"
 import CallToActionForm from "./componentes/9.CallToActionForm.vue"
@@ -19,11 +19,11 @@ const CallToActionDialog = ref(false)
 <template lang="pug">
 Nav( v-model='CallToActionDialog' )
 Header( v-model='CallToActionDialog' )
-Beneficios( v-model='CallToActionDialog' )
-Refuerzo( v-model='CallToActionDialog' )
-Producto( v-model='CallToActionDialog' )
-Refuerzo2( v-model='CallToActionDialog' )
-CallToAction( v-model='CallToActionDialog' )
+Solucion( v-model='CallToActionDialog' )
+PropuestaDeValor1( v-model='CallToActionDialog' )
+PropuestaDeValor2( v-model='CallToActionDialog' )
+PropuestaDeValor3( v-model='CallToActionDialog' )
+Precio( v-model='CallToActionDialog' )
 Preguntas( v-model='CallToActionDialog' )
     Footer( v-model='CallToActionDialog' )
 CallToActionForm( v-model='CallToActionDialog' )
