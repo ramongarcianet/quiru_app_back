@@ -12,9 +12,6 @@ const listaDiccionario = obtenerTodoDiccionario()
 const listaPieza = obtenerTodoPieza()
 const listaHallazgo= obtenerTodoHallazgo()
 const listaCaries = obtenerTodoCaries()
-onUnmounted(()=>{
-  VerDemo(comboPieza)
-})
 </script>
 <template>
 <h1>Demo</h1>
