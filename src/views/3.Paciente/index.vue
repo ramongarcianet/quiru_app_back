@@ -1,15 +1,18 @@
 <script setup>
-
-import Formulario from './Formulario.vue'
-import Registro from './Registro.vue'
-import {dialog} from '../../store/paciente'
-
+import Formulario from "./Formulario.vue";
+import Registro from "./Registro.vue";
+import { dialog } from "../../store/paciente";
 </script>
-<template>
-<h1>Pacientes</h1>
-<div class="container">
-  <Button @click="dialog=true"> Nuevo </Button>
-  <Formulario :open='dialog' />
-  <Registro />
-</div>
+<template lang="pug">
+
+.d-flex.justify-content-between
+  h1 Pacientes
+  Button( @click="dialog=true") Nuevo
+Dialog( v-model='dialog' )
+  template(#title)
+    h3.m-0 Usuario
+  template(#body)
+    Formulario
+Registro
+
 </template>

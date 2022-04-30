@@ -1,30 +1,34 @@
 <script setup>
-import { onUnmounted, ref } from 'vue'
-import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog} from '../../store/odonto'
-const obtenerRegistro = obtenerTodos()
+import { onUnmounted, ref } from "vue";
+import {
+  obtenerTodos,
+  registro,
+  leerEnRegistro,
+  eliminar,
+  dialog,
+} from "../../store/odonto";
+const obtenerRegistro = obtenerTodos();
 
-const confirmar = ref(false)
+const confirmar = ref(false);
 
-const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
-
+const confirmarEliminar = (id) => eliminar(id).then(() => (confirmar.value = false));
 </script>
 
-<template>
+<template lang="pug">
 
-      <Row>
-        <Col>Diente</Col>
-        <Col>Hallazgo</Col>
-        <Col>Piezas</Col>
-        <Col></Col>                        
-    </Row> 
-    <Item  v-for="item of registro"  :key="item.id"  :item="item">
-        <Col>{{item.diente}}</Col> 
-        <Col>{{item.hallazgo}}</Col> 
-        <Col>{{item.pieza}}</Col>             
-        <Col>    
-            <Button @click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) ">  {{confirmar ? '¿Está seguro?' : 'Borrar'}} </Button>
-        </Col>  
-    </Item>
+table.table.table-striped.table-light
+    thead 
+        tr 
+            th Diente
+            th Hallazgo
+            th Piezas
+            th
+    tbody
+        tr(v-for="item of registro" :key="item.id" :item="item")
+            td {{item.diente}}
+            td {{item.hallazgo}}
+            td {{item.pieza}}
+            td 
+                button(@click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) ") {{confirmar ? '¿Está seguro?' : 'Borrar'}}
    
 </template>
-

@@ -1,34 +1,59 @@
 <script setup>
-import {onMounted, ref,watch} from 'vue'
-import {diagnostico,tratamiento, procesar, limpiar, agregarLista,isSpeech,terminar} from '../../store/odontograma'
-import {DienteCaries,DienteAusente,ChangeHallazgo,DienteFracturado, VerFormato} from '../../store/OdontoJS'
-import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar, obtenerTodoDiccionario, obtenerTodoPieza,obtenerTodoHallazgo,obtenerTodoCaries} from '../../store/odonto'
-import { useRoute } from 'vue-router';
-import Registro from './Registro.vue'
-import Col from '../../components/uikit/Col.vue';
-const route = useRoute()
-const listaDiccionario = obtenerTodoDiccionario()
-const listaPieza = obtenerTodoPieza()
-const listaHallazgo= obtenerTodoHallazgo()
-const listaCaries = obtenerTodoCaries()
+import { onMounted, ref, watch } from "vue";
+import {
+  diagnostico,
+  tratamiento,
+  procesar,
+  limpiar,
+  agregarLista,
+  isSpeech,
+  terminar,
+} from "../../store/odontograma";
+import {
+  DienteCaries,
+  DienteAusente,
+  ChangeHallazgo,
+  DienteFracturado,
+  VerFormato,
+} from "../../store/OdontoJS";
+import {
+  obtenerTodos,
+  registro,
+  leerEnRegistro,
+  eliminar,
+  dialog,
+  guardar,
+  obtenerTodoDiccionario,
+  obtenerTodoPieza,
+  obtenerTodoHallazgo,
+  obtenerTodoCaries,
+} from "../../store/odonto";
+import { useRoute } from "vue-router";
+import Registro from "./Registro.vue";
+import Col from "../../components/uikit/Col.vue";
+const route = useRoute();
+const listaDiccionario = obtenerTodoDiccionario();
+const listaPieza = obtenerTodoPieza();
+const listaHallazgo = obtenerTodoHallazgo();
+const listaCaries = obtenerTodoCaries();
 
-  watch(
-  ()=> registro.value,
-  ()=> {
+watch(
+  () => registro.value,
+  () => {
     VerFormato(registro.value);
   }
-)
+);
 onMounted(() => {
-    terminar();
-  })
+  terminar();
+});
 </script>
 
-<template>
- <Row>
+<template lang="pug">
+<Row>
     <Col>
         <div class="col-sm-12 col-md-12 col-lg-12" style="text-align:center;">
 
-             <button v-if='!isSpeech' type="submit" class="NotpulsingButton" style="visibility:visible;" id="btnActivar" @click="procesar()" >
+            <button v-if='!isSpeech' type="submit" class="NotpulsingButton" style="visibility:visible;" id="btnActivar" @click="procesar()" >
                 <i class="fa fa-microphone" ></i>
             </button>
             <button v-if='isSpeech' type="submit" class="pulsingButton" style="visibility:visible;" id="btnEscuchando" @click="procesar()">
@@ -39,11 +64,12 @@ onMounted(() => {
                     </svg>
                 </div>
                 <i class="fa fa-microphone" ></i>
+
             </button>
-        </div>
+        </div>  
     </Col>
 </Row>
-    <input id="tipoReg" type="hidden" value="0"/>
+input#tipoReg(type="hidden", value="0")
 <Row>
     <Col>
         <Row>
@@ -124,191 +150,155 @@ onMounted(() => {
             <canvas id="cvhallazgo" width="150" height="200" style="">Su navegador no soporta canvas :( </canvas>
             </Col>
             <Col>
-                <table border="0" style="width: 100%; border: 0px; border-collapse: collapse; border-spacing: 0px; border-style: none;">
-                <tr>
-                <td colspan="6" style="border: 0px; width: 240px;">
-                <input id="piezatopcar" type="hidden" value="0"/>
-                <button class="btn btn-primary start" ID="btntopcar" value="0" Style="width: 100%; height: 60px; border-radius: 90% 90% 0% 0%; "
-                @click="DienteCaries('btntopcar')">
-                Vestibular
-                </button>
-                </td>
-                </tr>
-                <tr>
-                <td colspan="2" style="border: 0px; width: 80px;">
-                <input id="piezaleftCar" type="hidden" value="0"/>
-                <button class="btn btn-primary start" ID="btnleftCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btnleftCar')">Distal</button>
-                </td>
-                <td colspan="2" style="border: 0px; width: 80px;">
-                <input id="piezacenterCar" type="hidden" value="0"/>                
-                <button class="btn btn-primary start" ID="btncenterCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btncenterCar')">Oclusal</button>
-                </td>
-                <td colspan="2" style="border: 0px; width: 80px;">
-                <input id="piezarigthCar" type="hidden" value="0"/>
-                <button class="btn btn-primary start" ID="btnrigthCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btnrigthCar')">Mesial</button>
-                </td>
-                </tr>
-                <tr>
-                <td colspan="6" style="border: 0px; width: 240px;">
-                <input id="piezabotCar" type="hidden" value="0"/>
-                <button class="btn btn-primary start" ID="btnbotCar" value="0" Style="width: 100%; height: 60px; border-radius: 0% 0% 90% 90%;" @click="DienteCaries('btnbotCar')">Palatino</button>
-                </td>
-                </tr>
-                </table>
-            </Col>
-            <Col></Col>
-        </Row>
-        <Row>
-            <Col>
-                <button type="submit" class="btn" @click="agregarLista(route.params.idOdontograma)">
-                <span style="color:white">Agregar a la lista</span>
-                </button>
+                table(border="0", style="width: 100%; border: 0px; border-collapse: collapse; border-spacing: 0px; border-style: none;")
+                    tbody
+                        tr
+                            td(colspan="6", style="border: 0px; width: 240px;")
+                                input#piezatopcar(type="hidden", value="0")
+                                button.btn.btn-primary.start#btntopcar(value="0", style="width: 100%; height: 60px; border-radius: 90% 90% 0% 0%; ", @click="DienteCaries('btntopcar')") Vestibular
+                        tr
+                            td(colspan="2", style="border: 0px; width: 80px;")
+                                input#piezaleftCar(type="hidden", value="0")
+                                button.btn.btn-primary.start#btnleftCar(value="0", style="width: 100%; height:60px;", @click="DienteCaries('btnleftCar')") Distal
+                            td(colspan="2", style="border: 0px; width: 80px;")
+                                input#piezacenterCar(type="hidden", value="0")
+                                button.btn.btn-primary.start#btncenterCar(value="0", style="width: 100%; height:60px;", @click="DienteCaries('btncenterCar')") Oclusal
+                            td(colspan="2", style="border: 0px; width: 80px;")
+                                input#piezarigthCar(type="hidden", value="0")
+                                button.btn.btn-primary.start#btnrigthCar(value="0", style="width: 100%; height:60px;", @click="DienteCaries('btnrigthCar')") Mesial
+                        tr
+                            td(colspan="6", style="border: 0px; width: 240px;")
+                                input#piezabotCar(type="hidden", value="0")
+                                button.btn.btn-primary.start#btnbotCar(value="0", style="width: 100%; height: 60px; border-radius: 0% 0% 90% 90%;", @click="DienteCaries('btnbotCar')") Palatino
             </Col>
         </Row>
-        <Row>
-            <Col>
-                <Registro />
-            </Col>
-        </Row>
-                 <Row>
-            <Col>
-                <h4>Receta</h4>
-                <textarea id="inputReceta" class="form-control" rows="4"></textarea>
-            </Col>
-        </Row>
+        
+        button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma)") Agregar a la lista
+           
+        Registro
+        .row
+            h4 Receta
+            textarea#inputReceta.form-control( rows="4")
     </Col>
-    <Col><Row>
-            <Col>
-                <Row>
-                    <Col><h4>Odontogramas</h4></Col>
-                    <Col><h4>Fecha: ...........</h4></Col>                    
-                </Row>
-            </Col>
-        </Row>
-        <Row>
-            <Col>
-            <canvas id="myCanvas" width="500" height="400" style="border: 0; left:0px; top:0px;"></canvas>
-            </Col>
-        </Row>
-        <Row>
-            <Col>
-                <h4>Especficaciones</h4>
-                <textarea id="inputDescription" class="form-control" rows="4"></textarea>
-            </Col>
-        </Row>
-        <Row>
-            <Col>
-                <h4>Observaciones</h4>
-                <textarea id="inputObservacion" class="form-control" rows="4"></textarea>
-            </Col>
-        </Row>
-    </Col>
+    div 
+        .row
+            h4 Odontogramas
+            h4 Fecha: ...........
+          
+        .row
+            canvas#myCanvas( width="500" height="400" style="border: 0; left:0px; top:0px;")
+        .row
+            label.form-label Especficaciones
+            textarea.form-control#inputDescription( rows="4" ) 
+    
+            label.form-label Observaciones
+            textarea#inputObservacion.form-control( rows="4" )
+          
 </Row>
 
 </template>
 
 <style>
-    .botonMicrofono {
-        border: none;
-        background: transparent
-    }
+.botonMicrofono {
+  border: none;
+  background: transparent;
+}
 
-    .imagenMicrofonoActivar {
-        height: 37px;
-        width: 16px;
-    }
+.imagenMicrofonoActivar {
+  height: 37px;
+  width: 16px;
+}
 
-    .imagenMicrofonoEscuchar {
-        height: 37px;
-        width: 31px;
-        margin: auto
-    }
+.imagenMicrofonoEscuchar {
+  height: 37px;
+  width: 31px;
+  margin: auto;
+}
 
-    .dataTables_wrapper .dataTables_filter {
-        float: right;
-        text-align: right;
-        visibility: hidden;
-    }
-
+.dataTables_wrapper .dataTables_filter {
+  float: right;
+  text-align: right;
+  visibility: hidden;
+}
 
 .NotpulsingButton {
-    border: none;
-    padding: 0;
-    border-radius: 100%;
-    width: 70px;
-    height: 70px;
-    font-size: 3em;
-    color: #fff;
-    padding: 0;
-    margin: 0;
-    background: rgb(139, 199, 252);
-    position: relative;
-    z-index: 999;
-    display: inline-block;
-    line-height: 100px;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background-image: none;
+  border: none;
+  padding: 0;
+  border-radius: 100%;
+  width: 70px;
+  height: 70px;
+  font-size: 3em;
+  color: #fff;
+  padding: 0;
+  margin: 0;
+  background: rgb(139, 199, 252);
+  position: relative;
+  z-index: 999;
+  display: inline-block;
+  line-height: 100px;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
 }
 .pulsingButton {
-    border: none;
-    padding: 0;
-    border-radius: 100%;
-    width: 70px;
-    height: 70px;
-    font-size: 3em;
-    color: #fff;
-    padding: 0;
-    margin: 0;
-    background: red;
-    position: relative;
-    z-index: 999;
-    display: inline-block;
-    line-height: 100px;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background-image: none;
+  border: none;
+  padding: 0;
+  border-radius: 100%;
+  width: 70px;
+  height: 70px;
+  font-size: 3em;
+  color: #fff;
+  padding: 0;
+  margin: 0;
+  background: red;
+  position: relative;
+  z-index: 999;
+  display: inline-block;
+  line-height: 100px;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
 }
 
 .pulse-ring {
-    content: '';
-    width: 70px;
-    height: 70px;
-    background: #189BFF;
-    border: 5px solid #189BFF;
-    border-radius: 50%;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    animation: pulsate infinite 1.5s;
+  content: "";
+  width: 70px;
+  height: 70px;
+  background: #189bff;
+  border: 5px solid #189bff;
+  border-radius: 50%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  animation: pulsate infinite 1.5s;
 }
 
 @-webkit-keyframes pulsate {
-    0% {
-        -webkit-transform: scale(1, 1);
-        opacity: 1;
-    }
+  0% {
+    -webkit-transform: scale(1, 1);
+    opacity: 1;
+  }
 
-    100% {
-        -webkit-transform: scale(1.3, 1.3);
-        opacity: 0;
-    }
+  100% {
+    -webkit-transform: scale(1.3, 1.3);
+    opacity: 0;
+  }
 }
 
 .modal-header {
@@ -353,16 +343,16 @@ onMounted(() => {
   border-bottom-right-radius: 0.3rem;
   border-bottom-left-radius: 0.3rem;
 }
-      #myCanvas {
-        border: 1px solid #9C9898;
-      }
-      #myCanvas2 {
-        border: 1px solid #9C9898;
-      }
-      #myCanvas3 {
-        border: 1px solid #9C9898;
-      }
-      #myCanvas4 {
-        border: 1px solid #9C9898;
-      }
+#myCanvas {
+  border: 1px solid #9c9898;
+}
+#myCanvas2 {
+  border: 1px solid #9c9898;
+}
+#myCanvas3 {
+  border: 1px solid #9c9898;
+}
+#myCanvas4 {
+  border: 1px solid #9c9898;
+}
 </style>

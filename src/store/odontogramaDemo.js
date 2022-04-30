@@ -153,7 +153,7 @@ function agregarLista(param) {
     let hallazgo = document.getElementById('comboHallazgo').value;
     let pieza = document.getElementById('comboPieza').value;
     //const existeDiente = registro.value.find(item => item.diente === pieza && item.hallazgo === hallazgo)?.id
-    const existeDiente = registro.value.find(item => item.diente === pieza) ? .id
+    const existeDiente = registro.value.find(item => item.diente === pieza) ?.id
     if (existeDiente == undefined) {
         guardar(param);
         limpiar();
@@ -200,7 +200,7 @@ function pintarDiente(posicion) {
 }
 
 function eliminarDiente(pieza) {
-    const idDiente = registro.value.find(item => item.diente === pieza) ? .id;
+    const idDiente = registro.value.find(item => item.diente === pieza) ?. id;
     eliminar(idDiente)
 }
 

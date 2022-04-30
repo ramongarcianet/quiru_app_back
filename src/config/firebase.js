@@ -31,7 +31,8 @@ const iniciarFirebase = ()=> {
 }
 
 export {
-    iniciarFirebase,
-    firestore,
-    auth
+  iniciarFirebase,
+  firestore,
+  analytics,
+  auth
 }
