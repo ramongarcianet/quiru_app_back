@@ -1,15 +1,14 @@
 <script setup>
 
-import Formulario from './Formulario.vue'
-import Registro from './Registro.vue'
-import {diagnostico,tratamiento, procesar, limpiar, agregarLista,isSpeech,terminar} from '../../store/odontogramaDemo'
+//import {diagnostico,tratamiento, procesar, limpiar, agregarLista,isSpeech,terminar} from '../../store/odontogramaDemo'
 import {ChangeHallazgo,VerDemo,clearcanvas} from '../../store/OdontoJS'
-import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar, obtenerTodoDiccionario, obtenerTodoPieza,obtenerTodoHallazgo,obtenerTodoCaries} from '../../store/odonto'
-import { onUnmounted } from '@vue/runtime-core';
+//import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar, obtenerTodoDiccionario, obtenerTodoPieza,obtenerTodoHallazgo,obtenerTodoCaries} from '../../store/odonto'
+/*
 const listaDiccionario = obtenerTodoDiccionario()
 const listaPieza = obtenerTodoPieza()
 const listaHallazgo= obtenerTodoHallazgo()
 const listaCaries = obtenerTodoCaries()
+*/
 </script>
 <template>
 <h1>Demo</h1>
@@ -37,7 +36,7 @@ const listaCaries = obtenerTodoCaries()
 <Row>
   <Col>
   <h4>Hallazgo:</h4>
-  <select class="form-control" id="comboHallazgo" >
+  <select class="form-control" id="cmbHallazgo" >
     <option selected>:::Seleccione:::</option>
     <option value="caries">Caries</option>
     <option value="extraccion">Extracción</option>
@@ -48,7 +47,7 @@ const listaCaries = obtenerTodoCaries()
   </Col>
    <Col>
   <h4>Tipo Caries:</h4>
-  <select class="form-control" id="comboHallazgoTipo">
+  <select class="form-control" id="cmbHallazgoTipo">
     <option selected>:::Seleccione:::</option>
     <option value="Vestibular">Vestibular</option>
     <option value="Distal">Distal</option>
@@ -59,7 +58,7 @@ const listaCaries = obtenerTodoCaries()
   </Col>
   <Col>
   <h4>Pieza:</h4>
-  <select class="form-control" id="comboPieza" @change="VerDemo($event)">
+  <select class="form-control" id="cmbPieza" @change="VerDemo($event)">
   <option selected>:::Seleccione:::</option>
   <option value="11" selected>11</option>
   <option value="12">12</option>
@@ -115,43 +114,13 @@ const listaCaries = obtenerTodoCaries()
   <option value="85">85</option>
   </select>
   </Col>
-  <Col><h4><br></h4><Button @click="clearcanvas('myCanvas')"> Limpiar </Button></Col>
+  <Col><h4><br></h4><Button @click="clearcanvas('cvDemo')"> Limpiar </Button></Col>
 </Row>
 <Row>
     <Col></Col>
     <Col>
       <canvas id="myCanvas" width="500" height="400" style="border: 0; left:0px; top:0px;"></canvas>  
-       <table border="0" style="display: none;">
-                <tr>
-                <td colspan="6" style="border: 0px; width: 240px;">
-                <input id="piezatopcar" type="hidden" value="0"/>
-                <button class="btn btn-primary start" ID="btntopcar" value="0" Style="width: 100%; height: 60px; border-radius: 90% 90% 0% 0%; "
-                @click="DienteCaries('btntopcar')">
-                Vestibular
-                </button>
-                </td>
-                </tr>
-                <tr>
-                <td colspan="2" style="border: 0px; width: 80px;">
-                <input id="piezaleftCar" type="hidden" value="0"/>
-                <button class="btn btn-primary start" ID="btnleftCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btnleftCar')">Distal</button>
-                </td>
-                <td colspan="2" style="border: 0px; width: 80px;">
-                <input id="piezacenterCar" type="hidden" value="0"/>                
-                <button class="btn btn-primary start" ID="btncenterCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btncenterCar')">Oclusal</button>
-                </td>
-                <td colspan="2" style="border: 0px; width: 80px;">
-                <input id="piezarigthCar" type="hidden" value="0"/>
-                <button class="btn btn-primary start" ID="btnrigthCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btnrigthCar')">Mesial</button>
-                </td>
-                </tr>
-                <tr>
-                <td colspan="6" style="border: 0px; width: 240px;">
-                <input id="piezabotCar" type="hidden" value="0"/>
-                <button class="btn btn-primary start" ID="btnbotCar" value="0" Style="width: 100%; height: 60px; border-radius: 0% 0% 90% 90%;" @click="DienteCaries('btnbotCar')">Palatino</button>
-                </td>
-                </tr>
-                </table>  
+      
     </Col>
     <Col></Col>
 </Row>
