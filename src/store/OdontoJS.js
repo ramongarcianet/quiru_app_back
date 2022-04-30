@@ -106,10 +106,11 @@ export function VerDemo(event) {
     clearcanvas('myCanvas');
      var registro=comboHallazgo.value;
      var canvas = document.getElementById('myCanvas');
-     var context = canvas.getContext('2d');
+     var context = canvas.getContext('2d');     
      context.font = '56pt Calibri';
      context.textAlign = 'center';
      context.fillStyle = 'blue';
+     context.lineWidth = 3;
      var medida = 200;
      var separacion_x = 50;
      var iniciar_x = 0;
