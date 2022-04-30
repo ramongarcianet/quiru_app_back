@@ -2,13 +2,8 @@
 
 import Formulario from './Formulario.vue'
 import Registro from './Registro.vue'
-<<<<<<< HEAD
-import {diagnostico,tratamiento, procesar, limpiar, agregarLista,isSpeech,terminar} from '../../store/odontograma'
-import {ChangeHallazgo,VerDemo, clearcanvas} from '../../store/OdontoJS'
-=======
 import {diagnostico,tratamiento, procesar, limpiar, agregarLista,isSpeech,terminar} from '../../store/odontogramaDemo'
 import {ChangeHallazgo,VerDemo} from '../../store/OdontoJS'
->>>>>>> 6b6557be21cce35121d503604fd28a49cf622314
 import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar, obtenerTodoDiccionario, obtenerTodoPieza,obtenerTodoHallazgo,obtenerTodoCaries} from '../../store/odonto'
 import { onUnmounted } from '@vue/runtime-core';
 const listaDiccionario = obtenerTodoDiccionario()
