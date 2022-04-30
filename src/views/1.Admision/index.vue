@@ -3,12 +3,16 @@
 import Formulario from './Formulario.vue'
 import Registro from './Registro.vue'
 import {diagnostico,tratamiento, procesar, limpiar, agregarLista,isSpeech,terminar} from '../../store/odontograma'
-import {ChangeHallazgo,VerDemo} from '../../store/OdontoJS'
+import {ChangeHallazgo,VerDemo, clearcanvas} from '../../store/OdontoJS'
 import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar, obtenerTodoDiccionario, obtenerTodoPieza,obtenerTodoHallazgo,obtenerTodoCaries} from '../../store/odonto'
+import { onUnmounted } from '@vue/runtime-core';
 const listaDiccionario = obtenerTodoDiccionario()
 const listaPieza = obtenerTodoPieza()
 const listaHallazgo= obtenerTodoHallazgo()
 const listaCaries = obtenerTodoCaries()
+onUnmounted(()=>{
+  VerDemo(comboPieza)
+})
 </script>
 <template>
 <h1>Demo</h1>
@@ -60,7 +64,7 @@ const listaCaries = obtenerTodoCaries()
   <h4>Pieza:</h4>
   <select class="form-control" id="comboPieza" @change="VerDemo($event)">
   <option selected>:::Seleccione:::</option>
-  <option value="11">11</option>
+  <option value="11" selected>11</option>
   <option value="12">12</option>
   <option value="13">13</option>
   <option value="14">14</option>
@@ -114,7 +118,7 @@ const listaCaries = obtenerTodoCaries()
   <option value="85">85</option>
   </select>
   </Col>
-  <Col><h4><br></h4><Button> Limpiar </Button></Col>
+  <Col><h4><br></h4><Button @click="clearcanvas('myCanvas')"> Limpiar </Button></Col>
 </Row>
 <Row>
     <Col></Col>
