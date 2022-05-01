@@ -1,15 +1,6 @@
 <script setup>
 import { onMounted, ref, watch } from "vue";
 import {
-  diagnostico,
-  tratamiento,
-  procesar,
-  limpiar,
-  agregarLista,
-  isSpeech,
-  terminar,
-} from "../../store/odontograma";
-import {
   DienteCaries,
   DienteAusente,
   ChangeHallazgo,
@@ -28,6 +19,15 @@ import {
   obtenerTodoHallazgo,
   obtenerTodoCaries,
 } from "../../store/odonto";
+import {
+  diagnostico,
+  tratamiento,
+  procesar,
+  limpiar,
+  agregarLista,
+  isSpeech,
+  terminar,
+} from "../../store/odontograma";
 import { useRoute } from "vue-router";
 import Registro from "./Registro.vue";
 import Col from "../../components/uikit/Col.vue";

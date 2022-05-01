@@ -103,9 +103,9 @@ export function limpiarCaries() {
     return false;
 }
 export function VerDemo(event) {
-    clearcanvas('myCanvas');
+    //clearcanvas('myCanvas');
      var registro=comboHallazgo.value;
-     var canvas = document.getElementById('myCanvas');
+     var canvas = document.getElementById('cvDemo');
      var context = canvas.getContext('2d');     
      context.font = '56pt Calibri';
      context.textAlign = 'center';

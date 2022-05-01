@@ -1,14 +1,26 @@
 <script setup>
 
-//import {diagnostico,tratamiento, procesar, limpiar, agregarLista,isSpeech,terminar} from '../../store/odontogramaDemo'
+import {
+  diagnostico,
+  tratamiento,
+  procesar,
+  limpiar,
+  agregarLista,
+  isSpeech,
+  terminar,
+} from "../../store/odontograma";
 import {ChangeHallazgo,VerDemo,clearcanvas} from '../../store/OdontoJS'
-//import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar, obtenerTodoDiccionario, obtenerTodoPieza,obtenerTodoHallazgo,obtenerTodoCaries} from '../../store/odonto'
+import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar, obtenerTodoDiccionario, obtenerTodoPieza,obtenerTodoHallazgo,obtenerTodoCaries} from '../../store/odonto'
 /*
 const listaDiccionario = obtenerTodoDiccionario()
 const listaPieza = obtenerTodoPieza()
 const listaHallazgo= obtenerTodoHallazgo()
 const listaCaries = obtenerTodoCaries()
 */
+const listaDiccionario = obtenerTodoDiccionario();
+const listaPieza = obtenerTodoPieza();
+const listaHallazgo = obtenerTodoHallazgo();
+const listaCaries = obtenerTodoCaries();
 </script>
 <template>
 <h1>Demo</h1>
@@ -32,11 +44,12 @@ const listaCaries = obtenerTodoCaries()
             </button>
         </div>
     </Col>
+
 </Row>
 <Row>
   <Col>
   <h4>Hallazgo:</h4>
-  <select class="form-control" id="cmbHallazgo" >
+  <select class="form-control" id="comboHallazgo" >
     <option selected>:::Seleccione:::</option>
     <option value="caries">Caries</option>
     <option value="extraccion">Extracción</option>
@@ -47,7 +60,7 @@ const listaCaries = obtenerTodoCaries()
   </Col>
    <Col>
   <h4>Tipo Caries:</h4>
-  <select class="form-control" id="cmbHallazgoTipo">
+  <select class="form-control" id="comboHallazgoTipo">
     <option selected>:::Seleccione:::</option>
     <option value="Vestibular">Vestibular</option>
     <option value="Distal">Distal</option>
@@ -58,7 +71,7 @@ const listaCaries = obtenerTodoCaries()
   </Col>
   <Col>
   <h4>Pieza:</h4>
-  <select class="form-control" id="cmbPieza" @change="VerDemo($event)">
+  <select class="form-control" id="comboPieza" @change="VerDemo($event)">
   <option selected>:::Seleccione:::</option>
   <option value="11" selected>11</option>
   <option value="12">12</option>
@@ -119,11 +132,43 @@ const listaCaries = obtenerTodoCaries()
 <Row>
     <Col></Col>
     <Col>
-      <canvas id="myCanvas" width="500" height="400" style="border: 0; left:0px; top:0px;"></canvas>  
-      
+      <canvas id="cvDemo" width="500" height="400" style="border: 0; left:0px; top:0px;"></canvas>  
+      <table border="0" style="display: none;">
+                <tr>
+                <td colspan="6" style="border: 0px; width: 240px;">
+                  <canvas id="cvhallazgo" width="150" height="200" style="">Su navegador no soporta canvas :( </canvas>
+                <input id="piezatopcar" type="hidden" value="0"/>
+                <button class="btn btn-primary start" ID="btntopcar" value="0" Style="width: 100%; height: 60px; border-radius: 90% 90% 0% 0%; "
+                @click="DienteCaries('btntopcar')">
+                Vestibular
+                </button>
+                </td>
+                </tr>
+                <tr>
+                <td colspan="2" style="border: 0px; width: 80px;">
+                <input id="piezaleftCar" type="hidden" value="0"/>
+                <button class="btn btn-primary start" ID="btnleftCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btnleftCar')">Distal</button>
+                </td>
+                <td colspan="2" style="border: 0px; width: 80px;">
+                <input id="piezacenterCar" type="hidden" value="0"/>                
+                <button class="btn btn-primary start" ID="btncenterCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btncenterCar')">Oclusal</button>
+                </td>
+                <td colspan="2" style="border: 0px; width: 80px;">
+                <input id="piezarigthCar" type="hidden" value="0"/>
+                <button class="btn btn-primary start" ID="btnrigthCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btnrigthCar')">Mesial</button>
+                </td>
+                </tr>
+                <tr>
+                <td colspan="6" style="border: 0px; width: 240px;">
+                <input id="piezabotCar" type="hidden" value="0"/>
+                <button class="btn btn-primary start" ID="btnbotCar" value="0" Style="width: 100%; height: 60px; border-radius: 0% 0% 90% 90%;" @click="DienteCaries('btnbotCar')">Palatino</button>
+                </td>
+                </tr>
+                </table> 
     </Col>
     <Col></Col>
 </Row>
+
 </div>
 </template>
 
