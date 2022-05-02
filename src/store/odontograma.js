@@ -71,7 +71,9 @@ if (annyang) {
                     comboPieza.value = comandoCompleto[1];
                 }
                 if (comandoCompleto[0] === 'caries') {
-                    pintarDiente(comandoCompleto[1])
+                    //pintarDiente(comandoCompleto[1])
+                    let comboHallazgoTipo = document.getElementById('comboHallazgoTipo');
+                    comboHallazgoTipo.value = comandoCompleto[1];
                 }
                 if (comandoCompleto[0] === 'limpiar') {
                     limpiar();
