@@ -19,11 +19,11 @@ onMounted(() => {
 </script>
 
 <template lang="pug">
-.modal.fade#exampleModal( ref='dialog' tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
+.modal.fade( ref='dialog' tabindex="-1" aria-hidden="true")
   .modal-dialog
     .modal-content
       .modal-header
-        h5.modal-title#exampleModalLabel 
+        h5.modal-title
             slot(name='title') 
         button.btn-close(type="button" @click='$emit("update:modelValue", false)' aria-label="Close")
       .modal-body

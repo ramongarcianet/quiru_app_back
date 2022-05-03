@@ -2,18 +2,27 @@
 import { onUnmounted, ref } from "vue";
 import {
   registroodonto,
-  leerEnRegistro,
   eliminar,
-  dialog,
 } from "../../store/formodontograma";
-import { useRouter } from "vue-router";
+
+import { obtenerTodos } from "../../store/formodontograma";
+import { useRouter, useRoute } from "vue-router";
+
 const confirmar = ref(false);
 
-const confirmarEliminar = (id) => eliminar(id).then(() => (confirmar.value = false));
 const { push } = useRouter();
-/*if( route.params.idPaciente) {
-  obtener = obtenerTodos( route.params.idOdontograma )
-}*/
+const route = useRoute()
+let obtener
+
+if (route.params.idPaciente) {
+  obtener = obtenerTodos(route.params.idPaciente);
+}
+const confirmarEliminar = (id) => eliminar(id).then(() => (confirmar.value = false));
+
+onUnmounted(()=>{
+  if(obtener) obtener()
+})
+
 </script>
 
 <template lang="pug">

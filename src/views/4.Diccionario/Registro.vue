@@ -1,34 +1,37 @@
 <script setup>
 import { onUnmounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog} from '../../store/diccionario'
 
 const obtenerRegistro = obtenerTodos()
 
-
+const {push} = useRouter()
 const confirmar = ref(false)
 
 const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
 
 </script>
 
-<template>
+<template lang="pug">
+table.table.table-striped.table-light
+    thead
+        tr
+            th Código
+            th Descripción
+            th
+    tbody
+        tr(v-for="item of registro", :key="item.id", :item="item")
+            td {{item.codigo}}
+            td {{item.descripcion}}
+            td
+                .dropdown
+                    button.btn.btn-primary.dropdown-toggle#dropdownMenuLink(data-bs-toggle="dropdown") Opciones
+                    ul.dropdown-menu
+                        li 
+                            a.dropdown-item( @click="push({name: 'diccionario', params: {idDiccionario: item.id}})") Editar 
+                        li
+                            a.dropdown-item( @click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) " ) {{confirmar ? '¿Está seguro?' : 'Borrar'}}
 
-      <Row>
-        <Col>Codigo</Col>
-        <Col>Descripción</Col>
-        <Col></Col>
-        <Col></Col>
-    </Row>
-    <Item  v-for="item of registro"  :key="item.id"  :item="item">
-        <Col>{{item.codigo}}</Col>
-        <Col>{{item.descripcion}}</Col>
-        <Col>
-            <Button @click="dialog=true, leerEnRegistro(item.id)"> Editar </Button>
-        </Col>
-        <Col>
-            <Button @click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) ">  {{confirmar ? '¿Está seguro?' : 'Borrar'}} </Button>
-        </Col>
-    </Item>
 
 </template>
 

@@ -1,16 +1,27 @@
 <script setup>
-import { ref } from "vue";
-import { item, guardar, actualizar, limpiar, dialog } from "../../store/paciente";
-
+import { onUnmounted, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { item, guardar, actualizar, limpiar, leerEnRegistro } from "../../store/paciente";
+import RegistroOdontograma from "../5.Odontograma/RegistroOdontograma.vue";
+import { guardar as guardarOdontograma } from "../../store/formodontograma";
 const guardarOActualizar = () => {
-  if (item.value.id) actualizar(item.value).then(() => limpiar());
-  else guardar(item.value).then(() => limpiar());
+  if (item.value.id) return actualizar(item.value);
+  else return guardar(item.value);
 };
+const route = useRoute()
+const {back} = useRouter()
+let obtener
+if (route.params.idPaciente) {
+  leerEnRegistro(route.params.idPaciente)
+}
+onUnmounted(()=> {
+  limpiar()
+  if (obtener) obtener();
+})
 </script>
 
 <template lang="pug">
-
-form(@submit.prevent="(e) => guardarOActualizar()")
+Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
   label.form-label Documento de identidad
   .input-group
     select.form-control(placeholder="Ubigeo", v-model="item.tipoDocumento")
@@ -49,8 +60,14 @@ form(@submit.prevent="(e) => guardarOActualizar()")
     .col
       label.form-label Comentario
       input.form-control(placeholder="Comentario", v-model="item.Comentario")
-  
+
   .d-flex
-    button.btn.btn-outline-primary(type="button", @click="dialog = false; limpiar(); ") Atrás
-    button.ms-auto.btn.btn-primary Guardar 
+    button.btn.btn-outline-primary(type="button", @click="back() ") Atrás
+    button.ms-auto.btn.btn-primary(type='submit') Guardar 
+
+RegistroOdontograma
+.d-flex
+  button.btn.btn-outline-primary(@click="push({ name: 'paciente', params: {} })") Volver
+  button.ms-auto(@click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico')") Nuevo Diagnóstico
+  button(@click="guardarOdontograma(route.params.idPaciente, 'Tratamiento')") Nuevo Tratamiento
 </template>

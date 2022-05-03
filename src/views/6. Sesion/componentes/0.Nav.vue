@@ -26,7 +26,6 @@ nav.w-100
                 h4 {{title}}
             
         button.btn.btn-primary.ms-auto( @click='$emit("update:modelValue", true), registrarEvento("activacion_btn_nav")' ) Probar
-//-Primer segmento     
 
 </template>
 

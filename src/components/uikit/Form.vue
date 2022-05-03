@@ -7,7 +7,7 @@ const submit = ()=> {
     loading.value = true
     if( props.onPromise ) props.onPromise()
         .then(()=>{
-            if(props.onSuccess)props.onSuccess()
+            if(props.onSuccess) props.onSuccess()
             loading.value = false
         }).catch(()=>{
             if(props.onCatch)props.onCatch()

@@ -1,10 +1,9 @@
 import { ref } from 'vue';
 
-import {addDoc, collection, onSnapshot, getDoc, getFirestore, doc, updateDoc, deleteDoc, setDoc} from 'firebase/firestore'
+import {addDoc, collection, onSnapshot, getDoc, doc, updateDoc, deleteDoc, setDoc} from 'firebase/firestore'
 import {firestore} from '../config/firebase'
 
-const dialog = ref( false )
-
+const registro = ref([])
 const item = ref ({
     tipoDocumento:'DNI',
     sexo:'M',
@@ -32,7 +31,7 @@ const eliminar = (id) => {
     return deleteDoc(referencia)
 }
 
-const registro = ref([])
+
 
 const obtenerTodos = () => {
     const referencia = collection(firestore, 'usuario')
@@ -69,6 +68,5 @@ export {
     actualizar,
     eliminar,
     limpiar,
-    dialog
 }
 

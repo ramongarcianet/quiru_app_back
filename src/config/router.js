@@ -44,23 +44,39 @@ const routes = [
             {
                 path: 'usuarios',
                 name: 'usuarios',
-                component: ()=>import('../views/2.Usuarios/index.vue')
+                component: ()=>import('../views/2.Usuarios/usuarios.vue')
+            },
+            {
+                path: 'usuario/:idUsuario?',
+                name: 'usuario',
+                component: ()=>import('../views/2.Usuarios/usuario.vue')
             },
             {
 
-                path: '/paciente',
-                name: 'paciente',
-                component: ()=>import('../views/3.Paciente/index.vue')
+                path: 'pacientes',
+                name: 'pacientes',
+                component: ()=>import('../views/3.Paciente/pacientes.vue')
             },
             {
-                path: '/diccionario',
+
+                path: 'paciente/:idPaciente?',
+                name: 'paciente',
+                component: ()=>import('../views/3.Paciente/paciente.vue')
+            },
+            {
+                path: 'diccionarios',
+                name: 'diccionarios',
+                component: ()=>import('../views/4.Diccionario/diccionarios.vue')
+            },
+            {
+                path: 'diccionario/:idDiccionario?',
                 name: 'diccionario',
-                component: ()=>import('../views/4.Diccionario/index.vue')
+                component: ()=>import('../views/4.Diccionario/diccionario.vue')
             },
             {
                 path: 'odontograma/:idPaciente?',
                 name: 'odontograma',
-                component: ()=>import('../views/5.Odontograma/index.vue')
+                component: ()=>import('../views/5.Odontograma/Detalle.vue')
             },
             {
                 path: 'Detalle/:idOdontograma?',

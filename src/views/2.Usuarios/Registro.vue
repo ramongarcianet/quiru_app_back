@@ -1,41 +1,44 @@
 <script setup>
 import { onUnmounted, ref } from 'vue'
-import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog} from '../../store/usuario'
+import { useRouter } from 'vue-router'
+import {obtenerTodos, registro, leerEnRegistro, eliminar} from '../../store/usuario'
 const obtenerRegistro = obtenerTodos()
 
 const confirmar = ref(false)
 
 const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
-
+const {push} = useRouter()
 </script>
 
-<template>
-      <Row>
-        <Col>Tip Doc.</Col>
-        <Col>Número Doc.</Col>
-        <Col>Nombres</Col>
-        <Col>Ape. Paterno</Col>
-        <Col>Ape. Materno</Col>
-        <Col>Fecha Nac.</Col>
-        <Col>Sexo</Col>
-        <Col></Col>
-        <Col></Col>
-    </Row>
-    <Item  v-for="item of registro"  :key="item.id"  :item="item">
-        <Col>{{item.tipoDocumento}}</Col>
-        <Col>{{item.numeroDocumento}}</Col>
-        <Col>{{item.nombre}}</Col>
-        <Col>{{item.apellidoPaterno}}</Col>
-        <Col>{{item.apellidoMaterno}}</Col>
-        <Col>{{item.fechaNacimiento}}</Col>
-        <Col>{{item.sexo}}</Col>
-        <Col>
-            <Button @click="dialog=true, leerEnRegistro(item.id)"> Editar </Button>
-        </Col>
-        <Col>
-            <Button @click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) ">  {{confirmar ? '¿Está seguro?' : 'Borrar'}} </Button>
-        </Col>
-    </Item>
+<template lang="pug">
+table.table.table-striped
+    thead
+        tr
+            th Tip Doc.
+            th Número Doc.
+            th Nombres
+            th Ape. Paterno
+            th Ape. Materno
+            th Fecha Nac.
+            th Sexo
+            th
+    tbody
+        tr( v-for="item of registro"  :key="item.id"  :item="item" )
+            td {{item.tipoDocumento}}
+            td {{item.numeroDocumento}}
+            td {{item.nombre}}
+            td {{item.apellidoPaterno}}
+            td {{item.apellidoMaterno}}
+            td {{item.fechaNacimiento}}
+            td {{item.sexo}}
+            td 
+                .dropdown
+                    button.btn.btn-primary.dropdown-toggle#dropdownMenuLink(data-bs-toggle="dropdown") Opciones
+                    ul.dropdown-menu
+                        li 
+                            a.dropdown-item( @click="push({name: 'usuario', params: {idUsuario: item.id}}) " ) Editar
+                        li
+                            a.dropdown-item( @click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) " ) {{confirmar ? '¿Está seguro?' : 'Borrar'}} 
 
 </template>
 

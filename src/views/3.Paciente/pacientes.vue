@@ -1,18 +1,16 @@
 <script setup>
-import Formulario from "./Formulario.vue";
 import Registro from "./Registro.vue";
 import { dialog } from "../../store/paciente";
+import { useRouter } from "vue-router";
+
+const {push} = useRouter()
 </script>
 <template lang="pug">
 
 .d-flex.justify-content-between
   h1 Pacientes
-  Button( @click="dialog=true") Nuevo
-Dialog( v-model='dialog' )
-  template(#title)
-    h3.m-0 Usuario
-  template(#body)
-    Formulario
+  Button( @click="push({name: 'paciente'})") Nuevo
+
 Registro
 
 </template>

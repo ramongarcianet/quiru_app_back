@@ -10,10 +10,7 @@ import {
 import {
   obtenerTodos,
   registro,
-  leerEnRegistro,
   eliminar,
-  dialog,
-  guardar,
   obtenerTodoDiccionario,
   obtenerTodoPieza,
   obtenerTodoHallazgo,
@@ -73,22 +70,18 @@ input#tipoReg(type="hidden", value="0")
 <Row>
     <Col>
         <Row>
-            <Col>
-                <h4>Hallazgo:</h4>
+            <div class="input-group">
                 <select class="form-control" id="comboHallazgo" @change="ChangeHallazgo($event)" >
-                    <option selected>:::Seleccione:::</option>
+                    <option selected disabled>Hallazgo</option>
                     <option value="caries">Caries</option>
                     <option value="extraccion">Extracción</option>
                     <option value="ausente">Ausente</option>
                     <option value="fractura">Fractura</option>
                     <option value="restauracion">Restauración</option>
                 </select>
-            </Col>
-            <Col></Col>
-            <Col>
-                <h4>Pieza:</h4>
+            
                 <select class="form-control" id="comboPieza">
-                <option selected>:::Seleccione:::</option>
+                <option selected disabled>Pieza</option>
                 <option value="11">11</option>
                 <option value="12">12</option>
                 <option value="13">13</option>
@@ -142,7 +135,7 @@ input#tipoReg(type="hidden", value="0")
                 <option value="84">84</option>
                 <option value="85">85</option>
                 </select>
-            </Col>
+            </div>
             <Col></Col>
         </Row>
         <Row>

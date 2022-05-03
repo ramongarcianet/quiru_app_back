@@ -10,7 +10,7 @@ import {
   terminar,
 } from "../../store/odontograma";
 import {ChangeHallazgo,VerDemo,clearcanvas} from '../../store/OdontoJS'
-import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog, guardar, obtenerTodoDiccionario, obtenerTodoPieza,obtenerTodoHallazgo,obtenerTodoCaries} from '../../store/odonto'
+import {obtenerTodos, registro,  eliminar,  guardar, obtenerTodoDiccionario, obtenerTodoPieza,obtenerTodoHallazgo,obtenerTodoCaries} from '../../store/odonto'
 /*
 const listaDiccionario = obtenerTodoDiccionario()
 const listaPieza = obtenerTodoPieza()

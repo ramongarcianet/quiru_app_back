@@ -1,17 +1,15 @@
 <script setup>
 
-import Formulario from './Formulario.vue'
+import { useRouter } from 'vue-router'
 import Registro from './Registro.vue'
-import {dialog} from '../../store/diccionario'
-
+const {push} = useRouter()
 </script>
 <template>
 <h1>Diccionario</h1>
 <row>
 <Container class="fluid">
     <Container>
-      <Button @click="dialog=true"> Nuevo </Button>
-      <Formulario :open='dialog' />
+      <Button @click="push({name: 'diccionario'})"> Nuevo </Button>
       <Registro />
     </Container>
   </Container>

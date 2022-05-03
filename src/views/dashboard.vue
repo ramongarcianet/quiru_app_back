@@ -15,7 +15,7 @@ const rutas = computed(() => [
   },
   {
     name: "Paciente",
-    onClick: () => push({ name: "paciente" }),
+    onClick: () => push({ name: "pacientes" }),
     icon: "fa-solid fa-address-book",
     routeName: "paciente",
   },
@@ -42,7 +42,7 @@ const rutasAdministrador = [
   },
   {
     name: "Diccionario",
-    onClick: () => push({ name: "diccionario" }),
+    onClick: () => push({ name: "diccionarios" }),
     icon: "fa-solid fa-book",
     routeName: "diccionario",
   },
@@ -121,6 +121,7 @@ window.addEventListener("resize", () => {
           font-weight: 300
           width: 100%
           transition: .3s opacity .5s
+          pointer-events: auto
 
   div
     margin: 0
@@ -143,6 +144,7 @@ window.addEventListener("resize", () => {
         &::after
           content: attr(label)
           opacity: 0
+          pointer-events: none
           margin-left: .25rem
           font-size: 1em
           transition: .3s opacity

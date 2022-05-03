@@ -16,31 +16,31 @@ const { push } = useRouter();
 </script>
 
 <template lang="pug">
-table.table.table-striped.table-light
+table.table.table-striped.table-light.table-light
     thead 
         tr
-            th Tip Doc.
-            th Número Doc.
+            th.d-none.d-md-table-cell Tip Doc.
+            th.d-none.d-md-table-cell Número Doc.
             th Nombres
-            th Fecha Nac.
-            th Sexo
+            th.d-none.d-md-table-cell Fecha Nac.
+            th.d-none.d-md-table-cell Sexo
             th 
 
     tbody
         tr(v-for="item of registro"  :key="item.id"  :item="item")
-            td {{(item.tipoDocumento=='DNI')? 'DNI': 'CARNET DE EXTRANJERIA'}}
-            td {{item.numeroDocumento}}
-            td {{item.nombre+ ' '+item.apellidoPaterno +' '+item.apellidoMaterno }}
-            td {{item.fechaNacimiento}}
-            td {{(item.sexo=='M')?'MASCULINO':'FEMENINO'}}
+            td.d-none.d-md-table-cell {{(item.tipoDocumento=='DNI')? 'DNI': 'CARNET DE EXTRANJERIA'}}
+            td.d-none.d-md-table-cell {{item.numeroDocumento}}
+            td 
+                span.d-block.d-md-none {{item.numeroDocumento}} - 
+                | {{item.nombre+ ' '+item.apellidoPaterno +' '+item.apellidoMaterno }}
+            td.d-none.d-md-table-cell {{item.fechaNacimiento}}
+            td.d-none.d-md-table-cell {{(item.sexo=='M')?'MASCULINO':'FEMENINO'}}
             td 
                 .dropdown
                     button.btn.btn-primary.dropdown-toggle#dropdownMenuLink(data-bs-toggle="dropdown") Opciones
                     ul.dropdown-menu
-                        li 
-                            a.dropdown-item( @click="push({name: 'odontograma', params: {idPaciente: item.id} })") Ver atenciones 
                         li
-                            a.dropdown-item( @click="dialog=true, leerEnRegistro(item.id)" ) Editar
+                            a.dropdown-item( @click=" push({name: 'paciente', params: {idPaciente: item.id}})" ) Ver
                         li
                             a.dropdown-item( @click="confirmar == false ? confirmar = true : confirmarEliminar(item.id)" ) {{confirmar ? '¿Está seguro?' : 'Borrar'}} 
            

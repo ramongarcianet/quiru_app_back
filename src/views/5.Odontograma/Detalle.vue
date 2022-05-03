@@ -17,6 +17,7 @@ if (route.params.idPaciente) {
 onUnmounted(() => {
   if (obtener) obtener();
 });
+
 </script>
 <template>
   <h1>Odontograma</h1>
