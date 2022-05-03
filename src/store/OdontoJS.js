@@ -106,7 +106,7 @@ export function VerDemo(event) {
     //clearcanvas('myCanvas');
      var registro=comboHallazgo.value;
      var canvas = document.getElementById('cvDemo');
-     var context = canvas.getContext('2d');     
+     var context = canvas.getContext('2d');
      context.font = '56pt Calibri';
      context.textAlign = 'center';
      context.fillStyle = 'blue';
@@ -120,13 +120,40 @@ export function VerDemo(event) {
      var entry=event.target.value;
      var HallazgoTipo=comboHallazgoTipo.value;
 
-    iniciar_x=iniciar_x+28;   
+    iniciar_x=iniciar_x+28;
     inicio_y=75;
-    context.fillText(entry, iniciar_x + 100, 60); 
-       
+    context.fillText(entry, iniciar_x + 100, 60);
+
     dibuja_contornoDemo(context, iniciar_x, inicio_y, medida, entry,registro,HallazgoTipo);
 
-    context.fillStyle = 'blue'; 
+    context.fillStyle = 'blue';
+}
+export function VerDemoVoz(pieza,caries) {
+    //clearcanvas('myCanvas');
+     var registro=comboHallazgo.value;
+     var canvas = document.getElementById('cvDemo');
+     var context = canvas.getContext('2d');
+     context.font = '56pt Calibri';
+     context.textAlign = 'center';
+     context.fillStyle = 'blue';
+     context.lineWidth = 3;
+     var medida = 200;
+     var separacion_x = 50;
+     var iniciar_x = 0;
+     var inicio_y=0;
+     var x=0;
+     iniciar_x=0;
+     var entry=pieza;
+     var HallazgoTipo=comboHallazgoTipo.value;
+
+    iniciar_x=iniciar_x+28;
+    inicio_y=75;
+    context.fillText(entry, iniciar_x + 100, 60);
+
+    dibuja_contornoDemo(context, iniciar_x, inicio_y, medida, entry,registro,HallazgoTipo);
+
+    context.fillStyle = 'blue';
+    DienteCaries(caries);
 }
 export function VerFormato(registro) {
     console.log(registro)
@@ -143,22 +170,22 @@ export function VerFormato(registro) {
      iniciar_x=0;
      var arr = ['18', '17','16','15','14','13','12','11','21','22','23','24','25','26','27','28'];
      arr.forEach(function(entry) {
-        iniciar_x=iniciar_x+28;   
+        iniciar_x=iniciar_x+28;
         inicio_y=75;
-        context.fillText(entry, iniciar_x + 10, 45); 
+        context.fillText(entry, iniciar_x + 10, 45);
         dibuja_contorno(context, iniciar_x, inicio_y, medida, entry,registro);
         marcar_ControlTop(context, iniciar_x-12,inicio_y-75,medida);
         if(entry=="18" ||entry=="17" || entry=="16" || entry=="28" ||entry=="27" || entry=="26"){
-            marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top_tri"); 
+            marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top_tri");
         }
         else if(entry=="13" ||entry=="12" || entry=="11" || entry=="21" ||entry=="22" || entry=="23"){
             marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top");
         }
         else if(entry=="15" || entry=="25"){
-            marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top_one"); 
+            marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top_one");
         }
         else if(entry=="14" || entry=="24"){
-            marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top_duo"); 
+            marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top_duo");
         }
         context.fillStyle = 'blue';
       }, this);
@@ -166,17 +193,17 @@ export function VerFormato(registro) {
       arr = ['1', '1','1','55','54','53','52','51','61','62','63','64','65','1','1','1'];
       arr.forEach(function(entry) {
          iniciar_x=iniciar_x+28;
-         if(entry !="1")   {         
+         if(entry !="1")   {
             inicio_y=180;
             context.fillText(entry, iniciar_x + 10, 150);
             dibuja_contorno(context, iniciar_x, inicio_y, medida, entry,registro);
             if(entry=="55" ||entry=="54" || entry=="28" ||entry=="64" || entry=="65"){
-                marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top_tri"); 
+                marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top_tri");
             }
             else{
-                
+
                 marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top");
-            }            
+            }
             marcar_ControlTop(context, iniciar_x-12,inicio_y-75,medida);
             context.fillStyle = 'blue';
          }
@@ -189,14 +216,14 @@ export function VerFormato(registro) {
             inicio_y=213;
             context.fillText(entry, iniciar_x + 10, 270);
             dibuja_contorno(context, iniciar_x, inicio_y, medida, entry,registro);
-            
+
             if(entry=="85" ||entry=="84" ||entry=="74" || entry=="75"){
-                marcar_cabecera(context, iniciar_x, medida,inicio_y+ 47,"black","bot_duo"); 
+                marcar_cabecera(context, iniciar_x, medida,inicio_y+ 47,"black","bot_duo");
             }
             else{
-                
+
                 marcar_cabecera(context, iniciar_x, medida,inicio_y + 47,"black","bot");
-            }     
+            }
             marcar_ControlBot(context, iniciar_x-12,inicio_y+50,medida);
             context.fillStyle = 'blue';
          }
@@ -208,20 +235,20 @@ export function VerFormato(registro) {
           if(entry !="1")   {
             inicio_y=315;
             context.fillText(entry, iniciar_x + 10, 372);
-            dibuja_contorno(context, iniciar_x, inicio_y, medida, entry,registro);            
+            dibuja_contorno(context, iniciar_x, inicio_y, medida, entry,registro);
             if(entry=="48" ||entry=="47" ||entry=="46" || entry=="36" || entry=="37" || entry=="38"){
-                marcar_cabecera(context, iniciar_x, medida,inicio_y+ 47,"black","bot_duo"); 
+                marcar_cabecera(context, iniciar_x, medida,inicio_y+ 47,"black","bot_duo");
             }
             else if(entry=="41" ||entry=="42" ||entry=="43" || entry=="31" || entry=="32" || entry=="33"){
-                
+
                 marcar_cabecera(context, iniciar_x, medida,inicio_y + 47,"black","bot");
-            } 
+            }
             else if(entry=="44" ||entry=="45" || entry=="34" || entry=="35"){
-                
+
                 marcar_cabecera(context, iniciar_x, medida,inicio_y + 47,"black","bot_one");
-            } 
+            }
             marcar_ControlBot(context, iniciar_x-12,inicio_y+50,medida);
-            context.fillStyle = 'blue';       
+            context.fillStyle = 'blue';
           }
         }, this);
 }
@@ -271,12 +298,12 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro){
         ctx.moveTo(inicio_x,inicio_y);
         ctx.lineTo(cua+inicio_x,cua+inicio_y);
         ctx.lineTo(cua+inicio_x,ter+inicio_y);
-        ctx.lineTo(inicio_x,med+inicio_y);        
+        ctx.lineTo(inicio_x,med+inicio_y);
         ctx.closePath();
         ctx.stroke();
     }
     registro.forEach(element => {
-        if(element.diente==pieza){                 
+        if(element.diente==pieza){
             if (element.hallazgo=="extraccion"){
                 marcar_linea(ctx, inicio_x, med,inicio_y,"red","");
             }
@@ -307,8 +334,8 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro){
                         seccion=3;
                     }
                     dibuja_seccion(ctx, pieza, seccion, "red",med,inicio_x,inicio_y)
-                }); 
-                               
+                });
+
             }
             else if (element.hallazgo=="restauracion"){
                 var piezas = element.pieza;
@@ -331,7 +358,7 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro){
                         seccion=3;
                     }
                     dibuja_seccion(ctx, pieza, seccion, "blue",med,inicio_x,inicio_y)
-                }); 
+                });
             }
         }
     });
@@ -344,25 +371,25 @@ function marcar_cabecera(contexto, inicio_x,medida,inicio_y,color, tipo){
     //ctx.lineWidth = 3;
     ctx.strokeStyle = color;
     if(tipo=="bot")
-    {  
+    {
         ctx.moveTo(inicio_x,inicio_y-25);
         ctx.lineTo(inicio_x+10,inicio_y);
         ctx.moveTo(inicio_x+23,inicio_y-25);
-        ctx.lineTo(inicio_x+10,inicio_y);  
+        ctx.lineTo(inicio_x+10,inicio_y);
     }
     else  if(tipo=="top")
     {
         ctx.moveTo(inicio_x+10,inicio_y-25);
         ctx.lineTo(inicio_x+23,inicio_y);
         ctx.moveTo(inicio_x+10,inicio_y-25);
-        ctx.lineTo(inicio_x,inicio_y);  
+        ctx.lineTo(inicio_x,inicio_y);
     }
     else  if(tipo=="top_one")
     {
         ctx.moveTo(inicio_x+10,inicio_y-25);
         ctx.lineTo(inicio_x+17,inicio_y);
         ctx.moveTo(inicio_x+10,inicio_y-25);
-        ctx.lineTo(inicio_x+5,inicio_y);         
+        ctx.lineTo(inicio_x+5,inicio_y);
     }
     else  if(tipo=="top_duo")
     {
@@ -373,33 +400,33 @@ function marcar_cabecera(contexto, inicio_x,medida,inicio_y,color, tipo){
         ctx.moveTo(inicio_x+5,inicio_y-25);
         ctx.lineTo(inicio_x+12,inicio_y);
         ctx.moveTo(inicio_x+5,inicio_y-25);
-        ctx.lineTo(inicio_x,inicio_y);  
+        ctx.lineTo(inicio_x,inicio_y);
 
-        
+
     }
     else  if(tipo=="top_tri")
     {
         ctx.moveTo(inicio_x+5,inicio_y-25);
         ctx.lineTo(inicio_x+10,inicio_y);
         ctx.moveTo(inicio_x+5,inicio_y-25);
-        ctx.lineTo(inicio_x,inicio_y);  
+        ctx.lineTo(inicio_x,inicio_y);
 
         ctx.moveTo(inicio_x+20,inicio_y-25);
         ctx.lineTo(inicio_x+23,inicio_y);
         ctx.moveTo(inicio_x+20,inicio_y-25);
-        ctx.lineTo(inicio_x+10,inicio_y); 
+        ctx.lineTo(inicio_x+10,inicio_y);
 
         ctx.moveTo(inicio_x+10,inicio_y-25);
         ctx.lineTo(inicio_x+15,inicio_y-10);
         ctx.moveTo(inicio_x+10,inicio_y-25);
-        ctx.lineTo(inicio_x +7,inicio_y-10); 
+        ctx.lineTo(inicio_x +7,inicio_y-10);
     }
     else  if(tipo=="bot_duo")
     {
         ctx.moveTo(inicio_x,inicio_y-25);
         ctx.lineTo(inicio_x+5,inicio_y);
         ctx.moveTo(inicio_x+12,inicio_y-25);
-        ctx.lineTo(inicio_x+15,inicio_y);  
+        ctx.lineTo(inicio_x+15,inicio_y);
 
         ctx.moveTo(inicio_x+12,inicio_y-25);
         ctx.lineTo(inicio_x+5,inicio_y);
@@ -407,14 +434,14 @@ function marcar_cabecera(contexto, inicio_x,medida,inicio_y,color, tipo){
         ctx.lineTo(inicio_x+15,inicio_y);
     }
     else if(tipo=="bot_one")
-    {  
+    {
         ctx.moveTo(inicio_x+5,inicio_y-25);
         ctx.lineTo(inicio_x+10,inicio_y);
         ctx.moveTo(inicio_x+17,inicio_y-25);
-        ctx.lineTo(inicio_x+10,inicio_y);  
+        ctx.lineTo(inicio_x+10,inicio_y);
     }
     ctx.stroke();
-    ctx.lineWidth = 1;     
+    ctx.lineWidth = 1;
 }
 function marcar_ControlTop(ctx, inicio_x,inicio_y,med){
     var cua = med/2;
@@ -428,7 +455,7 @@ function marcar_ControlTop(ctx, inicio_x,inicio_y,med){
     ctx.closePath();
     ctx.fill();
     ctx.strokeStyle = 'black';
-    ctx.stroke();  
+    ctx.stroke();
 }
  function marcar_linea(contexto, inicio_x,medida,inicio_y,color, tipo){
     var ctx = contexto;
@@ -441,9 +468,9 @@ function marcar_ControlTop(ctx, inicio_x,inicio_y,med){
     if(tipo !="fractura"){
         ctx.moveTo(inicio_x+23,inicio_y);
         ctx.lineTo(inicio_x,inicio_y+23);
-    } 
+    }
     ctx.stroke();
-    ctx.lineWidth = 1;     
+    ctx.lineWidth = 1;
 }
 function dibuja_seccion(contexto, num_diente, seccion, color_pas,medida,inicio_x,inicio_y){
     var ctx = contexto;
@@ -538,7 +565,7 @@ function marcar_ControlBot(ctx, inicio_x,inicio_y,med){
     ctx.closePath();
     ctx.fill();
     ctx.strokeStyle = 'black';
-    ctx.stroke();  
+    ctx.stroke();
 }
 function dibuja_contornoDemo(context, inicio_x, inicio_y, med, pieza, registro,HallazgoTipo){
     var ctx = context;
@@ -586,10 +613,10 @@ function dibuja_contornoDemo(context, inicio_x, inicio_y, med, pieza, registro,H
         ctx.moveTo(inicio_x,inicio_y);
         ctx.lineTo(cua+inicio_x,cua+inicio_y);
         ctx.lineTo(cua+inicio_x,ter+inicio_y);
-        ctx.lineTo(inicio_x,med+inicio_y);        
+        ctx.lineTo(inicio_x,med+inicio_y);
         ctx.closePath();
         ctx.stroke();
-    }              
+    }
     if (registro=="extraccion"){
         marcar_lineaLanding(ctx, inicio_x, med,inicio_y,"red","");
     }
@@ -617,7 +644,7 @@ function dibuja_contornoDemo(context, inicio_x, inicio_y, med, pieza, registro,H
         if (item=="Palatino"){
             seccion=3;
         }
-        dibuja_seccion(ctx, pieza, seccion, "red",med,inicio_x,inicio_y)                       
+        dibuja_seccion(ctx, pieza, seccion, "red",med,inicio_x,inicio_y)
     }
     else if (registro=="restauracion"){
         var item = HallazgoTipo;
@@ -652,7 +679,7 @@ function marcar_lineaLanding(contexto, inicio_x,medida,inicio_y,color, tipo){
     if(tipo !="fractura"){
         ctx.moveTo(inicio_x+200,inicio_y);
         ctx.lineTo(inicio_x,inicio_y+200);
-    } 
+    }
     ctx.stroke();
-    ctx.lineWidth = 1;     
+    ctx.lineWidth = 1;
 }

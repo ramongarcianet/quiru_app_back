@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { limpiarCaries, DienteCaries, DienteAusente, DienteFracturado, clearcanvas, VerFormato as verOdontograma} from "./OdontoJS"
+import { limpiarCaries, DienteCaries, DienteAusente, DienteFracturado, clearcanvas, VerFormato as verOdontograma,VerDemoVoz} from "./OdontoJS"
 import { registro, listaDiccionario, listaPieza, listaHallazgo, listaCaries, guardar, eliminar } from "./odonto.js"
 import router from '../config/router'
 const { push } = router;
@@ -69,14 +69,18 @@ if (annyang) {
                     limpiarCaries();
                     let comboPieza = document.getElementById('comboPieza');
                     comboPieza.value = comandoCompleto[1];
+                    let comboHallazgoTipo = document.getElementById('comboHallazgoTipo');//demo
+                    demoVoz(comboPieza.value,comboHallazgoTipo.value);//demo
                 }
                 if (comandoCompleto[0] === 'caries') {
-                    //pintarDiente(comandoCompleto[1])
-                    let comboHallazgoTipo = document.getElementById('comboHallazgoTipo');
-                    comboHallazgoTipo.value = comandoCompleto[1];
+                    //pintarDiente(comandoCompleto[1])  //odontograma
+                    let comboHallazgoTipo = document.getElementById('comboHallazgoTipo');//demo
+                    comboHallazgoTipo.value = comandoCompleto[1];//demo
                 }
                 if (comandoCompleto[0] === 'limpiar') {
-                    limpiar();
+                    //limpiar(); odontograma
+                    limpiarDemo();
+
                 }
                 if (comandoCompleto[0] === 'borrar') {
                     if (comandoCompleto[1] != undefined) {
@@ -334,6 +338,30 @@ function buscarDiccionario(buscar) {
         let palabraEncontrada = listDiccionario.filter((diccionario) => diccionario.codigo == buscarTemp2);
         return palabraEncontrada.length;
     }
+}
+function demoVoz(pieza,posicion){
+    let tempCaries = '';
+    if (posicion === 'vestibular')
+        tempCaries='btntopcar'
+    if (posicion === 'distal')
+        tempCaries='btnleftCar'
+    if (posicion === 'oclusal')
+        tempCaries='btncenterCar'
+    if (posicion === 'mesial')
+        tempCaries='btnrigthCar'
+    if (posicion === 'palatino')
+        tempCaries='btnbotCar'
+    VerDemoVoz(pieza,tempCaries)
+}
+function limpiarDemo(){
+    let comboHallazgo = document.getElementById('comboHallazgo');
+    comboHallazgo.value = ':::Seleccione:::';
+    let comboHallazgoTipo = document.getElementById('comboHallazgoTipo');
+    comboHallazgoTipo.value = ':::Seleccione:::';
+
+    let comboPieza = document.getElementById('comboPieza');
+    comboPieza.value = ':::Seleccione:::';
+    clearcanvas('cvDemo');
 }
 
 export {

@@ -62,18 +62,18 @@ const listaCaries = obtenerTodoCaries();
   <h4>Tipo Caries:</h4>
   <select class="form-control" id="comboHallazgoTipo">
     <option selected>:::Seleccione:::</option>
-    <option value="Vestibular">Vestibular</option>
-    <option value="Distal">Distal</option>
-    <option value="Oclusal">Oclusal</option>
-    <option value="Mesial">Mesial</option>
-    <option value="Palatino">Palatino</option>
+    <option value="vestibular">Vestibular</option>
+    <option value="distal">Distal</option>
+    <option value="oclusal">Oclusal</option>
+    <option value="mesial">Mesial</option>
+    <option value="palatino">Palatino</option>
   </select>
   </Col>
   <Col>
   <h4>Pieza:</h4>
   <select class="form-control" id="comboPieza" @change="VerDemo($event)">
   <option selected>:::Seleccione:::</option>
-  <option value="11" selected>11</option>
+  <option value="11">11</option>
   <option value="12">12</option>
   <option value="13">13</option>
   <option value="14">14</option>
@@ -132,7 +132,7 @@ const listaCaries = obtenerTodoCaries();
 <Row>
     <Col></Col>
     <Col>
-      <canvas id="cvDemo" width="500" height="400" style="border: 0; left:0px; top:0px;"></canvas>  
+      <canvas id="cvDemo" width="500" height="400" style="border: 0; left:0px; top:0px;"></canvas>
       <table border="0" style="display: none;">
                 <tr>
                 <td colspan="6" style="border: 0px; width: 240px;">
@@ -150,7 +150,7 @@ const listaCaries = obtenerTodoCaries();
                 <button class="btn btn-primary start" ID="btnleftCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btnleftCar')">Distal</button>
                 </td>
                 <td colspan="2" style="border: 0px; width: 80px;">
-                <input id="piezacenterCar" type="hidden" value="0"/>                
+                <input id="piezacenterCar" type="hidden" value="0"/>
                 <button class="btn btn-primary start" ID="btncenterCar" value="0" Style="width: 100%; height:60px;" @click="DienteCaries('btncenterCar')">Oclusal</button>
                 </td>
                 <td colspan="2" style="border: 0px; width: 80px;">
@@ -164,7 +164,7 @@ const listaCaries = obtenerTodoCaries();
                 <button class="btn btn-primary start" ID="btnbotCar" value="0" Style="width: 100%; height: 60px; border-radius: 0% 0% 90% 90%;" @click="DienteCaries('btnbotCar')">Palatino</button>
                 </td>
                 </tr>
-                </table> 
+                </table>
     </Col>
     <Col></Col>
 </Row>
