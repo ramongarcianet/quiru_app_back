@@ -26,7 +26,7 @@ export function clearcanvas(id) {
 	contexto.clearRect(0, 0, canvas.width, canvas.height);
 
     document.getElementById("comboHallazgo").value=""
-    document.getElementById("comboHallazgoTipo").value=""
+    //document.getElementById("comboHallazgoTipo").value=""
     document.getElementById("comboPieza").value="00"
 }
 export function DienteAusente(id, color) {
@@ -64,13 +64,12 @@ export function DienteFracturado(id, color) {
 export function DienteCaries(value) {
     var _control = document.getElementById(value);
     var tipoReg= document.getElementById("tipoReg");
-    var stle="width: 100%; height:60px;";
-    var clor="";
+    var _className="button-diente";
     if (tipoReg.value == "1") {
-        clor="background-color: blue;";
+        _className="button-blue";
     }
     else{
-        clor="background-color: red;";
+        _className="button-red";
     }
     if (value == "btnleftCar") {
         piezaleftCar.value="1";
@@ -83,13 +82,11 @@ export function DienteCaries(value) {
     }
     if (value == "btntopcar") {
         piezatopcar.value="1";
-        stle=stle + "border-radius: 90% 90% 0% 0%;";
     }
     if (value == "btnbotCar") {
         piezabotCar.value="1";
-        stle=stle +"border-radius: 0% 0% 90% 90%;";
     }
-    _control.style = stle +clor;
+    _control.className = _className;
     return false;
 }
 export function limpiarCaries() {
