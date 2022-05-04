@@ -1,351 +1,212 @@
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { onMounted } from "vue";
 import {
   DienteCaries,
-  DienteAusente,
   ChangeHallazgo,
-  DienteFracturado,
-  VerFormato,
 } from "../../store/OdontoJS";
 import {
-  obtenerTodos,
-  registro,
-  eliminar,
   obtenerTodoDiccionario,
   obtenerTodoPieza,
   obtenerTodoHallazgo,
   obtenerTodoCaries,
 } from "../../store/odonto";
 import {
-  diagnostico,
-  tratamiento,
   procesar,
-  limpiar,
   agregarLista,
   isSpeech,
   terminar,
 } from "../../store/odontograma";
-import { useRoute } from "vue-router";
-import Registro from "./Registro.vue";
-import Col from "../../components/uikit/Col.vue";
+import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
 const listaDiccionario = obtenerTodoDiccionario();
 const listaPieza = obtenerTodoPieza();
 const listaHallazgo = obtenerTodoHallazgo();
 const listaCaries = obtenerTodoCaries();
+const {push} = useRouter()
 
-watch(
-  () => registro.value,
-  () => {
-    VerFormato(registro.value);
-  }
-);
 onMounted(() => {
   terminar();
 });
+
+const listaDeDientes = [
+11,12,13,14,15,16,17,18,
+21,22,23,24,25,26,27,28,
+31,32,33,34,35,36,37,38,
+41,42,43,44,45,46,47,48,
+51,52,53,54,55,61,62,63,64,65,
+71,72,73,74,75,81,82,83,84,85
+]
+const listaDeHallazgos = [
+    {text: 'caries',        value: 'Caries'},
+    {text: 'extraccion',    value: 'Extracción'},
+    {text: 'ausente',       value: 'Ausente'},
+    {text: 'fractura',      value: 'Fractura'},
+    {text: 'restauracion',  value: 'Restauración'}
+
+]
+
 </script>
 
 <template lang="pug">
-<Row>
-    <Col>
-        <div class="col-sm-12 col-md-12 col-lg-12" style="text-align:center;">
 
-            <button v-if='!isSpeech' type="submit" class="NotpulsingButton" style="visibility:visible;" id="btnActivar" @click="procesar()" >
-                <i class="fa fa-microphone" ></i>
-            </button>
-            <button v-if='isSpeech' type="submit" class="pulsingButton" style="visibility:visible;" id="btnEscuchando" @click="procesar()">
-                <div class="pulse-ring">
-                    <svg width="60" height="60" viewBox="40 0 150 300">
-                        <polyline stroke-linejoin="round" points="50,150 125,50 200,150" stroke="white" stroke-width="25" fill="none"></polyline>
-                        <polyline stroke-linejoin="bevel" points="50,250 125,150 200,250" stroke="white" stroke-width="25" fill="none"></polyline>
-                    </svg>
-                </div>
-                <i class="fa fa-microphone" ></i>
+#button-microfono
+    button.NotpulsingButton#btnActivar(v-if="!isSpeech" type="submit" style="visibility:visible;" @click="procesar()")
+        i.fa.fa-microphone
+    button.pulsingButton#btnEscuchando(v-if="isSpeech" type="submit" style="visibility:visible;" @click="procesar()")
+        .pulse-ring
+            svg(width="60", height="60", viewBox="40 0 150 300")
+            polyline(stroke-linejoin="round" points="50,150 125,50 200,150" stroke="white" stroke-width="25" fill="none")
+            polyline(stroke-linejoin="bevel" points="50,250 125,150 200,250" stroke="white" stroke-width="25" fill="none")
+        i.fa.fa-microphone
+.row
+    .col
+        input#tipoReg(type="hidden", value="0")
 
-            </button>
-        </div>  
-    </Col>
-</Row>
-input#tipoReg(type="hidden", value="0")
-<Row>
-    <Col>
-        <Row>
-            <div class="input-group">
-                <select class="form-control" id="comboHallazgo" @change="ChangeHallazgo($event)" >
-                    <option selected disabled>Hallazgo</option>
-                    <option value="caries">Caries</option>
-                    <option value="extraccion">Extracción</option>
-                    <option value="ausente">Ausente</option>
-                    <option value="fractura">Fractura</option>
-                    <option value="restauracion">Restauración</option>
-                </select>
-            
-                <select class="form-control" id="comboPieza">
-                <option selected disabled>Pieza</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-                <option value="21">21</option>
-                <option value="22">22</option>
-                <option value="23">23</option>
-                <option value="24">24</option>
-                <option value="25">25</option>
-                <option value="26">26</option>
-                <option value="27">27</option>
-                <option value="28">28</option>
-                <option value="31">31</option>
-                <option value="32">32</option>
-                <option value="33">33</option>
-                <option value="34">34</option>
-                <option value="35">35</option>
-                <option value="36">36</option>
-                <option value="37">37</option>
-                <option value="38">38</option>
-                <option value="41">41</option>
-                <option value="42">42</option>
-                <option value="43">43</option>
-                <option value="44">44</option>
-                <option value="45">45</option>
-                <option value="46">46</option>
-                <option value="47">47</option>
-                <option value="48">48</option>
-                <option value="51">51</option>
-                <option value="52">52</option>
-                <option value="53">53</option>
-                <option value="54">54</option>
-                <option value="55">55</option>
-                <option value="61">61</option>
-                <option value="62">62</option>
-                <option value="63">63</option>
-                <option value="64">64</option>
-                <option value="65">65</option>
-                <option value="71">71</option>
-                <option value="72">72</option>
-                <option value="73">73</option>
-                <option value="74">74</option>
-                <option value="75">75</option>
-                <option value="81">81</option>
-                <option value="82">82</option>
-                <option value="83">83</option>
-                <option value="84">84</option>
-                <option value="85">85</option>
-                </select>
-            </div>
-            <Col></Col>
-        </Row>
-        <Row>
-            <Col>
-            <canvas id="cvhallazgo" width="150" height="200" style="">Su navegador no soporta canvas :( </canvas>
-            </Col>
-            <Col>
-                table(border="0", style="width: 100%; border: 0px; border-collapse: collapse; border-spacing: 0px; border-style: none;")
-                    tbody
-                        tr
-                            td(colspan="6", style="border: 0px; width: 240px;")
-                                input#piezatopcar(type="hidden", value="0")
-                                button.btn.btn-primary.start#btntopcar(value="0", style="width: 100%; height: 60px; border-radius: 90% 90% 0% 0%; ", @click="DienteCaries('btntopcar')") Vestibular
-                        tr
-                            td(colspan="2", style="border: 0px; width: 80px;")
-                                input#piezaleftCar(type="hidden", value="0")
-                                button.btn.btn-primary.start#btnleftCar(value="0", style="width: 100%; height:60px;", @click="DienteCaries('btnleftCar')") Distal
-                            td(colspan="2", style="border: 0px; width: 80px;")
-                                input#piezacenterCar(type="hidden", value="0")
-                                button.btn.btn-primary.start#btncenterCar(value="0", style="width: 100%; height:60px;", @click="DienteCaries('btncenterCar')") Oclusal
-                            td(colspan="2", style="border: 0px; width: 80px;")
-                                input#piezarigthCar(type="hidden", value="0")
-                                button.btn.btn-primary.start#btnrigthCar(value="0", style="width: 100%; height:60px;", @click="DienteCaries('btnrigthCar')") Mesial
-                        tr
-                            td(colspan="6", style="border: 0px; width: 240px;")
-                                input#piezabotCar(type="hidden", value="0")
-                                button.btn.btn-primary.start#btnbotCar(value="0", style="width: 100%; height: 60px; border-radius: 0% 0% 90% 90%;", @click="DienteCaries('btnbotCar')") Palatino
-            </Col>
-        </Row>
-        
+        .input-group
+            select.form-select#comboHallazgo(@change="ChangeHallazgo($event)")
+                option(selected disabled) Hallazgo
+                option(v-for='{text, value} of listaDeHallazgos' :value="value") {{text}}
+
+            select.form-select#comboPieza
+                option(selected disabled) Pieza
+                option(v-for="item of listaDeDientes", :value="item") {{item}}
+.row
+    .col
+        canvas#cvhallazgo(width="150", height="200") Su navegador no soporta canvas :(
+    .col
+        #button-diente
+            input#piezatopcar( type="hidden", value="0" )
+            #btntopcar( value="0" @click="DienteCaries('btntopcar')" ) Vestibular
+            input#piezaleftCar( type="hidden", value="0" )
+            #btnleftCar( value="0" @click="DienteCaries('btnleftCar')" ) Distal
+            input#piezacenterCar( type="hidden", value="0" )
+            #btncenterCar( value="0" @click="DienteCaries('btncenterCar')" ) Oclusal
+            input#piezarigthCar( type="hidden", value="0" )
+            #btnrigthCar( value="0" @click="DienteCaries('btnrigthCar')" ) Mesial
+            input#piezabotCar(type="hidden", value="0")
+            #btnbotCar( value="0" @click="DienteCaries('btnbotCar')" ) Palatino
+.row
+    .col
         button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma)") Agregar a la lista
-           
-        Registro
-        .row
-            h4 Receta
-            textarea#inputReceta.form-control( rows="4")
-    </Col>
-    div 
-        .row
-            h4 Odontogramas
-            h4 Fecha: ...........
-          
-        .row
-            canvas#myCanvas( width="500" height="400" style="border: 0; left:0px; top:0px;")
-        .row
-            label.form-label Especficaciones
-            textarea.form-control#inputDescription( rows="4" ) 
-    
-            label.form-label Observaciones
-            textarea#inputObservacion.form-control( rows="4" )
-          
-</Row>
 
 </template>
 
-<style>
-.botonMicrofono {
-  border: none;
-  background: transparent;
-}
+<style lang="sass">
 
-.imagenMicrofonoActivar {
-  height: 37px;
-  width: 16px;
-}
+#button-diente
+    position: relative
+    height: 200px
+    width: 200px
+    #btntopcar,  #btnleftCar, #btncenterCar, #btnrigthCar, #btnbotCar
+        position: absolute
+        top: 0
+        left: 0
+        right: 0
+        bottom: 0
+        margin: auto
+        display: flex
+        align-items: center
+        justify-content: center
+        transition: .3s
+        background: var(--bs-gray-dark)
 
-.imagenMicrofonoEscuchar {
-  height: 37px;
-  width: 31px;
-  margin: auto;
-}
+        &:hover
+            &::before
+                background: mix(red, #37DFBB, 10%)
+    #btntopcar
+        height: calc(100% / 4)
+        width: 100%  
+        bottom: unset  
+        --clip-path: polygon(0% 0%, 100% 0%, calc(100% / 4 * 3) 100%, calc(100% / 4) 100%)
+        clip-path: var(--clip-path)
+    #btnleftCar
+        height: 100% 
+        width: calc(100% / 4)
+        right: unset
+        --clip-path: polygon(0 0, 100% calc(100% / 4), 100% calc(100% / 4 * 3), 0% 100%)
+        clip-path: var(--clip-path)
 
-.dataTables_wrapper .dataTables_filter {
-  float: right;
-  text-align: right;
-  visibility: hidden;
-}
+    #btncenterCar
+        height: calc(100% / 4 * 2)
+        width: calc(100% / 4 * 2) 
+        --clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%)
+        clip-path: var(--clip-path)
 
-.NotpulsingButton {
-  border: none;
-  padding: 0;
-  border-radius: 100%;
-  width: 70px;
-  height: 70px;
-  font-size: 3em;
-  color: #fff;
-  padding: 0;
-  margin: 0;
-  background: rgb(139, 199, 252);
-  position: relative;
-  z-index: 999;
-  display: inline-block;
-  line-height: 100px;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background-image: none;
-}
-.pulsingButton {
-  border: none;
-  padding: 0;
-  border-radius: 100%;
-  width: 70px;
-  height: 70px;
-  font-size: 3em;
-  color: #fff;
-  padding: 0;
-  margin: 0;
-  background: red;
-  position: relative;
-  z-index: 999;
-  display: inline-block;
-  line-height: 100px;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background-image: none;
-}
+    #btnrigthCar
+        height: 100% 
+        width: calc(100% / 4)
+        left: unset
+        --clip-path: polygon( 0 calc(100% / 4 ), 100% 0, 100% 100%, 0 calc(100% / 4 * 3))
+        clip-path: var(--clip-path)
 
-.pulse-ring {
-  content: "";
-  width: 70px;
-  height: 70px;
-  background: #189bff;
-  border: 5px solid #189bff;
-  border-radius: 50%;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  animation: pulsate infinite 1.5s;
-}
+    #btnbotCar
+        height: calc(100% / 4)
+        width: 100% 
+        top: unset
+        --clip-path: polygon(calc(100% / 4) 0%, calc(100% / 4 * 3) 0%, 100% 100%, 0% 100%)
+        clip-path: var(--clip-path)
+        
+    #btntopcar, #btnleftCar, #btncenterCar, #btnrigthCar, #btnbotCar
+        &::before
+            position: absolute
+            width: calc( 100% - 8px)
+            height: calc( 100% - 8px)
+            margin: auto
+            z-index: 0
+            content: ''
+            background: var(--bs-primary)
+            clip-path: var(--clip-path)
+            transition: .3s
 
-@-webkit-keyframes pulsate {
-  0% {
-    -webkit-transform: scale(1, 1);
-    opacity: 1;
-  }
+#button-microfono
+    position: fixed
+    top: 0
+    right: 0
+.NotpulsingButton 
+  border: none
+  padding: 0
+  border-radius: 100%
+  width: 70px
+  height: 70px
+  font-size: 3em
+  color: #fff
+  padding: 0
+  margin: 0
+  background: rgb(139, 199, 252)
+  position: relative
+  z-index: 999
+  display: inline-block
+  line-height: 100px
+  text-align: center
+  white-space: nowrap
+  vertical-align: middle
+  touch-action: manipulation
+  cursor: pointer
+  user-select: none
+  background-image: none
 
-  100% {
-    -webkit-transform: scale(1.3, 1.3);
-    opacity: 0;
-  }
-}
+.pulsingButton 
+  border: none
+  padding: 0
+  border-radius: 100%
+  width: 70px
+  height: 70px
+  font-size: 3em
+  color: #fff
+  padding: 0
+  margin: 0
+  background: red
+  position: relative
+  z-index: 999
+  display: inline-block
+  line-height: 100px
+  text-align: center
+  white-space: nowrap
+  vertical-align: middle
+  touch-action: manipulation
+  cursor: pointer
+  user-select: none
+  background-image: none
 
-.modal-header {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: start;
-  align-items: flex-start;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  padding: 1rem 1rem;
-  border-bottom: 1px solid #dee2e6;
-  border-top-left-radius: 0.3rem;
-  border-top-right-radius: 0.3rem;
-}
 
-.modal-header .close {
-  padding: 1rem 1rem;
-  margin: -1rem -1rem -1rem auto;
-}
-
-.modal-title {
-  margin-bottom: 0;
-  line-height: 1.5;
-}
-
-.modal-body {
-  position: relative;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  padding: 1rem;
-}
-
-.modal-footer {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-  align-items: center;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
-  padding: 1rem;
-  border-top: 1px solid #dee2e6;
-  border-bottom-right-radius: 0.3rem;
-  border-bottom-left-radius: 0.3rem;
-}
-#myCanvas {
-  border: 1px solid #9c9898;
-}
-#myCanvas2 {
-  border: 1px solid #9c9898;
-}
-#myCanvas3 {
-  border: 1px solid #9c9898;
-}
-#myCanvas4 {
-  border: 1px solid #9c9898;
-}
 </style>

@@ -20,7 +20,7 @@ const guardarOActualizar = () => {
                 <input placeholder="Código" v-model="item.codigo" required>
             </Col> -->
             <Col>
-                <select placeholder="Tipo Documento" v-model="item.tipoDocumento"  required>
+                <select v-model="item.tipoDocumento"  required>
                     <option value="DNI"> DNI</option>
                     <option value="CE"> CARNET DE EXTRAJERIA</option>
                 </select>

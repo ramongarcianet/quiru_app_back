@@ -49,7 +49,7 @@ const listaCaries = obtenerTodoCaries();
 <Row>
   <Col>
   <h4>Hallazgo:</h4>
-  <select class="form-control" id="comboHallazgo" >
+  <select class="form-select" id="comboHallazgo" >
     <option selected>:::Seleccione:::</option>
     <option value="caries">Caries</option>
     <option value="extraccion">Extracción</option>
@@ -60,7 +60,7 @@ const listaCaries = obtenerTodoCaries();
   </Col>
    <Col>
   <h4>Tipo Caries:</h4>
-  <select class="form-control" id="comboHallazgoTipo">
+  <select class="form-select" id="comboHallazgoTipo">
     <option selected>:::Seleccione:::</option>
     <option value="vestibular">Vestibular</option>
     <option value="distal">Distal</option>
@@ -71,7 +71,7 @@ const listaCaries = obtenerTodoCaries();
   </Col>
   <Col>
   <h4>Pieza:</h4>
-  <select class="form-control" id="comboPieza" @change="VerDemo($event)">
+  <select class="form-select" id="comboPieza" @change="VerDemo($event)">
   <option selected>:::Seleccione:::</option>
   <option value="11">11</option>
   <option value="12">12</option>

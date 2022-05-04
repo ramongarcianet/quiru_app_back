@@ -24,7 +24,7 @@ onUnmounted(()=>{
 Form( :onPromise=" () => guardarOActualizar()" :onSuccess='()=>back()')
     label.form-label() Documento
     .input-group 
-        select.form-control(placeholder="Tipo Documento" v-model="item.tipoDocumento" required)
+        select.form-select(placeholder="Tipo Documento" v-model="item.tipoDocumento" required)
             option(value="DNI") DNI
             option(value="CE") CARNET DE EXTRANJERIA
         input.form-control(placeholder="Número Documento" v-model="item.numeroDocumento" required)
@@ -37,7 +37,7 @@ Form( :onPromise=" () => guardarOActualizar()" :onSuccess='()=>back()')
         .col
             input.form-control(type="date", v-model="item.fechaNacimiento", required)
         .col
-            select.form-control(placeholder="Sexo", v-model="item.sexo", required)
+            select.form-select(placeholder="Sexo", v-model="item.sexo", required)
                 option(value="M") MASCULINO
                 option(value="F") FEMENINO
     

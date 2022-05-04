@@ -9,7 +9,7 @@ const {push} = useRouter()
 
 .d-flex.justify-content-between
   h1 Pacientes
-  Button( @click="push({name: 'paciente'})") Nuevo
+  button.btn.btn-primary( @click="push({name: 'paciente'})") Nuevo
 
 Registro
 

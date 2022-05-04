@@ -8,12 +8,12 @@ const dialog = ref( false )
 const regpasciente = ref([])
 
 const item = ref ({
-        tipo:'',
-        especificaciones:'',
-        observaciones:'',
-        receta:'',
-        fechaRegistro:new Date().toISOString().slice(0,10),
-        userId: miUsuario()?.uid
+    tipo:'',
+    especificaciones:'',
+    observaciones:'',
+    receta:'',
+    fechaRegistro:new Date().toISOString().slice(0,10),
+    userId: miUsuario()?.uid
 })
 
 
@@ -24,7 +24,7 @@ const guardar = (idPaciente, tipo) => {
         especificaciones:'',
         observaciones:'',
         receta:'',
-        fechaRegistro:new Date().toISOString().slice(0,10),
+        fechaRegistro: new Date().toISOString().slice(0,10),
         idPaciente, 
         userId: miUsuario()?.uid
     }
@@ -46,7 +46,6 @@ const eliminar = (id) => {
 const registroodonto = ref([])
 
 const obtenerTodos = (idPaciente) => {
-    console.log( 'funciona')
     const referencia = collection(firestore, 'odontograma')
     const busqueda = query( referencia, where( "idPaciente", "==", idPaciente) )
     return onSnapshot(
@@ -67,7 +66,7 @@ const leerEnRegistro = id => {
     return item.value = registroodonto.value.find( item  => item.id == id )
 }
 
-const limpiar=()=> {
+const limpiar = ()=> {
     item.value = {
         tipo:'',
         especificaciones:'',

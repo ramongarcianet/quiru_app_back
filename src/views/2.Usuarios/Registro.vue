@@ -11,7 +11,7 @@ const {push} = useRouter()
 </script>
 
 <template lang="pug">
-table.table.table-striped
+table.table.table-striped.table-light
     thead
         tr
             th Tip Doc.
