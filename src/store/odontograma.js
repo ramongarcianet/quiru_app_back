@@ -13,7 +13,9 @@ let observacionesTemp = '';
 if (annyang) {
     annyang.setLanguage("es-PE");
     var commands = {
-        'hola': activarVoz
+        'hola': activarVoz,
+        'hola quiru': activarVoz,
+        'hola kiru': activarVoz
     }
     annyang.addCallback('result', function (frase) {
         if (isSpeech.value) {
@@ -64,6 +66,15 @@ if (annyang) {
                 if (comandoCompleto[0] === 'hallazgo') {
                     limpiarCaries()
                     seleccionarHallazgo(comandoCompleto[1]);
+                    //ini demo
+                    if (comandoCompleto[1]=="caries" || comandoCompleto[1]=="restauracion"){
+                        cTipCaries.style = "";
+                    }
+                    else{
+                        cTipCaries.style = "visibility: hidden;";
+                    }
+                    demoVoz(comboPieza.value,comboHallazgoTipo.value);
+                    //fin demo
                 }
                 if (comandoCompleto[0] === 'pieza') {
                     limpiarCaries();
@@ -76,6 +87,7 @@ if (annyang) {
                     //pintarDiente(comandoCompleto[1])  //odontograma
                     let comboHallazgoTipo = document.getElementById('comboHallazgoTipo');//demo
                     comboHallazgoTipo.value = comandoCompleto[1];//demo
+                    demoVoz(comboPieza.value,comboHallazgoTipo.value);//demo
                 }
                 if (comandoCompleto[0] === 'limpiar') {
                     //limpiar(); odontograma

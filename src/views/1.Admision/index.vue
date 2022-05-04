@@ -9,7 +9,7 @@ import {
   isSpeech,
   terminar,
 } from "../../store/odontograma";
-import {ChangeHallazgo,VerDemo,clearcanvas} from '../../store/OdontoJS'
+import {ChangeHallazgo,VerDemo,clearcanvas,VerTipoCaries, VerDataTipoCaries} from '../../store/OdontoJS'
 import {obtenerTodos, registro,  eliminar,  guardar, obtenerTodoDiccionario, obtenerTodoPieza,obtenerTodoHallazgo,obtenerTodoCaries} from '../../store/odonto'
 /*
 const listaDiccionario = obtenerTodoDiccionario()
@@ -49,7 +49,7 @@ const listaCaries = obtenerTodoCaries();
 <Row>
   <Col>
   <h4>Hallazgo:</h4>
-  <select class="form-select" id="comboHallazgo" >
+  <select class="form-control" id="comboHallazgo"  @change="VerTipoCaries($event)">
     <option selected>:::Seleccione:::</option>
     <option value="caries">Caries</option>
     <option value="extraccion">Extracción</option>
@@ -58,22 +58,22 @@ const listaCaries = obtenerTodoCaries();
     <option value="restauracion">Restauración</option>
   </select>
   </Col>
-   <Col>
-  <h4>Tipo Caries:</h4>
-  <select class="form-select" id="comboHallazgoTipo">
-    <option selected>:::Seleccione:::</option>
-    <option value="vestibular">Vestibular</option>
-    <option value="distal">Distal</option>
-    <option value="oclusal">Oclusal</option>
-    <option value="mesial">Mesial</option>
-    <option value="palatino">Palatino</option>
-  </select>
+  <Col id="cTipCaries" style="visibility: hidden;">
+    <h4>Tipo Caries:</h4>
+    <select class="form-control" id="comboHallazgoTipo" @change="VerDataTipoCaries()">
+      <option selected>:::Seleccione:::</option>
+      <option value="vestibular">Vestibular</option>
+      <option value="distal">Distal</option>
+      <option value="oclusal">Oclusal</option>
+      <option value="mesial">Mesial</option>
+      <option value="palatino">Palatino</option>
+    </select>
   </Col>
   <Col>
   <h4>Pieza:</h4>
-  <select class="form-select" id="comboPieza" @change="VerDemo($event)">
+  <select class="form-control" id="comboPieza" @change="VerDemo($event.target.value)">
   <option selected>:::Seleccione:::</option>
-  <option value="11">11</option>
+  <option value="11" >11</option>
   <option value="12">12</option>
   <option value="13">13</option>
   <option value="14">14</option>
