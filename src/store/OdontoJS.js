@@ -107,6 +107,7 @@ export function VerDemo(event) {
      var registro=comboHallazgo.value;
      var canvas = document.getElementById('cvDemo');
      var context = canvas.getContext('2d');
+     context.clearRect(0, 0, canvas.width, canvas.height);
      context.font = '56pt Calibri';
      context.textAlign = 'center';
      context.fillStyle = 'blue';
@@ -117,7 +118,7 @@ export function VerDemo(event) {
      var inicio_y=0;
      var x=0;
      iniciar_x=0;
-     var entry=event.target.value;
+     var entry=event;
      var HallazgoTipo=comboHallazgoTipo.value;
 
     iniciar_x=iniciar_x+28;
@@ -129,10 +130,11 @@ export function VerDemo(event) {
     context.fillStyle = 'blue';
 }
 export function VerDemoVoz(pieza,caries) {
-    //clearcanvas('myCanvas');
      var registro=comboHallazgo.value;
      var canvas = document.getElementById('cvDemo');
      var context = canvas.getContext('2d');
+     context.clearRect(0, 0, canvas.width, canvas.height);
+     var registro=comboHallazgo.value;
      context.font = '56pt Calibri';
      context.textAlign = 'center';
      context.fillStyle = 'blue';
@@ -629,19 +631,19 @@ function dibuja_contornoDemo(context, inicio_x, inicio_y, med, pieza, registro,H
     else if (registro=="caries"){
         var item = HallazgoTipo;
         var seccion=0;
-        if (item=="Vestibular"){
+        if (item=="vestibular"){
             seccion=1;
         }
-        if (item=="Distal"){
+        if (item=="distal"){
             seccion=4;
         }
-        if (item=="Oclusal"){
+        if (item=="oclusal"){
             seccion=5;
         }
-        if (item=="Mesial"){
+        if (item=="mesial"){
             seccion=2;
         }
-        if (item=="Palatino"){
+        if (item=="palatino"){
             seccion=3;
         }
         dibuja_seccion(ctx, pieza, seccion, "red",med,inicio_x,inicio_y)
@@ -649,19 +651,19 @@ function dibuja_contornoDemo(context, inicio_x, inicio_y, med, pieza, registro,H
     else if (registro=="restauracion"){
         var item = HallazgoTipo;
         var seccion=0;
-        if (item=="Vestibular"){
+        if (item=="vestibular"){
             seccion=1;
         }
-        if (item=="Distal"){
+        if (item=="distal"){
             seccion=4;
         }
-        if (item=="Oclusal"){
+        if (item=="oclusal"){
             seccion=5;
         }
-        if (item=="Mesial"){
+        if (item=="mesial"){
             seccion=2;
         }
-        if (item=="Palatino"){
+        if (item=="palatino"){
             seccion=3;
         }
         dibuja_seccion(ctx, pieza, seccion, "blue",med,inicio_x,inicio_y)
@@ -682,4 +684,17 @@ function marcar_lineaLanding(contexto, inicio_x,medida,inicio_y,color, tipo){
     }
     ctx.stroke();
     ctx.lineWidth = 1;
+}
+
+export function VerTipoCaries(event){
+    if (event.target.value=="caries" || event.target.value=="restauracion"){
+        cTipCaries.style = "";
+    }
+    else{
+        cTipCaries.style = "visibility: hidden;";
+    }
+    VerDemo(comboPieza.value);
+}
+export function VerDataTipoCaries(){
+    VerDemo(comboPieza.value);
 }
