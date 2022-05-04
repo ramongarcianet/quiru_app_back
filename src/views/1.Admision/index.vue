@@ -50,7 +50,7 @@ const listaCaries = obtenerTodoCaries();
   <Col>
   <h4>Hallazgo:</h4>
   <select class="form-control" id="comboHallazgo"  @change="VerTipoCaries($event)">
-    <option selected>:::Seleccione:::</option>
+    <option selected disabled value="">:::Seleccione:::</option>
     <option value="caries">Caries</option>
     <option value="extraccion">Extracción</option>
     <option value="ausente">Ausente</option>
@@ -61,7 +61,7 @@ const listaCaries = obtenerTodoCaries();
   <Col id="cTipCaries" style="visibility: hidden;">
     <h4>Tipo Caries:</h4>
     <select class="form-control" id="comboHallazgoTipo" @change="VerDataTipoCaries()">
-      <option selected>:::Seleccione:::</option>
+      <option selected disabled value="">:::Seleccione:::</option>
       <option value="vestibular">Vestibular</option>
       <option value="distal">Distal</option>
       <option value="oclusal">Oclusal</option>
@@ -72,7 +72,7 @@ const listaCaries = obtenerTodoCaries();
   <Col>
   <h4>Pieza:</h4>
   <select class="form-control" id="comboPieza" @change="VerDemo($event.target.value)">
-  <option selected>:::Seleccione:::</option>
+  <option selected disabled value="00">:::Seleccione:::</option>
   <option value="11" >11</option>
   <option value="12">12</option>
   <option value="13">13</option>

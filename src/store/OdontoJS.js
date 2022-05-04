@@ -24,6 +24,10 @@ export function clearcanvas(id) {
     var canvas = document.getElementById(id);
     var contexto = canvas.getContext("2d");
 	contexto.clearRect(0, 0, canvas.width, canvas.height);
+
+    document.getElementById("comboHallazgo").value=""
+    document.getElementById("comboHallazgoTipo").value=""
+    document.getElementById("comboPieza").value="00"
 }
 export function DienteAusente(id, color) {
     var canvas = document.getElementById(id);

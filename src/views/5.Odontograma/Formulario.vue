@@ -37,11 +37,11 @@ const listaDeDientes = [
 71,72,73,74,75,81,82,83,84,85
 ]
 const listaDeHallazgos = [
-    {text: 'caries',        value: 'Caries'},
-    {text: 'extraccion',    value: 'Extracción'},
-    {text: 'ausente',       value: 'Ausente'},
-    {text: 'fractura',      value: 'Fractura'},
-    {text: 'restauracion',  value: 'Restauración'}
+    {value: 'caries',        text: 'Caries'},
+    {value: 'extraccion',    text: 'Extracción'},
+    {value: 'ausente',       text: 'Ausente'},
+    {value: 'fractura',      text: 'Fractura'},
+    {value: 'restauracion',  text: 'Restauración'}
 
 ]
 
@@ -72,7 +72,7 @@ const listaDeHallazgos = [
                 option(v-for="item of listaDeDientes", :value="item") {{item}}
 .row
     .col
-        canvas#cvhallazgo(width="150", height="200") Su navegador no soporta canvas :(
+        canvas#cvhallazgo(width="150" height="200") Su navegador no soporta canvas :(
     .col
         #button-diente
             input#piezatopcar( type="hidden", value="0" )

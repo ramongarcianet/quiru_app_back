@@ -367,12 +367,11 @@ function demoVoz(pieza,posicion){
 }
 function limpiarDemo(){
     let comboHallazgo = document.getElementById('comboHallazgo');
-    comboHallazgo.value = ':::Seleccione:::';
+    comboHallazgo.value = '';
     let comboHallazgoTipo = document.getElementById('comboHallazgoTipo');
-    comboHallazgoTipo.value = ':::Seleccione:::';
-
+    comboHallazgoTipo.value = '';
     let comboPieza = document.getElementById('comboPieza');
-    comboPieza.value = ':::Seleccione:::';
+    comboPieza.value = '00';
     clearcanvas('cvDemo');
 }
 
