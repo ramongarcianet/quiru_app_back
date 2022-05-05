@@ -1,6 +1,7 @@
 <script setup>
 import Logo from "../../../assets/logoQuiru.vue";
 import marketing from "../../../store/marketing";
+import Demo from "../../1.Admision/index.vue"
 const props = defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue"]);
 
@@ -9,16 +10,17 @@ const { item, agregar, registrarEvento } = marketing;
 </script>
 <template lang="pug">
 aside.d-flex.flex-column( :class='{active: modelValue}' )
-    form
-        Logo.light-text
-        p.mt-4.light-text Obtén tu acceso para ser de nuestros 
-            strong primeros usuarios
-    
-        Form( :onPromise='()=> agregar(item.email)' :onSuccess='()=> registrarEvento("act_btn_price")')
-            .input-group
-                input.form-control( type='email' required placeholder='Ingresa tu correo' v-model='item.email')
-                button.btn.btn-light(type='submit')
-                    i.fa-solid.fa-chevron-right.primary-text
+    .row 
+        .col-12.col-md-8
+            Demo
+            
+            Form.mt-4( :onPromise='()=> agregar(item.email)' :onSuccess='()=> registrarEvento("act_btn_price")')
+                h3.light-text Sé el primero en tener la versión oficial. 
+                h6 No hay pago requerido
+                .input-group
+                    input.form-control( type='email' required placeholder='Ingresa tu correo' v-model='item.email')
+                    button.btn.btn-light(type='submit')
+                        i.fa-solid.fa-chevron-right.primary-text
 #background( :class='{active: modelValue}' @click='$emit("update:modelValue", false)')
 button#close.transparent( @click='$emit("update:modelValue", false)' :class='{active: modelValue}' )
     i.fa-solid.fa-times.fa-3x.light-text
@@ -29,7 +31,7 @@ svg
     height: 4rem
     width: 4rem
 p
-    font-size: 3em
+    font-size: 2em
 aside
     position: fixed
     left: -100%
@@ -89,6 +91,6 @@ aside.active
         &.active
             width: calc(100% )
             height: calc( 100vh - 4rem)
-            clip-path: polygon(100% 0, 0% 0%, 0% 100%, 100% 85%)
+            clip-path: polygon(100% 0, 0% 0%, 0% 100%, 100% 95%)
             justify-content: start
 </style>

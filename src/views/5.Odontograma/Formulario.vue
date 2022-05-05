@@ -76,15 +76,20 @@ const listaDeHallazgos = [
     .col
         #button-diente
             input#piezatopcar( type="hidden", value="0" )
-            #btntopcar( value="0" @click="DienteCaries('btntopcar')" ) Vestibular
+            #btntopcar( value="0" @click="DienteCaries('btntopcar')" ) 
+                span Vestibular
             input#piezaleftCar( type="hidden", value="0" )
-            #btnleftCar( value="0" @click="DienteCaries('btnleftCar')" ) Distal
+            #btnleftCar( value="0" @click="DienteCaries('btnleftCar')" ) 
+                span Distal
             input#piezacenterCar( type="hidden", value="0" )
-            #btncenterCar( value="0" @click="DienteCaries('btncenterCar')" ) Oclusal
+            #btncenterCar( value="0" @click="DienteCaries('btncenterCar')" )
+                span Oclusal
             input#piezarigthCar( type="hidden", value="0" )
-            #btnrigthCar( value="0" @click="DienteCaries('btnrigthCar')" ) Mesial
+            #btnrigthCar( value="0" @click="DienteCaries('btnrigthCar')" ) 
+                span Mesial
             input#piezabotCar(type="hidden", value="0")
-            #btnbotCar( value="0" @click="DienteCaries('btnbotCar')" ) Palatino
+            #btnbotCar( value="0" @click="DienteCaries('btnbotCar')" )
+                span Palatino
 .row
     .col
         button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma)") Agregar a la lista
@@ -109,65 +114,89 @@ const listaDeHallazgos = [
         justify-content: center
         transition: .3s
         background: var(--bs-gray-dark)
+        --max: 100%
+        --min: 0%
+        --proporcion-final: calc( 100% / 4 * 3 )
+        --proporcion-inicial: calc( 100% / 4 * 1 )
+        --proporcion-central: calc( 100% / 4 * 2 )
 
+        *
+            position: relative
+            z-index: 10
         &:hover
             &::before
                 background: mix(red, #37DFBB, 10%)
+        &.button-red
+            color: var(--bs-gray-100)
+            &::before
+                background: var(--bs-red)
     #btntopcar
-        height: calc(100% / 4)
+        height: var(--proporcion-inicial)
         width: 100%  
         bottom: unset  
-        --clip-path: polygon(0% 0%, 100% 0%, calc(100% / 4 * 3) 100%, calc(100% / 4) 100%)
-        clip-path: var(--clip-path)
+        clip-path: polygon(var(--min) 0%, var(--max) 0%, var(--proporcion-final) 100%, var(--proporcion-inicial) 100%)
     #btnleftCar
         height: 100% 
-        width: calc(100% / 4)
+        width: var(--proporcion-inicial)
         right: unset
-        --clip-path: polygon(0 0, 100% calc(100% / 4), 100% calc(100% / 4 * 3), 0% 100%)
-        clip-path: var(--clip-path)
+        clip-path: polygon(var(--min) 0, 100% var(--proporcion-inicial), 100% var(--proporcion-final), 0% var(--max))
 
     #btncenterCar
-        height: calc(100% / 4 * 2)
-        width: calc(100% / 4 * 2) 
-        --clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%)
-        clip-path: var(--clip-path)
+        height: var(--proporcion-central)
+        width: var(--proporcion-central) 
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%)
 
     #btnrigthCar
         height: 100% 
         width: calc(100% / 4)
         left: unset
-        --clip-path: polygon( 0 calc(100% / 4 ), 100% 0, 100% 100%, 0 calc(100% / 4 * 3))
-        clip-path: var(--clip-path)
+        clip-path: polygon( 0 var(--proporcion-inicial), 100% var(--min), 100%  var(--max), 0 var(--proporcion-final))
+
 
     #btnbotCar
         height: calc(100% / 4)
         width: 100% 
         top: unset
-        --clip-path: polygon(calc(100% / 4) 0%, calc(100% / 4 * 3) 0%, 100% 100%, 0% 100%)
-        clip-path: var(--clip-path)
+        clip-path: polygon(var(--proporcion-inicial) 0%, var(--proporcion-final) 0%, var(--max) 100%, var(--min) 100%)
         
     #btntopcar, #btnleftCar, #btncenterCar, #btnrigthCar, #btnbotCar
         &::before
             position: absolute
-            width: calc( 100% - 8px)
-            height: calc( 100% - 8px)
             margin: auto
             z-index: 0
             content: ''
             background: var(--bs-primary)
+            --min: calc( 6px)
+            --max: calc(100% - var(--min))
+            --border: 2px
+            --border-right: calc(100% - var( --border ) )
             clip-path: var(--clip-path)
             transition: .3s
+            width: calc( 100% - var(--min))
+            height: calc( 100% - var(--min))
+    #btntopcar::before
+        clip-path: polygon(var(--min) var(--border), var(--max) var(--border), var(--proporcion-final) 100%,var(--proporcion-inicial) 100%)
+    #btnleftCar::before
+        clip-path: polygon( var(--border) var(--min), 100% var(--proporcion-inicial), 100% var(--proporcion-final), var(--border) var(--max))
+    #btncenterCar::before
+        clip-path: var(--clip-path)
+    #btnrigthCar::before
+        clip-path: polygon( 0 var(--proporcion-inicial), var(--border-right) var(--min), var(--border-right)  var(--max), 0 var(--proporcion-final))
+    #btnbotCar::before
+        clip-path: polygon(var(--proporcion-inicial) 0%, var(--proporcion-final) 0%, var(--max) var(--border-right), var(--min) var(--border-right))
 
 #button-microfono
     position: fixed
     top: 0
     right: 0
+    z-index: 100
+
 .NotpulsingButton 
   border: none
   padding: 0
   border-radius: 100%
-  width: 70px
-  height: 70px
+  width: 140px
+  height: 140px
   font-size: 3em
   color: #fff
   padding: 0
@@ -189,8 +218,8 @@ const listaDeHallazgos = [
   border: none
   padding: 0
   border-radius: 100%
-  width: 70px
-  height: 70px
+  width: 140px
+  height: 140px
   font-size: 3em
   color: #fff
   padding: 0
