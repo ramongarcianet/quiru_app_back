@@ -7,7 +7,7 @@ const isSpeech = ref(false);
 let recetaTemp = '';
 let especificacionesTemp = '';
 let observacionesTemp = '';
-
+let flagAnnyang;
 
 //--ini speech recognition
 export function inicializarReconocimientoVoz(isDemo = false) {
@@ -139,7 +139,7 @@ export function inicializarReconocimientoVoz(isDemo = false) {
             }
         });
         annyang.addCallback('soundstart', function () {
-            if (isSpeech.value)
+            //if (isSpeech.value)
                 console.log('sound detected');
         });
        /* annyang.addCallback('error', function () {
@@ -162,14 +162,15 @@ export function inicializarReconocimientoVoz(isDemo = false) {
         });*/
 
         annyang.addCommands(commands);
-        annyang.start();
+        if (!flagAnnyang)
+            flagAnnyang = annyang.start()
     } else {
         console.log("Speech Recognition is not supported");
     }
 }
 //--fin speech recognition
 export function detenerInicializarVoz() {
-    annyang.pause();
+    annyang.abort();
 }
 function activarVoz() {
     isSpeech.value = true;//start
@@ -414,10 +415,10 @@ function limpiarDemo() {
     comboPieza.value = '00';
     clearcanvas('cvhallazgo');
 }
-function speak(pHablar) {
-    let synth = window.speechSynthesis;
-    let voices = synth.getVoices();
+let synth = window.speechSynthesis;
+let voices = synth.getVoices();
 
+function speak(pHablar) {
     if (synth.speaking) {
         console.error('speechSynthesis.speaking');
         return;
