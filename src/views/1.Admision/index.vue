@@ -72,8 +72,8 @@ const listaDeTipos = [
 <li>Hallazgo fractura, pieza 18 </li>
 <li>Hallazgo ausente, pieza 12 </li>
 </ul>
-<div class="d-flex w-100 justify-content-center">
-  <canvas id="cvhallazgo" width="500" height="300" ></canvas>
+<div style="text-align: center;">
+  <canvas id="cvhallazgo" width="250" height="300" ></canvas>
 </div>
 <input id="tipoReg" type="hidden" value="0"/>
 <div class="row">
