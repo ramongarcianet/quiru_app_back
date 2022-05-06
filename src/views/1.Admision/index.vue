@@ -57,35 +57,21 @@ const listaDeTipos = [
   { value: "palatino", text: "Palatino" },
 ];
 
-if ("wakeLock" in navigator) {
-  console.log('wakeLock'+true);
-  // Create a reference for the Wake Lock.
-  let wakeLock = null;
-  // create an async function to request a wake lock
-  try {
-    wakeLock = await navigator.wakeLock.request("screen");
-    console.log('wakeLock')
-  } catch (err) {
-    // The Wake Lock request has failed - usually system related, such as battery.
-    console.log(`${err.name}, ${err.message}`);
-  }
-} else {
-  console.log('wakeLock'+ false);
-}
 </script>
+
 <template lang="pug">
 <div class="d-flex">
   <button v-if='!isSpeech' type="submit" class="NotpulsingButton" style="visibility:visible;" id="btnActivar" @click="procesar()" >
-    i class="fa fa-microphone"
+    i.fa.fa-microphone
   </button>
   <button v-if='isSpeech' type="submit" class="pulsingButton" style="visibility:visible;" id="btnEscuchando" @click="procesar()">
     <div class="pulse-ring">
       <svg width="60" height="60" viewBox="40 0 150 300">
-        polyline stroke-linejoin="round" points="50,150 125,50 200,150" stroke="white" stroke-width="25" fill="none"
-        polyline stroke-linejoin="bevel" points="50,250 125,150 200,250" stroke="white" stroke-width="25" fill="none"
+        polyline( stroke-linejoin="round" points="50,150 125,50 200,150" stroke="white" stroke-width="25" fill="none")
+        polyline( stroke-linejoin="bevel" points="50,250 125,150 200,250" stroke="white" stroke-width="25" fill="none")
       </svg>
     </div>
-    i class="fa fa-microphone"
+    i( class="fa fa-microphone")
   </button>
   h1.mt-4.light-text Prueba
     strong Quiru
