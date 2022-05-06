@@ -8,20 +8,20 @@ import {
   agregarLista,
   isSpeech,
   terminar,
+  inicializarReconocimientoVoz,
+  detenerInicializarVoz
 } from "../../store/odontograma";
 import {ChangeHallazgo,VerDemo,clearcanvas,VerTipoCaries, VerDataTipoCaries} from '../../store/OdontoJS'
 import {obtenerTodos, registro,  eliminar,  guardar, obtenerTodoDiccionario, obtenerTodoPieza,obtenerTodoHallazgo,obtenerTodoCaries} from '../../store/odonto'
-/*
-const listaDiccionario = obtenerTodoDiccionario()
-const listaPieza = obtenerTodoPieza()
-const listaHallazgo= obtenerTodoHallazgo()
-const listaCaries = obtenerTodoCaries()
-*/
+import { onUnmounted } from "@vue/runtime-core";
+
 const listaDiccionario = obtenerTodoDiccionario();
 const listaPieza = obtenerTodoPieza();
 const listaHallazgo = obtenerTodoHallazgo();
 const listaCaries = obtenerTodoCaries();
 
+inicializarReconocimientoVoz(true);
+onUnmounted(()=>detenerInicializarVoz())
 
 const listaDeDientes = [
 11,12,13,14,15,16,17,18,
@@ -49,7 +49,7 @@ const listaDeTipos = [
 <template lang="pug">
 
 <div class="d-flex">
-  
+
   <button v-if='!isSpeech' type="submit" class="NotpulsingButton" style="visibility:visible;" id="btnActivar" @click="procesar()" >
     <i class="fa fa-microphone" ></i>
   </button>
@@ -62,15 +62,22 @@ const listaDeTipos = [
     </div>
     <i class="fa fa-microphone" ></i>
   </button>
-  h1.mt-4.light-text Prueba 
+  h1.mt-4.light-text Prueba
     strong Quiru
 </div>
+<ul>
+<li>Hallazgo caries, caries distal, pieza 15 </li>
+<li>Hallazgo restauración, caries palatino, pieza 25 </li>
+<li>Hallazgo extración, pieza 23 </li>
+<li>Hallazgo fractura, pieza 18 </li>
+<li>Hallazgo ausente, pieza 12 </li>
+</ul>
 <div class="d-flex w-100 justify-content-center">
-  <canvas id="cvDemo" width="500" height="300" ></canvas>
+  <canvas id="cvhallazgo" width="500" height="300" ></canvas>
 </div>
 <input id="tipoReg" type="hidden" value="0"/>
 <div class="row">
-  <div class="input-group">
+  <div v-show="true" class="input-group">
     <select class="form-select" id="comboHallazgo"  @change="VerTipoCaries($event)">
       option( selected disabled value="" ) Hallazgo
       option( v-for="{value, text} of listaDeHallazgos" :value="value") {{text}}
@@ -85,17 +92,17 @@ const listaDeTipos = [
       option( selected disabled value="00" ) Pieza
       option( v-for='item of listaDeDientes' :value="item" ) {{item}}
     </select>
-    
+
   </div>
 </div>
 
 </template>
 
 <style>
-#cvDemo{
-  
+#cvhallazgo{
+
   border: 0;
-  
+
 }
 .NotpulsingButton {
     border: none;

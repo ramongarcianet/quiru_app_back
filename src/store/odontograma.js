@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { limpiarCaries, DienteCaries, DienteAusente, DienteFracturado, clearcanvas, VerFormato as verOdontograma,VerDemoVoz} from "./OdontoJS"
+import { limpiarCaries, DienteCaries, DienteAusente, DienteFracturado, clearcanvas, VerFormato as verOdontograma, VerDemoVoz } from "./OdontoJS"
 import { registro, listaDiccionario, listaPieza, listaHallazgo, listaCaries, guardar, eliminar } from "./odonto.js"
 import router from '../config/router'
 const { push } = router;
@@ -10,121 +10,149 @@ let observacionesTemp = '';
 
 
 //--ini speech recognition
-if (annyang) {
-    annyang.setLanguage("es-PE");
-    var commands = {
-        'hola': activarVoz,
-        'hola quiru': activarVoz,
-        'hola kiru': activarVoz
-    }
-    annyang.addCallback('result', function (frase) {
-        if (isSpeech.value) {
-            //---insertar texto en inputs
-            let textoDictado = frase[0];
-            let existeEnDiciionario = buscarDiccionario(textoDictado);
-            if (existeEnDiciionario === 0){
-                let inputReceta = document.getElementById('inputReceta');
-                if (inputReceta === document.activeElement) {
-                    inputReceta.value = recetaTemp+ ' '+ textoDictado;
-                    recetaTemp = inputReceta.value;
-                }
-                let inputDescription = document.getElementById('inputDescription');
-                if (inputDescription === document.activeElement) {
-                    inputDescription.value = especificacionesTemp+ ' '+ textoDictado;
-                    especificacionesTemp = inputDescription.value;
-                }
-                let inputObservacion = document.getElementById('inputObservacion');
-                if (inputObservacion === document.activeElement) {
-                    inputObservacion.value = observacionesTemp+ ' '+ textoDictado;
-                    observacionesTemp = inputObservacion.value;
-                }
-                return;
-            }
-            //--Buscar palabra mas correcta del dictada
-            const comandoTemp = buscarPalabraCorrecta(frase);
-            let comando = comandoTemp;
-            /* if (comando === 'hola') {
-                 activarVoz();
-                 return;
-             }*/
-            //if (isSpeech.value) {
-            if (comando != '') {
-                comando = comandoTemp.replace(/\s/g, '/');
-                const comandoCompleto = comando.split('/')
-                if (comandoCompleto[0] === 'detener') {
-                    detenerVoz();
-                }
-                if (comandoCompleto[0] === 'agregar') {
-                    agregarLista('voz');
-                }
-                if (comandoCompleto[0] === 'formato') {
-                    verOdontograma();
-                }
-                if (comandoCompleto[0] === 'volver') {
-                    volver();
-                }
-                if (comandoCompleto[0] === 'hallazgo') {
-                    limpiarCaries()
-                    seleccionarHallazgo(comandoCompleto[1]);
-                    //ini demo
-                    if (comandoCompleto[1]=="caries" || comandoCompleto[1]=="restauracion"){
-                        cTipCaries.style = "";
-                    }
-                    else{
-                        cTipCaries.style = "visibility: hidden;";
-                    }
-                    demoVoz(comboPieza.value,comboHallazgoTipo.value);
-                    //fin demo
-                }
-                if (comandoCompleto[0] === 'pieza') {
-                    limpiarCaries();
-                    let comboPieza = document.getElementById('comboPieza');
-                    comboPieza.value = comandoCompleto[1];
-                    let comboHallazgoTipo = document.getElementById('comboHallazgoTipo');//demo
-                    demoVoz(comboPieza.value,comboHallazgoTipo.value);//demo
-                }
-                if (comandoCompleto[0] === 'caries') {
-                    //pintarDiente(comandoCompleto[1])  //odontograma
-                    let comboHallazgoTipo = document.getElementById('comboHallazgoTipo');//demo
-                    comboHallazgoTipo.value = comandoCompleto[1];//demo
-                    demoVoz(comboPieza.value,comboHallazgoTipo.value);//demo
-                }
-                if (comandoCompleto[0] === 'limpiar') {
-                    //limpiar(); odontograma
-                    limpiarDemo();
-
-                }
-                if (comandoCompleto[0] === 'borrar') {
-                    if (comandoCompleto[1] != undefined) {
-                        eliminarDiente(comandoCompleto[1])
-                    }
-                }
-                if (comandoCompleto[0] === 'receta') {
-                    receta();
-                }
-                if (comandoCompleto[0] === 'especificaciones') {
-                    especificaciones();
-                }
-                if (comandoCompleto[0] === 'observaciones') {
-                    observaciones();
-                }
-                if (comandoCompleto[0] === 'terminar') {
-                    terminar();
-                }
-            }
-            //}
-
+export function inicializarReconocimientoVoz(isDemo = false) {
+    if (annyang) {
+        console.log('entro annyang')
+        annyang.setLanguage("es-PE");
+        var commands = {
+            'hola': activarVoz,
+            'hola quiru': activarVoz,
+            'hola quiro': activarVoz,
+            'hola quiero': activarVoz,
+            'hola kiru': activarVoz,
+            'hola kiro': activarVoz
         }
-    });
-    annyang.addCommands(commands);
-    annyang.start();
+        annyang.addCallback('result', function (frase) {
+            if (isSpeech.value) {
+                //---insertar texto en inputs
+                let textoDictado = frase[0];
+                let existeEnDiciionario = buscarDiccionario(textoDictado);
+                if (existeEnDiciionario === 0) {
+                    let inputReceta = document.getElementById('inputReceta');
+                    if (inputReceta === document.activeElement) {
+                        inputReceta.value = recetaTemp + ' ' + textoDictado;
+                        recetaTemp = inputReceta.value;
+                    }
+                    let inputDescription = document.getElementById('inputDescription');
+                    if (inputDescription === document.activeElement) {
+                        inputDescription.value = especificacionesTemp + ' ' + textoDictado;
+                        especificacionesTemp = inputDescription.value;
+                    }
+                    let inputObservacion = document.getElementById('inputObservacion');
+                    if (inputObservacion === document.activeElement) {
+                        inputObservacion.value = observacionesTemp + ' ' + textoDictado;
+                        observacionesTemp = inputObservacion.value;
+                    }
+                    return;
+                }
+                //--Buscar palabra mas correcta del dictado
+                const comandoTemp = buscarPalabraCorrecta(frase);
+                let comando = comandoTemp;
+                /* if (comando === 'hola') {
+                     activarVoz();
+                     return;
+                 }*/
+                //if (isSpeech.value) {
+                if (comando != '') {
+                    comando = comandoTemp.replace(/\s/g, '/');
+                    const comandoCompleto = comando.split('/')
+                    if (comandoCompleto[0] === 'detener') {
+                        detenerVoz();
+                    }
+                    if (comandoCompleto[0] === 'agregar') {
+                        agregarLista('voz');
+                    }
+                    if (comandoCompleto[0] === 'formato') {
+                        verOdontograma();
+                    }
+                    if (comandoCompleto[0] === 'volver') {
+                        volver();
+                    }
+                    if (['hallazgo'].indexOf(comandoCompleto[0])>-1) {
+                        if(!isDemo)
+                            limpiarCaries()
+                        else
+                            limpiarDemo()
+                        seleccionarHallazgo(comandoCompleto[1]);
+                        speak(comandoCompleto[0] + comandoCompleto[1])
+                        if(isDemo){
+                            if (['caries','restauracion'].indexOf(comandoCompleto[1])>-1) {
+                                document.getElementById("comboHallazgoTipo").removeAttribute("disabled");
+                            }
+                            else {
+                                document.getElementById('comboHallazgoTipo').setAttribute("disabled", "disabled");
+                            }
+                        }
+                    }
+                    if (comandoCompleto[0] === 'pieza') {
+                        if(!isDemo)
+                            limpiarCaries();
+                        let comboPieza = document.getElementById('comboPieza');
+                        comboPieza.value = comandoCompleto[1];
+                        if (isDemo) {
+                            let comboHallazgoTipo = document.getElementById('comboHallazgoTipo');//demo
+                            demoVoz(comboPieza.value, comboHallazgoTipo.value);//demo
+                        }
+                        speak(comandoCompleto[0] + comandoCompleto[1])
+                    }
+                    if (comandoCompleto[0] === 'caries') {
+                        if (!isDemo) {
+                            pintarDiente(comandoCompleto[1])  //odontograma
+                        } else {
+                            let comboHallazgoTipo = document.getElementById('comboHallazgoTipo');//demo
+                            comboHallazgoTipo.value = comandoCompleto[1];//demo
+                            demoVoz(comboPieza.value, comboHallazgoTipo.value);//demo
+
+                        }
+                        speak(comandoCompleto[0] + comandoCompleto[1])
+                    }
+                    if (comandoCompleto[0] === 'limpiar') {
+                        if (!isDemo) {
+                            limpiar(); //odontograma
+                        } else {
+                            limpiarDemo();
+                        }
+                        speak(comandoCompleto[0])
+                    }
+                    if (comandoCompleto[0] === 'borrar') {
+                        if (comandoCompleto[1] != undefined) {
+                            eliminarDiente(comandoCompleto[1])
+                        }
+                    }
+                    if (comandoCompleto[0] === 'receta') {
+                        receta();
+                    }
+                    if (comandoCompleto[0] === 'especificaciones') {
+                        especificaciones();
+                    }
+                    if (comandoCompleto[0] === 'observaciones') {
+                        observaciones();
+                    }
+                    if (comandoCompleto[0] === 'terminar') {
+                        terminar();
+                    }
+                } else {
+                    speak(textoDictado+ ' '+'No existe en el diccionario')
+                }
+                //}
+
+            }
+        });
+        annyang.addCommands(commands);
+        annyang.start();
+    }
 }
 //--fin speech recognition
+export function detenerInicializarVoz() {
+    annyang.pause();
+}
 function activarVoz() {
     isSpeech.value = true;//start
+    speak('hola')
 }
 function detenerVoz() {
     isSpeech.value = false;//stop
+    speak('detener')
 }
 
 function diagnostico(param) {
@@ -174,20 +202,7 @@ function agregarLista(param) {
 }
 function seleccionarHallazgo(tipoHallazgo) {
     let comboHallazgo = document.getElementById('comboHallazgo');
-    if (tipoHallazgo === 'extraccion') {
-        DienteAusente("cvhallazgo", "red");
-        comboHallazgo.value = tipoHallazgo;
-    } else if (tipoHallazgo === 'ausente') {
-        DienteAusente("cvhallazgo", "blue");
-        comboHallazgo.value = tipoHallazgo;
-    } else if (tipoHallazgo === 'fractura') {
-        clearcanvas("cvhallazgo")
-        DienteFracturado("cvhallazgo", "red");
-        comboHallazgo.value = tipoHallazgo;
-    } else {
-        clearcanvas("cvhallazgo")
-        comboHallazgo.value = tipoHallazgo;
-    }
+    comboHallazgo.value = tipoHallazgo;
 }
 function procesar() {
     if (isSpeech.value) {
@@ -225,7 +240,7 @@ function especificaciones() {
 function observaciones() {
     document.getElementById("inputObservacion").focus();
 }
-function terminar(){
+function terminar() {
     document.getElementById("inputReceta").blur();
     document.getElementById("inputDescription").blur();
     document.getElementById("inputObservacion").blur();
@@ -344,37 +359,53 @@ function buscarDiccionario(buscar) {
     let listDiccionario = listaDiccionario.value;
     let buscarTemp1 = buscar.trimLeft().replace(/\s/g, '/').split('/')[0].toLowerCase();
     let buscarTemp2 = buscar.trimLeft().toLowerCase();
-    if (buscarTemp1 === 'hallazgo' || buscarTemp1==='pieza' || buscarTemp1==='borrar' || buscarTemp1==='caries') {
+    if (buscarTemp1 === 'hallazgo' || buscarTemp1 === 'pieza' || buscarTemp1 === 'borrar' || buscarTemp1 === 'caries') {
         return 1;
     } else {
         let palabraEncontrada = listDiccionario.filter((diccionario) => diccionario.codigo == buscarTemp2);
         return palabraEncontrada.length;
     }
 }
-function demoVoz(pieza,posicion){
+function demoVoz(pieza, posicion) {
     let tempCaries = '';
     if (posicion === 'vestibular')
-        tempCaries='btntopcar'
+        tempCaries = 'btntopcar'
     if (posicion === 'distal')
-        tempCaries='btnleftCar'
+        tempCaries = 'btnleftCar'
     if (posicion === 'oclusal')
-        tempCaries='btncenterCar'
+        tempCaries = 'btncenterCar'
     if (posicion === 'mesial')
-        tempCaries='btnrigthCar'
+        tempCaries = 'btnrigthCar'
     if (posicion === 'palatino')
-        tempCaries='btnbotCar'
-    VerDemoVoz(pieza,tempCaries)
+        tempCaries = 'btnbotCar'
+    VerDemoVoz(pieza, tempCaries)
 }
-function limpiarDemo(){
+function limpiarDemo() {
     let comboHallazgo = document.getElementById('comboHallazgo');
     comboHallazgo.value = '';
     let comboHallazgoTipo = document.getElementById('comboHallazgoTipo');
     comboHallazgoTipo.value = '';
     let comboPieza = document.getElementById('comboPieza');
     comboPieza.value = '00';
-    clearcanvas('cvDemo');
+    clearcanvas('cvhallazgo');
 }
+function speak(pHablar) {
+    let synth = window.speechSynthesis;
+    let voices = synth.getVoices();
 
+    if (synth.speaking) {
+        console.error('speechSynthesis.speaking');
+        return;
+    }
+    if (pHablar !== '') {
+        let utterThis = new SpeechSynthesisUtterance(pHablar);
+        utterThis.voice = voices[8];
+        utterThis.pitch = '1';
+        utterThis.rate = '1';
+        synth.speak(utterThis);
+
+    }
+}
 export {
     diagnostico,
     tratamiento,

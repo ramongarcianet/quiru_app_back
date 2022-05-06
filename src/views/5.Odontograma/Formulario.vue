@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted,onUnmounted } from "vue";
 import {
   DienteCaries,
   ChangeHallazgo,
@@ -15,6 +15,9 @@ import {
   agregarLista,
   isSpeech,
   terminar,
+  inicializarReconocimientoVoz,
+  detenerInicializarVoz
+
 } from "../../store/odontograma";
 import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
@@ -23,6 +26,9 @@ const listaPieza = obtenerTodoPieza();
 const listaHallazgo = obtenerTodoHallazgo();
 const listaCaries = obtenerTodoCaries();
 const {push} = useRouter()
+
+inicializarReconocimientoVoz(false);
+onUnmounted(()=>detenerInicializarVoz())
 
 onMounted(() => {
   terminar();
@@ -76,16 +82,16 @@ const listaDeHallazgos = [
     .col
         #button-diente
             input#piezatopcar( type="hidden", value="0" )
-            #btntopcar( value="0" @click="DienteCaries('btntopcar')" ) 
+            #btntopcar( value="0" @click="DienteCaries('btntopcar')" )
                 span Vestibular
             input#piezaleftCar( type="hidden", value="0" )
-            #btnleftCar( value="0" @click="DienteCaries('btnleftCar')" ) 
+            #btnleftCar( value="0" @click="DienteCaries('btnleftCar')" )
                 span Distal
             input#piezacenterCar( type="hidden", value="0" )
             #btncenterCar( value="0" @click="DienteCaries('btncenterCar')" )
                 span Oclusal
             input#piezarigthCar( type="hidden", value="0" )
-            #btnrigthCar( value="0" @click="DienteCaries('btnrigthCar')" ) 
+            #btnrigthCar( value="0" @click="DienteCaries('btnrigthCar')" )
                 span Mesial
             input#piezabotCar(type="hidden", value="0")
             #btnbotCar( value="0" @click="DienteCaries('btnbotCar')" )
@@ -132,22 +138,22 @@ const listaDeHallazgos = [
                 background: var(--bs-red)
     #btntopcar
         height: var(--proporcion-inicial)
-        width: 100%  
-        bottom: unset  
+        width: 100%
+        bottom: unset
         clip-path: polygon(var(--min) 0%, var(--max) 0%, var(--proporcion-final) 100%, var(--proporcion-inicial) 100%)
     #btnleftCar
-        height: 100% 
+        height: 100%
         width: var(--proporcion-inicial)
         right: unset
         clip-path: polygon(var(--min) 0, 100% var(--proporcion-inicial), 100% var(--proporcion-final), 0% var(--max))
 
     #btncenterCar
         height: var(--proporcion-central)
-        width: var(--proporcion-central) 
+        width: var(--proporcion-central)
         clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%)
 
     #btnrigthCar
-        height: 100% 
+        height: 100%
         width: calc(100% / 4)
         left: unset
         clip-path: polygon( 0 var(--proporcion-inicial), 100% var(--min), 100%  var(--max), 0 var(--proporcion-final))
@@ -155,10 +161,10 @@ const listaDeHallazgos = [
 
     #btnbotCar
         height: calc(100% / 4)
-        width: 100% 
+        width: 100%
         top: unset
         clip-path: polygon(var(--proporcion-inicial) 0%, var(--proporcion-final) 0%, var(--max) 100%, var(--min) 100%)
-        
+
     #btntopcar, #btnleftCar, #btncenterCar, #btnrigthCar, #btnbotCar
         &::before
             position: absolute
@@ -191,7 +197,7 @@ const listaDeHallazgos = [
     right: 0
     z-index: 100
 
-.NotpulsingButton 
+.NotpulsingButton
   border: none
   padding: 0
   border-radius: 100%
@@ -214,7 +220,7 @@ const listaDeHallazgos = [
   user-select: none
   background-image: none
 
-.pulsingButton 
+.pulsingButton
   border: none
   padding: 0
   border-radius: 100%

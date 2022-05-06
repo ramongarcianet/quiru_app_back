@@ -106,7 +106,7 @@ export function limpiarCaries() {
 export function VerDemo(event) {
     //clearcanvas('myCanvas');
      var registro=comboHallazgo.value;
-     var canvas = document.getElementById('cvDemo');
+     var canvas = document.getElementById('cvhallazgo');
      var context = canvas.getContext('2d');
      context.clearRect(0, 0, canvas.width, canvas.height);
      context.font = '56pt Calibri';
@@ -132,7 +132,7 @@ export function VerDemo(event) {
 }
 export function VerDemoVoz(pieza,caries) {
      var registro=comboHallazgo.value;
-     var canvas = document.getElementById('cvDemo');
+     var canvas = document.getElementById('cvhallazgo');
      var context = canvas.getContext('2d');
      context.clearRect(0, 0, canvas.width, canvas.height);
      var registro=comboHallazgo.value;
@@ -156,7 +156,7 @@ export function VerDemoVoz(pieza,caries) {
     dibuja_contornoDemo(context, iniciar_x, inicio_y, medida, entry,registro,HallazgoTipo);
 
     context.fillStyle = 'blue';
-    DienteCaries(caries);
+    //DienteCaries(caries);
 }
 export function VerFormato(registro) {
     console.log(registro)
