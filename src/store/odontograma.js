@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { limpiarCaries, DienteCaries, DienteAusente, DienteFracturado, clearcanvas, VerFormato as verOdontograma, VerDemoVoz } from "./OdontoJS"
+import { limpiarCaries, DienteCaries, DienteAusente, DienteFracturado, clearcanvas, VerFormato as verOdontograma, VerDemoVoz, VerDemo } from "./OdontoJS"
 import { registro, listaDiccionario, listaPieza, listaHallazgo, listaCaries, guardar, eliminar } from "./odonto.js"
 import router from '../config/router'
 const { push } = router;
@@ -82,6 +82,7 @@ export function inicializarReconocimientoVoz(isDemo = false) {
                             else {
                                 document.getElementById('comboHallazgoTipo').setAttribute("disabled", "disabled");
                             }
+                            demoVoz(comboPieza.value, '');
                         }
                     }
                     if (comandoCompleto[0] === 'pieza') {
@@ -413,7 +414,8 @@ function limpiarDemo() {
     comboHallazgoTipo.value = '';
     let comboPieza = document.getElementById('comboPieza');
     comboPieza.value = '00';
-    clearcanvas('cvhallazgo');
+    VerDemo('00');
+
 }
 let synth = window.speechSynthesis;
 let voices = synth.getVoices();
