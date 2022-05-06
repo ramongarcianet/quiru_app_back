@@ -113,7 +113,7 @@ export function VerDemo(event) {
      context.textAlign = 'center';
      context.fillStyle = 'blue';
      context.lineWidth = 3;
-     var medida = 200;
+     var medida = 150;
      var separacion_x = 50;
      var iniciar_x = 0;
      var inicio_y=0;
@@ -124,7 +124,7 @@ export function VerDemo(event) {
 
     iniciar_x=iniciar_x+28;
     inicio_y=75;
-    context.fillText(entry, iniciar_x + 100, 60);
+    context.fillText(entry, iniciar_x + 70, 60);
 
     dibuja_contornoDemo(context, iniciar_x, inicio_y, medida, entry,registro,HallazgoTipo);
 
@@ -140,7 +140,7 @@ export function VerDemoVoz(pieza,caries) {
      context.textAlign = 'center';
      context.fillStyle = 'blue';
      context.lineWidth = 3;
-     var medida = 200;
+     var medida = 150;
      var separacion_x = 50;
      var iniciar_x = 0;
      var inicio_y=0;
@@ -151,7 +151,7 @@ export function VerDemoVoz(pieza,caries) {
 
     iniciar_x=iniciar_x+28;
     inicio_y=75;
-    context.fillText(entry, iniciar_x + 100, 60);
+    context.fillText(entry, iniciar_x + 70, 60);
 
     dibuja_contornoDemo(context, iniciar_x, inicio_y, medida, entry,registro,HallazgoTipo);
 
@@ -678,10 +678,10 @@ function marcar_lineaLanding(contexto, inicio_x,medida,inicio_y,color, tipo){
     ctx.lineWidth = 3;
     ctx.strokeStyle = color;
     ctx.moveTo(inicio_x,inicio_y);
-    ctx.lineTo(inicio_x+200,inicio_y+200);
+    ctx.lineTo(inicio_x+150,inicio_y+150);
     if(tipo !="fractura"){
-        ctx.moveTo(inicio_x+200,inicio_y);
-        ctx.lineTo(inicio_x,inicio_y+200);
+        ctx.moveTo(inicio_x+150,inicio_y);
+        ctx.lineTo(inicio_x,inicio_y+150);
     }
     ctx.stroke();
     ctx.lineWidth = 1;

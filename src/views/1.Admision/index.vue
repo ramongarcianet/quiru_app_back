@@ -27,7 +27,7 @@ import {
   obtenerTodoHallazgo,
   obtenerTodoCaries,
 } from "../../store/odonto";
-import { onMounted, onUnmounted } from "@vue/runtime-core";
+import { onUnmounted, onMounted } from "vue";
 
 const listaDiccionario = obtenerTodoDiccionario();
 const listaPieza = obtenerTodoPieza();
@@ -58,6 +58,7 @@ const listaDeTipos = [
 
 let wakeLock = null;
 onMounted(()=> {
+  VerDemo('00')
   if ("wakeLock" in navigator) {
     try {
       wakeLock = navigator?.wakeLock.request("screen");
@@ -102,7 +103,7 @@ li Hallazgo fractura, pieza 18
 li Hallazgo ausente, pieza 12
 </ul>
 <div style="text-align: center;">
-  <canvas id="cvhallazgo" width="250" height="300" ></canvas>
+  <canvas id="cvhallazgo" width="200" height="250" ></canvas>
 </div>
 <input id="tipoReg" type="hidden" value="0"/>
 <div class="row">
