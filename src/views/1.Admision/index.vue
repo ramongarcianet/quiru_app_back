@@ -70,7 +70,7 @@ onMounted(()=> {
   }
 })
 onUnmounted(()=>{
-  wakeLock.release()
+  wakeLock?.release()
   .then(() => {
     wakeLock = null;
   });
