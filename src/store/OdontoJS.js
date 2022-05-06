@@ -649,7 +649,7 @@ function dibuja_contornoDemo(context, inicio_x, inicio_y, med, pieza, registro,H
         }
         dibuja_seccion(ctx, pieza, seccion, "red",med,inicio_x,inicio_y)
     }
-    else if (registro=="restauracion"){
+    else if (registro=="restauración"){
         var item = HallazgoTipo;
         var seccion=0;
         if (item=="vestibular"){
