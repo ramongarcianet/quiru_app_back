@@ -28,11 +28,28 @@ const listaCaries = obtenerTodoCaries();
 const {push} = useRouter()
 
 inicializarReconocimientoVoz(false);
-onUnmounted(()=>detenerInicializarVoz())
 
-onMounted(() => {
+let wakeLock = null;
+onMounted(()=> {
   terminar();
-});
+
+  if ("wakeLock" in navigator) {
+    try {
+      wakeLock = navigator?.wakeLock.request("screen");
+    } catch (err) {
+      console.log(`${err.name}, ${err.message}`);
+    }
+  } else {
+    console.log('wakeLock'+ false);
+  }
+})
+onUnmounted(()=>{
+  wakeLock.release()
+  .then(() => {
+    wakeLock = null;
+  });
+  detenerInicializarVoz()
+})
 
 const listaDeDientes = [
 11,12,13,14,15,16,17,18,

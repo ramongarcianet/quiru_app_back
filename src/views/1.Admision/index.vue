@@ -27,7 +27,7 @@ import {
   obtenerTodoHallazgo,
   obtenerTodoCaries,
 } from "../../store/odonto";
-import { onUnmounted } from "@vue/runtime-core";
+import { onMounted, onUnmounted } from "@vue/runtime-core";
 
 const listaDiccionario = obtenerTodoDiccionario();
 const listaPieza = obtenerTodoPieza();
@@ -35,7 +35,6 @@ const listaHallazgo = obtenerTodoHallazgo();
 const listaCaries = obtenerTodoCaries();
 
 inicializarReconocimientoVoz(true);
-onUnmounted(() => detenerInicializarVoz());
 
 const listaDeDientes = [
   11, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23, 24, 25, 26, 27, 28, 31, 32, 33,
@@ -57,23 +56,25 @@ const listaDeTipos = [
   { value: "palatino", text: "Palatino" },
 ];
 
-/*
-if ("wakeLock" in navigator) {
-  console.log('wakeLock'+true);
-  // Create a reference for the Wake Lock.
-  let wakeLock = null;
-  // create an async function to request a wake lock
-  try {
-    wakeLock = await navigator.wakeLock.request("screen");
-    console.log('wakeLock')
-  } catch (err) {
-    // The Wake Lock request has failed - usually system related, such as battery.
-    console.log(`${err.name}, ${err.message}`);
+let wakeLock = null;
+onMounted(()=> {
+  if ("wakeLock" in navigator) {
+    try {
+      wakeLock = navigator?.wakeLock.request("screen");
+    } catch (err) {
+      console.log(`${err.name}, ${err.message}`);
+    }
+  } else {
+    console.log('wakeLock'+ false);
   }
-} else {
-  console.log('wakeLock'+ false);
-}
-*/
+})
+onUnmounted(()=>{
+  wakeLock.release()
+  .then(() => {
+    wakeLock = null;
+  });
+  detenerInicializarVoz()
+})
 </script>
 
 <template lang="pug">
