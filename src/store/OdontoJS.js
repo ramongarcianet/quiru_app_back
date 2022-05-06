@@ -688,7 +688,7 @@ function marcar_lineaLanding(contexto, inicio_x,medida,inicio_y,color, tipo){
 }
 
 export function VerTipoCaries(event){
-    if (event.target.value=="caries" || event.target.value=="restauracion"){
+    if (event.target.value=="caries" || event.target.value=="restauración"){
         cTipCaries.style = "";
     }
     else{
