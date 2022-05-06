@@ -57,6 +57,23 @@ const listaDeTipos = [
   { value: "palatino", text: "Palatino" },
 ];
 
+/*
+if ("wakeLock" in navigator) {
+  console.log('wakeLock'+true);
+  // Create a reference for the Wake Lock.
+  let wakeLock = null;
+  // create an async function to request a wake lock
+  try {
+    wakeLock = await navigator.wakeLock.request("screen");
+    console.log('wakeLock')
+  } catch (err) {
+    // The Wake Lock request has failed - usually system related, such as battery.
+    console.log(`${err.name}, ${err.message}`);
+  }
+} else {
+  console.log('wakeLock'+ false);
+}
+*/
 </script>
 
 <template lang="pug">
@@ -83,8 +100,8 @@ li Hallazgo extración, pieza 23
 li Hallazgo fractura, pieza 18
 li Hallazgo ausente, pieza 12
 </ul>
-<div class="d-flex w-100 justify-content-center">
-  canvas id="cvhallazgo" width="500" height="300"
+<div style="text-align: center;">
+  <canvas id="cvhallazgo" width="250" height="300" ></canvas>
 </div>
 <input id="tipoReg" type="hidden" value="0"/>
 <div class="row">
