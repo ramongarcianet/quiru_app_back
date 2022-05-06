@@ -68,15 +68,15 @@ export function inicializarReconocimientoVoz(isDemo = false) {
                     if (comandoCompleto[0] === 'volver') {
                         volver();
                     }
-                    if (['hallazgo'].indexOf(comandoCompleto[0])>-1) {
-                        if(!isDemo)
+                    if (['hallazgo'].indexOf(comandoCompleto[0]) > -1) {
+                        if (!isDemo)
                             limpiarCaries()
                         else
                             limpiarDemo()
                         seleccionarHallazgo(comandoCompleto[1]);
                         speak(comandoCompleto[0] + comandoCompleto[1])
-                        if(isDemo){
-                            if (['caries','restauracion'].indexOf(comandoCompleto[1])>-1) {
+                        if (isDemo) {
+                            if (['caries', 'restauracion'].indexOf(comandoCompleto[1]) > -1) {
                                 document.getElementById("comboHallazgoTipo").removeAttribute("disabled");
                             }
                             else {
@@ -85,7 +85,7 @@ export function inicializarReconocimientoVoz(isDemo = false) {
                         }
                     }
                     if (comandoCompleto[0] === 'pieza') {
-                        if(!isDemo)
+                        if (!isDemo)
                             limpiarCaries();
                         let comboPieza = document.getElementById('comboPieza');
                         comboPieza.value = comandoCompleto[1];
@@ -132,14 +132,39 @@ export function inicializarReconocimientoVoz(isDemo = false) {
                         terminar();
                     }
                 } else {
-                    speak(textoDictado+ ' '+'No existe en el diccionario')
+                    speak(textoDictado + ' ' + 'No existe en el diccionario')
                 }
                 //}
 
             }
         });
+        annyang.addCallback('soundstart', function () {
+            if (isSpeech.value)
+                console.log('sound detected');
+        });
+       /* annyang.addCallback('error', function () {
+            console.log('There was an error!');
+        });
+        annyang.addCallback('errorNetwork', function () {
+            console.log('errorNetwork');
+        });
+        annyang.addCallback('errorPermissionBlocked', function () {
+            console.log('errorPermissionBlocked');
+        });
+        annyang.addCallback('errorPermissionDenied', function () {
+            console.log('errorPermissionDenied');
+        });
+        annyang.addCallback('end', function () {
+            console.log('end');
+        });
+        annyang.addCallback('start', function () {
+            console.log('start');
+        });*/
+
         annyang.addCommands(commands);
         annyang.start();
+    } else {
+        console.log("Speech Recognition is not supported");
     }
 }
 //--fin speech recognition
