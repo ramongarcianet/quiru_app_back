@@ -9,6 +9,7 @@ import {
   terminar,
   inicializarReconocimientoVoz,
   detenerInicializarVoz,
+  textoEscuchado,
 } from "../../store/odontograma";
 import {
   ChangeHallazgo,
@@ -61,7 +62,7 @@ onMounted(()=> {
   VerDemo('00')
   if ("wakeLock" in navigator) {
     try {
-      wakeLock = navigator?.wakeLock.request("screen");
+      wakeLock = navigator?.wakeLock?.request("screen");
     } catch (err) {
       console.log(`${err.name}, ${err.message}`);
     }
@@ -69,7 +70,9 @@ onMounted(()=> {
     console.log('wakeLock'+ false);
   }
 })
-
+onUnmounted(()=>{
+  detenerInicializarVoz()
+})
 </script>
 
 <template lang="pug">
@@ -95,7 +98,9 @@ li Hallazgo restauración, caries palatino, pieza 25
 li Hallazgo extración, pieza 23
 li Hallazgo fractura, pieza 18
 li Hallazgo ausente, pieza 12
+
 </ul>
+p has dicho: {{textoEscuchado}}
 <div style="text-align: center;">
   <canvas id="cvhallazgo" width="200" height="250" ></canvas>
 </div>

@@ -8,7 +8,7 @@ let recetaTemp = '';
 let especificacionesTemp = '';
 let observacionesTemp = '';
 let flagAnnyang;
-
+export let textoEscuchado = ref()
 //--ini speech recognition
 export function inicializarReconocimientoVoz(isDemo = false) {
     if (annyang) {
@@ -23,6 +23,7 @@ export function inicializarReconocimientoVoz(isDemo = false) {
             'hola kiro': activarVoz
         }
         annyang.addCallback('result', function (frase) {
+            textoEscuchado.value=frase
             if (isSpeech.value) {
                 //---insertar texto en inputs
                 let textoDictado = frase[0];
@@ -163,15 +164,15 @@ export function inicializarReconocimientoVoz(isDemo = false) {
         });*/
 
         annyang.addCommands(commands);
-        if (!flagAnnyang)
-            flagAnnyang = annyang.start()
+        annyang.start()
+        
     } else {
         console.log("Speech Recognition is not supported");
     }
 }
 //--fin speech recognition
 export function detenerInicializarVoz() {
-    annyang.abort();
+    annyang.pause();
 }
 function activarVoz() {
     isSpeech.value = true;//start
