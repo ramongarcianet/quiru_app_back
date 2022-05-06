@@ -43,10 +43,10 @@ const listaDeDientes = [
 ];
 const listaDeHallazgos = [
   { value: "caries", text: "Caries" },
-  { value: "extraccion", text: "Extracción" },
+  { value: "extracción", text: "Extracción" },
   { value: "ausente", text: "Ausente" },
   { value: "fractura", text: "Fractura" },
-  { value: "restauracion", text: "Restauración" },
+  { value: "restauración", text: "Restauración" },
 ];
 const listaDeTipos = [
   { value: "vestibular", text: "Vestibular" },
