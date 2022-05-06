@@ -14,7 +14,7 @@ export function ChangeHallazgo(event) {
         var tipoReg= document.getElementById("tipoReg")
         tipoReg.value="0"
     }
-    else if (event.target.value=="restauracion"){
+    else if (event.target.value=="restauración"){
         var tipoReg= document.getElementById("tipoReg")
         tipoReg.value="1"
     }
@@ -340,7 +340,7 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro){
                 });
 
             }
-            else if (element.hallazgo=="restauracion"){
+            else if (element.hallazgo=="restauración"){
                 var piezas = element.pieza;
                 var datos = piezas.split(",");
                 var seccion=0;
@@ -649,7 +649,7 @@ function dibuja_contornoDemo(context, inicio_x, inicio_y, med, pieza, registro,H
         }
         dibuja_seccion(ctx, pieza, seccion, "red",med,inicio_x,inicio_y)
     }
-    else if (registro=="restauracion"){
+    else if (registro=="restauración"){
         var item = HallazgoTipo;
         var seccion=0;
         if (item=="vestibular"){
@@ -688,7 +688,7 @@ function marcar_lineaLanding(contexto, inicio_x,medida,inicio_y,color, tipo){
 }
 
 export function VerTipoCaries(event){
-    if (event.target.value=="caries" || event.target.value=="restauracion"){
+    if (event.target.value=="caries" || event.target.value=="restauración"){
         cTipCaries.style = "";
     }
     else{
