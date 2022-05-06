@@ -76,7 +76,7 @@ export function inicializarReconocimientoVoz(isDemo = false) {
                         seleccionarHallazgo(comandoCompleto[1]);
                         speak(comandoCompleto[0] + comandoCompleto[1])
                         if (isDemo) {
-                            if (['caries', 'restauracion'].indexOf(comandoCompleto[1]) > -1) {
+                            if (['caries', 'restauración'].indexOf(comandoCompleto[1]) > -1) {
                                 document.getElementById("comboHallazgoTipo").removeAttribute("disabled");
                             }
                             else {
