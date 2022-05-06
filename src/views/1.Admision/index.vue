@@ -69,13 +69,7 @@ onMounted(()=> {
     console.log('wakeLock'+ false);
   }
 })
-onUnmounted(()=>{
-  wakeLock?.release()
-  .then(() => {
-    wakeLock = null;
-  });
-  detenerInicializarVoz()
-})
+
 </script>
 
 <template lang="pug">

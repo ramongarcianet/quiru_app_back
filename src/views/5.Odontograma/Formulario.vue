@@ -43,13 +43,7 @@ onMounted(()=> {
     console.log('wakeLock'+ false);
   }
 })
-onUnmounted(()=>{
-  wakeLock?.release()
-  .then(() => {
-    wakeLock = null;
-  });
-  detenerInicializarVoz()
-})
+
 
 const listaDeDientes = [
 11,12,13,14,15,16,17,18,
