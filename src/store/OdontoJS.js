@@ -159,7 +159,6 @@ export function VerDemoVoz(pieza,caries) {
     //DienteCaries(caries);
 }
 export function VerFormato(registro) {
-    console.log(registro)
      var canvas = document.getElementById('myCanvas');
      var context = canvas.getContext('2d');
      context.font = '8pt Calibri';

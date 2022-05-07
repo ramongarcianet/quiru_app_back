@@ -28,7 +28,7 @@ import {
   obtenerTodoHallazgo,
   obtenerTodoCaries,
 } from "../../store/odonto";
-import { onUnmounted, onMounted } from "vue";
+import { onUnmounted, onMounted, ref } from "vue";
 
 const listaDiccionario = obtenerTodoDiccionario();
 const listaPieza = obtenerTodoPieza();
@@ -73,6 +73,12 @@ onMounted(()=> {
 onUnmounted(()=>{
   detenerInicializarVoz()
 })
+
+const item = ref({
+  diente: '13',
+  hallazgo: "caries",
+  pieza: ["Vestibular", "Oclusal"]
+})
 </script>
 
 <template lang="pug">
@@ -99,30 +105,36 @@ li Hallazgo extración, pieza 23
 li Hallazgo fractura, pieza 18
 li Hallazgo ausente, pieza 12
 
+
 </ul>
 p has dicho: {{textoEscuchado}}
 <div style="text-align: center;">
   <canvas id="cvhallazgo" width="200" height="250" ></canvas>
 </div>
 <input id="tipoReg" type="hidden" value="0"/>
+
 <div class="row">
+  p {{item}}
+  .d-flex.justify-content-center
+    Diente( v-model:pieza='item.pieza' v-model:hallazgo='item.hallazgo' v-model:diente='item.diente' )
   <div v-show="true" class="input-group">
-    <select class="form-select" id="comboHallazgo"  @change="VerTipoCaries($event)">
+    <select class="form-select" id="comboHallazgo" v-model="item.hallazgo" @change="VerTipoCaries($event)">
       option(selected, disabled, value="") Hallazgo
       option(v-for="{value, text} of listaDeHallazgos", :value="value") {{ text }}
     </select>
     <div id="cTipCaries">
-      <select class="form-select" id="comboHallazgoTipo" @change="VerDataTipoCaries()">
+      <select  id="comboHallazgoTipo" v-model="item.pieza" multiple @change="VerDataTipoCaries()">
         option(selected, disabled, value="") Tipo Carie
         option(v-for="{value, text} of listaDeTipos", :value="value") {{ text }}
       </select>
     </div>
-    <select class="form-select" id="comboPieza" @change="VerDemo($event.target.value)">
+    <select class="form-select" id="comboPieza" v-model="item.diente" @change="VerDemo($event.target.value)">
       option(selected, disabled, value="00") Pieza
       option(v-for="item of listaDeDientes", :value="item") {{ item }}
     </select>
 
   </div>
+  
 </div>
 </template>
 

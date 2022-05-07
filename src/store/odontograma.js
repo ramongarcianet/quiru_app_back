@@ -8,6 +8,8 @@ let recetaTemp = '';
 let especificacionesTemp = '';
 let observacionesTemp = '';
 let flagAnnyang;
+
+const item = ref()
 export let textoEscuchado = ref()
 //--ini speech recognition
 export function inicializarReconocimientoVoz(isDemo = false) {
