@@ -1,5 +1,5 @@
 <script setup>
-import {computed} from 'vue'
+import {computed, watch} from 'vue'
 const props = defineProps({
     diente: String,
     hallazgo: String,
@@ -18,6 +18,10 @@ const pieza_ = computed({
     }
 })
 
+watch(
+    ()=> props.hallazgo,
+    ()=> emit('update:pieza', [])
+ )
 
 </script>
 <template lang="pug">

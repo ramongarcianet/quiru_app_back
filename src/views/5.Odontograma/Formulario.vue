@@ -15,9 +15,12 @@ import {
   agregarLista,
   isSpeech,
   terminar,
-  inicializarReconocimientoVoz,
-  detenerInicializarVoz
-
+  escucharInicializarVoz,
+  detenerInicializarVoz,
+  item,
+  textoEscuchado,
+  listaDeDientes,
+  listaDeHallazgos
 } from "../../store/odontograma";
 import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
@@ -27,7 +30,7 @@ const listaHallazgo = obtenerTodoHallazgo();
 const listaCaries = obtenerTodoCaries();
 const {push} = useRouter()
 
-inicializarReconocimientoVoz(false);
+escucharInicializarVoz();
 
 let wakeLock = null;
 onMounted(()=> {
@@ -45,27 +48,11 @@ onMounted(()=> {
 })
 
 
-const listaDeDientes = [
-11,12,13,14,15,16,17,18,
-21,22,23,24,25,26,27,28,
-31,32,33,34,35,36,37,38,
-41,42,43,44,45,46,47,48,
-51,52,53,54,55,61,62,63,64,65,
-71,72,73,74,75,81,82,83,84,85
-]
-const listaDeHallazgos = [
-    {value: 'caries',        text: 'Caries'},
-    {value: 'extraccion',    text: 'Extracción'},
-    {value: 'ausente',       text: 'Ausente'},
-    {value: 'fractura',      text: 'Fractura'},
-    {value: 'restauracion',  text: 'Restauración'}
-
-]
 
 </script>
 
 <template lang="pug">
-
+p {{textoEscuchado}}
 #button-microfono
     button.NotpulsingButton#btnActivar(v-if="!isSpeech" type="submit" style="visibility:visible;" @click="procesar()")
         i.fa.fa-microphone
@@ -88,32 +75,14 @@ const listaDeHallazgos = [
                 option(selected disabled) Pieza
                 option(v-for="item of listaDeDientes", :value="item") {{item}}
 .row
-    .col
-        canvas#cvhallazgo(width="150" height="200") Su navegador no soporta canvas :(
-    .col
-        #button-diente
-            input#piezatopcar( type="hidden", value="0" )
-            #btntopcar( value="0" @click="DienteCaries('btntopcar')" )
-                span Vestibular
-            input#piezaleftCar( type="hidden", value="0" )
-            #btnleftCar( value="0" @click="DienteCaries('btnleftCar')" )
-                span Distal
-            input#piezacenterCar( type="hidden", value="0" )
-            #btncenterCar( value="0" @click="DienteCaries('btncenterCar')" )
-                span Oclusal
-            input#piezarigthCar( type="hidden", value="0" )
-            #btnrigthCar( value="0" @click="DienteCaries('btnrigthCar')" )
-                span Mesial
-            input#piezabotCar(type="hidden", value="0")
-            #btnbotCar( value="0" @click="DienteCaries('btnbotCar')" )
-                span Palatino
+    Diente( v-model:pieza='item.pieza' v-model:hallazgo='item.hallazgo' v-model:diente='item.diente' )
 .row
     .col
         button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma)") Agregar a la lista
 
 </template>
 
-<style lang="sass">
+<style lang="sass" scoped>
 
 
 #button-microfono

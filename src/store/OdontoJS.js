@@ -103,61 +103,7 @@ export function limpiarCaries() {
     piezabotCar.value="0";
     return false;
 }
-export function VerDemo(event) {
-    //clearcanvas('myCanvas');
-     var registro=comboHallazgo.value;
-     var canvas = document.getElementById('cvhallazgo');
-     var context = canvas.getContext('2d');
-     context.clearRect(0, 0, canvas.width, canvas.height);
-     context.font = '56pt Calibri';
-     context.textAlign = 'center';
-     context.fillStyle = 'blue';
-     context.lineWidth = 3;
-     var medida = 150;
-     var separacion_x = 50;
-     var iniciar_x = 0;
-     var inicio_y=0;
-     var x=0;
-     iniciar_x=0;
-     var entry=event;
-     var HallazgoTipo=comboHallazgoTipo.value;
 
-    iniciar_x=iniciar_x+28;
-    inicio_y=75;
-    context.fillText(entry, iniciar_x + 70, 60);
-
-    dibuja_contornoDemo(context, iniciar_x, inicio_y, medida, entry,registro,HallazgoTipo);
-
-    context.fillStyle = 'blue';
-}
-export function VerDemoVoz(pieza,caries) {
-     var registro=comboHallazgo.value;
-     var canvas = document.getElementById('cvhallazgo');
-     var context = canvas.getContext('2d');
-     context.clearRect(0, 0, canvas.width, canvas.height);
-     var registro=comboHallazgo.value;
-     context.font = '56pt Calibri';
-     context.textAlign = 'center';
-     context.fillStyle = 'blue';
-     context.lineWidth = 3;
-     var medida = 150;
-     var separacion_x = 50;
-     var iniciar_x = 0;
-     var inicio_y=0;
-     var x=0;
-     iniciar_x=0;
-     var entry=pieza;
-     var HallazgoTipo=comboHallazgoTipo.value;
-
-    iniciar_x=iniciar_x+28;
-    inicio_y=75;
-    context.fillText(entry, iniciar_x + 70, 60);
-
-    dibuja_contornoDemo(context, iniciar_x, inicio_y, medida, entry,registro,HallazgoTipo);
-
-    context.fillStyle = 'blue';
-    //DienteCaries(caries);
-}
 export function VerFormato(registro) {
      var canvas = document.getElementById('myCanvas');
      var context = canvas.getContext('2d');
