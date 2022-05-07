@@ -9,6 +9,9 @@ import {
   terminar,
   inicializarReconocimientoVoz,
   detenerInicializarVoz,
+  listaDeDientes,
+  listaDeHallazgos,
+  listaDeTipos
 } from "../../store/odontograma";
 import {
   ChangeHallazgo,
@@ -22,39 +25,13 @@ import {
   registro,
   eliminar,
   guardar,
-  obtenerTodoDiccionario,
-  obtenerTodoPieza,
-  obtenerTodoHallazgo,
-  obtenerTodoCaries,
+  obtenerTodoDiccionario
 } from "../../store/odonto";
 import { onUnmounted, onMounted } from "vue";
 
 const listaDiccionario = obtenerTodoDiccionario();
-const listaPieza = obtenerTodoPieza();
-const listaHallazgo = obtenerTodoHallazgo();
-const listaCaries = obtenerTodoCaries();
 
 inicializarReconocimientoVoz(true);
-
-const listaDeDientes = [
-  11, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23, 24, 25, 26, 27, 28, 31, 32, 33,
-  34, 35, 36, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 51, 52, 53, 54, 55, 61,
-  62, 63, 64, 65, 71, 72, 73, 74, 75, 81, 82, 83, 84, 85,
-];
-const listaDeHallazgos = [
-  { value: "caries", text: "Caries" },
-  { value: "extraccion", text: "Extracción" },
-  { value: "ausente", text: "Ausente" },
-  { value: "fractura", text: "Fractura" },
-  { value: "restauración", text: "Restauración" },
-];
-const listaDeTipos = [
-  { value: "vestibular", text: "Vestibular" },
-  { value: "distal", text: "Distal" },
-  { value: "oclusal", text: "Oclusal" },
-  { value: "mesial", text: "Mesial" },
-  { value: "palatino", text: "Palatino" },
-];
 
 let wakeLock = null;
 onMounted(()=> {
