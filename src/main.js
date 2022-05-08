@@ -4,13 +4,13 @@ import App from './App.vue'
 import Form from './components/uikit/Form.vue'
 import Dialog from './components/uikit/Dialog.vue'
 import Diente from './components/Diente.vue'
+import MicroButton from './components/MicroButton.vue'
+
 
 import Img from './components/uikit/Img.vue'
 import router from './config/router'
 import "./config/bootstrap/scss/bootstrap.scss"
 import './config/basics.sass'
-import './config/buttons.sass'
-import './config/inputs.sass'
 
 iniciarFirebase()
 
@@ -19,6 +19,8 @@ createApp(App)
 .component("Img", Img)
 .component("Dialog", Dialog)
 .component("Diente", Diente)
+.component("MicroButton", MicroButton)
+
 
 
 

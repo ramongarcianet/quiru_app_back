@@ -39,15 +39,17 @@ watch(
 h1 
     width: 100%
     text-align: center
-    font-size: 3rem
+    font-size: 2rem
     font-weight: bold
-    margin-bottom: 0rem
+    margin-bottom: 1rem
     margin-top: 0
+    color: white
 
 #button-diente
-    background: black
     border-radius: 1rem
-    --size: 200px
+    --size: 140px
+    --background-color: var(--bs-white)
+    background: var(--background-color)
     position: relative
     height: var(--size)
     width: var(--size)
@@ -62,14 +64,15 @@ h1
         align-items: center
         justify-content: center
         transition: .3s
-        background: var(--bs-gray-dark)
+        background: var(--background-color)
         --max: 100%
         --min: 0%
         --proporcion-final: calc( 100% / 4 * 3 )
         --proporcion-inicial: calc( 100% / 4 * 1 )
         --proporcion-central: calc( 100% / 4 * 2 )
-        
-       
+    div
+        *
+            color: transparent
     #vestibular
         height: var(--proporcion-inicial)
         width: 100%

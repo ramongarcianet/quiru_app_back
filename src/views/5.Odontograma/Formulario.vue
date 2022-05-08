@@ -47,7 +47,9 @@ onMounted(()=> {
   }
 })
 
-
+onUnmounted(()=> {
+  procesar()
+})
 
 </script>
 

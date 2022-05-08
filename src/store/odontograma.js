@@ -2,6 +2,7 @@ import { ref } from 'vue';
 import { limpiarCaries, DienteCaries, DienteAusente, DienteFracturado, clearcanvas, VerFormato as verOdontograma} from "./OdontoJS"
 import { registro, listaDiccionario, listaPieza, listaHallazgo, listaCaries, guardar, eliminar } from "./odonto.js"
 import router from '../config/router'
+import '../assets/annyang.min'
 const { push } = router;
 const isSpeech = ref(false);
 let recetaTemp = '';
@@ -214,17 +215,10 @@ function limpiar() {
     clearcanvas("cvhallazgo");
 }
 function agregarLista(param) {
-    let idOdontograma;
-    if (param === 'voz') {
-        idOdontograma = router.currentRoute.value.params.idOdontograma;
-        param = idOdontograma;
-    }
-    let hallazgo = document.getElementById('comboHallazgo').value;
-    let pieza = document.getElementById('comboPieza').value;
-    //const existeDiente = registro.value.find(item => item.diente === pieza && item.hallazgo === hallazgo)?.id
-    const existeDiente = registro.value.find(item => item.diente === pieza)?.id
-    if (existeDiente == undefined) {
-        guardar(param);
+    const idOdontograma = router.currentRoute.value.params.idOdontograma;
+    const existeDiente = registro.value.find(item => item.diente === item.value.pieza)
+    if (!existeDiente) {
+        guardar(idOdontograma, item.value);
         limpiar();
     }
 }

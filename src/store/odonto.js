@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import {addDoc, collection, onSnapshot, getDoc, getFirestore, doc, updateDoc, deleteDoc, setDoc, query, where} from 'firebase/firestore'
 import {firestore} from '../config/firebase'
 
+
 const item = ref ({
     nroOdontograma:'',
     diente:'0',
@@ -11,17 +12,10 @@ const item = ref ({
 
 })
 
-const guardar = (idOdontograma) => {
+const guardar = (idOdontograma, item) => {
 
-    const  fila = {
-        
-        diente:  comboPieza.value,
-        hallazgo: comboHallazgo.value,
-        pieza: ((piezatopcar.value=="1")?"Vestibular,":"")+((piezaleftCar.value=="1")?"Distal,":"")+ ((piezacenterCar.value=="1")?"Oclusal,":"")+((piezarigthCar.value=="1")?"Mesial,":"")+((piezabotCar.value=="1")?"Palatino,":"")
-    }
     const referencia = collection(firestore, 'odontograma', idOdontograma, 'registro')
-    clearcanvas("cvhallazgo");
-    return addDoc(referencia, fila)
+    return addDoc(referencia, item)
 
 }
 

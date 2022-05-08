@@ -26,6 +26,6 @@ PropuestaDeValor3( v-model='CallToActionDialog' )
 Precio( v-model='CallToActionDialog' )
 Preguntas( v-model='CallToActionDialog' )
     Footer( v-model='CallToActionDialog' )
-CallToActionForm( v-model='CallToActionDialog' )
+CallToActionForm( v-if='CallToActionDialog' v-model='CallToActionDialog' )
 </template>
 

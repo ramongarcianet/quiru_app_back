@@ -1,6 +1,8 @@
 <script setup>
 import {sesion} from './store/sesion'
+import { obtenerTodoDiccionario } from "./store/odonto";
 sesion()
+const listaDiccionario = obtenerTodoDiccionario();
 </script>
 
 <template>

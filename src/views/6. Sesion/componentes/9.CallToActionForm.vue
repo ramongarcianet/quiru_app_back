@@ -15,14 +15,14 @@ aside.d-flex.flex-column( :class='{active: modelValue}' )
             Demo
             
             Form.mt-4( :onPromise='()=> agregar(item.email)' :onSuccess='()=> registrarEvento("act_btn_price")')
-                h3.light-text Sé el primero en tener la versión oficial. 
-                h6 No hay pago requerido
-                .input-group
+                h3.light-text Regístrate y tú serás el primero en tener la versión completa.
+                .input-group.input-group-lg
                     input.form-control( type='email' required placeholder='Ingresa tu correo' v-model='item.email')
                     button.btn.btn-light(type='submit')
                         i.fa-solid.fa-chevron-right.primary-text
+                h6.light-text Sin pago requerido
 #background( :class='{active: modelValue}' @click='$emit("update:modelValue", false)')
-button#close.transparent( @click='$emit("update:modelValue", false)' :class='{active: modelValue}' )
+button#close.btn.btn-nav( @click='$emit("update:modelValue", false)' :class='{active: modelValue}' )
     i.fa-solid.fa-times.fa-3x.light-text
 </template>
 
@@ -90,7 +90,7 @@ aside.active
             width: 100%
         &.active
             width: calc(100% )
-            height: calc( 100vh - 4rem)
-            clip-path: polygon(100% 0, 0% 0%, 0% 100%, 100% 95%)
+            height: calc( 100vh)
+            clip-path: polygon(100% 0, 0% 0%, 0% 100%, 100% 100%)
             justify-content: start
 </style>
