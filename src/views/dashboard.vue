@@ -68,16 +68,16 @@ window.addEventListener("resize", () => {
   nav.nav.vh-100( :class="`nav ${isActive ? 'active' : ''}`" )
     Logo( fill="currentcolor" @click='isActive = !isActive' )
     div
-      button.icon( v-for="{name, onClick, icon, routeName, aditionalClass}, i of rutas" :key='`rutas-${i}`' @click="onClick()" :class='`${routeName == route.name ? "active" : ""} ${aditionalClass}`')
+      button.btn.btn-primary.mb-3( v-for="{name, onClick, icon, routeName, aditionalClass}, i of rutas" :key='`rutas-${i}`' @click="onClick()" :class='`${routeName == route.name ? "active" : ""} ${aditionalClass}`')
         i.fa-xl( :class="icon" :label="name" )
     div
-      button.icon( v-for="{name, onClick, icon}, i of rutasAdministrador" :key='`rutas-${i}`' @click="onClick()" )
+      button.btn.btn-primary( v-for="{name, onClick, icon}, i of rutasAdministrador" :key='`rutas-${i}`' @click="onClick()" )
         i.fa-xl( :class="icon" :label="name" )
     div
-      button.icon( v-for="{name, onClick, icon}, i of rutasInferior" :key='`rutas-${i}`' @click="onClick()" )
+      button.btn.btn-primary( v-for="{name, onClick, icon}, i of rutasInferior" :key='`rutas-${i}`' @click="onClick()" )
         i.fa-xl( :class="icon" :label="name" )
   nav.nav-mobile.d-sm-none  
-    button.icon( v-for="{name, onClick, icon,routeName, aditionalClass}, i of rutas" :key='`rutas-${i}`' :class='`${routeName == route.name ? "active" : ""} ${aditionalClass}`' @click="onClick()" )
+    button.btn.btn-outline-light( v-for="{name, onClick, icon,routeName, aditionalClass}, i of rutas" :key='`rutas-${i}`' :class='`${routeName == route.name ? "active" : ""} ${aditionalClass}`' @click="onClick()" )
       i.fa-xl( :class="icon" :label="name" )  
   #body.py-5
     .container

@@ -11,11 +11,12 @@ const { item, agregar, registrarEvento } = marketing;
 <template lang="pug">
 aside.d-flex.flex-column( :class='{active: modelValue}' )
     .row 
-        .col-12.col-md-8
+        .col-12.col-md-8.d-flex.flex-column.justify-content-center
             Demo
             
-            Form.mt-4( :onPromise='()=> agregar(item.email)' :onSuccess='()=> registrarEvento("act_btn_price")')
-                h3.light-text Regístrate y tú serás el primero en tener la versión completa.
+            h4.mb-1.mt-4.light-text Regístrate para probar la 
+                strong versión completa.
+            Form.d-flex.flex-column.align-items-center.mt-0.w-100( :onPromise='()=> agregar(item.email)' :onSuccess='()=> registrarEvento("act_btn_price")')
                 .input-group.input-group-lg
                     input.form-control( type='email' required placeholder='Ingresa tu correo' v-model='item.email')
                     button.btn.btn-light(type='submit')
