@@ -2,6 +2,7 @@ import { ref } from 'vue';
 import { limpiarCaries, DienteCaries, DienteAusente, DienteFracturado, clearcanvas, VerFormato as verOdontograma} from "./OdontoJS"
 import { registro, listaDiccionario, listaPieza, listaHallazgo, listaCaries, guardar, eliminar } from "./odonto.js"
 import router from '../config/router'
+import '../assets/annyang.min'
 const { push } = router;
 const isSpeech = ref(false);
 let recetaTemp = '';
@@ -127,9 +128,9 @@ if (annyang) {
                 if (comandoCompleto[0] === 'observaciones') {
                     observaciones();
                 }
-                if (comandoCompleto[0] === 'terminar') {
+                /*if (comandoCompleto[0] === 'terminar') {
                     terminar();
-                }
+                }*/
             } else {
                 speak(frase[0] + ' ' + 'No existe en el diccionario')
             }
@@ -214,17 +215,10 @@ function limpiar() {
     clearcanvas("cvhallazgo");
 }
 function agregarLista(param) {
-    let idOdontograma;
-    if (param === 'voz') {
-        idOdontograma = router.currentRoute.value.params.idOdontograma;
-        param = idOdontograma;
-    }
-    let hallazgo = document.getElementById('comboHallazgo').value;
-    let pieza = document.getElementById('comboPieza').value;
-    //const existeDiente = registro.value.find(item => item.diente === pieza && item.hallazgo === hallazgo)?.id
-    const existeDiente = registro.value.find(item => item.diente === pieza)?.id
-    if (existeDiente == undefined) {
-        guardar(param);
+    const idOdontograma = router.currentRoute.value.params.idOdontograma;
+    const existeDiente = registro.value.find(item => item.diente === item.value.pieza)
+    if (!existeDiente) {
+        guardar(idOdontograma, item.value);
         limpiar();
     }
 }
@@ -256,24 +250,7 @@ function eliminarDiente(pieza) {
 function volver() {
     push({ name: 'odontograma' })
 }
-function receta() {
-    document.getElementById("inputReceta").focus();
-}
-function especificaciones() {
-    document.getElementById("inputDescription").focus();
-}
-function observaciones() {
-    document.getElementById("inputObservacion").focus();
-}
-function terminar() {
-    document.getElementById("inputReceta").blur();
-    document.getElementById("inputDescription").blur();
-    document.getElementById("inputObservacion").blur();
-    recetaTemp = '';
-    especificacionesTemp = '';
-    observacionesTemp = '';
 
-}
 function buscarPalabraCorrecta(arrayFrase) {
     let listDiccionario = listaDiccionario.value;
     let listPieza = listaDeDientes;
@@ -442,6 +419,5 @@ export {
     agregarLista,
     eliminarDiente,
     volver,
-    terminar,
     isSpeech
 }

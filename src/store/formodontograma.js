@@ -33,9 +33,15 @@ const guardar = (idPaciente, tipo) => {
 
 }
 
-const actualizar = (item) => {
-    const referencia = doc(firestore, 'odontograma', item.id)
-    return updateDoc(referencia, item)
+export const actualizar = (id) => {
+  var itemUpd = {
+        id:id,
+        especificaciones:inputDescription.value,
+        observaciones:inputObservacion.value,
+        receta:inputReceta.value
+    }
+    const referencia = doc(firestore, 'odontograma', itemUpd.id)
+    return updateDoc(referencia, itemUpd)
 }
 
 const eliminar = (id) => {
