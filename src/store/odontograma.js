@@ -134,13 +134,14 @@ if (annyang) {
                     terminar();
                 }*/
             } else {
-                speak(frase[0] + ' ' + 'No existe en el diccionario')
+                //speak(frase[0] + ' ' + 'No existe en el diccionario')
             }
         }
 
         //}
     });
     annyang.addCallback('soundstart', function () {
+        setTimeout(() => detenerInicializarVoz(), 2000);
         //if (isSpeech.value)
         console.log('sound detected');
     });
