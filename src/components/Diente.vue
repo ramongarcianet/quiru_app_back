@@ -146,7 +146,7 @@ h1
 
     #aspaIzquierda, #aspaDerecha
         position: absolute
-        height: 261px
+        height: calc( var(--size) * 1.24 )
         width: 6px
         top: 0
         bottom: 0

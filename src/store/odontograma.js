@@ -9,6 +9,7 @@ let recetaTemp = '';
 let especificacionesTemp = '';
 let observacionesTemp = '';
 let flagAnnyang;
+export let flagLimpiar = ref(false)
 export const textoEscuchado = ref()
 export const item = ref({
     diente: '00',
@@ -112,6 +113,7 @@ if (annyang) {
                         hallazgo: "",
                         pieza: []
                     }
+                    flagLimpiar.value = !flagLimpiar.value
                     speak(comandoCompleto[0])
                 }
                 if (comandoCompleto[0] === 'borrar') {

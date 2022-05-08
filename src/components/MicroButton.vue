@@ -11,25 +11,25 @@ div( v-bind='$attrs')
 div
     color: var(--bs-white)
     position: relative
+    --size: 4rem
     svg
-        --size: 6rem
         width: var(--size)
         height: calc( var(--size) * 0.87)      
    
         
     #circles
-        top: .25rem
+        top: calc( var(--size) * 0.15)
         bottom: 0
         margin: auto
         height: 1rem
         position: absolute
         display: flex
-        gap: .5rem
+        gap: calc( var(--size) * 0.08)
         width: 100%
         justify-content: center
         .circle
-            height: .7rem
-            width: .7rem
+            height: calc( var(--size) * 0.12)
+            width: calc( var(--size) * 0.12)
             border-radius: 50%
             background-color: var(--bs-primary)
     &.active
@@ -48,5 +48,5 @@ div
     from
         transform: translateY(0)
     to
-        transform: translateY(-.75rem)
+        transform: translateY( calc( -0.1 * var(--size) ) )
 </style>
