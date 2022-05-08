@@ -18,10 +18,6 @@ const pieza_ = computed({
     }
 })
 
-watch(
-    ()=> props.hallazgo,
-    ()=> emit('update:pieza', [])
- )
 
 </script>
 <template lang="pug">
@@ -37,7 +33,7 @@ watch(
 
 <style lang="sass" scoped>
 #diente
-    --background-color: var(--bs-dark)
+    --background-color: var(--bs-light)
     --size: 140px
 
     h1 
@@ -188,7 +184,7 @@ watch(
                     color: var(--bs-white)
                     &::before
                         background: var(--bs-blue)!important
-        &.extraccion
+        &.extracción
             #aspaIzquierda, #aspaDerecha
                 background: var(--bs-red)
         &.ausente

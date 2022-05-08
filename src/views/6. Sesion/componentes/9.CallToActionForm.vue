@@ -2,24 +2,31 @@
 import Logo from "../../../assets/logoQuiru.vue";
 import marketing from "../../../store/marketing";
 import Demo from "../../1.Admision/index.vue"
+import {ref} from 'vue'
 const props = defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue"]);
 
 const { item, agregar, registrarEvento } = marketing;
+const mensajeDeRegistro = ref(false)
 
+const registroExitoso = ()=> {
+registrarEvento("act_btn_price")
+mensajeDeRegistro.value = true
+}
 </script>
 <template lang="pug">
-aside.d-flex.flex-column( :class='{active: modelValue}' )
-    Demo
-    
-        h4.mb-1.mt-4.light-text Regístrate para probar la 
-            strong versión completa.
-        Form.d-flex.flex-column.align-items-center.mt-0.w-100( :onPromise='()=> agregar(item.email)' :onSuccess='()=> registrarEvento("act_btn_price")')
-            .input-group.input-group-lg
-                input.form-control( type='email' required placeholder='Ingresa tu correo' v-model='item.email')
-                button.btn.btn-light(type='submit')
-                    i.fa-solid.fa-chevron-right.primary-text
-            h6.light-text Sin pago requerido
+aside( :class='{active: modelValue}' )
+    div.h-100.d-flex.flex-column
+        Demo
+        .dark.p-2
+            Form.d-flex.flex-column.mt-0.w-100.py-2.px-2( :onPromise='()=> agregar(item.email)' :onSuccess='()=>registroExitoso() ')
+                .input-group
+                    input.form-control( type='email' required placeholder='Ingresa tu correo' v-model='item.email')
+                    button.btn.btn-light(type='submit')
+                        i.fa-solid.fa-chevron-right.primary-text
+                h6.light-text.pt-1 Sin pago requerido
+                h5(v-if='mensajeDeRegistro').light-text ¡Gracias! {{item.email}}, nos comunicaremos contigo para el lanzamiento de 
+                    strong Quiru
 #background( :class='{active: modelValue}' @click='$emit("update:modelValue", false)')
 button#close.btn.btn-nav( @click='$emit("update:modelValue", false)' :class='{active: modelValue}' )
     i.fa-solid.fa-times.fa-3x.light-text
@@ -31,11 +38,15 @@ svg
     width: 4rem
 p
     font-size: 2em
+h5
+    text-align: center
 aside
     position: fixed
     left: -100%
     transition: .3s left
     height: -webkit-fill-available
+    > div
+        width: 60%
 #background
     position: fixed
     right: -100%
@@ -57,8 +68,7 @@ aside.active
     left: 0
     height: 100%
     width: 60%
-    padding: 1rem
-    clip-path: polygon(100% 0, 0% 0%, 0% 99%, 75% 100%)
+    clip-path: polygon(100% 0, 0% 0%, 0% 100%, 75% 100%)
     background: rgba( var(--color-primary-rgb), 1)
     z-index: 100
     justify-content: center
@@ -86,6 +96,8 @@ aside.active
         position: fixed
         left: 0%
         top: -100%
+        >div
+            width: 100%
         form
             width: 100%
         &.active

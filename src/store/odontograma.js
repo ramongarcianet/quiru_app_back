@@ -24,7 +24,7 @@ export const listaDeDientes = [
 ];
 export const listaDeHallazgos = [
     { value: "caries", text: "Caries" },
-    { value: "extraccion", text: "Extracción" },
+    { value: "extracción", text: "Extracción" },
     { value: "ausente", text: "Ausente" },
     { value: "fractura", text: "Fractura" },
     { value: "restauración", text: "Restauración" },
@@ -37,17 +37,15 @@ export const listaDeTipos = [
     { value: "palatino", text: "Palatino" },
 ];
 //--ini speech recognition
+var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
+var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
 
 if (annyang) {
+ 
+    
     annyang.setLanguage("es-PE");
-    /*var commands = {
-        'hola': activarVoz,
-        'hola quiru': activarVoz,
-        'hola quiro': activarVoz,
-        'hola quiero': activarVoz,
-        'hola kiru': activarVoz,
-        'hola kiro': activarVoz
-    }*/
+    
     annyang.addCallback('result', function (frase) {
         //if (isSpeech.value) {
         //---insertar texto en inputs
@@ -74,18 +72,13 @@ if (annyang) {
         //--Buscar palabra mas correcta del dictado
         const comandoTemp = buscarPalabraCorrecta(frase);
         let comando = comandoTemp;
-        if (comando === 'hola') {
-            activarVoz();
-            return;
-        }
+        
         if (isSpeech.value) {
             textoEscuchado.value = frase;
             if (comando != '') {
                 comando = comandoTemp.replace(/\s/g, '/');
                 const comandoCompleto = comando.split('/')
-                if (comandoCompleto[0] === 'detener') {
-                    detenerVoz();
-                }
+                
                 if (comandoCompleto[0] === 'agregar') {
                     agregarLista('voz');
                 }
@@ -94,27 +87,6 @@ if (annyang) {
                 }
                 if (comandoCompleto[0] === 'volver') {
                     volver();
-                }
-                if (['hallazgo'].indexOf(comandoCompleto[0]) > -1) {
-                    item.value.hallazgo = comandoCompleto[1]
-                    speak(comandoCompleto[0] + comandoCompleto[1])
-                }
-                if (comandoCompleto[0] === 'pieza') {
-                    item.value.diente = comandoCompleto[1]
-                    speak(comandoCompleto[0] + comandoCompleto[1])
-                }
-                if (comandoCompleto[0] === 'caries') {
-                    item.value.pieza.push( comandoCompleto[1] )
-                    speak(comandoCompleto[0] + comandoCompleto[1])
-                }
-                if (comandoCompleto[0] === 'limpiar') {
-                    item.value = {
-                        diente: '00',
-                        hallazgo: "",
-                        pieza: []
-                    }
-                    flagLimpiar.value = !flagLimpiar.value
-                    speak(comandoCompleto[0])
                 }
                 if (comandoCompleto[0] === 'borrar') {
                     if (comandoCompleto[1] != undefined) {
@@ -140,9 +112,8 @@ if (annyang) {
 
         //}
     });
+   
     annyang.addCallback('soundstart', function () {
-        setTimeout(() => detenerInicializarVoz(), 2000);
-        setTimeout(() => escucharInicializarVoz(), 2500);
         //if (isSpeech.value)
         console.log('sound detected');
     });
@@ -158,6 +129,7 @@ if (annyang) {
     annyang.addCallback('errorPermissionDenied', function () {
         console.log('errorPermissionDenied');
     });
+    
     /*
     annyang.addCallback('end', function () {
         console.log('end');
@@ -165,10 +137,105 @@ if (annyang) {
     annyang.addCallback('start', function () {
         console.log('start');
     });*/
+    const seleccionarHallazgo = val => {
+        if (listaDeHallazgos.map(({value}) => value).indexOf(val) > -1) {
+            item.value.hallazgo = val
+            speak(`Hallazgo ${val}`)
+        }
+    }
+    const seleccionarHallazgoPieza = (hallazgo, pieza) => {
+        if (listaDeHallazgos.map(({value}) => value).indexOf(hallazgo) > -1 && listaDeDientes.find(item => item == pieza)) {
+            item.value.hallazgo = hallazgo
+            item.value.diente = pieza
+            speak(`Hallazgo ${hallazgo} Pieza ${pieza}`)
+        }
+    }
 
-    //annyang.addCommands(commands);
-    if (!flagAnnyang)
-        flagAnnyang = annyang.start()
+    const seleccionarHallazgoTipoPieza = (hallazgo, tipo, pieza) => {
+        if (listaDeHallazgos.map(({value}) => value).indexOf(hallazgo) > -1 && listaDeDientes.find(item => item == pieza) && listaDeTipos.map(({value}) => value).indexOf(tipo) > -1) {
+            item.value.hallazgo = hallazgo
+            item.value.pieza.push(tipo)
+            item.value.diente = pieza
+            console.log(item.value)
+            speak(`Hallazgo ${hallazgo}, parte ${tipo} y Pieza ${pieza}`)
+        }
+    }
+    const seleccionarPieza = val => {
+        if (listaDeDientes.find(item => item == val) ) {
+            item.value.diente = val
+            speak(`Pieza ${val}`)
+        }
+    }
+
+    const seleccionarTipos = val => {
+        if (listaDeTipos.map(({value}) => value).indexOf(val) > -1) {
+            const index = item.value.pieza.indexOf(val)
+            if(index == -1) {
+                item.value.pieza.push(val)
+                speak(`Agregando ${val}`)
+            } else {
+                item.value.pieza.splice(index, 1)
+                speak(`Quitando ${val}`)
+            }
+        }
+    }
+    const mellamo = ()=> {
+        speak(`Yo soy Quiru, encantada de conocerte.`)
+    }
+    
+  
+    const limpiar = ()=> {
+        item.value = {
+            diente: '00',
+            hallazgo: "",
+            pieza: []
+        }
+        flagLimpiar.value = !flagLimpiar.value
+        speak('Limpiando')
+    }
+    const commands = {
+        'Buenos días': activarVoz,
+        'Buenos días *any': activarVoz,
+        'hola': activarVoz,
+        'hola *any': activarVoz,
+        'limpiar': limpiar,
+        'limpiar *any': limpiar,
+        'otra vez': limpiar,
+        'otra vez *any': limpiar,
+        'pieza :item': seleccionarPieza,
+        'piezas :item': seleccionarPieza,
+        'caries :item': seleccionarTipos,
+        'carie :item': seleccionarTipos,
+        'calle :item': seleccionarTipos,
+        'parte :item': seleccionarTipos,
+        'gracias': detenerVoz,
+        'gracias *any': detenerVoz,
+        'terminar': detenerVoz,
+        'terminar *any': detenerVoz,
+        'fin': detenerVoz,
+        'fin *any': detenerVoz,
+        'adios': detenerVoz,
+        'adios *any': detenerVoz,
+        'hallazgo :item': seleccionarHallazgo,
+        'hallazgo :hallazgo (pieza) :pieza': seleccionarHallazgoPieza,
+        'hallazgo :hallazgo (carie) (parte) :tipo (pieza) :pieza': seleccionarHallazgoTipoPieza,
+        'cómo te llamas *any' : mellamo,
+        'cómo te llamas' : mellamo,
+    }
+    
+    
+    annyang.addCommands(commands);
+    flagAnnyang = annyang.start({ autoRestart: true, continuous: false })
+    const colors = [
+        'caries',    'extracción',    'ausente',    'fractura',    'restauración',    'vestibular', 
+        'distal',    'oclusal',    'mesial',    'palatino',
+        'pieza',
+    ];
+        const grammar = '#JSGF V1.0; grammar colors; public <color> = ' + colors.join(' | ') + ' ;'
+    const test = annyang.getSpeechRecognizer()
+    test.grammars.addFromString(grammar, 1);
+    annyang.abort()
+
 } else {
     console.log("Speech Recognition is not supported");
 }
@@ -177,15 +244,15 @@ export function escucharInicializarVoz() {
     annyang.resume();
 }
 export function detenerInicializarVoz() {
-    annyang.pause();
+    annyang.abort();
 }
 function activarVoz() {
     isSpeech.value = true;//start
-    speak('hola')
+    speak('Hola')
 }
 function detenerVoz() {
     isSpeech.value = false;//stop
-    speak('detener')
+    speak('Con gusto')
 }
 
 function diagnostico(param) {
@@ -365,6 +432,7 @@ function buscarDiccionario(buscar) {
 
 
 let synth = window.speechSynthesis;
+
 let voices = synth.getVoices();
 
 function speak(pHablar) {
