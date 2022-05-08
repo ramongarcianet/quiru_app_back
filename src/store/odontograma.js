@@ -146,8 +146,8 @@ if (annyang) {
         //if (isSpeech.value)
         console.log('sound detected');
     });
-    annyang.addCallback('error', function () {
-        console.log('There was an error!');
+    annyang.addCallback('error', function (e) {
+        //console.log('There was an error!');
     });
     annyang.addCallback('errorNetwork', function () {
         console.log('errorNetwork');
@@ -233,18 +233,6 @@ function procesar() {
     } else {
         isSpeech.value = true; //start
     }
-}
-function pintarDiente(posicion) {
-    if (posicion === 'vestibular')
-        DienteCaries('btntopcar');
-    if (posicion === 'distal')
-        DienteCaries('btnleftCar');
-    if (posicion === 'oclusal')
-        DienteCaries('btncenterCar');
-    if (posicion === 'mesial')
-        DienteCaries('btnrigthCar');
-    if (posicion === 'palatino')
-        DienteCaries('btnbotCar');
 }
 
 function eliminarDiente(pieza) {
@@ -374,30 +362,8 @@ function buscarDiccionario(buscar) {
         return palabraEncontrada.length;
     }
 }
-function demoVoz(pieza, posicion) {
-    let tempCaries = '';
-    if (posicion === 'vestibular')
-        tempCaries = 'btntopcar'
-    if (posicion === 'distal')
-        tempCaries = 'btnleftCar'
-    if (posicion === 'oclusal')
-        tempCaries = 'btncenterCar'
-    if (posicion === 'mesial')
-        tempCaries = 'btnrigthCar'
-    if (posicion === 'palatino')
-        tempCaries = 'btnbotCar'
-    VerDemoVoz(pieza, tempCaries)
-}
-function limpiarDemo() {
-    let comboHallazgo = document.getElementById('comboHallazgo');
-    comboHallazgo.value = '';
-    let comboHallazgoTipo = document.getElementById('comboHallazgoTipo');
-    comboHallazgoTipo.value = '';
-    let comboPieza = document.getElementById('comboPieza');
-    comboPieza.value = '00';
-    VerDemo('00');
 
-}
+
 let synth = window.speechSynthesis;
 let voices = synth.getVoices();
 

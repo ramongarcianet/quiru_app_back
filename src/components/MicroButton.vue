@@ -11,17 +11,14 @@ div( v-bind='$attrs')
 div
     color: var(--bs-white)
     position: relative
-    --size: 4rem
     svg
         width: var(--size)
         height: calc( var(--size) * 0.87)      
-   
-        
     #circles
         top: calc( var(--size) * 0.15)
         bottom: 0
         margin: auto
-        height: 1rem
+        height: calc( var(--size) * 0.3)
         position: absolute
         display: flex
         gap: calc( var(--size) * 0.08)

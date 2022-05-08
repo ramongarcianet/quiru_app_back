@@ -10,18 +10,16 @@ const { item, agregar, registrarEvento } = marketing;
 </script>
 <template lang="pug">
 aside.d-flex.flex-column( :class='{active: modelValue}' )
-    .row 
-        .col-12.col-md-8.d-flex.flex-column.justify-content-center
-            Demo
-            
-            h4.mb-1.mt-4.light-text Regístrate para probar la 
-                strong versión completa.
-            Form.d-flex.flex-column.align-items-center.mt-0.w-100( :onPromise='()=> agregar(item.email)' :onSuccess='()=> registrarEvento("act_btn_price")')
-                .input-group.input-group-lg
-                    input.form-control( type='email' required placeholder='Ingresa tu correo' v-model='item.email')
-                    button.btn.btn-light(type='submit')
-                        i.fa-solid.fa-chevron-right.primary-text
-                h6.light-text Sin pago requerido
+    Demo
+    
+        h4.mb-1.mt-4.light-text Regístrate para probar la 
+            strong versión completa.
+        Form.d-flex.flex-column.align-items-center.mt-0.w-100( :onPromise='()=> agregar(item.email)' :onSuccess='()=> registrarEvento("act_btn_price")')
+            .input-group.input-group-lg
+                input.form-control( type='email' required placeholder='Ingresa tu correo' v-model='item.email')
+                button.btn.btn-light(type='submit')
+                    i.fa-solid.fa-chevron-right.primary-text
+            h6.light-text Sin pago requerido
 #background( :class='{active: modelValue}' @click='$emit("update:modelValue", false)')
 button#close.btn.btn-nav( @click='$emit("update:modelValue", false)' :class='{active: modelValue}' )
     i.fa-solid.fa-times.fa-3x.light-text
@@ -37,6 +35,7 @@ aside
     position: fixed
     left: -100%
     transition: .3s left
+    height: -webkit-fill-available
 #background
     position: fixed
     right: -100%
@@ -91,7 +90,6 @@ aside.active
             width: 100%
         &.active
             width: calc(100% )
-            height: calc( 100vh)
             clip-path: polygon(100% 0, 0% 0%, 0% 100%, 100% 100%)
             justify-content: start
 </style>

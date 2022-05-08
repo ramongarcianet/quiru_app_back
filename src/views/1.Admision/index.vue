@@ -80,18 +80,16 @@ const instruccion = computed(()=> listaDeInstrucciones.value[numeroDeInstruccion
 
 <template lang="pug">
 
-.d-flex.flex-column.align-items-center
-  MicroButton.mt-5( :class="{active: isSpeech}" @click="procesar()")
-
-  h1.mt-2.light-text Prueba
-    strong.dark-text Quiru {{numeroDeInstruccion}}
-  .d-flex.w-100.flex-column
+.d-flex.flex-column.h-100
+  .d-flex.align-items-center.justify-content-start
+    MicroButton( style='--size: 2rem' :class="{active: isSpeech}" @click="procesar()")
+    h1.ms-1.mt-2.light-text Quiru {{numeroDeInstruccion}}
+  .mt-auto.d-flex.w-100.flex-column
     .mensaje {{instruccion}}
     .mensaje {{textoEscuchado?.[0] || "Empieza por Hola Quiru"}}
-
-
-  Diente( v-model:pieza='item.pieza' v-model:hallazgo='item.hallazgo' v-model:diente='item.diente' )
-
+    .mensaje
+      Diente( v-model:pieza='item.pieza' v-model:hallazgo='item.hallazgo' v-model:diente='item.diente' )
+  slot
 </template>
 
 <style lang="sass" scoped>
@@ -102,18 +100,15 @@ const instruccion = computed(()=> listaDeInstrucciones.value[numeroDeInstruccion
   padding: .5rem 1rem
   margin-bottom: .5rem
   border-radius: 1rem
-
-  &:first-child
+  max-width: 80%
+  &:nth-child(2n+1)
     background-color: white
-    margin-right: auto
-    text-align: left 
-    border-top-left-radius: 0
-  &:last-child
-    background-color: rgba(0, 0, 0, .25)
-    color: white
     margin-left: auto
     border-top-right-radius: 0
-
-    text-align: right 
+  &:nth-child(2n)
+    background-color: rgba(0, 0, 0, .25)
+    margin-right: auto
+    color: white
+    border-top-left-radius: 0
     
 </style>
