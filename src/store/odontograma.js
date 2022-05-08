@@ -400,7 +400,6 @@ let synth = window.speechSynthesis;
 let voices = synth.getVoices();
 
 function speak(pHablar) {
-    console.log(annyang.isListening());
     detenerInicializarVoz()
     setTimeout(() => escucharInicializarVoz(), 2000);
     console.log(annyang.isListening());

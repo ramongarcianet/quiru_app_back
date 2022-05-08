@@ -85,9 +85,9 @@ const instruccion = computed(()=> listaDeInstrucciones.value[numeroDeInstruccion
 
   h1.mt-2.light-text Prueba
     strong.dark-text Quiru {{numeroDeInstruccion}}
-  .mensaje «{{textoEscuchado?.[0] || "Empieza por Hola Quiru"}}»
-
-  h3 {{instruccion}}
+  .d-flex.w-100.flex-column
+    .mensaje {{instruccion}}
+    .mensaje {{textoEscuchado?.[0] || "Empieza por Hola Quiru"}}
 
 
   Diente( v-model:pieza='item.pieza' v-model:hallazgo='item.hallazgo' v-model:diente='item.diente' )
@@ -95,13 +95,25 @@ const instruccion = computed(()=> listaDeInstrucciones.value[numeroDeInstruccion
 </template>
 
 <style lang="sass" scoped>
-h3
-  text-align: center
-  color: var(--bs-white)
+
 .mensaje
   min-height: calc( 24px + 1rem )
   color: var(--bs-gray-600)
   padding: .5rem 1rem
-  margin: 1rem 0
-  text-align: center
+  margin-bottom: .5rem
+  border-radius: 1rem
+
+  &:first-child
+    background-color: white
+    margin-right: auto
+    text-align: left 
+    border-top-left-radius: 0
+  &:last-child
+    background-color: rgba(0, 0, 0, .25)
+    color: white
+    margin-left: auto
+    border-top-right-radius: 0
+
+    text-align: right 
+    
 </style>
