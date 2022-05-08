@@ -78,11 +78,15 @@ const routes = [
                 name: 'Detalle',
                 component: ()=>import('../views/5.Odontograma/1.AsistenteDeVoz.vue')
             },
-       
             {
                 path: 'impresion/:idOdontograma?',
                 name: 'impresion',
                 component: ()=>import('../views/5.Odontograma/2.impresion.vue')
+            },
+            {
+                path: 'adicionales/:idOdontograma?',
+                name: 'adicionales',
+                component: ()=>import('../views/5.Odontograma/3.adicionales.vue')
             },
         ]
     }

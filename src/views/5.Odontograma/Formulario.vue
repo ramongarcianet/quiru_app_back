@@ -14,7 +14,6 @@ import {
   procesar,
   agregarLista,
   isSpeech,
-  terminar,
   escucharInicializarVoz,
   detenerInicializarVoz,
   item,
@@ -34,7 +33,6 @@ escucharInicializarVoz();
 
 let wakeLock = null;
 onMounted(()=> {
-  terminar();
 
   if ("wakeLock" in navigator) {
     try {

@@ -127,9 +127,9 @@ if (annyang) {
                 if (comandoCompleto[0] === 'observaciones') {
                     observaciones();
                 }
-                if (comandoCompleto[0] === 'terminar') {
+                /*if (comandoCompleto[0] === 'terminar') {
                     terminar();
-                }
+                }*/
             } else {
                 speak(frase[0] + ' ' + 'No existe en el diccionario')
             }
@@ -256,24 +256,7 @@ function eliminarDiente(pieza) {
 function volver() {
     push({ name: 'odontograma' })
 }
-function receta() {
-    document.getElementById("inputReceta").focus();
-}
-function especificaciones() {
-    document.getElementById("inputDescription").focus();
-}
-function observaciones() {
-    document.getElementById("inputObservacion").focus();
-}
-function terminar() {
-    document.getElementById("inputReceta").blur();
-    document.getElementById("inputDescription").blur();
-    document.getElementById("inputObservacion").blur();
-    recetaTemp = '';
-    especificacionesTemp = '';
-    observacionesTemp = '';
 
-}
 function buscarPalabraCorrecta(arrayFrase) {
     let listDiccionario = listaDiccionario.value;
     let listPieza = listaDeDientes;
@@ -442,6 +425,5 @@ export {
     agregarLista,
     eliminarDiente,
     volver,
-    terminar,
     isSpeech
 }

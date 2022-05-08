@@ -6,7 +6,6 @@ import {
   limpiar,
   agregarLista,
   isSpeech,
-  terminar,
   escucharInicializarVoz,
   detenerInicializarVoz,
   listaDeDientes,
