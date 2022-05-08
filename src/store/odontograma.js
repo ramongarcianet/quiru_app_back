@@ -134,13 +134,15 @@ if (annyang) {
                     terminar();
                 }*/
             } else {
-                speak(frase[0] + ' ' + 'No existe en el diccionario')
+                //speak(frase[0] + ' ' + 'No existe en el diccionario')
             }
         }
 
         //}
     });
     annyang.addCallback('soundstart', function () {
+        setTimeout(() => detenerInicializarVoz(), 2000);
+        setTimeout(() => escucharInicializarVoz(), 2500);
         //if (isSpeech.value)
         console.log('sound detected');
     });
@@ -402,8 +404,6 @@ let voices = synth.getVoices();
 function speak(pHablar) {
     detenerInicializarVoz()
     setTimeout(() => escucharInicializarVoz(), 2000);
-    console.log(annyang.isListening());
-
     if (synth.speaking) {
         console.error('speechSynthesis.speaking');
         return;
@@ -416,8 +416,6 @@ function speak(pHablar) {
         synth.speak(utterThis);
 
     }
-    //escucharInicializarVoz();
-    console.log(annyang.isListening());
 }
 export {
     diagnostico,
