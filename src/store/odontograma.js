@@ -398,6 +398,11 @@ let synth = window.speechSynthesis;
 let voices = synth.getVoices();
 
 function speak(pHablar) {
+    console.log(annyang.isListening());
+    detenerInicializarVoz()
+    setTimeout(() => escucharInicializarVoz(), 2000);
+    console.log(annyang.isListening());
+
     if (synth.speaking) {
         console.error('speechSynthesis.speaking');
         return;
@@ -410,6 +415,8 @@ function speak(pHablar) {
         synth.speak(utterThis);
 
     }
+    //escucharInicializarVoz();
+    console.log(annyang.isListening());
 }
 export {
     diagnostico,

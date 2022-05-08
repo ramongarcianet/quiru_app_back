@@ -27,7 +27,7 @@ onMounted(()=> {
 })
 onUnmounted(()=>{
   detenerInicializarVoz()
-  procesar()
+  isSpeech.value = false;
 })
 
 
@@ -37,8 +37,8 @@ onUnmounted(()=>{
 
 .d-flex.flex-column.align-items-center
   MicroButton.mt-5( :class="{active: isSpeech}" @click="procesar()")
-  
-  h1.mt-2.light-text Prueba 
+
+  h1.mt-2.light-text Prueba
     strong.dark-text Quiru
   .mensaje «{{textoEscuchado?.[0] || "Empieza por Hola Quiru"}}»
 ul
