@@ -142,6 +142,7 @@ if (annyang) {
     });
     annyang.addCallback('soundstart', function () {
         setTimeout(() => detenerInicializarVoz(), 2000);
+        setTimeout(() => escucharInicializarVoz(), 2500);
         //if (isSpeech.value)
         console.log('sound detected');
     });
@@ -401,11 +402,8 @@ let synth = window.speechSynthesis;
 let voices = synth.getVoices();
 
 function speak(pHablar) {
-    console.log(annyang.isListening());
     detenerInicializarVoz()
     setTimeout(() => escucharInicializarVoz(), 2000);
-    console.log(annyang.isListening());
-
     if (synth.speaking) {
         console.error('speechSynthesis.speaking');
         return;
@@ -418,8 +416,6 @@ function speak(pHablar) {
         synth.speak(utterThis);
 
     }
-    //escucharInicializarVoz();
-    console.log(annyang.isListening());
 }
 export {
     diagnostico,
