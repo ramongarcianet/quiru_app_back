@@ -47,7 +47,6 @@ if (annyang) {
         'hola kiro': activarVoz
     }*/
     annyang.addCallback('result', function (frase) {
-        textoEscuchado.value = frase
         //if (isSpeech.value) {
         //---insertar texto en inputs
         /* let textoDictado = frase[0];
@@ -78,6 +77,7 @@ if (annyang) {
             return;
         }
         if (isSpeech.value) {
+            textoEscuchado.value = frase[0];
             if (comando != '') {
                 comando = comandoTemp.replace(/\s/g, '/');
                 const comandoCompleto = comando.split('/')
@@ -94,11 +94,11 @@ if (annyang) {
                     volver();
                 }
                 if (['hallazgo'].indexOf(comandoCompleto[0]) > -1) {
-                    item.value.hallazgo = comandoCompleto[1] 
+                    item.value.hallazgo = comandoCompleto[1]
                     speak(comandoCompleto[0] + comandoCompleto[1])
                 }
                 if (comandoCompleto[0] === 'pieza') {
-                    item.value.diente = comandoCompleto[1]        
+                    item.value.diente = comandoCompleto[1]
                     speak(comandoCompleto[0] + comandoCompleto[1])
                 }
                 if (comandoCompleto[0] === 'caries') {
