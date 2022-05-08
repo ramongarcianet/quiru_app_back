@@ -78,7 +78,7 @@ if (annyang) {
             return;
         }
         if (isSpeech.value) {
-            textoEscuchado.value = frase[0];
+            textoEscuchado.value = frase;
             if (comando != '') {
                 comando = comandoTemp.replace(/\s/g, '/');
                 const comandoCompleto = comando.split('/')
