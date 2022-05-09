@@ -313,8 +313,8 @@ let synth = window.speechSynthesis;
 let voices = synth.getVoices();
 
 export function speak(pHablar) {
-    //detenerInicializarVoz()
-   // setTimeout(() => escucharInicializarVoz(), 2000);
+    detenerInicializarVoz()
+    setTimeout(() => escucharInicializarVoz(), 2000);
     if (synth.speaking) {
         console.error('speechSynthesis.speaking');
         return;

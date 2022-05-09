@@ -34,44 +34,36 @@ onUnmounted(()=>{
 const listaDeInstrucciones = computed( ()=>[
   [
     {text: "Despierta a Quiru con «Hola Quiru»", condicion: !isSpeech.value },
-    {text: "Menciona el hallazgo diciendo: «Hallazgo caries»", condicion: !item.value.hallazgo},
+    {text: "Empecemos por una carie: «Caries»", condicion: !item.value.hallazgo},
     {text: "Indica la ubicación: «por palatino»", condicion: !item.value.pieza.length },
     {text: "Por último el número de diente: «Pieza 15»", condicion: item.value.diente == "00"},
     {text: "Intentemos una vez más: «Siguiente»", condicion: true},
   ],
   [
-    {text: "Despierta a Quiru con «Hola Quiru»", condicion: !isSpeech.value},
     {text: "Probemos algo más completo. «Extracción en pieza 25»", condicion: !item.value.hallazgo},
     {text: "Intentemos una vez más: «Siguiente»", condicion: true},
   ],
   [
-    {text: "Despierta a Quiru con «Hola Quiru»", condicion: !isSpeech.value},
     {text: "Ahora una fractura, por ejemplo: «Fractura 33»", condicion: !item.value.hallazgo},
-    {text: "Intentemos una vez más: «Otra vez»", condicion: true},
+    {text: "Intentemos una vez más: «Siguiente»", condicion: true},
   ],
   [
-    {text: "Despierta a Quiru con «Hola Quiru»", condicion: !isSpeech.value},
     {text: "Ahora con una restauración: «Restauración por vestibular en 85»", condicion: !item.value.hallazgo},
-    {text: "Intentemos una vez más: «Otra vez»", condicion: true},
+    {text: "Intentemos una vez más: «Siguiente»", condicion: true},
   ],
   [
-    {text: "Despierta a Quiru con «Hola Quiru»", condicion: !isSpeech.value},
     {text: "Por último un hallazgo auscente: «ausente en 31»", condicion: !item.value.hallazgo},
-    {text: "Intentemos una vez más: «Gracias»", condicion: true},
+    {text: "Gracias por probar Quiru, puedes seguir probando las funciones: «Gracias»", condicion: true},
   ],
-  [
-    {text: "Gracias por probar Quiru, puedes seguir probando las funciones", condicion: true},0
-
-  ]
 ])
 
 const numeroDeInstruccion = ref(0)
 watch(
   ()=> flagLimpiar.value,
   ()=> {
-    console.log(numeroDeInstruccion.value < listaDeInstrucciones.value.length - 1 )
-    if ( numeroDeInstruccion.value < listaDeInstrucciones.value.length - 1 )  numeroDeInstruccion.value ++
+    if ( numeroDeInstruccion.value < listaDeInstrucciones.value.length -1 )  numeroDeInstruccion.value ++
     else numeroDeInstruccion.value = 0
+  
   }
 )
 
@@ -81,9 +73,9 @@ const instruccion = computed(()=> listaDeInstrucciones.value[numeroDeInstruccion
 <template lang="pug">
 .d-flex.align-items-center.justify-content-start.p-2
   MicroButton( style='--size: 2rem' :class="{active: isSpeech}" @click="isSpeech ? detenerVoz() : activarVoz()")
-  h1.ms-1.mt-2.light-text Quiru {{numeroDeInstruccion}}
+  h1.ms-1.mt-2.light-text Quiru 
 .mb-5.d-flex.justify-content-center
-  Diente( v-model:pieza='item.pieza' v-model:hallazgo='item.hallazgo' v-model:diente='item.diente' )
+  Diente.conHallazgo( v-model:pieza='item.pieza' v-model:hallazgo='item.hallazgo' v-model:diente='item.diente' )
 .mt-auto.d-flex.w-100.flex-column.p-2
   .mensaje {{instruccion}}
   .mensaje {{textoEscuchado?.[0] || "Empieza por Hola Quiru"}}

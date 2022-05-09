@@ -76,6 +76,9 @@ const actualizarItem = (hallazgo, ubicacion, pieza) => {
     }
 }
 
+const prefijosParaPieza = '(empieza) (empiezo) (en) (de) (pieza) (10-15) (diente)'
+const prefijosParaUbicacion = '(por) (parte)'
+
 export default {
     conVozApagada: {
         'Buenos días': activarVoz,
@@ -105,28 +108,28 @@ export default {
         'por :item': seleccionarTipos,
         'parte :item': seleccionarTipos,
         'hallazgo :item': seleccionarHallazgo,
-        'hallazgo :hallazgo (empieza) (empiezo) (en) (pieza) :pieza': seleccionarHallazgoPieza,
-        'hallazgo :hallazgo (por) (parte)  :tipo (empieza) (empiezo) (en) (pieza) (diente) :pieza': seleccionarHallazgoTipoPieza,
+        [`hallazgo :hallazgo ${prefijosParaPieza} :pieza`]: seleccionarHallazgoPieza,
+        [`hallazgo :hallazgo ${prefijosParaUbicacion} :tipo ${prefijosParaPieza} :pieza`]: seleccionarHallazgoTipoPieza,
 
         'caries': seleccionarHallazgoCaries,
         'carie': seleccionarHallazgoCaries,
-        'caries (por) (parte) :ubicacion': seleccionarHallazgoCariesUbicacion,
-        'carie (por) (parte) :ubicacion': seleccionarHallazgoCariesUbicacion,
-        'caries (por) (parte) :ubicacion (empieza) (empiezo) (en) (pieza) (diente) :pieza': seleccionarHallazgoCariesUbicacionPieza,
-        'carie (por) (parte) :ubicacion (empieza) (empiezo) (en) (pieza) (diente) :pieza': seleccionarHallazgoCariesUbicacionPieza,
+        [`caries ${prefijosParaUbicacion} :ubicacion`]: seleccionarHallazgoCariesUbicacion,
+        [`carie ${prefijosParaUbicacion} :ubicacion`]: seleccionarHallazgoCariesUbicacion,
+        [`caries ${prefijosParaUbicacion} :ubicacion ${prefijosParaPieza} :pieza`]: seleccionarHallazgoCariesUbicacionPieza,
+        [`carie ${prefijosParaUbicacion} :ubicacion ${prefijosParaPieza} :pieza`]: seleccionarHallazgoCariesUbicacionPieza,
         'restauración': seleccionarHallazgoRestauracion,
-        'restauración (por) (parte) :ubicacion': seleccionarHallazgoRestauracionUbicacion,
-        'restauración (por) (parte) :ubicacion (empieza) (empiezo) (en) (pieza) (diente) :pieza': seleccionarHallazgoRestauracionUbicacionPieza,
+        [`restauración ${prefijosParaUbicacion} :ubicacion`]: seleccionarHallazgoRestauracionUbicacion,
+        [`restauración ${prefijosParaUbicacion} :ubicacion ${prefijosParaPieza} :pieza`]: seleccionarHallazgoRestauracionUbicacionPieza,
 
         'extracción': seleccionarHallazgoExtraccion,
         'ausente': seleccionarHallazgoAusente,
-        'extracción (empieza) (empiezo) (en) (pieza) (diente) :pieza': seleccionarHallazgoExtraccionPieza,
-        'ausente (empieza) (empiezo) (en) (pieza) (diente) :pieza': seleccionarHallazgoAusentePieza,
+        [`extracción ${prefijosParaPieza} :pieza`]: seleccionarHallazgoExtraccionPieza,
+        [`ausente ${prefijosParaPieza} :pieza`]: seleccionarHallazgoAusentePieza,
         'fractura': seleccionarHallazgoFractura,
         'factura': seleccionarHallazgoFractura,
 
-        'fractura (empieza) (empiezo) (en) (pieza) (diente) :pieza': seleccionarHallazgoFracturaPieza,
-        'factura (empieza) (empiezo) (en) (pieza) (diente) :pieza': seleccionarHallazgoFracturaPieza,
+        [`fractura ${prefijosParaPieza} :pieza`]: seleccionarHallazgoFracturaPieza,
+        [`factura ${prefijosParaPieza} :pieza`]: seleccionarHallazgoFracturaPieza,
 
 
 

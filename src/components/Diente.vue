@@ -21,9 +21,11 @@ const pieza_ = computed({
 
 </script>
 <template lang="pug">
-#diente
-    h1 {{diente || "00"}}
-    #button-diente( :class='hallazgo' )
+#diente( v-bind='$attrs')
+    h1 
+        span {{`${hallazgo} `}}  
+        span {{diente || "00"}}
+    #button-diente.mx-auto( :class='hallazgo' )
         div(v-for='pieza of piezas' :id='pieza' @click='pieza_ = pieza' :class='{active: props.pieza.indexOf(pieza) > -1}')
             span {{pieza}}
         #aspaIzquierda
@@ -44,6 +46,12 @@ const pieza_ = computed({
         margin-bottom: 1rem
         margin-top: 0
         color: var(--background-color)
+        span:first-child
+            display: none
+            text-transform: capitalize
+    &.conHallazgo
+        span:first-child
+            display: unset
 
     #button-diente
         border-radius: 1rem
