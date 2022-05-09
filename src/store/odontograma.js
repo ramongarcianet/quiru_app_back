@@ -111,7 +111,7 @@ if (annyang) {
     annyang.addCallback('start', function () {
         console.log('start');
     });*/
-    flagAnnyang = annyang.start({ autoRestart: true, continuous: false })
+    flagAnnyang = annyang.start()
     annyang.getSpeechRecognizer().grammars.addFromString(comandosDeVoz.gramatica, 1);
     annyang.addCommands(comandosDeVoz.conVozApagada)
 } else {
