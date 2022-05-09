@@ -1,12 +1,12 @@
 <script setup>
 import {
-  procesar,
   isSpeech,
   flagLimpiar,
   escucharInicializarVoz,
   detenerInicializarVoz,
   item,
-  textoEscuchado
+  textoEscuchado,
+  detenerVoz,
 } from "../../store/odontograma";
 
 import { onUnmounted, onMounted, computed, watch, ref} from "vue";
@@ -28,35 +28,35 @@ onMounted(()=> {
 })
 onUnmounted(()=>{
   detenerInicializarVoz()
-  isSpeech.value = false;
+  detenerVoz()
 })
 
 const listaDeInstrucciones = computed( ()=>[
   [
     {text: "Despierta a Quiru con «Hola Quiru»", condicion: !isSpeech.value },
     {text: "Menciona el hallazgo diciendo: «Hallazgo caries»", condicion: !item.value.hallazgo},
-    {text: "Indica las piezas: «Caries palatino»", condicion: !item.value.pieza.length },
+    {text: "Indica la ubicación: «por palatino»", condicion: !item.value.pieza.length },
     {text: "Por último el número de diente: «Pieza 15»", condicion: item.value.diente == "00"},
+    {text: "Intentemos una vez más: «Siguiente»", condicion: true},
+  ],
+  [
+    {text: "Despierta a Quiru con «Hola Quiru»", condicion: !isSpeech.value},
+    {text: "Probemos algo más completo. «Extracción en pieza 25»", condicion: !item.value.hallazgo},
+    {text: "Intentemos una vez más: «Siguiente»", condicion: true},
+  ],
+  [
+    {text: "Despierta a Quiru con «Hola Quiru»", condicion: !isSpeech.value},
+    {text: "Ahora una fractura, por ejemplo: «Fractura 33»", condicion: !item.value.hallazgo},
     {text: "Intentemos una vez más: «Otra vez»", condicion: true},
   ],
   [
     {text: "Despierta a Quiru con «Hola Quiru»", condicion: !isSpeech.value},
-    {text: "Probemos algo más completo. Di: «Hallazgo extracción pieza 25»", condicion: !item.value.hallazgo},
+    {text: "Ahora con una restauración: «Restauración por vestibular en 85»", condicion: !item.value.hallazgo},
     {text: "Intentemos una vez más: «Otra vez»", condicion: true},
   ],
   [
     {text: "Despierta a Quiru con «Hola Quiru»", condicion: !isSpeech.value},
-    {text: "Podemos acortar palabras, por ejemplo: «Hallazgo fractura 33»", condicion: !item.value.hallazgo},
-    {text: "Intentemos una vez más: «Otra vez»", condicion: true},
-  ],
-  [
-    {text: "Despierta a Quiru con «Hola Quiru»", condicion: !isSpeech.value},
-    {text: "Ahora un traba lenguas: «Hallazgo restauración parte vestibular pieza 85»", condicion: !item.value.hallazgo},
-    {text: "Intentemos una vez más: «Otra vez»", condicion: true},
-  ],
-  [
-    {text: "Despierta a Quiru con «Hola Quiru»", condicion: !isSpeech.value},
-    {text: "Pero recuerda, hay formas más fáciles: «Hallazgo ausente 75»", condicion: !item.value.hallazgo},
+    {text: "Por último un hallazgo auscente: «ausente en 31»", condicion: !item.value.hallazgo},
     {text: "Intentemos una vez más: «Gracias»", condicion: true},
   ],
   [
@@ -80,7 +80,7 @@ const instruccion = computed(()=> listaDeInstrucciones.value[numeroDeInstruccion
 
 <template lang="pug">
 .d-flex.align-items-center.justify-content-start.p-2
-  MicroButton( style='--size: 2rem' :class="{active: isSpeech}" @click="procesar()")
+  MicroButton( style='--size: 2rem' :class="{active: isSpeech}" @click="isSpeech ? detenerVoz() : activarVoz()")
   h1.ms-1.mt-2.light-text Quiru {{numeroDeInstruccion}}
 .mb-5.d-flex.justify-content-center
   Diente( v-model:pieza='item.pieza' v-model:hallazgo='item.hallazgo' v-model:diente='item.diente' )

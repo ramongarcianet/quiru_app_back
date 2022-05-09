@@ -2,6 +2,7 @@ import { ref } from 'vue';
 import { limpiarCaries, DienteCaries, DienteAusente, DienteFracturado, clearcanvas, VerFormato as verOdontograma} from "./OdontoJS"
 import { registro, listaDiccionario, listaPieza, listaHallazgo, listaCaries, guardar, eliminar } from "./odonto.js"
 import router from '../config/router'
+import comandosDeVoz from './comandosDeVoz';
 import '../assets/annyang.min'
 const { push } = router;
 const isSpeech = ref(false);
@@ -36,40 +37,13 @@ export const listaDeTipos = [
     { value: "mesial", text: "Mesial" },
     { value: "palatino", text: "Palatino" },
 ];
-//--ini speech recognition
-var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
-var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
-var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
 
 if (annyang) {
  
-    
     annyang.setLanguage("es-PE");
     
     annyang.addCallback('result', function (frase) {
-        //if (isSpeech.value) {
-        //---insertar texto en inputs
-        /* let textoDictado = frase[0];
-            let existeEnDiciionario = buscarDiccionario(textoDictado);
-            if (existeEnDiciionario === 0) {
-                let inputReceta = document.getElementById('inputReceta');
-                if (inputReceta === document.activeElement) {
-                    inputReceta.value = recetaTemp + ' ' + textoDictado;
-                    recetaTemp = inputReceta.value;
-                }
-                let inputDescription = document.getElementById('inputDescription');
-                if (inputDescription === document.activeElement) {
-                    inputDescription.value = especificacionesTemp + ' ' + textoDictado;
-                    especificacionesTemp = inputDescription.value;
-                }
-                let inputObservacion = document.getElementById('inputObservacion');
-                if (inputObservacion === document.activeElement) {
-                    inputObservacion.value = observacionesTemp + ' ' + textoDictado;
-                    observacionesTemp = inputObservacion.value;
-                }
-                return;
-            }*/
-        //--Buscar palabra mas correcta del dictado
+       
         const comandoTemp = buscarPalabraCorrecta(frase);
         let comando = comandoTemp;
         
@@ -137,105 +111,9 @@ if (annyang) {
     annyang.addCallback('start', function () {
         console.log('start');
     });*/
-    const seleccionarHallazgo = val => {
-        if (listaDeHallazgos.map(({value}) => value).indexOf(val) > -1) {
-            item.value.hallazgo = val
-            speak(`Hallazgo ${val}`)
-        }
-    }
-    const seleccionarHallazgoPieza = (hallazgo, pieza) => {
-        if (listaDeHallazgos.map(({value}) => value).indexOf(hallazgo) > -1 && listaDeDientes.find(item => item == pieza)) {
-            item.value.hallazgo = hallazgo
-            item.value.diente = pieza
-            speak(`Hallazgo ${hallazgo} Pieza ${pieza}`)
-        }
-    }
-
-    const seleccionarHallazgoTipoPieza = (hallazgo, tipo, pieza) => {
-        if (listaDeHallazgos.map(({value}) => value).indexOf(hallazgo) > -1 && listaDeDientes.find(item => item == pieza) && listaDeTipos.map(({value}) => value).indexOf(tipo) > -1) {
-            item.value.hallazgo = hallazgo
-            item.value.pieza.push(tipo)
-            item.value.diente = pieza
-            console.log(item.value)
-            speak(`Hallazgo ${hallazgo}, parte ${tipo} y Pieza ${pieza}`)
-        }
-    }
-    const seleccionarPieza = val => {
-        if (listaDeDientes.find(item => item == val) ) {
-            item.value.diente = val
-            speak(`Pieza ${val}`)
-        }
-    }
-
-    const seleccionarTipos = val => {
-        if (listaDeTipos.map(({value}) => value).indexOf(val) > -1) {
-            const index = item.value.pieza.indexOf(val)
-            if(index == -1) {
-                item.value.pieza.push(val)
-                speak(`Agregando ${val}`)
-            } else {
-                item.value.pieza.splice(index, 1)
-                speak(`Quitando ${val}`)
-            }
-        }
-    }
-    const mellamo = ()=> {
-        speak(`Yo soy Quiru, encantada de conocerte.`)
-    }
-    
-  
-    const limpiar = ()=> {
-        item.value = {
-            diente: '00',
-            hallazgo: "",
-            pieza: []
-        }
-        flagLimpiar.value = !flagLimpiar.value
-        speak('Limpiando')
-    }
-    const commands = {
-        'Buenos días': activarVoz,
-        'Buenos días *any': activarVoz,
-        'hola': activarVoz,
-        'hola *any': activarVoz,
-        'limpiar': limpiar,
-        'limpiar *any': limpiar,
-        'otra vez': limpiar,
-        'otra vez *any': limpiar,
-        'pieza :item': seleccionarPieza,
-        'piezas :item': seleccionarPieza,
-        'caries :item': seleccionarTipos,
-        'carie :item': seleccionarTipos,
-        'calle :item': seleccionarTipos,
-        'parte :item': seleccionarTipos,
-        'gracias': detenerVoz,
-        'gracias *any': detenerVoz,
-        'terminar': detenerVoz,
-        'terminar *any': detenerVoz,
-        'fin': detenerVoz,
-        'fin *any': detenerVoz,
-        'adios': detenerVoz,
-        'adios *any': detenerVoz,
-        'hallazgo :item': seleccionarHallazgo,
-        'hallazgo :hallazgo (pieza) :pieza': seleccionarHallazgoPieza,
-        'hallazgo :hallazgo (carie) (parte) :tipo (pieza) :pieza': seleccionarHallazgoTipoPieza,
-        'cómo te llamas *any' : mellamo,
-        'cómo te llamas' : mellamo,
-    }
-    
-    
-    annyang.addCommands(commands);
     flagAnnyang = annyang.start({ autoRestart: true, continuous: false })
-    const colors = [
-        'caries',    'extracción',    'ausente',    'fractura',    'restauración',    'vestibular', 
-        'distal',    'oclusal',    'mesial',    'palatino',
-        'pieza',
-    ];
-        const grammar = '#JSGF V1.0; grammar colors; public <color> = ' + colors.join(' | ') + ' ;'
-    const test = annyang.getSpeechRecognizer()
-    test.grammars.addFromString(grammar, 1);
-    annyang.abort()
-
+    annyang.getSpeechRecognizer().grammars.addFromString(comandosDeVoz.gramatica, 1);
+    annyang.addCommands(comandosDeVoz.conVozApagada)
 } else {
     console.log("Speech Recognition is not supported");
 }
@@ -246,14 +124,20 @@ export function escucharInicializarVoz() {
 export function detenerInicializarVoz() {
     annyang.abort();
 }
-function activarVoz() {
-    isSpeech.value = true;//start
+
+export function activarVoz() {
+    annyang.removeCommands();
+    annyang.addCommands(comandosDeVoz.conVozEncendida)
+    isSpeech.value = true;
     speak('Hola')
 }
-function detenerVoz() {
+export function detenerVoz() {
+    annyang.removeCommands();
+    annyang.addCommands(comandosDeVoz.conVozApagada)
     isSpeech.value = false;//stop
     speak('Con gusto')
 }
+
 
 function diagnostico(param) {
     if (isSpeech.value || (param === 'manual')) {
@@ -265,7 +149,6 @@ function diagnostico(param) {
         limpiarCaries();
     }
 }
-
 function tratamiento(param) {
     if (isSpeech.value || (param === 'manual')) {
         headerVoz.style = "visibility: hidden;";
@@ -294,13 +177,7 @@ function agregarLista(param) {
     }
 }
 
-function procesar() {
-    if (isSpeech.value) {
-        isSpeech.value = false; //stop
-    } else {
-        isSpeech.value = true; //start
-    }
-}
+
 
 function eliminarDiente(pieza) {
     const idDiente = registro.value.find(item => item.diente === pieza)?.id;
@@ -435,9 +312,9 @@ let synth = window.speechSynthesis;
 
 let voices = synth.getVoices();
 
-function speak(pHablar) {
-    detenerInicializarVoz()
-    setTimeout(() => escucharInicializarVoz(), 2000);
+export function speak(pHablar) {
+    //detenerInicializarVoz()
+   // setTimeout(() => escucharInicializarVoz(), 2000);
     if (synth.speaking) {
         console.error('speechSynthesis.speaking');
         return;
@@ -454,7 +331,6 @@ function speak(pHablar) {
 export {
     diagnostico,
     tratamiento,
-    procesar,
     limpiar,
     agregarLista,
     eliminarDiente,

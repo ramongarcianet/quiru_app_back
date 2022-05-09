@@ -11,7 +11,8 @@ import {
   obtenerTodoCaries,
 } from "../../store/odonto";
 import {
-  procesar,
+  detenerVoz,
+  activarVoz,
   agregarLista,
   isSpeech,
   escucharInicializarVoz,
@@ -46,7 +47,7 @@ onMounted(()=> {
 })
 
 onUnmounted(()=> {
-  procesar()
+  detenerVoz()
 })
 
 </script>
@@ -54,14 +55,7 @@ onUnmounted(()=> {
 <template lang="pug">
 p {{textoEscuchado}}
 #button-microfono
-    button.NotpulsingButton#btnActivar(v-if="!isSpeech" type="submit" style="visibility:visible;" @click="procesar()")
-        i.fa.fa-microphone
-    button.pulsingButton#btnEscuchando(v-if="isSpeech" type="submit" style="visibility:visible;" @click="procesar()")
-        .pulse-ring
-            svg(width="60", height="60", viewBox="40 0 150 300")
-            polyline(stroke-linejoin="round" points="50,150 125,50 200,150" stroke="white" stroke-width="25" fill="none")
-            polyline(stroke-linejoin="bevel" points="50,250 125,150 200,250" stroke="white" stroke-width="25" fill="none")
-        i.fa.fa-microphone
+    MicroButton( style='--size: 4rem' :class="{active: isSpeech}" @click="isSpeech ? detenerVoz() : activarVoz()")
 .row
     .col
         input#tipoReg(type="hidden", value="0")
