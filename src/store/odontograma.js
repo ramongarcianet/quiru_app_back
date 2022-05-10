@@ -130,16 +130,14 @@ export function activarVoz() {
     annyang.removeCommands();
     annyang.addCommands(comandosDeVoz.conVozEncendida)
     isSpeech.value = true;
-    speak('Hola')
+    comandosDeVoz.saludar()
 }
 export function detenerVoz() {
     annyang.removeCommands();
     annyang.addCommands(comandosDeVoz.conVozApagada)
     isSpeech.value = false;//stop
-    speak('Con gusto')
+    comandosDeVoz.agradecer()
 }
-
-
 
 let synth = window.speechSynthesis;
 
@@ -155,11 +153,11 @@ export function speak(pHablar) {
     if (pHablar !== '') {
         const arregloDePalabras = pHablar.split(" ")
         const frase = arregloDePalabras.map( item => !Number(item) ? item : convertirEnPalabra(Number(item)) ).join(" ")
-        const tiempoEnPausa = frase.length / 2 * 120
+        const tiempoEnPausa = frase.length / 2 * 150
         console.log(frase)
         detenerInicializarVoz()
         setTimeout(() => escucharInicializarVoz(), tiempoEnPausa);
-        let utterThis = new SpeechSynthesisUtterance(frase);
+        let utterThis = new SpeechSynthesisUtterance(pHablar);
         utterThis.voice = voices[8];
         utterThis.pitch = '1';
         utterThis.rate = '1';

@@ -40,6 +40,10 @@ p
     font-size: 2em
 h5
     text-align: center
+.dark
+    position: sticky
+    bottom: 0
+    left: 0
 aside
     position: fixed
     left: -100%
