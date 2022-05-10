@@ -57,10 +57,8 @@ const pieza_ = computed({
         border-radius: 1rem
         background: var(--background-color)
         position: relative
-        height: 100%
-        aspect-ratio: 1
-        max-height: var(--size)
-        max-width: var(--size)
+        height: var(--size)
+        width: var(--size)
         #vestibular,  #distal, #oclusal, #mesial, #palatino
             position: absolute
             top: 0
