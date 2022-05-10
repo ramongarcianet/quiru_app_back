@@ -1,6 +1,7 @@
 import { ref } from 'vue';
 import { limpiarCaries, DienteCaries, DienteAusente, DienteFracturado, clearcanvas, VerFormato as verOdontograma} from "./OdontoJS"
 import { registro, listaDiccionario, listaPieza, listaHallazgo, listaCaries, guardar, eliminar } from "./odonto.js"
+import {convertToText} from "./numeroLetras.js"
 import router from '../config/router'
 import comandosDeVoz from './comandosDeVoz';
 import '../assets/annyang.min'
@@ -40,11 +41,11 @@ export const listaDeTipos = [
 ];
 
 if (annyang) {
- 
+
     annyang.setLanguage("es-PE");
-    
+
     annyang.addCallback('result', function (frase) {
-       
+
         const comandoTemp = buscarPalabraCorrecta(frase);
         let comando = comandoTemp;
         if (isSpeech.value) {
@@ -52,7 +53,7 @@ if (annyang) {
             if (comando != '') {
                 comando = comandoTemp.replace(/\s/g, '/');
                 const comandoCompleto = comando.split('/')
-                
+
                 if (comandoCompleto[0] === 'agregar') {
                     agregarLista('voz');
                 }
@@ -86,7 +87,7 @@ if (annyang) {
 
         //}
     });
-   
+
     annyang.addCallback('soundstart', function () {
         //if (isSpeech.value)
         console.log('sound detected');
@@ -103,7 +104,7 @@ if (annyang) {
     annyang.addCallback('errorPermissionDenied', function () {
         console.log('errorPermissionDenied');
     });
-    
+
     /*
     annyang.addCallback('end', function () {
         console.log('end');
@@ -143,10 +144,10 @@ export function detenerVoz() {
 let synth = window.speechSynthesis;
 
 let voices = synth.getVoices();
-const convertirEnPalabra = num => 'palabra' 
+const convertirEnPalabra = num => convertToText(num.toString())
 
 export function speak(pHablar) {
-    
+
     if (synth.speaking) {
         console.error('speechSynthesis.speaking');
         return;
