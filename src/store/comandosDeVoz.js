@@ -54,6 +54,7 @@ const actualizarItem = (hallazgo, ubicacion, pieza) => {
     let mensaje = ''
 
     if( hallazgoCorrecto && ubicacionCorrecta && piezaCorrecta ) {
+        
         if (hallazgo) {
             item.value.hallazgo = hallazgo 
             mensaje += `Hallazgo ${hallazgo}`
@@ -130,8 +131,6 @@ export default {
 
         [`fractura ${prefijosParaPieza} :pieza`]: seleccionarHallazgoFracturaPieza,
         [`factura ${prefijosParaPieza} :pieza`]: seleccionarHallazgoFracturaPieza,
-
-
 
         'cómo te llamas *any' : mellamo,
         'cómo te llamas' : mellamo,

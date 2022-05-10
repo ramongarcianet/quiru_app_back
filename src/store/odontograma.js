@@ -12,6 +12,7 @@ let observacionesTemp = '';
 let flagAnnyang;
 export let flagLimpiar = ref(false)
 export const textoEscuchado = ref()
+
 export const item = ref({
     diente: '00',
     hallazgo: "",
@@ -46,7 +47,6 @@ if (annyang) {
        
         const comandoTemp = buscarPalabraCorrecta(frase);
         let comando = comandoTemp;
-        
         if (isSpeech.value) {
             textoEscuchado.value = frase;
             if (comando != '') {
@@ -136,6 +136,35 @@ export function detenerVoz() {
     annyang.addCommands(comandosDeVoz.conVozApagada)
     isSpeech.value = false;//stop
     speak('Con gusto')
+}
+
+
+
+let synth = window.speechSynthesis;
+
+let voices = synth.getVoices();
+const convertirEnPalabra = num => 'palabra' 
+
+export function speak(pHablar) {
+    
+    if (synth.speaking) {
+        console.error('speechSynthesis.speaking');
+        return;
+    }
+    if (pHablar !== '') {
+        const arregloDePalabras = pHablar.split(" ")
+        const frase = arregloDePalabras.map( item => !Number(item) ? item : convertirEnPalabra(Number(item)) ).join(" ")
+        const tiempoEnPausa = frase.length / 2 * 120
+        console.log(frase)
+        detenerInicializarVoz()
+        setTimeout(() => escucharInicializarVoz(), tiempoEnPausa);
+        let utterThis = new SpeechSynthesisUtterance(frase);
+        utterThis.voice = voices[8];
+        utterThis.pitch = '1';
+        utterThis.rate = '1';
+        synth.speak(utterThis);
+
+    }
 }
 
 
@@ -307,27 +336,6 @@ function buscarDiccionario(buscar) {
     }
 }
 
-
-let synth = window.speechSynthesis;
-
-let voices = synth.getVoices();
-
-export function speak(pHablar) {
-    detenerInicializarVoz()
-    setTimeout(() => escucharInicializarVoz(), 2000);
-    if (synth.speaking) {
-        console.error('speechSynthesis.speaking');
-        return;
-    }
-    if (pHablar !== '') {
-        let utterThis = new SpeechSynthesisUtterance(pHablar);
-        utterThis.voice = voices[8];
-        utterThis.pitch = '1';
-        utterThis.rate = '1';
-        synth.speak(utterThis);
-
-    }
-}
 export {
     diagnostico,
     tratamiento,
