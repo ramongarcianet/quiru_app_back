@@ -34,27 +34,29 @@ onUnmounted(()=>{
 const listaDeInstrucciones = computed( ()=>[
   [
     {text: "Despierta a Quiru con «Hola Quiru»", condicion: !isSpeech.value },
-    {text: "Empecemos por una carie: «Caries»", condicion: !item.value.hallazgo},
-    {text: "Indica la ubicación: «por palatino»", condicion: !item.value.pieza.length },
-    {text: "Por último el número de diente: «Pieza 15»", condicion: item.value.diente == "00"},
-    {text: "Intentemos una vez más: «Siguiente»", condicion: true},
+    {text: "Empecemos por una carie: «25 Caries por vestibular»", condicion: !item.value.hallazgo},
+    {text: "Probemos una más: «Siguiente»", condicion: true},
+
   ],
   [
-    {text: "Probemos algo más completo. «Extracción en pieza 25»", condicion: !item.value.hallazgo},
-    {text: "Intentemos una vez más: «Siguiente»", condicion: true},
+    {text: "Empecemos por una carie: «25 Restauración por vestibular»", condicion:  !item.value.hallazgo},
+    {text: "Probemos una más: «Siguiente»", condicion: true},
+
   ],
   [
-    {text: "Ahora una fractura, por ejemplo: «Fractura 33»", condicion: !item.value.hallazgo},
-    {text: "Intentemos una vez más: «Siguiente»", condicion: true},
+    {text: "Empecemos por una carie: «51 ausente»", condicion:  !item.value.hallazgo},
+    {text: "Probemos una más: «Siguiente»", condicion: true},
   ],
   [
-    {text: "Ahora con una restauración: «Restauración por vestibular en 85»", condicion: !item.value.hallazgo},
-    {text: "Intentemos una vez más: «Siguiente»", condicion: true},
+    {text: "Empecemos por una carie: «15 extracción»", condicion:  !item.value.hallazgo},
+    {text: "Probemos una más: «Siguiente»", condicion: true},
   ],
   [
-    {text: "Por último un hallazgo auscente: «ausente en 31»", condicion: !item.value.hallazgo},
-    {text: "Gracias por probar Quiru, puedes seguir probando las funciones: «Gracias»", condicion: true},
+    {text: "Empecemos por una carie: «24 fractura»", condicion:  !item.value.hallazgo},
+    {text: "Gracias por probar Quiru, puedes seguir probando las funciones o apagar el asistente con un: «Gracias»", condicion: true},
   ],
+
+
 ])
 
 const numeroDeInstruccion = ref(0)
@@ -74,7 +76,7 @@ const instruccion = computed(()=> listaDeInstrucciones.value[numeroDeInstruccion
 .d-flex.align-items-center.justify-content-start.p-2
   MicroButton( style='--size: 2rem' :class="{active: isSpeech}" @click="isSpeech ? detenerVoz() : activarVoz()")
   h1.ms-1.mt-2.light-text Quiru 
-.mb-5.d-flex.justify-content-center
+.mb-5.d-flex.justify-content-center.h-100
   Diente.conHallazgo( v-model:pieza='item.pieza' v-model:hallazgo='item.hallazgo' v-model:diente='item.diente' )
 .mt-auto.d-flex.w-100.flex-column.p-2
   .mensaje {{instruccion}}
