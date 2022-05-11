@@ -1,20 +1,15 @@
 <script setup>
 import {computed, watch} from 'vue'
-const props = defineProps({
-    diente: String,
-    hallazgo: String,
-    pieza: Array
-})
-const emit = defineEmits(['update:pieza', 'update:hallazgo', 'update:diente'])
+const props = defineProps( ['item'])
+const emit = defineEmits(['update:ubicacion', 'update:hallazgo', 'update:diente'])
 
-const piezas = ['vestibular','distal','oclusal','mesial','palatino']
-
-const pieza_ = computed({
-    get: ()=>props.pieza,
+const ubicaciones = ['vestibular','distal','oclusal','mesial','palatino']
+const ubicacion_ = computed({
+    get: ()=>props.item.hallazgos,
     set: val => {
-        const index = props.pieza.indexOf(val)
-        if ( index == -1) props.pieza.push(val)
-        else props.pieza.splice( index, 1)
+        const index = props.item.hallazgos.findIndex( i => i.ubicacion = i.ubicacion)
+        if ( index > -1) props.item.hallazgos.splice( index, 1)
+        else return
     }
 })
 
@@ -23,11 +18,15 @@ const pieza_ = computed({
 <template lang="pug">
 #diente( v-bind='$attrs')
     h1 
-        span {{`${hallazgo} `}}  
-        span {{diente || "00"}}
-    #button-diente.mx-auto( :class='hallazgo' )
-        div(v-for='pieza of piezas' :id='pieza' @click='pieza_ = pieza' :class='{active: props.pieza.indexOf(pieza) > -1}')
-            span {{pieza}}
+        span {{item.diente || "00"}}
+    #button-diente.mx-auto( :class='item.hallazgos.map(({hallazgo}) => hallazgo).join(" ")' )
+        div(
+            v-for='ubicacion of ubicaciones' 
+            :id='ubicacion' 
+            @click='ubicacion_ = ubicacion' 
+            :class='`${item.hallazgos.filter(i => i.ubicacion == ubicacion).map(({hallazgo})=>hallazgo).join(" ")} ${item.hallazgos.map(({ubicacion}) => ubicacion).some( item => item == ubicacion ) ? "active" : ""}`'
+        )
+            span {{ubicacion}}
         #aspaIzquierda
         #aspaDerecha
 
@@ -37,7 +36,21 @@ const pieza_ = computed({
 #diente
     --background-color: var(--bs-light)
     --size: 140px
+    --border-diente: 6px
+    --border-radius: 1.2rem
+    --border: 2px
+    --weight: 6px
+    &.small
+        --size: 1.25rem!important
+        --border-diente: 1px!important
+        --border-radius: .25rem!important
+        --border: .1px!important
+        --weight: 2px!important
 
+
+        h1 
+            font-size: .7rem!important
+            margin-bottom: .15rem
     h1 
         width: 100%
         text-align: center
@@ -46,12 +59,7 @@ const pieza_ = computed({
         margin-bottom: 1rem
         margin-top: 0
         color: var(--background-color)
-        span:first-child
-            display: none
-            text-transform: capitalize
-    &.conHallazgo
-        span:first-child
-            display: unset
+        
 
     #button-diente
         border-radius: 1rem
@@ -84,15 +92,15 @@ const pieza_ = computed({
             width: 100%
             bottom: unset
             clip-path: polygon(var(--min) 0%, var(--max) 0%, var(--proporcion-final) 100%, var(--proporcion-inicial) 100%)
-            border-top-left-radius: 1rem
-            border-top-right-radius: 1rem
+            border-top-left-radius: var(--border-radius)
+            border-top-right-radius: var(--border-radius)
         #distal
             height: 100%
             width: var(--proporcion-inicial)
             right: unset
             clip-path: polygon(var(--min) 0, 100% var(--proporcion-inicial), 100% var(--proporcion-final), 0% var(--max))
-            border-top-left-radius: 1rem
-            border-bottom-left-radius: 1rem
+            border-top-left-radius: var(--border-radius)
+            border-bottom-left-radius: var(--border-radius)
 
         #oclusal
             height: var(--proporcion-central)
@@ -104,16 +112,16 @@ const pieza_ = computed({
             width: calc(100% / 4)
             left: unset
             clip-path: polygon( 0 var(--proporcion-inicial), 100% var(--min), 100%  var(--max), 0 var(--proporcion-final))
-            border-top-right-radius: 1rem
-            border-bottom-right-radius: 1rem
+            border-top-right-radius: var(--border-radius)
+            border-bottom-right-radius: var(--border-radius)
 
         #palatino
             height: calc(100% / 4)
             width: 100%
             top: unset
             clip-path: polygon(var(--proporcion-inicial) 0%, var(--proporcion-final) 0%, var(--max) 100%, var(--min) 100%)
-            border-bottom-left-radius: 1rem
-            border-bottom-right-radius: 1rem
+            border-bottom-left-radius: var(--border-radius)
+            border-bottom-right-radius: var(--border-radius)
 
         #vestibular, #distal, #oclusal, #mesial, #palatino
             &::before
@@ -122,9 +130,9 @@ const pieza_ = computed({
                 z-index: 0
                 content: ''
                 background: var(--bs-primary)
-                --min: calc( 6px)
+                --min: calc( var(--border-diente))
                 --max: calc(100% - var(--min))
-                --border: 2px
+                
                 --border-right: calc(100% - var( --border ) )
                 clip-path: var(--clip-path)
                 transition: .3s
@@ -153,7 +161,7 @@ const pieza_ = computed({
         #aspaIzquierda, #aspaDerecha
             position: absolute
             height: calc( var(--size) * 1.24 )
-            width: 6px
+            width: var(--weight)
             top: 0
             bottom: 0
             right: 0
@@ -168,8 +176,10 @@ const pieza_ = computed({
         #aspaDerecha
             transform: rotate(-45deg)
 
-        &.caries, &.restauración
-            div
+
+        
+        div
+            &.caries, &.restauración
                 *
                     user-select: none
                     position: relative
@@ -180,14 +190,12 @@ const pieza_ = computed({
                 &:hover
                     &::before
                         background: mix(black, #37DFBB, 10%)!important
-        &.caries
-            div
+            &.caries
                 &.active
                     color: var(--bs-white)
                     &::before
                         background: var(--bs-red)!important
-        &.restauración
-            div
+            &.restauración
                 &.active
                     color: var(--bs-white)
                     &::before

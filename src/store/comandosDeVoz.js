@@ -1,4 +1,4 @@
-import {item, detenerVoz, activarVoz, listaDeHallazgos, listaDeDientes, listaDeTipos, speak, flagLimpiar} from './odontograma'
+import {item,registro,verOdontograma, detenerVoz, activarVoz, listaDeHallazgos, listaDeDientes, listaDeTipos, speak, flagLimpiar} from './odontograma'
 
 const seleccionarHallazgo = hallazgo => actualizarItem(hallazgo, false, false)
 
@@ -31,13 +31,12 @@ const saludar = ()=>speak('Hola, soy Quiru, tu nuevo asistente de voz odontológ
 const queSabesHacer = ()=>speak('Yo me encargo del registro de tus odontogramas: diagnóstico y tratamiento. Tu encárgate de atender a tus pacientes')
 const agradecer = ()=>speak('Encantada de ayudarte')
 const mellamo = ()=> speak(`Yo soy Quiru, encantada de conocerte.`)
-
+const cambiarVista = ()=> verOdontograma.value = !verOdontograma.value
 
 const limpiar = ()=> {
-    item.value = {
-        diente: '00',
-        hallazgo: "",
-        pieza: []
+    item.value =  {
+        pieza: '00',
+        hallazgos: [ ]
     }
     flagLimpiar.value = !flagLimpiar.value
     speak('Limpiando')
@@ -52,33 +51,70 @@ const opcionesDeComandosDeVoz = [
 const actualizarItem = (hallazgo, ubicacion, pieza) => {
     const hallazgoCorrecto = hallazgo ? listaDeHallazgos.map(({value}) => value).indexOf(hallazgo) > -1 : true
     const piezaCorrecta = ubicacion ? listaDeTipos.map(({value}) => value).indexOf(ubicacion) > -1 : true
-    const ubicacionCorrecta = pieza ? listaDeDientes.find(item => item == pieza) : true
+    const ubicacionCorrecta = pieza ? listaDeDientes.flat().flat().flat().find(item => item == pieza) : true
     let mensaje = ''
+    console.log(hallazgo, ubicacion, pieza)
 
     if( hallazgoCorrecto && ubicacionCorrecta && piezaCorrecta ) {
-         if (pieza){
+        const index = item.value.hallazgos.findIndex( i => i.hallazgo == hallazgo && i.ubicacion == ubicacion)
+        console.log(index)
+        if( index > -1) {
+            item.value.hallazgos.splice( index,  1)
+            return `Desmarcando ${hallazgo} por ${ubicacion}`
+        }
+        if (pieza){
             item.value.diente = pieza
             mensaje += `Pieza ${pieza}`
         }
-        if (hallazgo) {
-            item.value.hallazgo = hallazgo 
+        if (hallazgo && !ubicacion) {
+            item.value.hallazgos.push( {hallazgo} )
             mensaje += `Hallazgo ${hallazgo}`
+        } else if( hallazgo && ubicacion ){
+            item.value.hallazgos.push( {hallazgo, ubicacion} )
+            mensaje += `Hallazgo ${hallazgo} por ${ubicacion}`
         }
-        if (ubicacion) {
-            const index = item.value.pieza.indexOf(ubicacion)
-            if(index == -1) {
-                item.value.pieza.push(ubicacion)
-                mensaje += `Por ${ubicacion}`
-            } else {
-                item.value.pieza.splice(index, 1)
-                mensaje += `Desmarcando ${ubicacion}`
-            }
-        }
-       
-        speak(mensaje)
+        console.log(item.value)
+        return speak(mensaje)
     }
 }
 
+const agregar  = () => {
+    if(item.value.hallazgos.length == 0) return speak( 'No he registrado un diente')
+    
+    item.value.hallazgos.map( ({hallazgo, ubicacion}) => ({diente: item.value.diente, ubicacion, hallazgo})).forEach( item => registro.value.push(item))
+    console.log( registro.value)
+    limpiar()
+
+};
+const borrar = pieza => {
+    registro.value.filter( i => i.pieza == pieza ).forEach( item => {
+        const index = registro.value.findIndex( i => i.pieza == item.pieza)
+        registro.value.splice( index, 1)
+    })
+}
+
+/*if (comandoCompleto[0] === 'formato') {
+    verOdontograma();
+}
+if (comandoCompleto[0] === 'volver') {
+    volver();
+}*/
+
+export function agregarLista(param) {
+    /* const idOdontograma = router.currentRoute.value.params.idOdontograma;
+     const existeDiente = registro.value.find(item => item.diente === item.value.pieza)
+     if (!existeDiente) {
+         guardar(idOdontograma, item.value);
+         limpiar();
+     }*/
+ }
+ 
+ 
+ 
+ export function eliminarDiente(pieza) {
+     /*const idDiente = registro.value.find(item => item.diente === pieza)?.id;
+     eliminar(idDiente)*/
+ }
 const prefijosParaPieza = 'pieza'
 const prefijosParaUbicacion = '(por) (parte)'
 const listaDeDientes_ = [
@@ -126,7 +162,10 @@ export default {
         'adios *any': detenerVoz,
         'limpiar': limpiar,
         'limpiar *any': limpiar,
-        'siguiente': limpiar,
+        'siguiente': agregar,
+        'agregar': agregar,
+        'borrar :pieza': borrar,
+        'eliminar :pieza': borrar,
         'limpiar *any': limpiar,
         'otra vez': limpiar,
         'otra vez *any': limpiar,
@@ -165,6 +204,9 @@ export default {
         'cómo te llamas' : mellamo,
         'qué sabes hacer' : queSabesHacer,
         'que sabes hacer' : queSabesHacer,
+        'ver odontograma': cambiarVista,
+        'regresar': cambiarVista,
+        'cambiar': cambiarVista,
         ...listaDeComandosDeDientes
 
 

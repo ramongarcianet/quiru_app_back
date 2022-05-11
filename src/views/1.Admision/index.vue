@@ -4,9 +4,11 @@ import {
   flagLimpiar,
   escucharInicializarVoz,
   detenerInicializarVoz,
+  registro_,
   item,
   textoEscuchado,
   detenerVoz,
+  verOdontograma,
 } from "../../store/odontograma";
 
 import { onUnmounted, onMounted, computed, watch, ref} from "vue";
@@ -76,8 +78,12 @@ const instruccion = computed(()=> listaDeInstrucciones.value[numeroDeInstruccion
 .d-flex.align-items-center.justify-content-start.p-2
   MicroButton( style='--size: 2rem' :class="{active: isSpeech}" @click="isSpeech ? detenerVoz() : activarVoz()")
   h1.ms-1.mt-2.light-text Quiru 
-.mb-5.d-flex.justify-content-center.h-100
-  Diente.conHallazgo( v-model:pieza='item.pieza' v-model:hallazgo='item.hallazgo' v-model:diente='item.diente' )
+div( v-if='verOdontograma')
+  .d-flex.justify-content-center.mb-2( v-for='row of registro_'  style='gap:  14px' )
+    .d-flex( v-for='col of row' style='gap:  2px')
+      Diente.small(  v-for='item of col' :item='item' )
+.mb-5.d-flex.justify-content-center.h-100(v-else)
+  Diente( :item='item' )
 .mt-auto.d-flex.w-100.flex-column.p-2
   .mensaje {{instruccion}}
   .mensaje {{textoEscuchado?.[0] || "Empieza por Hola Quiru"}}

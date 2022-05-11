@@ -1,6 +1,6 @@
-import { ref } from 'vue';
-import { limpiarCaries, DienteCaries, DienteAusente, DienteFracturado, clearcanvas, VerFormato as verOdontograma} from "./OdontoJS"
-import { registro, listaDiccionario, listaPieza, listaHallazgo, listaCaries, guardar, eliminar } from "./odonto.js"
+import { computed, ref } from 'vue';
+import { limpiarCaries, DienteCaries, DienteAusente, DienteFracturado, clearcanvas} from "./OdontoJS"
+import { listaDiccionario, listaPieza, listaHallazgo, listaCaries, guardar, eliminar } from "./odonto.js"
 import {convertToText} from "./numeroLetras.js"
 import router from '../config/router'
 import comandosDeVoz from './comandosDeVoz';
@@ -11,20 +11,37 @@ let recetaTemp = '';
 let especificacionesTemp = '';
 let observacionesTemp = '';
 let flagAnnyang;
+
+export const verOdontograma = ref(false)
 export let flagLimpiar = ref(false)
 export const textoEscuchado = ref()
 
-export const item = ref({
-    diente: '00',
-    hallazgo: "",
-    pieza: []
-})
+export const registro = ref([])
 
 export const listaDeDientes = [
-    11, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23, 24, 25, 26, 27, 28, 31, 32, 33,
-    34, 35, 36, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 51, 52, 53, 54, 55, 61,
-    62, 63, 64, 65, 71, 72, 73, 74, 75, 81, 82, 83, 84, 85,
+    [[18, 17, 16, 15, 14, 13, 12, 11], [ 21, 22, 23, 24, 25, 26, 27, 28,]],
+    [[55, 54, 53, 52, 51], [61, 62, 63, 64, 65]],
+    [[85, 84, 83, 82, 81], [71, 72, 73, 74, 75]],
+    [[48, 47, 46, 45, 44, 43, 42, 41], [31, 32, 33, 34, 35, 36, 37, 38]],
 ];
+
+export const registro_ = computed(()=> 
+    listaDeDientes.map(row=> 
+        row.map( col => 
+            col.map( diente =>  ({
+                diente,
+                hallazgos: registro.value.filter(i => i.diente == diente).map(({hallazgo, ubicacion}) => ({hallazgo, ubicacion}))
+            }) )
+        )   
+    )
+)
+
+export const item = ref({
+    diente: '00',
+    hallazgos: []
+})
+
+
 export const listaDeHallazgos = [
     { value: "caries", text: "Caries" },
     { value: "extracción", text: "Extracción" },
@@ -54,20 +71,7 @@ if (annyang) {
                 comando = comandoTemp.replace(/\s/g, '/');
                 const comandoCompleto = comando.split('/')
 
-                if (comandoCompleto[0] === 'agregar') {
-                    agregarLista('voz');
-                }
-                if (comandoCompleto[0] === 'formato') {
-                    verOdontograma();
-                }
-                if (comandoCompleto[0] === 'volver') {
-                    volver();
-                }
-                if (comandoCompleto[0] === 'borrar') {
-                    if (comandoCompleto[1] != undefined) {
-                        eliminarDiente(comandoCompleto[1])
-                    }
-                }
+               
                 if (comandoCompleto[0] === 'receta') {
                     receta();
                 }
@@ -154,7 +158,6 @@ export function speak(pHablar) {
         const arregloDePalabras = pHablar.split(" ")
         const frase = arregloDePalabras.map( item => !Number(item) ? item : convertirEnPalabra(Number(item)) ).join(" ")
         const tiempoEnPausa = frase.length / 2 * 150
-        console.log(frase)
         detenerInicializarVoz()
         setTimeout(() => escucharInicializarVoz(), tiempoEnPausa);
         let utterThis = new SpeechSynthesisUtterance(pHablar);
@@ -196,28 +199,16 @@ function limpiar() {
     limpiarCaries();
     clearcanvas("cvhallazgo");
 }
-function agregarLista(param) {
-    const idOdontograma = router.currentRoute.value.params.idOdontograma;
-    const existeDiente = registro.value.find(item => item.diente === item.value.pieza)
-    if (!existeDiente) {
-        guardar(idOdontograma, item.value);
-        limpiar();
-    }
-}
 
 
 
-function eliminarDiente(pieza) {
-    const idDiente = registro.value.find(item => item.diente === pieza)?.id;
-    eliminar(idDiente)
-}
 function volver() {
     push({ name: 'odontograma' })
 }
 
 function buscarPalabraCorrecta(arrayFrase) {
     let listDiccionario = listaDiccionario.value;
-    let listPieza = listaDeDientes;
+    let listPieza = listaDeDientes.flat().flat();
     let listHallazgo = listaDeHallazgos;
     let listCaries = listaDeTipos;
     let firstWord = '';
@@ -339,8 +330,6 @@ export {
     diagnostico,
     tratamiento,
     limpiar,
-    agregarLista,
-    eliminarDiente,
     volver,
     isSpeech
 }
