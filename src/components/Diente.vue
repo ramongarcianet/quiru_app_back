@@ -13,20 +13,21 @@ const ubicacion_ = computed({
     }
 })
 
+const diente = computed(()=> (Number(props.item.diente)/10).toFixed(1) || "00") 
 
 </script>
 <template lang="pug">
-#diente( v-bind='$attrs')
+#diente( v-bind='$attrs' :class='item.clase')
     h1 
-        span {{item.diente || "00"}}
-    #button-diente.mx-auto( :class='item.hallazgos.map(({hallazgo}) => hallazgo).join(" ")' )
+        span {{diente }} 
+    #raices
+    #button-diente( :class='item.hallazgos.map(({hallazgo}) => hallazgo).join(" ")' )
         div(
             v-for='ubicacion of ubicaciones' 
             :id='ubicacion' 
             @click='ubicacion_ = ubicacion' 
             :class='`${item.hallazgos.filter(i => i.ubicacion == ubicacion).map(({hallazgo})=>hallazgo).join(" ")} ${item.hallazgos.map(({ubicacion}) => ubicacion).some( item => item == ubicacion ) ? "active" : ""}`'
         )
-            span {{ubicacion}}
         #aspaIzquierda
         #aspaDerecha
 
@@ -37,36 +38,87 @@ const ubicacion_ = computed({
     --background-color: var(--bs-light)
     --size: 140px
     --border-diente: 6px
-    --border-radius: 1.2rem
+    --border-radius-top: 1.2rem!important
+    --border-radius-bottom: 0rem!important
     --border: 2px
     --weight: 6px
+    display: flex
+    flex-direction: column
+    &.toDown
+        flex-direction: column-reverse
+        --border-radius-top: 0rem!important
+        --border-radius-bottom: 1.2rem!important
     &.small
-        --size: 1.25rem!important
-        --border-diente: 1px!important
-        --border-radius: .25rem!important
-        --border: .1px!important
+        --size: 1.2rem!important
+        --border-diente: 1.4px!important
+        --border-radius-top: .24rem!important
+        --border-radius-bottom: .24rem!important
+        --border: .2px!important
         --weight: 2px!important
-
-
+    
         h1 
             font-size: .7rem!important
-            margin-bottom: .15rem
+            margin: .2rem 0
+    &.toDown.small
+        flex-direction: column-reverse
+        --border-radius-top: .24rem!important
+        --border-radius-bottom: .24rem!important
     h1 
         width: 100%
         text-align: center
         font-size: 2rem
         font-weight: bold
-        margin-bottom: 1rem
-        margin-top: 0
         color: var(--background-color)
-        
+    &.toDown
+        #raices
+            transform: rotate(180deg)    
+    #raices  
+        position: relative 
+        height: calc( var(--size) * 0.4)
+        width: var(--size) 
+        &:before
+            content: ''
+            position: absolute
+            width: 100%
+            height: 100%
+            background: rgba( 255, 255, 255, .4)
+        &:after
+            content: ''
+            position: absolute
+            width: 100%
+            height: 100%
+            --min: var(--border-diente)
+            background: var(--bs-primary)
+    &.raiz-1
+        #raices
+            &:before
+                clip-path: polygon( 0% 100%, 100% 100%, 50% 0%)
+            &:after
+                clip-path: polygon( calc(0% + var(--min)) 100%, calc(100% - var(--min)) 100%, 50% calc( var(--min)*1.2))
 
+    &.raiz-2
+        #raices
+            &:before
+                clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0, 50% 50%)
+            &:after
+                clip-path: polygon( calc(0% + var(--min)) calc( var(--min)*1.5 ), calc(0% + var(--min)) 100%, calc(100% - var(--min)) 100%, calc(100% - var(--min))  calc(var(--min) * 1.5), 50% calc(50% + var(--min)*1.0))
+
+    &.raiz-3
+        #raices
+            &:before
+                clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0, 75% 50%, 50% 0%, 25% 50%)
+            &:after
+                clip-path: polygon( calc(0% + var(--min)) calc( var(--min)*2.5 ), calc(0% + var(--min)) 100%, calc(100% - var(--min)) 100%, calc(100% - var(--min))  calc(var(--min) * 2.5), 75% calc(50% + var(--min)*1.2), 50%  calc(var(--min) * 1.5), 25% calc(50% + var(--min)*1.5))
+
+    
+        
     #button-diente
         border-radius: 1rem
         background: var(--background-color)
         position: relative
         height: var(--size)
         width: var(--size)
+        
         #vestibular,  #distal, #oclusal, #mesial, #palatino
             position: absolute
             top: 0
@@ -92,15 +144,16 @@ const ubicacion_ = computed({
             width: 100%
             bottom: unset
             clip-path: polygon(var(--min) 0%, var(--max) 0%, var(--proporcion-final) 100%, var(--proporcion-inicial) 100%)
-            border-top-left-radius: var(--border-radius)
-            border-top-right-radius: var(--border-radius)
+            border-top-right-radius: var(--border-radius-top)
+            border-top-left-radius: var(--border-radius-top)
+
         #distal
             height: 100%
             width: var(--proporcion-inicial)
             right: unset
             clip-path: polygon(var(--min) 0, 100% var(--proporcion-inicial), 100% var(--proporcion-final), 0% var(--max))
-            border-top-left-radius: var(--border-radius)
-            border-bottom-left-radius: var(--border-radius)
+            border-top-left-radius: var(--border-radius-top)
+            border-bottom-left-radius: var(--border-radius-bottom)
 
         #oclusal
             height: var(--proporcion-central)
@@ -112,16 +165,17 @@ const ubicacion_ = computed({
             width: calc(100% / 4)
             left: unset
             clip-path: polygon( 0 var(--proporcion-inicial), 100% var(--min), 100%  var(--max), 0 var(--proporcion-final))
-            border-top-right-radius: var(--border-radius)
-            border-bottom-right-radius: var(--border-radius)
+            border-top-right-radius: var(--border-radius-top)
+            border-bottom-right-radius: var(--border-radius-bottom)
+            
 
         #palatino
             height: calc(100% / 4)
             width: 100%
             top: unset
             clip-path: polygon(var(--proporcion-inicial) 0%, var(--proporcion-final) 0%, var(--max) 100%, var(--min) 100%)
-            border-bottom-left-radius: var(--border-radius)
-            border-bottom-right-radius: var(--border-radius)
+            border-bottom-left-radius: var(--border-radius-bottom)
+            border-bottom-right-radius: var(--border-radius-bottom)
 
         #vestibular, #distal, #oclusal, #mesial, #palatino
             &::before
@@ -141,22 +195,24 @@ const ubicacion_ = computed({
                 --border-radius: 1.2rem
         #vestibular::before
             clip-path: polygon(var(--min) var(--border), var(--max) var(--border), var(--proporcion-final) 100%,var(--proporcion-inicial) 100%)
-            border-top-left-radius: var(--border-radius)
-            border-top-right-radius: var(--border-radius)
+            border-top-left-radius: var(--border-radius-top)
+            border-top-right-radius: var(--border-radius-top)
         #distal::before
             clip-path: polygon( var(--border) var(--min), 100% var(--proporcion-inicial), 100% var(--proporcion-final), var(--border) var(--max))
-            border-top-left-radius: var(--border-radius)
-            border-bottom-left-radius: var(--border-radius)
+            border-bottom-left-radius: var(--border-radius-bottom)
+            border-top-left-radius: var(--border-radius-top)
+
         #oclusal::before
             clip-path: var(--clip-path)
         #mesial::before
             clip-path: polygon( 0 var(--proporcion-inicial), var(--border-right) var(--min), var(--border-right)  var(--max), 0 var(--proporcion-final))
-            border-top-right-radius: var(--border-radius)
-            border-bottom-right-radius: var(--border-radius)
+            border-bottom-right-radius: var(--border-radius-bottom)
+            border-top-right-radius: var(--border-radius-top)
+
         #palatino::before
             clip-path: polygon(var(--proporcion-inicial) 0%, var(--proporcion-final) 0%, var(--max) var(--border-right), var(--min) var(--border-right))
-            border-bottom-left-radius: var(--border-radius)
-            border-bottom-right-radius: var(--border-radius)
+            border-bottom-left-radius: var(--border-radius-bottom)
+            border-bottom-right-radius: var(--border-radius-bottom)
 
         #aspaIzquierda, #aspaDerecha
             position: absolute
@@ -209,5 +265,19 @@ const ubicacion_ = computed({
         &.fractura
             #aspaDerecha
                 background: var(--bs-red)
+@media screen and (min-width: 600px) 
+    #diente
+        &.small
+            --size: 1.8rem!important
+            --border-diente: 2.1px!important
+            --border-radius-top: .36rem!important
+            --border-radius-bottom: .36rem!important
+            --border: .3px!important
+            --weight: 3px!important
+        
+            h1 
+                font-size: 1.1rem!important
+                margin: .3rem 0
+    
 
 </style>

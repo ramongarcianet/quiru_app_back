@@ -12,27 +12,30 @@ let especificacionesTemp = '';
 let observacionesTemp = '';
 let flagAnnyang;
 
-export const verOdontograma = ref(false)
+export const verOdontograma = ref(true)
 export let flagLimpiar = ref(false)
 export const textoEscuchado = ref()
 
 export const registro = ref([])
 
 export const listaDeDientes = [
-    [[18, 17, 16, 15, 14, 13, 12, 11], [ 21, 22, 23, 24, 25, 26, 27, 28,]],
-    [[55, 54, 53, 52, 51], [61, 62, 63, 64, 65]],
-    [[85, 84, 83, 82, 81], [71, 72, 73, 74, 75]],
-    [[48, 47, 46, 45, 44, 43, 42, 41], [31, 32, 33, 34, 35, 36, 37, 38]],
+    [[[{diente: '18', clase:"raiz-3 "}, {diente:"17", clase:"raiz-3"}, {diente:"16", clase:"raiz-3"}, {diente:"15", clase:"raiz-1"}, {diente:"14", clase:"raiz-2"}, {diente:"13", clase:"raiz-1"}, {diente:"12", clase:"raiz-1"}, {diente:"11", clase:"raiz-1"}], [ {diente:"21", clase:"raiz-1"}, {diente:"22", clase:"raiz-1"}, {diente:"23", clase:"raiz-1"}, {diente:"24", clase:"raiz-2"}, {diente:"25", clase:"raiz-1 "}, {diente:"26", clase:"raiz-3 "}, {diente:"27", clase:"raiz-3 "}, {diente:"28", clase:"raiz-3 "},]],
+    [[{diente:"55", clase:"raiz-3 "}, {diente:"54", clase:"raiz-3"}, {diente:"53", clase:"raiz-1"}, {diente:"52", clase:"raiz-1"}, {diente:"51", clase:"raiz-1"}], [{diente:"61", clase:"raiz-1"}, {diente:"62", clase:"raiz-1"}, {diente:"63", clase:"raiz-1"}, {diente:"64", clase:"raiz-3"}, {diente:"65", clase:"raiz-3"}]]],
+    [[[{diente:"85", clase:"raiz-2 toDown"}, {diente:"84", clase:"raiz-2 toDown"}, {diente:"83", clase:"raiz-1 toDown"}, {diente:"82", clase:"raiz-1 toDown"}, {diente:"81", clase:"raiz-1 toDown"}], [{diente:"71", clase:"raiz-1 toDown"}, {diente:"72", clase:"raiz-1 toDown"}, {diente:"73", clase:"raiz-1 toDown"}, {diente:"74", clase:"raiz-2 toDown"}, {diente:"75", clase:"raiz-2 toDown"}]],
+    [[{diente:"48", clase:"raiz-2 toDown"}, {diente:"47", clase:"raiz-2 toDown"}, {diente:"46", clase:"raiz-2 toDown" }, {diente:"45", clase:"raiz-1 toDown"}, {diente:"44", clase:"raiz-1 toDown"}, {diente:"43", clase:"raiz-1 toDown" }, {diente:"42", clase:"raiz-1 toDown" },{diente:"41", clase:"raiz-1 toDown"}], [{diente:"31", clase:"raiz-1 toDown"}, {diente:"32", clase:"raiz-1 toDown"}, {diente:"33", clase:"raiz-1 toDown"}, {diente:"34", clase:"raiz-1 toDown"}, {diente:"35", clase:"raiz-1 toDown"}, {diente:"36", clase:"raiz-2 toDown"}, {diente:"37", clase:"raiz-2 toDown"}, {diente:"38", clase:"raiz-2 toDown"}]]],
 ];
 
 export const registro_ = computed(()=> 
-    listaDeDientes.map(row=> 
-        row.map( col => 
-            col.map( diente =>  ({
-                diente,
-                hallazgos: registro.value.filter(i => i.diente == diente).map(({hallazgo, ubicacion}) => ({hallazgo, ubicacion}))
-            }) )
-        )   
+    listaDeDientes.map( rows => 
+        rows.map(row=> 
+            row.map( col => 
+                col.map( ({diente, clase}) =>  ({
+                    diente,
+                    clase,
+                    hallazgos: registro.value.filter(i => i.diente == diente).map(({hallazgo, ubicacion}) => ({hallazgo, ubicacion}))
+                }) )
+            )   
+        )
     )
 )
 
@@ -60,8 +63,10 @@ export const listaDeTipos = [
 if (annyang) {
 
     annyang.setLanguage("es-PE");
-
     annyang.addCallback('result', function (frase) {
+        textoEscuchado.value = frase
+    })
+    /*annyang.addCallback('result', function (frase) {
 
         const comandoTemp = buscarPalabraCorrecta(frase);
         let comando = comandoTemp;
@@ -81,16 +86,16 @@ if (annyang) {
                 if (comandoCompleto[0] === 'observaciones') {
                     observaciones();
                 }
-                /*if (comandoCompleto[0] === 'terminar') {
+                if (comandoCompleto[0] === 'terminar') {
                     terminar();
-                }*/
+                }
             } else {
                 //speak(frase[0] + ' ' + 'No existe en el diccionario')
             }
         }
 
         //}
-    });
+    });*/
 
     annyang.addCallback('soundstart', function () {
         //if (isSpeech.value)
@@ -201,14 +206,21 @@ function limpiar() {
 }
 
 
-
+export function agregarLista(param) {
+    /* const idOdontograma = router.currentRoute.value.params.idOdontograma;
+     const existeDiente = registro.value.find(item => item.diente === item.value.pieza)
+     if (!existeDiente) {
+         guardar(idOdontograma, item.value);
+         limpiar();
+     }*/
+ }
 function volver() {
     push({ name: 'odontograma' })
 }
 
 function buscarPalabraCorrecta(arrayFrase) {
     let listDiccionario = listaDiccionario.value;
-    let listPieza = listaDeDientes.flat().flat();
+    let listPieza = null;
     let listHallazgo = listaDeHallazgos;
     let listCaries = listaDeTipos;
     let firstWord = '';

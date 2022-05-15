@@ -10,6 +10,10 @@ const seleccionarPieza = pieza =>  actualizarItem(false, false, pieza)
 
 const seleccionarTipos = ubicacion => actualizarItem(false, ubicacion, false)
 
+
+const seleccionarPiezaHallazgo = (diente, hallazgo) => actualizarItem(hallazgo, false, diente)
+const seleccionarPiezaHallazgoUbicacion = (diente, hallazgo, ubicacion) => actualizarItem(hallazgo, ubicacion, diente)
+
 const seleccionarHallazgoCaries = ()=> actualizarItem('caries', false, false)
 const seleccionarHallazgoCariesUbicacion = ubicacion => actualizarItem('caries', ubicacion, false)
 const seleccionarHallazgoCariesUbicacionPieza = (ubicacion, pieza) => actualizarItem('caries', ubicacion, pieza)
@@ -33,9 +37,17 @@ const agradecer = ()=>speak('Encantada de ayudarte')
 const mellamo = ()=> speak(`Yo soy Quiru, encantada de conocerte.`)
 const cambiarVista = ()=> verOdontograma.value = !verOdontograma.value
 
+const seleccionMultiple = (num1, num2, hallazgo, ubicacion) => {
+    const condicion = num1 > num2 ? num1 : num2
+    const inicio = num1 > num2 ? num2 : num1
+    for( let i = inicio; i <= condicion; i++){
+        actualizarItem(hallazgo, ubicacion, i, false)   
+    }
+    speak( `${hallazgo} de ${num1} al ${num2}`)
+}
 const limpiar = ()=> {
     item.value =  {
-        pieza: '00',
+        diente: '00',
         hallazgos: [ ]
     }
     flagLimpiar.value = !flagLimpiar.value
@@ -47,81 +59,57 @@ const opcionesDeComandosDeVoz = [
     'distal',    'oclusal',    'mesial',    'palatino',
     'pieza',
 ];
-
-const actualizarItem = (hallazgo, ubicacion, pieza) => {
-    const hallazgoCorrecto = hallazgo ? listaDeHallazgos.map(({value}) => value).indexOf(hallazgo) > -1 : true
-    const piezaCorrecta = ubicacion ? listaDeTipos.map(({value}) => value).indexOf(ubicacion) > -1 : true
-    const ubicacionCorrecta = pieza ? listaDeDientes.flat().flat().flat().find(item => item == pieza) : true
-    let mensaje = ''
-    console.log(hallazgo, ubicacion, pieza)
-
-    if( hallazgoCorrecto && ubicacionCorrecta && piezaCorrecta ) {
-        const index = item.value.hallazgos.findIndex( i => i.hallazgo == hallazgo && i.ubicacion == ubicacion)
-        console.log(index)
-        if( index > -1) {
-            item.value.hallazgos.splice( index,  1)
-            return `Desmarcando ${hallazgo} por ${ubicacion}`
-        }
-        if (pieza){
-            item.value.diente = pieza
-            mensaje += `Pieza ${pieza}`
-        }
-        if (hallazgo && !ubicacion) {
-            item.value.hallazgos.push( {hallazgo} )
-            mensaje += `Hallazgo ${hallazgo}`
-        } else if( hallazgo && ubicacion ){
-            item.value.hallazgos.push( {hallazgo, ubicacion} )
-            mensaje += `Hallazgo ${hallazgo} por ${ubicacion}`
-        }
-        console.log(item.value)
-        return speak(mensaje)
-    }
-}
-
-const agregar  = () => {
-    if(item.value.hallazgos.length == 0) return speak( 'No he registrado un diente')
-    
-    item.value.hallazgos.map( ({hallazgo, ubicacion}) => ({diente: item.value.diente, ubicacion, hallazgo})).forEach( item => registro.value.push(item))
-    console.log( registro.value)
-    limpiar()
-
-};
-const borrar = pieza => {
-    registro.value.filter( i => i.pieza == pieza ).forEach( item => {
-        const index = registro.value.findIndex( i => i.pieza == item.pieza)
-        registro.value.splice( index, 1)
-    })
-}
-
-/*if (comandoCompleto[0] === 'formato') {
-    verOdontograma();
-}
-if (comandoCompleto[0] === 'volver') {
-    volver();
-}*/
-
-export function agregarLista(param) {
-    /* const idOdontograma = router.currentRoute.value.params.idOdontograma;
-     const existeDiente = registro.value.find(item => item.diente === item.value.pieza)
-     if (!existeDiente) {
-         guardar(idOdontograma, item.value);
-         limpiar();
-     }*/
- }
- 
- 
- 
- export function eliminarDiente(pieza) {
-     /*const idDiente = registro.value.find(item => item.diente === pieza)?.id;
-     eliminar(idDiente)*/
- }
-const prefijosParaPieza = 'pieza'
-const prefijosParaUbicacion = '(por) (parte)'
 const listaDeDientes_ = [
     11, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23, 24, 25, 26, 27, 28, 31, 32, 33,
     34, 35, 36, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 51, 52, 53, 54, 55, 61,
     62, 63, 64, 65, 71, 72, 73, 74, 75, 81, 82, 83, 84, 85,
 ];
+
+const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
+    const listaDeUbicacion = ubicacion ? ubicacion.split(' ').filter(item=>listaDeTipos.map(({value}) => value).indexOf(item) >-1 ) : []
+    const hallazgoCorrecto = hallazgo ? listaDeHallazgos.map(({value}) => value).indexOf(hallazgo) > -1 : true
+    const piezaCorrecta = ubicacion ? listaDeUbicacion.length>0  : true
+    const ubicacionCorrecta = pieza ? listaDeDientes_.find(item => item == pieza) : true
+    let mensaje = ''
+
+    if( !hallazgoCorrecto || !ubicacionCorrecta || !piezaCorrecta ) return
+        
+    if (pieza){
+        if( item.value.diente != pieza) item.value.hallazgos = []
+        item.value.diente = pieza
+        mensaje += `Pieza ${pieza}`
+    }
+    if (hallazgo && listaDeUbicacion.length == 0) {
+        item.value.hallazgos.push( {hallazgo} )
+        mensaje += `Hallazgo ${hallazgo}`
+    } else if( hallazgo && listaDeUbicacion.length > 0 ){
+        let mensajeUbicacion = ''
+        listaDeUbicacion.forEach(ubicacion => {
+            item.value.hallazgos.push( {hallazgo, ubicacion} )
+            mensajeUbicacion+= ubicacion
+        } )
+        
+        mensaje += `Hallazgo ${hallazgo} por ${mensajeUbicacion}`
+    }
+    if(item.value.diente && hallazgo) agregar()
+    return hablar && speak(mensaje)
+
+
+}
+
+const agregar  = () => {
+    if(item.value.hallazgos.length == 0) return speak( 'No he registrado un hallazgo')
+    item.value.hallazgos.map( ({hallazgo, ubicacion}) => ({diente: item.value.diente, ubicacion, hallazgo})).forEach( item => registro.value.push(item))
+};
+
+export function limpiarPieza(pieza) {
+    registro.value = registro.value.filter( ({diente}) => diente!=pieza)
+    speak( `Limpiando pieza ${pieza}`)
+}
+
+const prefijosParaPieza = '(pieza)'
+const prefijosParaUbicacion = '(por) (parte)'
+
 const listaDeFuncionesPorDiente = {}
 listaDeDientes_.map( num => {
     listaDeFuncionesPorDiente[`${num}CariesUbicacion`] = (ubicacion)=> actualizarItem('caries', ubicacion, String(num))
@@ -133,17 +121,17 @@ listaDeDientes_.map( num => {
 const listaDeComandosDeDientes = {}
 
 listaDeDientes_?.map( num => {
-    listaDeComandosDeDientes[`${num} caries ${prefijosParaUbicacion} :ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesUbicacion`]
-    listaDeComandosDeDientes[`${num} carie ${prefijosParaUbicacion} :ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesUbicacion`]
+    listaDeComandosDeDientes[`${num} carie ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesUbicacion`]
+    listaDeComandosDeDientes[`${num} caries ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesUbicacion`]
+    listaDeComandosDeDientes[`${num} restauración ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}Restauracion`]
     listaDeComandosDeDientes[`${num} factura`] = listaDeFuncionesPorDiente[`${num}Fractura`]
     listaDeComandosDeDientes[`${num} fractura`] = listaDeFuncionesPorDiente[`${num}Fractura`]
     listaDeComandosDeDientes[`${num} fracturas`] = listaDeFuncionesPorDiente[`${num}Fractura`]
     listaDeComandosDeDientes[`${num} extracción`] = listaDeFuncionesPorDiente[`${num}Extraccion`]
-    listaDeComandosDeDientes[`${num} restauración ${prefijosParaUbicacion} :ubicacion`] = listaDeFuncionesPorDiente[`${num}Restauracion`]
     listaDeComandosDeDientes[`${num} ausente`] = listaDeFuncionesPorDiente[`${num}Ausente`]
 
 })
-console.log(listaDeComandosDeDientes)
+
 export default {
     conVozApagada: {
         'Buenos días': activarVoz,
@@ -160,25 +148,19 @@ export default {
         'fin *any': detenerVoz,
         'adios': detenerVoz,
         'adios *any': detenerVoz,
-        'limpiar': limpiar,
-        'limpiar *any': limpiar,
-        'siguiente': agregar,
-        'agregar': agregar,
-        'borrar :pieza': borrar,
-        'eliminar :pieza': borrar,
-        'limpiar *any': limpiar,
-        'otra vez': limpiar,
-        'otra vez *any': limpiar,
+        'borrar (pieza) (diente) :pieza': limpiarPieza,
+        'eliminar (pieza) (diente) :pieza': limpiarPieza,
+        'limpiar (pieza) (diente) :pieza': limpiarPieza,
         'pieza :item': seleccionarPieza,
         'piezas :item': seleccionarPieza,
+        'pieza :num (hallazgo) :hallazgo': seleccionarPiezaHallazgo,
+        'pieza :num (hallazgo) :hallazgo (por) (en) *ubicacion': seleccionarPiezaHallazgoUbicacion,
         'en (pieza) :item': seleccionarPieza,
-
         'por :item': seleccionarTipos,
         'parte :item': seleccionarTipos,
         'hallazgo :item': seleccionarHallazgo,
         [`hallazgo :hallazgo ${prefijosParaPieza} :pieza`]: seleccionarHallazgoPieza,
         [`hallazgo :hallazgo ${prefijosParaUbicacion} :tipo ${prefijosParaPieza} :pieza`]: seleccionarHallazgoTipoPieza,
-
         'caries': seleccionarHallazgoCaries,
         'carie': seleccionarHallazgoCaries,
         [`caries ${prefijosParaUbicacion} :ubicacion`]: seleccionarHallazgoCariesUbicacion,
@@ -207,9 +189,14 @@ export default {
         'ver odontograma': cambiarVista,
         'regresar': cambiarVista,
         'cambiar': cambiarVista,
-        ...listaDeComandosDeDientes
-
-
+        ...listaDeComandosDeDientes,
+        'de (la) :num1 (a) (la) (ala) (al) :num2 :hallazgo' : seleccionMultiple,
+        'de (la) :num1 (a) (la) (ala) :num2 :hallazgo': seleccionMultiple,
+        'del :num1 (a) (la) (ala) (al) :num2 :hallazgo': seleccionMultiple,
+        'de (la) :num1 (a la) (al) :num2 :hallazgo *ubicacion' : seleccionMultiple,
+        'de (la) :num1 (a) (la) (ala) (al) :num2 :hallazgo *ubicacion': seleccionMultiple,
+        'del :num1 (a) (la) (ala) (al) :num2 :hallazgo *ubicacion': seleccionMultiple,
+ 
     },
     gramatica: '#JSGF V1.0; grammar colors; public <color> = ' + opcionesDeComandosDeVoz.join(' | ') + ' ;',
     saludar,

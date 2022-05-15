@@ -11,6 +11,16 @@ const routes = [
             component: ()=>import('../views/6. Sesion/3. Landing.vue'),
         },
         {
+            path:'demo',
+            name: 'demo',
+            component: ()=>import('../views/6. Sesion/2. Demo.vue'),
+        },
+        {
+            path:'inscripcion',
+            name: 'inscripcion',
+            component: ()=>import('../views/6. Sesion/4. Inscripcion.vue'),
+        },
+        {
             path: 'sesion',
             component: ()=>import('../views/6. Sesion/1. Sesion.vue'),
             children: [

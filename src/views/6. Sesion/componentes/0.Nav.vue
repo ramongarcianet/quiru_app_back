@@ -12,7 +12,7 @@ const rutas = [
   { title: "Contacto", ruta: "#contacto" },
 ];
 const router = [
-    { title: "Alpha", ruta: () => push({ name: "iniciar-sesion" }) }
+  //  { title: "Alpha", ruta: () => push({ name: "iniciar-sesion" }) }
 ];
 </script>
 <template lang="pug">
@@ -25,7 +25,7 @@ nav.w-100
             a( v-for='{title, ruta} of router' @click='()=>ruta()') 
                 h4 {{title}}
             
-        button.btn.btn-primary.ms-auto( @click='$emit("update:modelValue", true), registrarEvento("activacion_btn_nav")' ) Probar
+        button.btn.btn-primary.ms-auto( @click='push({ name: "demo" }), registrarEvento("activacion_btn_nav")' ) Probar
 
 </template>
 
