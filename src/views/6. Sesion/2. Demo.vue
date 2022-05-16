@@ -10,9 +10,10 @@ import {
   detenerVoz,
   verOdontograma,
 } from "../../store/odontograma";
-
+import marketing from "../../store/marketing";
 import { onUnmounted, onMounted, computed, watch, ref} from "vue";
 import { useRouter } from "vue-router";
+const { registrarEvento } = marketing;
 
 const {back, push} = useRouter()
 escucharInicializarVoz();
@@ -51,6 +52,7 @@ const numeroDeInstruccion = ref(0)
 watch(
   ()=> item.value.diente,
   ()=> {
+    registrarEvento("usoDemo")
     if ( numeroDeInstruccion.value < listaDeInstrucciones.value.length -1 )  numeroDeInstruccion.value ++
   }
 )
