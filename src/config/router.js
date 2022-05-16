@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
+import { obtenerEstadoDeAutentificacion } from '../store/sesion'
 const routes = [
     {
       path: '/',
@@ -9,6 +9,7 @@ const routes = [
             path:'',
             name: 'landing',
             component: ()=>import('../views/6. Sesion/3. Landing.vue'),
+
         },
         {
             path:'demo',
@@ -16,7 +17,7 @@ const routes = [
             component: ()=>import('../views/6. Sesion/2. Demo.vue'),
         },
         {
-            path:'inscripcion',
+            path:'inscripcion/:codigo?',
             name: 'inscripcion',
             component: ()=>import('../views/6. Sesion/4. Inscripcion.vue'),
         },
@@ -45,6 +46,7 @@ const routes = [
 
         path:'/dashboard',
         component: ()=>import('../views/dashboard.vue'),
+        meta: { requiereAuth: true },
         children:[
             {
                 path: 'admision',
@@ -105,7 +107,15 @@ const routes = [
 
 const router = createRouter({
     history: createWebHistory(),
-    routes
+    routes,
+    
+})
+
+router.beforeEach( async (to, from, next) => {
+    const hayUsuario = await obtenerEstadoDeAutentificacion()
+    const requiereAutentificacion = to.meta.requiereAuth
+    if ( requiereAutentificacion && !hayUsuario ) next({name: "landing"})
+    else next()
 })
 
 export default router

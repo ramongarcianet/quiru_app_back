@@ -34,48 +34,32 @@ onUnmounted(()=>{
   detenerVoz()
 })
 
-const listaDeInstrucciones = computed( ()=>[
-  [
-    {text: "Despierta a Quiru con «Hola Quiru»", condicion: !isSpeech.value },
-    {text: "Empecemos por una carie: «25 Caries por vestibular»", condicion: !item.value.hallazgo},
-    {text: "Probemos una más: «Siguiente»", condicion: true},
-
-  ],
-  [
-    {text: "Empecemos por una carie: «25 Restauración por vestibular»", condicion:  !item.value.hallazgo},
-    {text: "Probemos una más: «Siguiente»", condicion: true},
-
-  ],
-  [
-    {text: "Empecemos por una carie: «51 ausente»", condicion:  !item.value.hallazgo},
-    {text: "Probemos una más: «Siguiente»", condicion: true},
-  ],
-  [
-    {text: "Empecemos por una carie: «15 extracción»", condicion:  !item.value.hallazgo},
-    {text: "Probemos una más: «Siguiente»", condicion: true},
-  ],
-  [
-    {text: "Empecemos por una carie: «24 fractura»", condicion:  !item.value.hallazgo},
-    {text: "Gracias por probar Quiru, puedes seguir probando las funciones o apagar el asistente con un: «Gracias»", condicion: true},
-  ],
-
-
-])
+const listaDeInstrucciones = computed( ()=> !isSpeech.value 
+? [
+    {text: "Despierta a Quiru con «Hola Quiru»", key:'1'},
+  ] 
+: [
+    {text: "Empecemos por una carie: «25 Caries por vestibular y distal»" , key:'2'},
+    {text: "Puedes agregar una restauración: «18 restauración por palatino»" , key:'3'},
+    {text: "Ahora agreguemos una fractura: «55 fractura»", key:'4'},
+    {text: "También podemos agregar un grupo de hallazgos «De la 31 a la 34 ausente»", key:'5'},
+    {text: "Si ha ocurriedo un error menciona «Limpiar 18».", key:'6'},
+    {text: "Puedes seguir probando el Demo con los comandos «Caries», «Restauración», «Ausente», «Fractura» y «Extracción».", key:'7'},
+  ])
 
 const numeroDeInstruccion = ref(0)
 watch(
-  ()=> flagLimpiar.value,
+  ()=> item.value.diente,
   ()=> {
     if ( numeroDeInstruccion.value < listaDeInstrucciones.value.length -1 )  numeroDeInstruccion.value ++
-    else numeroDeInstruccion.value = 0
-  
   }
 )
 
-const instruccion = computed(()=> listaDeInstrucciones.value[numeroDeInstruccion.value].find( ({condicion}) => condicion)?.text)
+const instruccion = computed(()=> listaDeInstrucciones.value[numeroDeInstruccion.value] )
+
 </script>
 <template lang="pug">
-.container-fluid
+.container-fluid.h-100
     .container.h-100
         .row.d-flex.justify-content-center.h-100
             .col-12.col-md-8.col-lg-6.d-flex.flex-column.align-items-center
@@ -87,10 +71,9 @@ const instruccion = computed(()=> listaDeInstrucciones.value[numeroDeInstruccion
 
                
                 .d-flex.w-100.flex-column.p-2
-                    .mensaje {{instruccion}}
+                    .mensaje {{instruccion.text}}
                     .mensaje {{textoEscuchado?.[0] || "Empieza por Hola Quiru"}}
-                    .mensaje Regístrate para probar la 
-                        strong versión completa
+               
                 
                 .d-flex.mt-auto
                     button.mb-4.btn.btn-light(@click='push({name: "inscripcion"})') Probar la versión completa
@@ -105,10 +88,6 @@ i
     right: 2rem
     cursor: pointer
 .container-fluid 
-    height: 100vh
-    min-height: -moz-available
-    min-height: -webkit-fill-available
-    min-height: fill-available
     width: 100%
     background: var(--bs-primary)
 

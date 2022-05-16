@@ -1,15 +1,20 @@
 <script setup>
-import {ref} from 'vue'
+import {ref, computed, onMounted} from 'vue'
 import marketing from "../../store/marketing";
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 const { item, agregar, registrarEvento } = marketing;
 const mensajeDeRegistro = ref(false)
 const {push} = useRouter()
+const route = useRoute()
 registrarEvento("view_inscripcion")
 const registroExitoso = ()=> {
     registrarEvento("act_btn_price")
     mensajeDeRegistro.value = true
 }
+
+onMounted(()=>{
+    item.value.codigo = route.params.codigo
+})
 
 </script>
 <template lang="pug">
@@ -24,12 +29,14 @@ const registroExitoso = ()=> {
                 strong  06 de Junio, 
                 | bríndanos tu correo electrónico, para enviarte el acceso y ser de los primero en usar Quiru. 
                 strong No hay pago anticipado, inscríbete gratis.
-            Form.mb-auto.d-flex.flex-column.mt-0.w-100.py-2.px-2( :onPromise='()=> agregar(item.email)' :onSuccess='()=>registroExitoso() ')
+            Form.d-flex.flex-column.w-100.mt-2.mb-5( :onPromise='()=> agregar(item)' :onSuccess='()=>registroExitoso() ')
                 .input-group
                     input.form-control( type='email' required placeholder='Ingresa tu correo' v-model='item.email')
-                    button.btn.btn-primary(type='submit')
+                    button.btn.btn-primary.btn-block(type='submit')
                         i.fa-solid.fa-chevron-right
-                h5(v-if='mensajeDeRegistro').light-text ¡Gracias! {{item.email}}, nos comunicaremos contigo para el lanzamiento de 
+                h5.mt-2( v-if='item.codigo' ) Tu cupón es: 
+                    strong {{item.codigo}}
+                h5(v-if='mensajeDeRegistro') ¡Gracias! {{item.email}}, nos comunicaremos contigo para el lanzamiento de 
                     strong Quiru
         .col-12.col-md-6.px-0
             Img.background.w-100( src='https://firebasestorage.googleapis.com/v0/b/quiru-b444f.appspot.com/o/landing%2FMask-group-_1_.webp?alt=media&token=0fc4d737-3ec0-4d3f-aada-375bfeee9657')

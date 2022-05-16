@@ -5,11 +5,11 @@ import { logEvent } from 'firebase/analytics'
 
 export default {
     item: ref({}),
-    agregar: (email) => {
+    agregar: (item) => {
         const referencia = doc( firestore, 'marketing/earlyAdopters' )
         return updateDoc( referencia, {
             registro: arrayUnion({
-                email,
+                ...item,
                 creadoEl: new Date()
             })
         } )

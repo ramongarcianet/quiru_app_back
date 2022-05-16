@@ -104,6 +104,7 @@ const agregar  = () => {
 
 export function limpiarPieza(pieza) {
     registro.value = registro.value.filter( ({diente}) => diente!=pieza)
+    item.value.diente = pieza
     speak( `Limpiando pieza ${pieza}`)
 }
 
