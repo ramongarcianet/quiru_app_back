@@ -12,7 +12,13 @@ const routes = [
 
         },
         {
-            path:'demo',
+            path:':codigo?',
+            name: 'landingConCodigo',
+            component: ()=>import('../views/6. Sesion/3. Landing.vue'),
+
+        },
+        {
+            path:'demo/:codigo?',
             name: 'demo',
             component: ()=>import('../views/6. Sesion/2. Demo.vue'),
         },

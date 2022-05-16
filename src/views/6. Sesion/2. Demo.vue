@@ -12,9 +12,9 @@ import {
 } from "../../store/odontograma";
 import marketing from "../../store/marketing";
 import { onUnmounted, onMounted, computed, watch, ref} from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 const { registrarEvento } = marketing;
-
+const route = useRoute()
 const {back, push} = useRouter()
 escucharInicializarVoz();
 
@@ -78,7 +78,7 @@ const instruccion = computed(()=> listaDeInstrucciones.value[numeroDeInstruccion
                
                 
                 .d-flex.mt-auto
-                    button.mb-4.btn.btn-light(@click='push({name: "inscripcion"})') Probar la versión completa
+                    button.mb-4.btn.btn-light(@click='push({name: "inscripcion", params: {codigo: route.params.codigo} })') Probar la versión completa
                 
         i.fa-solid.fa-times.fa-2x.light-text( @click='back()')
 </template>

@@ -1,10 +1,10 @@
 <script setup>
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import Logo from "../../../assets/logoQuiru.vue";
 import marketing from "../../../store/marketing";
 const { push } = useRouter();
 const {registrarEvento} = marketing
-
+const route = useRoute()
 const rutas = [
   { title: "Beneficios", ruta: "#beneficios" },
   { title: "Producto", ruta: "#producto" },
@@ -25,7 +25,7 @@ nav.w-100
             a( v-for='{title, ruta} of router' @click='()=>ruta()') 
                 h4 {{title}}
             
-        button.btn.btn-primary.ms-auto( @click='push({ name: "demo" }), registrarEvento("activacion_btn_nav")' ) Probar
+        button.btn.btn-primary.ms-auto( @click='push({ name: "demo", params: {codigo: route.params.codigo} }), registrarEvento("activacion_btn_nav")' ) Probar
 
 </template>
 
