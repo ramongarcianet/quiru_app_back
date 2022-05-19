@@ -20,8 +20,11 @@ import {
   item,
   textoEscuchado,
   listaDeDientes,
-  listaDeHallazgos
+  listaDeHallazgos,
+  listaDeDientesCombo,
+  listaDeTipos
 } from "../../store/odontograma";
+
 import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
 const listaDiccionario = obtenerTodoDiccionario();
@@ -50,12 +53,19 @@ onUnmounted(()=> {
   detenerVoz()
 })
 
+/*
+ select.form-select#comboTipoHallazgo
+                            option(selected disabled) Tipo hallazgo
+                            option(v-for='{text, value} of listaDeTipos' :value="value") {{text}}
+               
+*/
 </script>
 
 <template lang="pug">
 p {{textoEscuchado}}
-#button-microfono
-    MicroButton( style='--size: 4rem' :class="{active: isSpeech}" @click="isSpeech ? detenerVoz() : activarVoz()")
+#button-microfono             
+    MicroButton( style='--size: 4rem; text-align: center;' :class="{active: isSpeech}" @click="isSpeech ? detenerVoz() : activarVoz()")
+     h1.ms-1.mt-2.light-text Quiru 
 .row
     .col
         input#tipoReg(type="hidden", value="0")
@@ -64,72 +74,20 @@ p {{textoEscuchado}}
             select.form-select#comboHallazgo(@change="ChangeHallazgo($event)")
                 option(selected disabled) Hallazgo
                 option(v-for='{text, value} of listaDeHallazgos' :value="value") {{text}}
-
+          
             select.form-select#comboPieza
                 option(selected disabled) Pieza
-                option(v-for="item of listaDeDientes", :value="item") {{item}}
+                option(v-for='{text, value} of listaDeDientesCombo' :value="value") {{text}}           
 .row
-    Diente( v-model:pieza='item.pieza' v-model:hallazgo='item.hallazgo' v-model:diente='item.diente' )
+  .col
+  .col
+  .col
+    Diente(:item='item' style='') 
+  .col
+  .col
+  .col
 .row
     .col
         button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma)") Agregar a la lista
 
 </template>
-
-<style lang="sass" scoped>
-
-
-#button-microfono
-    position: fixed
-    top: 0
-    right: 0
-    z-index: 100
-
-.NotpulsingButton
-  border: none
-  padding: 0
-  border-radius: 100%
-  width: 140px
-  height: 140px
-  font-size: 3em
-  color: #fff
-  padding: 0
-  margin: 0
-  background: rgb(139, 199, 252)
-  position: relative
-  z-index: 999
-  display: inline-block
-  line-height: 100px
-  text-align: center
-  white-space: nowrap
-  vertical-align: middle
-  touch-action: manipulation
-  cursor: pointer
-  user-select: none
-  background-image: none
-
-.pulsingButton
-  border: none
-  padding: 0
-  border-radius: 100%
-  width: 140px
-  height: 140px
-  font-size: 3em
-  color: #fff
-  padding: 0
-  margin: 0
-  background: red
-  position: relative
-  z-index: 999
-  display: inline-block
-  line-height: 100px
-  text-align: center
-  white-space: nowrap
-  vertical-align: middle
-  touch-action: manipulation
-  cursor: pointer
-  user-select: none
-  background-image: none
-
-
-</style>

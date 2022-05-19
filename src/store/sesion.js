@@ -33,7 +33,7 @@ export const cerrarSesion = () => signOut(auth)
 export const sesion = () => onAuthStateChanged( 
     auth,
     ( user ) => {
-        if( user ) push({name:'admision'})
+        if( user ) push({name:'pacientes'})
         else if( currentRoute.value.meta.requiereAuth && !user ) push({name:'landing'})
         else return
 

@@ -6,13 +6,13 @@ import { ref, computed } from "vue";
 const { push } = useRouter();
 const route = useRoute();
 const rutas = computed(() => [
-  {
+  /*{
     name: "Admisión",
     onClick: () => push({ name: "admision" }),
     icon: "fa-solid fa-calendar",
     routeName: "admision",
     aditionalClass: "d-none d-sm-block",
-  },
+  },*/
   {
     name: "Paciente",
     onClick: () => push({ name: "pacientes" }),
