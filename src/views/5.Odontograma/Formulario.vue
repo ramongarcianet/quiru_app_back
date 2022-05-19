@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted,onUnmounted } from "vue";
+import { onMounted,onUnmounted,watch } from "vue";
 import {
   DienteCaries,
   ChangeHallazgo,
@@ -22,8 +22,14 @@ import {
   listaDeDientes,
   listaDeHallazgos,
   listaDeDientesCombo,
-  listaDeTipos
+  listaDeTipos,
+  Hallazgo,
+  registro_
 } from "../../store/odontograma";
+import {
+  agregar
+} from "../../store/comandosDeVoz";
+
 
 import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
@@ -52,13 +58,13 @@ onMounted(()=> {
 onUnmounted(()=> {
   detenerVoz()
 })
-
-/*
- select.form-select#comboTipoHallazgo
-                            option(selected disabled) Tipo hallazgo
-                            option(v-for='{text, value} of listaDeTipos' :value="value") {{text}}
-               
-*/
+watch(
+  ()=> item.value.diente,
+  ()=>  {
+    item.value.hallazgos=[]
+    Hallazgo.value=""
+  }
+)
 </script>
 
 <template lang="pug">
@@ -67,26 +73,25 @@ p {{textoEscuchado}}
     MicroButton( style='--size: 4rem; text-align: center;' :class="{active: isSpeech}" @click="isSpeech ? detenerVoz() : activarVoz()")
      h1.ms-1.mt-2.light-text Quiru 
 .row
-    .col
-        input#tipoReg(type="hidden", value="0")
-        .input-group
-            select.form-select#comboHallazgo( v-model='')
-                option(selected disabled) Hallazgo
-                option(v-for='{text, value} of listaDeHallazgos' :value="value") {{text}}
-          
-            select.form-select#comboPieza
-                option(selected disabled) Pieza
-                option(v-for='{text, value} of listaDeDientesCombo' :value="value") {{text}}           
-.row
   .col
-  .col
-  .col
-    Diente(:item='item' style='') 
-  .col
-  .col
-  .col
-.row
-    .col
-        button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma)") Agregar a la lista
+    .row
+        .col
+            input#tipoReg(type="hidden", value="0")
 
+            .input-group
+                select.form-select#comboPieza(v-model='item.diente')
+                    option(selected disabled) Pieza
+                    option(v-for='{text, value} of listaDeDientesCombo' :value="value") {{text}}
+                select.form-select#comboHallazgo(v-model='Hallazgo')
+                    option(selected disabled) Hallazgo
+                    option(v-for='{text, value} of listaDeHallazgos' :value="value") {{text}}                  
+    .row
+      .col
+        Diente(:item='item' style='') 
+  .col
+    Odontograma( :registro='registro_')
+.row
+    .col
+      button.btn.btn-primary(type="submit", @click="agregar()") Agregar a la lista
+      p {{registro_}}
 </template>

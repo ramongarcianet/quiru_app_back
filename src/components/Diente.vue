@@ -1,5 +1,9 @@
 <script setup>
 import {computed, watch} from 'vue'
+import {
+  item,
+  Hallazgo
+} from "../../src/store/odontograma";
 const props = defineProps( ['item'])
 const emit = defineEmits(['update:ubicacion', 'update:hallazgo', 'update:diente'])
 
@@ -15,6 +19,18 @@ const ubicacion_ = computed({
 
 const diente = computed(()=> (Number(props.item.diente)/10).toFixed(1) || "00") 
 //'@click='ubicacion_ = ubicacion'
+
+function slelecteditem(ubicacion)
+{ 
+    const index  = item.value.hallazgos.findIndex( i => i.hallazgo == Hallazgo.value   && i.ubicacion == ubicacion)
+    if( index > -1 ) { 
+        item.value.hallazgos.splice( index, 1)
+    }
+    else 
+    { 
+        item.value.hallazgos.push({hallazgo: Hallazgo.value, ubicacion})
+    }
+}
 </script>
 <template lang="pug">
 #diente( v-bind='$attrs' :class='item.clase')
@@ -32,13 +48,7 @@ const diente = computed(()=> (Number(props.item.diente)/10).toFixed(1) || "00")
         #aspaDerecha
 
 </template>
-<script>
 
-export function slelecteditem(ubicacion)
-{
- alert(comboHallazgo.value + ubicacion + comboPieza.value)
-}
-</script>
 
 <style lang="sass" scoped>
 #diente

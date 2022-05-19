@@ -38,7 +38,7 @@ export const registro_ = computed(()=>
         )
     )
 )
-
+export const Hallazgo =ref("")
 export const item = ref({
     diente: '00',
     hallazgos: []
