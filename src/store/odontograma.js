@@ -122,7 +122,8 @@ if (annyang) {
         console.log('start');
     });*/
     flagAnnyang = annyang.start()
-    annyang.getSpeechRecognizer().grammars.addFromString(comandosDeVoz.gramatica, 1);
+
+    annyang.getSpeechRecognizer()?.grammars?.addFromString(comandosDeVoz.gramatica, 1);
     annyang.addCommands(comandosDeVoz.conVozApagada)
 } else {
     console.log("Speech Recognition is not supported");
