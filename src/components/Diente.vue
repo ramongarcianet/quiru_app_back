@@ -14,7 +14,7 @@ const ubicacion_ = computed({
 })
 
 const diente = computed(()=> (Number(props.item.diente)/10).toFixed(1) || "00") 
-
+//'@click='ubicacion_ = ubicacion'
 </script>
 <template lang="pug">
 #diente( v-bind='$attrs' :class='item.clase')
@@ -24,14 +24,21 @@ const diente = computed(()=> (Number(props.item.diente)/10).toFixed(1) || "00")
     #button-diente( :class='item.hallazgos.map(({hallazgo}) => hallazgo).join(" ")' )
         div(
             v-for='ubicacion of ubicaciones' 
-            :id='ubicacion' 
-            @click='ubicacion_ = ubicacion' 
+            :id='ubicacion'            
+            @click='slelecteditem(ubicacion)' 
             :class='`${item.hallazgos.filter(i => i.ubicacion == ubicacion).map(({hallazgo})=>hallazgo).join(" ")} ${item.hallazgos.map(({ubicacion}) => ubicacion).some( item => item == ubicacion ) ? "active" : ""}`'
         )
         #aspaIzquierda
         #aspaDerecha
 
 </template>
+<script>
+
+export function slelecteditem(ubicacion)
+{
+ alert(comboHallazgo.value + ubicacion + comboPieza.value)
+}
+</script>
 
 <style lang="sass" scoped>
 #diente

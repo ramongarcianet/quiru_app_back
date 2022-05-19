@@ -64,7 +64,6 @@ const listaDeDientes_ = [
     34, 35, 36, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 51, 52, 53, 54, 55, 61,
     62, 63, 64, 65, 71, 72, 73, 74, 75, 81, 82, 83, 84, 85,
 ];
-
 const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
     const listaDeUbicacion = ubicacion ? ubicacion.split(' ').filter(item=>listaDeTipos.map(({value}) => value).indexOf(item) >-1 ) : []
     const hallazgoCorrecto = hallazgo ? listaDeHallazgos.map(({value}) => value).indexOf(hallazgo) > -1 : true
