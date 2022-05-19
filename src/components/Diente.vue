@@ -1,7 +1,7 @@
 <script setup>
 import {computed, watch} from 'vue'
 import {
-  item,
+  item as itemModel,
   Hallazgo
 } from "../../src/store/odontograma";
 const props = defineProps( ['item'])
@@ -22,13 +22,13 @@ const diente = computed(()=> (Number(props.item.diente)/10).toFixed(1) || "00")
 
 function slelecteditem(ubicacion)
 { 
-    const index  = item.value.hallazgos.findIndex( i => i.hallazgo == Hallazgo.value   && i.ubicacion == ubicacion)
+    const index  = itemModel.value.hallazgos.findIndex( i => i.hallazgo == Hallazgo.value   && i.ubicacion == ubicacion)
     if( index > -1 ) { 
-        item.value.hallazgos.splice( index, 1)
+        itemModel.value.hallazgos.splice( index, 1)
     }
     else 
     { 
-        item.value.hallazgos.push({hallazgo: Hallazgo.value, ubicacion})
+        itemModel.value.hallazgos.push({hallazgo: Hallazgo.value, ubicacion})
     }
 }
 </script>

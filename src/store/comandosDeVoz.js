@@ -98,7 +98,10 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
 
 export const agregar  = () => {
     if(item.value.hallazgos.length == 0) return speak( 'No he registrado un hallazgo')
-    item.value.hallazgos.map( ({hallazgo, ubicacion}) => ({diente: item.value.diente, ubicacion, hallazgo})).forEach( item => registro.value.push(item))
+    item.value.hallazgos.map( ({hallazgo, ubicacion}) => ({diente: item.value.diente, ubicacion, hallazgo})).forEach( item => {
+        const index = registro.value.findIndex( i => i.hallazgo == item.hallazgo && i.diente == item.diente && i.ubicacion == item.ubicacion)
+        if ( index == -1 ) registro.value.push(item)
+    })
 };
 
 export function limpiarPieza(pieza) {
@@ -138,6 +141,8 @@ export default {
         'Buenos días *any': activarVoz,
         'hola': activarVoz,
         'hola *any': activarVoz,
+        'ahora': activarVoz,
+        'ahora *any': activarVoz,
     },
     conVozEncendida: {
         'gracias': detenerVoz,

@@ -9,7 +9,7 @@ import {
 } from 'firebase/auth'
 import {crearUsuarioConId} from './usuario'
 import router from '../config/router'
-const {push, currentRoute} = router
+
 
 export const item = ref({})
 
@@ -33,8 +33,8 @@ export const cerrarSesion = () => signOut(auth)
 export const sesion = () => onAuthStateChanged( 
     auth,
     ( user ) => {
-        if( user ) push({name:'pacientes'})
-        else if( currentRoute.value.meta.requiereAuth && !user ) push({name:'landing'})
+        if( user ) router.push({name:'pacientes'})
+        else if( router.currentRoute.value.meta.requiereAuth && !user ) router.push({name:'landing'})
         else return
 
     }

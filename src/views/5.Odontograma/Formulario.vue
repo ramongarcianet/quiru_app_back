@@ -24,7 +24,8 @@ import {
   listaDeDientesCombo,
   listaDeTipos,
   Hallazgo,
-  registro_
+  registro_,
+  registro
 } from "../../store/odontograma";
 import {
   agregar
@@ -65,13 +66,19 @@ watch(
     Hallazgo.value=""
   }
 )
+
+
+const borrar = ({diente, hallazgo, ubicacion}) => {
+  const index = registro.value.findIndex(i => i.diente == diente && i.hallazgo == hallazgo && i.ubicacion == ubicacion)
+  if( index > -1) registro.value.splice(index, 1)
+}
 </script>
 
 <template lang="pug">
 p {{textoEscuchado}}
 #button-microfono             
     MicroButton( style='--size: 4rem; text-align: center;' :class="{active: isSpeech}" @click="isSpeech ? detenerVoz() : activarVoz()")
-     h1.ms-1.mt-2.light-text Quiru 
+    h1.ms-1.mt-2.light-text Quiru 
 .row
   .col
     .row
@@ -93,5 +100,20 @@ p {{textoEscuchado}}
 .row
     .col
       button.btn.btn-primary(type="submit", @click="agregar()") Agregar a la lista
-      p {{registro_}}
+.row
+  .col
+    table.table.table-striped.table-light
+      thead 
+        tr 
+          th Diente
+          th Hallazgo
+          th Ubicación
+          th
+      tbody
+        tr(v-for="item of registro")
+          td {{item.diente}}
+          td {{item.hallazgo}}
+          td {{item.ubicacion}}
+          td 
+            button(@click="borrar(item)") Borrar
 </template>

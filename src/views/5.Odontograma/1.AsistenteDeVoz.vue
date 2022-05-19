@@ -1,7 +1,6 @@
 <script setup>
 import Formulario from "./Formulario.vue";
 import { useRoute, useRouter } from "vue-router";
-import Registro from "./Registro.vue";
 const route = useRoute()
 const { back, push } = useRouter();
 </script>
@@ -10,7 +9,6 @@ h1 Odontograma
 .row 
   .col
     Formulario
-    Registro
     .d-flex.mt-5
       button( @click='push({name: "paciente", params: {idOdontograma: route.params.idOdontograma}})') Regresar a paciente
       button.ms-auto( @click='push({name: "adicionales", params: {idOdontograma: route.params.idOdontograma}})') Agregar datos adicionales
