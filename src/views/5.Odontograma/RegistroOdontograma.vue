@@ -26,7 +26,7 @@ onUnmounted(()=>{
 </script>
 
 <template lang="pug">
-row
+.row
   h3 Odontogramas
   table.table.table-striped
     thead 

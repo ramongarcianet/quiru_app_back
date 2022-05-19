@@ -40,7 +40,7 @@ table.table.table-striped.table-light.table-light
                     button.btn.btn-primary.dropdown-toggle#dropdownMenuLink(data-bs-toggle="dropdown") Opciones
                     ul.dropdown-menu
                         li
-                            a.dropdown-item( @click=" push({name: 'paciente', params: {idPaciente: item.id}})" ) Ver
+                            a.dropdown-item( @click=" push({name: 'paciente', params: {idPaciente: item.id} })" ) Ver
                         li
                             a.dropdown-item( @click="confirmar == false ? confirmar = true : confirmarEliminar(item.id)" ) {{confirmar ? '¿Está seguro?' : 'Borrar'}} 
            

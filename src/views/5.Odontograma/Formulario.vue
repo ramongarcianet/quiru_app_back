@@ -59,17 +59,16 @@ p {{textoEscuchado}}
 .row
     .col
         input#tipoReg(type="hidden", value="0")
-
         .input-group
-            select.form-select#comboHallazgo(@change="ChangeHallazgo($event)")
+            select.form-select#comboHallazgo( v-model='')
                 option(selected disabled) Hallazgo
                 option(v-for='{text, value} of listaDeHallazgos' :value="value") {{text}}
 
-            select.form-select#comboPieza
+            select.form-select#comboPieza( v-model='')
                 option(selected disabled) Pieza
                 option(v-for="item of listaDeDientes", :value="item") {{item}}
 .row
-    Diente( v-model:pieza='item.pieza' v-model:hallazgo='item.hallazgo' v-model:diente='item.diente' )
+    Diente( :item='item' )
 .row
     .col
         button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma)") Agregar a la lista

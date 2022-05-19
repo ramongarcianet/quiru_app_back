@@ -37,7 +37,7 @@ onUnmounted(()=>{
 
 const listaDeInstrucciones = computed( ()=> !isSpeech.value 
 ? [
-    {text: "Despierta a Quiru con «Hola Quiru»", key:'1'},
+    {text: "Dale acceso al micrófono y despierta a Quiru diciendo «Hola Quiru»", key:'1'},
   ] 
 : [
     {text: "Empecemos por una carie: «25 Caries por vestibular y distal»" , key:'2'},
