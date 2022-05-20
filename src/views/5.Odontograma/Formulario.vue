@@ -94,7 +94,9 @@ p {{textoEscuchado}}
                     option(v-for='{text, value} of listaDeHallazgos' :value="value") {{text}}                  
     .row
       .col
+      .col
         Diente(:item='item' style='') 
+      .col
   .col
     Odontograma( :registro='registro_')
 .row

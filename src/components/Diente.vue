@@ -85,7 +85,7 @@ function slelecteditem(ubicacion)
         text-align: center
         font-size: 2rem
         font-weight: bold
-        color: var(--background-color)
+        color: var(--color-dark) !important
     &.toDown
         #raices
             transform: rotate(180deg)    
