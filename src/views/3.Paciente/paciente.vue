@@ -63,11 +63,10 @@ Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
 
   .d-flex
     button.btn.btn-outline-primary(type="button", @click="back() ") Atrás
-    button.ms-auto.btn.btn-primary(type='submit') Guardar 
+    button.ms-auto.btn.btn-primary(type='submit') Guardar
 
 RegistroOdontograma
 .d-flex
   button.btn.btn-outline-primary(@click="push({ name: 'paciente', params: {} })") Volver
-  button.ms-auto(@click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico')") Nuevo Diagnóstico
-  button(@click="guardarOdontograma(route.params.idPaciente, 'Tratamiento')") Nuevo Tratamiento
+  button.ms-auto(@click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico',true)") Nuevo Diagnóstico
 </template>

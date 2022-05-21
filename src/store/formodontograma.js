@@ -17,22 +17,31 @@ const item = ref ({
 })
 
 
-const guardar = (idPaciente, tipo) => {
-
+const guardar = (idPaciente, tipo,esUltimo) => {
+    for (const item of registroodonto.value ){
+        actualizarEsUltimo(item.id);
+    }
     const  fila = {
         tipo: tipo,
         especificaciones:'',
         observaciones:'',
         receta:'',
         fechaRegistro: new Date().toISOString().slice(0,10),
-        idPaciente, 
-        userId: miUsuario()?.uid
+        idPaciente,
+        userId: miUsuario()?.uid,
+        esultimo: esUltimo
     }
     const referencia = collection(firestore, 'odontograma')
     return addDoc(referencia, fila)
-
 }
-
+const actualizarEsUltimo = (id) => {
+    var itemUpd = {
+          id:id,
+          esultimo:false
+      }
+      const referencia = doc(firestore, 'odontograma', itemUpd.id)
+      return updateDoc(referencia, itemUpd)
+  }
 export const actualizar = (id) => {
   var itemUpd = {
         id:id,

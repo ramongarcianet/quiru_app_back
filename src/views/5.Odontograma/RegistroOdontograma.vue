@@ -3,6 +3,7 @@ import { onUnmounted, ref } from "vue";
 import {
   registroodonto,
   eliminar,
+  guardar as guardarOdontograma
 } from "../../store/formodontograma";
 
 import { obtenerTodos } from "../../store/formodontograma";
@@ -29,22 +30,30 @@ onUnmounted(()=>{
 .row
   h3 Odontogramas
   table.table.table-striped
-    thead 
+    thead
       tr
         th Tipo
         th Fecha
-        th
+        th Ver
+        th Agregar
+        th Borrar
     tbody
       tr(v-for="item of registroodonto" :key="item.id" :item="item")
         td {{item.tipo}}
         td {{item.fechaRegistro}}
         td
           .dropdown
-            button.btn.btn-primary.dropdown-toggle#dropdownMenuLink(data-bs-toggle="dropdown") Opciones
-            ul.dropdown-menu
-              li 
-                a.dropdown-item(@click="push({name: 'Detalle', params: {idOdontograma: item.id} })") Ver atenciones
-              li
-                a.dropdown-item(@click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) ") {{confirmar ? '¿Está seguro?' : 'Borrar'}}
-           
+            button.ms-auto.btn(type="button", @click="push({name: 'Detalle', params: {idOdontograma: item.id} })")
+              i.fa.fa-solid.fa-magnifying-glass
+        td(v-if="item.esultimo")
+          .dropdown
+            button.ms-auto.btn(type="button", @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento',true)")
+              i.fa.fa-solid.fa-circle-plus
+        td(v-else="!item.esultimo")
+          .dropdown
+            button.ms-auto.btn(type="button")
+        td
+          .dropdown
+            button.ms-auto.btn.btn-primary(type="button", @click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) ") {{confirmar ? '¿Está seguro?' : 'Borrar'}}
+
 </template>
