@@ -25,16 +25,16 @@ export const listaDeDientes = [
     [[{diente:"48", clase:"raiz-2 toDown"}, {diente:"47", clase:"raiz-2 toDown"}, {diente:"46", clase:"raiz-2 toDown" }, {diente:"45", clase:"raiz-1 toDown"}, {diente:"44", clase:"raiz-1 toDown"}, {diente:"43", clase:"raiz-1 toDown" }, {diente:"42", clase:"raiz-1 toDown" },{diente:"41", clase:"raiz-1 toDown"}], [{diente:"31", clase:"raiz-1 toDown"}, {diente:"32", clase:"raiz-1 toDown"}, {diente:"33", clase:"raiz-1 toDown"}, {diente:"34", clase:"raiz-1 toDown"}, {diente:"35", clase:"raiz-1 toDown"}, {diente:"36", clase:"raiz-2 toDown"}, {diente:"37", clase:"raiz-2 toDown"}, {diente:"38", clase:"raiz-2 toDown"}]]],
 ];
 
-export const registro_ = computed(()=> 
-    listaDeDientes.map( rows => 
-        rows.map(row=> 
-            row.map( col => 
+export const registro_ = computed(()=>
+    listaDeDientes.map( rows =>
+        rows.map(row=>
+            row.map( col =>
                 col.map( ({diente, clase}) =>  ({
                     diente,
                     clase,
                     hallazgos: registro.value.filter(i => i.diente == diente).map(({hallazgo, ubicacion}) => ({hallazgo, ubicacion}))
                 }) )
-            )   
+            )
         )
     )
 )
@@ -130,7 +130,7 @@ if (annyang) {
                 comando = comandoTemp.replace(/\s/g, '/');
                 const comandoCompleto = comando.split('/')
 
-               
+
                 if (comandoCompleto[0] === 'receta') {
                     receta();
                 }
@@ -391,6 +391,24 @@ function buscarDiccionario(buscar) {
         let palabraEncontrada = listDiccionario.filter((diccionario) => diccionario.codigo == buscarTemp2);
         return palabraEncontrada.length;
     }
+}
+export function activarMicro (){
+    return activarMicro = function()
+    {
+      if (navigator.getUserMedia){
+          navigator.getUserMedia(
+            {audio:true},//permitir solo audio
+            function(stream) {
+                console.log('microfono activado');
+            },
+            function(e) {
+              console.log('microfono bloqueado');
+            }
+          );
+
+      } else { console.log('getUserMedia not supported in this browser.'); }
+    }();
+
 }
 
 export {

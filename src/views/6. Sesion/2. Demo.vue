@@ -9,6 +9,7 @@ import {
   textoEscuchado,
   detenerVoz,
   verOdontograma,
+  activarMicro,
 } from "../../store/odontograma";
 import marketing from "../../store/marketing";
 import { onUnmounted, onMounted, computed, watch, ref} from "vue";
@@ -17,7 +18,7 @@ const { registrarEvento } = marketing;
 const route = useRoute()
 const {back, push} = useRouter()
 escucharInicializarVoz();
-
+activarMicro();
 let wakeLock = null;
 onMounted(()=> {
   if ("wakeLock" in navigator) {
@@ -35,10 +36,10 @@ onUnmounted(()=>{
   detenerVoz()
 })
 
-const listaDeInstrucciones = computed( ()=> !isSpeech.value 
+const listaDeInstrucciones = computed( ()=> !isSpeech.value
 ? [
     {text: "Dale acceso al micrófono y despierta a Quiru diciendo «Hola Quiru»", key:'1'},
-  ] 
+  ]
 : [
     {text: "Empecemos por una carie: «25 Caries por vestibular y distal»" , key:'2'},
     {text: "Puedes agregar una restauración: «18 restauración por palatino»" , key:'3'},
@@ -67,19 +68,19 @@ const instruccion = computed(()=> listaDeInstrucciones.value[numeroDeInstruccion
             .col-12.col-md-8.col-lg-6.d-flex.flex-column.align-items-center
                 .d-flex.align-items-center.justify-content-center.p-2
                     MicroButton( style='--size: 2rem' :class="{active: isSpeech}" @click="isSpeech ? detenerVoz() : activarVoz()")
-                    h1.ms-1.mt-2.light-text Quiru 
+                    h1.ms-1.mt-2.light-text Quiru
                 .my-3
                     Odontograma( :registro='registro_')
 
-               
+
                 .d-flex.w-100.flex-column.p-2
                     .mensaje {{instruccion.text}}
                     .mensaje {{textoEscuchado?.[0] || "Empieza por Hola Quiru"}}
-               
-                
+
+
                 .d-flex.mt-auto
                     button.mb-4.btn.btn-light(@click='push({name: "inscripcion", params: {codigo: route.params.codigo} })') Probar la versión completa
-                
+
         i.fa-solid.fa-times.fa-2x.light-text( @click='back()')
 </template>
 
@@ -89,7 +90,7 @@ i
     top: 1rem
     right: 2rem
     cursor: pointer
-.container-fluid 
+.container-fluid
     width: 100%
     background: var(--bs-primary)
 
@@ -109,5 +110,5 @@ i
     background-color: white
     margin-right: auto
     border-top-left-radius: 0
-    
+
 </style>
