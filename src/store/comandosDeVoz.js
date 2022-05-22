@@ -38,8 +38,10 @@ const mellamo = ()=> speak(`Yo soy Quiru, encantada de conocerte.`)
 const cambiarVista = ()=> verOdontograma.value = !verOdontograma.value
 
 const seleccionMultiple = (num1, num2, hallazgo, ubicacion) => {
-    const condicion = num1 > num2 ? num1 : num2
-    const inicio = num1 > num2 ? num2 : num1
+    const num1_ = num1 < 10 ? num1*10 : num1
+    const num2_ = num2 < 10 ? num2*10 : num2
+    const condicion = num1_ > num2_ ? num1_ : num2_
+    const inicio = num1_ > num2_ ? num2_ : num1_
     for( let i = inicio; i <= condicion; i++){
         actualizarItem(hallazgo, ubicacion, i, false)   
     }
@@ -60,6 +62,9 @@ const opcionesDeComandosDeVoz = [
     'pieza',
 ];
 const listaDeDientes_ = [
+    1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 3.1, 3.2, 3.3,
+    3.4, 3.5, 3.6, 3.7, 3.8, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 5.1, 5.2, 5.3, 5.4, 5.5, 6.1,
+    6.2, 6.3, 6.4, 6.5, 7.1, 7.2, 7.3, 7.4, 7.5, 8.1, 8.2, 8.3, 8.4, 8.5,
     11, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23, 24, 25, 26, 27, 28, 31, 32, 33,
     34, 35, 36, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 51, 52, 53, 54, 55, 61,
     62, 63, 64, 65, 71, 72, 73, 74, 75, 81, 82, 83, 84, 85,
@@ -74,8 +79,9 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
     if( !hallazgoCorrecto || !ubicacionCorrecta || !piezaCorrecta ) return
         
     if (pieza){
-        if( item.value.diente != pieza) item.value.hallazgos = []
-        item.value.diente = pieza
+        let pieza_ = pieza < 10 ? pieza*10 : pieza
+        if( item.value.diente != pieza_) item.value.hallazgos = []
+        item.value.diente = pieza_
         mensaje += `Pieza ${pieza}`
     }
     if (hallazgo && listaDeUbicacion.length == 0) {
@@ -120,6 +126,8 @@ listaDeDientes_.map( num => {
     listaDeFuncionesPorDiente[`${num}Extraccion`] = ()=> actualizarItem('extracción', false, String(num))
     listaDeFuncionesPorDiente[`${num}Ausente`] = ()=> actualizarItem('ausente', false, String(num))
     listaDeFuncionesPorDiente[`${num}Restauracion`] = (ubicacion)=> actualizarItem('restauración', ubicacion, String(num))
+    listaDeFuncionesPorDiente[`${num}num2Hallazgo`] = (num2, hallazgo)=> seleccionMultiple (num, num2, hallazgo, false)
+    listaDeFuncionesPorDiente[`${num}num2HallazgoUbicacion`] = (num2, hallazgo, ubicacion)=> seleccionMultiple (num, num2, hallazgo, ubicacion)
 })
 const listaDeComandosDeDientes = {}
 
@@ -132,7 +140,8 @@ listaDeDientes_?.map( num => {
     listaDeComandosDeDientes[`${num} fracturas`] = listaDeFuncionesPorDiente[`${num}Fractura`]
     listaDeComandosDeDientes[`${num} extracción`] = listaDeFuncionesPorDiente[`${num}Extraccion`]
     listaDeComandosDeDientes[`${num} ausente`] = listaDeFuncionesPorDiente[`${num}Ausente`]
-
+    listaDeComandosDeDientes[`${num} (a) (la) (ala) (al) :num2 :hallazgo`]= listaDeFuncionesPorDiente[`${num}num2Hallazgo`]
+    listaDeComandosDeDientes[`${num} (a) (la) (al) :num2 :hallazgo *ubicacion`]= listaDeFuncionesPorDiente[`${num}num2HallazgoUbicacion`]
 })
 
 export default {
