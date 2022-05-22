@@ -126,6 +126,8 @@ listaDeDientes_.map( num => {
     listaDeFuncionesPorDiente[`${num}Extraccion`] = ()=> actualizarItem('extracción', false, String(num))
     listaDeFuncionesPorDiente[`${num}Ausente`] = ()=> actualizarItem('ausente', false, String(num))
     listaDeFuncionesPorDiente[`${num}Restauracion`] = (ubicacion)=> actualizarItem('restauración', ubicacion, String(num))
+    listaDeFuncionesPorDiente[`${num}num2Hallazgo`] = (num2, hallazgo)=> seleccionMultiple (num, num2, hallazgo, false)
+    listaDeFuncionesPorDiente[`${num}num2HallazgoUbicacion`] = (num2, hallazgo, ubicacion)=> seleccionMultiple (num, num2, hallazgo, ubicacion)
 })
 const listaDeComandosDeDientes = {}
 
@@ -138,7 +140,8 @@ listaDeDientes_?.map( num => {
     listaDeComandosDeDientes[`${num} fracturas`] = listaDeFuncionesPorDiente[`${num}Fractura`]
     listaDeComandosDeDientes[`${num} extracción`] = listaDeFuncionesPorDiente[`${num}Extraccion`]
     listaDeComandosDeDientes[`${num} ausente`] = listaDeFuncionesPorDiente[`${num}Ausente`]
-
+    listaDeComandosDeDientes[`${num} (a) (la) (ala) (al) :num2 :hallazgo`]= listaDeFuncionesPorDiente[`${num}num2Hallazgo`]
+    listaDeComandosDeDientes[`${num} (a) (la) (al) :num2 :hallazgo *ubicacion`]= listaDeFuncionesPorDiente[`${num}num2HallazgoUbicacion`]
 })
 
 export default {
