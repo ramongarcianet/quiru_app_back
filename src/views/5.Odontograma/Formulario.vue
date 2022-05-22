@@ -86,17 +86,16 @@ p {{textoEscuchado}}
             input#tipoReg(type="hidden", value="0")
 
             .input-group
+                span.input-group-text Pieza 
                 select.form-select#comboPieza(v-model='item.diente')
-                    option(selected disabled) Pieza
+                    option(selected disabled value="00") Pieza
                     option(v-for='{text, value} of listaDeDientesCombo' :value="value") {{text}}
+                span.input-group-text Hallazgo
                 select.form-select#comboHallazgo(v-model='Hallazgo')
-                    option(selected disabled) Hallazgo
+                    option(selected disabled value="") Hallazgo
                     option(v-for='{text, value} of listaDeHallazgos' :value="value") {{text}}                  
-    .row
-      .col
-      .col
-        Diente(:item='item' style='') 
-      .col
+    .d-flex.justify-content-center
+        Diente(:item='item').raiz-1 
   .col
     Odontograma( :registro='registro_')
 .row
@@ -117,5 +116,5 @@ p {{textoEscuchado}}
           td {{item.hallazgo}}
           td {{item.ubicacion}}
           td 
-            button(@click="borrar(item)") Borrar
+            button(@click="borrar(item)").btn.btn-primary Borrar
 </template>

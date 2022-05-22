@@ -24,8 +24,8 @@ h1 Datos Adicionales
       label.form-label Receta
       textarea#inputReceta.form-control( rows="4") 
   .d-flex.mt-5
-    button( @click='push({name: "Detalle", params: {idOdontograma: route.params.idOdontograma}})') Regresar a odontograma
-    button.btn.btn-primary(type="submit", @click="actualizar(route.params.idOdontograma)") Grabar
+    button.btn.btn-primary( @click='push({name: "Detalle", params: {idOdontograma: route.params.idOdontograma}})') Volver
+    button.ms-auto.btn.btn-primary(type="submit", @click="actualizar(route.params.idOdontograma)") Grabar
 </template>
 
 <style lang="sass" scoped>

@@ -9,7 +9,7 @@ const guardarOActualizar = () => {
   else return guardar(item.value);
 };
 const route = useRoute()
-const {back} = useRouter()
+const {back, push} = useRouter()
 let obtener
 if (route.params.idPaciente) {
   leerEnRegistro(route.params.idPaciente)
@@ -62,11 +62,11 @@ Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
       input.form-control(placeholder="Comentario", v-model="item.Comentario")
 
   .d-flex
-    button.btn.btn-outline-primary(type="button", @click="back() ") Atrás
+   
     button.ms-auto.btn.btn-primary(type='submit') Guardar
 
 RegistroOdontograma
-.d-flex
-  button.btn.btn-outline-primary(@click="push({ name: 'paciente', params: {} })") Volver
-  button.ms-auto(@click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico',true)") Nuevo Diagnóstico
+.d-flex 
+  button.btn.btn-primary(@click="push({ name: 'pacientes', params: {} })") Volver
+  button.ms-auto.btn.btn-primary(@click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico',true)") Nuevo Diagnóstico
 </template>

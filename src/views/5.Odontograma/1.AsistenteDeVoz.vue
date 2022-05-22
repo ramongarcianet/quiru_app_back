@@ -10,7 +10,7 @@ h1 Odontograma
   .col
     Formulario
     .d-flex.mt-5
-      button( @click='push({name: "paciente", params: {idOdontograma: route.params.idOdontograma}})') Regresar a paciente
-      button.ms-auto( @click='push({name: "adicionales", params: {idOdontograma: route.params.idOdontograma}})') Agregar datos adicionales
-      button.ms-auto( @click='push({name: "impresion", params: {idOdontograma: route.params.idOdontograma}})') Imprimir odontograma
+      button( @click='push({name: "paciente", params: {idOdontograma: route.params.idOdontograma}})').btn.btn-primary Volver
+      button.ms-auto( @click='push({name: "adicionales", params: {idOdontograma: route.params.idOdontograma}})').btn.btn-primary Agregar datos adicionales
+      button.ms-auto( @click='push({name: "impresion", params: {idOdontograma: route.params.idOdontograma}})').btn.btn-primary Imprimir odontograma
 </template>

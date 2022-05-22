@@ -45,58 +45,58 @@ export const item = ref({
 })
 
 export const listaDeDientesCombo = [
-    { value: "18", text: "18" },
-    { value: "17", text: "17" },
-    { value: "16", text: "16" },
-    { value: "15", text: "15" },
-    { value: "14", text: "14" },
-    { value: "13", text: "13" },
-    { value: "12", text: "12" },
-    { value: "11", text: "11" },
-    { value: "21", text: "21" },
-    { value: "22", text: "22" },
-    { value: "23", text: "23" },
-    { value: "24", text: "24" },
-    { value: "25", text: "25" },
-    { value: "26", text: "26" },
-    { value: "27", text: "27" },
-    { value: "28", text: "28" },
-    { value: "55", text: "55" },
-    { value: "54", text: "54" },
-    { value: "53", text: "53" },
-    { value: "52", text: "52" },
-    { value: "51", text: "51" },
-    { value: "65", text: "65" },
-    { value: "64", text: "64" },
-    { value: "63", text: "63" },
-    { value: "62", text: "62" },
-    { value: "61", text: "61" },
-    { value: "85", text: "85" },
-    { value: "84", text: "84" },
-    { value: "83", text: "83" },
-    { value: "82", text: "82" },
-    { value: "81", text: "81" },
-    { value: "75", text: "75" },
-    { value: "74", text: "74" },
-    { value: "73", text: "73" },
-    { value: "72", text: "72" },
-    { value: "71", text: "71" },
-    { value: "48", text: "48" },
-    { value: "47", text: "47" },
-    { value: "46", text: "46" },
-    { value: "45", text: "45" },
-    { value: "44", text: "44" },
-    { value: "43", text: "43" },
-    { value: "42", text: "42" },
-    { value: "41", text: "41" },
-    { value: "38", text: "38" },
-    { value: "37", text: "37" },
-    { value: "36", text: "36" },
-    { value: "35", text: "35" },
-    { value: "34", text: "34" },
-    { value: "33", text: "33" },
-    { value: "32", text: "32" },
-    { value: "31", text: "31" },
+    { value: "18", text: "1.8" },
+    { value: "17", text: "1.7" },
+    { value: "16", text: "1.6" },
+    { value: "15", text: "1.5" },
+    { value: "14", text: "1.4" },
+    { value: "13", text: "1.3" },
+    { value: "12", text: "1.2" },
+    { value: "11", text: "1.1" },
+    { value: "21", text: "2.1" },
+    { value: "22", text: "2.2" },
+    { value: "23", text: "2.3" },
+    { value: "24", text: "2.4" },
+    { value: "25", text: "2.5" },
+    { value: "26", text: "2.6" },
+    { value: "27", text: "2.7" },
+    { value: "28", text: "2.8" },
+    { value: "55", text: "5.5" },
+    { value: "54", text: "5.4" },
+    { value: "53", text: "5.3" },
+    { value: "52", text: "5.2" },
+    { value: "51", text: "5.1" },
+    { value: "65", text: "6.5" },
+    { value: "64", text: "6.4" },
+    { value: "63", text: "6.3" },
+    { value: "62", text: "6.2" },
+    { value: "61", text: "6.1" },
+    { value: "85", text: "8.5" },
+    { value: "84", text: "8.4" },
+    { value: "83", text: "8.3" },
+    { value: "82", text: "8.2" },
+    { value: "81", text: "8.1" },
+    { value: "75", text: "7.5" },
+    { value: "74", text: "7.4" },
+    { value: "73", text: "7.3" },
+    { value: "72", text: "7.2" },
+    { value: "71", text: "7.1" },
+    { value: "48", text: "4.8" },
+    { value: "47", text: "4.7" },
+    { value: "46", text: "4.6" },
+    { value: "45", text: "4.5" },
+    { value: "44", text: "4.4" },
+    { value: "43", text: "4.3" },
+    { value: "42", text: "4.2" },
+    { value: "41", text: "4.1" },
+    { value: "38", text: "3.8" },
+    { value: "37", text: "3.7" },
+    { value: "36", text: "3.6" },
+    { value: "35", text: "3.5" },
+    { value: "34", text: "3.4" },
+    { value: "33", text: "3.3" },
+    { value: "32", text: "3.2" },
+    { value: "31", text: "3.1" },
 ];
 
 export const listaDeHallazgos = [
@@ -120,37 +120,6 @@ if (annyang) {
     annyang.addCallback('result', function (frase) {
         textoEscuchado.value = frase
     })
-    /*annyang.addCallback('result', function (frase) {
-
-        const comandoTemp = buscarPalabraCorrecta(frase);
-        let comando = comandoTemp;
-        if (isSpeech.value) {
-            textoEscuchado.value = frase;
-            if (comando != '') {
-                comando = comandoTemp.replace(/\s/g, '/');
-                const comandoCompleto = comando.split('/')
-
-
-                if (comandoCompleto[0] === 'receta') {
-                    receta();
-                }
-                if (comandoCompleto[0] === 'especificaciones') {
-                    especificaciones();
-                }
-                if (comandoCompleto[0] === 'observaciones') {
-                    observaciones();
-                }
-                if (comandoCompleto[0] === 'terminar') {
-                    terminar();
-                }
-            } else {
-                //speak(frase[0] + ' ' + 'No existe en el diccionario')
-            }
-        }
-
-        //}
-    });*/
-
     annyang.addCallback('soundstart', function () {
         //if (isSpeech.value)
         console.log('sound detected');
