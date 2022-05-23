@@ -43,7 +43,7 @@ const routes = [
                 },
 
             ]
-        
+
         },
 
       ]
@@ -82,6 +82,12 @@ const routes = [
                 component: ()=>import('../views/3.Paciente/paciente.vue')
             },
             {
+
+                path: 'pacienteVer/:idPaciente?',
+                name: 'pacienteVer',
+                component: ()=>import('../views/3.Paciente/pacienteVer.vue')
+            },
+            {
                 path: 'diccionarios',
                 name: 'diccionarios',
                 component: ()=>import('../views/4.Diccionario/diccionarios.vue')
@@ -114,7 +120,7 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes,
-    
+
 })
 
 router.beforeEach( async (to, from, next) => {
