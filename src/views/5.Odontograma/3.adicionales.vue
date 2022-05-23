@@ -12,25 +12,25 @@ onMounted(()=> {
 </script>
 <template lang="pug">
 h1 Datos Adicionales
-.row 
+.row
   .col
     .row
       label.form-label Especficaciones
-      textarea#inputDescription.form-control( rows="4" ) 
+      textarea#inputDescription.form-control( rows="4" )
     .row
       label.form-label Observaciones
-      textarea#inputObservacion.form-control( rows="4" ) 
+      textarea#inputObservacion.form-control( rows="4" )
     .row
       label.form-label Receta
-      textarea#inputReceta.form-control( rows="4") 
+      textarea#inputReceta.form-control( rows="4")
   .d-flex.mt-5
-    button.btn.btn-primary( @click='push({name: "Detalle", params: {idOdontograma: route.params.idOdontograma}})') Volver
+    button.btn.btn-primary( @click='push({name: "Detalle", params: {idOdontograma: route.params.idOdontograma,idPaciente: route.params.idPaciente}})') Volver
     button.ms-auto.btn.btn-primary(type="submit", @click="actualizar(route.params.idOdontograma)") Grabar
 </template>
 
 <style lang="sass" scoped>
 
-#myCanvas 
+#myCanvas
   border: 1px solid #9c9898
 
 </style>

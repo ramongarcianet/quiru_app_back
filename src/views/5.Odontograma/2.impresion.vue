@@ -23,19 +23,18 @@ onMounted(()=> {
 </script>
 <template lang="pug">
 h1 Odontograma
-.row 
+.row
   .col
     h4 Odontogramas
     h4 Fecha: ...........
     canvas#myCanvas( width="500" height="400" style="border: 0; left:0px; top:0px;")
   .d-flex.mt-5
-    button( @click='push({name: "Detalle", params: {idOdontograma: route.params.idOdontograma}})').btn.btn-primary Volver
-    button.ms-auto( @click='push({name: "impresion", params: {idOdontograma: route.params.idOdontograma}})').btn.btn-primary Imprimir odontograma
+    button( @click='push({name: "Detalle", params: {idOdontograma: route.params.idOdontograma,idPaciente: route.params.idPaciente}})').btn.btn-primary Volver
 </template>
 
 <style lang="sass" scoped>
 
-#myCanvas 
+#myCanvas
   border: 1px solid #9c9898
 
 </style>

@@ -98,17 +98,17 @@ const routes = [
                 component: ()=>import('../views/4.Diccionario/diccionario.vue')
             },
             {
-                path: 'Detalle/:idOdontograma?',
+                path: 'Detalle/:idOdontograma?/:idPaciente?',
                 name: 'Detalle',
                 component: ()=>import('../views/5.Odontograma/1.AsistenteDeVoz.vue')
             },
             {
-                path: 'impresion/:idOdontograma?',
+                path: 'impresion/:idOdontograma?/:idPaciente?',
                 name: 'impresion',
                 component: ()=>import('../views/5.Odontograma/2.impresion.vue')
             },
             {
-                path: 'adicionales/:idOdontograma?',
+                path: 'adicionales/:idOdontograma?/:idPaciente?',
                 name: 'adicionales',
                 component: ()=>import('../views/5.Odontograma/3.adicionales.vue')
             },

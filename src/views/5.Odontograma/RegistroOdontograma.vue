@@ -57,7 +57,7 @@ onUnmounted(()=>{
         td {{item.fechaRegistro}}
         td
           .dropdown
-            button.ms-auto.btn(type="button", @click="push({name: 'Detalle', params: {idOdontograma: item.id} })")
+            button.ms-auto.btn(type="button", @click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente} })")
               i.fa.fa-solid.fa-magnifying-glass
         td(v-if="item.esultimo==='2'")
           .dropdown
