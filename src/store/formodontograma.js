@@ -19,7 +19,10 @@ const item = ref ({
 
 const guardar = (idPaciente, tipo,esUltimo) => {
     for (const item of registroodonto.value ){
-        actualizarEsUltimo(item.id);
+        if (item.esultimo==='2')
+            actualizarEsUltimo(item.id,'1');
+        if (item.esultimo==='1')
+            actualizarEsUltimo(item.id,'0');
     }
     const  fila = {
         tipo: tipo,
@@ -29,15 +32,16 @@ const guardar = (idPaciente, tipo,esUltimo) => {
         fechaRegistro: new Date().toISOString().slice(0,10),
         idPaciente,
         userId: miUsuario()?.uid,
-        esultimo: esUltimo
+        esultimo: esUltimo,
+        order: registroodonto.value.length + 1
     }
     const referencia = collection(firestore, 'odontograma')
     return addDoc(referencia, fila)
 }
-const actualizarEsUltimo = (id) => {
+export const actualizarEsUltimo = (id,esUltimo) => {
     var itemUpd = {
           id:id,
-          esultimo:false
+          esultimo:esUltimo
       }
       const referencia = doc(firestore, 'odontograma', itemUpd.id)
       return updateDoc(referencia, itemUpd)
@@ -66,7 +70,6 @@ const obtenerTodos = (idPaciente) => {
     return onSnapshot(
         busqueda,
         collection => {
-            console.log('Hola')
             registroodonto.value = collection.docs.map( doc => ({...doc.data(), id: doc.id }))
         }
     )

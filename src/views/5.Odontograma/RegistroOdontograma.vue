@@ -3,7 +3,8 @@ import { onUnmounted, ref } from "vue";
 import {
   registroodonto,
   eliminar,
-  guardar as guardarOdontograma
+  guardar as guardarOdontograma,
+  actualizarEsUltimo
 } from "../../store/formodontograma";
 
 import { obtenerTodos } from "../../store/formodontograma";
@@ -18,7 +19,20 @@ let obtener
 if (route.params.idPaciente) {
   obtener = obtenerTodos(route.params.idPaciente);
 }
-const confirmarEliminar = (id) => eliminar(id).then(() => (confirmar.value = false));
+const confirmarEliminar = (id) => eliminar(id).then(() => {
+  confirmar.value = false
+  const ordenUltimo= registroodonto.value.length;
+  if(ordenUltimo >0){
+    const idOdontograma = registroodonto.value.find(item=>item.order===ordenUltimo)?.id;
+    actualizarEsUltimo(idOdontograma,'2')
+  }
+  const ordenPenuultimo= registroodonto.value.length-1;
+  if(ordenPenuultimo >0){
+    const idOdontograma = registroodonto.value.find(item=>item.order===ordenPenuultimo)?.id;
+    actualizarEsUltimo(idOdontograma,'1')
+  }
+
+  });
 
 onUnmounted(()=>{
   if(obtener) obtener()
@@ -45,15 +59,17 @@ onUnmounted(()=>{
           .dropdown
             button.ms-auto.btn(type="button", @click="push({name: 'Detalle', params: {idOdontograma: item.id} })")
               i.fa.fa-solid.fa-magnifying-glass
-        td(v-if="item.esultimo")
+        td(v-if="item.esultimo==='2'")
           .dropdown
-            button.ms-auto.btn(type="button", @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento',true)")
+            button.ms-auto.btn(type="button", @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','2')")
               i.fa.fa-solid.fa-circle-plus
-        td(v-else="!item.esultimo")
+        td(v-else="item.esultimo==='1' || item.esultimo==='0'")
           .dropdown
             button.ms-auto.btn(type="button")
-        td
+        td(v-if="item.esultimo==='2'")
           .dropdown
             button.ms-auto.btn.btn-primary(type="button", @click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) ") {{confirmar ? '¿Está seguro?' : 'Borrar'}}
-
+        td(v-else="item.esultimo==='1' || item.esultimo==='0'")
+          .dropdown
+            button.ms-auto.btn(type="button")
 </template>
