@@ -21,17 +21,6 @@ if (route.params.idPaciente) {
 }
 const confirmarEliminar = (id) => eliminar(id).then(() => {
   confirmar.value = false
-  const ordenUltimo= registroodonto.value.length;
-  if(ordenUltimo >0){
-    const idOdontograma = registroodonto.value.find(item=>item.order===ordenUltimo)?.id;
-    actualizarEsUltimo(idOdontograma,'2')
-  }
-  const ordenPenuultimo= registroodonto.value.length-1;
-  if(ordenPenuultimo >0){
-    const idOdontograma = registroodonto.value.find(item=>item.order===ordenPenuultimo)?.id;
-    actualizarEsUltimo(idOdontograma,'1')
-  }
-
   });
 
 onUnmounted(()=>{

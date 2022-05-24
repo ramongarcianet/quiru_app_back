@@ -58,8 +58,18 @@ export const actualizar = (id) => {
 }
 
 const eliminar = (id) => {
-    const referencia = doc(firestore, 'odontograma', id)
-    return deleteDoc(referencia)
+    const ordenUltimo= registroodonto.value.length-1;
+    if(ordenUltimo >0){
+       const idOdontograma = registroodonto.value.find(item=>item.order===ordenUltimo)?.id;
+       actualizarEsUltimo(idOdontograma,'2')
+     }
+     const ordenPenuultimo= registroodonto.value.length-2;
+     if(ordenPenuultimo >0){
+       const idOdontograma = registroodonto.value.find(item=>item.order===ordenPenuultimo)?.id;
+       actualizarEsUltimo(idOdontograma,'1')
+     }
+     const referencia = doc(firestore, 'odontograma', id)
+     return deleteDoc(referencia)
 }
 
 const registroodonto = ref([])
