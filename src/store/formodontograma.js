@@ -52,7 +52,14 @@ export const actualizar = (id) => {
     const referencia = doc(firestore, 'odontograma', itemUpd.id)
     return updateDoc(referencia, itemUpd)
 }
-
+export const actualizarDetalle = (id,Hallazgos) => {
+    var itemUpd = {
+          id:id,
+          hallazgos:Hallazgos
+      }
+      const referencia = doc(firestore, 'odontograma', itemUpd.id)
+      return updateDoc(referencia, itemUpd)
+  }
 const eliminar = (id) => {
     const referencia = doc(firestore, 'odontograma', id)
     return deleteDoc(referencia)
@@ -75,6 +82,12 @@ const obtenerTodos = (idPaciente) => {
 const leer = id => {
     const referencia = doc(firestore, 'odontograma', id)
     return getDoc( referencia ).then( doc => item.value = doc.data())
+}
+
+export const leerOdonto = id => {
+    const referencia = doc(firestore, 'odontograma', id)
+    const registro = getDoc( referencia ).then( doc => item.value = doc.data())
+    item.value = registro.value
 }
 
 const leerEnRegistro = id => {

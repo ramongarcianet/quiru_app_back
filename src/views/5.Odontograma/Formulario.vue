@@ -28,9 +28,8 @@ import {
   registro
 } from "../../store/odontograma";
 import {
-  agregar
+  agregarDetalle
 } from "../../store/comandosDeVoz";
-
 
 import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
@@ -44,7 +43,6 @@ escucharInicializarVoz();
 
 let wakeLock = null;
 onMounted(()=> {
-
   if ("wakeLock" in navigator) {
     try {
       wakeLock = navigator?.wakeLock.request("screen");
@@ -66,8 +64,6 @@ watch(
     Hallazgo.value=""
   }
 )
-
-
 const borrar = ({diente, hallazgo, ubicacion}) => {
   const index = registro.value.findIndex(i => i.diente == diente && i.hallazgo == hallazgo && i.ubicacion == ubicacion)
   if( index > -1) registro.value.splice(index, 1)
@@ -100,7 +96,7 @@ p {{textoEscuchado}}
     Odontograma( :registro='registro_')
 .row
     .col
-      button.btn.btn-primary(type="submit", @click="agregar()") Agregar a la lista
+      button.btn.btn-primary(type="submit", @click="agregarDetalle(route.params.idOdontograma)") Agregar a la lista
 .row
   .col
     table.table.table-striped.table-light
