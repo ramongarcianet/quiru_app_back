@@ -1,5 +1,5 @@
 import {item,registro,verOdontograma, detenerVoz, activarVoz, listaDeHallazgos, listaDeDientes, listaDeTipos, speak, flagLimpiar} from './odontograma'
-import actualizarDetalle from './formodontograma';
+//import actualizarDetalle from './formodontograma';
 const seleccionarHallazgo = hallazgo => actualizarItem(hallazgo, false, false)
 
 const seleccionarHallazgoPieza = (hallazgo, pieza) => actualizarItem(hallazgo, false, pieza)
@@ -57,7 +57,7 @@ const limpiar = ()=> {
 }
 
 const opcionesDeComandosDeVoz = [
-    'caries',    'extracción',    'ausente',    'fractura',    'restauración',    'vestibular', 'por',
+    'caries',    'extracción',    'ausente',    'fractura',    'restauración', 'lingual', 'incisal',  'vestibular', 'por',
     'distal',    'oclusal',    'mesial',    'palatino',
     'pieza',
 ];

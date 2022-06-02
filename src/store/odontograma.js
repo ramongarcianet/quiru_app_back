@@ -19,10 +19,10 @@ export const textoEscuchado = ref()
 export const registro = ref([])
 
 export const listaDeDientes = [
-    [[[{diente: '18', clase:"raiz-3 "}, {diente:"17", clase:"raiz-3"}, {diente:"16", clase:"raiz-3"}, {diente:"15", clase:"raiz-1"}, {diente:"14", clase:"raiz-2"}, {diente:"13", clase:"raiz-1"}, {diente:"12", clase:"raiz-1"}, {diente:"11", clase:"raiz-1"}], [ {diente:"21", clase:"raiz-1"}, {diente:"22", clase:"raiz-1"}, {diente:"23", clase:"raiz-1"}, {diente:"24", clase:"raiz-2"}, {diente:"25", clase:"raiz-1 "}, {diente:"26", clase:"raiz-3 "}, {diente:"27", clase:"raiz-3 "}, {diente:"28", clase:"raiz-3 "},]],
-    [[{diente:"55", clase:"raiz-3 "}, {diente:"54", clase:"raiz-3"}, {diente:"53", clase:"raiz-1"}, {diente:"52", clase:"raiz-1"}, {diente:"51", clase:"raiz-1"}], [{diente:"61", clase:"raiz-1"}, {diente:"62", clase:"raiz-1"}, {diente:"63", clase:"raiz-1"}, {diente:"64", clase:"raiz-3"}, {diente:"65", clase:"raiz-3"}]]],
-    [[[{diente:"85", clase:"raiz-2 toDown"}, {diente:"84", clase:"raiz-2 toDown"}, {diente:"83", clase:"raiz-1 toDown"}, {diente:"82", clase:"raiz-1 toDown"}, {diente:"81", clase:"raiz-1 toDown"}], [{diente:"71", clase:"raiz-1 toDown"}, {diente:"72", clase:"raiz-1 toDown"}, {diente:"73", clase:"raiz-1 toDown"}, {diente:"74", clase:"raiz-2 toDown"}, {diente:"75", clase:"raiz-2 toDown"}]],
-    [[{diente:"48", clase:"raiz-2 toDown"}, {diente:"47", clase:"raiz-2 toDown"}, {diente:"46", clase:"raiz-2 toDown" }, {diente:"45", clase:"raiz-1 toDown"}, {diente:"44", clase:"raiz-1 toDown"}, {diente:"43", clase:"raiz-1 toDown" }, {diente:"42", clase:"raiz-1 toDown" },{diente:"41", clase:"raiz-1 toDown"}], [{diente:"31", clase:"raiz-1 toDown"}, {diente:"32", clase:"raiz-1 toDown"}, {diente:"33", clase:"raiz-1 toDown"}, {diente:"34", clase:"raiz-1 toDown"}, {diente:"35", clase:"raiz-1 toDown"}, {diente:"36", clase:"raiz-2 toDown"}, {diente:"37", clase:"raiz-2 toDown"}, {diente:"38", clase:"raiz-2 toDown"}]]],
+    [[[{diente: '18', clase:"raiz-3 "}, {diente:"17", clase:"raiz-3"}, {diente:"16", clase:"raiz-3"}, {diente:"15", clase:"raiz-1"}, {diente:"14", clase:"raiz-2"}, {diente:"13", clase:"raiz-1 toCenter"}, {diente:"12", clase:"raiz-1 toCenter"}, {diente:"11", clase:"raiz-1 toCenter"}], [ {diente:"21", clase:"raiz-1 toLeft toCenter"}, {diente:"22", clase:"raiz-1 toLeft toCenter"}, {diente:"23", clase:"raiz-1 toLeft toCenter"}, {diente:"24", clase:"raiz-2 toLeft"}, {diente:"25", clase:"raiz-1  toLeft"}, {diente:"26", clase:"raiz-3  toLeft"}, {diente:"27", clase:"raiz-3  toLeft"}, {diente:"28", clase:"raiz-3  toLeft"},]],
+    [[{diente:"55", clase:"raiz-3 "}, {diente:"54", clase:"raiz-3"}, {diente:"53", clase:"raiz-1 toCenter"}, {diente:"52", clase:"raiz-1 toCenter"}, {diente:"51", clase:"raiz-1 toCenter"}], [{diente:"61", clase:"raiz-1 toLeft toCenter"}, {diente:"62", clase:"raiz-1 toLeft toCenter"}, {diente:"63", clase:"raiz-1 toLeft toCenter"}, {diente:"64", clase:"raiz-3 toLeft"}, {diente:"65", clase:"raiz-3 toLeft"}]]],
+    [[[{diente:"85", clase:"raiz-2 toDown"}, {diente:"84", clase:"raiz-2 toDown"}, {diente:"83", clase:"raiz-1 toDown toCenter"}, {diente:"82", clase:"raiz-1 toDown toCenter"}, {diente:"81", clase:"raiz-1 toDown toCenter"}], [{diente:"71", clase:"raiz-1 toDown toLeft toCenter"}, {diente:"72", clase:"raiz-1 toDown toLeft toCenter"}, {diente:"73", clase:"raiz-1 toDown toLeft toCenter"}, {diente:"74", clase:"raiz-2 toDown toLeft"}, {diente:"75", clase:"raiz-2 toDown toLeft"}]],
+    [[{diente:"48", clase:"raiz-2 toDown"}, {diente:"47", clase:"raiz-2 toDown"}, {diente:"46", clase:"raiz-2 toDown" }, {diente:"45", clase:"raiz-1 toDown"}, {diente:"44", clase:"raiz-1 toDown"}, {diente:"43", clase:"raiz-1 toDown toCenter" }, {diente:"42", clase:"raiz-1 toDown toCenter" },{diente:"41", clase:"raiz-1 toDown toCenter"}], [{diente:"31", clase:"raiz-1 toDown toLeft toCenter"}, {diente:"32", clase:"raiz-1 toDown toLeft toCenter"}, {diente:"33", clase:"raiz-1 toDown toLeft toCenter"}, {diente:"34", clase:"raiz-1 toDown toLeft"}, {diente:"35", clase:"raiz-1 toDown toLeft"}, {diente:"36", clase:"raiz-2 toDown toLeft"}, {diente:"37", clase:"raiz-2 toDown toLeft"}, {diente:"38", clase:"raiz-2 toDown toLeft"}]]],
 ];
 
 export const registro_ = computed(()=>
@@ -112,6 +112,8 @@ export const listaDeTipos = [
     { value: "oclusal", text: "Oclusal" },
     { value: "mesial", text: "Mesial" },
     { value: "palatino", text: "Palatino" },
+    { value: "incisal", text: "Incisal" },
+    { value: "lingual", text: "Lingual" },
 ];
 
 if (annyang) {

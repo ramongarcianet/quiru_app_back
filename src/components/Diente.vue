@@ -7,7 +7,7 @@ import {
 const props = defineProps( ['item'])
 const emit = defineEmits(['update:ubicacion', 'update:hallazgo', 'update:diente'])
 
-const ubicaciones = ['vestibular','distal','oclusal','mesial','palatino']
+const ubicaciones = ['vestibular','distal','oclusal','mesial','palatino','lingual', 'incisal']
 const ubicacion_ = computed({
     get: ()=>props.item.hallazgos,
     set: val => {
@@ -87,8 +87,34 @@ function slelecteditem(ubicacion)
         font-weight: bold
         color: var(--color-dark) !important
     &.toDown
+        #vestibular, #lingual
+            transform: rotate(180deg) 
+            bottom: 0!important
+            top: unset!important
+        #vestibular
+            display: none !important
+        #lingual
+            display: flex !important
+        #palatino
+            transform: rotate(180deg) 
+            top:  0!important
+            bottom: unset!important
         #raices
             transform: rotate(180deg)    
+    &.toLeft
+        #mesial
+            transform: rotate(180deg) 
+            left: 0!important
+            right: unset!important        
+        #distal
+            transform: rotate(180deg) 
+            right:  0!important
+            left: unset!important
+    &.toCenter
+        #oclusal
+            display: none !important
+        #incisal
+            display: flex !important
     #raices  
         position: relative 
         height: calc( var(--size) * 0.4)
@@ -136,7 +162,7 @@ function slelecteditem(ubicacion)
         height: var(--size)
         width: var(--size)
         
-        #vestibular,  #distal, #oclusal, #mesial, #palatino
+        #vestibular, #lingual, #incisal, #distal, #oclusal, #mesial, #palatino
             position: absolute
             top: 0
             left: 0
@@ -153,10 +179,14 @@ function slelecteditem(ubicacion)
             --proporcion-final: calc( 100% / 4 * 3 )
             --proporcion-inicial: calc( 100% / 4 * 1 )
             --proporcion-central: calc( 100% / 4 * 2 )
+        #lingual
+            display: none
+        #incisal
+            display: none
         div
             *
                 color: transparent
-        #vestibular
+        #vestibular, #lingual
             height: var(--proporcion-inicial)
             width: 100%
             bottom: unset
@@ -172,7 +202,7 @@ function slelecteditem(ubicacion)
             border-top-left-radius: var(--border-radius-top)
             border-bottom-left-radius: var(--border-radius-bottom)
 
-        #oclusal
+        #oclusal, #incisal
             height: var(--proporcion-central)
             width: var(--proporcion-central)
             clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%)
@@ -194,7 +224,7 @@ function slelecteditem(ubicacion)
             border-bottom-left-radius: var(--border-radius-bottom)
             border-bottom-right-radius: var(--border-radius-bottom)
 
-        #vestibular, #distal, #oclusal, #mesial, #palatino
+        #vestibular, #lingual, #incisal, #distal, #oclusal, #mesial, #palatino
             &::before
                 position: absolute
                 margin: auto
@@ -210,7 +240,7 @@ function slelecteditem(ubicacion)
                 width: calc( 100% - var(--min))
                 height: calc( 100% - var(--min))
                 --border-radius: 1.2rem
-        #vestibular::before
+        #vestibular::before, #lingual::before
             clip-path: polygon(var(--min) var(--border), var(--max) var(--border), var(--proporcion-final) 100%,var(--proporcion-inicial) 100%)
             border-top-left-radius: var(--border-radius-top)
             border-top-right-radius: var(--border-radius-top)
@@ -219,7 +249,7 @@ function slelecteditem(ubicacion)
             border-bottom-left-radius: var(--border-radius-bottom)
             border-top-left-radius: var(--border-radius-top)
 
-        #oclusal::before
+        #oclusal::before, #incisal::before
             clip-path: var(--clip-path)
         #mesial::before
             clip-path: polygon( 0 var(--proporcion-inicial), var(--border-right) var(--min), var(--border-right)  var(--max), 0 var(--proporcion-final))
