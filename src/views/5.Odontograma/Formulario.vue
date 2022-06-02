@@ -27,9 +27,7 @@ import {
   registro_,
   registro
 } from "../../store/odontograma";
-import {
-  agregarDetalle
-} from "../../store/comandosDeVoz";
+import {actualizarDetalle} from '../../store/formodontograma';
 
 import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
@@ -63,6 +61,16 @@ watch(
     item.value.hallazgos=[]
     Hallazgo.value=""
   }
+  
+)
+watch(
+  ()=> registro.value,
+  (registro)=>  {
+    let idOdontograma= route.params.idOdontograma
+    console.log(registro.value)
+    if(idOdontograma) actualizarDetalle(idOdontograma, registro)
+  },
+  { deep: true }
 )
 const borrar = ({diente, hallazgo, ubicacion}) => {
   const index = registro.value.findIndex(i => i.diente == diente && i.hallazgo == hallazgo && i.ubicacion == ubicacion)
@@ -96,7 +104,7 @@ p {{textoEscuchado}}
     Odontograma( :registro='registro_')
 .row
     .col
-      button.btn.btn-primary(type="submit", @click="agregarDetalle(route.params.idOdontograma)") Agregar a la lista
+      button.btn.btn-primary(type="submit", @click="agregar()") Agregar a la lista
 .row
   .col
     table.table.table-striped.table-light

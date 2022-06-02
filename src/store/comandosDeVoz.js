@@ -1,5 +1,5 @@
 import {item,registro,verOdontograma, detenerVoz, activarVoz, listaDeHallazgos, listaDeDientes, listaDeTipos, speak, flagLimpiar} from './odontograma'
-//import actualizarDetalle from './formodontograma';
+import router from '../config/router'
 const seleccionarHallazgo = hallazgo => actualizarItem(hallazgo, false, false)
 
 const seleccionarHallazgoPieza = (hallazgo, pieza) => actualizarItem(hallazgo, false, pieza)
@@ -105,18 +105,10 @@ export const agregar  = () => {
     if(item.value.hallazgos.length == 0) return speak( 'No he registrado un hallazgo')
     item.value.hallazgos.map( ({hallazgo, ubicacion}) => ({diente: item.value.diente, ubicacion, hallazgo})).forEach( item => {
         const index = registro.value.findIndex( i => i.hallazgo == item.hallazgo && i.diente == item.diente && i.ubicacion == item.ubicacion)
-        if ( index == -1 ) registro.value.push(item)
-    })
-};
-
-export const agregarDetalle  = (id) => {
-    if(item.value.hallazgos.length == 0) return speak( 'No he registrado un hallazgo')
-    item.value.hallazgos.map( ({hallazgo, ubicacion}) => ({diente: item.value.diente, ubicacion, hallazgo})).forEach( item => {
-        const index = registro.value.findIndex( i => i.hallazgo == item.hallazgo && i.diente == item.diente && i.ubicacion == item.ubicacion)
-        if ( index == -1 ) {
+        if ( index == -1 ){
             registro.value.push(item)
-            actualizarDetalle(id, registro.value)
-        }
+            console.log('entro aqui agregar')
+        } 
     })
 };
 

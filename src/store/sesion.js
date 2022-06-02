@@ -50,4 +50,4 @@ export const obtenerEstadoDeAutentificacion = ()=> new Promise( resolve =>{
     }
 )})
 
-export const miUsuario = () => auth.currentUser
+export const miUsuario = () => auth?.currentUser
