@@ -5,6 +5,7 @@ import { item, guardar, actualizar, limpiar, leerEnRegistro } from "../../store/
 import RegistroOdontograma from "../5.Odontograma/RegistroOdontograma.vue";
 import { guardar as guardarOdontograma } from "../../store/formodontograma";
 const guardarOActualizar = () => {
+  console.log('paciente')
   if (item.value.id) return actualizar(item.value);
   else return guardar(item.value);
 };
@@ -60,13 +61,8 @@ Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
     .col
       label.form-label Comentario
       input.form-control(placeholder="Comentario", v-model="item.Comentario")
-
   .d-flex
-   
+    button.btn.btn-primary(@click="push({ name: 'pacientes', params: {} })") Volver
     button.ms-auto.btn.btn-primary(type='submit') Guardar
 
-RegistroOdontograma
-.d-flex 
-  button.btn.btn-primary(@click="push({ name: 'pacientes', params: {} })") Volver
-  button.ms-auto.btn.btn-primary(@click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico',true)") Nuevo Diagnóstico
 </template>
