@@ -120,11 +120,12 @@ if (annyang) {
 
     annyang.setLanguage("es-PE");
     annyang.addCallback('result', function (frase) {
-        textoEscuchado.value = frase
+        if(isSpeech.value)
+            textoEscuchado.value = frase[0];
     })
     annyang.addCallback('soundstart', function () {
-        //if (isSpeech.value)
-        console.log('sound detected');
+        if (isSpeech.value)
+            console.log('sound detected');
     });
     annyang.addCallback('error', function (e) {
         //console.log('There was an error!');
@@ -171,6 +172,7 @@ export function detenerVoz() {
     annyang.removeCommands();
     annyang.addCommands(comandosDeVoz.conVozApagada)
     isSpeech.value = false;//stop
+    textoEscuchado.value = '';
     comandosDeVoz.agradecer()
 }
 
