@@ -22,10 +22,10 @@ onMounted(()=> {
     try {
       wakeLock = navigator?.wakeLock?.request("screen");
     } catch (err) {
-      console.log(`${err.name}, ${err.message}`);
+
     }
   } else {
-    console.log('wakeLock'+ false);
+
   }
 })
 onUnmounted(()=>{

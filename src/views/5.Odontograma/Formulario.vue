@@ -43,10 +43,10 @@ onMounted(()=> {
     try {
       wakeLock = navigator?.wakeLock.request("screen");
     } catch (err) {
-      console.log(`${err.name}, ${err.message}`);
+
     }
   } else {
-    console.log('wakeLock'+ false);
+
   }
 })
 
@@ -73,7 +73,7 @@ const borrar = ({diente, hallazgo, ubicacion}) => {
   const index = itemodontograma.value.hallazgos.findIndex(i => i.diente == diente && i.hallazgo == hallazgo && i.ubicacion == ubicacion)
   if( index > -1) itemodontograma.value.hallazgos.splice(index, 1)
 }
-console.log(registro_)
+
 </script>
 
 <template lang="pug">

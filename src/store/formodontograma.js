@@ -76,7 +76,6 @@ export function agregarLista(id,param,hallazgos) {
             }
             hallazgos.push(fila)
     });
-    console.log(hallazgos)
     actualizarDetalle(id,hallazgos)
  }
 

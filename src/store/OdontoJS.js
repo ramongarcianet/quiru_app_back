@@ -1,7 +1,7 @@
 ﻿import {obtenerTodos} from '../store/odonto'
 export function ChangeHallazgo(event) {
     clearcanvas("cvhallazgo")
-    if (event.target.value=="extraccion"){
+    if (event.target.value=="extracción"){
         DienteAusente("cvhallazgo", "red");
     }
     else if (event.target.value=="ausente"){
@@ -105,6 +105,7 @@ export function limpiarCaries() {
 }
 
 export function VerFormato(registro) {
+    console.log(registro)
      var canvas = document.getElementById('myCanvas');
      var context = canvas.getContext('2d');
      context.font = '8pt Calibri';
@@ -252,7 +253,7 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro){
     }
     registro.forEach(element => {
         if(element.diente==pieza){
-            if (element.hallazgo=="extraccion"){
+            if (element.hallazgo=="extracción"){
                 marcar_linea(ctx, inicio_x, med,inicio_y,"red","");
             }
             else if (element.hallazgo=="ausente"){
@@ -262,51 +263,51 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro){
                 marcar_linea(ctx, inicio_x, med,inicio_y,"red","fractura");
             }
             else if (element.hallazgo=="caries"){
-                var piezas = element.pieza;
-                var datos = piezas.split(",");
+                //var piezas = element.ubicacion;
+                //var datos = piezas.split(",");
                 var seccion=0;
-                datos.forEach(item => {
-                    if (item=="Vestibular"){
+                //datos.forEach(item => {
+                    if (element.ubicacion=="vestibular"){
                         seccion=1;
                     }
-                    if (item=="Distal"){
+                    if (element.ubicacion=="distal"){
                         seccion=4;
                     }
-                    if (item=="Oclusal"){
+                    if (element.ubicacion=="oclusal"){
                         seccion=5;
                     }
-                    if (item=="Mesial"){
+                    if (element.ubicacion=="mesial"){
                         seccion=2;
                     }
-                    if (item=="Palatino"){
+                    if (element.ubicacion=="palatino"){
                         seccion=3;
                     }
                     dibuja_seccion(ctx, pieza, seccion, "red",med,inicio_x,inicio_y)
-                });
+               // });
 
             }
             else if (element.hallazgo=="restauración"){
-                var piezas = element.pieza;
-                var datos = piezas.split(",");
+                //var piezas = element.ubicacion;
+                //var datos = piezas.split(",");
                 var seccion=0;
-                datos.forEach(item => {
-                    if (item=="Vestibular"){
+                //datos.forEach(item => {
+                    if (element.ubicacion=="vestibular"){
                         seccion=1;
                     }
-                    if (item=="Distal"){
+                    if (element.ubicacion=="distal"){
                         seccion=4;
                     }
-                    if (item=="Oclusal"){
+                    if (element.ubicacion=="oclusal"){
                         seccion=5;
                     }
-                    if (item=="Mesial"){
+                    if (element.ubicacion=="mesial"){
                         seccion=2;
                     }
-                    if (item=="Palatino"){
+                    if (element.ubicacion=="palatino"){
                         seccion=3;
                     }
                     dibuja_seccion(ctx, pieza, seccion, "blue",med,inicio_x,inicio_y)
-                });
+                //});
             }
         }
     });
@@ -565,7 +566,7 @@ function dibuja_contornoDemo(context, inicio_x, inicio_y, med, pieza, registro,H
         ctx.closePath();
         ctx.stroke();
     }
-    if (registro=="extraccion"){
+    if (registro=="extracción"){
         marcar_lineaLanding(ctx, inicio_x, med,inicio_y,"red","");
     }
     else if (registro=="ausente"){

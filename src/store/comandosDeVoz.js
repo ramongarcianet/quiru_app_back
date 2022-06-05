@@ -109,7 +109,6 @@ export const agregar  = () => {
         const index = itemodontograma.value.hallazgos.findIndex( i => i.hallazgo == item.hallazgo && i.diente == item.diente && i.ubicacion == item.ubicacion)
         if ( index == -1 ){
             itemodontograma.value.hallazgos.push(item)
-            console.log('entro aqui agregar')
         } 
     })
 };

@@ -5,7 +5,7 @@ import { item, guardar, actualizar, limpiar, leerEnRegistro } from "../../store/
 import RegistroOdontograma from "../5.Odontograma/RegistroOdontograma.vue";
 import { guardar as guardarOdontograma } from "../../store/formodontograma";
 const guardarOActualizar = () => {
-  console.log('paciente')
+
   if (item.value.id) return actualizar(item.value);
   else return guardar(item.value);
 };

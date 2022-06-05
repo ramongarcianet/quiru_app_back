@@ -125,34 +125,28 @@ if (annyang) {
     })
     annyang.addCallback('soundstart', function () {
         if (isSpeech.value)
-            console.log('sound detected');
+        {}
     });
     annyang.addCallback('error', function (e) {
-        //console.log('There was an error!');
+    
     });
     annyang.addCallback('errorNetwork', function () {
-        console.log('errorNetwork');
+
     });
     annyang.addCallback('errorPermissionBlocked', function () {
-        console.log('errorPermissionBlocked');
+  
     });
     annyang.addCallback('errorPermissionDenied', function () {
-        console.log('errorPermissionDenied');
+  
     });
 
-    /*
-    annyang.addCallback('end', function () {
-        console.log('end');
-    });
-    annyang.addCallback('start', function () {
-        console.log('start');
-    });*/
+  
     flagAnnyang = annyang.start()
 
     annyang.getSpeechRecognizer()?.grammars?.addFromString(comandosDeVoz.gramatica, 1);
     annyang.addCommands(comandosDeVoz.conVozApagada)
 } else {
-    console.log("Speech Recognition is not supported");
+
 }
 //--fin speech recognition
 export function escucharInicializarVoz() {
@@ -184,7 +178,7 @@ const convertirEnPalabra = num => convertToText(num.toString())
 export function speak(pHablar) {
 
     if (synth.speaking) {
-        console.error('speechSynthesis.speaking');
+        //console.error('speechSynthesis.speaking');
         return;
     }
     if (pHablar !== '') {
@@ -362,14 +356,14 @@ export function activarMicro (){
           navigator.getUserMedia(
             {audio:true},//permitir solo audio
             function(stream) {
-                console.log('microfono activado');
+
             },
             function(e) {
-              console.log('microfono bloqueado');
+
             }
           );
 
-      } else { console.log('getUserMedia not supported in this browser.'); }
+      } else {  }
     }();
 
 }
