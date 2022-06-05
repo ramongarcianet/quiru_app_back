@@ -19,7 +19,7 @@ onMounted(()=> {
   );
 
 })
-
+/*
  function printOdontograma() {
             var divContents = document.getElementById("imprimir").innerHTML;
             var a = window.open('', '', 'height=500, width=500');
@@ -31,7 +31,32 @@ onMounted(()=> {
             a.print();
             a.close();
  }
+ */
+function printOdontograma()
+{
+const dataUrl = document.getElementById('imprimir').toDataURL();
 
+let windowContent = '<!DOCTYPE html>';
+windowContent += '<html>';
+windowContent += '<head><title>Print canvas</title></head>';
+windowContent += '<body>';
+windowContent += '<img src="' + dataUrl + '">';
+windowContent += '</body>';
+windowContent += '</html>';
+
+const printWin = window.open('', '', 'width=' + screen.availWidth + ',height=' + screen.availHeight);
+printWin.document.open();
+printWin.document.write(windowContent);
+
+printWin.document.addEventListener('load', function() {
+    printWin.focus();
+    printWin.print();
+    printWin.document.close();
+    printWin.close();
+}, true);
+
+
+}
 </script>
 <template lang="pug">
 h1 Odontograma
