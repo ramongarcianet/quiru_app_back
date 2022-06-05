@@ -132,6 +132,15 @@ function slelecteditem(ubicacion)
             height: 100%
             --min: var(--border-diente)
             background: var(--bs-primary)
+    &.raiz-0
+        #raices
+            &:before
+                height: 10%
+                display: none
+            &:after
+                height: 10%
+                display: none
+
     &.raiz-1
         #raices
             &:before

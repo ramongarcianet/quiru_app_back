@@ -33,5 +33,5 @@ Form
 RegistroOdontograma
 .d-flex
   button.btn.btn-primary(@click="push({ name: 'pacientes', params: {} })") Volver
-  button.ms-auto.btn.btn-primary(@click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','2')") Nuevo Diagnóstico
+  button.ms-auto.btn.btn-primary(@click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','2','0')") Nuevo Diagnóstico
 </template>
