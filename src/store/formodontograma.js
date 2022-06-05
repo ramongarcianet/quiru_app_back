@@ -124,7 +124,8 @@ const leer = id => {
 export const leerOdonto = id => {
     const referencia = doc(firestore, 'odontograma', id)
     const registro = getDoc( referencia ).then( doc => item.value = doc.data())
-    item.value = registro.value
+    if (registro.value != undefined)
+        item.value = registro.value
 }
 
 const leerEnRegistro = id => {
