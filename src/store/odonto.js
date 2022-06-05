@@ -74,6 +74,7 @@ const obtenerTodoCaries = () => {
         collection => listaCaries.value = collection.docs.map( doc => ({...doc.data(), id: doc.id }))
     )
 }
+
 export {
     registro,
     item,

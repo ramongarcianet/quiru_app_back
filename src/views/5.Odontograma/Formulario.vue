@@ -13,7 +13,6 @@ import {
 import {
   detenerVoz,
   activarVoz,
-  agregarLista,
   isSpeech,
   escucharInicializarVoz,
   detenerInicializarVoz,
@@ -24,10 +23,9 @@ import {
   listaDeDientesCombo,
   listaDeTipos,
   Hallazgo,
-  registro_,
-  registro
+  registro_
 } from "../../store/odontograma";
-import {actualizarDetalle} from '../../store/formodontograma';
+import {actualizarDetalle,leerEnRegistro,item as itemodontograma,agregarLista} from '../../store/formodontograma';
 
 import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
@@ -36,7 +34,7 @@ const listaPieza = obtenerTodoPieza();
 const listaHallazgo = obtenerTodoHallazgo();
 const listaCaries = obtenerTodoCaries();
 const {push} = useRouter()
-
+leerEnRegistro(route.params.idOdontograma);
 escucharInicializarVoz();
 
 let wakeLock = null;
@@ -64,18 +62,18 @@ watch(
   
 )
 watch(
-  ()=> registro.value,
+  ()=> itemodontograma.value.hallazgos,
   (registro)=>  {
     let idOdontograma= route.params.idOdontograma
-    console.log(registro.value)
     if(idOdontograma) actualizarDetalle(idOdontograma, registro)
   },
   { deep: true }
 )
 const borrar = ({diente, hallazgo, ubicacion}) => {
-  const index = registro.value.findIndex(i => i.diente == diente && i.hallazgo == hallazgo && i.ubicacion == ubicacion)
-  if( index > -1) registro.value.splice(index, 1)
+  const index = itemodontograma.value.hallazgos.findIndex(i => i.diente == diente && i.hallazgo == hallazgo && i.ubicacion == ubicacion)
+  if( index > -1) itemodontograma.value.hallazgos.splice(index, 1)
 }
+console.log(registro_)
 </script>
 
 <template lang="pug">
@@ -99,12 +97,12 @@ p {{textoEscuchado}}
                     option(selected disabled value="") Hallazgo
                     option(v-for='{text, value} of listaDeHallazgos' :value="value") {{text}}                  
     .d-flex.justify-content-center
-        Diente(:item='item').raiz-1 
+        Diente(:item='item').raiz-0 
   .col
     Odontograma( :registro='registro_')
 .row
     .col
-      button.btn.btn-primary(type="submit", @click="agregar()") Agregar a la lista
+      button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma,item,itemodontograma.hallazgos)") Agregar a la lista
 .row
   .col
     table.table.table-striped.table-light
@@ -115,7 +113,7 @@ p {{textoEscuchado}}
           th Ubicación
           th
       tbody
-        tr(v-for="item of registro")
+        tr(v-for="item of itemodontograma.hallazgos")
           td {{item.diente}}
           td {{item.hallazgo}}
           td {{item.ubicacion}}

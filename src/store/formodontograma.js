@@ -13,11 +13,12 @@ const item = ref ({
     observaciones:'',
     receta:'',
     fechaRegistro:new Date().toISOString().slice(0,10),
-    userId: miUsuario()?.uid
+    userId: miUsuario()?.uid,
+    hallazgos:[]
 })
 
 
-const guardar = (idPaciente, tipo,esUltimo) => {
+const guardar = (idPaciente, tipo,esUltimo,id) => {
     for (const item of registroodonto.value ){
         if (item.esultimo==='2')
             actualizarEsUltimo(item.id,'1');
@@ -34,6 +35,16 @@ const guardar = (idPaciente, tipo,esUltimo) => {
         userId: miUsuario()?.uid,
         esultimo: esUltimo,
         order: registroodonto.value.length + 1
+    }
+    if(id !='0')
+    {
+        let _hallazgos=registroodonto.value.find(item=>item.id===id)?.hallazgos;
+        fila.especificaciones=registroodonto.value.find(item=>item.id===id)?.especificaciones;
+        fila.observaciones=registroodonto.value.find(item=>item.id===id)?.observaciones;
+        fila.receta=registroodonto.value.find(item=>item.id===id)?.receta;
+        if(_hallazgos){
+            fila.hallazgos=_hallazgos;
+        }
     }
     const referencia = collection(firestore, 'odontograma')
     return addDoc(referencia, fila)
@@ -56,6 +67,19 @@ export const actualizar = (id) => {
     const referencia = doc(firestore, 'odontograma', itemUpd.id)
     return updateDoc(referencia, itemUpd)
 }
+export function agregarLista(id,param,hallazgos) {
+    param.hallazgos.forEach(element => {
+        let fila ={
+            diente:param.diente,
+            hallazgo:element.hallazgo,
+            ubicacion:element.ubicacion
+            }
+            hallazgos.push(fila)
+    });
+    console.log(hallazgos)
+    actualizarDetalle(id,hallazgos)
+ }
+
 export const actualizarDetalle = (id,Hallazgos) => {
     var itemUpd = {
           id:id,

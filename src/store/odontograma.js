@@ -4,6 +4,7 @@ import { listaDiccionario, listaPieza, listaHallazgo, listaCaries, guardar, elim
 import {convertToText} from "./numeroLetras.js"
 import router from '../config/router'
 import comandosDeVoz from './comandosDeVoz';
+import {item as itemodontograma} from './formodontograma';
 import '../assets/annyang.min'
 const { push } = router;
 const isSpeech = ref(false);
@@ -16,7 +17,6 @@ export const verOdontograma = ref(true)
 export let flagLimpiar = ref(false)
 export const textoEscuchado = ref()
 
-export const registro = ref([])
 
 export const listaDeDientes = [
     [[[{diente: '18', clase:"raiz-3 "}, {diente:"17", clase:"raiz-3"}, {diente:"16", clase:"raiz-3"}, {diente:"15", clase:"raiz-1"}, {diente:"14", clase:"raiz-2"}, {diente:"13", clase:"raiz-1 toCenter"}, {diente:"12", clase:"raiz-1 toCenter"}, {diente:"11", clase:"raiz-1 toCenter"}], [ {diente:"21", clase:"raiz-1 toLeft toCenter"}, {diente:"22", clase:"raiz-1 toLeft toCenter"}, {diente:"23", clase:"raiz-1 toLeft toCenter"}, {diente:"24", clase:"raiz-2 toLeft"}, {diente:"25", clase:"raiz-1  toLeft"}, {diente:"26", clase:"raiz-3  toLeft"}, {diente:"27", clase:"raiz-3  toLeft"}, {diente:"28", clase:"raiz-3  toLeft"},]],
@@ -32,7 +32,7 @@ export const registro_ = computed(()=>
                 col.map( ({diente, clase}) =>  ({
                     diente,
                     clase,
-                    hallazgos: registro.value.filter(i => i.diente == diente).map(({hallazgo, ubicacion}) => ({hallazgo, ubicacion}))
+                    hallazgos: itemodontograma.value.hallazgos.filter(i => i.diente == diente).map(({hallazgo, ubicacion}) => ({hallazgo, ubicacion}))
                 }) )
             )
         )
@@ -200,7 +200,6 @@ export function speak(pHablar) {
     }
 }
 
-
 function diagnostico(param) {
     if (isSpeech.value || (param === 'manual')) {
         headerVoz.style = "visibility: hidden;";
@@ -231,15 +230,6 @@ function limpiar() {
     clearcanvas("cvhallazgo");
 }
 
-
-export function agregarLista(param) {
-    /* const idOdontograma = router.currentRoute.value.params.idOdontograma;
-     const existeDiente = registro.value.find(item => item.diente === item.value.pieza)
-     if (!existeDiente) {
-         guardar(idOdontograma, item.value);
-         limpiar();
-     }*/
- }
 function volver() {
     push({ name: 'odontograma' })
 }
@@ -381,7 +371,6 @@ export function activarMicro (){
     }();
 
 }
-
 export {
     diagnostico,
     tratamiento,

@@ -1,5 +1,7 @@
-import {item,registro,verOdontograma, detenerVoz, activarVoz, listaDeHallazgos, listaDeDientes, listaDeTipos, speak, flagLimpiar} from './odontograma'
+import {item,verOdontograma, detenerVoz, activarVoz, listaDeHallazgos, listaDeDientes, listaDeTipos, speak, flagLimpiar} from './odontograma'
 import router from '../config/router'
+import {item as itemodontograma} from './formodontograma';
+
 const seleccionarHallazgo = hallazgo => actualizarItem(hallazgo, false, false)
 
 const seleccionarHallazgoPieza = (hallazgo, pieza) => actualizarItem(hallazgo, false, pieza)
@@ -104,16 +106,17 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
 export const agregar  = () => {
     if(item.value.hallazgos.length == 0) return speak( 'No he registrado un hallazgo')
     item.value.hallazgos.map( ({hallazgo, ubicacion}) => ({diente: item.value.diente, ubicacion: ubicacion || "", hallazgo})).forEach( item => {
-        const index = registro.value.findIndex( i => i.hallazgo == item.hallazgo && i.diente == item.diente && i.ubicacion == item.ubicacion)
+        const index = itemodontograma.value.hallazgos.findIndex( i => i.hallazgo == item.hallazgo && i.diente == item.diente && i.ubicacion == item.ubicacion)
         if ( index == -1 ){
-            registro.value.push(item)
+            itemodontograma.value.hallazgos.push(item)
             console.log('entro aqui agregar')
         } 
     })
 };
 
+
 export function limpiarPieza(pieza) {
-    registro.value = registro.value.filter( ({diente}) => diente!=pieza)
+    itemodontograma.value.hallazgos = itemodontograma.value.hallazgos.filter( ({diente}) => diente!=pieza)
     item.value.diente = pieza
     speak( `Limpiando pieza ${pieza}`)
 }
