@@ -9,6 +9,9 @@ import "../../config/html2canvas";
 import { onMounted } from "@vue/runtime-core";
 const { push } = useRouter();
 const route = useRoute()
+let w;
+let canvas ;
+let canvas_image_data ;
 leerEnRegistro(route.params.idOdontograma);
 onMounted(()=> {
 
@@ -21,73 +24,23 @@ onMounted(()=> {
     }
   );
 
+w = window;
 })
-/*
- function printOdontograma() {
-            var divContents = document.getElementById("imprimir").innerHTML;
-           // var printContents = this.myCanvas.innerHTML();
 
-          const canvas = document.getElementById('myCanvas')
-          const img    = canvas.toDataURL('image/png')
-
-            var a = window.open('', '', 'height=500, width=500');
-            a.document.write('<html>');
-            a.document.write('<body >');
-            a.document.write(divContents);
-            a.document.write('<img src="'+img+'"/>');
-            //ventana.document.write(elemento.innerHTML);
-            a.document.write('</body></html>');
-            a.document.close();
-            a.print();
-            a.close();
- }
- */
-function printOdontograma()
-{
-const dataUrl = document.getElementById('imprimir').toDataURL();
-
-let windowContent = '<!DOCTYPE html>';
-windowContent += '<html>';
-windowContent += '<head><title>Print canvas</title></head>';
-windowContent += '<body>';
-windowContent += '<img src="' + dataUrl + '">';
-windowContent += '</body>';
-windowContent += '</html>';
-
-const printWin = window.open('', '', 'width=' + screen.availWidth + ',height=' + screen.availHeight);
-printWin.document.open();
-printWin.document.write(windowContent);
-
-printWin.document.addEventListener('load', function() {
-    printWin.focus();
-    printWin.print();
-    printWin.document.close();
-    printWin.close();
+function printOdontograma() {
+  w = window.open("", "Download Image", "directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width=500, height=500");
+  canvas = document.getElementById('myCanvas');
+  canvas_image_data = canvas.toDataURL();
+  w.document.open();
+  w.document.write('<img src="'+canvas_image_data+'" style="border: 0;" width="300" height="300"/>');
+  w.document.addEventListener('load', function() {
+    w.focus();
+    w.print();
+    w.document.close();
+    w.close();
 }, true);
 
 }
-
-    function printThis() {
-      console.log("printing..");
-      const el = "imprimir";
-
-      const options = {
-        type: "dataURL"
-      };
-      const printCanvas = html2canvas(el, options);
-
-      const link = document.createElement("a");
-      link.setAttribute("download", "download.png");
-      link.setAttribute(
-        "href",
-        printCanvas
-          .toDataURL("image/png")
-          .replace("image/png", "image/octet-stream")
-      );
-      link.click();
-
-      console.log("done");
-    }
 
 
 </script>
@@ -97,12 +50,13 @@ h1 Odontograma
   .col
   .col#imprimir
     h4 Odontograma
-    h4 Fecha: ...........
+    h4 Fecha: {{itemodontograma.fechaRegistro}}
+
     canvas#myCanvas( width="500" height="400" style="border: 0; left:0px; top:0px;")
   .col
   .d-flex.mt-5
     button( @click='push({name: "Detalle", params: {idOdontograma: route.params.idOdontograma,idPaciente: route.params.idPaciente}})').btn.btn-primary Volver
-    button.ms-auto.btn.btn-primary(@click="printThis()") Print!
+
     button.ms-auto.btn.btn-primary(@click="printOdontograma()") Imprimir
 </template>
 

@@ -32,7 +32,7 @@ export const registro_ = computed(()=>
                 col.map( ({diente, clase}) =>  ({
                     diente,
                     clase,
-                    hallazgos: itemodontograma.value.hallazgos.filter(i => i.diente == diente).map(({hallazgo, ubicacion}) => ({hallazgo, ubicacion}))
+                    hallazgos: (itemodontograma.value.hallazgos)?itemodontograma.value.hallazgos.filter(i => i.diente == diente).map(({hallazgo, ubicacion}) => ({hallazgo, ubicacion})):null
                 }) )
             )
         )

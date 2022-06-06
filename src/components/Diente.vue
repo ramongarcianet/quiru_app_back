@@ -11,8 +11,9 @@ const ubicaciones = ['vestibular','distal','oclusal','mesial','palatino','lingua
 const ubicacion_ = computed({
     get: ()=>props.item.hallazgos,
     set: val => {
-        const index = props.item.hallazgos.findIndex( i => i.ubicacion = i.ubicacion)
-        if ( index > -1) props.item.hallazgos.splice( index, 1)
+        const index = (props.item.hallazgos)?props.item.hallazgos.findIndex( i => i.ubicacion = i.ubicacion):0
+        if ( index > -1) 
+            if(props.item.hallazgos) props.item.hallazgos.splice( index, 1)
         else return
     }
 })
@@ -42,7 +43,7 @@ function slelecteditem(ubicacion)
             v-for='ubicacion of ubicaciones' 
             :id='ubicacion'            
             @click='slelecteditem(ubicacion)' 
-            :class='`${item.hallazgos.filter(i => i.ubicacion == ubicacion).map(({hallazgo})=>hallazgo).join(" ")} ${item.hallazgos.map(({ubicacion}) => ubicacion).some( item => item == ubicacion ) ? "active" : ""}`'
+            :class='(item.hallazgos)?`${item.hallazgos.filter(i => i.ubicacion == ubicacion).map(({hallazgo})=>hallazgo).join(" ")} ${item.hallazgos.map(({ubicacion}) => ubicacion).some( item => item == ubicacion ) ? "active" : ""}`:""'
         )
         #aspaIzquierda
         #aspaDerecha
