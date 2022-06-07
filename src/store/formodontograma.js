@@ -74,7 +74,7 @@ export function agregarLista(id,param,hallazgos) {
             hallazgo:element.hallazgo,
             ubicacion:element.ubicacion
             }
-            hallazgos.push(fila)
+            hallazgos?hallazgos.push(fila):hallazgos=[fila]
     });
     actualizarDetalle(id,hallazgos)
  }

@@ -16,13 +16,13 @@ import {
   isSpeech,
   escucharInicializarVoz,
   detenerInicializarVoz,
-  item,
   textoEscuchado,
   listaDeDientes,
   listaDeHallazgos,
   listaDeDientesCombo,
   listaDeTipos,
   Hallazgo,
+  item,
   registro_
 } from "../../store/odontograma";
 import {actualizarDetalle,leerEnRegistro,item as itemodontograma,agregarLista} from '../../store/formodontograma';
