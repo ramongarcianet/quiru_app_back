@@ -1,11 +1,16 @@
 <script setup>
 import Formulario from "./Formulario.vue";
+//import { item as itemPas, leerEnRegistro } from "../../store/paciente";
 import { useRoute, useRouter } from "vue-router";
 const route = useRoute()
 const { back, push } = useRouter();
+if (route.params.idPaciente) {
+  leerEnRegistro(route.params.idPaciente)
+}
 </script>
 <template lang="pug">
 h1 Odontograma
+.row
 .row
   .col
     Formulario
