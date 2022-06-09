@@ -62,7 +62,7 @@ watch(
   
 )
 watch(
-  ()=> itemodontograma.value.hallazgos,
+  ()=> itemodontograma.value?.hallazgos,
   (registro)=>  {
     let idOdontograma= route.params.idOdontograma
     if(idOdontograma) actualizarDetalle(idOdontograma, registro)

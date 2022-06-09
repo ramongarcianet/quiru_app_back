@@ -107,8 +107,8 @@ export const agregar  = () => {
     if(item.value.hallazgos?.length == 0) return speak( 'No he registrado un hallazgo')
     item.value.hallazgos?.map( ({hallazgo, ubicacion}) => ({diente: item.value.diente, ubicacion: ubicacion || "", hallazgo})).forEach( item => {
         const index = itemodontograma.value.hallazgos?.findIndex( i => i.hallazgo == item.hallazgo && i.diente == item.diente && i.ubicacion == item.ubicacion)
-        if ( index == -1 ){
-            itemodontograma.value.hallazgos.push(item)
+        if ( index == -1 || index == undefined){
+            itemodontograma.value.hallazgos?itemodontograma.value.hallazgos.push(item):itemodontograma.value.hallazgos=[item];
         } 
     })
 };

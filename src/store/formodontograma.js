@@ -76,7 +76,8 @@ export function agregarLista(id,param,hallazgos) {
             }
             hallazgos?hallazgos.push(fila):hallazgos=[fila]
     });
-    actualizarDetalle(id,hallazgos)
+    actualizarDetalle(id,hallazgos);
+    leerOdonto(id);
  }
 
 export const actualizarDetalle = (id,Hallazgos) => {
