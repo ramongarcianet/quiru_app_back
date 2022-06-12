@@ -1,6 +1,6 @@
 <script setup>
 import Formulario from "./Formulario.vue";
-//import { item as itemPas, leerEnRegistro } from "../../store/paciente";
+import { item as itemPas, leerEnRegistro } from "../../store/paciente";
 import { useRoute, useRouter } from "vue-router";
 const route = useRoute()
 const { back, push } = useRouter();
