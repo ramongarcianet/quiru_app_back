@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "quiru-b444f"
+  },
+  "targets": {
+    "quiru-b444f": {
+      "hosting": {
+        "app": [
+          "quiru-b444f"
+        ],
+        "test": [
+          "test-quiru"
+        ]
+      }
+    }
   }
 }
