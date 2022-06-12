@@ -48,9 +48,9 @@ onUnmounted(()=>{
           .dropdown
             button.ms-auto.btn(type="button", @click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente} })")
               i.fa.fa-solid.fa-magnifying-glass
-        td(v-if="item.esultimo==='2'")
+        td(v-if="item.esultimo==='2' && item.hallazgos")
           .dropdown
-            button.ms-auto.btn(type="button", @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','2')")
+            button.ms-auto.btn(type="button", @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','2',item.id)")
               i.fa.fa-solid.fa-circle-plus
         td(v-else="item.esultimo==='1' || item.esultimo==='0'")
           .dropdown

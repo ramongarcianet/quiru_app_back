@@ -4,6 +4,7 @@ import {
   item as itemModel,
   Hallazgo
 } from "../../src/store/odontograma";
+
 const props = defineProps( ['item'])
 const emit = defineEmits(['update:ubicacion', 'update:hallazgo', 'update:diente'])
 
@@ -12,7 +13,8 @@ const ubicacion_ = computed({
     get: ()=>props.item.hallazgos,
     set: val => {
         const index = props.item.hallazgos.findIndex( i => i.ubicacion = i.ubicacion)
-        if ( index > -1) props.item.hallazgos.splice( index, 1)
+        if ( index > -1) 
+            props.item.hallazgos.splice( index, 1)
         else return
     }
 })
@@ -37,12 +39,12 @@ function slelecteditem(ubicacion)
     h1 
         span {{diente }} 
     #raices
-    #button-diente( :class='item.hallazgos.map(({hallazgo}) => hallazgo).join(" ")' )
+    #button-diente( :class='item.hallazgos?.map(({hallazgo}) => hallazgo).join(" ")' )
         div(
             v-for='ubicacion of ubicaciones' 
             :id='ubicacion'            
             @click='slelecteditem(ubicacion)' 
-            :class='`${item.hallazgos.filter(i => i.ubicacion == ubicacion).map(({hallazgo})=>hallazgo).join(" ")} ${item.hallazgos.map(({ubicacion}) => ubicacion).some( item => item == ubicacion ) ? "active" : ""}`'
+            :class='`${item.hallazgos?.filter(i => i.ubicacion == ubicacion).map(({hallazgo})=>hallazgo).join(" ")} ${item.hallazgos?.map(({ubicacion}) => ubicacion).some( item => item == ubicacion ) ? "active" : ""}`'
         )
         #aspaIzquierda
         #aspaDerecha
@@ -132,6 +134,15 @@ function slelecteditem(ubicacion)
             height: 100%
             --min: var(--border-diente)
             background: var(--bs-primary)
+    &.raiz-0
+        #raices
+            &:before
+                height: 10%
+                display: none
+            &:after
+                height: 10%
+                display: none
+
     &.raiz-1
         #raices
             &:before
