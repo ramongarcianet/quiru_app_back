@@ -12,33 +12,32 @@ const rutas = [
   { title: "Contacto", ruta: "#contacto" },
 ];
 const router = [
-   { title: "Alpha", ruta: () => push({ name: "iniciar-sesion" }) }
+   { title: "Demo", ruta: () => push({ name: "demo" }) }
 ];
 </script>
 <template lang="pug">
-nav.w-100
-    .container.d-flex.w-100
-        Img(src="https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/Group%2073%20(1).png?alt=media&token=13f628f8-46ea-41f4-a4f4-b4d2aa604323")
-        .d-none.d-md-flex.align-items-center
-            a( v-for='{title, ruta} of rutas' :href='ruta') 
-                h4 {{title}}
-            a( v-for='{title, ruta} of router' @click='()=>ruta()') 
-                h4 {{title}}
-            
-        button.btn.btn-primary.ms-auto( @click='push({ name: "demo", params: {codigo: route.params.codigo} }), registrarEvento("activacion_btn_nav")' ) Probar
+nav.navbar.navbar-expand-lg.bg-light
+  .container
+    Img.navbar-brand(src="https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/Group%2073%20(1).png?alt=media&token=13f628f8-46ea-41f4-a4f4-b4d2aa604323")
+    button.navbar-toggler.ms-auto.me-2(type="button", data-bs-toggle="collapse", data-bs-target="#navbarSupportedContent", aria-controls="navbarSupportedContent", aria-expanded="false", aria-label="Toggle navigation")
+        i.fa-solid.fa-bars
+
+    .collapse.navbar-collapse#navbarSupportedContent
+        ul.navbar-nav.me-auto.mb-2.mb-lg-0
+            li.nav-item( v-for='{title, ruta} of rutas' ) 
+                a.nav-link(:href='ruta')  {{title}}
+            li.nav-item( v-for='{title, ruta} of router')
+                a.nav-link( @click='()=>ruta()' href='#')   {{title}}
+    
+    button.btn.btn-primary( @click='push({ name: "iniciar-sesion" }), registrarEvento("activacion_btn_alpha")' ) Únete al alpha
+        
 
 </template>
 
 <style scoped lang="sass">
 
 nav
-    position: fixed
-    top: 0
-    left: 0
-    background-color: #ffffff
-    height: 100px
-    display: flex
-    align-items: center
+    
     img
         width: 120px!important
         height: auto
