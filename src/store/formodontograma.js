@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import {addDoc, collection, onSnapshot, getDoc, getFirestore, doc, updateDoc, deleteDoc, query, where} from 'firebase/firestore'
 import {firestore} from '../config/firebase'
 import { miUsuario } from './sesion';
+import {limpiar as limpiarHallazgo,actualizarItem} from './comandosDeVoz';
 import {useRouter} from 'vue-router'
 const dialog = ref( false )
 const regpasciente = ref([])
@@ -67,17 +68,57 @@ export const actualizar = (id) => {
     const referencia = doc(firestore, 'odontograma', itemUpd.id)
     return updateDoc(referencia, itemUpd)
 }
-export function agregarLista(id,param,hallazgos) {
-    param.hallazgos.forEach(element => {
-        let fila ={
-            diente:param.diente,
-            hallazgo:element.hallazgo,
-            ubicacion:element.ubicacion
+function existeDiente(param){
+    let result = false;
+    let lista = item.value.hallazgos;
+    for (let item of lista ){
+        if (param.hallazgos[0].hallazgo == 'caries' || param.hallazgos[0].hallazgo == 'restauración'){
+            if(item.diente==param.diente && item.hallazgo==param.hallazgos[0].hallazgo && item.ubicacion==param.hallazgos[0].ubicacion ){
+                result = true;
+                break;
             }
-            hallazgos?hallazgos.push(fila):hallazgos=[fila]
-    });
-    actualizarDetalle(id,hallazgos);
-    leerOdonto(id);
+        } else {
+            if(item.diente==param.diente && item.hallazgo==param.hallazgos[0].hallazgo){
+                result = true;
+                break;
+            }
+        }
+    }
+    return result;
+}
+export function agregarLista(id,param,hallazgos) {
+    //console.log(param.hallazgos.length);
+    //console.log(existeDiente(param));
+    if (param.hallazgos.length>0){
+        if (!existeDiente(param)){
+            const hallazgo = param.hallazgos[0].hallazgo
+            if (hallazgo == 'caries' || hallazgo == 'restauración' ){
+                param.hallazgos.forEach(element => {
+                    let fila ={
+                        diente:param.diente,
+                        hallazgo:element.hallazgo,
+                        ubicacion:element.ubicacion,
+                        sigla:element.sigla
+                        }
+                        hallazgos?hallazgos.push(fila):hallazgos=[fila]
+                });
+
+            } else {
+                param.hallazgos.forEach(element => {
+                    let fila ={
+                        diente:param.diente,
+                        hallazgo:element.hallazgo,
+                        ubicacion:'',
+                        sigla:element.sigla
+                        }
+                        hallazgos?hallazgos.push(fila):hallazgos=[fila]
+                });
+            }
+            actualizarDetalle(id,hallazgos);
+            leerOdonto(id);
+        }
+        limpiarHallazgo();
+    }
  }
 
 export const actualizarDetalle = (id,Hallazgos) => {

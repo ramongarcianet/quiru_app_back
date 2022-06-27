@@ -123,7 +123,7 @@ export function VerFormato(registro) {
         inicio_y=75;
         context.fillText(entry, iniciar_x + 10, 45);
         dibuja_contorno(context, iniciar_x, inicio_y, medida, entry,registro);
-        marcar_ControlTop(context, iniciar_x-12,inicio_y-75,medida);
+        marcar_ControlTop(context, iniciar_x-12,inicio_y-75,medida,registro,entry);
         if(entry=="18" ||entry=="17" || entry=="16" || entry=="28" ||entry=="27" || entry=="26"){
             marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top_tri");
         }
@@ -153,7 +153,7 @@ export function VerFormato(registro) {
 
                 marcar_cabecera(context, iniciar_x, medida,inicio_y,"black","top");
             }
-            marcar_ControlTop(context, iniciar_x-12,inicio_y-75,medida);
+            marcar_ControlTop(context, iniciar_x-12,inicio_y-75,medida,registro,entry);
             context.fillStyle = 'blue';
          }
        }, this);
@@ -392,10 +392,19 @@ function marcar_cabecera(contexto, inicio_x,medida,inicio_y,color, tipo){
     ctx.stroke();
     ctx.lineWidth = 1;
 }
-function marcar_ControlTop(ctx, inicio_x,inicio_y,med){
+function marcar_ControlTop(ctx, inicio_x,inicio_y,med,registro,pieza){
     var cua = med/2;
     var ter = cua*3;
-    ctx.fillStyle = 'white';
+    registro.forEach(element=>{
+        if(element.diente == pieza){
+            if (element.sigla == undefined)
+                ctx.fillText('',cua*2+inicio_x,cua*2+inicio_y);
+            else
+                ctx.fillText(element.sigla,cua*2+inicio_x,cua*2+inicio_y);
+        }
+    });
+
+    ctx.fillStyle = 'transparent';
     ctx.beginPath();
     ctx.moveTo(cua+inicio_x,cua+inicio_y);
     ctx.lineTo(ter+inicio_x,cua+inicio_y);

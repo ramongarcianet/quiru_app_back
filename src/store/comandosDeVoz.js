@@ -45,11 +45,11 @@ const seleccionMultiple = (num1, num2, hallazgo, ubicacion) => {
     const condicion = num1_ > num2_ ? num1_ : num2_
     const inicio = num1_ > num2_ ? num2_ : num1_
     for( let i = inicio; i <= condicion; i++){
-        actualizarItem(hallazgo, ubicacion, i, false)   
+        actualizarItem(hallazgo, ubicacion, i, false)
     }
     speak( `${hallazgo} de ${num1} al ${num2}`)
 }
-const limpiar = ()=> {
+export const limpiar = ()=> {
     item.value =  {
         diente: '00',
         hallazgos: [ ]
@@ -79,7 +79,7 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
     let mensaje = ''
 
     if( !hallazgoCorrecto || !ubicacionCorrecta || !piezaCorrecta ) return
-        
+
     if (pieza){
         let pieza_ = pieza < 10 ? pieza*10 : pieza
         if( item.value.diente != pieza_) item.value.hallazgos = []
@@ -87,29 +87,36 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
         mensaje += `Pieza ${pieza}`
     }
     if (hallazgo && listaDeUbicacion.length == 0) {
-        item.value.hallazgos.push( {hallazgo} )
+        const registroSiglas = listaDeHallazgos.filter((elem)=> elem.value==hallazgo);
+        const sigla = registroSiglas[0].sigla;
+        item.value.hallazgos.push( {hallazgo,sigla:sigla} )
         mensaje += `Hallazgo ${hallazgo}`
     } else if( hallazgo && listaDeUbicacion.length > 0 ){
+        const registroSiglas = listaDeHallazgos.filter((elem)=> elem.value==hallazgo);
+        const sigla = registroSiglas[0].sigla;
+
         let mensajeUbicacion = ''
         listaDeUbicacion.forEach(ubicacion => {
-            item.value.hallazgos.push( {hallazgo, ubicacion} )
+            item.value.hallazgos.push( {hallazgo, ubicacion,sigla:sigla} )
             mensajeUbicacion+= ubicacion
         } )
-        
+
         mensaje += `Hallazgo ${hallazgo} por ${mensajeUbicacion}`
     }
-    if(item.value.diente && hallazgo) agregar()
+    if(item.value.diente && hallazgo){
+        agregar()
+    }
     return hablar && speak(mensaje)
 
 
 }
 export const agregar  = () => {
     if(item.value.hallazgos?.length == 0) return speak( 'No he registrado un hallazgo')
-    item.value.hallazgos?.map( ({hallazgo, ubicacion}) => ({diente: item.value.diente, ubicacion: ubicacion || "", hallazgo})).forEach( item => {
+    item.value.hallazgos?.map( ({hallazgo, ubicacion,sigla}) => ({diente: item.value.diente, ubicacion: ubicacion || "", hallazgo,sigla})).forEach( item => {
         const index = itemodontograma.value.hallazgos?.findIndex( i => i.hallazgo == item.hallazgo && i.diente == item.diente && i.ubicacion == item.ubicacion)
         if ( index == -1 || index == undefined){
             itemodontograma.value.hallazgos?itemodontograma.value.hallazgos.push(item):itemodontograma.value.hallazgos=[item];
-        } 
+        }
     })
 };
 
@@ -159,6 +166,7 @@ export default {
     },
     conVozEncendida: {
         'gracias': detenerVoz,
+        'limpiar' :limpiar,
         'gracias *any': detenerVoz,
         'terminar': detenerVoz,
         'terminar *any': detenerVoz,

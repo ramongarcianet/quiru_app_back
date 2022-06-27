@@ -100,11 +100,15 @@ export const listaDeDientesCombo = [
 ];
 
 export const listaDeHallazgos = [
-    { value: "caries", text: "Caries" },
-    { value: "extracción", text: "Extracción" },
-    { value: "ausente", text: "Ausente" },
-    { value: "fractura", text: "Fractura" },
-    { value: "restauración", text: "Restauración" },
+    { value: "caries", text: "Caries",sigla:"" },
+    { value: "extracción", text: "Extracción",sigla:"" },
+    { value: "ausente", text: "Ausente",sigla:"" },
+    { value: "fractura", text: "Fractura",sigla:"" },
+    { value: "restauración", text: "Restauración",sigla:"AD" },
+    { value: "hipoplasia", text: "Hipoplasia",sigla:"HP" },
+    { value: "hipomineralizacion", text: "Hipo Mineralización",sigla:"HM" },
+    { value: "opacidad", text: "Opacidad del Esmalte",sigla:"O" },
+    { value: "decoloración", text: "Decoloración del Esmalte",sigla:"D" },
 ];
 export const listaDeTipos = [
     { value: "vestibular", text: "Vestibular" },
@@ -128,19 +132,19 @@ if (annyang) {
         {}
     });
     annyang.addCallback('error', function (e) {
-    
+
     });
     annyang.addCallback('errorNetwork', function () {
 
     });
     annyang.addCallback('errorPermissionBlocked', function () {
-  
+
     });
     annyang.addCallback('errorPermissionDenied', function () {
-  
+
     });
 
-  
+
     flagAnnyang = annyang.start()
 
     annyang.getSpeechRecognizer()?.grammars?.addFromString(comandosDeVoz.gramatica, 1);

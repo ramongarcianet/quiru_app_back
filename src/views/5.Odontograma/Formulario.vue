@@ -59,7 +59,7 @@ watch(
     item.value.hallazgos=[]
     Hallazgo.value=""
   }
-  
+
 )
 watch(
   ()=> itemodontograma.value?.hallazgos,
@@ -73,14 +73,19 @@ const borrar = ({diente, hallazgo, ubicacion}) => {
   const index = itemodontograma.value.hallazgos.findIndex(i => i.diente == diente && i.hallazgo == hallazgo && i.ubicacion == ubicacion)
   if( index > -1) itemodontograma.value.hallazgos.splice(index, 1)
 }
-
+function mostrarSigla(hallazgo){
+/*  const registroSiglas = listaDeHallazgos.filter((elem) =>{return elem.value==hallazgo;});
+  const sigla = registroSiglas[0].sigla;
+  item.value.hallazgos.push({hallazgo,sigla})
+*/
+}
 </script>
 
 <template lang="pug">
 p {{textoEscuchado}}
-#button-microfono             
+#button-microfono
     MicroButton( style='--size: 4rem; text-align: center;' :class="{active: isSpeech}" @click="isSpeech ? detenerVoz() : activarVoz()")
-    h1.ms-1.mt-2.light-text Quiru 
+    h1.ms-1.mt-2.light-text Quiru
 .row
   .col
     .row
@@ -88,16 +93,16 @@ p {{textoEscuchado}}
             input#tipoReg(type="hidden", value="0")
 
             .input-group
-                span.input-group-text Pieza 
+                span.input-group-text Pieza
                 select.form-select#comboPieza(v-model='item.diente')
                     option(selected disabled value="00") Pieza
                     option(v-for='{text, value} of listaDeDientesCombo' :value="value") {{text}}
                 span.input-group-text Hallazgo
-                select.form-select#comboHallazgo(v-model='Hallazgo')
+                select.form-select#comboHallazgo(v-model='Hallazgo' @change="mostrarSigla(Hallazgo)")
                     option(selected disabled value="") Hallazgo
-                    option(v-for='{text, value} of listaDeHallazgos' :value="value") {{text}}                  
+                    option(v-for='{text, value} of listaDeHallazgos' :value="value") {{text}}
     .d-flex.justify-content-center
-        Diente(:item='item').raiz-0 
+        Diente(:item='item').raiz-0
   .col
     Odontograma( :registro='registro_')
 .row
@@ -106,17 +111,19 @@ p {{textoEscuchado}}
 .row
   .col
     table.table.table-striped.table-light
-      thead 
-        tr 
+      thead
+        tr
           th Diente
           th Hallazgo
           th Ubicación
+          th Sigla
           th
       tbody
         tr(v-for="item of itemodontograma.hallazgos")
           td {{item.diente}}
           td {{item.hallazgo}}
           td {{item.ubicacion}}
-          td 
+          td {{item.sigla}}
+          td
             button(@click="borrar(item)").btn.btn-primary Borrar
 </template>

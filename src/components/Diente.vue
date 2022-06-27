@@ -2,7 +2,8 @@
 import {computed, watch} from 'vue'
 import {
   item as itemModel,
-  Hallazgo
+  Hallazgo,
+  listaDeHallazgos
 } from "../../src/store/odontograma";
 
 const props = defineProps( ['item'])
@@ -13,37 +14,41 @@ const ubicacion_ = computed({
     get: ()=>props.item.hallazgos,
     set: val => {
         const index = props.item.hallazgos.findIndex( i => i.ubicacion = i.ubicacion)
-        if ( index > -1) 
+        if ( index > -1)
             props.item.hallazgos.splice( index, 1)
         else return
     }
 })
 
-const diente = computed(()=> (Number(props.item.diente)/10).toFixed(1) || "00") 
+const diente = computed(()=> (Number(props.item.diente)/10).toFixed(1) || "00")
 //'@click='ubicacion_ = ubicacion'
 
 function slelecteditem(ubicacion)
-{ 
+{
     const index  = itemModel.value.hallazgos.findIndex( i => i.hallazgo == Hallazgo.value   && i.ubicacion == ubicacion)
-    if( index > -1 ) { 
+    if( index > -1 ) {
         itemModel.value.hallazgos.splice( index, 1)
     }
-    else 
-    { 
-        itemModel.value.hallazgos.push({hallazgo: Hallazgo.value, ubicacion})
+    else
+    {
+        const registroSiglas = listaDeHallazgos.filter((elem)=> elem.value==Hallazgo.value);
+        const sigla = registroSiglas[0].sigla;
+        itemModel.value.hallazgos.push({hallazgo: Hallazgo.value, ubicacion,sigla:sigla})
     }
 }
 </script>
 <template lang="pug">
 #diente( v-bind='$attrs' :class='item.clase')
-    h1 
-        span {{diente }} 
-    #raices
+    h1
+        span {{diente }}
+    h1
+        span {{item.hallazgos.map((item)=>item.sigla).join(' ')}}
+    //-#raices
     #button-diente( :class='item.hallazgos?.map(({hallazgo}) => hallazgo).join(" ")' )
         div(
-            v-for='ubicacion of ubicaciones' 
-            :id='ubicacion'            
-            @click='slelecteditem(ubicacion)' 
+            v-for='ubicacion of ubicaciones'
+            :id='ubicacion'
+            @click='slelecteditem(ubicacion)'
             :class='`${item.hallazgos?.filter(i => i.ubicacion == ubicacion).map(({hallazgo})=>hallazgo).join(" ")} ${item.hallazgos?.map(({ubicacion}) => ubicacion).some( item => item == ubicacion ) ? "active" : ""}`'
         )
         #aspaIzquierda
@@ -74,15 +79,15 @@ function slelecteditem(ubicacion)
         --border-radius-bottom: .24rem!important
         --border: .2px!important
         --weight: 2px!important
-    
-        h1 
+
+        h1
             font-size: .7rem!important
             margin: .2rem 0
     &.toDown.small
         flex-direction: column-reverse
         --border-radius-top: .24rem!important
         --border-radius-bottom: .24rem!important
-    h1 
+    h1
         width: 100%
         text-align: center
         font-size: 2rem
@@ -90,7 +95,7 @@ function slelecteditem(ubicacion)
         color: var(--color-dark) !important
     &.toDown
         #vestibular, #lingual
-            transform: rotate(180deg) 
+            transform: rotate(180deg)
             bottom: 0!important
             top: unset!important
         #vestibular
@@ -98,18 +103,18 @@ function slelecteditem(ubicacion)
         #lingual
             display: flex !important
         #palatino
-            transform: rotate(180deg) 
+            transform: rotate(180deg)
             top:  0!important
             bottom: unset!important
         #raices
-            transform: rotate(180deg)    
+            transform: rotate(180deg)
     &.toLeft
         #mesial
-            transform: rotate(180deg) 
+            transform: rotate(180deg)
             left: 0!important
-            right: unset!important        
+            right: unset!important
         #distal
-            transform: rotate(180deg) 
+            transform: rotate(180deg)
             right:  0!important
             left: unset!important
     &.toCenter
@@ -117,10 +122,10 @@ function slelecteditem(ubicacion)
             display: none !important
         #incisal
             display: flex !important
-    #raices  
-        position: relative 
+    #raices
+        position: relative
         height: calc( var(--size) * 0.4)
-        width: var(--size) 
+        width: var(--size)
         &:before
             content: ''
             position: absolute
@@ -164,15 +169,15 @@ function slelecteditem(ubicacion)
             &:after
                 clip-path: polygon( calc(0% + var(--min)) calc( var(--min)*2.5 ), calc(0% + var(--min)) 100%, calc(100% - var(--min)) 100%, calc(100% - var(--min))  calc(var(--min) * 2.5), 75% calc(50% + var(--min)*1.2), 50%  calc(var(--min) * 1.5), 25% calc(50% + var(--min)*1.5))
 
-    
-        
+
+
     #button-diente
         border-radius: 1rem
         background: var(--background-color)
         position: relative
         height: var(--size)
         width: var(--size)
-        
+
         #vestibular, #lingual, #incisal, #distal, #oclusal, #mesial, #palatino
             position: absolute
             top: 0
@@ -225,7 +230,7 @@ function slelecteditem(ubicacion)
             clip-path: polygon( 0 var(--proporcion-inicial), 100% var(--min), 100%  var(--max), 0 var(--proporcion-final))
             border-top-right-radius: var(--border-radius-top)
             border-bottom-right-radius: var(--border-radius-bottom)
-            
+
 
         #palatino
             height: calc(100% / 4)
@@ -244,7 +249,7 @@ function slelecteditem(ubicacion)
                 background: var(--bs-primary)
                 --min: calc( var(--border-diente))
                 --max: calc(100% - var(--min))
-                
+
                 --border-right: calc(100% - var( --border ) )
                 clip-path: var(--clip-path)
                 transition: .3s
@@ -291,7 +296,7 @@ function slelecteditem(ubicacion)
             transform: rotate(-45deg)
 
 
-        
+
         div
             &.caries, &.restauración
                 *
@@ -323,7 +328,7 @@ function slelecteditem(ubicacion)
         &.fractura
             #aspaDerecha
                 background: var(--bs-red)
-@media screen and (min-width: 600px) 
+@media screen and (min-width: 600px)
     #diente
         &.small
             --size: 1.8rem!important
@@ -332,10 +337,10 @@ function slelecteditem(ubicacion)
             --border-radius-bottom: .36rem!important
             --border: .3px!important
             --weight: 3px!important
-        
-            h1 
+
+            h1
                 font-size: 1.1rem!important
                 margin: .3rem 0
-    
+
 
 </style>
