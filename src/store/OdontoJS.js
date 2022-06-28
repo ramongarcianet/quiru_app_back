@@ -1,108 +1,4 @@
 ﻿import {obtenerTodos} from '../store/odonto'
-export function ChangeHallazgo(event) {
-    clearcanvas("cvhallazgo")
-    if (event.target.value=="extracción"){
-        DienteAusente("cvhallazgo", "red");
-    }
-    else if (event.target.value=="ausente"){
-        DienteAusente("cvhallazgo", "blue");
-    }
-    else if (event.target.value=="fractura"){
-        DienteFracturado("cvhallazgo", "red");
-    }
-    else if (event.target.value=="caries"){
-        var tipoReg= document.getElementById("tipoReg")
-        tipoReg.value="0"
-    }
-    else if (event.target.value=="restauración"){
-        var tipoReg= document.getElementById("tipoReg")
-        tipoReg.value="1"
-    }
-    return false;
-}
-export function clearcanvas(id) {
-    var canvas = document.getElementById(id);
-    var contexto = canvas.getContext("2d");
-	contexto.clearRect(0, 0, canvas.width, canvas.height);
-
-    document.getElementById("comboHallazgo").value=""
-    //document.getElementById("comboHallazgoTipo").value=""
-    document.getElementById("comboPieza").value="00"
-}
-export function DienteAusente(id, color) {
-    var canvas = document.getElementById(id);
-    if (canvas && canvas.getContext) {
-    var ctx = canvas.getContext("2d");
-        if (ctx) {
-            ctx.lineWidth = 5;
-            ctx.strokeStyle = color;
-            ctx.beginPath();
-            ctx.moveTo(20, 150);
-            ctx.lineTo(130, 20);
-            ctx.moveTo(40, 20);
-            ctx.lineTo(140, 150);
-            ctx.stroke();
-        }
-    }
-            return false;
-}
-export function DienteFracturado(id, color) {
-        var canvas = document.getElementById(id);
-        if (canvas && canvas.getContext) {
-        var ctx = canvas.getContext("2d");
-            if (ctx) {
-                ctx.lineWidth = 5;
-                ctx.strokeStyle = color;
-                ctx.beginPath();
-                ctx.moveTo(40, 20);
-                ctx.lineTo(140, 150);
-                ctx.stroke();
-            }
-        }
-                return false;
-}
-export function DienteCaries(value) {
-    var _control = document.getElementById(value);
-    var tipoReg= document.getElementById("tipoReg");
-    var _className="button-diente";
-    if (tipoReg.value == "1") {
-        _className="button-blue";
-    }
-    else{
-        _className="button-red";
-    }
-    if (value == "btnleftCar") {
-        piezaleftCar.value="1";
-    }
-    if (value == "btncenterCar") {
-        piezacenterCar.value="1";
-    }
-    if (value == "btnrigthCar") {
-        piezarigthCar.value="1";
-    }
-    if (value == "btntopcar") {
-        piezatopcar.value="1";
-    }
-    if (value == "btnbotCar") {
-        piezabotCar.value="1";
-    }
-    _control.className = _className;
-    return false;
-}
-export function limpiarCaries() {
-    var stle="width: 100%; height:60px;";
-    document.getElementById("btntopcar").style =stle + "border-radius: 90% 90% 0% 0%;";
-    document.getElementById("btnleftCar").style=stle;
-    document.getElementById("btncenterCar").style=stle;
-    document.getElementById("btnrigthCar").style=stle;
-    document.getElementById("btnbotCar").style=stle + " border-radius: 0% 0% 90% 90%;";
-    piezaleftCar.value="0";
-    piezacenterCar.value="0";
-    piezarigthCar.value="0";
-    piezatopcar.value="0";
-    piezabotCar.value="0";
-    return false;
-}
 
 export function VerFormato(registro) {
     console.log(registro)
@@ -259,19 +155,16 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro){
     registro.forEach(element => {
         if(element.diente==pieza){
             if (element.hallazgo=="extracción"){
-                marcar_linea(ctx, inicio_x, med,inicio_y,"red","");
+                Fractura_Extract_Ausent(ctx, inicio_x, med,inicio_y,"red","");
             }
             else if (element.hallazgo=="ausente"){
-                marcar_linea(ctx, inicio_x, med,inicio_y,"blue","");
+                Fractura_Extract_Ausent(ctx, inicio_x, med,inicio_y,"blue","");
             }
             else if (element.hallazgo=="fractura"){
-                marcar_linea(ctx, inicio_x, med,inicio_y,"red","fractura");
+                Fractura_Extract_Ausent(ctx, inicio_x, med,inicio_y,"red","fractura");
             }
             else if (element.hallazgo=="caries"){
-                //var piezas = element.ubicacion;
-                //var datos = piezas.split(",");
                 var seccion=0;
-                //datos.forEach(item => {
                     if (element.ubicacion=="vestibular"){
                         seccion=1;
                     }
@@ -292,10 +185,7 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro){
 
             }
             else if (element.hallazgo=="restauración"){
-                //var piezas = element.ubicacion;
-                //var datos = piezas.split(",");
                 var seccion=0;
-                //datos.forEach(item => {
                     if (element.ubicacion=="vestibular"){
                         seccion=1;
                     }
@@ -393,21 +283,6 @@ function marcar_cabecera(contexto, inicio_x,medida,inicio_y,color, tipo){
         ctx.lineTo(inicio_x+10,inicio_y);
         ctx.moveTo(inicio_x+17,inicio_y-25);
         ctx.lineTo(inicio_x+10,inicio_y);
-    }
-    ctx.stroke();
-    ctx.lineWidth = 1;
-}
- function marcar_linea(contexto, inicio_x,medida,inicio_y,color, tipo){
-    var ctx = contexto;
-    var med = medida;
-    ctx.beginPath();
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = color;
-    ctx.moveTo(inicio_x,inicio_y);
-    ctx.lineTo(inicio_x+23,inicio_y+23);
-    if(tipo !="fractura"){
-        ctx.moveTo(inicio_x+23,inicio_y);
-        ctx.lineTo(inicio_x,inicio_y+23);
     }
     ctx.stroke();
     ctx.lineWidth = 1;
@@ -542,4 +417,123 @@ export function VerTipoCaries(event){
 }
 export function VerDataTipoCaries(){
     VerDemo(comboPieza.value);
+}
+export function ChangeHallazgo(event) {
+    clearcanvas("cvhallazgo")
+    if (event.target.value=="extracción"){
+        DienteAusente("cvhallazgo", "red");
+    }
+    else if (event.target.value=="ausente"){
+        DienteAusente("cvhallazgo", "blue");
+    }
+    else if (event.target.value=="fractura"){
+        DienteFracturado("cvhallazgo", "red");
+    }
+    else if (event.target.value=="caries"){
+        var tipoReg= document.getElementById("tipoReg")
+        tipoReg.value="0"
+    }
+    else if (event.target.value=="restauración"){
+        var tipoReg= document.getElementById("tipoReg")
+        tipoReg.value="1"
+    }
+    return false;
+}
+export function clearcanvas(id) {
+    var canvas = document.getElementById(id);
+    var contexto = canvas.getContext("2d");
+	contexto.clearRect(0, 0, canvas.width, canvas.height);
+
+    document.getElementById("comboHallazgo").value=""
+    //document.getElementById("comboHallazgoTipo").value=""
+    document.getElementById("comboPieza").value="00"
+}
+export function DienteAusente(id, color) {
+    var canvas = document.getElementById(id);
+    if (canvas && canvas.getContext) {
+    var ctx = canvas.getContext("2d");
+        if (ctx) {
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(20, 150);
+            ctx.lineTo(130, 20);
+            ctx.moveTo(40, 20);
+            ctx.lineTo(140, 150);
+            ctx.stroke();
+        }
+    }
+            return false;
+}
+export function DienteFracturado(id, color) {
+        var canvas = document.getElementById(id);
+        if (canvas && canvas.getContext) {
+        var ctx = canvas.getContext("2d");
+            if (ctx) {
+                ctx.lineWidth = 5;
+                ctx.strokeStyle = color;
+                ctx.beginPath();
+                ctx.moveTo(40, 20);
+                ctx.lineTo(140, 150);
+                ctx.stroke();
+            }
+        }
+                return false;
+}
+export function DienteCaries(value) {
+    var _control = document.getElementById(value);
+    var tipoReg= document.getElementById("tipoReg");
+    var _className="button-diente";
+    if (tipoReg.value == "1") {
+        _className="button-blue";
+    }
+    else{
+        _className="button-red";
+    }
+    if (value == "btnleftCar") {
+        piezaleftCar.value="1";
+    }
+    if (value == "btncenterCar") {
+        piezacenterCar.value="1";
+    }
+    if (value == "btnrigthCar") {
+        piezarigthCar.value="1";
+    }
+    if (value == "btntopcar") {
+        piezatopcar.value="1";
+    }
+    if (value == "btnbotCar") {
+        piezabotCar.value="1";
+    }
+    _control.className = _className;
+    return false;
+}
+export function limpiarCaries() {
+    var stle="width: 100%; height:60px;";
+    document.getElementById("btntopcar").style =stle + "border-radius: 90% 90% 0% 0%;";
+    document.getElementById("btnleftCar").style=stle;
+    document.getElementById("btncenterCar").style=stle;
+    document.getElementById("btnrigthCar").style=stle;
+    document.getElementById("btnbotCar").style=stle + " border-radius: 0% 0% 90% 90%;";
+    piezaleftCar.value="0";
+    piezacenterCar.value="0";
+    piezarigthCar.value="0";
+    piezatopcar.value="0";
+    piezabotCar.value="0";
+    return false;
+}
+function Fractura_Extract_Ausent(contexto, inicio_x,medida,inicio_y,color, tipo){
+    var ctx = contexto;
+    var med = medida;
+    ctx.beginPath();
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = color;
+    ctx.moveTo(inicio_x,inicio_y);
+    ctx.lineTo(inicio_x+23,inicio_y+23);
+    if(tipo !="fractura"){
+        ctx.moveTo(inicio_x+23,inicio_y);
+        ctx.lineTo(inicio_x,inicio_y+23);
+    }
+    ctx.stroke();
+    ctx.lineWidth = 1;
 }

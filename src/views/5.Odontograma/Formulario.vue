@@ -27,7 +27,7 @@ import {
   registro_
 } from "../../store/odontograma";
 import {actualizarDetalle,leerEnRegistro,item as itemodontograma,agregarLista} from '../../store/formodontograma';
-
+import { VerFormato } from "../../store/OdontoJS";
 import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
 const listaDiccionario = obtenerTodoDiccionario();
@@ -66,7 +66,9 @@ watch(
   ()=> itemodontograma.value?.hallazgos,
   (registro)=>  {
     let idOdontograma= route.params.idOdontograma
-    if(idOdontograma) actualizarDetalle(idOdontograma, registro)
+    if(idOdontograma) 
+      actualizarDetalle(idOdontograma, registro)
+      VerFormato(itemodontograma.value.hallazgos)
   },
   { deep: true }
 )
@@ -87,9 +89,10 @@ function mostrarSigla(hallazgo){
   .col
     h2 Odontograma
   .col
-    .div(style='background-color: #37DFBB;width: 115px;height: 150px;margin-top: -115px;position: absolute;z-index: 2;border-radius: 0 0 50% 50%;')
-      #button-microfono
-        MicroButton( style='--size: 5rem; position:absolute; z-index:3;left:17px; margin-top:60%' :class="{active: isSpeech}" @click="isSpeech ? detenerVoz() : activarVoz()").center
+.div(style='background-color: #37DFBB;width: 100px;height: 130px;margin-top: -145px;left:80%; position: absolute;z-index: 2;border-radius: 50% 50% 50% 50%;')
+  #button-microfono
+    MicroButton( style='--size: 4rem; position:absolute; z-index:3;left:18%; margin-top:57%' :class="{active: isSpeech}" @click="isSpeech ? detenerVoz() : activarVoz()")
+  p( style='position:absolute; z-index:4;left:30%; margin-top:110%; color:white;  font-weight: bold; font-size:12px;') QUIRU
   .col
 p {{textoEscuchado}}
 .row
