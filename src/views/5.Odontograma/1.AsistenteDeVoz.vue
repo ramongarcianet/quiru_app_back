@@ -9,8 +9,6 @@ if (route.params.idPaciente) {
 }
 </script>
 <template lang="pug">
-h1 Odontograma
-.row
 .row
   .col
     Formulario

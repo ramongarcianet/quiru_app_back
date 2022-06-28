@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted,onUnmounted,watch } from "vue";
+import OdonOficial from "./2.impresion.vue";
 import {
   DienteCaries,
   ChangeHallazgo,
@@ -82,10 +83,15 @@ function mostrarSigla(hallazgo){
 </script>
 
 <template lang="pug">
+.row
+  .col
+    h2 Odontograma
+  .col
+    .div(style='background-color: #37DFBB;width: 115px;height: 150px;margin-top: -115px;position: absolute;z-index: 2;border-radius: 0 0 50% 50%;')
+      #button-microfono
+        MicroButton( style='--size: 5rem; position:absolute; z-index:3;left:17px; margin-top:60%' :class="{active: isSpeech}" @click="isSpeech ? detenerVoz() : activarVoz()").center
+  .col
 p {{textoEscuchado}}
-#button-microfono
-    MicroButton( style='--size: 4rem; text-align: center;' :class="{active: isSpeech}" @click="isSpeech ? detenerVoz() : activarVoz()")
-    h1.ms-1.mt-2.light-text Quiru
 .row
   .col
     .row
@@ -104,7 +110,7 @@ p {{textoEscuchado}}
     .d-flex.justify-content-center
         Diente(:item='item').raiz-0
   .col
-    Odontograma( :registro='registro_')
+    OdonOficial
 .row
     .col
       button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma,item,itemodontograma.hallazgos)") Agregar a la lista

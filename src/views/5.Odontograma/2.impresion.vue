@@ -45,26 +45,11 @@ function printOdontograma() {
 
 </script>
 <template lang="pug">
-h1 Odontograma
 .row
-  .col
   .col#imprimir
-    h4 Odontograma
-    h4 Fecha: {{itemodontograma.fechaRegistro}}
-
     canvas#myCanvas( width="500" height="400" style="border: 0; left:0px; top:0px;")
-  .col
-  .d-flex.mt-5
-    button( @click='push({name: "Detalle", params: {idOdontograma: route.params.idOdontograma,idPaciente: route.params.idPaciente}})').btn.btn-primary Volver
-
-    button.ms-auto.btn.btn-primary(@click="printOdontograma()") Imprimir
 </template>
-
 <style lang="sass" scoped>
-
 #myCanvas
   border: 1px solid #9c9898
-
-
-
 </style>
