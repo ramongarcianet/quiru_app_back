@@ -29,6 +29,7 @@ import {
 import {actualizarDetalle,leerEnRegistro,item as itemodontograma,agregarLista} from '../../store/formodontograma';
 import { VerFormato } from "../../store/OdontoJS";
 import { useRoute, useRouter } from "vue-router";
+
 const route = useRoute();
 const listaDiccionario = obtenerTodoDiccionario();
 const listaPieza = obtenerTodoPieza();
@@ -82,6 +83,7 @@ function mostrarSigla(hallazgo){
   item.value.hallazgos.push({hallazgo,sigla})
 */
 }
+
 </script>
 
 <template lang="pug">
@@ -111,7 +113,7 @@ p {{textoEscuchado}}
                     option(selected disabled value="") Hallazgo
                     option(v-for='{text, value} of listaDeHallazgos' :value="value") {{text}}
     .d-flex.justify-content-center
-        Diente(:item='item').raiz-0
+        Diente(:item='item' style='--size: 14rem;').raiz-0
   .col
     OdonOficial
 .row
