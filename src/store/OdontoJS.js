@@ -381,7 +381,7 @@ function marcar_ControlTop(ctx, inicio_x,inicio_y,med,registro,pieza){
         }
     });
 
-    ctx.fillStyle = 'transparent';
+    ctx.fillStyle = 'white';
     ctx.beginPath();
     ctx.moveTo(cua+inicio_x,cua+inicio_y);
     ctx.lineTo(ter+inicio_x,cua+inicio_y);
@@ -404,7 +404,7 @@ function marcar_ControlBot(ctx, inicio_x,inicio_y,med,registro,pieza){
             }
         }
     });
-    ctx.fillStyle = 'transparent';
+    ctx.fillStyle = 'white';
     ctx.beginPath();
     ctx.moveTo(cua+inicio_x,cua+inicio_y);
     ctx.lineTo(ter+inicio_x,cua+inicio_y);
