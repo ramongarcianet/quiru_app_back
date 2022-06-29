@@ -104,7 +104,7 @@ export const listaDeHallazgos = [
     { value: "extracción", text: "Extracción",sigla:"" },
     { value: "ausente", text: "Ausente",sigla:"" },
     { value: "fractura", text: "Fractura",sigla:"" },
-    { value: "restauración", text: "Restauración",sigla:"AD" },
+    { value: "restauración", text: "Restauración",sigla:"E" },
     { value: "hipoplasia", text: "Hipoplasia",sigla:"HP" },
     { value: "hipomineralizacion", text: "Hipo Mineralización",sigla:"HM" },
     { value: "opacidad", text: "Opacidad del Esmalte",sigla:"O" },
