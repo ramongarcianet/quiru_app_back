@@ -71,7 +71,7 @@ export function VerFormato(registro) {
 
                 marcar_cabecera(context, iniciar_x, medida,inicio_y + 47,colo_cab,"bot");
             }
-            marcar_ControlBot(context, iniciar_x-12,inicio_y+50,medida);
+            marcar_ControlBot(context, iniciar_x-12,inicio_y+50,medida,registro,entry);
             context.fillStyle = 'blue';
          }
        }, this);
@@ -94,7 +94,7 @@ export function VerFormato(registro) {
 
                 marcar_cabecera(context, iniciar_x, medida,inicio_y + 47,colo_cab,"bot_one");
             }
-            marcar_ControlBot(context, iniciar_x-12,inicio_y+50,medida);
+            marcar_ControlBot(context, iniciar_x-12,inicio_y+50,medida,registro,entry);
             context.fillStyle = 'blue';
           }
         }, this);
@@ -381,7 +381,7 @@ function marcar_ControlTop(ctx, inicio_x,inicio_y,med,registro,pieza){
         }
     });
 
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'transparent';
     ctx.beginPath();
     ctx.moveTo(cua+inicio_x,cua+inicio_y);
     ctx.lineTo(ter+inicio_x,cua+inicio_y);
@@ -392,10 +392,19 @@ function marcar_ControlTop(ctx, inicio_x,inicio_y,med,registro,pieza){
     ctx.strokeStyle = '#bfbfbf';
     ctx.stroke();
 }
-function marcar_ControlBot(ctx, inicio_x,inicio_y,med){
+function marcar_ControlBot(ctx, inicio_x,inicio_y,med,registro,pieza){
     var cua = med/2;
     var ter = cua*3;
-    ctx.fillStyle = 'white';
+    registro.forEach(element=>{
+        if(element.diente == pieza){
+            if (element.sigla == undefined)
+                ctx.fillText('',cua*2+inicio_x,cua*2+inicio_y);
+            else {
+                ctx.fillText(element.sigla,cua*2+inicio_x,cua*2+inicio_y);
+            }
+        }
+    });
+    ctx.fillStyle = 'transparent';
     ctx.beginPath();
     ctx.moveTo(cua+inicio_x,cua+inicio_y);
     ctx.lineTo(ter+inicio_x,cua+inicio_y);
