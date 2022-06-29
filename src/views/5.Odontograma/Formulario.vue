@@ -66,7 +66,7 @@ watch(
   ()=> itemodontograma.value?.hallazgos,
   (registro)=>  {
     let idOdontograma= route.params.idOdontograma
-    if(idOdontograma) 
+    if(idOdontograma)
       actualizarDetalle(idOdontograma, registro)
       VerFormato(itemodontograma.value.hallazgos)
       limpiar()
@@ -83,7 +83,9 @@ function mostrarSigla(hallazgo){
   item.value.hallazgos.push({hallazgo,sigla})
 */
 }
-
+function limpiarHallazgoDiente(){
+  limpiar();
+}
 </script>
 
 <template lang="pug">
@@ -119,6 +121,8 @@ p {{textoEscuchado}}
 .row
     .col
       button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma,item,itemodontograma.hallazgos)") Agregar a la lista
+    .col
+      button.btn.btn-primary(type="submit", @click="limpiarHallazgoDiente()") Limpiar
 .row
   .col
     table.table.table-striped.table-light

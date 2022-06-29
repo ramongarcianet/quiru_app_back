@@ -109,6 +109,7 @@ export const listaDeHallazgos = [
     { value: "hipomineralizacion", text: "Hipo Mineralización",sigla:"HM" },
     { value: "opacidad", text: "Opacidad del Esmalte",sigla:"O" },
     { value: "decoloración", text: "Decoloración del Esmalte",sigla:"D" },
+    { value: "fluorosis", text: "Fluorosis",sigla:"F" },
 ];
 export const listaDeTipos = [
     { value: "vestibular", text: "Vestibular" },

@@ -78,9 +78,18 @@ function existeDiente(param){
                 break;
             }
         } else {
-            if(item.diente==param.diente && item.hallazgo==param.hallazgos[0].hallazgo){
-                result = true;
-                break;
+            if (item.hallazgo == 'hipoplasia' || item.hallazgo == 'hipomineralizacion'||
+                item.hallazgo == 'opacidad' || item.hallazgo == 'decoloración' || item.hallazgo == 'fluorosis')
+            {
+                if(item.diente==param.diente){
+                    result = true;
+                    break;
+                }
+            } else {
+                if(item.diente==param.diente && item.hallazgo==param.hallazgos[0].hallazgo){
+                    result = true;
+                    break;
+                }
             }
         }
     }
