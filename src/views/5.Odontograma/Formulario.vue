@@ -116,13 +116,18 @@ p {{textoEscuchado}}
                     option(v-for='{text, value} of listaDeHallazgos' :value="value") {{text}}
     .d-flex.justify-content-center
         Diente(:item='item' style='--size: 14rem;').raiz-0
+    .row
+      .col
+      .col
+        button.btn.btn-primary(type="submit", @click="limpiarHallazgoDiente()" style="width: 100%;") Limpiar
+      .col
   .col
     OdonOficial
 .row
     .col
       button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma,item,itemodontograma.hallazgos)") Agregar a la lista
     .col
-      button.btn.btn-primary(type="submit", @click="limpiarHallazgoDiente()") Limpiar
+
 .row
   .col
     table.table.table-striped.table-light
