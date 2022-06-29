@@ -2,9 +2,8 @@
 import { onMounted,onUnmounted,watch } from "vue";
 import OdonOficial from "./2.impresion.vue";
 import {
-  DienteCaries,
-  ChangeHallazgo,
-} from "../../store/OdontoJS";
+  limpiar
+} from "../../store/comandosDeVoz";
 import {
   obtenerTodoDiccionario,
   obtenerTodoPieza,
@@ -70,6 +69,7 @@ watch(
     if(idOdontograma) 
       actualizarDetalle(idOdontograma, registro)
       VerFormato(itemodontograma.value.hallazgos)
+      limpiar()
   },
   { deep: true }
 )
