@@ -104,11 +104,54 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
         mensaje += `Hallazgo ${hallazgo} por ${mensajeUbicacion}`
     }
     if(item.value.diente && hallazgo){
-        agregar()
+        let flat= existeDienteVoz(item.value.diente,hallazgo,ubicacion)
+       /* console.log(item.value.diente)
+        console.log(hallazgo)
+        console.log(ubicacion)*/
+        if (!existeDienteVoz(item.value.diente,hallazgo,ubicacion)){
+            agregar()
+        }
     }
     return hablar && speak(mensaje)
 
 
+}
+function existeDienteVoz(diente,hallazgo,ubicacion){
+    let result = false;
+    let lista = itemodontograma.value.hallazgos;
+    for (let item of lista ){
+        if (hallazgo == 'caries' || hallazgo == 'restauración'){
+            if(item.diente==diente && item.hallazgo==hallazgo && item.ubicacion==ubicacion ){
+                result = true;
+                break;
+            }
+        } else {
+            if (hallazgo == 'hipoplasia' || hallazgo == 'hipomineralizacion'||
+                hallazgo == 'opacidad' || hallazgo == 'decoloración' || hallazgo == 'fluorosis')
+            {
+                if(item.diente==diente ){
+                    let listaSigla = listaDeHallazgos.filter((elem)=>elem.value==item.hallazgo)
+                    if(listaSigla.length>0){
+                        if(listaSigla[0].sigla==''){
+                            if(item.diente==diente && item.hallazgo==hallazgo){
+                                result = true;
+                                break;
+                            }
+                        } else {
+                            result = true;
+                            break;
+                        }
+                    }
+                }
+            } else {
+                if(item.diente==diente && item.hallazgo==hallazgo){
+                    result = true;
+                    break;
+                }
+            }
+        }
+    }
+    return result;
 }
 export const agregar  = () => {
     if(item.value.hallazgos?.length == 0) return speak( 'No he registrado un hallazgo')

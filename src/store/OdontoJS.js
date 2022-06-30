@@ -1,7 +1,7 @@
 ﻿import {obtenerTodos} from '../store/odonto'
 
 export function VerFormato(registro) {
-    console.log(registro)
+    //console.log(registro)
      var canvas = document.getElementById('myCanvas');
      var context = canvas.getContext('2d');
      var colo_cab='#bfbfbf';
@@ -371,7 +371,7 @@ function dibuja_seccion(contexto, num_diente, seccion, color_pas,medida,inicio_x
 }
 function marcar_ControlTop(ctx, inicio_x,inicio_y,med,registro,pieza){
     var cua = med/2;
-    var ter = cua*3;     
+    var ter = cua*3;
     registro.forEach(element=>{
         if(element.diente == pieza){
             if (element.sigla == undefined)
@@ -380,7 +380,7 @@ function marcar_ControlTop(ctx, inicio_x,inicio_y,med,registro,pieza){
                 ctx.fillText(element.sigla,cua*2+inicio_x,cua*2+inicio_y);
         }
     });
-  
+
     ctx.fillStyle = 'transparent';
     ctx.beginPath();
     ctx.moveTo(cua+inicio_x,cua+inicio_y);

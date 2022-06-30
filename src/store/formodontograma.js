@@ -4,6 +4,7 @@ import {addDoc, collection, onSnapshot, getDoc, getFirestore, doc, updateDoc, de
 import {firestore} from '../config/firebase'
 import { miUsuario } from './sesion';
 import {limpiar as limpiarHallazgo,actualizarItem} from './comandosDeVoz';
+import {listaDeHallazgos} from './odontograma'
 import {useRouter} from 'vue-router'
 const dialog = ref( false )
 const regpasciente = ref([])
@@ -78,12 +79,22 @@ function existeDiente(param){
                 break;
             }
         } else {
-            if (item.hallazgo == 'hipoplasia' || item.hallazgo == 'hipomineralizacion'||
-                item.hallazgo == 'opacidad' || item.hallazgo == 'decoloración' || item.hallazgo == 'fluorosis')
+            if (param.hallazgos[0].hallazgo == 'hipoplasia' || param.hallazgos[0].hallazgo == 'hipomineralizacion'||
+            param.hallazgos[0].hallazgo == 'opacidad' || param.hallazgos[0].hallazgo == 'decoloración' || param.hallazgos[0].hallazgo == 'fluorosis')
             {
-                if(item.diente==param.diente){
-                    result = true;
-                    break;
+                if(item.diente==param.diente ){
+                    let listaSigla = listaDeHallazgos.filter((elem)=>elem.value==item.hallazgo)
+                    if(listaSigla.length>0){
+                        if(listaSigla[0].sigla==''){
+                            if(item.diente==param.diente && item.hallazgo==param.hallazgos[0].hallazgo){
+                                result = true;
+                                break;
+                            }
+                        } else {
+                            result = true;
+                            break;
+                        }
+                    }
                 }
             } else {
                 if(item.diente==param.diente && item.hallazgo==param.hallazgos[0].hallazgo){
