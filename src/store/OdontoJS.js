@@ -1,6 +1,9 @@
 ﻿import {obtenerTodos} from '../store/odonto'
 
 export function VerFormato(registro) {
+    var canvas = document.getElementById('myCanvas');
+    var contexto = canvas.getContext("2d");
+	contexto.clearRect(0, 0, canvas.width, canvas.height);
     //console.log(registro)
      var canvas = document.getElementById('myCanvas');
      var context = canvas.getContext('2d');
@@ -372,15 +375,15 @@ function dibuja_seccion(contexto, num_diente, seccion, color_pas,medida,inicio_x
 function marcar_ControlTop(ctx, inicio_x,inicio_y,med,registro,pieza){
     var cua = med/2;
     var ter = cua*3;
+    ctx.fillText(' ',cua*2+inicio_x,cua*2+inicio_y);
     registro.forEach(element=>{
         if(element.diente == pieza){
             if (element.sigla == undefined)
-                ctx.fillText('',cua*2+inicio_x,cua*2+inicio_y);
+                ctx.fillText(' ',cua*2+inicio_x,cua*2+inicio_y);
             else
                 ctx.fillText(element.sigla,cua*2+inicio_x,cua*2+inicio_y);
         }
     });
-
     ctx.fillStyle = 'transparent';
     ctx.beginPath();
     ctx.moveTo(cua+inicio_x,cua+inicio_y);
@@ -395,6 +398,7 @@ function marcar_ControlTop(ctx, inicio_x,inicio_y,med,registro,pieza){
 function marcar_ControlBot(ctx, inicio_x,inicio_y,med,registro,pieza){
     var cua = med/2;
     var ter = cua*3;
+    ctx.fillText(' ',cua*2+inicio_x,cua*2+inicio_y);
     registro.forEach(element=>{
         if(element.diente == pieza){
             if (element.sigla == undefined)
