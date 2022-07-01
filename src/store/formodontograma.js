@@ -134,8 +134,8 @@ export function agregarLista(id,param,hallazgos) {
                         hallazgos?hallazgos.push(fila):hallazgos=[fila]
                 });
             }
-            actualizarDetalle(id,hallazgos);
-            leerOdonto(id);
+           // actualizarDetalle(id,hallazgos);
+           // leerOdonto(id);
         }
         limpiarHallazgo();
     }

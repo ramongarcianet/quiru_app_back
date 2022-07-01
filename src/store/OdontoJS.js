@@ -1,4 +1,5 @@
 ﻿import {obtenerTodos} from '../store/odonto'
+import { cerrarSesion } from './sesion';
 
 export function VerFormato(registro) {
     var canvas = document.getElementById('myCanvas');
@@ -168,20 +169,60 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro){
             }
             else if (element.hallazgo=="caries"){
                 var seccion=0;
-                    if (element.ubicacion=="vestibular"){
-                        seccion=1;
+                    if (element.ubicacion=="vestibular"){                        
+                        switch (pieza) {
+                            case "74":
+                                seccion=3;
+                                break;
+                            case "75":
+                                seccion=3;
+                                break;
+                            default:
+                                seccion=1;
+                                break;
+                        }
                     }
                     if (element.ubicacion=="distal"){
-                        seccion=4;
+                        switch (pieza) {
+                            case "74":
+                                seccion=2;
+                                break;
+                            case "75":
+                                seccion=2;
+                                break;
+                            default:
+                                seccion=4;
+                                break;
+                        }
                     }
                     if (element.ubicacion=="oclusal"){
                         seccion=5;
                     }
                     if (element.ubicacion=="mesial"){
-                        seccion=2;
+                        switch (pieza) {
+                            case "74":
+                                seccion=4;
+                                break;
+                            case "75":
+                                seccion=4;
+                                break;
+                            default:
+                                seccion=2;
+                                break;
+                        }
                     }
                     if (element.ubicacion=="palatino"){
-                        seccion=3;
+                        switch (pieza) {
+                            case "74":
+                                seccion=1;
+                                break;
+                            case "75":
+                                seccion=1;
+                                break;
+                            default:
+                                seccion=3;
+                                break;
+                        }
                     }
                     dibuja_seccion(ctx, pieza, seccion, "red",med,inicio_x,inicio_y)
                // });

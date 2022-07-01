@@ -32,7 +32,7 @@ function slelecteditem(ubicacion)
     else
     {
         const registroSiglas = listaDeHallazgos.filter((elem)=> elem.value==Hallazgo.value);
-        const sigla = registroSiglas[0].sigla;
+        const sigla = registroSiglas[0]?.sigla;
         itemModel.value.hallazgos.push({hallazgo: Hallazgo.value, ubicacion,sigla:sigla})
     }
 }
@@ -48,6 +48,7 @@ function slelecteditem(ubicacion)
         div(
             v-for='ubicacion of ubicaciones'
             :id='ubicacion'
+            :innerhtml="ubicacion"
             @click='slelecteditem(ubicacion)'
             :class='`${item.hallazgos?.filter(i => i.ubicacion == ubicacion).map(({hallazgo})=>hallazgo).join(" ")} ${item.hallazgos?.map(({ubicacion}) => ubicacion).some( item => item == ubicacion ) ? "active" : ""}`'
         )
