@@ -5,27 +5,19 @@ import {
   Hallazgo,
   listaDeHallazgos
 } from "../../src/store/odontograma";
-
+import escenarios from '../config/Escenarios.json';
 const props = defineProps( ['item'])
 const emit = defineEmits(['update:ubicacion', 'update:hallazgo', 'update:diente'])
 
-const ubicaciones = ['vestibular','distal','oclusal','mesial','palatino','lingual', 'incisal']
-const ubicacion_ = computed({
-    get: ()=>props.item.hallazgos,
-    set: val => {
-        const index = props.item.hallazgos.findIndex( i => i.ubicacion = i.ubicacion)
-        if ( index > -1)
-            props.item.hallazgos.splice( index, 1)
-        else return
-    }
-})
+const posiciones = ['arriva','izquierda','centro','derecha','abajo']
 
 const diente = computed(()=> (Number(props.item.diente)/10).toFixed(1) || "00")
-//'@click='ubicacion_ = ubicacion'
+
 
 function slelecteditem(ubicacion)
 {
-    const index  = itemModel.value.hallazgos.findIndex( i => i.hallazgo == Hallazgo.value   && i.ubicacion == ubicacion)
+    const index  = itemModel.value.hallazgos.findIndex( i => i.hallazgo == Hallazgo.value   && i.posicion == ubicacion)
+    let zonaDiente ="";
     if( index > -1 ) {
         itemModel.value.hallazgos.splice( index, 1)
     }
@@ -33,7 +25,27 @@ function slelecteditem(ubicacion)
     {
         const registroSiglas = listaDeHallazgos.filter((elem)=> elem.value==Hallazgo.value);
         const sigla = registroSiglas[0]?.sigla;
-        itemModel.value.hallazgos.push({hallazgo: Hallazgo.value, ubicacion,sigla:sigla})
+        const ubicacionnes =escenarios.Esenarios.filter((elem)=> elem.pieza==itemModel.value.diente)[0];
+        if( ubicacionnes !=undefined ) {
+        switch (ubicacion) {
+                            case "arriva":
+                                zonaDiente=ubicacionnes.arriva;
+                                break;
+                            case "centro":
+                                 zonaDiente=ubicacionnes.centro;
+                                break;
+                            case "abajo":
+                                 zonaDiente=ubicacionnes.abajo;
+                                break;
+                            case "izquierda":
+                                 zonaDiente=ubicacionnes.izquierda;
+                                break;
+                            case "derecha":
+                                 zonaDiente=ubicacionnes.derecha;
+                                break;
+                        }
+        } 
+        itemModel.value.hallazgos.push({hallazgo: Hallazgo.value, ubicacion: zonaDiente,sigla:sigla, posicion: ubicacion})
     }
 }
 </script>
@@ -46,11 +58,10 @@ function slelecteditem(ubicacion)
     //-#raices
     #button-diente( :class='item.hallazgos?.map(({hallazgo}) => hallazgo).join(" ")' )
         div(
-            v-for='ubicacion of ubicaciones'
-            :id='ubicacion'
-            :innerhtml="ubicacion"
-            @click='slelecteditem(ubicacion)'
-            :class='`${item.hallazgos?.filter(i => i.ubicacion == ubicacion).map(({hallazgo})=>hallazgo).join(" ")} ${item.hallazgos?.map(({ubicacion}) => ubicacion).some( item => item == ubicacion ) ? "active" : ""}`'
+            v-for='posicion of posiciones'
+            :id='posicion'
+            @click='slelecteditem(posicion)'
+            :class='`${item.hallazgos?.filter(i => i.posicion == posicion).map(({hallazgo})=>hallazgo).join(" ")} ${item.hallazgos?.map(({posicion}) => posicion).some( item => item == posicion ) ? "active" : ""}`'
         )
         #aspaIzquierda
         #aspaDerecha
@@ -95,34 +106,28 @@ function slelecteditem(ubicacion)
         font-weight: bold
         color: var(--color-dark) !important
     &.toDown
-        #vestibular, #lingual
+        #arriva
             transform: rotate(180deg)
             bottom: 0!important
             top: unset!important
-        #vestibular
-            display: none !important
-        #lingual
-            display: flex !important
-        #palatino
+        #abajo
             transform: rotate(180deg)
             top:  0!important
             bottom: unset!important
         #raices
             transform: rotate(180deg)
     &.toLeft
-        #mesial
+        #derecha
             transform: rotate(180deg)
             left: 0!important
             right: unset!important
-        #distal
+        #izquierda
             transform: rotate(180deg)
             right:  0!important
             left: unset!important
     &.toCenter
-        #oclusal
+        #centro
             display: none !important
-        #incisal
-            display: flex !important
     #raices
         position: relative
         height: calc( var(--size) * 0.4)
@@ -179,7 +184,7 @@ function slelecteditem(ubicacion)
         height: var(--size)
         width: var(--size)
 
-        #vestibular, #lingual, #incisal, #distal, #oclusal, #mesial, #palatino
+        #arriva, #izquierda, #centro, #derecha, #abajo
             position: absolute
             top: 0
             left: 0
@@ -196,14 +201,10 @@ function slelecteditem(ubicacion)
             --proporcion-final: calc( 100% / 4 * 3 )
             --proporcion-inicial: calc( 100% / 4 * 1 )
             --proporcion-central: calc( 100% / 4 * 2 )
-        #lingual
-            display: none
-        #incisal
-            display: none
         div
             *
                 color: transparent
-        #vestibular, #lingual
+        #arriva
             height: var(--proporcion-inicial)
             width: 100%
             bottom: unset
@@ -211,7 +212,7 @@ function slelecteditem(ubicacion)
             border-top-right-radius: var(--border-radius-top)
             border-top-left-radius: var(--border-radius-top)
 
-        #distal
+        #izquierda
             height: 100%
             width: var(--proporcion-inicial)
             right: unset
@@ -219,12 +220,12 @@ function slelecteditem(ubicacion)
             border-top-left-radius: var(--border-radius-top)
             border-bottom-left-radius: var(--border-radius-bottom)
 
-        #oclusal, #incisal
+        #centro
             height: var(--proporcion-central)
             width: var(--proporcion-central)
             clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%)
 
-        #mesial
+        #derecha
             height: 100%
             width: calc(100% / 4)
             left: unset
@@ -232,8 +233,7 @@ function slelecteditem(ubicacion)
             border-top-right-radius: var(--border-radius-top)
             border-bottom-right-radius: var(--border-radius-bottom)
 
-
-        #palatino
+        #abajo
             height: calc(100% / 4)
             width: 100%
             top: unset
@@ -241,7 +241,7 @@ function slelecteditem(ubicacion)
             border-bottom-left-radius: var(--border-radius-bottom)
             border-bottom-right-radius: var(--border-radius-bottom)
 
-        #vestibular, #lingual, #incisal, #distal, #oclusal, #mesial, #palatino
+        #arriva, #izquierda, #centro, #derecha, #abajo
             &::before
                 position: absolute
                 margin: auto
@@ -257,28 +257,28 @@ function slelecteditem(ubicacion)
                 width: calc( 100% - var(--min))
                 height: calc( 100% - var(--min))
                 --border-radius: 1.2rem
-        #vestibular::before, #lingual::before
+        #arriva::before
             clip-path: polygon(var(--min) var(--border), var(--max) var(--border), var(--proporcion-final) 100%,var(--proporcion-inicial) 100%)
             border-top-left-radius: var(--border-radius-top)
             border-top-right-radius: var(--border-radius-top)
-        #distal::before
+        #izquierda::before
             clip-path: polygon( var(--border) var(--min), 100% var(--proporcion-inicial), 100% var(--proporcion-final), var(--border) var(--max))
             border-bottom-left-radius: var(--border-radius-bottom)
             border-top-left-radius: var(--border-radius-top)
 
-        #oclusal::before, #incisal::before
+        #centro::before
             clip-path: var(--clip-path)
-        #mesial::before
+        #derecha::before
             clip-path: polygon( 0 var(--proporcion-inicial), var(--border-right) var(--min), var(--border-right)  var(--max), 0 var(--proporcion-final))
             border-bottom-right-radius: var(--border-radius-bottom)
             border-top-right-radius: var(--border-radius-top)
 
-        #palatino::before
+        #abajo::before
             clip-path: polygon(var(--proporcion-inicial) 0%, var(--proporcion-final) 0%, var(--max) var(--border-right), var(--min) var(--border-right))
             border-bottom-left-radius: var(--border-radius-bottom)
             border-bottom-right-radius: var(--border-radius-bottom)
 
-        #aspaIzquierda, #aspaDerecha
+        #aspaIzquierda
             position: absolute
             height: calc( var(--size) * 1.24 )
             width: var(--weight)
@@ -291,12 +291,6 @@ function slelecteditem(ubicacion)
             pointer-events: none
             background: transparent
             transition: .3s
-        #aspaIzquierda
-            transform: rotate(45deg)
-        #aspaDerecha
-            transform: rotate(-45deg)
-
-
 
         div
             &.caries, &.restauración

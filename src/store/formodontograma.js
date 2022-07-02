@@ -5,7 +5,6 @@ import {firestore} from '../config/firebase'
 import { miUsuario } from './sesion';
 import {limpiar as limpiarHallazgo,actualizarItem} from './comandosDeVoz';
 import {listaDeHallazgos} from './odontograma'
-import {useRouter} from 'vue-router'
 const dialog = ref( false )
 const regpasciente = ref([])
 
@@ -107,8 +106,6 @@ function existeDiente(param){
     return result;
 }
 export function agregarLista(id,param,hallazgos) {
-    //console.log(param.hallazgos.length);
-    //console.log(existeDiente(param));
     if (param.hallazgos.length>0){
         if (!existeDiente(param)){
             const hallazgo = param.hallazgos[0].hallazgo
@@ -118,7 +115,8 @@ export function agregarLista(id,param,hallazgos) {
                         diente:param.diente,
                         hallazgo:element.hallazgo,
                         ubicacion:element.ubicacion,
-                        sigla:element.sigla
+                        sigla:element.sigla,
+                        posicion:element.posicion,
                         }
                         hallazgos?hallazgos.push(fila):hallazgos=[fila]
                 });
@@ -129,13 +127,12 @@ export function agregarLista(id,param,hallazgos) {
                         diente:param.diente,
                         hallazgo:element.hallazgo,
                         ubicacion:'',
-                        sigla:element.sigla
+                        sigla:element.sigla,
+                        posicion:element.posicion,
                         }
                         hallazgos?hallazgos.push(fila):hallazgos=[fila]
                 });
             }
-           // actualizarDetalle(id,hallazgos);
-           // leerOdonto(id);
         }
         limpiarHallazgo();
     }

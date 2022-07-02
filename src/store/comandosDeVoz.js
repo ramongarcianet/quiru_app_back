@@ -88,12 +88,12 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
     }
     if (hallazgo && listaDeUbicacion.length == 0) {
         const registroSiglas = listaDeHallazgos.filter((elem)=> elem.value==hallazgo);
-        const sigla = registroSiglas[0].sigla;
+        const sigla = registroSiglas[0]?.sigla;
         item.value.hallazgos.push( {hallazgo,sigla:sigla} )
         mensaje += `Hallazgo ${hallazgo}`
     } else if( hallazgo && listaDeUbicacion.length > 0 ){
         const registroSiglas = listaDeHallazgos.filter((elem)=> elem.value==hallazgo);
-        const sigla = registroSiglas[0].sigla;
+        const sigla = registroSiglas[0]?.sigla;
 
         let mensajeUbicacion = ''
         listaDeUbicacion.forEach(ubicacion => {
@@ -105,9 +105,7 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
     }
     if(item.value.diente && hallazgo){
         let flat= existeDienteVoz(item.value.diente,hallazgo,ubicacion)
-       /* console.log(item.value.diente)
-        console.log(hallazgo)
-        console.log(ubicacion)*/
+
         if (!existeDienteVoz(item.value.diente,hallazgo,ubicacion)){
             agregar()
         }
