@@ -116,12 +116,14 @@ p {{textoEscuchado}}
                     option(v-for='{text, value} of listaDeHallazgos' :value="value") {{text}}
     .d-flex.justify-content-center
         Diente(:item='item' style='--size: 14rem;').raiz-0
-    .row
+    .row(v-if="!isSpeech")
       .col
       .col
         button.btn.btn-primary(type="submit", @click="limpiarHallazgoDiente()" style="width: 100%;") Limpiar
       .col
-  .col
+    .row(v-if="isSpeech")
+      OdonOficial
+  .col(v-if="!isSpeech")
     OdonOficial
 .row
     .col

@@ -3,7 +3,8 @@ import {computed, watch} from 'vue'
 import {
   item as itemModel,
   Hallazgo,
-  listaDeHallazgos
+  listaDeHallazgos,
+  isSpeech
 } from "../../src/store/odontograma";
 import escenarios from '../config/Escenarios.json';
 const props = defineProps( ['item'])
@@ -44,13 +45,13 @@ function slelecteditem(ubicacion)
                                  zonaDiente=ubicacionnes.derecha;
                                 break;
                         }
-        } 
+        }
         itemModel.value.hallazgos.push({hallazgo: Hallazgo.value, ubicacion: zonaDiente,sigla:sigla, posicion: ubicacion})
     }
 }
 </script>
 <template lang="pug">
-#diente( v-bind='$attrs' :class='item.clase')
+#diente(v-if="!isSpeech" v-bind='$attrs' :class='item.clase')
     h1
         span {{diente }}
     h1
