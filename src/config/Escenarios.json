@@ -1,6 +1,68 @@
 {
     "Esenarios": [
-        {"pieza": "74","arriva": "Lingual","centro": "oclusal","abajo": "Vestibular ","izquierda": "mesial","derecha": "distal"},
-        {"pieza": "75","arriva": "Lingual","centro": "oclusal","abajo": "Vestibular ","izquierda": "mesial","derecha": "distal"}
+
+        {"pieza": "14","arriva": "Vestibular","centro": "Oclusal","abajo": "Palatino ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "15","arriva": "Vestibular","centro": "Oclusal","abajo": "Palatino ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "16","arriva": "Vestibular","centro": "Oclusal","abajo": "Palatino ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "17","arriva": "Vestibular","centro": "Oclusal","abajo": "Palatino ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "18","arriva": "Vestibular","centro": "Oclusal","abajo": "Palatino ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "54","arriva": "Vestibular","centro": "Oclusal","abajo": "Palatino ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "55","arriva": "Vestibular","centro": "Oclusal","abajo": "Palatino ","izquierda": "Distal","derecha": "Mesial"},
+
+        {"pieza": "24","arriva": "Vestibular","centro": "Oclusal","abajo": "Palatino ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "25","arriva": "Vestibular","centro": "Oclusal","abajo": "Palatino ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "26","arriva": "Vestibular","centro": "Oclusal","abajo": "Palatino ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "27","arriva": "Vestibular","centro": "Oclusal","abajo": "Palatino ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "28","arriva": "Vestibular","centro": "Oclusal","abajo": "Palatino ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "64","arriva": "Vestibular","centro": "Oclusal","abajo": "Palatino ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "65","arriva": "Vestibular","centro": "Oclusal","abajo": "Palatino ","izquierda": "Mesial","derecha": "Distal"},
+
+        {"pieza": "21","arriva": "Vestibular","centro": "Incisal","abajo": "Palatino ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "22","arriva": "Vestibular","centro": "Incisal","abajo": "Palatino ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "23","arriva": "Vestibular","centro": "Incisal","abajo": "Palatino ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "61","arriva": "Vestibular","centro": "Incisal","abajo": "Palatino ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "62","arriva": "Vestibular","centro": "Incisal","abajo": "Palatino ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "63","arriva": "Vestibular","centro": "Incisal","abajo": "Palatino ","izquierda": "Mesial","derecha": "Distal"},
+
+        {"pieza": "11","arriva": "Vestibular","centro": "Incisal","abajo": "Palatino ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "12","arriva": "Vestibular","centro": "Incisal","abajo": "Palatino ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "13","arriva": "Vestibular","centro": "Incisal","abajo": "Palatino ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "51","arriva": "Vestibular","centro": "Incisal","abajo": "Palatino ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "52","arriva": "Vestibular","centro": "Incisal","abajo": "Palatino ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "53","arriva": "Vestibular","centro": "Incisal","abajo": "Palatino ","izquierda": "Distal","derecha": "Mesial"},
+
+        {"pieza": "74","arriva": "Lingual","centro": "Oclusal","abajo": "Vestibular ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "75","arriva": "Lingual","centro": "Oclusal","abajo": "Vestibular ","izquierda": "Mesial","derecha": "Distal"},
+
+        {"pieza": "71","arriva": "Lingual","centro": "Incisal","abajo": "Vestibular ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "72","arriva": "Lingual","centro": "Incisal","abajo": "Vestibular ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "73","arriva": "Lingual","centro": "Incisal","abajo": "Vestibular ","izquierda": "Mesial","derecha": "Distal"},
+
+        {"pieza": "81","arriva": "Lingual","centro": "Incisal","abajo": "Vestibular ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "82","arriva": "Lingual","centro": "Incisal","abajo": "Vestibular ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "83","arriva": "Lingual","centro": "Incisal","abajo": "Vestibular ","izquierda": "Distal","derecha": "Mesial"},
+
+        {"pieza": "84","arriva": "Lingual","centro": "Oclusal","abajo": "Vestibular ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "85","arriva": "Lingual","centro": "Oclusal","abajo": "Vestibular ","izquierda": "Distal","derecha": "Mesial"},
+
+        {"pieza": "34","arriva": "Lingual","centro": "Oclusal","abajo": "Vestibular ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "35","arriva": "Lingual","centro": "Oclusal","abajo": "Vestibular ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "36","arriva": "Lingual","centro": "Oclusal","abajo": "Vestibular ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "37","arriva": "Lingual","centro": "Oclusal","abajo": "Vestibular ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "38","arriva": "Lingual","centro": "Oclusal","abajo": "Vestibular ","izquierda": "Mesial","derecha": "Distal"},
+
+        {"pieza": "31","arriva": "Lingual","centro": "Incisal","abajo": "Vestibular ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "32","arriva": "Lingual","centro": "Incisal","abajo": "Vestibular ","izquierda": "Mesial","derecha": "Distal"},
+        {"pieza": "33","arriva": "Lingual","centro": "Incisal","abajo": "Vestibular ","izquierda": "Mesial","derecha": "Distal"},
+
+        {"pieza": "41","arriva": "Lingual","centro": "Incisal","abajo": "Vestibular ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "42","arriva": "Lingual","centro": "Incisal","abajo": "Vestibular ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "43","arriva": "Lingual","centro": "Incisal","abajo": "Vestibular ","izquierda": "Distal","derecha": "Mesial"},
+
+        {"pieza": "44","arriva": "Lingual","centro": "Oclusal","abajo": "Vestibular ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "45","arriva": "Lingual","centro": "Oclusal","abajo": "Vestibular ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "46","arriva": "Lingual","centro": "Oclusal","abajo": "Vestibular ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "47","arriva": "Lingual","centro": "Oclusal","abajo": "Vestibular ","izquierda": "Distal","derecha": "Mesial"},
+        {"pieza": "48","arriva": "Lingual","centro": "Oclusal","abajo": "Vestibular ","izquierda": "Distal","derecha": "Mesial"}
 ]
   }
