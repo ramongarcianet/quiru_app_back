@@ -112,13 +112,13 @@ export const listaDeHallazgos = [
     { value: "fluorosis", text: "Fluorosis",sigla:"F" },
 ];
 export const listaDeTipos = [
-    { value: "vestibular", text: "Vestibular" },
-    { value: "distal", text: "Distal" },
-    { value: "oclusal", text: "Oclusal" },
-    { value: "mesial", text: "Mesial" },
-    { value: "palatino", text: "Palatino" },
-    { value: "incisal", text: "Incisal" },
-    { value: "lingual", text: "Lingual" },
+    { value: "vestibular", text: "vestibular" },
+    { value: "distal", text: "distal" },
+    { value: "oclusal", text: "oclusal" },
+    { value: "mesial", text: "mesial" },
+    { value: "palatino", text: "palatino" },
+    { value: "incisal", text: "incisal" },
+    { value: "lingual", text: "lingual" },
 ];
 
 if (annyang) {

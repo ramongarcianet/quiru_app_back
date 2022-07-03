@@ -156,100 +156,48 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro){
     dibuja_seccion(ctx, pieza, 3, "#37DFBB",med,inicio_x,inicio_y)
     dibuja_seccion(ctx, pieza, 4, "#37DFBB",med,inicio_x,inicio_y)
     dibuja_seccion(ctx, pieza, 5, "#37DFBB",med,inicio_x,inicio_y)
-    registro.forEach(element => {
-        if(element.diente==pieza){
-            if (element.hallazgo=="extracción"){
-                Fractura_Extract_Ausent(ctx, inicio_x, med,inicio_y,"red","");
+    if(registro!=undefined){
+        registro.forEach(element => {
+            var seccion=0;                                  
+            switch (element.posicion) {
+                case "arriva":
+                    seccion=1;
+                    break;
+                case "izquierda":
+                    seccion=4;
+                    break;
+                case "centro":
+                    seccion=5;
+                    break;
+                case "derecha":
+                    seccion=2;
+                    break;
+                case "abajo":
+                    seccion=3;
+                    break;
+                default:
+                    seccion=0;
+                    break;
             }
-            else if (element.hallazgo=="ausente"){
-                Fractura_Extract_Ausent(ctx, inicio_x, med,inicio_y,"blue","");
-            }
-            else if (element.hallazgo=="fractura"){
-                Fractura_Extract_Ausent(ctx, inicio_x, med,inicio_y,"red","fractura");
-            }
-            else if (element.hallazgo=="caries"){
-                var seccion=0;
-                    if (element.ubicacion=="vestibular"){                        
-                        switch (pieza) {
-                            case "74":
-                                seccion=3;
-                                break;
-                            case "75":
-                                seccion=3;
-                                break;
-                            default:
-                                seccion=1;
-                                break;
-                        }
-                    }
-                    if (element.ubicacion=="distal"){
-                        switch (pieza) {
-                            case "74":
-                                seccion=2;
-                                break;
-                            case "75":
-                                seccion=2;
-                                break;
-                            default:
-                                seccion=4;
-                                break;
-                        }
-                    }
-                    if (element.ubicacion=="oclusal"){
-                        seccion=5;
-                    }
-                    if (element.ubicacion=="mesial"){
-                        switch (pieza) {
-                            case "74":
-                                seccion=4;
-                                break;
-                            case "75":
-                                seccion=4;
-                                break;
-                            default:
-                                seccion=2;
-                                break;
-                        }
-                    }
-                    if (element.ubicacion=="palatino"){
-                        switch (pieza) {
-                            case "74":
-                                seccion=1;
-                                break;
-                            case "75":
-                                seccion=1;
-                                break;
-                            default:
-                                seccion=3;
-                                break;
-                        }
-                    }
+            if(element.diente==pieza){
+                if (element.hallazgo=="extracción"){
+                    Fractura_Extract_Ausent(ctx, inicio_x, med,inicio_y,"red","");
+                }
+                else if (element.hallazgo=="ausente"){
+                    Fractura_Extract_Ausent(ctx, inicio_x, med,inicio_y,"blue","");
+                }
+                else if (element.hallazgo=="fractura"){
+                    Fractura_Extract_Ausent(ctx, inicio_x, med,inicio_y,"red","fractura");
+                }
+                else if (element.hallazgo=="caries"){               
                     dibuja_seccion(ctx, pieza, seccion, "red",med,inicio_x,inicio_y)
-               // });
-
-            }
-            else if (element.hallazgo=="restauración"){
-                var seccion=0;
-                    if (element.ubicacion=="vestibular"){
-                        seccion=1;
-                    }
-                    if (element.ubicacion=="distal"){
-                        seccion=4;
-                    }
-                    if (element.ubicacion=="oclusal"){
-                        seccion=5;
-                    }
-                    if (element.ubicacion=="mesial"){
-                        seccion=2;
-                    }
-                    if (element.ubicacion=="palatino"){
-                        seccion=3;
-                    }
+                }
+                else if (element.hallazgo=="restauración"){
                     dibuja_seccion(ctx, pieza, seccion, "blue",med,inicio_x,inicio_y)
-                //});
+                }
             }
-        }
-    });
+        });
+    }
     context.fillStyle = 'blue';
 }
 function marcar_cabecera(contexto, inicio_x,medida,inicio_y,color, tipo){
@@ -417,14 +365,16 @@ function marcar_ControlTop(ctx, inicio_x,inicio_y,med,registro,pieza){
     var cua = med/2;
     var ter = cua*3;
     ctx.fillText(' ',cua*2+inicio_x,cua*2+inicio_y);
-    registro.forEach(element=>{
-        if(element.diente == pieza){
-            if (element.sigla == undefined)
-                ctx.fillText(' ',cua*2+inicio_x,cua*2+inicio_y);
-            else
-                ctx.fillText(element.sigla,cua*2+inicio_x,cua*2+inicio_y);
-        }
-    });
+    if(registro!=undefined){
+        registro.forEach(element=>{
+            if(element.diente == pieza){
+                if (element.sigla == undefined)
+                    ctx.fillText(' ',cua*2+inicio_x,cua*2+inicio_y);
+                else
+                    ctx.fillText(element.sigla,cua*2+inicio_x,cua*2+inicio_y);
+            }
+        });
+    }
     ctx.fillStyle = 'transparent';
     ctx.beginPath();
     ctx.moveTo(cua+inicio_x,cua+inicio_y);
@@ -440,15 +390,17 @@ function marcar_ControlBot(ctx, inicio_x,inicio_y,med,registro,pieza){
     var cua = med/2;
     var ter = cua*3;
     ctx.fillText(' ',cua*2+inicio_x,cua*2+inicio_y);
-    registro.forEach(element=>{
-        if(element.diente == pieza){
-            if (element.sigla == undefined)
-                ctx.fillText('',cua*2+inicio_x,cua*2+inicio_y);
-            else {
-                ctx.fillText(element.sigla,cua*2+inicio_x,cua*2+inicio_y);
+    if(registro!=undefined){
+        registro.forEach(element=>{
+            if(element.diente == pieza){
+                if (element.sigla == undefined)
+                    ctx.fillText('',cua*2+inicio_x,cua*2+inicio_y);
+                else {
+                    ctx.fillText(element.sigla,cua*2+inicio_x,cua*2+inicio_y);
+                }
             }
-        }
-    });
+        });
+    }
     ctx.fillStyle = 'transparent';
     ctx.beginPath();
     ctx.moveTo(cua+inicio_x,cua+inicio_y);

@@ -12,7 +12,7 @@ const route = useRoute()
 leerEnRegistro(route.params.idOdontograma);
 onMounted(()=> {
 
-  if(itemodontograma.value.hallazgos) VerFormato(itemodontograma.value.hallazgos);
+VerFormato(itemodontograma?.value?.hallazgos);
 
   watch(
     () => itemodontograma.value.hallazgos,

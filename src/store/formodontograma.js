@@ -5,6 +5,7 @@ import {firestore} from '../config/firebase'
 import { miUsuario } from './sesion';
 import {limpiar as limpiarHallazgo,actualizarItem} from './comandosDeVoz';
 import {listaDeHallazgos} from './odontograma'
+import escenarios from '../config/Escenarios.json';
 const dialog = ref( false )
 const regpasciente = ref([])
 
@@ -68,72 +69,35 @@ export const actualizar = (id) => {
     const referencia = doc(firestore, 'odontograma', itemUpd.id)
     return updateDoc(referencia, itemUpd)
 }
-function existeDiente(param){
+function existeDiente(diente,param){
     let result = false;
-    let lista = item.value.hallazgos;
-    for (let item of lista ){
-        if (param.hallazgos[0].hallazgo == 'caries' || param.hallazgos[0].hallazgo == 'restauración'){
-            if(item.diente==param.diente && item.hallazgo==param.hallazgos[0].hallazgo && item.ubicacion==param.hallazgos[0].ubicacion ){
-                result = true;
-                break;
-            }
-        } else {
-            if (param.hallazgos[0].hallazgo == 'hipoplasia' || param.hallazgos[0].hallazgo == 'hipomineralizacion'||
-            param.hallazgos[0].hallazgo == 'opacidad' || param.hallazgos[0].hallazgo == 'decoloración' || param.hallazgos[0].hallazgo == 'fluorosis')
-            {
-                if(item.diente==param.diente ){
-                    let listaSigla = listaDeHallazgos.filter((elem)=>elem.value==item.hallazgo)
-                    if(listaSigla.length>0){
-                        if(listaSigla[0].sigla==''){
-                            if(item.diente==param.diente && item.hallazgo==param.hallazgos[0].hallazgo){
-                                result = true;
-                                break;
-                            }
-                        } else {
-                            result = true;
-                            break;
-                        }
-                    }
-                }
-            } else {
-                if(item.diente==param.diente && item.hallazgo==param.hallazgos[0].hallazgo){
-                    result = true;
-                    break;
-                }
-            }
+    if( item.value.hallazgos !=undefined ) {
+        const existePieza =item.value?.hallazgos.filter((elem)=> elem.diente==diente && elem.hallazgo==param.hallazgo && elem.ubicacion==param.ubicacion && elem.sigla==param.sigla && elem.posicion==param.posicion)[0];
+        if( existePieza !=undefined ) {
+            result = true;
+        }
+        else {
+            result = false;
         }
     }
     return result;
 }
-export function agregarLista(id,param,hallazgos) {
+export function agregarLista(id,param) {
     if (param.hallazgos.length>0){
-        if (!existeDiente(param)){
-            const hallazgo = param.hallazgos[0].hallazgo
-            if (hallazgo == 'caries' || hallazgo == 'restauración' ){
-                param.hallazgos.forEach(element => {
-                    let fila ={
-                        diente:param.diente,
-                        hallazgo:element.hallazgo,
-                        ubicacion:element.ubicacion,
-                        sigla:element.sigla,
-                        posicion:element.posicion,
-                        }
-                        hallazgos?hallazgos.push(fila):hallazgos=[fila]
-                });
-
-            } else {
-                param.hallazgos.forEach(element => {
-                    let fila ={
-                        diente:param.diente,
-                        hallazgo:element.hallazgo,
-                        ubicacion:'',
-                        sigla:element.sigla,
-                        posicion:element.posicion,
-                        }
-                        hallazgos?hallazgos.push(fila):hallazgos=[fila]
-                });
-            }
-        }
+        param.hallazgos.forEach(element => {
+            let fila ={
+                diente:param.diente,
+                hallazgo:element.hallazgo,
+                ubicacion:(element.hallazgo=='caries')?element.ubicacion:(element.hallazgo=='restauración')?element.ubicacion:'',
+                sigla:element.sigla,
+                posicion:element.posicion,
+                }
+                if(param.diente !='00'){
+                    if (!existeDiente(param.diente,fila)){
+                        item.value.hallazgos?item.value.hallazgos.push(fila):item.value.hallazgos=[fila];
+                    }
+                }
+        });
         limpiarHallazgo();
     }
  }

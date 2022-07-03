@@ -57,8 +57,8 @@ onUnmounted(()=> {
 watch(
   ()=> item.value.diente,
   ()=>  {
-    item.value.hallazgos=[]
-    Hallazgo.value=""
+    item.value.hallazgos=[];
+    Hallazgo.value="";
   }
 
 )
@@ -77,12 +77,7 @@ const borrar = ({diente, hallazgo, ubicacion}) => {
   const index = itemodontograma.value.hallazgos.findIndex(i => i.diente == diente && i.hallazgo == hallazgo && i.ubicacion == ubicacion)
   if( index > -1) itemodontograma.value.hallazgos.splice(index, 1)
 }
-function mostrarSigla(hallazgo){
-/*  const registroSiglas = listaDeHallazgos.filter((elem) =>{return elem.value==hallazgo;});
-  const sigla = registroSiglas[0].sigla;
-  item.value.hallazgos.push({hallazgo,sigla})
-*/
-}
+
 function limpiarHallazgoDiente(){
   limpiar();
 }
@@ -111,7 +106,7 @@ p {{textoEscuchado}}
                     option(selected disabled value="00") Pieza
                     option(v-for='{text, value} of listaDeDientesCombo' :value="value") {{text}}
                 span.input-group-text Hallazgo
-                select.form-select#comboHallazgo(v-model='Hallazgo' @change="mostrarSigla(Hallazgo)")
+                select.form-select#comboHallazgo(v-model='Hallazgo')
                     option(selected disabled value="") Hallazgo
                     option(v-for='{text, value} of listaDeHallazgos' :value="value") {{text}}
     .d-flex.justify-content-center
@@ -127,7 +122,7 @@ p {{textoEscuchado}}
     OdonOficial
 .row
     .col
-      button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma,item,itemodontograma.hallazgos)") Agregar a la lista
+      button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma,item)") Agregar a la lista
     .col
 
 .row

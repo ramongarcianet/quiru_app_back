@@ -1,7 +1,7 @@
 import {item,verOdontograma, detenerVoz, activarVoz, listaDeHallazgos, listaDeDientes, listaDeTipos, speak, flagLimpiar} from './odontograma'
 import router from '../config/router'
 import {item as itemodontograma} from './formodontograma';
-
+import escenarios from '../config/Escenarios.json';
 const seleccionarHallazgo = hallazgo => actualizarItem(hallazgo, false, false)
 
 const seleccionarHallazgoPieza = (hallazgo, pieza) => actualizarItem(hallazgo, false, pieza)
@@ -77,7 +77,8 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
     const piezaCorrecta = ubicacion ? listaDeUbicacion.length>0  : true
     const ubicacionCorrecta = pieza ? listaDeDientes_.find(item => item == pieza) : true
     let mensaje = ''
-
+    let posicion ="";
+    const ubicacionnes =escenarios.Esenarios.filter((elem)=> elem.pieza==pieza)[0];
     if( !hallazgoCorrecto || !ubicacionCorrecta || !piezaCorrecta ) return
 
     if (pieza){
@@ -89,7 +90,15 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
     if (hallazgo && listaDeUbicacion.length == 0) {
         const registroSiglas = listaDeHallazgos.filter((elem)=> elem.value==hallazgo);
         const sigla = registroSiglas[0]?.sigla;
-        item.value.hallazgos.push( {hallazgo,sigla:sigla} )
+        if( ubicacionnes !=undefined ) {
+            posicion=(ubicacionnes.arriva==ubicacion)? 'arriva':'';
+            posicion=(ubicacionnes.centro==ubicacion)? 'centro':'';
+            posicion=(ubicacionnes.abajo==ubicacion)? 'abajo':'';
+            posicion=(ubicacionnes.izquierda==ubicacion)? 'izquierda':'';
+            posicion=(ubicacionnes.derecha==ubicacion)? 'derecha':'';
+        }
+    
+        item.value.hallazgos.push( {hallazgo,sigla:sigla,posicion: ubicacion} )
         mensaje += `Hallazgo ${hallazgo}`
     } else if( hallazgo && listaDeUbicacion.length > 0 ){
         const registroSiglas = listaDeHallazgos.filter((elem)=> elem.value==hallazgo);
@@ -97,7 +106,15 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
 
         let mensajeUbicacion = ''
         listaDeUbicacion.forEach(ubicacion => {
-            item.value.hallazgos.push( {hallazgo, ubicacion,sigla:sigla} )
+            if( ubicacionnes !=undefined ) {
+                posicion=(ubicacionnes.arriva==ubicacion)? 'arriva':'';
+                posicion=(ubicacionnes.centro==ubicacion)? 'centro':'';
+                posicion=(ubicacionnes.abajo==ubicacion)? 'abajo':'';
+                posicion=(ubicacionnes.izquierda==ubicacion)? 'izquierda':'';
+                posicion=(ubicacionnes.derecha==ubicacion)? 'derecha':'';
+            }
+        
+            item.value.hallazgos.push( {hallazgo, ubicacion,sigla:sigla,posicion: posicion} )
             mensajeUbicacion+= ubicacion
         } )
 
