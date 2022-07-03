@@ -77,8 +77,8 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
     const piezaCorrecta = ubicacion ? listaDeUbicacion.length>0  : true
     const ubicacionCorrecta = pieza ? listaDeDientes_.find(item => item == pieza) : true
     let mensaje = ''
-    let posicion ="";
-    const ubicacionnes =escenarios.Esenarios.filter((elem)=> elem.pieza==pieza)[0];
+    let _posicion ="";
+
     if( !hallazgoCorrecto || !ubicacionCorrecta || !piezaCorrecta ) return
 
     if (pieza){
@@ -87,18 +87,19 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
         item.value.diente = pieza_
         mensaje += `Pieza ${pieza}`
     }
+    const ubicacionnes =escenarios.Esenarios.filter((elem)=> elem.pieza==item.value.diente)[0];
     if (hallazgo && listaDeUbicacion.length == 0) {
         const registroSiglas = listaDeHallazgos.filter((elem)=> elem.value==hallazgo);
         const sigla = registroSiglas[0]?.sigla;
         if( ubicacionnes !=undefined ) {
-            posicion=(ubicacionnes.arriva==ubicacion)? 'arriva':'';
-            posicion=(ubicacionnes.centro==ubicacion)? 'centro':'';
-            posicion=(ubicacionnes.abajo==ubicacion)? 'abajo':'';
-            posicion=(ubicacionnes.izquierda==ubicacion)? 'izquierda':'';
-            posicion=(ubicacionnes.derecha==ubicacion)? 'derecha':'';
+            _posicion=(ubicacionnes.arriva.trim()==ubicacion)? 'arriva':_posicion;
+            _posicion=(ubicacionnes.centro.trim()==ubicacion)? 'centro':_posicion;
+            _posicion=(ubicacionnes.abajo.trim()==ubicacion)? 'abajo':_posicion;
+            _posicion=(ubicacionnes.izquierda.trim()==ubicacion)? 'izquierda':_posicion;
+            _posicion=(ubicacionnes.derecha.trim()==ubicacion)? 'derecha':_posicion;
         }
     
-        item.value.hallazgos.push( {hallazgo,sigla:sigla,posicion: ubicacion} )
+        item.value.hallazgos.push( {hallazgo,sigla:sigla,posicion: _posicion} )
         mensaje += `Hallazgo ${hallazgo}`
     } else if( hallazgo && listaDeUbicacion.length > 0 ){
         const registroSiglas = listaDeHallazgos.filter((elem)=> elem.value==hallazgo);
@@ -107,22 +108,20 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
         let mensajeUbicacion = ''
         listaDeUbicacion.forEach(ubicacion => {
             if( ubicacionnes !=undefined ) {
-                posicion=(ubicacionnes.arriva==ubicacion)? 'arriva':'';
-                posicion=(ubicacionnes.centro==ubicacion)? 'centro':'';
-                posicion=(ubicacionnes.abajo==ubicacion)? 'abajo':'';
-                posicion=(ubicacionnes.izquierda==ubicacion)? 'izquierda':'';
-                posicion=(ubicacionnes.derecha==ubicacion)? 'derecha':'';
+                _posicion=(ubicacionnes.arriva.trim()==ubicacion)? 'arriva':_posicion;
+                _posicion=(ubicacionnes.centro.trim()==ubicacion)? 'centro':_posicion;
+                _posicion=(ubicacionnes.abajo.trim()==ubicacion)? 'abajo':_posicion;
+                _posicion=(ubicacionnes.izquierda.trim()==ubicacion)? 'izquierda':_posicion;
+                _posicion=(ubicacionnes.derecha.trim()==ubicacion)? 'derecha':_posicion;
             }
         
-            item.value.hallazgos.push( {hallazgo, ubicacion,sigla:sigla,posicion: posicion} )
+            item.value.hallazgos.push( {hallazgo, ubicacion,sigla:sigla,posicion: _posicion} )
             mensajeUbicacion+= ubicacion
         } )
 
         mensaje += `Hallazgo ${hallazgo} por ${mensajeUbicacion}`
     }
     if(item.value.diente && hallazgo){
-        let flat= existeDienteVoz(item.value.diente,hallazgo,ubicacion)
-
         if (!existeDienteVoz(item.value.diente,hallazgo,ubicacion)){
             agregar()
         }
@@ -170,7 +169,7 @@ function existeDienteVoz(diente,hallazgo,ubicacion){
 }
 export const agregar  = () => {
     if(item.value.hallazgos?.length == 0) return speak( 'No he registrado un hallazgo')
-    item.value.hallazgos?.map( ({hallazgo, ubicacion,sigla}) => ({diente: item.value.diente, ubicacion: ubicacion || "", hallazgo,sigla})).forEach( item => {
+    item.value.hallazgos?.map( ({hallazgo, ubicacion,sigla,posicion}) => ({diente: item.value.diente, ubicacion: ubicacion || "", hallazgo,sigla,posicion})).forEach( item => {
         const index = itemodontograma.value.hallazgos?.findIndex( i => i.hallazgo == item.hallazgo && i.diente == item.diente && i.ubicacion == item.ubicacion)
         if ( index == -1 || index == undefined){
             itemodontograma.value.hallazgos?itemodontograma.value.hallazgos.push(item):itemodontograma.value.hallazgos=[item];
