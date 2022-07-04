@@ -98,7 +98,7 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
             _posicion=(ubicacionnes.izquierda.trim()==ubicacion)? 'izquierda':_posicion;
             _posicion=(ubicacionnes.derecha.trim()==ubicacion)? 'derecha':_posicion;
         }
-    
+
         item.value.hallazgos.push( {hallazgo,sigla:sigla,posicion: _posicion} )
         mensaje += `Hallazgo ${hallazgo}`
     } else if( hallazgo && listaDeUbicacion.length > 0 ){
@@ -114,14 +114,14 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
                 _posicion=(ubicacionnes.izquierda.trim()==ubicacion)? 'izquierda':_posicion;
                 _posicion=(ubicacionnes.derecha.trim()==ubicacion)? 'derecha':_posicion;
             }
-        
+
             item.value.hallazgos.push( {hallazgo, ubicacion,sigla:sigla,posicion: _posicion} )
             mensajeUbicacion+= ubicacion
         } )
 
         mensaje += `Hallazgo ${hallazgo} por ${mensajeUbicacion}`
     }
-    if(item.value.diente && hallazgo){
+    if(item.value.diente && item.value.diente !='00' && hallazgo){
         if (!existeDienteVoz(item.value.diente,hallazgo,ubicacion)){
             agregar()
         }

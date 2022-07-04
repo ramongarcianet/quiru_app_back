@@ -172,6 +172,10 @@ export function detenerVoz() {
     annyang.addCommands(comandosDeVoz.conVozApagada)
     isSpeech.value = false;//stop
     textoEscuchado.value = '';
+    item.value =  {
+        diente: '00',
+        hallazgos: [ ]
+    }
     comandosDeVoz.agradecer()
 }
 
