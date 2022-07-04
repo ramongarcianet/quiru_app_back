@@ -194,6 +194,13 @@ listaDeDientes_.map( num => {
     listaDeFuncionesPorDiente[`${num}Extraccion`] = ()=> actualizarItem('extracción', false, String(num))
     listaDeFuncionesPorDiente[`${num}Ausente`] = ()=> actualizarItem('ausente', false, String(num))
     listaDeFuncionesPorDiente[`${num}Restauracion`] = (ubicacion)=> actualizarItem('restauración', ubicacion, String(num))
+
+    listaDeFuncionesPorDiente[`${num}Hipoplasia`] = ()=> actualizarItem('hipoplasia', false, String(num))
+    listaDeFuncionesPorDiente[`${num}Hipomineralizacion`] = ()=> actualizarItem('hipomineralizacion', false, String(num))
+    listaDeFuncionesPorDiente[`${num}Opacidad`] = ()=> actualizarItem('opacidad', false, String(num))
+    listaDeFuncionesPorDiente[`${num}Decoloracion`] = ()=> actualizarItem('decoloración', false, String(num))
+    listaDeFuncionesPorDiente[`${num}Fluorosis`] = ()=> actualizarItem('fluorosis', false, String(num))
+
     listaDeFuncionesPorDiente[`${num}num2Hallazgo`] = (num2, hallazgo)=> seleccionMultiple (num, num2, hallazgo, false)
     listaDeFuncionesPorDiente[`${num}num2HallazgoUbicacion`] = (num2, hallazgo, ubicacion)=> seleccionMultiple (num, num2, hallazgo, ubicacion)
 })
@@ -208,6 +215,13 @@ listaDeDientes_?.map( num => {
     listaDeComandosDeDientes[`${num} fracturas`] = listaDeFuncionesPorDiente[`${num}Fractura`]
     listaDeComandosDeDientes[`${num} extracción`] = listaDeFuncionesPorDiente[`${num}Extraccion`]
     listaDeComandosDeDientes[`${num} ausente`] = listaDeFuncionesPorDiente[`${num}Ausente`]
+
+    listaDeComandosDeDientes[`${num} hipoplasia`] = listaDeFuncionesPorDiente[`${num}Hipoplasia`]
+    listaDeComandosDeDientes[`${num} hipomineralizacion`] = listaDeFuncionesPorDiente[`${num}Hipomineralizacion`]
+    listaDeComandosDeDientes[`${num} opacidad`] = listaDeFuncionesPorDiente[`${num}Opacidad`]
+    listaDeComandosDeDientes[`${num} decoloración`] = listaDeFuncionesPorDiente[`${num}Decoloracion`]
+    listaDeComandosDeDientes[`${num} fluorosis`] = listaDeFuncionesPorDiente[`${num}Fluorosis`]
+
     listaDeComandosDeDientes[`${num} (a) (la) (ala) (al) :num2 :hallazgo`]= listaDeFuncionesPorDiente[`${num}num2Hallazgo`]
     listaDeComandosDeDientes[`${num} (a) (la) (al) :num2 :hallazgo *ubicacion`]= listaDeFuncionesPorDiente[`${num}num2HallazgoUbicacion`]
 })
