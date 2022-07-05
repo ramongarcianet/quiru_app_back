@@ -2,11 +2,11 @@
 import { onUnmounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import {
-  obtenerTodos,
-  registro,
-  leerEnRegistro,
-  eliminar,
-  dialog,
+    obtenerTodos,
+    registro,
+    leerEnRegistro,
+    eliminar,
+    dialog,
 } from "../../store/paciente";
 
 const obtenerRegistro = obtenerTodos();
@@ -25,25 +25,24 @@ table.table.table-striped.table-light.table-light
             th.d-none.d-md-table-cell Fecha Nac.
             th.d-none.d-md-table-cell Sexo
             th
+            th
+            th
 
     tbody
         tr(v-for="item of registro"  :key="item.id"  :item="item")
-            td.d-none.d-md-table-cell {{(item.tipoDocumento=='DNI')? 'DNI': 'CARNET DE EXTRANJERIA'}}
-            td.d-none.d-md-table-cell {{item.numeroDocumento}}
+            td.d-none.d-md-table-cell {{ (item.tipoDocumento == 'DNI') ? 'DNI' : 'CARNET DE EXTRANJERIA' }}
+            td.d-none.d-md-table-cell {{ item.numeroDocumento }}
             td
-                span.d-block.d-md-none {{item.numeroDocumento}} -
-                | {{item.nombre+ ' '+item.apellidoPaterno +' '+item.apellidoMaterno }}
-            td.d-none.d-md-table-cell {{item.fechaNacimiento}}
-            td.d-none.d-md-table-cell {{(item.sexo=='M')?'MASCULINO':'FEMENINO'}}
-            td
-                .dropdown
-                    button.btn.btn-primary.dropdown-toggle#dropdownMenuLink(data-bs-toggle="dropdown") Opciones
-                    ul.dropdown-menu
-                        li
-                            a.dropdown-item( @click=" push({name: 'pacienteVer', params: {idPaciente: item.id} })" ) Ver
-                        li
-                            a.dropdown-item( @click=" push({name: 'paciente', params: {idPaciente: item.id} })" ) Editar
-                        li
-                            a.dropdown-item( @click="confirmar == false ? confirmar = true : confirmarEliminar(item.id)" ) {{confirmar ? '¿Está seguro?' : 'Borrar'}}
-
+                span.d-block.d-md-none {{ item.numeroDocumento }} -
+                | {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }}
+            td.d-none.d-md-table-cell {{ item.fechaNacimiento }}
+            td.d-none.d-md-table-cell {{ (item.sexo == 'M') ? 'MASCULINO' : 'FEMENINO' }}
+            td.dropdown
+                button.ms-auto.btn( @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })")
+                    i.fa.fa-solid.fa-magnifying-glass
+            td.dropdown
+                button.ms-auto.btn( @click="push({ name: 'paciente', params: { idPaciente: item.id } })")
+                    i.fa.fa-solid.fa-circle-plus
+            td.dropdown
+                button.ms-auto.btn.btn-primary(type="button", @click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) ") {{confirmar ? '¿Está seguro?' : 'Borrar'}}       
 </template>
