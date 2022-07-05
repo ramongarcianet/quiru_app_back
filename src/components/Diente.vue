@@ -279,7 +279,7 @@ function slelecteditem(ubicacion)
             border-bottom-left-radius: var(--border-radius-bottom)
             border-bottom-right-radius: var(--border-radius-bottom)
 
-        #aspaIzquierda
+        #aspaIzquierda, #aspaDerecha
             position: absolute
             height: calc( var(--size) * 1.24 )
             width: var(--weight)
@@ -292,6 +292,11 @@ function slelecteditem(ubicacion)
             pointer-events: none
             background: transparent
             transition: .3s
+        #aspaIzquierda
+            transform: rotate(45deg)
+        #aspaDerecha
+            transform: rotate(-45deg)
+
 
         div
             &.caries, &.restauración
