@@ -30,8 +30,14 @@ Form
     input.form-control(placeholder="Nombre", v-model="item.nombre", required, disabled)
     input.form-control(placeholder="Apellido paterno", v-model="item.apellidoPaterno", required,disabled)
     input.form-control(placeholder="Apellido materno", v-model="item.apellidoMaterno", required,disabled)
-RegistroOdontograma
-.d-flex
-  button.btn.btn-primary(@click="push({ name: 'pacientes', params: {} })") Volver
-  button.ms-auto.btn.btn-primary(@click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','2','0')") Nuevo Diagnóstico
+  br
+  .d-flex.justify-content-between
+    i.fa.fa-solid.fa-circle.fa-tooth(style="color: #37DFBB; font-weight: bold;")
+      |  Odontogramas
+  br
+  .div(style="background-color: white; border-radius: 5%;")
+    RegistroOdontograma
+  .d-flex
+    button.btn.btn-primary(@click="push({ name: 'pacientes', params: {} })") Volver
+    button.ms-auto.btn.btn-primary(@click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','2','0')") Nuevo Diagnóstico
 </template>

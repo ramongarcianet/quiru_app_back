@@ -16,7 +16,7 @@ const { push } = useRouter();
 </script>
 
 <template lang="pug">
-table.table.table-striped.table-light.table-light
+table.table.table-hover
     thead
         tr
             th.d-none.d-md-table-cell Tip Doc.
@@ -39,10 +39,13 @@ table.table.table-striped.table-light.table-light
             td.d-none.d-md-table-cell {{ (item.sexo == 'M') ? 'MASCULINO' : 'FEMENINO' }}
             td.dropdown
                 button.ms-auto.btn( @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })")
-                    i.fa.fa-solid.fa-magnifying-glass
+                    i.fa.fa-solid.fa-tooth
             td.dropdown
                 button.ms-auto.btn( @click="push({ name: 'paciente', params: { idPaciente: item.id } })")
                     i.fa.fa-solid.fa-circle-plus
             td.dropdown
-                button.ms-auto.btn.btn-primary(type="button", @click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) ") {{confirmar ? '¿Está seguro?' : 'Borrar'}}       
+                button.ms-auto.btn(@click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) ") {{confirmar ? '¿Está seguro?' : ''}}    
+                    i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
+               
+                     
 </template>
