@@ -1,32 +1,39 @@
 <script setup>
-import { onUnmounted, ref,watch} from "vue";
+import { onUnmounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import {
     obtenerTodos,
-    previousPage,
-    nextPage,
     eliminar,
-    renderTable,
-    registro_,
     registro
 } from "../../store/paciente";
-
+import {
+    previousPage,
+    nextPage,
+    setList,
+    registro_,
+    search
+} from "../../config/Paginator";
 const obtenerRegistro = obtenerTodos();
 const confirmar = ref(false);
 const confirmarEliminar = (id) => eliminar(id).then(() => (confirmar.value = false));
 const { push } = useRouter();
 watch(
-  ()=> registro.value,
-  ()=>  {
-    renderTable();
-  }
+    () => registro.value,
+    () => {
+        setList(registro.value);
+    }
 )
 
 </script>
 
 <template lang="pug">
-table#catTable.table.table-hover
+.row 
+    .col
+    .col
+        input#SearchInput.form-control(type='text', v-on:keyup='search()', placeholder='Buscar por Tipo/Número Doc/Nombre.', title='Type in a name', style="width: 100% !important;")
+table#ListData.table.table-hover
     thead
+        tr
         tr
             th.d-none.d-md-table-cell Tip Doc.
             th.d-none.d-md-table-cell Número Doc.
@@ -56,8 +63,8 @@ table#catTable.table.table-hover
                 button.ms-auto.btn(@click="confirmar == false ? confirmar = true : confirmarEliminar(item.id)") {{ confirmar ? '¿Está seguro?' : '' }}    
                     i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
 .div(style="text-align: center;")
-    button#prevButton.btn.btn-primary(@click="previousPage()") 
+    button#prevButton.btn.btn-primary(@click="previousPage(registro)") 
         i.fa.fa-angle-double-left(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;") 
-    button#nextButton.btn.btn-primary(@click="nextPage()") 
+    button#nextButton.btn.btn-primary(@click="nextPage(registro)") 
         i.fa.fa-angle-double-right(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;")                     
 </template>

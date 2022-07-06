@@ -27,7 +27,6 @@ const eliminar = (id) => {
 }
 
 const registro = ref([])
-export let registro_ = ref([])
 const obtenerTodos = () => {
     const referencia = collection(firestore, 'paciente')
     return onSnapshot(
@@ -53,27 +52,6 @@ const limpiar = () => {
     }
 }
 
-
-const pageSize = 2;
-let curPage = 1;
-
-export function renderTable() {
-    let result = '';
-    registro_.value = registro.value.filter((row, index) => {
-        let start = (curPage - 1) * pageSize;
-        let end = curPage * pageSize;
-        if (index >= start && index < end) return true;
-    });
-}
-export function previousPage() {
-    if (curPage > 1) curPage--;
-    renderTable();
-}
-
-export function nextPage() {
-    if ((curPage * pageSize) < registro.value.length) curPage++;
-    renderTable();
-}
 
 export {
     registro,
