@@ -1,68 +1,68 @@
 <script setup>
-import {computed, watch} from 'vue'
+import { computed, watch } from 'vue'
 import {
-  item as itemModel,
-  Hallazgo,
-  listaDeHallazgos,
-  isSpeech
+    item as itemModel,
+    Hallazgo,
+    listaDeHallazgos,
+    isSpeech
 } from "../../src/store/odontograma";
 import escenarios from '../config/Escenarios.json';
-const props = defineProps( ['item'])
+const props = defineProps(['item'])
 const emit = defineEmits(['update:ubicacion', 'update:hallazgo', 'update:diente'])
 
-const posiciones = ['arriva','izquierda','centro','derecha','abajo']
+const posiciones = ['arriva', 'izquierda', 'centro', 'derecha', 'abajo']
 
-const diente = computed(()=> (Number(props.item.diente)/10).toFixed(1) || "00")
+const diente = computed(() => (Number(props.item.diente) / 10).toFixed(1) || "00")
 
 
-function slelecteditem(ubicacion)
-{
-    const index  = itemModel.value.hallazgos.findIndex( i => i.hallazgo == Hallazgo.value   && i.posicion == ubicacion)
-    let zonaDiente ="";
-    if( index > -1 ) {
-        itemModel.value.hallazgos.splice( index, 1)
+function slelecteditem(ubicacion) {
+    const index = itemModel.value.hallazgos.findIndex(i => i.hallazgo == Hallazgo.value && i.posicion == ubicacion)
+    let zonaDiente = "";
+    if (index > -1) {
+        itemModel.value.hallazgos.splice(index, 1)
     }
-    else
-    {
-        const registroSiglas = listaDeHallazgos.filter((elem)=> elem.value==Hallazgo.value);
+    else {
+        const registroSiglas = listaDeHallazgos.filter((elem) => elem.value == Hallazgo.value);
         const sigla = registroSiglas[0]?.sigla;
-        const ubicacionnes =escenarios.Esenarios.filter((elem)=> elem.pieza==itemModel.value.diente)[0];
-        if( ubicacionnes !=undefined ) {
-        switch (ubicacion) {
-                            case "arriva":
-                                zonaDiente=ubicacionnes.arriva;
-                                break;
-                            case "centro":
-                                 zonaDiente=ubicacionnes.centro;
-                                break;
-                            case "abajo":
-                                 zonaDiente=ubicacionnes.abajo;
-                                break;
-                            case "izquierda":
-                                 zonaDiente=ubicacionnes.izquierda;
-                                break;
-                            case "derecha":
-                                 zonaDiente=ubicacionnes.derecha;
-                                break;
-                        }
+        const ubicacionnes = escenarios.Esenarios.filter((elem) => elem.pieza == itemModel.value.diente)[0];
+        if (ubicacionnes != undefined && comboHallazgo.value != '' && comboPieza.value != '') {
+            switch (ubicacion) {
+                case "arriva":
+                    zonaDiente = ubicacionnes.arriva;
+                    break;
+                case "centro":
+                    zonaDiente = ubicacionnes.centro;
+                    break;
+                case "abajo":
+                    zonaDiente = ubicacionnes.abajo;
+                    break;
+                case "izquierda":
+                    zonaDiente = ubicacionnes.izquierda;
+                    break;
+                case "derecha":
+                    zonaDiente = ubicacionnes.derecha;
+                    break;
+            }
         }
-        itemModel.value.hallazgos.push({hallazgo: Hallazgo.value, ubicacion: zonaDiente,sigla:sigla, posicion: ubicacion})
+        if (comboHallazgo.value != '' && comboPieza.value != '') {
+            itemModel.value.hallazgos.push({ hallazgo: Hallazgo.value, ubicacion: zonaDiente, sigla: sigla, posicion: ubicacion })
+        }
     }
 }
 </script>
 <template lang="pug">
 #diente(v-if="!isSpeech" v-bind='$attrs' :class='item.clase')
     h1
-        span {{diente }}
+        span {{ diente }}
     h1
-        span {{item.hallazgos.map((item)=>item.sigla).join(' ')}}
+        span {{ item.hallazgos.map((item) => item.sigla).join(' ') }}
     //-#raices
-    #button-diente( :class='item.hallazgos?.map(({hallazgo}) => hallazgo).join(" ")' )
+    #button-diente( :class='item.hallazgos?.map(({ hallazgo }) => hallazgo).join(" ")' )
         div(
             v-for='posicion of posiciones'
             :id='posicion'
             @click='slelecteditem(posicion)'
-            :class='`${item.hallazgos?.filter(i => i.posicion == posicion).map(({hallazgo})=>hallazgo).join(" ")} ${item.hallazgos?.map(({posicion}) => posicion).some( item => item == posicion ) ? "active" : ""}`'
+            :class='`${item.hallazgos?.filter(i => i.posicion == posicion).map(({ hallazgo }) => hallazgo).join(" ")} ${item.hallazgos?.map(({ posicion }) => posicion).some(item => item == posicion) ? "active" : ""}`'
         )
         #aspaIzquierda
         #aspaDerecha

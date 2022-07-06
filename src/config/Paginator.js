@@ -3,10 +3,11 @@ import { ref } from 'vue';
 const pageSize = 6;
 let curPage = 1;
 export let registro_ = ref([])
-export function search() {
+export function search(registro) {
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("SearchInput");
     filter = input.value.toUpperCase();
+    /**/
     table = document.getElementById("ListData");
     tr = table.getElementsByTagName("tr");
     for (i = 2; i < tr.length; i++) {
@@ -23,6 +24,7 @@ export function search() {
             }
         }
     }
+    
 }
 
 export function setList(registro) {

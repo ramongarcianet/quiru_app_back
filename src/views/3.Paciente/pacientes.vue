@@ -8,7 +8,7 @@ const {push} = useRouter()
 <template lang="pug">
 
 .d-flex.justify-content-between
-  i.fa.fa-list-ul(style="color: #37DFBB; font-weight: bold;")
+  i.fa.fa-list-ul(style="color: #37DFBB; font-weight:bold; font-family: var(--font-family); font-size: 1.5em;")
     |  Pacientes
   br
 Registro
