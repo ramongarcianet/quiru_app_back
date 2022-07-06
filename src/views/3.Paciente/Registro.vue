@@ -1,22 +1,31 @@
 <script setup>
-import { onUnmounted, ref } from "vue";
+import { onUnmounted, ref,watch} from "vue";
 import { useRouter } from "vue-router";
 import {
     obtenerTodos,
-    registro,
-    leerEnRegistro,
+    previousPage,
+    nextPage,
     eliminar,
-    dialog,
+    renderTable,
+    registro_,
+    registro
 } from "../../store/paciente";
 
 const obtenerRegistro = obtenerTodos();
 const confirmar = ref(false);
 const confirmarEliminar = (id) => eliminar(id).then(() => (confirmar.value = false));
 const { push } = useRouter();
+watch(
+  ()=> registro.value,
+  ()=>  {
+    renderTable();
+  }
+)
+
 </script>
 
 <template lang="pug">
-table.table.table-hover
+table#catTable.table.table-hover
     thead
         tr
             th.d-none.d-md-table-cell Tip Doc.
@@ -29,7 +38,7 @@ table.table.table-hover
             th
 
     tbody
-        tr(v-for="item of registro"  :key="item.id"  :item="item")
+        tr(v-for="item of registro_"  :key="item.id"  :item="item")
             td.d-none.d-md-table-cell {{ (item.tipoDocumento == 'DNI') ? 'DNI' : 'CARNET DE EXTRANJERIA' }}
             td.d-none.d-md-table-cell {{ item.numeroDocumento }}
             td
@@ -44,8 +53,11 @@ table.table.table-hover
                 button.ms-auto.btn( @click="push({ name: 'paciente', params: { idPaciente: item.id } })")
                     i.fa.fa-solid.fa-circle-plus
             td.dropdown
-                button.ms-auto.btn(@click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) ") {{confirmar ? '¿Está seguro?' : ''}}    
+                button.ms-auto.btn(@click="confirmar == false ? confirmar = true : confirmarEliminar(item.id)") {{ confirmar ? '¿Está seguro?' : '' }}    
                     i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
-               
-                     
+.div(style="text-align: center;")
+    button#prevButton.btn.btn-primary(@click="previousPage()") 
+        i.fa.fa-angle-double-left(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;") 
+    button#nextButton.btn.btn-primary(@click="nextPage()") 
+        i.fa.fa-angle-double-right(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;")                     
 </template>
