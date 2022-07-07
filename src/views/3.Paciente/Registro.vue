@@ -31,8 +31,8 @@ watch(
     .col
     .col
         input#SearchInput.form-control(type='text', v-on:keyup='search(registro)', placeholder='Buscar por Tipo/Número Doc/Nombre.', title='Type in a name', style="width: 100% !important;")
-.div(style="background-color: white; border-radius: 5%;")
-    table#ListData.table.table-hover
+.div(style="background-color: white; border-radius: 2%;")
+    table.table.table-hover
         thead
             tr
             tr
