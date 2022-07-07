@@ -2,8 +2,6 @@
 import { onUnmounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { item, guardar, actualizar, limpiar, leerEnRegistro } from "../../store/paciente";
-import RegistroOdontograma from "../5.Odontograma/RegistroOdontograma.vue";
-import { guardar as guardarOdontograma } from "../../store/formodontograma";
 const guardarOActualizar = () => {
 
   if (item.value.id) return actualizar(item.value);
