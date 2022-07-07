@@ -4,27 +4,24 @@ const pageSize = 6;
 let curPage = 1;
 export let registro_ = ref([])
 export function search(registro) {
-    var input, filter, table, tr, td, i, txtValue;
+    var input, searchValue;
     input = document.getElementById("SearchInput");
-    filter = input.value.toUpperCase();
-    /**/
-    table = document.getElementById("ListData");
-    tr = table.getElementsByTagName("tr");
-    for (i = 2; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[0].textContent || tr[i].getElementsByTagName("td")[0].innerText;
-        td = td + tr[i].getElementsByTagName("td")[1].textContent || tr[i].getElementsByTagName("td")[1].innerText;
-        td = td + tr[i].getElementsByTagName("td")[2].textContent || tr[i].getElementsByTagName("td")[2].innerText;
-
-        if (td) {
-            txtValue = td;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
-            }
-        }
+    searchValue = input.value.toUpperCase();
+    let tempRecipes = registro;
+    let completo = "";
+    if (tempRecipes != undefined) {
+        tempRecipes = tempRecipes.filter((item) => {
+            completo = item.tipoDocumento + ' ' + item.numeroDocumento + ' ' + item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno;
+            return completo
+                .toUpperCase()
+                .includes(searchValue.toUpperCase())
+        });
     }
-    
+    registro_.value = tempRecipes.filter((row, index) => {
+        let start = (curPage - 1) * pageSize;
+        let end = curPage * pageSize;
+        if (index >= start && index < end) return true;
+    });
 }
 
 export function setList(registro) {

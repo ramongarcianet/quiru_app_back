@@ -30,7 +30,7 @@ watch(
 .row 
     .col
     .col
-        input#SearchInput.form-control(type='text', v-on:keyup='search()', placeholder='Buscar por Tipo/Número Doc/Nombre.', title='Type in a name', style="width: 100% !important;")
+        input#SearchInput.form-control(type='text', v-on:keyup='search(registro)', placeholder='Buscar por Tipo/Número Doc/Nombre.', title='Type in a name', style="width: 100% !important;")
 .div(style="background-color: white; border-radius: 5%;")
     table#ListData.table.table-hover
         thead
