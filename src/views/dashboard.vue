@@ -19,12 +19,12 @@ const rutas = computed(() => [
     icon: "fa-solid fa-address-book",
     routeName: "paciente",
   },
-  {
+ /* {
     name: "Odontograma",
     onClick: () => push({ name: "odontograma" }),
     icon: "fa-solid fa-tooth",
     routeName: "odontograma",
-  },
+  },*/
   {
     name: "Menú",
     onClick: () => (isActive.value = !isActive.value),
@@ -76,15 +76,15 @@ window.addEventListener("resize", () => {
     div
       button.btn.btn-primary( v-for="{name, onClick, icon}, i of rutasInferior" :key='`rutas-${i}`' @click="onClick()" )
         i.fa-xl( :class="icon" :label="name" )
-  nav.nav-mobile.d-sm-none  
+  nav.nav-mobile.d-sm-none
     button.btn.btn-outline-light( v-for="{name, onClick, icon,routeName, aditionalClass}, i of rutas" :key='`rutas-${i}`' :class='`${routeName == route.name ? "active" : ""} ${aditionalClass}`' @click="onClick()" )
-      i.fa-xl( :class="icon" :label="name" )  
+      i.fa-xl( :class="icon" :label="name" )
   #body.py-5
     .container
       router-view
 
   #info
- 
+
 
 </template>
 <style lang="sass" scoped>

@@ -2,6 +2,7 @@
 import { onUnmounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { item, guardar, actualizar, limpiar, leerEnRegistro } from "../../store/paciente";
+import {isLetter,isNumber} from '../../config/libreria'
 const guardarOActualizar = () => {
 
   if (item.value.id) return actualizar(item.value);
@@ -17,24 +18,6 @@ onUnmounted(()=> {
   limpiar()
   if (obtener) obtener();
 })
-function isNumber($event){
-   let charCode = ($event.keyCode ? $event.keyCode : $event.which);
-    // Only Numbers 0-9
-    if ((charCode < 48 || charCode > 57)) {
-      $event.preventDefault();
-    }
-}
-function isLetter($event){
-  let char = String.fromCharCode($event.keyCode);
-  // Only Numbers a-z or A-Z
-  let reg =/^[a-záéíóú ,.'-]+$/i;
-  if ((reg.test(char))) {
-      return true;
-  } else {
-    $event.preventDefault();
-  }
-
-}
 
 </script>
 
