@@ -66,10 +66,6 @@ watch(
   () => itemodontograma.value?.hallazgos,
   (registro) => {
     let idOdontograma = route.params.idOdontograma
-    if (idOdontograma)
-      if (item.diente != undefined)
-        if (Hallazgo.value != '')
-          actualizarDetalle(idOdontograma, registro)
     VerFormato(itemodontograma.value.hallazgos)
     limpiar()
   },

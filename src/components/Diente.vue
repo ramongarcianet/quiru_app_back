@@ -16,7 +16,7 @@ const diente = computed(() => (Number(props.item.diente) / 10).toFixed(1) || "00
 
 
 function slelecteditem(ubicacion) {
-    const index = itemModel.value.hallazgos.findIndex(i => i.hallazgo == Hallazgo.value && i.posicion == ubicacion)
+    const index = itemModel.value?.hallazgos.findIndex(i => i.hallazgo == Hallazgo.value && i.posicion == ubicacion)
     let zonaDiente = "";
     if (index > -1) {
         itemModel.value.hallazgos.splice(index, 1)

@@ -98,6 +98,7 @@ export function agregarLista(id,param) {
                     }
                 }
         });
+        actualizarDetalle(id, item.value.hallazgos)
         limpiarHallazgo();
     }
  }

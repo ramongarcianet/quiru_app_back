@@ -1,6 +1,6 @@
 import {item,verOdontograma, detenerVoz, activarVoz, listaDeHallazgos, listaDeDientes, listaDeTipos, speak, flagLimpiar} from './odontograma'
 import router from '../config/router'
-import {item as itemodontograma} from './formodontograma';
+import {item as itemodontograma,actualizarDetalle} from './formodontograma';
 import escenarios from '../config/Escenarios.json';
 const seleccionarHallazgo = hallazgo => actualizarItem(hallazgo, false, false)
 
@@ -142,7 +142,7 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
 }
 function existeDienteVoz(diente,hallazgo,ubicacion){
     let result = false;
-    let lista = itemodontograma.value.hallazgos;
+    let lista =  ( itemodontograma.value.hallazgos != undefined)? item.value.hallazgos : [];
     for (let item of lista ){
         if (hallazgo == 'caries' || hallazgo == 'restauración'){
             if(item.diente==diente && item.hallazgo==hallazgo && item.ubicacion==ubicacion ){
@@ -180,16 +180,17 @@ function existeDienteVoz(diente,hallazgo,ubicacion){
 export const agregar  = () => {
     if(item.value.hallazgos?.length == 0) return speak( 'No he registrado un hallazgo')
     item.value.hallazgos?.map( ({hallazgo, ubicacion,sigla,posicion}) => ({diente: item.value.diente, ubicacion: ubicacion || "", hallazgo,sigla,posicion})).forEach( item => {
-        const index = itemodontograma.value.hallazgos?.findIndex( i => i.hallazgo == item.hallazgo && i.diente == item.diente && i.ubicacion == item.ubicacion)
+        const index = itemodontograma.value?.hallazgos?.findIndex( i => i.hallazgo == item.hallazgo && i.diente == item.diente && i.ubicacion == item.ubicacion)
         if ( index == -1 || index == undefined){
-            itemodontograma.value.hallazgos?itemodontograma.value.hallazgos.push(item):itemodontograma.value.hallazgos=[item];
+            itemodontograma.value?.hallazgos?itemodontograma.value.hallazgos.push(item):itemodontograma.value.hallazgos=[item];
         }
     })
+    actualizarDetalle(itemodontograma.value.id,  itemodontograma.value.hallazgos)
 };
 
 
 export function limpiarPieza(pieza) {
-    itemodontograma.value.hallazgos = itemodontograma.value.hallazgos.filter( ({diente}) => diente!=pieza)
+    itemodontograma.value.hallazgos = itemodontograma.value?.hallazgos.filter( ({diente}) => diente!=pieza)
     item.value.diente = pieza
     speak( `Limpiando pieza ${pieza}`)
 }
