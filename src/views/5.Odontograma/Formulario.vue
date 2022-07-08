@@ -104,7 +104,7 @@ function limpiarHallazgoDiente() {
     MicroButton( style='--size: 4rem; position:absolute; z-index:3;left:18%; margin-top:57%' :class="{ active: isSpeech }" @click="isSpeech ? detenerVoz() : activarVoz()")
   p( style='position:absolute; z-index:4;left:30%; margin-top:110%; color:white;  font-weight: bold; font-size:12px;') QUIRU
   .col
-p {{ textoEscuchado }}
+<!--p {{ textoEscuchado }}-->
 .row
   .col
     .row
