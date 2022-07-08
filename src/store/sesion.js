@@ -2,15 +2,15 @@
 import {auth} from '../config/firebase'
 import {ref} from 'vue'
 import {
-    createUserWithEmailAndPassword, 
-    signInWithEmailAndPassword, 
-    signOut, 
-    onAuthStateChanged 
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
 } from 'firebase/auth'
 import {crearUsuarioConId} from './usuario'
 import router from '../config/router'
 
-
+export const usuario = ref({});
 export const item = ref({})
 
 export const crearCuenta = ({email, password, nombre, apellido})=>{
@@ -30,7 +30,7 @@ export const iniciarSesion = ({email, password}) =>{
 
 export const cerrarSesion = () => signOut(auth)
 
-export const sesion = () => onAuthStateChanged( 
+export const sesion = () => onAuthStateChanged(
     auth,
     ( user ) => {
         if( user ) router.push({name:'pacientes'})
@@ -40,12 +40,15 @@ export const sesion = () => onAuthStateChanged(
     }
 )
 
-export const obtenerEstadoDeAutentificacion = ()=> new Promise( resolve =>{ 
-    const unsub = onAuthStateChanged( 
+export const obtenerEstadoDeAutentificacion = ()=> new Promise( resolve =>{
+    const unsub = onAuthStateChanged(
     auth,
     ( user ) => {
         unsub()
-        if(user) resolve( true )
+        if(user) {
+            usuario.value.uid=user.uid
+            resolve( true )
+        }
         else resolve( false )
     }
 )})
