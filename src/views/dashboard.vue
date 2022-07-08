@@ -34,18 +34,19 @@ const rutas = computed(() => [
 ]);
 
 const rutasAdministrador = [
-  {
+  /*{
     name: "Usuarios",
     onClick: () => push({ name: "usuarios" }),
     icon: "fa-solid fa-user-doctor",
     routeName: "usuarios",
   },
+
   {
     name: "Diccionario",
     onClick: () => push({ name: "diccionarios" }),
     icon: "fa-solid fa-book",
     routeName: "diccionario",
-  },
+  },*/
 ];
 const rutasInferior = [
   {
