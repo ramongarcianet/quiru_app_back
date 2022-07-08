@@ -28,7 +28,12 @@ import {
 import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarLista } from '../../store/formodontograma';
 import { VerFormato } from "../../store/OdontoJS";
 import { useRoute, useRouter } from "vue-router";
-
+import {
+    previousPage,
+    nextPage,
+    setList,
+    registro_ as _hallazgos
+} from "../../config/Paginator";
 const route = useRoute();
 const listaDiccionario = obtenerTodoDiccionario();
 const listaPieza = obtenerTodoPieza();
@@ -49,10 +54,12 @@ onMounted(() => {
   } else {
 
   }
+    setList(itemodontograma.value.hallazgos);
 })
 
 onUnmounted(() => {
   detenerVoz()
+
 })
 watch(
   () => item.value.diente,
@@ -67,6 +74,7 @@ watch(
   (registro) => {
     let idOdontograma = route.params.idOdontograma
     VerFormato(itemodontograma.value.hallazgos)
+    setList(itemodontograma.value.hallazgos);
     limpiar()
   },
   { deep: true }
@@ -84,7 +92,10 @@ function limpiarHallazgoDiente() {
 <template lang="pug">
 .row
   .col
-    h2 Odontograma
+    .d-flex.justify-content-between
+    i.fa.fa-list-ul(style="color: #37DFBB; font-weight:bold; font-family: var(--font-family); font-size: 1.5em;")
+      |  Odontograma
+    br
   .col
 .div(style='background-color: #37DFBB;width: 100px;height: 130px;margin-top: -145px;left:80%; position: absolute;z-index: 2;border-radius: 50% 50% 50% 50%;')
   #button-microfono
@@ -125,20 +136,26 @@ p {{ textoEscuchado }}
 
 .row
   .col
-    table.table.table-striped.table-light
-      thead
-        tr
-          th Diente
-          th Hallazgo
-          th Ubicación
-          th Sigla
-          th
-      tbody
-        tr(v-for="item of itemodontograma.hallazgos")
-          td {{ item.diente }}
-          td {{ item.hallazgo }}
-          td {{ item.ubicacion }}
-          td {{ item.sigla }}
-          td
-            button(@click="borrar(item)").btn.btn-primary Borrar
+    .div(style="background-color: white; border-radius: 2%;")
+      table.table.table-hover
+        thead
+          tr
+            th Diente
+            th Hallazgo
+            th Ubicación
+            th Sigla
+            th
+        tbody
+          tr(v-for="item of _hallazgos")
+            td {{ item.diente }}
+            td {{ item.hallazgo }}
+            td {{ item.ubicacion }}
+            td {{ item.sigla }}
+            td
+              button(@click="borrar(item)").btn.btn-primary Borrar
+      .div(style="text-align: center;")
+        button#prevButton.btn.btn-primary(@click="previousPage(itemodontograma.hallazgos)") 
+            i.fa.fa-angle-double-left(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;") 
+        button#nextButton.btn.btn-primary(@click="nextPage(itemodontograma.hallazgos)") 
+            i.fa.fa-angle-double-right(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;") 
 </template>

@@ -1,6 +1,6 @@
 
 import { ref } from 'vue';
-const pageSize = 6;
+const pageSize = 10;
 let curPage = 1;
 export let registro_ = ref([])
 export function search(registro) {
