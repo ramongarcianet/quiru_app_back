@@ -57,7 +57,12 @@ export const limpiar = ()=> {
     flagLimpiar.value = !flagLimpiar.value
     speak('Limpiando')
 }
-
+export const limpiarSinVoz = ()=> {
+    item.value =  {
+        diente: '00',
+        hallazgos: [ ]
+    }
+}
 const opcionesDeComandosDeVoz = [
     'caries',    'extracción',    'ausente',    'fractura',    'restauración', 'lingual', 'incisal',  'vestibular', 'por',
     'distal',    'oclusal',    'mesial',    'palatino',
