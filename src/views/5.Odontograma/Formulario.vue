@@ -29,10 +29,10 @@ import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarList
 import { VerFormato } from "../../store/OdontoJS";
 import { useRoute, useRouter } from "vue-router";
 import {
-    previousPage,
-    nextPage,
-    setList,
-    registro_ as _hallazgos
+  previousPage,
+  nextPage,
+  setList,
+  registro_ as _hallazgos
 } from "../../config/Paginator";
 const route = useRoute();
 const listaDiccionario = obtenerTodoDiccionario();
@@ -54,12 +54,11 @@ onMounted(() => {
   } else {
 
   }
-    setList(itemodontograma.value.hallazgos);
+  setList(itemodontograma.value.hallazgos);
 })
 
 onUnmounted(() => {
   detenerVoz()
-
 })
 watch(
   () => item.value.diente,
@@ -73,15 +72,18 @@ watch(
   () => itemodontograma.value?.hallazgos,
   (registro) => {
     let idOdontograma = route.params.idOdontograma
-    VerFormato(itemodontograma.value.hallazgos)
-    setList(itemodontograma.value.hallazgos);
+    VerFormato((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [])
+    setList((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : []);
     limpiar()
   },
   { deep: true }
 )
 const borrar = ({ diente, hallazgo, ubicacion }) => {
-  const index = itemodontograma.value.hallazgos.findIndex(i => i.diente == diente && i.hallazgo == hallazgo && i.ubicacion == ubicacion)
-  if (index > -1) itemodontograma.value.hallazgos.splice(index, 1)
+  const index = itemodontograma.value?.hallazgos?.findIndex(i => i.diente == diente && i.hallazgo == hallazgo && i.ubicacion == ubicacion)
+  if (index > -1) {
+    itemodontograma.value.hallazgos.splice(index, 1)
+    actualizarDetalle(itemodontograma.value.id, (itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [])
+  }
 }
 
 function limpiarHallazgoDiente() {
@@ -151,11 +153,12 @@ p {{ textoEscuchado }}
             td {{ item.hallazgo }}
             td {{ item.ubicacion }}
             td {{ item.sigla }}
-            td
-              button(@click="borrar(item)").btn.btn-primary Borrar
+            td.dropdown
+                    button.ms-auto.btn(@click="confirmar == false ? confirmar = true : borrar(item)") {{ confirmar ? '¿Está seguro?' : '' }}    
+                        i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
       .div(style="text-align: center;")
         button#prevButton.btn.btn-primary(@click="previousPage(itemodontograma.hallazgos)") 
-            i.fa.fa-angle-double-left(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;") 
+          i.fa.fa-angle-double-left(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;") 
         button#nextButton.btn.btn-primary(@click="nextPage(itemodontograma.hallazgos)") 
-            i.fa.fa-angle-double-right(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;") 
+          i.fa.fa-angle-double-right(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;") 
 </template>

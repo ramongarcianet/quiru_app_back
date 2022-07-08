@@ -26,20 +26,29 @@ export function search(registro) {
 
 export function setList(registro) {
     let result = '';
-    registro_.value = registro.filter((row, index) => {
-        let start = (curPage - 1) * pageSize;
-        let end = curPage * pageSize;
-        if (index >= start && index < end) return true;
-    });
+    if (registro != undefined) {
+        registro_.value = registro.filter((row, index) => {
+            let start = (curPage - 1) * pageSize;
+            let end = curPage * pageSize;
+            if (index >= start && index < end) return true;
+        });
+    }
+    else {
+        registro_.value = [];
+    }
 }
 export function previousPage(registro) {
-    if (curPage > 1) curPage--;
-    setList(registro);
+    if (registro != undefined) {
+        if (curPage > 1) curPage--;
+        setList(registro);
+    }
 }
 
 export function nextPage(registro) {
-    if ((curPage * pageSize) < registro.length) curPage++;
-    setList(registro);
+    if (registro != undefined) {
+        if ((curPage * pageSize) < registro.length) curPage++;
+        setList(registro);
+    }
 }
 export function searchDiccionario(registro) {
     var input, searchValue;
