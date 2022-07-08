@@ -7,9 +7,10 @@ const dialog = ref(false)
 
 const item = ref({
     tipoDocumento: 'DNI',
-    sexo: 'M',
+    sexo: '',
     fechaNacimiento: new Date().toISOString().slice(0, 10),
-    fechaIngreso: new Date().toISOString().slice(0, 10)
+    fechaIngreso: new Date().toISOString().slice(0, 10),
+    constancia:'N'
 })
 
 const guardar = item => {
@@ -49,8 +50,10 @@ const leerEnRegistro = id => {
 const limpiar = () => {
     item.value = {
         tipoDocumento: 'DNI',
-        sexo: 'M',
-        fechaNacimiento: new Date().toISOString().slice(0, 10)
+        sexo: '',
+        fechaNacimiento: new Date().toISOString().slice(0, 10),
+        fechaIngreso: new Date().toISOString().slice(0, 10),
+        constancia:'N'
 
     }
 }

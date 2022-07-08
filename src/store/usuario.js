@@ -1,13 +1,14 @@
 import { ref } from 'vue';
 
-import {addDoc, collection, onSnapshot, getDoc, doc, updateDoc, deleteDoc, setDoc} from 'firebase/firestore'
+import {addDoc, collection, onSnapshot, getDoc, doc, updateDoc, deleteDoc, setDoc,orderBy,query} from 'firebase/firestore'
 import {firestore} from '../config/firebase'
 
 const registro = ref([])
 const item = ref ({
     tipoDocumento:'DNI',
-    sexo:'M',
-    fechaNacimiento:new Date().toISOString().slice(0,10)
+    sexo:'',
+    fechaNacimiento:new Date().toISOString().slice(0,10),
+    fechaIngreso: new Date().toISOString().slice(0, 10)
 
 })
 
@@ -35,8 +36,9 @@ const eliminar = (id) => {
 
 const obtenerTodos = () => {
     const referencia = collection(firestore, 'usuario')
+    const referenciaOrden= query(referencia,orderBy("fechaIngreso", "desc"))
     return onSnapshot(
-        referencia,
+        referenciaOrden,
         collection => registro.value = collection.docs.map( doc => ({...doc.data(), id: doc.id }))
     )
 }
@@ -52,8 +54,9 @@ const leerEnRegistro = id => {
 const limpiar=()=> {
     item.value = {
         tipoDocumento:'DNI',
-        sexo:'M',
-        fechaNacimiento:new Date().toISOString().slice(0,10)
+        sexo:'',
+        fechaNacimiento:new Date().toISOString().slice(0,10),
+        fechaIngreso: new Date().toISOString().slice(0, 10)
 
     }
 }

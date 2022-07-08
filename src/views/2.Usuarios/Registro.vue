@@ -19,7 +19,7 @@ table.table.table-striped.table-light
             th Nombres
             th Ape. Paterno
             th Ape. Materno
-            th Fecha Nac.
+            th Fecha Ingreso
             th Sexo
             th
     tbody
@@ -29,16 +29,16 @@ table.table.table-striped.table-light
             td {{item.nombre}}
             td {{item.apellidoPaterno}}
             td {{item.apellidoMaterno}}
-            td {{item.fechaNacimiento}}
+            td {{item.fechaIngreso}}
             td {{item.sexo}}
-            td 
+            td
                 .dropdown
                     button.btn.btn-primary.dropdown-toggle#dropdownMenuLink(data-bs-toggle="dropdown") Opciones
                     ul.dropdown-menu
-                        li 
+                        li
                             a.dropdown-item( @click="push({name: 'usuario', params: {idUsuario: item.id}}) " ) Editar
                         li
-                            a.dropdown-item( @click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) " ) {{confirmar ? '¿Está seguro?' : 'Borrar'}} 
+                            a.dropdown-item( @click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) " ) {{confirmar ? '¿Está seguro?' : 'Borrar'}}
 
 </template>
 

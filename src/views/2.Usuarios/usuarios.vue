@@ -7,7 +7,7 @@ const {push} = useRouter()
 <template>
 <h1>Usuario</h1>
 <div class="container">
-  <Button @click="push({name: 'usuario'}) "> Nuevo </Button>
+  <Button class="btn btn-primary" @click="push({name: 'usuario'}) "> Nuevo </Button>
   <Registro />
 </div>
 </template>
