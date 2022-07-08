@@ -17,9 +17,9 @@ if(route.params.idUsuario) leerEnRegistro(route.params.idUsuario)
 onUnmounted(()=>{
     limpiar()
 })
-function definirMaxLimit(){
+function definirMaxLimit(tipoDocumento){
   item.value.numeroDocumento = '';
-  if (item.tipoDocumento=='DNI'){
+  if (tipoDocumento=='DNI'){
       maxDocumento.value = 8;
   } else {
       maxDocumento.value = 9;
@@ -34,10 +34,10 @@ function definirMaxLimit(){
 Form( :onPromise=" () => guardarOActualizar()" :onSuccess='()=>back()')
     label.form-label() Documento
     .input-group
-        select.form-select(placeholder="Tipo Documento" v-model="item.tipoDocumento" required,v-on:change="definirMaxLimit()")
+        select.form-select(placeholder="Tipo Documento" v-model="item.tipoDocumento" required,v-on:change="definirMaxLimit(item.tipoDocumento)")
             option(value="DNI") DNI
             option(value="CE") CARNET DE EXTRANJERIA
-        input.form-control(placeholder="Número Documento" v-model="item.numeroDocumento" ,v-on:keypress="isNumber($event)",required,:maxlength="maxDocumento")
+        input.form-control(placeholder="Número Documento" v-model="item.numeroDocumento" ,v-on:keypress="isNumber($event)",required,:maxlength="maxDocumento",:minlength="maxDocumento")
     .input-group
         input.form-control(placeholder="Nombre", v-model="item.nombre",v-on:keypress="isLetter($event)", required,maxlength="30")
         input.form-control(placeholder="Apellido Paterno", v-model="item.apellidoPaterno",v-on:keypress="isLetter($event)" required,maxlength="30")

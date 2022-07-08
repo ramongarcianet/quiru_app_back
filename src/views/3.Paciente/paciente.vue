@@ -19,9 +19,9 @@ onUnmounted(()=> {
   limpiar()
   if (obtener) obtener();
 })
-function definirMaxLimit(){
+function definirMaxLimit(tipoDocumento){
   item.value.numeroDocumento = '';
-  if (item.tipoDocumento=='DNI'){
+  if (tipoDocumento=='DNI'){
       maxDocumento.value = 8;
   } else {
       maxDocumento.value = 9;
@@ -34,10 +34,10 @@ function definirMaxLimit(){
 Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
   label.form-label Documento de identidad
   .input-group
-    select.form-select(placeholder="Ubigeo", v-model="item.tipoDocumento",v-on:change="definirMaxLimit()")
+    select.form-select(placeholder="Ubigeo", v-model="item.tipoDocumento",v-on:change="definirMaxLimit(item.tipoDocumento)")
       option(value="DNI") DNI
       option(value="CE") CARNET DE EXTRANJERIA
-    input.form-control(placeholder="Número documento", v-model="item.numeroDocumento", @keypress="isNumber($event)",required,:maxlength="maxDocumento")
+    input.form-control(placeholder="Número documento", v-model="item.numeroDocumento", @keypress="isNumber($event)",required,:maxlength="maxDocumento",:minlength="maxDocumento")
   label.form-label Nombre del paciente
   .input-group
     input.form-control(placeholder="Nombre", v-model="item.nombre",@keypress="isLetter($event)" ,required,maxlength="30")
