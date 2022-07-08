@@ -32,11 +32,11 @@ Form
     input.form-control(placeholder="Apellido materno", v-model="item.apellidoMaterno", required,disabled)
   br
   .d-flex.justify-content-between
-    i.fa.fa-solid.fa-circle.fa-tooth(style="color: #37DFBB; font-weight: bold;")
-      |  Odontogramas
+    i.fa.fa-list-ul(style="color: #37DFBB; font-weight:bold; font-family: var(--font-family); font-size: 1.5em;")
+      |  Odontogramas 
+    br
   br
-  .div(style="background-color: white; border-radius: 5%;")
-    RegistroOdontograma
+  RegistroOdontograma
   .d-flex
     button.btn.btn-primary(@click="push({ name: 'pacientes', params: {} })") Volver
     button.ms-auto.btn.btn-primary(@click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','2','0')") Nuevo Diagnóstico
