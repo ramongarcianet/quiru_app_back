@@ -2,7 +2,7 @@
 import { onMounted, onUnmounted, watch } from "vue";
 import OdonOficial from "./2.impresion.vue";
 import {
-  limpiar
+  limpiarSinVoz
 } from "../../store/comandosDeVoz";
 import {
   obtenerTodoDiccionario,
@@ -74,7 +74,7 @@ watch(
     let idOdontograma = route.params.idOdontograma
     VerFormato((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [])
     setList((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : []);
-    limpiar()
+    limpiarSinVoz()
   },
   { deep: true }
 )
@@ -87,7 +87,7 @@ const borrar = ({ diente, hallazgo, ubicacion }) => {
 }
 
 function limpiarHallazgoDiente() {
-  limpiar();
+  limpiarSinVoz();
 }
 </script>
 
@@ -154,11 +154,11 @@ p {{ textoEscuchado }}
             td {{ item.ubicacion }}
             td {{ item.sigla }}
             td.dropdown
-                    button.ms-auto.btn(@click="confirmar == false ? confirmar = true : borrar(item)") {{ confirmar ? '¿Está seguro?' : '' }}    
+                    button.ms-auto.btn(@click="confirmar == false ? confirmar = true : borrar(item)") {{ confirmar ? '¿Está seguro?' : '' }}
                         i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
       .div(style="text-align: center;")
-        button#prevButton.btn.btn-primary(@click="previousPage(itemodontograma.hallazgos)") 
-          i.fa.fa-angle-double-left(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;") 
-        button#nextButton.btn.btn-primary(@click="nextPage(itemodontograma.hallazgos)") 
-          i.fa.fa-angle-double-right(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;") 
+        button#prevButton.btn.btn-primary(@click="previousPage(itemodontograma.hallazgos)")
+          i.fa.fa-angle-double-left(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;")
+        button#nextButton.btn.btn-primary(@click="nextPage(itemodontograma.hallazgos)")
+          i.fa.fa-angle-double-right(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;")
 </template>
