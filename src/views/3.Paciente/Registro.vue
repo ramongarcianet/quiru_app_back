@@ -39,7 +39,7 @@ watch(
                 th.d-none.d-md-table-cell Tip Doc.
                 th.d-none.d-md-table-cell Número Doc.
                 th Nombres
-                th.d-none.d-md-table-cell Fecha Ingreso.
+                th.d-none.d-md-table-cell Fecha Ingreso
                 th.d-none.d-md-table-cell Sexo
                 th
                 th

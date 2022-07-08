@@ -3,6 +3,7 @@ import { onUnmounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { item, guardar, actualizar, limpiar, leerEnRegistro } from "../../store/paciente";
 import {isLetter,isNumber} from '../../config/libreria'
+const maxDocumento = ref(8);
 const guardarOActualizar = () => {
 
   if (item.value.id) return actualizar(item.value);
@@ -18,6 +19,14 @@ onUnmounted(()=> {
   limpiar()
   if (obtener) obtener();
 })
+function definirMaxLimit(){
+  item.value.numeroDocumento = '';
+  if (item.tipoDocumento=='DNI'){
+      maxDocumento.value = 8;
+  } else {
+      maxDocumento.value = 9;
+  }
+}
 
 </script>
 
@@ -25,10 +34,10 @@ onUnmounted(()=> {
 Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
   label.form-label Documento de identidad
   .input-group
-    select.form-select(placeholder="Ubigeo", v-model="item.tipoDocumento")
+    select.form-select(placeholder="Ubigeo", v-model="item.tipoDocumento",v-on:change="definirMaxLimit()")
       option(value="DNI") DNI
       option(value="CE") CARNET DE EXTRANJERIA
-    input.form-control(placeholder="Número documento", v-model="item.numeroDocumento", @keypress="isNumber($event)",required,maxlength="15")
+    input.form-control(placeholder="Número documento", v-model="item.numeroDocumento", @keypress="isNumber($event)",required,:maxlength="maxDocumento")
   label.form-label Nombre del paciente
   .input-group
     input.form-control(placeholder="Nombre", v-model="item.nombre",@keypress="isLetter($event)" ,required,maxlength="30")
@@ -40,7 +49,8 @@ Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
       input.form-control(type="date", v-model="item.fechaNacimiento")
     .col
       label.form-label Sexo
-      select.form-select(placeholder="Ubigeo", v-model="item.sexo")
+      select.form-select(placeholder="Ubigeo", v-model="item.sexo",required)
+        option(value="") SELECCIONE
         option(value="M") MASCULINO
         option(value="F") FEMENINO
   label.form-label Dirección
@@ -57,7 +67,9 @@ Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
   .row
     .col
       label.form-label Constancia de informado
-      input.form-control(placeholder="Constancia informado", v-model="item.constancia",@keypress="isLetter($event)" ,required,maxlength="40")
+      select.form-select(placeholder="Constancia informado", v-model="item.constancia")
+        option(value="S") SI
+        option(value="N") NO
     .col
       label.form-label Comentario
       input.form-control(placeholder="Comentario", v-model="item.Comentario",@keypress="isLetter($event)",maxlength="40")
