@@ -27,7 +27,7 @@ watch(
 </script>
 
 <template lang="pug">
-.row 
+.row
     .col
     .col
         input#SearchInput.form-control(type='text', v-on:keyup='search(registro)', placeholder='Buscar por Tipo/Número Doc/Nombre.', title='Type in a name', style="width: 100% !important;")
@@ -39,7 +39,7 @@ watch(
                 th.d-none.d-md-table-cell Tip Doc.
                 th.d-none.d-md-table-cell Número Doc.
                 th Nombres
-                th.d-none.d-md-table-cell Fecha Nac.
+                th.d-none.d-md-table-cell Fecha Ingreso.
                 th.d-none.d-md-table-cell Sexo
                 th
                 th
@@ -52,7 +52,7 @@ watch(
                 td
                     span.d-block.d-md-none {{ item.numeroDocumento }} -
                     | {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }}
-                td.d-none.d-md-table-cell {{ item.fechaNacimiento }}
+                td.d-none.d-md-table-cell {{ item.fechaIngreso }}
                 td.d-none.d-md-table-cell {{ (item.sexo == 'M') ? 'MASCULINO' : 'FEMENINO' }}
                 td.dropdown
                     button.ms-auto.btn( @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })")
@@ -61,11 +61,11 @@ watch(
                     button.ms-auto.btn( @click="push({ name: 'paciente', params: { idPaciente: item.id } })")
                         i.fa.fa-pencil-square-o(aria-hidden='true')
                 td.dropdown
-                    button.ms-auto.btn(@click="confirmar == false ? confirmar = true : confirmarEliminar(item.id)") {{ confirmar ? '¿Está seguro?' : '' }}    
+                    button.ms-auto.btn(@click="confirmar == false ? confirmar = true : confirmarEliminar(item.id)") {{ confirmar ? '¿Está seguro?' : '' }}
                         i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
     .div(style="text-align: center;")
-        button#prevButton.btn.btn-primary(@click="previousPage(registro)") 
-            i.fa.fa-angle-double-left(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;") 
-        button#nextButton.btn.btn-primary(@click="nextPage(registro)") 
-            i.fa.fa-angle-double-right(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;")                     
+        button#prevButton.btn.btn-primary(@click="previousPage(registro)")
+            i.fa.fa-angle-double-left(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;")
+        button#nextButton.btn.btn-primary(@click="nextPage(registro)")
+            i.fa.fa-angle-double-right(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;")
 </template>

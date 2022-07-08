@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 
-import { addDoc, collection, onSnapshot, getDoc, getFirestore, doc, updateDoc, deleteDoc } from 'firebase/firestore'
+import { addDoc, collection, onSnapshot, getDoc, getFirestore, doc, updateDoc, deleteDoc,orderBy,query } from 'firebase/firestore'
 import { firestore } from '../config/firebase'
 
 const dialog = ref(false)
@@ -8,7 +8,8 @@ const dialog = ref(false)
 const item = ref({
     tipoDocumento: 'DNI',
     sexo: 'M',
-    fechaNacimiento: new Date().toISOString().slice(0, 10)
+    fechaNacimiento: new Date().toISOString().slice(0, 10),
+    fechaIngreso: new Date().toISOString().slice(0, 10)
 })
 
 const guardar = item => {
@@ -29,11 +30,13 @@ const eliminar = (id) => {
 const registro = ref([])
 const obtenerTodos = () => {
     const referencia = collection(firestore, 'paciente')
+    const referenciaOrden= query(referencia,orderBy("fechaIngreso", "desc"))
     return onSnapshot(
-        referencia,
+        referenciaOrden,
         collection => registro.value = collection.docs.map(doc => ({ ...doc.data(), id: doc.id }))
     )
 }
+
 
 const leer = id => {
     const referencia = doc(firestore, 'paciente', id)
