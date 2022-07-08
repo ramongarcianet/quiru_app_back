@@ -77,6 +77,33 @@ const listaDeDientes_ = [
     62, 63, 64, 65, 71, 72, 73, 74, 75, 81, 82, 83, 84, 85,
 ];
 export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
+    const ubicacionTemp= ubicacion? ubicacion.split(' '):[];
+    if (ubicacionTemp.length==3){
+        if ((ubicacionTemp[1]=='sin' && ubicacionTemp[2]=='sal') || (ubicacionTemp[1]=='en' && ubicacionTemp[2]=='sisal')){
+            ubicacion = 's incisal'
+        }
+    }
+    if (ubicacionTemp.length==2){
+        if((ubicacionTemp[0]=='sin' && ubicacionTemp[1]=='sal') || (ubicacionTemp[0]=='en' && ubicacionTemp[1]=='sisal')){
+            ubicacion = 'incisal'
+        } else {
+            switch(ubicacionTemp[1]){
+                case 'cristal':{ ubicacion = 's distal'; break}
+                case 'Messi': {ubicacion = 's mesial'; break}
+                case 'inicial': {ubicacion = 's incisal'; break}
+            }
+        }
+    }
+    if (ubicacionTemp.length==1) {
+        switch(ubicacionTemp[0]){
+            case 'cristal': {ubicacion = 'distal';break}
+            case 'Messi': {ubicacion = 'mesial';break}
+            case 'inicial': {ubicacion = 'incisal';break}
+            case 'sisal': {ubicacion = 'incisal';break}
+        }
+    }
+
+
     const listaDeUbicacion = ubicacion ? ubicacion.split(' ').filter(item=>listaDeTipos.map(({value}) => value).indexOf(item) >-1 ) : []
     const hallazgoCorrecto = hallazgo ? listaDeHallazgos.map(({value}) => value).indexOf(hallazgo) > -1 : true
     const piezaCorrecta = ubicacion ? listaDeUbicacion.length>0  : true
