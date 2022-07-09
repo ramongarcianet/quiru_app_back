@@ -224,11 +224,13 @@ export const agregar  = () => {
 export function limpiarPieza(pieza) {
     itemodontograma.value.hallazgos = itemodontograma.value?.hallazgos.filter( ({diente}) => diente!=pieza)
     item.value.diente = pieza
+    actualizarDetalle(itemodontograma.value.id,  itemodontograma.value.hallazgos)
     speak( `Limpiando pieza ${pieza}`)
 }
 
 const prefijosParaPieza = '(pieza)'
 const prefijosParaUbicacion = '(por) (parte)'
+const prefijosMultiples = '(a) (la) (ala) (al)'
 
 const listaDeFuncionesPorDiente = {}
 listaDeDientes_.map( num => {
@@ -330,6 +332,7 @@ export default {
         'regresar': cambiarVista,
         'cambiar': cambiarVista,
         ...listaDeComandosDeDientes,
+        //[`de (la) :num1 ${prefijosMultiples} :num2 :hallazgo`] : seleccionMultiple,
         'de (la) :num1 (a) (la) (ala) (al) :num2 :hallazgo' : seleccionMultiple,
         'de (la) :num1 (a) (la) (ala) :num2 :hallazgo': seleccionMultiple,
         'del :num1 (a) (la) (ala) (al) :num2 :hallazgo': seleccionMultiple,

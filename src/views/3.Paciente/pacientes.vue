@@ -11,7 +11,6 @@ const {push} = useRouter()
   i.fa.fa-list-ul(style="color: #37DFBB; font-weight:bold; font-family: var(--font-family); font-size: 1.5em;")
     |  Pacientes
   br
-row
 container.fluid
   container
   Registro

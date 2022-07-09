@@ -9,7 +9,7 @@ import {getAuth} from "firebase/auth"
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 //DESARROLLO
-/*const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyDYLN9obcWpHCL0KLdQFhdB4mHD5gsFOt8",
   authDomain: "quiru-b444f.firebaseapp.com",
   projectId: "quiru-b444f",
@@ -18,8 +18,9 @@ import {getAuth} from "firebase/auth"
   appId: "1:953856024887:web:9fcc77f3fd4e46e90efab2",
   measurementId: "G-F756MY0VB1"
 };
-*/
+
 //PRODUCIÓN
+/*
 const firebaseConfig = {
   apiKey: "AIzaSyCmuv9CEw64vyP6RMNBje3X-feEsbdg4Lw",
   authDomain: "quiru-prod.firebaseapp.com",
@@ -29,9 +30,10 @@ const firebaseConfig = {
   appId: "1:605281793847:web:7635e785fb4472e24b0cb2",
   measurementId: "G-32SFW0E4RR"
 };
+*/
 // Initialize Firebase
 let app
-let analytics 
+let analytics
 let firestore
 let auth
 const iniciarFirebase = ()=> {

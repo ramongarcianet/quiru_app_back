@@ -23,7 +23,8 @@ import {
   listaDeTipos,
   Hallazgo,
   item,
-  registro_
+  registro_,
+  paginaOdontograma,
 } from "../../store/odontograma";
 import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarLista } from '../../store/formodontograma';
 import { VerFormato } from "../../store/OdontoJS";
@@ -45,6 +46,7 @@ escucharInicializarVoz();
 
 let wakeLock = null;
 onMounted(() => {
+  paginaOdontograma.value =true;
   if ("wakeLock" in navigator) {
     try {
       wakeLock = navigator?.wakeLock.request("screen");
@@ -58,7 +60,9 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  detenerVoz()
+  detenerVoz();
+  paginaOdontograma.value = false;
+
 })
 watch(
   () => item.value.diente,
