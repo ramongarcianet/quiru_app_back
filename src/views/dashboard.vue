@@ -20,10 +20,10 @@ const rutas = computed(() => [
     routeName: "paciente",
   },
   {
-    name: "Presupuesto",
-    onClick: () => push({ name: "odontograma" }),
+    name: "Precios",
+    onClick: () => push({ name: "Precios" }),
     icon: "fa-solid fa-tooth",
-    routeName: "odontograma",
+    routeName: "Precios",
   },
   {
     name: "Menú",

@@ -16,9 +16,6 @@ const guardarOActualizar = () => {
     <form @submit.prevent="e => guardarOActualizar()">
         <Col>
         <Row>
-          <!--   <Col>
-                <input placeholder="Código" v-model="item.codigo" required>
-            </Col> -->
             <Col>
                 <select v-model="item.tipoDocumento"  required>
                     <option value="DNI"> DNI</option>

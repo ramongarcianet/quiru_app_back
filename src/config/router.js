@@ -112,6 +112,11 @@ const routes = [
                 name: 'adicionales',
                 component: ()=>import('../views/5.Odontograma/3.adicionales.vue')
             },
+            {
+                path: 'Precios',
+                name: 'Precios',
+                component: ()=>import('../views/7.Precios/Precios.vue')
+            },
         ]
     }
 
