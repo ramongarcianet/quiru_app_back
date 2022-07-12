@@ -35,7 +35,7 @@ h1 Datos Adicionales
       span#mensaje(style="color: red; font-weight:bold;")
   .d-flex.mt-4
     button.btn.btn-primary( @click='push({name: "Detalle", params: {idOdontograma: route.params.idOdontograma,idPaciente: route.params.idPaciente}})') Volver
-    button.ms-auto.btn.btn-primary(type="submit", @click="grabarAdicionales(route.params.idOdontograma);") Grabar
+    button.ms-auto.btn.btn-primary(type="submit", @click="grabarAdicionales(route.params.idOdontograma);") Guardar
 </template>
 
 <style lang="sass" scoped>
