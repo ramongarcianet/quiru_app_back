@@ -123,7 +123,6 @@ function limpiarHallazgoDiente() {
 .row(v-if="!isSpeech")
   .col
     .row
-<<<<<<< HEAD
       .col
         input#tipoReg(type="hidden", value="0")
         .input-group
@@ -145,14 +144,12 @@ function limpiarHallazgoDiente() {
     .row(v-if="isSpeech")
       OdonOficial
   .col(v-if="!isSpeech")
-=======
       .col.d-flex.justify-content-center
         Diente(:item='item' style='--size: 14rem;').raiz-0
     .row
       .col.d-flex.justify-content-center
         button.btn.btn-primary(type="submit", @click="limpiarHallazgoDiente()" style="width: 8.01rem;") Limpiar
   .col.d-flex.justify-content-center
->>>>>>> 80c43831bd7ba53f03f813fa0d19642b86936616
     OdonOficial
 .row(v-if="isSpeech")  
   .col.d-flex.justify-content-center
