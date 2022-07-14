@@ -162,4 +162,5 @@ function limpiarHallazgoDiente() {
           i.fa.fa-angle-double-left(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;")
         button#nextButton.btn.btn-primary(@click="nextPage(itemodontograma.hallazgos)")
           i.fa.fa-angle-double-right(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;")
+          
 </template>
