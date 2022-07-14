@@ -73,7 +73,7 @@ Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
     .col
       label.form-label Comentario
       input.form-control(placeholder="Comentario", v-model="item.Comentario",@keypress="isLetter($event)",maxlength="40")
-  .d-flex
+  .d-flex.mt-3
     button.btn.btn-primary(@click="push({ name: 'pacientes', params: {} })") Volver
     button.ms-auto.btn.btn-primary(type='submit') Guardar
 

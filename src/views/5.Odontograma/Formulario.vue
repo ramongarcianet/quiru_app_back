@@ -98,15 +98,13 @@ function limpiarHallazgoDiente() {
 <template lang="pug">
 .row
   .col
-    .d-flex.justify-content-between
-    i.fa.fa-list-ul(style="color: #37DFBB; font-weight:bold; font-family: var(--font-family); font-size: 1.5em;")
-      |  Odontograma
-    br
-  .col
+    .d-flex.align-content-start.flex-wrap
+      i.fa.fa-tooth.me-2(style="color: #37DFBB; font-weight:bold; font-size: 1.5em;")
+      h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Odontograma
+
 .div(style='background-color: #37DFBB;width: 100px;height: 130px;margin-top: -145px;left:80%; position: absolute;z-index: 2;border-radius: 50% 50% 50% 50%;')
   #button-microfono
     MicroButton( style='--size: 4rem; position:absolute; z-index:3;left:18%; margin-top:57%' :class="{ active: isSpeech }" @click="isSpeech ? detenerVoz() : activarVoz()")
-  p( style='position:absolute; z-index:4;left:30%; margin-top:110%; color:white;  font-weight: bold; font-size:12px;') QUIRU
   .col
 <!--p {{ textoEscuchado }}-->
 .row
@@ -114,7 +112,6 @@ function limpiarHallazgoDiente() {
     .row
       .col
         input#tipoReg(type="hidden", value="0")
-
         .input-group
           span.input-group-text Pieza
           select.form-select#comboPieza(v-model='item.diente')
@@ -136,7 +133,7 @@ function limpiarHallazgoDiente() {
   .col(v-if="!isSpeech")
     OdonOficial
 .row
-  .col
+  .col.mt-4
     button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma, item)") Agregar a la lista
   .col
 

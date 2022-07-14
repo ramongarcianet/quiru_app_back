@@ -1,63 +1,46 @@
 <script setup>
-import {ref} from 'vue'
-import {item, guardar, actualizar,limpiar, dialog}  from '../../store/admision'
-
+import { onUnmounted, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { item, guardar, actualizar, limpiar, leerEnRegistro } from "../../store/precios";
+import {isLetter,isNumber} from '../../config/libreria'
+import tratamientos from '../../config/Cie10.json';
 const guardarOActualizar = () => {
-    if (item.value.id) actualizar(item.value).then(()=>limpiar())
-    else guardar( item.value).then(()=>limpiar())
-}
 
+  if (item.value.id) return actualizar(item.value);
+  else return guardar(item.value);
+};
+const route = useRoute()
+const {back, push} = useRouter()
+let obtener
+if (route.params.idPaciente) {
+  leerEnRegistro(route.params.idPaciente)
+}
+onUnmounted(()=> {
+  limpiar()
+  if (obtener) obtener();
+})
 
 </script>
 
-<template>
+<template lang="pug">
 
-<dialog :open="$attrs.dialog">
-    <form @submit.prevent="e => guardarOActualizar()">
-        <Col>
-        <Row>
-            <Col>
-                <select v-model="item.tipoDocumento"  required>
-                    <option value="DNI"> DNI</option>
-                    <option value="CE"> CARNET DE EXTRAJERIA</option>
-                </select>
-            </Col>
-            <Col>
-                <input placeholder="Número Documento" v-model="item.numeroDocumento" required>
-            </Col>
-        </Row>
-        <Row>
-            <Col>
-                <input placeholder="Nombre" v-model="item.nombre" required>
-            </Col>
-            <Col>
-                <input placeholder="Apellido Paterno" v-model="item.apellidoPaterno"  required>
-            </Col>
-             <Col>
-                <input placeholder="Apellido Materno" v-model="item.apellidoMaterno"  required>
-            </Col>
-        </Row>
-        <Row>
-            <Col>
-                <input placeholder="Fecha Admisión" type="date" v-model="item.fechaAdmisión"  required>
-            </Col>
-        </Row>
-        <Row>
-            <Col>
-                <input placeholder="Comentario" v-model="item.Comentario"  required>
-            </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Button type="button" @click="dialog = false;limpiar()"> Cancelar </Button>
-          </Col>
-          <Col>
-            <Button> Guardar</Button>
-          </Col>
-        </Row>
-    </Col>
-    </form>
-</dialog>
+//.d-flex.justify-content-between
+  i.fa.fa-list-ul(style="color: #37DFBB; font-weight:bold; font-family: var(--font-family); font-size: 1.5em;")
+    |  Llenar Precios
+
+Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
+  .row
+    label.form-label Hallazgos
+      .col-3
+        select.form-select.mt-3(aria-label="form-select-lg example" v-model="item.tipo" required)
+          option(selected) Hallazgos
+          option(v-for="tratamiento of tratamientos.CIE10" :value='tratamiento.HALLAZGO') {{tratamiento.HALLAZGO}}
+    label.form-label Precio 
+      .col-3
+        input.form-control.mt-3.mb-3(placeholder="precio" v-model="item.precio", type="number", step="0.01" ,required)
+
+  .d-flex
+    button.btn.btn-primary(@click="push({ name: 'precios', params: {} })") Volver
+    button.ms-auto.btn.btn-primary(type='submit') Guardar
 
 </template>
-

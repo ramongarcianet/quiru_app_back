@@ -61,7 +61,7 @@ watch(
                     button.ms-auto.btn( @click="push({ name: 'paciente', params: { idPaciente: item.id } })")
                         i.fa.fa-pencil-square-o(aria-hidden='true')
                 td.dropdown
-                    button.ms-auto.btn(@click="confirmar == false ? confirmar = true : confirmarEliminar(item.id)") {{ confirmar ? '¿Está seguro?' : '' }}
+                    BotonSeguro( :onSuccess= '()=> eliminar(item.id)')
                         i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
     .div(style="text-align: center;")
         button#prevButton.btn.btn-primary(@click="previousPage(registro)")

@@ -1,38 +1,51 @@
 <script setup>
-import { onUnmounted, ref } from 'vue'
-import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog,verOdontograma} from '../../store/admision'
+import { onUnmounted, ref, watch } from "vue";
+import { useRouter } from "vue-router";
+import {
+    obtenerTodos,
+    eliminar,
+    registro
+} from "../../store/precios";
+import {
+    previousPage,
+    nextPage,
+    setList,
+    registro_,
+    search
+} from "../../config/Paginator";
+const obtenerRegistro = obtenerTodos();
+const confirmar = ref(false);
+const confirmarEliminar = (id) => eliminar(id).then(() => (confirmar.value = false));
+const { push } = useRouter();
+watch(
+    () => registro.value,
+    () => {
+        setList(registro.value);
+    }
+)
 
-const obtenerRegistro = obtenerTodos()
-
-
-const confirmar = ref(false)
-
-const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
 
 </script>
 
-<template>
-<Row>
-    <Col>Tip Doc.</Col>
-    <Col>Número Doc.</Col>
-    <Col>Nombres</Col>
-    <Col>Fecha Admisión</Col>
-    <Col></Col>
-    <Col></Col>
-</Row>
+<template lang="pug">
 
-<Item v-for="item of registro" :key="item.id" :item="item">
-    <Col>{{item.tipoDocumento}}</Col>
-    <Col>{{item.numeroDocumento}}</Col>
-    <Col>{{item.nombre+ ' '+item.apellidoPaterno +' '+item.apellidoMaterno }}</Col>
-    <Col>{{item.fechaAdmisión}}</Col>
-    <Col>
-       <Button @click="dialog=true, leerEnRegistro(item.id)"> Editar </Button>
-    </Col>
-    <Col>
-        <Button @click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) ">  {{confirmar ? '¿Está seguro?' : 'Borrar'}} </Button>
-    </Col>
-</Item>
+.div(style="background-color: white; border-radius: 2%;").mt-5
+    table.table.table-hover
+        thead
+            tr
+                th.d-table-cell.d-md-table-cell Hallazgo
+                th.d-table-cell.d-md-table-cell Precio 
+                
+        tbody
+            tr(v-for="item of registro_"  :key="item.id"  :item="item")
+                td.d-table-cell.d-md-table-cell {{ item.tipo }}
+                td.d-table-cell.d-md-table-cell {{ item.precio }}
+                td.dropdown
+                    button.ms-auto.btn( @click="push({ name: 'formulario', params: { idPaciente: item.id } })")
+                        i.fa.fa-pencil-square-o(aria-hidden='true')
+                td.dropdown
+                    BotonSeguro( :onSuccess= '()=> eliminar(item.id)')
+                        i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
 
 </template>
 

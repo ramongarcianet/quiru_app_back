@@ -21,9 +21,9 @@ const rutas = computed(() => [
   },
   {
     name: "Precios",
-    onClick: () => push({ name: "Precios" }),
-    icon: "fa-solid fa-tooth",
-    routeName: "Precios",
+    onClick: () => push({ name: "precios" }),
+    icon: "fa-solid fa-coins",
+    routeName: "precios",
   },
   {
     name: "Menú",

@@ -113,9 +113,14 @@ const routes = [
                 component: ()=>import('../views/5.Odontograma/3.adicionales.vue')
             },
             {
-                path: 'Precios',
-                name: 'Precios',
-                component: ()=>import('../views/7.Precios/Precios.vue')
+                path: 'precios',
+                name: 'precios',
+                component: ()=>import('../views/7.Precios/precios.vue')
+            },
+            {
+                path: 'formulario',
+                name: 'formulario',
+                component: ()=>import('../views/7.Precios/formulario.vue')
             },
         ]
     }
