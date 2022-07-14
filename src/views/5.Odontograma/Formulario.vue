@@ -123,43 +123,20 @@ function limpiarHallazgoDiente() {
 .row(v-if="!isSpeech")
   .col
     .row
-      .col
-        input#tipoReg(type="hidden", value="0")
-        .input-group
-          span.input-group-text Pieza
-          select.form-select#comboPieza(v-model='item.diente')
-            option(selected disabled value="00") Pieza
-            option(v-for='{ text, value } of listaDeDientesCombo' :value="value") {{ text }}
-          span.input-group-text Hallazgo
-          select.form-select#comboHallazgo(v-model='Hallazgo')
-            option(selected disabled value="") Hallazgo
-            option(v-for='{ text, value } of listaDeHallazgos' :value="value") {{ text }}
-    .d-flex.justify-content-center
-      Diente(:item='item' style='--size: 14rem;').raiz-0
-    .row(v-if="!isSpeech")
-      .col
-      .col
-        button.btn.btn-primary(type="submit", @click="limpiarHallazgoDiente()" style="width: 100%;") Limpiar
-      .col
-    .row(v-if="isSpeech")
-      OdonOficial
-  .col(v-if="!isSpeech")
       .col.d-flex.justify-content-center
         Diente(:item='item' style='--size: 14rem;').raiz-0
     .row
       .col.d-flex.justify-content-center
-        button.btn.btn-primary(type="submit", @click="limpiarHallazgoDiente()" style="width: 8.01rem;") Limpiar
+        button.btn.btn-primary(type="submit", @click="limpiarHallazgoDiente()" style="width: 10rem;") Limpiar
   .col.d-flex.justify-content-center
     OdonOficial
-.row(v-if="isSpeech")  
+.row(v-if="isSpeech")
   .col.d-flex.justify-content-center
     OdonOficial
   .col.d-flex.justify-content-center
 .row
   .col.mt-4
     button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma, item)") Agregar a la lista
-  .col
-
 .row
   .col
     .div(style="background-color: white; border-radius: 2%;")
