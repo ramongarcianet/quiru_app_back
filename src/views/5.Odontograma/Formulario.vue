@@ -46,7 +46,7 @@ escucharInicializarVoz();
 
 let wakeLock = null;
 onMounted(() => {
-  paginaOdontograma.value =true;
+  paginaOdontograma.value = true;
   if ("wakeLock" in navigator) {
     try {
       wakeLock = navigator?.wakeLock.request("screen");
@@ -116,14 +116,17 @@ function limpiarHallazgoDiente() {
         input#tipoReg(type="hidden", value="0")
 
         .input-group
-          span.input-group-text Pieza
-          select.form-select#comboPieza(v-model='item.diente')
-            option(selected disabled value="00") Pieza
-            option(v-for='{ text, value } of listaDeDientesCombo' :value="value") {{ text }}
-          span.input-group-text Hallazgo
-          select.form-select#comboHallazgo(v-model='Hallazgo')
-            option(selected disabled value="") Hallazgo
-            option(v-for='{ text, value } of listaDeHallazgos' :value="value") {{ text }}
+          span.input-group-text(style="padding: 0.01rem 0.01rem;") Pieza 
+            input.form-select#comboPieza(list='listaDeDientes', name='comboPieza', v-model='item.diente')
+            datalist#listaDeDientes
+              option(selected disabled value="") Pieza
+              option(v-for='{ text, value } of listaDeDientesCombo' :value="value") 
+          span.input-group-text(style="padding: 0.01rem 0.01rem;") Hallazgo 
+            input.form-select#comboHallazgo(list='ListaHallazgos', name='comboHallazgo', v-model='Hallazgo')
+            datalist#ListaHallazgos
+              option(selected disabled value="") Hallazgo
+              option(v-for='{ text, value } of listaDeHallazgos' :value="value") 
+
     .d-flex.justify-content-center
       Diente(:item='item' style='--size: 14rem;').raiz-0
     .row(v-if="!isSpeech")
@@ -158,8 +161,8 @@ function limpiarHallazgoDiente() {
             td {{ item.ubicacion }}
             td {{ item.sigla }}
             td.dropdown
-                    button.ms-auto.btn(@click="confirmar == false ? confirmar = true : borrar(item)") {{ confirmar ? '¿Está seguro?' : '' }}
-                        i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
+              button.ms-auto.btn(@click="confirmar == false ? confirmar = true : borrar(item)") {{ confirmar ? '¿Está seguro?' : '' }}
+                i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
       .div(style="text-align: center;")
         button#prevButton.btn.btn-primary(@click="previousPage(itemodontograma.hallazgos)")
           i.fa.fa-angle-double-left(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;")

@@ -449,7 +449,7 @@ export function clearcanvas(id) {
 
     document.getElementById("comboHallazgo").value = ""
     //document.getElementById("comboHallazgoTipo").value=""
-    document.getElementById("comboPieza").value = "00"
+    document.getElementById("comboPieza").value = ""
 }
 export function DienteAusente(id, color) {
     var canvas = document.getElementById(id);
