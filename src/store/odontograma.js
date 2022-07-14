@@ -40,7 +40,7 @@ export const registro_ = computed(()=>
 )
 export const Hallazgo =ref("")
 export const item = ref({
-    diente: '00',
+    diente: '',
     hallazgos: []
 })
 
@@ -175,7 +175,7 @@ export function detenerVoz() {
     isSpeech.value = false;//stop
     textoEscuchado.value = '';
     item.value =  {
-        diente: '00',
+        diente: '',
         hallazgos: [ ]
     }
     comandosDeVoz.agradecer()

@@ -92,7 +92,7 @@ export function agregarLista(id,param) {
                 sigla:element.sigla,
                 posicion:element.posicion,
                 }
-                if(param.diente !='00'){
+                if(param.diente !=''){
                     if (!existeDiente(param.diente,fila)){
                         item.value.hallazgos?item.value.hallazgos.push(fila):item.value.hallazgos=[fila];
                     }

@@ -46,7 +46,7 @@ escucharInicializarVoz();
 
 let wakeLock = null;
 onMounted(() => {
-  paginaOdontograma.value =true;
+  paginaOdontograma.value = true;
   if ("wakeLock" in navigator) {
     try {
       wakeLock = navigator?.wakeLock.request("screen");
@@ -106,10 +106,24 @@ function limpiarHallazgoDiente() {
   #button-microfono
     MicroButton( style='--size: 4rem; position:absolute; z-index:3;left:18%; margin-top:57%' :class="{ active: isSpeech }" @click="isSpeech ? detenerVoz() : activarVoz()")
   .col
-<!--p {{ textoEscuchado }}-->
 .row
+  .col.d-flex.justify-content-center
+    input#tipoReg(type="hidden", value="0")
+    .input-group
+      span.input-group-text(style="padding: 0.01rem 0.01rem;") Pieza 
+        input.form-select#comboPieza(list='listaDeDientes', name='comboPieza', v-model='item.diente')
+        datalist#listaDeDientes
+          option(selected disabled value="") Pieza
+          option(v-for='{ text, value } of listaDeDientesCombo' :value="value") 
+      span.input-group-text(style="padding: 0.01rem 0.01rem;") Hallazgo 
+        input.form-select#comboHallazgo(list='ListaHallazgos', name='comboHallazgo', v-model='Hallazgo')
+        datalist#ListaHallazgos
+          option(selected disabled value="") Hallazgo
+          option(v-for='{ text, value } of listaDeHallazgos' :value="value") 
+.row(v-if="!isSpeech")
   .col
     .row
+<<<<<<< HEAD
       .col
         input#tipoReg(type="hidden", value="0")
         .input-group
@@ -131,7 +145,19 @@ function limpiarHallazgoDiente() {
     .row(v-if="isSpeech")
       OdonOficial
   .col(v-if="!isSpeech")
+=======
+      .col.d-flex.justify-content-center
+        Diente(:item='item' style='--size: 14rem;').raiz-0
+    .row
+      .col.d-flex.justify-content-center
+        button.btn.btn-primary(type="submit", @click="limpiarHallazgoDiente()" style="width: 8.01rem;") Limpiar
+  .col.d-flex.justify-content-center
+>>>>>>> 80c43831bd7ba53f03f813fa0d19642b86936616
     OdonOficial
+.row(v-if="isSpeech")  
+  .col.d-flex.justify-content-center
+    OdonOficial
+  .col.d-flex.justify-content-center
 .row
   .col.mt-4
     button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma, item)") Agregar a la lista
@@ -155,8 +181,8 @@ function limpiarHallazgoDiente() {
             td {{ item.ubicacion }}
             td {{ item.sigla }}
             td.dropdown
-                    button.ms-auto.btn(@click="confirmar == false ? confirmar = true : borrar(item)") {{ confirmar ? '¿Está seguro?' : '' }}
-                        i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
+              button.ms-auto.btn(@click="confirmar == false ? confirmar = true : borrar(item)") {{ confirmar ? '¿Está seguro?' : '' }}
+                i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
       .div(style="text-align: center;")
         button#prevButton.btn.btn-primary(@click="previousPage(itemodontograma.hallazgos)")
           i.fa.fa-angle-double-left(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;")

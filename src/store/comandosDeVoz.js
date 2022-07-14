@@ -51,7 +51,7 @@ const seleccionMultiple = (num1, num2, hallazgo, ubicacion) => {
 }
 export const limpiar = ()=> {
     item.value =  {
-        diente: '00',
+        diente: '',
         hallazgos: [ ]
     }
     flagLimpiar.value = !flagLimpiar.value
@@ -59,7 +59,7 @@ export const limpiar = ()=> {
 }
 export const limpiarSinVoz = ()=> {
     item.value =  {
-        diente: '00',
+        diente: '',
         hallazgos: [ ]
     }
 }
@@ -153,7 +153,7 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
 
         mensaje += `Hallazgo ${hallazgo} por ${mensajeUbicacion}`
     }
-    if(item.value.diente && item.value.diente !='00' && hallazgo ){
+    if(item.value.diente && item.value.diente !='' && hallazgo ){
         if ((listaDeUbicacion.length>0) && (ubicacionnes.arriva== listaDeUbicacion[0] ||
             ubicacionnes.centro== listaDeUbicacion[0] || ubicacionnes.abajo== listaDeUbicacion[0] ||
             ubicacionnes.izquierda== listaDeUbicacion[0] || ubicacionnes.derecha== listaDeUbicacion[0])){
