@@ -110,12 +110,12 @@ function limpiarHallazgoDiente() {
   .col.d-flex.justify-content-center
     input#tipoReg(type="hidden", value="0")
     .input-group
-      span.input-group-text(style="padding: 0.01rem 0.01rem;") Pieza 
+      span.input-group-text(style="padding: 0.01rem 0.01rem;") Pieza :
         input.form-select#comboPieza(list='listaDeDientes', name='comboPieza', v-model='item.diente')
         datalist#listaDeDientes
           option(selected disabled value="") Pieza
           option(v-for='{ text, value } of listaDeDientesCombo' :value="value") 
-      span.input-group-text(style="padding: 0.01rem 0.01rem;") Hallazgo 
+      span.input-group-text(style="padding: 0.01rem 0.01rem;") Hallazgo :
         input.form-select#comboHallazgo(list='ListaHallazgos', name='comboHallazgo', v-model='Hallazgo')
         datalist#ListaHallazgos
           option(selected disabled value="") Hallazgo
