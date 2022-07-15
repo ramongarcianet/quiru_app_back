@@ -38,17 +38,17 @@ watch(
     table.table.table-hover
         thead
             tr
-                th.d-table-cell.d-md-table-cell Hallazgo
-                th.d-table-cell.d-md-table-cell Precio 
+                th Hallazgo
+                th Precio 
 
         tbody
             tr(v-for="item of registro_"  :key="item.id"  :item="item")
-                td.d-table-cell.d-md-table-cell {{ item.tipo }}
-                td.d-table-cell.d-md-table-cell {{ item.precio }}
-                td.dropdown
+                td {{ item.tipo }}
+                td {{ item.precio }}
+                td
                     button.ms-auto.btn( @click="push({ name: 'formulario', params: { idPaciente: item.id } })")
                         i.fa.fa-pencil-square-o(aria-hidden='true')
-                td.dropdown
+                td( width="25%")
                     BotonSeguro( :onSuccess= '() => eliminar(item.id)')
                         i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
     .div(v-if="registro.length > 8",style="text-align: center;")

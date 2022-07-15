@@ -5,11 +5,13 @@ const quitarSeguro = ref(false)
 watch(
   ()=> quitarSeguro.value && setTimeout( 
          ()=> quitarSeguro.value = false,
-        1500
+        3500
        )
 )
 </script>
 <template lang='pug'>
 button.btn( @click='quitarSeguro ? onSuccess() : quitarSeguro = true' :class='quitarSeguro? "btn-danger" : ""' )
- slot
+  span( v-if='quitarSeguro') ¿Seguro?
+  template( v-else )
+    slot
 </template>
