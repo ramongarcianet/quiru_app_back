@@ -33,7 +33,7 @@ Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
     label.form-label Hallazgos
       .col-3
         select.form-select.mt-3(aria-label="form-select-lg example" v-model="item.tipo" required)
-          option(selected) Hallazgos
+          option(selected, disabled) Hallazgos
           option(v-for="tratamiento of tratamientos.CIE10" :value='tratamiento.HALLAZGO') {{tratamiento.HALLAZGO}}
     label.form-label Precio 
       .col-3

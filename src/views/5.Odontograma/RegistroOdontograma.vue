@@ -54,10 +54,10 @@ onUnmounted(()=>{
         td(v-else="item.esultimo==='1' || item.esultimo==='0'")
           .dropdown
             button.ms-auto.btn(type="button")
-        td(v-if="item.esultimo==='2'")
+        td(v-if="item.esultimo==='2'" width="25%")
           .dropdown
-            button.ms-auto.btn(@click="confirmar == false ? confirmar = true : confirmarEliminar(item.id)") {{ confirmar ? '¿Está seguro?' : '' }}    
-                i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
+            BotonSeguro( :onSuccess= '() => eliminar(item.id)' )
+                i.fa.fa-trash-o(aria-hidden='true')
         td(v-else="item.esultimo==='1' || item.esultimo==='0'")
           .dropdown
             button.ms-auto.btn(type="button")

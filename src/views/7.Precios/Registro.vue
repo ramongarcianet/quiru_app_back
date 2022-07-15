@@ -48,9 +48,9 @@ watch(
                 td
                     button.ms-auto.btn( @click="push({ name: 'formulario', params: { idPaciente: item.id } })")
                         i.fa.fa-pencil-square-o(aria-hidden='true')
-                td( width="25%")
-                    BotonSeguro( :onSuccess= '() => eliminar(item.id)')
-                        i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
+                td(width="25%")
+                    BotonSeguro( :onSuccess= '() => eliminar(item.id)' )
+                        i.fa.fa-trash-o(aria-hidden='true')
     .div(v-if="registro.length > 8",style="text-align: center;")
         nav.d-flex.justify-content-center(aria-label='Page navigation example')
             ul.pagination
