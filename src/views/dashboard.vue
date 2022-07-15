@@ -30,9 +30,28 @@ const rutas = computed(() => [
     onClick: () => (isActive.value = !isActive.value),
     icon: isActive.value ? "fa-solid fa-times" : "fa-solid fa-bars",
     aditionalClass: "d-sm-none only-bottom-nav",
+    
   },
 ]);
-
+const rutasMoviles = computed(() => [
+  {
+    name: "Paciente",
+    onClick: () => push({ name: "pacientes" }),
+    icon: "fa-solid fa-address-book",
+    routeName: "paciente",
+  },
+  {
+    name: "Precios",
+    onClick: () => push({ name: "precios" }),
+    icon: "fa-solid fa-coins",
+    routeName: "precios",
+  },
+  {
+    name: "Cerrar sesión",
+    onClick: () => cerrarSesion(),
+    icon: "fa-solid fa-sign-out",
+  },
+]);
 const rutasAdministrador = [
   /*{
     name: "Usuarios",
@@ -78,7 +97,7 @@ window.addEventListener("resize", () => {
       button.btn.btn-primary( v-for="{ name, onClick, icon }, i of rutasInferior" :key='`rutas-${i}`' @click="onClick()" )
         i.fa-xl( :class="icon" :label="name" )
   nav.nav-mobile.d-sm-none
-    button.btn.btn-outline-light( v-for="{ name, onClick, icon, routeName, aditionalClass }, i of rutas" :key='`rutas-${i}`' :class='`${routeName == route.name ? "active" : ""} ${aditionalClass}`' @click="onClick()" )
+    button.btn.btn-outline-light( v-for="{ name, onClick, icon, routeName, aditionalClass }, i of rutasMoviles" :key='`rutas-${i}`' :class='`${routeName == route.name ? "active" : ""} ${aditionalClass}`' @click="onClick()" )
       i.fa-xl( :class="icon" :label="name" )
   #body.py-5
     .container
