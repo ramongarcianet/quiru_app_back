@@ -108,32 +108,32 @@ function limpiarHallazgoDiente() {
     MicroButton( style='--size: 4rem; position:absolute; z-index:3;left:18%; margin-top:57%' :class="{ active: isSpeech }" @click="isSpeech ? detenerVoz() : activarVoz()")
   .col
 .row.mt-3
-  .col.d-flex.justify-content-left
-    input#tipoReg(type="hidden", value="0")
-    span.input-group-text(style="padding: 0.01rem 0.01rem 0.01rem 1.01rem;") Pieza :
-      input.form-select#comboPieza(list='listaDeDientes', name='comboPieza', v-model='item.diente')
-      datalist#listaDeDientes
-        option(selected disabled value="") Pieza
-        option(v-for='{ text, value } of listaDeDientesCombo' :value="value") 
-    span.input-group-text(style="padding: 0.01rem 0.01rem 0.01rem 1.01rem;") Hallazgo :
-      input.form-select#comboHallazgo(list='ListaHallazgos', name='comboHallazgo', v-model='Hallazgo')
-      datalist#ListaHallazgos
-        option(selected disabled value="") Hallazgo
-        option(v-for='{ text, value } of listaDeHallazgos' :value="value") 
-.row(v-if="!isSpeech")
   .col
     .row
+      .col.d-flex.justify-content-left
+        input#tipoReg(type="hidden", value="0")
+        span.input-group-text(style="padding: 0.01rem 0.01rem 0.01rem 1.01rem;") Pieza :
+          input.form-select#comboPieza(list='listaDeDientes', name='comboPieza', v-model='item.diente')
+          datalist#listaDeDientes
+            option(selected disabled value="") Pieza
+            option(v-for='{ text, value } of listaDeDientesCombo' :value="value") 
+        span.input-group-text(style="padding: 0.01rem 0.01rem 0.01rem 1.01rem;") Hallazgo :
+          input.form-select#comboHallazgo(list='ListaHallazgos', name='comboHallazgo', v-model='Hallazgo')
+          datalist#ListaHallazgos
+            option(selected disabled value="") Hallazgo
+            option(v-for='{ text, value } of listaDeHallazgos' :value="value") 
+    .row(v-if="!isSpeech")
       .col.d-flex.justify-content-center
         Diente(:item='item' style='--size: 14rem;').raiz-0
-    .row
+    .row(v-if="!isSpeech")
       .col.d-flex.justify-content-center
         button.btn.btn-primary(type="submit", @click="limpiarHallazgoDiente()" style="width: 10rem;") Limpiar
-  .col.d-flex.justify-content-center
+    .row(v-if="isSpeech")
+      .col.d-flex.justify-content-center
+        OdonOficial
+      .col.d-flex.justify-content-center
+  .col.d-flex.justify-content-left(v-if="!isSpeech")
     OdonOficial
-.row(v-if="isSpeech")
-  .col.d-flex.justify-content-center
-    OdonOficial
-  .col.d-flex.justify-content-center
 .row
   .col.mt-2
     button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma, item)") Agregar a la lista
