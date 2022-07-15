@@ -124,20 +124,18 @@ function limpiarHallazgoDiente() {
             option(v-for='{ text, value } of listaDeHallazgos' :value="value") 
     .row(v-if="!isSpeech")
       .col.d-flex.justify-content-center
-        Diente(:item='item' style='--size: 14rem;').raiz-0
-    .row(v-if="!isSpeech")
+        Diente(:item='item' style='--size: 10rem;').raiz-0
+    .row.mt-2(v-if="!isSpeech")
       .col.d-flex.justify-content-center
-        button.btn.btn-primary(type="submit", @click="limpiarHallazgoDiente()" style="width: 10rem;") Limpiar
-    .row(v-if="isSpeech")
-      .col.d-flex.justify-content-left
-        OdonOficial
-      .col.d-flex.justify-content-center
+        button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma, item)" style="width: 7rem;") Agregar
+        button.btn.btn-primary(type="submit", @click="limpiarHallazgoDiente()" style="width: 7rem;") Limpiar
   .col.d-flex.justify-content-left(v-if="!isSpeech")
     OdonOficial
-.row
-  .col.mt-2
-    button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma, item)") Agregar a la lista
-.row
+.row(v-if="isSpeech")
+  .col.d-flex.justify-content-left
+    OdonOficial
+  .col.d-flex.justify-content-center
+.row.mt-2
   .col
     .div(style="background-color: white; border-radius: 2%;")
       table.table.table-hover
