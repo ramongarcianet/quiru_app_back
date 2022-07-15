@@ -152,9 +152,9 @@ function limpiarHallazgoDiente() {
             td {{ item.hallazgo }}
             td {{ item.ubicacion }}
             td {{ item.sigla }}
-            td.dropdown
-              button.ms-auto.btn(@click="confirmar == false ? confirmar = true : borrar(item)") {{ confirmar ? '¿Está seguro?' : '' }}
-                i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
+            td(width="25%")
+                    BotonSeguro( :onSuccess= '() => eliminar(item.id)' )
+                        i.fa.fa-trash-o(aria-hidden='true')
       .div(v-if="itemodontograma.hallazgos?.length>8",style="text-align: center;")
         nav.d-flex.justify-content-center(aria-label='Page navigation example')
             ul.pagination

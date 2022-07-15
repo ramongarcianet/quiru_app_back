@@ -14,7 +14,7 @@ const rutas = computed(() => [
     aditionalClass: "d-none d-sm-block",
   },*/
   {
-    name: "Paciente",
+    name: "Pacientes",
     onClick: () => push({ name: "pacientes" }),
     icon: "fa-solid fa-address-book",
     routeName: "paciente",
@@ -201,7 +201,7 @@ window.addEventListener("resize", () => {
             bottom: .5rem
             content: attr(label)
             font-size: var(--font-size-h6)
-            opacity: 1
+            opacity: 0
             margin-left: .25rem
             transform: scale(1)
             transition: .3s opacity .5s
