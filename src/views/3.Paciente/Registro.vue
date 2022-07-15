@@ -11,16 +11,20 @@ import {
     nextPage,
     setList,
     registro_,
-    search
+    search, setListDelete, SetPage
 } from "../../config/Paginator";
 const obtenerRegistro = obtenerTodos();
 const confirmar = ref(false);
-const confirmarEliminar = (id) => eliminar(id).then(() => (confirmar.value = false));
+const confirmarEliminar = (id) => eliminar(id).then(() => (confirmar.value = false),
+    () => {
+        setListDelete(registro.value);
+    }
+);
 const { push } = useRouter();
 watch(
     () => registro.value,
     () => {
-        setList(registro.value);
+        setList(registro.value,1);
     }
 )
 
@@ -61,11 +65,17 @@ watch(
                     button.ms-auto.btn( @click="push({ name: 'paciente', params: { idPaciente: item.id } })")
                         i.fa.fa-pencil-square-o(aria-hidden='true')
                 td.dropdown
-                    BotonSeguro( :onSuccess= '()=> eliminar(item.id)')
+                    BotonSeguro( :onSuccess= '() => eliminar(item.id)')
                         i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
-    .div(style="text-align: center;")
-        button#prevButton.btn.btn-primary(@click="previousPage(registro)")
-            i.fa.fa-angle-double-left(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;")
-        button#nextButton.btn.btn-primary(@click="nextPage(registro)")
-            i.fa.fa-angle-double-right(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;")
+    .div(v-if="registro.length > 8",style="text-align: center;")
+        nav.d-flex.justify-content-center(aria-label='Page navigation example')
+            ul.pagination
+                li.page-item
+                    a.page-link(href='#', aria-label='Previous', @click="previousPage(registro)")
+                        span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
+                li.page-item(v-for="n in (Math.trunc(registro.length / 8) + (((registro.length % 8) > 0) ? 1 : 0))") 
+                    a.page-link(href='#', @click='SetPage(registro, n)') {{ n }}    
+                li.page-item
+                    a.page-link(href='#', aria-label='Next', @click="nextPage(registro)")
+                        span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
 </template>

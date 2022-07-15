@@ -16,7 +16,7 @@ const confirmarEliminar = id => eliminar(id).then(() => confirmar.value = false)
 watch(
     () => registro.value,
     () => {
-        setList(registro.value);
+        setList(registro.value,1);
     }
 )
 </script>

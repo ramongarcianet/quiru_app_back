@@ -1,7 +1,8 @@
 
 import { ref } from 'vue';
-const pageSize = 10;
+const pageSize = 8;
 let curPage = 1;
+
 export let registro_ = ref([])
 export function search(registro) {
     var input, searchValue;
@@ -23,9 +24,46 @@ export function search(registro) {
         if (index >= start && index < end) return true;
     });
 }
-
-export function setList(registro) {
-    let result = '';
+export function searchPrecio(registro) {
+    var input, searchValue;
+    input = document.getElementById("SearchInput");
+    searchValue = input.value.toUpperCase();
+    let tempRecipes = registro;
+    let completo = "";
+    if (tempRecipes != undefined) {
+        tempRecipes = tempRecipes.filter((item) => {
+            completo = item.tipo + ' ' + item.precio;
+            return completo
+                .toUpperCase()
+                .includes(searchValue.toUpperCase())
+        });
+    }
+    registro_.value = tempRecipes.filter((row, index) => {
+        let start = (curPage - 1) * pageSize;
+        let end = curPage * pageSize;
+        if (index >= start && index < end) return true;
+    });
+}
+export function setList(registro,page) {
+    curPage=page;
+    if (registro != undefined) {
+        registro_.value = registro.filter((row, index) => {
+            let start = (curPage - 1) * pageSize;
+            let end = curPage * pageSize;
+            if (index >= start && index < end) return true;
+        });
+    }
+    else {
+        registro_.value = [];
+    }
+}
+export function setListDelete(registro) {
+    let paginas = Math.trunc(registro.length / pageSize);
+    let resto = ((registro.length % pageSize) > 0) ? 1 : 0;
+    paginas = paginas + resto;
+    if (curPage > paginas) {
+        curPage = curPage - 1;
+    }
     if (registro != undefined) {
         registro_.value = registro.filter((row, index) => {
             let start = (curPage - 1) * pageSize;
@@ -39,15 +77,19 @@ export function setList(registro) {
 }
 export function previousPage(registro) {
     if (registro != undefined) {
-        if (curPage > 1) curPage--;
-        setList(registro);
+        //if (curPage > 1) curPage--;
+        curPage = 1;
+        setList(registro,curPage);
     }
 }
 
 export function nextPage(registro) {
     if (registro != undefined) {
-        if ((curPage * pageSize) < registro.length) curPage++;
-        setList(registro);
+        //if ((curPage * pageSize) < registro.length) curPage++;
+        let paginas = Math.trunc(registro.length / pageSize);
+        let resto = ((registro.length % pageSize) > 0) ? 1 : 0;
+        curPage = paginas + resto;
+        setList(registro,curPage);
     }
 }
 export function searchDiccionario(registro) {
@@ -69,4 +111,10 @@ export function searchDiccionario(registro) {
         let end = curPage * pageSize;
         if (index >= start && index < end) return true;
     });
+}
+export function SetPage(registro,page) {
+    if (registro != undefined) {
+        curPage=page;
+        setList(registro,curPage);
+    }
 }
