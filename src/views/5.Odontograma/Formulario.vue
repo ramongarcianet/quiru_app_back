@@ -110,7 +110,7 @@ function limpiarHallazgoDiente() {
 .row.mt-3
   .col
     .row
-      .col.d-flex.justify-content-left
+      .col.d-flex.justify-content-left(v-if="!isSpeech")
         input#tipoReg(type="hidden", value="0")
         span.input-group-text(style="padding: 0.01rem 0.01rem 0.01rem 1.01rem;") Pieza :
           input.form-select#comboPieza(list='listaDeDientes', name='comboPieza', v-model='item.diente')
@@ -132,10 +132,40 @@ function limpiarHallazgoDiente() {
   .col.d-flex.justify-content-left(v-if="!isSpeech")
     OdonOficial
 .row(v-if="isSpeech")
-  .col.d-flex.justify-content-left
-    OdonOficial
   .col.d-flex.justify-content-center
-.row.mt-2
+    OdonOficial
+  .col
+    .div(style="background-color: white; border-radius: 2%;")
+      table.table.table-hover
+        thead
+          tr
+            th Diente
+            th Hallazgo
+            th Ubicación
+            th Sigla
+            th
+        tbody
+          tr(v-for="item of _hallazgos")
+            td {{ item.diente }}
+            td {{ item.hallazgo }}
+            td {{ item.ubicacion }}
+            td {{ item.sigla }}
+            td.dropdown
+              button.ms-auto.btn(@click="confirmar == false ? confirmar = true : borrar(item)") {{ confirmar ? '¿Está seguro?' : '' }}
+                i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
+      .div(v-if="itemodontograma.hallazgos?.length>8",style="text-align: center;")
+        nav.d-flex.justify-content-center(aria-label='Page navigation example')
+            ul.pagination
+                li.page-item
+                    a.page-link(href='#', aria-label='Previous', @click="previousPage(itemodontograma.hallazgos)")
+                        span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
+                li.page-item(v-for="n in (Math.trunc(itemodontograma.hallazgos.length / 8) + (((itemodontograma.hallazgos.length % 8) > 0) ? 1 : 0))") 
+                    a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}    
+                li.page-item
+                    a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma.hallazgos)")
+                        span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
+     
+.row.mt-2(v-if="!isSpeech")
   .col
     .div(style="background-color: white; border-radius: 2%;")
       table.table.table-hover
