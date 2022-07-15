@@ -77,7 +77,7 @@ watch(
   (registro) => {
     let idOdontograma = route.params.idOdontograma
     VerFormato((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [])
-    //setList((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [],1);
+    setList((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [],1);
     limpiarSinVoz()
   },
   { deep: true }
@@ -124,20 +124,18 @@ function limpiarHallazgoDiente() {
             option(v-for='{ text, value } of listaDeHallazgos' :value="value") 
     .row(v-if="!isSpeech")
       .col.d-flex.justify-content-center
-        Diente(:item='item' style='--size: 14rem;').raiz-0
-    .row(v-if="!isSpeech")
+        Diente(:item='item' style='--size: 10rem;').raiz-0
+    .row.mt-2(v-if="!isSpeech")
       .col.d-flex.justify-content-center
-        button.btn.btn-primary(type="submit", @click="limpiarHallazgoDiente()" style="width: 10rem;") Limpiar
-    .row(v-if="isSpeech")
-      .col.d-flex.justify-content-center
-        OdonOficial
-      .col.d-flex.justify-content-center
+        button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma, item)" style="width: 7rem;") Agregar
+        button.btn.btn-primary(type="submit", @click="limpiarHallazgoDiente()" style="width: 7rem;") Limpiar
   .col.d-flex.justify-content-left(v-if="!isSpeech")
     OdonOficial
-.row
-  .col.mt-2
-    button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma, item)") Agregar a la lista
-.row
+.row(v-if="isSpeech")
+  .col.d-flex.justify-content-left
+    OdonOficial
+  .col.d-flex.justify-content-center
+.row.mt-2
   .col
     .div(style="background-color: white; border-radius: 2%;")
       table.table.table-hover
@@ -157,7 +155,7 @@ function limpiarHallazgoDiente() {
             td.dropdown
               button.ms-auto.btn(@click="confirmar == false ? confirmar = true : borrar(item)") {{ confirmar ? '¿Está seguro?' : '' }}
                 i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
-      .div(v-if="itemodontograma.hallazgos.length>8",style="text-align: center;")
+      .div(v-if="itemodontograma.hallazgos?.length>8",style="text-align: center;")
         nav.d-flex.justify-content-center(aria-label='Page navigation example')
             ul.pagination
                 li.page-item

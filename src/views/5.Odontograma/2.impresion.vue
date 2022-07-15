@@ -28,7 +28,7 @@ VerFormato(itemodontograma?.value?.hallazgos);
 <template lang="pug">
 .row
   .col#imprimir
-    canvas#myCanvas( width="406" height="400" style="border: 0; left:0px; top:0px;")
+    canvas#myCanvas( width="384" height="397" style="border: 0; left:0px; top:0px;")
 </template>
 <style lang="sass" scoped>
 #myCanvas
