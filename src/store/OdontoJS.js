@@ -13,15 +13,14 @@ export function VerFormato(registro) {
     context.textAlign = 'center';
     context.fillStyle = 'blue';
 
-    var medida = 23;
-    var separacion_x = 15;
+    var medida = 21;
     var iniciar_x = 0;
     var inicio_y = 0;
     var x = 0;
     iniciar_x = 0;
     var arr = ['18', '17', '16', '15', '14', '13', '12', '11', '21', '22', '23', '24', '25', '26', '27', '28'];
     arr.forEach(function (entry) {
-        iniciar_x = iniciar_x + 28;
+        iniciar_x = iniciar_x + 24;
         inicio_y = 75;
         context.fillText(entry, iniciar_x + 10, 45);
         dibuja_contorno(context, iniciar_x, inicio_y, medida, entry, registro);
@@ -43,7 +42,7 @@ export function VerFormato(registro) {
     iniciar_x = 0;
     arr = ['1', '1', '1', '55', '54', '53', '52', '51', '61', '62', '63', '64', '65', '1', '1', '1'];
     arr.forEach(function (entry) {
-        iniciar_x = iniciar_x + 28;
+        iniciar_x = iniciar_x + 24;
         if (entry != "1") {
             inicio_y = 180;
             context.fillText(entry, iniciar_x + 10, 150);
@@ -62,7 +61,7 @@ export function VerFormato(registro) {
     iniciar_x = 0;
     arr = ['1', '1', '1', '85', '84', '83', '82', '81', '71', '72', '73', '74', '75', '1', '1', '1'];
     arr.forEach(function (entry) {
-        iniciar_x = iniciar_x + 28;
+        iniciar_x = iniciar_x + 24;
         if (entry != "1") {
             inicio_y = 213;
             context.fillText(entry, iniciar_x + 10, 270);
@@ -82,7 +81,7 @@ export function VerFormato(registro) {
     iniciar_x = 0;
     arr = ['48', '47', '46', '45', '44', '43', '42', '41', '31', '32', '33', '34', '35', '36', '37', '38'];
     arr.forEach(function (entry) {
-        iniciar_x = iniciar_x + 28;
+        iniciar_x = iniciar_x + 24;
         if (entry != "1") {
             inicio_y = 315;
             context.fillText(entry, iniciar_x + 10, 372);
@@ -207,67 +206,67 @@ function marcar_cabecera(contexto, inicio_x, medida, inicio_y, color, tipo) {
     //ctx.lineWidth = 3;
     ctx.strokeStyle = color;
     if (tipo == "bot") {
-        ctx.moveTo(inicio_x, inicio_y - 25);
-        ctx.lineTo(inicio_x + 10, inicio_y);
-        ctx.moveTo(inicio_x + 23, inicio_y - 25);
-        ctx.lineTo(inicio_x + 10, inicio_y);
+        ctx.moveTo(inicio_x +1, inicio_y - 25);
+        ctx.lineTo(inicio_x + 10, inicio_y-5);
+        ctx.moveTo(inicio_x + 20, inicio_y - 25);
+        ctx.lineTo(inicio_x + 10, inicio_y-5);
     }
     else if (tipo == "top") {
-        ctx.moveTo(inicio_x + 10, inicio_y - 25);
-        ctx.lineTo(inicio_x + 23, inicio_y);
-        ctx.moveTo(inicio_x + 10, inicio_y - 25);
+        ctx.moveTo(inicio_x + 10, inicio_y - 22);
+        ctx.lineTo(inicio_x + 20, inicio_y);
+        ctx.moveTo(inicio_x + 10, inicio_y - 22);
         ctx.lineTo(inicio_x, inicio_y);
     }
     else if (tipo == "top_one") {
-        ctx.moveTo(inicio_x + 10, inicio_y - 25);
+        ctx.moveTo(inicio_x + 10, inicio_y - 22);
         ctx.lineTo(inicio_x + 17, inicio_y);
-        ctx.moveTo(inicio_x + 10, inicio_y - 25);
+        ctx.moveTo(inicio_x + 10, inicio_y - 22);
         ctx.lineTo(inicio_x + 5, inicio_y);
     }
     else if (tipo == "top_duo") {
-        ctx.moveTo(inicio_x + 15, inicio_y - 25);
-        ctx.lineTo(inicio_x + 22, inicio_y);
-        ctx.moveTo(inicio_x + 15, inicio_y - 25);
-        ctx.lineTo(inicio_x + 12, inicio_y);
-        ctx.moveTo(inicio_x + 5, inicio_y - 25);
-        ctx.lineTo(inicio_x + 12, inicio_y);
-        ctx.moveTo(inicio_x + 5, inicio_y - 25);
+        ctx.moveTo(inicio_x + 13, inicio_y - 22);
+        ctx.lineTo(inicio_x + 20, inicio_y);
+        ctx.moveTo(inicio_x + 13, inicio_y - 22);
+        ctx.lineTo(inicio_x + 9, inicio_y);
+        ctx.moveTo(inicio_x + 5, inicio_y - 22);
+        ctx.lineTo(inicio_x + 10, inicio_y);
+        ctx.moveTo(inicio_x + 5, inicio_y - 22);
         ctx.lineTo(inicio_x, inicio_y);
 
 
     }
     else if (tipo == "top_tri") {
-        ctx.moveTo(inicio_x + 5, inicio_y - 25);
+        ctx.moveTo(inicio_x + 5, inicio_y - 22);
         ctx.lineTo(inicio_x + 10, inicio_y);
-        ctx.moveTo(inicio_x + 5, inicio_y - 25);
+        ctx.moveTo(inicio_x + 5, inicio_y - 22);
         ctx.lineTo(inicio_x, inicio_y);
 
-        ctx.moveTo(inicio_x + 20, inicio_y - 25);
-        ctx.lineTo(inicio_x + 23, inicio_y);
-        ctx.moveTo(inicio_x + 20, inicio_y - 25);
+        ctx.moveTo(inicio_x + 17, inicio_y - 22);
+        ctx.lineTo(inicio_x + 21, inicio_y);
+        ctx.moveTo(inicio_x + 17, inicio_y - 22);
         ctx.lineTo(inicio_x + 10, inicio_y);
 
-        ctx.moveTo(inicio_x + 10, inicio_y - 25);
+        ctx.moveTo(inicio_x + 10, inicio_y - 22);
         ctx.lineTo(inicio_x + 15, inicio_y - 10);
-        ctx.moveTo(inicio_x + 10, inicio_y - 25);
+        ctx.moveTo(inicio_x + 10, inicio_y - 22);
         ctx.lineTo(inicio_x + 7, inicio_y - 10);
     }
     else if (tipo == "bot_duo") {
         ctx.moveTo(inicio_x, inicio_y - 25);
-        ctx.lineTo(inicio_x + 5, inicio_y);
-        ctx.moveTo(inicio_x + 12, inicio_y - 25);
-        ctx.lineTo(inicio_x + 15, inicio_y);
+        ctx.lineTo(inicio_x + 5, inicio_y -5);
+        ctx.moveTo(inicio_x + 11, inicio_y - 25);
+        ctx.lineTo(inicio_x + 15, inicio_y-5);
 
-        ctx.moveTo(inicio_x + 12, inicio_y - 25);
-        ctx.lineTo(inicio_x + 5, inicio_y);
-        ctx.moveTo(inicio_x + 23, inicio_y - 25);
-        ctx.lineTo(inicio_x + 15, inicio_y);
+        ctx.moveTo(inicio_x + 11, inicio_y - 25);
+        ctx.lineTo(inicio_x + 5, inicio_y -5);
+        ctx.moveTo(inicio_x + 21, inicio_y - 25);
+        ctx.lineTo(inicio_x + 15, inicio_y-5);
     }
     else if (tipo == "bot_one") {
         ctx.moveTo(inicio_x + 5, inicio_y - 25);
-        ctx.lineTo(inicio_x + 10, inicio_y);
+        ctx.lineTo(inicio_x + 11, inicio_y -5);
         ctx.moveTo(inicio_x + 17, inicio_y - 25);
-        ctx.lineTo(inicio_x + 10, inicio_y);
+        ctx.lineTo(inicio_x + 11, inicio_y-5);
     }
     ctx.stroke();
     ctx.lineWidth = 1;
@@ -529,13 +528,13 @@ function Fractura_Extract_Ausent(contexto, inicio_x, medida, inicio_y, color, ti
     var ctx = contexto;
     var med = medida;
     ctx.beginPath();
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 2;
     ctx.strokeStyle = color;
     ctx.moveTo(inicio_x, inicio_y);
-    ctx.lineTo(inicio_x + 23, inicio_y + 23);
+    ctx.lineTo(inicio_x + 20, inicio_y + 20);
     if (tipo != "fractura") {
-        ctx.moveTo(inicio_x + 23, inicio_y);
-        ctx.lineTo(inicio_x, inicio_y + 23);
+        ctx.moveTo(inicio_x + 20, inicio_y);
+        ctx.lineTo(inicio_x, inicio_y + 20);
     }
     ctx.stroke();
     ctx.lineWidth = 1;
