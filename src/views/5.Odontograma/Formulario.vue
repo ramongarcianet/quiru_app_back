@@ -129,7 +129,7 @@ function limpiarHallazgoDiente() {
       .col.d-flex.justify-content-center
         button.btn.btn-primary(type="submit", @click="limpiarHallazgoDiente()" style="width: 10rem;") Limpiar
     .row(v-if="isSpeech")
-      .col.d-flex.justify-content-center
+      .col.d-flex.justify-content-left
         OdonOficial
       .col.d-flex.justify-content-center
   .col.d-flex.justify-content-left(v-if="!isSpeech")
