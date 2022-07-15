@@ -33,7 +33,7 @@ import {
   previousPage,
   nextPage,
   setList,
-  registro_ as _hallazgos,setListDelete,SetPage
+  registro_ as _hallazgos, setListDelete, SetPage
 } from "../../config/Paginator";
 const route = useRoute();
 const listaDiccionario = obtenerTodoDiccionario();
@@ -56,7 +56,7 @@ onMounted(() => {
   } else {
 
   }
-  setList(itemodontograma.value.hallazgos,1);
+  setList(itemodontograma.value.hallazgos, 1);
 })
 
 onUnmounted(() => {
@@ -77,7 +77,7 @@ watch(
   (registro) => {
     let idOdontograma = route.params.idOdontograma
     VerFormato((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [])
-    setList((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [],1);
+    setList((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [], 1);
     limpiarSinVoz()
   },
   { deep: true }
@@ -150,21 +150,21 @@ function limpiarHallazgoDiente() {
             td {{ item.hallazgo }}
             td {{ item.ubicacion }}
             td {{ item.sigla }}
-            td.dropdown
-              button.ms-auto.btn(@click="confirmar == false ? confirmar = true : borrar(item)") {{ confirmar ? '¿Está seguro?' : '' }}
-                i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
-      .div(v-if="itemodontograma.hallazgos?.length>8",style="text-align: center;")
+            td(width="25%")
+              BotonSeguro( :onSuccess= '() => borrar(item)' )
+                i.fa.fa-trash-o(aria-hidden='true')
+      .div(v-if="itemodontograma.hallazgos?.length > 8",style="text-align: center;")
         nav.d-flex.justify-content-center(aria-label='Page navigation example')
-            ul.pagination
-                li.page-item
-                    a.page-link(href='#', aria-label='Previous', @click="previousPage(itemodontograma.hallazgos)")
-                        span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
-                li.page-item(v-for="n in (Math.trunc(itemodontograma.hallazgos.length / 8) + (((itemodontograma.hallazgos.length % 8) > 0) ? 1 : 0))") 
-                    a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}    
-                li.page-item
-                    a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma.hallazgos)")
-                        span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
-     
+          ul.pagination
+            li.page-item
+              a.page-link(href='#', aria-label='Previous', @click="previousPage(itemodontograma.hallazgos)")
+                span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
+            li.page-item(v-for="n in (Math.trunc(itemodontograma.hallazgos.length / 8) + (((itemodontograma.hallazgos.length % 8) > 0) ? 1 : 0))") 
+              a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}    
+            li.page-item
+              a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma.hallazgos)")
+                span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
+
 .row.mt-2(v-if="!isSpeech")
   .col
     .div(style="background-color: white; border-radius: 2%;")
@@ -183,18 +183,18 @@ function limpiarHallazgoDiente() {
             td {{ item.ubicacion }}
             td {{ item.sigla }}
             td(width="25%")
-                    BotonSeguro( :onSuccess= '() => eliminar(item.id)' )
-                        i.fa.fa-trash-o(aria-hidden='true')
-      .div(v-if="itemodontograma.hallazgos?.length>8",style="text-align: center;")
+              BotonSeguro( :onSuccess= '() => borrar(item)' )
+                i.fa.fa-trash-o(aria-hidden='true')
+      .div(v-if="itemodontograma.hallazgos?.length > 8",style="text-align: center;")
         nav.d-flex.justify-content-center(aria-label='Page navigation example')
-            ul.pagination
-                li.page-item
-                    a.page-link(href='#', aria-label='Previous', @click="previousPage(itemodontograma.hallazgos)")
-                        span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
-                li.page-item(v-for="n in (Math.trunc(itemodontograma.hallazgos.length / 8) + (((itemodontograma.hallazgos.length % 8) > 0) ? 1 : 0))") 
-                    a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}    
-                li.page-item
-                    a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma.hallazgos)")
-                        span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
+          ul.pagination
+            li.page-item
+              a.page-link(href='#', aria-label='Previous', @click="previousPage(itemodontograma.hallazgos)")
+                span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
+            li.page-item(v-for="n in (Math.trunc(itemodontograma.hallazgos.length / 8) + (((itemodontograma.hallazgos.length % 8) > 0) ? 1 : 0))") 
+              a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}    
+            li.page-item
+              a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma.hallazgos)")
+                span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
           
 </template>
