@@ -4,6 +4,7 @@ import { useRoute, useRouter } from "vue-router";
 import { item, guardar, actualizar, limpiar, leerEnRegistro } from "../../store/precios";
 import {isLetter,isNumber} from '../../config/libreria'
 import tratamientos from '../../config/Cie10.json';
+const maxDinero = ref(5);
 const guardarOActualizar = () => {
 
   if (item.value.id) return actualizar(item.value);
@@ -25,19 +26,19 @@ onUnmounted(()=> {
 <template lang="pug">
 
 //.d-flex.justify-content-between
-  i.fa.fa-list-ul(style="color: #37DFBB; font-weight:bold; font-family: var(--font-family); font-size: 1.5em;")
-    |  Llenar Precios
+  i.fa.fa-coins-ul(style="color: #37DFBB; font-weight:bold; font-size: 1.5em;")
+  h1(style="color: #37DFBB; font-family: var(--font-family)") Llenar Precios
 
 Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
   .row
     label.form-label Hallazgos
       .col-3
-        select.form-select.mt-3(aria-label="form-select-lg example" v-model="item.tipo" required)
-          option(selected, disabled) Hallazgos
+        select.form-select.mt-3(v-model="item.tipo", required )
+          option(disabled) SELECCIONE
           option(v-for="tratamiento of tratamientos.CIE10" :value='tratamiento.HALLAZGO') {{tratamiento.HALLAZGO}}
     label.form-label Precio 
       .col-3
-        input.form-control.mt-3.mb-3(placeholder="precio" v-model="item.precio", type="number", step="0.01" ,required)
+        input.form-control.mt-3.mb-3(placeholder="precio", v-model="item.precio", @keypress="isNumber($event)",required,:maxlength="maxDinero",)
 
   .d-flex
     button.btn.btn-primary(@click="push({ name: 'precios', params: {} })") Volver

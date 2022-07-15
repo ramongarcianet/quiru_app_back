@@ -1,18 +1,8 @@
 <script setup>
 import { onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import {
-    obtenerTodos,
-    eliminar,
-    registro
-} from "../../store/precios";
-import {
-    previousPage,
-    nextPage,
-    setList,
-    registro_,
-    searchPrecio, setListDelete, SetPage
-} from "../../config/Paginator";
+import {obtenerTodos, eliminar,registro} from "../../store/precios";
+import {previousPage,nextPage,setList,registro_,searchPrecio, setListDelete, SetPage} from "../../config/Paginator";
 const obtenerRegistro = obtenerTodos();
 const confirmar = ref(false);
 let _TotalPage = 0;
@@ -44,7 +34,7 @@ watch(
         tbody
             tr(v-for="item of registro_"  :key="item.id"  :item="item")
                 td {{ item.tipo }}
-                td {{ item.precio }}
+                td S/. {{ item.precio }}.00
                 td
                     button.ms-auto.btn( @click="push({ name: 'formulario', params: { idPaciente: item.id } })")
                         i.fa.fa-pencil-square-o(aria-hidden='true')

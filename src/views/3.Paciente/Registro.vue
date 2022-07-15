@@ -1,18 +1,8 @@
 <script setup>
 import { onUnmounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import {
-    obtenerTodos,
-    eliminar,
-    registro
-} from "../../store/paciente";
-import {
-    previousPage,
-    nextPage,
-    setList,
-    registro_,
-    search, setListDelete, SetPage
-} from "../../config/Paginator";
+import {obtenerTodos, eliminar,registro} from "../../store/paciente";
+import {previousPage,nextPage,setList,registro_,searchPrecio, setListDelete, SetPage} from "../../config/Paginator";
 const obtenerRegistro = obtenerTodos();
 const confirmar = ref(false);
 const confirmarEliminar = (id) => eliminar(id).then(() => (confirmar.value = false),
@@ -27,7 +17,6 @@ watch(
         setList(registro.value,1);
     }
 )
-
 </script>
 
 <template lang="pug">
