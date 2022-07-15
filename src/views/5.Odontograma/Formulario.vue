@@ -77,7 +77,7 @@ watch(
   (registro) => {
     let idOdontograma = route.params.idOdontograma
     VerFormato((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [])
-    //setList((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [],1);
+    setList((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [],1);
     limpiarSinVoz()
   },
   { deep: true }
@@ -157,7 +157,7 @@ function limpiarHallazgoDiente() {
             td.dropdown
               button.ms-auto.btn(@click="confirmar == false ? confirmar = true : borrar(item)") {{ confirmar ? '¿Está seguro?' : '' }}
                 i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
-      .div(v-if="itemodontograma.hallazgos.length>8",style="text-align: center;")
+      .div(v-if="itemodontograma.hallazgos?.length>8",style="text-align: center;")
         nav.d-flex.justify-content-center(aria-label='Page navigation example')
             ul.pagination
                 li.page-item
