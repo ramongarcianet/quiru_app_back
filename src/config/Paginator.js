@@ -48,6 +48,7 @@ export function setList(registro,page) {
     curPage=page;
     if (registro != undefined) {
         registro_.value = registro.filter((row, index) => {
+            row['fila']=index+1
             let start = (curPage - 1) * pageSize;
             let end = curPage * pageSize;
             if (index >= start && index < end) return true;
@@ -66,6 +67,7 @@ export function setListDelete(registro) {
     }
     if (registro != undefined) {
         registro_.value = registro.filter((row, index) => {
+            row['fila']=index+1
             let start = (curPage - 1) * pageSize;
             let end = curPage * pageSize;
             if (index >= start && index < end) return true;

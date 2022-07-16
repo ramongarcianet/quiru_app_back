@@ -116,12 +116,12 @@ function limpiarHallazgoDiente() {
           input.form-control#comboPieza(list='listaDeDientes', name='comboPieza', v-model='item.diente')
           datalist#listaDeDientes
             option(selected disabled value="") Pieza
-            option(v-for='{ text, value } of listaDeDientesCombo' :value="value") 
+            option(v-for='{ text, value } of listaDeDientesCombo' :value="value")
         span.input-group-text(style="padding: 0.01rem 0.01rem 0.01rem 1.01rem;") Hallazgo :
           input.form-control#comboHallazgo(list='ListaHallazgos', name='comboHallazgo', v-model='Hallazgo')
           datalist#ListaHallazgos
             option(selected disabled value="") Hallazgo
-            option(v-for='{ text, value } of listaDeHallazgos' :value="value") 
+            option(v-for='{ text, value } of listaDeHallazgos' :value="value")
     .row(v-if="!isSpeech")
       .col.d-flex.justify-content-center
         Diente(:item='item' style='--size: 10rem;').raiz-0
@@ -139,6 +139,7 @@ function limpiarHallazgoDiente() {
       table.table.table-hover
         thead
           tr
+            th Fila
             th Diente
             th Hallazgo
             th Ubicación
@@ -146,6 +147,7 @@ function limpiarHallazgoDiente() {
             th
         tbody
           tr(v-for="item of _hallazgos")
+            td {{ item.fila }}
             td {{ item.diente }}
             td {{ item.hallazgo }}
             td {{ item.ubicacion }}
@@ -159,8 +161,8 @@ function limpiarHallazgoDiente() {
             li.page-item
               a.page-link(href='#', aria-label='Previous', @click="previousPage(itemodontograma.hallazgos)")
                 span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
-            li.page-item(v-for="n in (Math.trunc(itemodontograma.hallazgos.length / 8) + (((itemodontograma.hallazgos.length % 8) > 0) ? 1 : 0))") 
-              a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}    
+            li.page-item(v-for="n in (Math.trunc(itemodontograma.hallazgos.length / 8) + (((itemodontograma.hallazgos.length % 8) > 0) ? 1 : 0))")
+              a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}
             li.page-item
               a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma.hallazgos)")
                 span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
@@ -171,6 +173,7 @@ function limpiarHallazgoDiente() {
       table.table.table-hover
         thead
           tr
+            th Fila
             th Diente
             th Hallazgo
             th Ubicación
@@ -178,6 +181,7 @@ function limpiarHallazgoDiente() {
             th
         tbody
           tr(v-for="item of _hallazgos")
+            td {{ item.fila }}
             td {{ item.diente }}
             td {{ item.hallazgo }}
             td {{ item.ubicacion }}
@@ -191,10 +195,10 @@ function limpiarHallazgoDiente() {
             li.page-item
               a.page-link(href='#', aria-label='Previous', @click="previousPage(itemodontograma.hallazgos)")
                 span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
-            li.page-item(v-for="n in (Math.trunc(itemodontograma.hallazgos.length / 8) + (((itemodontograma.hallazgos.length % 8) > 0) ? 1 : 0))") 
-              a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}    
+            li.page-item(v-for="n in (Math.trunc(itemodontograma.hallazgos.length / 8) + (((itemodontograma.hallazgos.length % 8) > 0) ? 1 : 0))")
+              a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}
             li.page-item
               a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma.hallazgos)")
                 span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
-          
+
 </template>

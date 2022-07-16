@@ -227,6 +227,13 @@ export function limpiarPieza(pieza) {
     actualizarDetalle(itemodontograma.value.id,  itemodontograma.value.hallazgos)
     speak( `Limpiando pieza ${pieza}`)
 }
+export function eliminarFila(filaEliminar) {
+    if (!isNaN(filaEliminar)){
+        itemodontograma.value.hallazgos = itemodontograma.value?.hallazgos.filter( ({fila}) => fila!=filaEliminar)
+        actualizarDetalle(itemodontograma.value.id,  itemodontograma.value.hallazgos)
+        speak( `Limpiando fila ${filaEliminar}`)
+    }
+}
 
 const prefijosParaPieza = '(pieza)'
 const prefijosParaUbicacion = '(por) (parte)'
@@ -290,8 +297,10 @@ export default {
         'fin *any': detenerVoz,
         'adios': detenerVoz,
         'adios *any': detenerVoz,
-        'borrar (pieza) (diente) :pieza': limpiarPieza,
-        'eliminar (pieza) (diente) :pieza': limpiarPieza,
+        //'borrar (pieza) (diente) :pieza': limpiarPieza,
+        //'eliminar (pieza) (diente) :pieza': limpiarPieza,
+        'borrar (fila) :fila': eliminarFila,
+        'eliminar (fila) :fila': eliminarFila,
         'limpiar (pieza) (diente) :pieza': limpiarPieza,
         'pieza :item': seleccionarPieza,
         'piezas :item': seleccionarPieza,
