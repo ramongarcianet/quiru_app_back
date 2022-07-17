@@ -139,8 +139,8 @@ function limpiarHallazgoDiente() {
       table.table.table-hover
         thead
           tr
-            th Fila
-            th Diente
+            th N°
+            th Pieza
             th Hallazgo
             th Ubicación
             th Sigla
@@ -173,8 +173,8 @@ function limpiarHallazgoDiente() {
       table.table.table-hover
         thead
           tr
-            th Fila
-            th Diente
+            th N°
+            th Pieza
             th Hallazgo
             th Ubicación
             th Sigla
