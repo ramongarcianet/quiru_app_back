@@ -52,10 +52,10 @@ watch(
                         i.fa.fa-solid.fa-tooth
                 td.dropdown
                     button.ms-auto.btn( @click="push({ name: 'paciente', params: { idPaciente: item.id } })")
-                        i.fa.fa-pencil-square-o(aria-hidden='true')
+                        i.fa-solid.fa-pen-clip
                 td.dropdown
                     BotonSeguro( :onSuccess= '() => eliminar(item.id)')
-                        i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
+                        i.fa-solid.fa-trash
     .div(v-if="registro.length > 8",style="text-align: center;")
         nav.d-flex.justify-content-center(aria-label='Page navigation example')
             ul.pagination

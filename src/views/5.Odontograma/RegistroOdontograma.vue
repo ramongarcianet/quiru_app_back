@@ -53,12 +53,21 @@ onUnmounted(()=>{
               i.fa.fa-solid.fa-circle-plus
         td(v-else="item.esultimo==='1' || item.esultimo==='0'")
           .dropdown
-            button.ms-auto.btn(type="button")
+            button.ms-auto.btn(type="button", disabled)
+             i.fa.fa-solid.fa-circle-plus
         td(v-if="item.esultimo==='2'" width="25%")
           .dropdown
             BotonSeguro( :onSuccess= '() => eliminar(item.id)' )
-                i.fa.fa-trash-o(aria-hidden='true')
+                i.fa.fa-trash-o
         td(v-else="item.esultimo==='1' || item.esultimo==='0'")
           .dropdown
-            button.ms-auto.btn(type="button")
+            button.ms-auto.btn(type="button", disabled)
+              i.fa.fa-trash-o(aria-hidden='true')
+
 </template>
+<style scoped>
+  .btn:disabled, .btn.disabled, fieldset:disabled .btn {
+    opacity: 0.35;
+}
+
+</style>

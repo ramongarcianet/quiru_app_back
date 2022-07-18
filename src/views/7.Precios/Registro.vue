@@ -37,7 +37,7 @@ watch(
                 td S/. {{ item.precio }}.00
                 td
                     button.ms-auto.btn( @click="push({ name: 'formulario', params: { idPaciente: item.id } })")
-                        i.fa.fa-pencil-square-o(aria-hidden='true')
+                        i.fa-solid.fa-pen-clip
                 td(width="25%")
                     BotonSeguro( :onSuccess= '() => eliminar(item.id)' )
                         i.fa.fa-trash-o(aria-hidden='true')
@@ -53,4 +53,6 @@ watch(
                     a.page-link(href='#', aria-label='Next', @click="nextPage(registro)")
                         span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
 </template>
+<style scoped>
 
+</style>
