@@ -37,6 +37,7 @@ onUnmounted(()=>{
         th Tipo
         th Fecha
         th Ver
+        th Presupuesto
         th Agregar
         th Borrar
     tbody
@@ -47,6 +48,10 @@ onUnmounted(()=>{
           .dropdown
             button.ms-auto.btn(type="button", @click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente} })")
               i.fa.fa-solid.fa-tooth
+        td
+          .dropdown
+            button.ms-auto.btn(type="button", @click="push({name: 'cotizacion', params: {idOdontograma: item.id,idPaciente: item.idPaciente} })")
+              i.fa.fa-usd
         td(v-if="item.esultimo==='2' && item.hallazgos")
           .dropdown
             button.ms-auto.btn(type="button", @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','2',item.id)")
