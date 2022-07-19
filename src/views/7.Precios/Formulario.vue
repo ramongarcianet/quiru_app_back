@@ -1,14 +1,27 @@
 <script setup>
 import { onUnmounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { item, guardar, actualizar, limpiar, leerEnRegistro } from "../../store/precios";
+import { item, guardar, actualizar, limpiar, leerEnRegistro, obtenerTodos, registro } from "../../store/precios";
 import {isLetter,isNumber} from '../../config/libreria'
 import tratamientos from '../../config/Cie10.json';
 const maxDinero = ref(5);
+obtenerTodos();
+let index = 0;
 const guardarOActualizar = () => {
 
-  if (item.value.id) return actualizar(item.value);
-  else return guardar(item.value);
+  if (item.value.id) {
+    
+    return actualizar(item.value);
+    }
+  else {
+    index = registro.value.findIndex(i=>i.tipo==item.value.tipo);
+    if( index == -1 || index == undefined) {
+      return guardar(item.value);
+    }
+    //else {
+      //alert("existe registro")
+    //}
+  }
 };
 const route = useRoute()
 const {back, push} = useRouter()
@@ -43,5 +56,8 @@ Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
   .d-flex
     button.btn.btn-primary(@click="push({ name: 'precios', params: {} })") Volver
     button.ms-auto.btn.btn-primary(type='submit') Guardar
+
+//.div(v-if="index == -1 || index == undefined")
+  p El Hallazgo ya ha sido registrado
 
 </template>
