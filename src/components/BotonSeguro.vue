@@ -1,8 +1,8 @@
 <script setup>
-import {ref, watch} from 'vue'
+import {ref, watchEffect} from 'vue'
 const props = defineProps(['onSuccess'])
 const quitarSeguro = ref(false)
-watch(
+watchEffect(
   ()=> quitarSeguro.value && setTimeout( 
          ()=> quitarSeguro.value = false,
         3000

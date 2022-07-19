@@ -11,8 +11,8 @@ const { push } = useRouter()
     |  Diccionario
   br
 row
-  container.fluid
-    container
+  .container.container-fluid
+    .container
       registro
       .div(style="text-align: right;")
         button.btn.btn-primary(style="border-radius: 50%;" @click="push({name: 'diccionario'})")
