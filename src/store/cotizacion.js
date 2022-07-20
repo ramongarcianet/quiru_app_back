@@ -32,7 +32,7 @@ const registro = ref([])
 const obtenerTodos = (idOdontograma) => {
     const referencia = collection(firestore, 'presupuesto')
     
-    const referenciaOrden = query(referencia,where('idOdontograma', '==', idOdontograma)) //,orderBy("tipo", "asc")
+    const referenciaOrden = query(referencia,where('idOdontograma', '==', idOdontograma)) 
     
     return onSnapshot(
         referenciaOrden,

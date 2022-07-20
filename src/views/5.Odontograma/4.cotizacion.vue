@@ -1,52 +1,61 @@
 <script setup>
-import { onUnmounted, ref } from "vue";
+import { onUnmounted, ref, watch, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { item, guardar, actualizar, limpiar, leerEnRegistro, obtenerTodos, registro, eliminar} from "../../store/cotizacion";
-import {isLetter,isNumber} from '../../config/libreria'
-const maxDinero = ref(5); 
+import { item, guardar, actualizar, limpiar, leerEnRegistro, obtenerTodos, registro, eliminar } from "../../store/cotizacion";
+import { isLetter, isNumber } from '../../config/libreria'
+const maxDinero = ref(5);
 const route = useRoute()
-const {back, push} = useRouter()
+const { back, push } = useRouter()
 const obtenerRegistro = obtenerTodos(route.params.idOdontograma);
 let index = 0;
+let total = 0;
 const guardarOActualizar = () => {
   if (item.value.id) {
-    
+
     return actualizar(item.value);
-    }
+  }
   else {
-    index = registro.value.findIndex(i=>i.tipo==item.value.tipo);
-    if( index == -1 || index == undefined) {
-      item.value.idOdontograma = route.params.idOdontograma; 
+    index = registro.value.findIndex(i => i.tipo == item.value.tipo);
+    if (index == -1 || index == undefined) {
+      item.value.idOdontograma = route.params.idOdontograma;
       item.value.estado = "pendiente";
       console.log('crear')
       return guardar(item.value);
     } else {
       //esta llegando aca
-      item.value.idOdontograma = route.params.idOdontograma; 
+      item.value.idOdontograma = route.params.idOdontograma;
       item.value.estado = "pendiente";
       return guardar(item.value);
 
     }
-    //else {
-      //alert("existe registro")
-    //}
-
   }
-
 };
 
 let obtener
-if (route.params.idPaciente) {
-
-  leerEnRegistro(route.params.idPaciente)
-
-
-}
-onUnmounted(()=> {
+onUnmounted(() => {
   limpiar()
   if (obtener) obtener();
 })
-
+onMounted(() => {
+  total = 0;
+  registro.value.forEach(element => {
+    total = Number(total) + Number(element.precio);
+    let mensaje = document.getElementById('TotalSuma');
+    mensaje.innerText ="S/. " + total.toFixed(2);
+  });
+})
+watch(
+  () => registro.value,
+  () => {
+    total = 0;
+    registro.value.forEach(element => {
+      total = Number(total) + Number(element.precio);
+      let mensaje = document.getElementById('TotalSuma');
+      mensaje.innerText ="S/. " + total.toFixed(2);
+    });
+  },
+  { deep: true }
+)
 </script>
 
 <template lang="pug">
@@ -56,7 +65,7 @@ h2.primary-text
 .container.fluid
   .container
     .row.mt-4
-      Form( :onFunction='()=>guardarOActualizar()')
+      Form( :onFunction='() => guardarOActualizar()')
         .row.d-flex.justify-content-left
           .col.d-flex.justify-content-left 
             span.input-group-text.pl-1 Concepto :
@@ -81,10 +90,17 @@ h2.primary-text
               tr(v-for="item of registro"  :key="item.id"  :item="item")
                 td {{ item.concepto }}
                 td S/. {{ item.precio }}.00
-                td(width="25%") {{item.estado}} 
+                td(width="25%") {{ item.estado }} 
                 td(width="25%")
                   BotonSeguro( :onSuccess= '() => eliminar(item.id)' )
                     i.fa.fa-trash-o(aria-hidden='true')
+            tfoot
+              tr
+                th Total
+                th  
+                  span#TotalSuma(style="color: black; font-weight:bold;")
+                th 
+                th
 .d-flex.mt-5
-      button.btn.btn-primary(@click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })') Volver
+  button.btn.btn-primary(@click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })') Volver
 </template>
