@@ -3,10 +3,15 @@ import { onUnmounted, ref, watch, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { item, guardar, actualizar, limpiar, leerEnRegistro, obtenerTodos, registro, eliminar } from "../../store/cotizacion";
 import { isLetter, isNumber } from '../../config/libreria'
+import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma } from '../../store/formodontograma';
+import Cie10 from '../../config/Cie10.json';
 const maxDinero = ref(5);
 const route = useRoute()
 const { back, push } = useRouter()
 const obtenerRegistro = obtenerTodos(route.params.idOdontograma);
+if (route.params.idOdontograma) {
+  ObtenerOdontograma(route.params.idOdontograma);
+}
 let index = 0;
 let total = 0;
 const guardarOActualizar = () => {
@@ -19,9 +24,11 @@ const guardarOActualizar = () => {
       item.value.idOdontograma = route.params.idOdontograma;
       item.value.estado = "pendiente";
       return guardar(item.value);
+      item.value.concepto = "";
+      item.value.precio = "";
     } else {
       let mensaje = document.getElementById('mensaje');
-      mensaje.innerText =item.value.concepto+ ", ya existe" ;
+      mensaje.innerText = item.value.concepto + ", ya existe";
     }
   }
 };
@@ -34,9 +41,10 @@ onMounted(() => {
   total = 0;
   registro.value.forEach(element => {
     total = Number(total) + Number(element.precio);
-    let TotalSuma = document.getElementById('TotalSuma');
-    TotalSuma.innerText = "S/. " + total.toFixed(2);
   });
+  AddItemsAutomatico();
+  let TotalSuma = document.getElementById('TotalSuma');
+  TotalSuma.innerText = "S/. " + total.toFixed(2);
 })
 watch(
   () => registro.value,
@@ -44,12 +52,41 @@ watch(
     total = 0;
     registro.value.forEach(element => {
       total = Number(total) + Number(element.precio);
-      let TotalSuma = document.getElementById('TotalSuma');
-      TotalSuma.innerText = "S/. " + total.toFixed(2);
     });
+    let TotalSuma = document.getElementById('TotalSuma');
+    TotalSuma.innerText = "S/. " + total.toFixed(2);
   },
   { deep: true }
 )
+function AddItemsAutomatico() {
+  if (itemodontograma != undefined) {
+    Cie10.CIE10.forEach(element => {
+      let ubicacionnes = itemodontograma.value?.hallazgos.filter((elem) => elem.hallazgo.toUpperCase() == element.HALLAZGO);
+      let Piezas = "";
+      let PiezasTrata = "";
+      if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
+        ubicacionnes.forEach(dient => {
+          if (!Piezas.includes(dient.diente)) {
+            Piezas = Piezas + dient.diente + ((Piezas != "") ? ";" : "");
+          }
+        });
+        if (element.TRATAMIENTO != "") {
+          item.value.concepto = element.TRATAMIENTO + " : " + Piezas;
+          item.value.precio = 5;
+          index = registro.value.findIndex(i => i.concepto == item.value.concepto);
+          if (index == -1 || index == undefined) {
+            guardarOActualizar();
+            item.value.concepto = "";
+            item.value.precio = "";
+          } else {
+            item.value.concepto = "";
+            item.value.precio = "";
+          }
+        }
+      }
+    });
+  }
+}
 </script>
 
 <template lang="pug">
