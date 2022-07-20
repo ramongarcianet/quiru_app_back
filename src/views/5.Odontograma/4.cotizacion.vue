@@ -118,10 +118,7 @@ h2.primary-text
             input.form-control(placeholder="Concepto" v-model="item.concepto", required)
           .col
             label.input-group Precio
-            input.form-control(type="number" placeholder="Precio" v-model="item.precio",required :maxlength="maxDinero")
-          .col.d-flex.justify-content-left.mt-3
-            span.input-group(style="padding: 0.01rem 0.01rem 0.01rem 1.01rem;") Precio :
-            input.form-control(type="number" v-model="item.precio",required :maxlength="maxDinero")
+            input.form-control(type="number" placeholder="Precio" v-model="item.precio",required :maxlength="maxDinero")          
           .col.d-flex.justify-content-left.mt-3
             button.btn.btn-primary(type='submit') Agregar 
             button.btn.btn-primary(@click="AddItemsAutomatico()") Generar desde Diagnóstico
@@ -138,15 +135,13 @@ h2.primary-text
                 th.d-none.d-md-table-cell Cantidad
                 th.d-none.d-md-table-cell Precio
                 th.d-none.d-md-table-cell Sub total
-                th.d-none.d-md-table-cell Estado
                 th
             tbody
               tr(v-for="item of registro"  :key="item.id"  :item="item")
-                td(width="10%" style="font-size: 14px") {{ item.concepto }}
+                td {{ item.concepto }}
                 td {{ item.cantidad }}
                 td S/ {{ FormatNumber.format(item.precio) }}
                 td S/ {{ FormatNumber.format(item.subtotal) }} 
-                td {{ item.estado }} 
                 td
                   BotonSeguro( :onSuccess= '() => eliminar(item.id)' )
                     i.fa.fa-trash-o(aria-hidden='true')
