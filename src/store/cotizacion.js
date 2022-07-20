@@ -5,9 +5,11 @@ import {usuario} from '../store/sesion'
 const dialog = ref( false )
 
 const item = ref ({
-    concepto: "",
     idOdontograma: "",
+    concepto: "",
+    cantidad: 0,
     precio: 0,
+    subtotal: 0,
     estado: "Pendiente"
 })
 

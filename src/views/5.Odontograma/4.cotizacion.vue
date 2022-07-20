@@ -23,9 +23,11 @@ const guardarOActualizar = () => {
     if (index == -1 || index == undefined) {
       item.value.idOdontograma = route.params.idOdontograma;
       item.value.estado = "pendiente";
-      return guardar(item.value);
-      item.value.concepto = "";
-      item.value.precio = "";
+      item.value.cantidad = 1;
+      let subtot = (Number(item.value.cantidad) * Number(item.value.precio));
+      item.value.subtotal = subtot.toString();
+      guardar(item.value);
+      item.value = {};
     } else {
       let mensaje = document.getElementById('mensaje');
       mensaje.innerText = item.value.concepto + ", ya existe";
@@ -40,7 +42,7 @@ onUnmounted(() => {
 onMounted(() => {
   total = 0;
   registro?.value.forEach(element => {
-    total = Number(total) + Number(element.precio);
+    total = Number(total) + Number(element.subtotal);
   });
   let TotalSuma = document.getElementById('TotalSuma');
   TotalSuma.innerText = "S/. " + total.toFixed(2);
@@ -50,7 +52,7 @@ watch(
   () => {
     total = 0;
     registro.value.forEach(element => {
-      total = Number(total) + Number(element.precio);
+      total = Number(total) + Number(element.subtotal);
     });
     let TotalSuma = document.getElementById('TotalSuma');
     TotalSuma.innerText = "S/. " + total.toFixed(2);
@@ -61,25 +63,28 @@ function AddItemsAutomatico() {
   if (itemodontograma != undefined) {
     Cie10.CIE10.forEach(element => {
       let ubicacionnes = itemodontograma.value?.hallazgos.filter((elem) => elem.hallazgo.toUpperCase() == element.HALLAZGO);
-      let Piezas = "";
-      let PiezasTrata = "";
+      let Piezas = 0;
       if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
         ubicacionnes.forEach(dient => {
-          if (!Piezas.includes(dient.diente)) {
-            Piezas = Piezas + dient.diente + ((Piezas != "") ? ";" : "");
-          }
+            Piezas = Piezas + 1;
         });
         if (element.TRATAMIENTO != "") {
-          item.value.concepto = element.TRATAMIENTO + " : " + Piezas;
+          item.value.concepto = element.TRATAMIENTO;
           item.value.precio = 5;
+          item.value.idOdontograma = route.params.idOdontograma;
+          item.value.estado = "pendiente";
+          item.value.cantidad = Piezas.toString();
+          let subtot = (Number(item.value.cantidad) * Number(item.value.precio));
+          item.value.subtotal = subtot.toString();
           index = registro.value.findIndex(i => i.concepto == item.value.concepto);
           if (index == -1 || index == undefined) {
-            guardarOActualizar();
-            item.value.concepto = "";
-            item.value.precio = "";
+            guardar(item.value);
+            item.value = {};
           } else {
-            item.value.concepto = "";
-            item.value.precio = "";
+            let existeregitro = registro.value.filter((elem) => elem.concepto == item.value.concepto);
+            item.value.id=existeregitro.id;
+            actualizar(item.value);
+            item.value = {};
           }
         }
       }
@@ -117,13 +122,17 @@ h2.primary-text
             thead
               tr
                 th Concepto
+                th Cantidad
                 th Precio
+                th Sub total
                 th Estado
                 th
             tbody
               tr(v-for="item of registro"  :key="item.id"  :item="item")
                 td {{ item.concepto }}
-                td S/. {{ item.precio }}.00
+                td {{ item.cantidad }}
+                td S/. {{ item.precio }}.00 
+                td S/. {{ item.subtotal }}.00 
                 td(width="25%") {{ item.estado }} 
                 td(width="25%")
                   BotonSeguro( :onSuccess= '() => eliminar(item.id)' )
@@ -131,6 +140,8 @@ h2.primary-text
             tfoot
               tr
                 th Total
+                th
+                th
                 th  
                   span#TotalSuma.fw-bold
                 th 
