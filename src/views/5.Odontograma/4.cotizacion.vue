@@ -102,39 +102,38 @@ h2.primary-text
     .row.mt-4
       Form( :onFunction='() => guardarOActualizar()')
         .row
-          .col.d-flex.justify-content-left.mt-3
-            span.input-group Concepto :
+          .col
+            label.input-group Concepto
             input.form-control(placeholder="Concepto" v-model="item.concepto", required)
+          .col
+            label.input-group Precio
+            input.form-control(type="number" placeholder="Precio" v-model="item.precio",required :maxlength="maxDinero")
           .col.d-flex.justify-content-left.mt-3
-            span.input-group(style="padding: 0.01rem 0.01rem 0.01rem 1.01rem;") Precio :
-            input.form-control(type="number" v-model="item.precio",required :maxlength="maxDinero")
-          .col.d-flex.justify-content-left.mt-3
-            button.btn.btn-primary(type='submit') Agregar 
-              i.fa.fa-plus.light-text
+            button.btn.btn-primary(type='submit') Agregar
             button.btn.btn-primary(@click="AddItemsAutomatico()") Obtener Diagnóstico
     .row
       .col.mt-1
         span#mensaje.fw-bold.text-danger
     .row
       .col.mt-4
-        .div(style="background-color: white; border-radius: 2%;").mt-1
+        .div(style="background-color: white; border-radius: 2%;")
           table.table.table-hover
             thead
               tr
                 th Concepto
-                th Cantidad
-                th Precio
-                th Sub total
-                th Estado
+                th.d-none.d-md-table-cell Cantidad
+                th.d-none.d-md-table-cell Precio
+                th.d-none.d-md-table-cell Sub total
+                th.d-none.d-md-table-cell Estado
                 th
             tbody
               tr(v-for="item of registro"  :key="item.id"  :item="item")
-                td {{ item.concepto }}
+                td(width="10%" style="font-size: 14px") {{ item.concepto }}
                 td {{ item.cantidad }}
                 td S/. {{ item.precio }}.00 
                 td S/. {{ item.subtotal }}.00 
-                td(width="25%") {{ item.estado }} 
-                td(width="25%")
+                td(width="10%" style="font-size: 14px") {{ item.estado }} 
+                td(width="20%")
                   BotonSeguro( :onSuccess= '() => eliminar(item.id)' )
                     i.fa.fa-trash-o(aria-hidden='true')
             tfoot
