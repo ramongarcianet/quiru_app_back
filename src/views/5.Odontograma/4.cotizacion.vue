@@ -66,7 +66,7 @@ function AddItemsAutomatico() {
       let Piezas = 0;
       if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
         ubicacionnes.forEach(dient => {
-            Piezas = Piezas + 1;
+          Piezas = Piezas + 1;
         });
         if (element.TRATAMIENTO != "") {
           item.value.concepto = element.TRATAMIENTO;
@@ -82,7 +82,7 @@ function AddItemsAutomatico() {
             item.value = {};
           } else {
             let existeregitro = registro.value.filter((elem) => elem.concepto == item.value.concepto);
-            item.value.id=existeregitro.id;
+            item.value.id = existeregitro[0].id;
             actualizar(item.value);
             item.value = {};
           }
