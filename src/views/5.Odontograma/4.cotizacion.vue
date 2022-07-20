@@ -72,7 +72,7 @@ h2.primary-text
               i.fa.fa-plus.light-text
     .row
       .col.mt-1
-        span#mensaje.fw-bold
+        span#mensaje.fw-bold.text-danger
     .row
       .col.mt-4
         .div(style="background-color: white; border-radius: 2%;").mt-1
