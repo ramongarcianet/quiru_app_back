@@ -39,10 +39,9 @@ onUnmounted(() => {
 })
 onMounted(() => {
   total = 0;
-  registro.value.forEach(element => {
+  registro?.value.forEach(element => {
     total = Number(total) + Number(element.precio);
   });
-  AddItemsAutomatico();
   let TotalSuma = document.getElementById('TotalSuma');
   TotalSuma.innerText = "S/. " + total.toFixed(2);
 })
@@ -97,16 +96,17 @@ h2.primary-text
   .container
     .row.mt-4
       Form( :onFunction='() => guardarOActualizar()')
-        .row.d-flex.justify-content-left
-          .col.d-flex.justify-content-left 
-            span.input-group-text.pl-1 Concepto :
-              input.form-control(placeholder="Concepto" v-model="item.concepto", required)
-          .col.d-flex.justify-content-left
-            span.input-group-text.pl-1 Precio :
-              input.form-control(type="number" v-model="item.precio",required :maxlength="maxDinero")
+        .row
           .col.d-flex.justify-content-left.mt-3
-            button.btn.btn-primary(type='submit')
+            span.input-group Concepto :
+            input.form-control(placeholder="Concepto" v-model="item.concepto", required)
+          .col.d-flex.justify-content-left.mt-3
+            span.input-group(style="padding: 0.01rem 0.01rem 0.01rem 1.01rem;") Precio :
+            input.form-control(type="number" v-model="item.precio",required :maxlength="maxDinero")
+          .col.d-flex.justify-content-left.mt-3
+            button.btn.btn-primary(type='submit') Agregar 
               i.fa.fa-plus.light-text
+            button.btn.btn-primary(@click="AddItemsAutomatico()") Obtener Diagnóstico
     .row
       .col.mt-1
         span#mensaje.fw-bold.text-danger
