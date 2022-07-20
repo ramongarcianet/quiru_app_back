@@ -20,7 +20,8 @@ const guardarOActualizar = () => {
       item.value.estado = "pendiente";
       return guardar(item.value);
     } else {
-      alert("existe registro")
+      let mensaje = document.getElementById('mensaje');
+      mensaje.innerText =item.value.concepto+ ", ya existe" ;
     }
   }
 };
@@ -33,8 +34,8 @@ onMounted(() => {
   total = 0;
   registro.value.forEach(element => {
     total = Number(total) + Number(element.precio);
-    let mensaje = document.getElementById('TotalSuma');
-    mensaje.innerText ="S/. " + total.toFixed(2);
+    let TotalSuma = document.getElementById('TotalSuma');
+    TotalSuma.innerText = "S/. " + total.toFixed(2);
   });
 })
 watch(
@@ -43,8 +44,8 @@ watch(
     total = 0;
     registro.value.forEach(element => {
       total = Number(total) + Number(element.precio);
-      let mensaje = document.getElementById('TotalSuma');
-      mensaje.innerText ="S/. " + total.toFixed(2);
+      let TotalSuma = document.getElementById('TotalSuma');
+      TotalSuma.innerText = "S/. " + total.toFixed(2);
     });
   },
   { deep: true }
@@ -69,6 +70,9 @@ h2.primary-text
         .col.d-flex.justify-content-left.mt-3
           button.btn.btn-primary(type='submit')
             i.fa.fa-plus.light-text
+    .row
+      .col.mt-1
+        span#mensaje.fw-bold
     .row
       .col.mt-4
         .div(style="background-color: white; border-radius: 2%;").mt-1
