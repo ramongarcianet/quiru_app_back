@@ -105,6 +105,14 @@ function formatUbicacion(ubicacion){
     }
     if (ubicacionTemp.length==1) {
         switch(ubicacionTemp[0]){
+            case 'vestibular':{ respuesta = 'vestibular'; break}
+            case 'distal':{ respuesta = 'distal'; break}
+            case 'oclusal':{ respuesta = 'oclusal'; break}
+            case 'mesial':{ respuesta = 'mesial'; break}
+            case 'palatino':{ respuesta = 'palatino'; break}
+            case 'incisal':{ respuesta = 'incisal'; break}
+            case 'lingual':{ respuesta = 'lingual'; break}
+
             case 'cristal': {respuesta = 'distal';break}
             case 'Messi': {respuesta = 'mesial';break}
             case 'inicial': {respuesta = 'incisal';break}
@@ -137,16 +145,10 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
     if (hallazgo && listaDeUbicacion.length == 0) {
         const registroSiglas = listaDeHallazgos.filter((elem)=> elem.value==hallazgo);
         const sigla = registroSiglas[0]?.sigla;
-        if( ubicacionnes !=undefined ) {
-            _posicion=(ubicacionnes.arriva.trim()==ubicacion)? 'arriva':_posicion;
-            _posicion=(ubicacionnes.centro.trim()==ubicacion)? 'centro':_posicion;
-            _posicion=(ubicacionnes.abajo.trim()==ubicacion)? 'abajo':_posicion;
-            _posicion=(ubicacionnes.izquierda.trim()==ubicacion)? 'izquierda':_posicion;
-            _posicion=(ubicacionnes.derecha.trim()==ubicacion)? 'derecha':_posicion;
+        if (hallazgo != 'caries' && hallazgo != 'restauración'){
+            item.value.hallazgos.push( {hallazgo,sigla:sigla,posicion: _posicion} )
+            mensaje += `Hallazgo ${hallazgo}`
         }
-
-        item.value.hallazgos.push( {hallazgo,sigla:sigla,posicion: _posicion} )
-        mensaje += `Hallazgo ${hallazgo}`
     } else if( hallazgo && listaDeUbicacion.length > 0 ){
         const registroSiglas = listaDeHallazgos.filter((elem)=> elem.value==hallazgo);
         const sigla = registroSiglas[0]?.sigla;
@@ -160,9 +162,11 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
                 _posicion=(ubicacionnes.izquierda.trim()==ubicacion)? 'izquierda':_posicion;
                 _posicion=(ubicacionnes.derecha.trim()==ubicacion)? 'derecha':_posicion;
             }
-
-            item.value.hallazgos.push( {hallazgo, ubicacion,sigla:sigla,posicion: _posicion} )
-            mensajeUbicacion+= ubicacion
+            if (ubicacionnes.arriva.trim()==ubicacion || ubicacionnes.centro.trim()==ubicacion ||
+               ubicacionnes.abajo.trim()==ubicacion || ubicacionnes.izquierda.trim()==ubicacion || ubicacionnes.derecha.trim()==ubicacion){
+                item.value.hallazgos.push( {hallazgo, ubicacion,sigla:sigla,posicion: _posicion} )
+                mensajeUbicacion+= ubicacion
+            }
         } )
 
         mensaje += `Hallazgo ${hallazgo} por ${mensajeUbicacion}`
@@ -179,6 +183,8 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
                 if(!existeDienteVoz(item.value.diente,hallazgo,ubicacion)){
                     agregar()
                 }
+            } else {
+                speak('La ubicación '+ ubicacion+ ' no corresponde a la pieza '+item.value.diente)
             }
         }
     }
@@ -210,6 +216,20 @@ function existeDienteVoz(diente,hallazgo,ubicacion){
                     result = true;
                     break;
                 }
+               if (hallazgo == 'caries') {
+                  if (item.diente==diente && item.ubicacion==ubicacion && item.hallazgo=='restauración' ){
+                    speak('la pieza '+diente+' y ubicación '+ubicacion+' ya están registrados como hallazgo restauración')
+                    result = true;
+                    break;
+                  }
+               }
+               if (hallazgo == 'restauración') {
+                if (item.diente==diente && item.ubicacion==ubicacion && item.hallazgo=='caries' ){
+                  speak('la pieza '+diente+' y ubicación '+ubicacion+' ya están registrados como hallazgo caries')
+                  result = true;
+                  break;
+                }
+             }
             } else {
                 if (hallazgo == 'hipoplasia' || hallazgo == 'hipomineralizacion'||
                     hallazgo == 'opacidad' || hallazgo == 'decoloración' || hallazgo == 'fluorosis')
