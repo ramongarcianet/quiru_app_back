@@ -11,26 +11,19 @@ let index = 0;
 let total = 0;
 const guardarOActualizar = () => {
   if (item.value.id) {
-
     return actualizar(item.value);
   }
   else {
-    index = registro.value.findIndex(i => i.tipo == item.value.tipo);
+    index = registro.value.findIndex(i => i.concepto == item.value.concepto);
     if (index == -1 || index == undefined) {
       item.value.idOdontograma = route.params.idOdontograma;
       item.value.estado = "pendiente";
-      console.log('crear')
       return guardar(item.value);
     } else {
-      //esta llegando aca
-      item.value.idOdontograma = route.params.idOdontograma;
-      item.value.estado = "pendiente";
-      return guardar(item.value);
-
+      alert("existe registro")
     }
   }
 };
-
 let obtener
 onUnmounted(() => {
   limpiar()
@@ -72,7 +65,7 @@ h2.primary-text
               input.form-control(placeholder="Concepto" v-model="item.concepto", required)
           .col.d-flex.justify-content-left
             span.input-group-text.pl-1 Precio :
-              input.form-control(placeholder="Precio", v-model="item.precio" @keypress="isNumber($event)",required :maxlength="maxDinero")
+              input.form-control(type="number" v-model="item.precio",required :maxlength="maxDinero")
         .col.d-flex.justify-content-left.mt-3
           button.btn.btn-primary(type='submit')
             i.fa.fa-plus.light-text
@@ -98,7 +91,7 @@ h2.primary-text
               tr
                 th Total
                 th  
-                  span#TotalSuma(style="color: black; font-weight:bold;")
+                  span#TotalSuma.fw-bold
                 th 
                 th
 .d-flex.mt-5

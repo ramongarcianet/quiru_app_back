@@ -7,20 +7,20 @@ import tratamientos from '../../config/Cie10.json';
 const maxDinero = ref(5);
 obtenerTodos();
 let index = 0;
-const guardarOActualizar = () => {
 
+
+const guardarOActualizar = () => {
   if (item.value.id) {
-    
     return actualizar(item.value);
-    }
+  }
   else {
-    index = registro.value.findIndex(i=>i.tipo==item.value.tipo);
+    index = registro.value.findIndex(i => i.tipo == item.value.tipo);
     if( index == -1 || index == undefined) {
       return guardar(item.value);
     }
-    //else {
-      //alert("existe registro")
-    //}
+    else {
+      alert("existe registro")
+    }
   }
 };
 const route = useRoute()
