@@ -4,11 +4,14 @@ import { useRoute, useRouter } from "vue-router";
 import { item, guardar, actualizar, limpiar, leerEnRegistro, obtenerTodos, registro, eliminar } from "../../store/cotizacion";
 import { isLetter, isNumber } from '../../config/libreria'
 import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma } from '../../store/formodontograma';
+import { obtenerTodos as obtenerPrecios, registro as ListPrecios } from "../../store/precios";
 import Cie10 from '../../config/Cie10.json';
+let FormatNumber = Intl.NumberFormat('en-US', { minimumFractionDigits: 2, });
 const maxDinero = ref(5);
 const route = useRoute()
 const { back, push } = useRouter()
-const obtenerRegistro = obtenerTodos(route.params.idOdontograma);
+obtenerTodos(route.params.idOdontograma);
+obtenerPrecios();
 if (route.params.idOdontograma) {
   ObtenerOdontograma(route.params.idOdontograma);
 }
@@ -45,7 +48,7 @@ onMounted(() => {
     total = Number(total) + Number(element.subtotal);
   });
   let TotalSuma = document.getElementById('TotalSuma');
-  TotalSuma.innerText = "S/. " + total.toFixed(2);
+  TotalSuma.innerText = "S/ " + FormatNumber.format(total);
 })
 watch(
   () => registro.value,
@@ -55,11 +58,13 @@ watch(
       total = Number(total) + Number(element.subtotal);
     });
     let TotalSuma = document.getElementById('TotalSuma');
-    TotalSuma.innerText = "S/. " + total.toFixed(2);
+    TotalSuma.innerText = "S/ " + FormatNumber.format(total);
   },
   { deep: true }
 )
 function AddItemsAutomatico() {
+
+
   if (itemodontograma != undefined) {
     Cie10.CIE10.forEach(element => {
       let ubicacionnes = itemodontograma.value?.hallazgos.filter((elem) => elem.hallazgo.toUpperCase() == element.HALLAZGO);
@@ -69,8 +74,14 @@ function AddItemsAutomatico() {
           Piezas = Piezas + 1;
         });
         if (element.TRATAMIENTO != "") {
+          let buscaPrecio = ListPrecios.value.filter((elem) => elem.tipo == element.HALLAZGO);
+          item.value.precio = 0;
+          buscaPrecio?.forEach(p => {
+            item.value.precio = p.precio;
+          });
           item.value.concepto = element.TRATAMIENTO;
-          item.value.precio = 5;
+
+
           item.value.idOdontograma = route.params.idOdontograma;
           item.value.estado = "pendiente";
           item.value.cantidad = Piezas.toString();
@@ -109,8 +120,11 @@ h2.primary-text
             label.input-group Precio
             input.form-control(type="number" placeholder="Precio" v-model="item.precio",required :maxlength="maxDinero")
           .col.d-flex.justify-content-left.mt-3
-            button.btn.btn-primary(type='submit') Agregar
-            button.btn.btn-primary(@click="AddItemsAutomatico()") Obtener Diagnóstico
+            span.input-group(style="padding: 0.01rem 0.01rem 0.01rem 1.01rem;") Precio :
+            input.form-control(type="number" v-model="item.precio",required :maxlength="maxDinero")
+          .col.d-flex.justify-content-left.mt-3
+            button.btn.btn-primary(type='submit') Agregar 
+            button.btn.btn-primary(@click="AddItemsAutomatico()") Generar desde Diagnóstico
     .row
       .col.mt-1
         span#mensaje.fw-bold.text-danger
@@ -130,10 +144,10 @@ h2.primary-text
               tr(v-for="item of registro"  :key="item.id"  :item="item")
                 td(width="10%" style="font-size: 14px") {{ item.concepto }}
                 td {{ item.cantidad }}
-                td S/. {{ item.precio }}.00 
-                td S/. {{ item.subtotal }}.00 
-                td(width="10%" style="font-size: 14px") {{ item.estado }} 
-                td(width="20%")
+                td S/ {{ FormatNumber.format(item.precio) }}
+                td S/ {{ FormatNumber.format(item.subtotal) }} 
+                td {{ item.estado }} 
+                td
                   BotonSeguro( :onSuccess= '() => eliminar(item.id)' )
                     i.fa.fa-trash-o(aria-hidden='true')
             tfoot
