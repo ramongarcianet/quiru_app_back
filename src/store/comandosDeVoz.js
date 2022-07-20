@@ -76,34 +76,48 @@ const listaDeDientes_ = [
     34, 35, 36, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 51, 52, 53, 54, 55, 61,
     62, 63, 64, 65, 71, 72, 73, 74, 75, 81, 82, 83, 84, 85,
 ];
-export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
+function formatUbicacion(ubicacion){
+    let respuesta = '';
     const ubicacionTemp= ubicacion? ubicacion.split(' '):[];
     if (ubicacionTemp.length==3){
         if ((ubicacionTemp[1]=='sin' && ubicacionTemp[2]=='sal') || (ubicacionTemp[1]=='en' && ubicacionTemp[2]=='sisal')){
-            ubicacion = 's incisal'
+            respuesta = 'incisal'
         }
     }
     if (ubicacionTemp.length==2){
         if((ubicacionTemp[0]=='sin' && ubicacionTemp[1]=='sal') || (ubicacionTemp[0]=='en' && ubicacionTemp[1]=='sisal')){
-            ubicacion = 'incisal'
+            respuesta = 'incisal'
         } else {
             switch(ubicacionTemp[1]){
-                case 'cristal':{ ubicacion = 's distal'; break}
-                case 'Messi': {ubicacion = 's mesial'; break}
-                case 'inicial': {ubicacion = 's incisal'; break}
+                case 'vestibular':{ respuesta = 'vestibular'; break}
+                case 'distal':{ respuesta = 'distal'; break}
+                case 'oclusal':{ respuesta = 'oclusal'; break}
+                case 'mesial':{ respuesta = 'mesial'; break}
+                case 'palatino':{ respuesta = 'palatino'; break}
+                case 'incisal':{ respuesta = 'incisal'; break}
+                case 'lingual':{ respuesta = 'lingual'; break}
+
+                case 'cristal':{ respuesta = 'distal'; break}
+                case 'Messi': {respuesta = 'mesial'; break}
+                case 'inicial': {respuesta = 'incisal'; break}
             }
         }
     }
     if (ubicacionTemp.length==1) {
         switch(ubicacionTemp[0]){
-            case 'cristal': {ubicacion = 'distal';break}
-            case 'Messi': {ubicacion = 'mesial';break}
-            case 'inicial': {ubicacion = 'incisal';break}
-            case 'sisal': {ubicacion = 'incisal';break}
+            case 'cristal': {respuesta = 'distal';break}
+            case 'Messi': {respuesta = 'mesial';break}
+            case 'inicial': {respuesta = 'incisal';break}
+            case 'sisal': {respuesta = 'incisal';break}
         }
     }
+    return respuesta;
 
-
+}
+export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
+    if (ubicacion){
+        ubicacion = formatUbicacion(ubicacion)
+    }
     const listaDeUbicacion = ubicacion ? ubicacion.split(' ').filter(item=>listaDeTipos.map(({value}) => value).indexOf(item) >-1 ) : []
     const hallazgoCorrecto = hallazgo ? listaDeHallazgos.map(({value}) => value).indexOf(hallazgo) > -1 : true
     const piezaCorrecta = ubicacion ? listaDeUbicacion.length>0  : true
@@ -174,35 +188,63 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar=true) => {
 }
 function existeDienteVoz(diente,hallazgo,ubicacion){
     let result = false;
-    let lista =  ( itemodontograma.value.hallazgos != undefined)? item.value.hallazgos : [];
+    let lista =  ( itemodontograma.value.hallazgos != undefined)? itemodontograma.value.hallazgos : [];
     for (let item of lista ){
-        if (hallazgo == 'caries' || hallazgo == 'restauración'){
-            if(item.diente==diente && item.hallazgo==hallazgo && item.ubicacion==ubicacion ){
-                result = true;
-                break;
+        //--verificamos  si existe ausente en la lista
+        if (item.hallazgo==='ausente'){
+            if (item.diente==diente){
+                if (hallazgo === 'ausente'){
+                    speak('la pieza '+diente+' ya existe como ausente en el odontograma')
+                    result = true;
+                    break;
+                } else {
+                    speak('la pieza '+diente+' es ausente en el odontograma, no se puede registrar el hallazgo '+hallazgo+' en una pieza ausente')
+                    result = true;
+                    break;
+                }
             }
         } else {
-            if (hallazgo == 'hipoplasia' || hallazgo == 'hipomineralizacion'||
-                hallazgo == 'opacidad' || hallazgo == 'decoloración' || hallazgo == 'fluorosis')
-            {
-                if(item.diente==diente ){
-                    let listaSigla = listaDeHallazgos.filter((elem)=>elem.value==item.hallazgo)
-                    if(listaSigla.length>0){
-                        if(listaSigla[0].sigla==''){
-                            if(item.diente==diente && item.hallazgo==hallazgo){
+            if (hallazgo == 'caries' || hallazgo == 'restauración'){
+                if(item.diente==diente && item.hallazgo==hallazgo && item.ubicacion==ubicacion ){
+                    speak('la pieza '+diente+' hallazgo '+hallazgo+ ' y ubicación '+ubicacion+' ya existen en el odontograma')
+                    result = true;
+                    break;
+                }
+            } else {
+                if (hallazgo == 'hipoplasia' || hallazgo == 'hipomineralizacion'||
+                    hallazgo == 'opacidad' || hallazgo == 'decoloración' || hallazgo == 'fluorosis')
+                {
+                    if(item.diente==diente ){
+                        let listaSigla = listaDeHallazgos.filter((elem)=>elem.value==item.hallazgo)
+                        if(listaSigla.length>0){
+                            if(listaSigla[0].sigla==''){
+                                if(item.diente==diente && item.hallazgo==hallazgo){
+                                    speak('la pieza '+diente+' y hallazgo '+hallazgo+' ya existen en el odontograma')
+                                    result = true;
+                                    break;
+                                }
+                            } else {
+                                speak('la pieza '+diente+' y hallazgo '+hallazgo+' ya existen en el odontograma')
                                 result = true;
                                 break;
                             }
-                        } else {
+                        }
+                    }
+                } else {
+                    //verificamos que el hallazgo dictado sea ausente
+                    if(hallazgo == 'ausente'){
+                        if(item.diente==diente){
+                            speak('la pieza '+diente+' ya existe en el odontograma, no se puede registrar una pieza ausente en una pieza que no es ausente')
+                            result = true;
+                            break;
+                        }
+                    } else{
+                        if(item.diente==diente && item.hallazgo==hallazgo){
+                            speak('la pieza '+diente+' y hallazgo '+hallazgo+' ya existen en el odontograma')
                             result = true;
                             break;
                         }
                     }
-                }
-            } else {
-                if(item.diente==diente && item.hallazgo==hallazgo){
-                    result = true;
-                    break;
                 }
             }
         }

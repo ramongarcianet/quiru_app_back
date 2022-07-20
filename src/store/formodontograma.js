@@ -8,7 +8,7 @@ import { listaDeHallazgos } from './odontograma'
 import escenarios from '../config/Escenarios.json';
 const dialog = ref(false)
 const regpasciente = ref([])
-
+export const mensajeExistePieza = ref('')
 const item = ref({
     tipo: '',
     especificaciones: '',
@@ -82,6 +82,7 @@ function existeDiente(diente, param) {
     return result;
 }
 export function agregarLista(id, param) {
+    mensajeExistePieza.value ='';
     if (param.hallazgos.length > 0) {
         param.hallazgos.forEach(element => {
             const existeHallazgo = listaDeHallazgos.filter((elem) => elem.value == element.hallazgo)[0];
@@ -96,6 +97,12 @@ export function agregarLista(id, param) {
                 if (param.diente != '') {
                     if (!existeDiente(param.diente, fila)) {
                         item.value.hallazgos ? item.value.hallazgos.push(fila) : item.value.hallazgos = [fila];
+                    } else {
+                        if (fila.hallazgo==='caries' || fila.hallazgo==='restauración'){
+                            mensajeExistePieza.value = 'Pieza: '+param.diente+ ', Hallazgo: '+fila.hallazgo+ ' y Ubicación: '+fila.ubicacion+', ya existen en el odontograma';
+                        } else{
+                            mensajeExistePieza.value = 'Pieza: '+param.diente+ ' y Hallazgo: '+fila.hallazgo+ ', ya existen en el odontograma';
+                        }
                     }
                 }
             }

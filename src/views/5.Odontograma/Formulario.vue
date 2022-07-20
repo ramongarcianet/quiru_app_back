@@ -26,7 +26,7 @@ import {
   registro_,
   paginaOdontograma,
 } from "../../store/odontograma";
-import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarLista } from '../../store/formodontograma';
+import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarLista,mensajeExistePieza } from '../../store/formodontograma';
 import { VerFormato } from "../../store/OdontoJS";
 import { useRoute, useRouter } from "vue-router";
 import {
@@ -82,6 +82,14 @@ watch(
   },
   { deep: true }
 )
+watch(
+  ()=>{
+    if (mensajeExistePieza.value !=''){
+      let mensaje = document.getElementById('mensaje');
+      mensaje.innerText = mensajeExistePieza.value;
+    }
+  }
+)
 const borrar = ({ diente, hallazgo, ubicacion }) => {
   const index = itemodontograma.value?.hallazgos?.findIndex(i => i.diente == diente && i.hallazgo == hallazgo && i.ubicacion == ubicacion)
   if (index > -1) {
@@ -92,6 +100,8 @@ const borrar = ({ diente, hallazgo, ubicacion }) => {
 }
 
 function limpiarHallazgoDiente() {
+  let mensaje = document.getElementById('mensaje');
+  mensaje.innerText = '';
   limpiarSinVoz();
 }
 </script>
@@ -129,6 +139,8 @@ function limpiarHallazgoDiente() {
       .col.d-flex.justify-content-center
         button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma, item)" style="width: 7rem;") Agregar
         button.btn.btn-primary(type="submit", @click="limpiarHallazgoDiente()" style="width: 7rem;") Limpiar
+    .row.mt-2(v-if="!isSpeech")
+      span#mensaje(style="color: red; font-weight:bold;")
   .col.d-flex.justify-content-left(v-if="!isSpeech")
     OdonOficial
 .row(v-if="isSpeech")
