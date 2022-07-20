@@ -66,9 +66,9 @@ h2.primary-text
           .col.d-flex.justify-content-left
             span.input-group-text.pl-1 Precio :
               input.form-control(type="number" v-model="item.precio",required :maxlength="maxDinero")
-        .col.d-flex.justify-content-left.mt-3
-          button.btn.btn-primary(type='submit')
-            i.fa.fa-plus.light-text
+          .col.d-flex.justify-content-left.mt-3
+            button.btn.btn-primary(type='submit')
+              i.fa.fa-plus.light-text
     .row
       .col.mt-4
         .div(style="background-color: white; border-radius: 2%;").mt-1
