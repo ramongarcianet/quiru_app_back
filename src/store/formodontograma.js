@@ -208,8 +208,8 @@ export function agregarLista(id, param) {
                 }
             }
         });
-        itemodontograma.value?.hallazgos.splice(index, 1)
-        
+        //itemodontograma.value?.hallazgos.splice(index, 1)
+
         actualizarDetalle(id, item.value.hallazgos)
     }
 }
