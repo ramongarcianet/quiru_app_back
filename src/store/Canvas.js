@@ -1,6 +1,4 @@
-﻿import { obtenerTodos } from '../store/odonto'
-import { cerrarSesion } from './sesion';
-
+﻿
 export function VerFormato(registro) {
     var canvas = document.getElementById('myCanvas');
     var contexto = canvas.getContext("2d");

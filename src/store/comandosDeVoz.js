@@ -1,6 +1,6 @@
-import {item,verOdontograma, detenerVoz, activarVoz, listaDeHallazgos, listaDeDientes, listaDeTipos, speak, flagLimpiar} from './odontograma'
-import router from '../config/router'
+import {item,verOdontograma, detenerVoz, activarVoz, speak, flagLimpiar} from './odontograma'
 import {item as itemodontograma,actualizarDetalle} from './formodontograma';
+import {listaDeTipos,listaDeHallazgos} from '../config/Parametros';
 import escenarios from '../config/Escenarios.json';
 const seleccionarHallazgo = hallazgo => actualizarItem(hallazgo, false, false)
 

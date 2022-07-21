@@ -15,19 +15,12 @@ import {
   activarVoz,
   isSpeech,
   escucharInicializarVoz,
-  detenerInicializarVoz,
-  textoEscuchado,
-  listaDeDientes,
-  listaDeHallazgos,
-  listaDeDientesCombo,
-  listaDeTipos,
   Hallazgo,
   item,
-  registro_,
   paginaOdontograma,
 } from "../../store/odontograma";
-import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarLista,mensajeExistePieza } from '../../store/formodontograma';
-import { VerFormato } from "../../store/OdontoJS";
+import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarLista, mensajeExistePieza } from '../../store/formodontograma';
+import { VerFormato } from "../../store/Canvas";
 import { useRoute, useRouter } from "vue-router";
 import {
   previousPage,
@@ -35,6 +28,7 @@ import {
   setList,
   registro_ as _hallazgos, setListDelete, SetPage
 } from "../../config/Paginator";
+import { listaDeDientesCombo, listaDeHallazgos } from '../../config/Parametros';
 const route = useRoute();
 const listaDiccionario = obtenerTodoDiccionario();
 const listaPieza = obtenerTodoPieza();
@@ -43,7 +37,7 @@ const listaCaries = obtenerTodoCaries();
 const { push } = useRouter()
 leerEnRegistro(route.params.idOdontograma);
 escucharInicializarVoz();
-
+let temList = [];
 let wakeLock = null;
 onMounted(() => {
   paginaOdontograma.value = true;
@@ -56,7 +50,10 @@ onMounted(() => {
   } else {
 
   }
-  setList(itemodontograma.value.hallazgos, 1);
+  if (itemodontograma.value?.hallazgos.length > 0) {
+    temList = ordenarDesc(itemodontograma?.value?.hallazgos, "fila")
+  }
+  setList((itemodontograma.value?.hallazgos.length > 0) ? temList : [], 1);
 })
 
 onUnmounted(() => {
@@ -77,14 +74,18 @@ watch(
   (registro) => {
     let idOdontograma = route.params.idOdontograma
     VerFormato((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [])
-    setList((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [], 1);
+
+    if (itemodontograma.value?.hallazgos.length > 0) {
+      temList = ordenarDesc(itemodontograma?.value?.hallazgos, "fila")
+    }
+    setList((itemodontograma.value?.hallazgos.length > 0) ? temList : [], 1);
     limpiarSinVoz()
   },
   { deep: true }
 )
 watch(
-  ()=>{
-    if (mensajeExistePieza.value !=''){
+  () => {
+    if (mensajeExistePieza.value != '') {
       let mensaje = document.getElementById('mensaje');
       mensaje.innerText = mensajeExistePieza.value;
     }
@@ -95,7 +96,11 @@ const borrar = ({ diente, hallazgo, ubicacion }) => {
   if (index > -1) {
     itemodontograma.value?.hallazgos.splice(index, 1)
     actualizarDetalle(itemodontograma.value.id, (itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [])
-    setListDelete((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : []);
+    if (itemodontograma.value?.hallazgos.length > 0) {
+
+      temList = ordenarDesc(itemodontograma?.value?.hallazgos, "fila")
+    }
+    setListDelete((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma?.value?.hallazgos : []);
   }
 }
 
@@ -104,6 +109,16 @@ function limpiarHallazgoDiente() {
   mensaje.innerText = '';
   limpiarSinVoz();
 }
+function ordenarAsc(listado, p_key) {
+  listado.sort(function (a, b) {
+    return a[p_key] > b[p_key];
+  });
+}
+function ordenarDesc(listado, p_key) {
+  ordenarAsc(listado, p_key);
+  return listado.reverse();
+}
+
 </script>
 
 <template lang="pug">

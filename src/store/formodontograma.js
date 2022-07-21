@@ -1,11 +1,9 @@
 import { ref } from 'vue';
 
-import { addDoc, collection, onSnapshot, getDoc, getFirestore, doc, updateDoc, deleteDoc, query, where } from 'firebase/firestore'
+import { addDoc, collection, onSnapshot, getDoc, doc, updateDoc, deleteDoc, query, where } from 'firebase/firestore'
 import { firestore } from '../config/firebase'
 import { miUsuario } from './sesion';
-import { limpiar as limpiarHallazgo, actualizarItem } from './comandosDeVoz';
-import { listaDeHallazgos } from './odontograma'
-import escenarios from '../config/Escenarios.json';
+import { listaDeHallazgos } from '../config/Parametros'
 const dialog = ref(false)
 const regpasciente = ref([])
 export const mensajeExistePieza = ref('')
@@ -82,7 +80,7 @@ function existeDiente(diente, param) {
     return result;
 }
 export function agregarLista(id, param) {
-    mensajeExistePieza.value ='';
+    mensajeExistePieza.value = '';
     if (param.hallazgos.length > 0) {
         param.hallazgos.forEach(element => {
             const existeHallazgo = listaDeHallazgos.filter((elem) => elem.value == element.hallazgo)[0];
@@ -95,20 +93,30 @@ export function agregarLista(id, param) {
                     posicion: element.posicion,
                 }
                 if (param.diente != '') {
+                    /*
+                    const existePieza = item.value?.hallazgos.filter((elem) => elem.diente == diente && elem.hallazgo == param.hallazgo && elem.ubicacion == param.ubicacion && elem.sigla == param.sigla && elem.posicion == param.posicion)[0];
+                    if (existePieza != undefined) {
+                        result = true;
+                    }
+                    else {
+                        result = false;
+                    }
+                    */
                     if (!existeDiente(param.diente, fila)) {
                         item.value.hallazgos ? item.value.hallazgos.push(fila) : item.value.hallazgos = [fila];
                     } else {
-                        if (fila.hallazgo==='caries' || fila.hallazgo==='restauración'){
-                            mensajeExistePieza.value = 'Pieza: '+param.diente+ ', Hallazgo: '+fila.hallazgo+ ' y Ubicación: '+fila.ubicacion+', ya existen en el odontograma';
-                        } else{
-                            mensajeExistePieza.value = 'Pieza: '+param.diente+ ' y Hallazgo: '+fila.hallazgo+ ', ya existen en el odontograma';
+                        if (fila.hallazgo === 'caries' || fila.hallazgo === 'restauración') {
+                            mensajeExistePieza.value = 'Pieza: ' + param.diente + ', Hallazgo: ' + fila.hallazgo + ' y Ubicación: ' + fila.ubicacion + ', ya existen en el odontograma';
+                        } else {
+                            mensajeExistePieza.value = 'Pieza: ' + param.diente + ' y Hallazgo: ' + fila.hallazgo + ', ya existen en el odontograma';
                         }
                     }
                 }
             }
         });
+        itemodontograma.value?.hallazgos.splice(index, 1)
+        
         actualizarDetalle(id, item.value.hallazgos)
-        //limpiarHallazgo();
     }
 }
 

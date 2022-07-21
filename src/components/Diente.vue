@@ -1,11 +1,7 @@
 <script setup>
-import { computed, watch } from 'vue'
-import {
-    item as itemModel,
-    Hallazgo,
-    listaDeHallazgos,
-    isSpeech
-} from "../../src/store/odontograma";
+import { computed } from 'vue'
+import { item as itemModel, Hallazgo, isSpeech } from "../../src/store/odontograma";
+import { listaDeHallazgos } from '../config/Parametros'
 import escenarios from '../config/Escenarios.json';
 const props = defineProps(['item'])
 const emit = defineEmits(['update:ubicacion', 'update:hallazgo', 'update:diente'])

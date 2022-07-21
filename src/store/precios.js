@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import {addDoc, collection, onSnapshot, getDoc, getFirestore, doc, updateDoc, deleteDoc,orderBy,query,where } from 'firebase/firestore'
+import {addDoc, collection, onSnapshot, getDoc, doc, updateDoc, deleteDoc,orderBy,query,where } from 'firebase/firestore'
 import {firestore} from '../config/firebase'
 import {usuario} from '../store/sesion'
 const dialog = ref( false )

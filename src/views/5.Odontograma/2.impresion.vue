@@ -2,7 +2,7 @@
 import Formulario from "./Formulario.vue";
 import { watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { VerFormato } from "../../store/OdontoJS";
+import { VerFormato } from "../../store/Canvas";
 
 import {leerEnRegistro,item as itemodontograma} from '../../store/formodontograma';
 import { onMounted } from "@vue/runtime-core";

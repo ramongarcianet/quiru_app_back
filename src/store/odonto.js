@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 
-import {addDoc, collection, onSnapshot, getDoc, getFirestore, doc, updateDoc, deleteDoc, setDoc, query, where} from 'firebase/firestore'
+import {addDoc, collection, onSnapshot, doc, deleteDoc} from 'firebase/firestore'
 import {firestore} from '../config/firebase'
 
 
@@ -35,12 +35,6 @@ const obtenerTodos = (idOdontograma) => {
     )
 }
 
-
-function clearcanvas(id) {
-    var canvas = document.getElementById(id);
-    var contexto = canvas.getContext("2d");
-	contexto.clearRect(0, 0, canvas.width, canvas.height);
-}
 const listaDiccionario = []
 
 const obtenerTodoDiccionario = () => {
