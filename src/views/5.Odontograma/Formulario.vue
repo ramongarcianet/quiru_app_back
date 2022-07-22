@@ -103,7 +103,11 @@ const borrar = ({ diente, hallazgo, ubicacion }) => {
     setListDelete((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma?.value?.hallazgos : []);
   }
 }
+function changeHallazgoDiente() {
 
+  let mensaje = document.getElementById('mensaje');
+  mensaje.innerText = '';
+}
 function limpiarHallazgoDiente() {
   let mensaje = document.getElementById('mensaje');
   mensaje.innerText = '';
@@ -143,7 +147,7 @@ function ordenarDesc(listado, p_key) {
             option(selected disabled value="") Pieza
             option(v-for='{ text, value } of listaDeDientesCombo' :value="value")
         span.input-group-text(style="padding: 0.01rem 0.01rem 0.01rem 1.01rem;") Hallazgo :
-          input.form-control#comboHallazgo(list='ListaHallazgos', name='comboHallazgo', v-model='Hallazgo')
+          input.form-control#comboHallazgo(list='ListaHallazgos', name='comboHallazgo', v-model='Hallazgo', v-on:change="changeHallazgoDiente()")
           datalist#ListaHallazgos
             option(selected disabled value="") Hallazgo
             option(v-for='{ text, value } of listaDeHallazgos' :value="value")

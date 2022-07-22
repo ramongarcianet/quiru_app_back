@@ -184,16 +184,14 @@ export function agregarLista(id, param) {
                     hallazgo: element.hallazgo,
                     ubicacion: (element.hallazgo == 'caries') ? element.ubicacion : (element.hallazgo == 'restauración') ? element.ubicacion : '',
                     sigla: element.sigla,
-                    posicion: element.posicion,
+                    posicion: (element.hallazgo == 'caries') ? element.posicion : (element.hallazgo == 'restauración') ? element.posicion : '',
                 }
                 if (param.diente != '') {
-                    /*
-                    const existePieza = item.value?.hallazgos.filter((elem) => elem.diente == diente && elem.hallazgo == param.hallazgo && elem.ubicacion == param.ubicacion && elem.sigla == param.sigla && elem.posicion == param.posicion)[0];
-                    if (existePieza != undefined) {
-                        result = true;
-                    }
-                    else {
-                        result = false;
+                   /*
+                    const index = item.value?.hallazgos.findIndex(i => i.diente == fila.diente && i.ubicacion == fila.ubicacion && i.sigla == fila.sigla && i.posicion == fila.posicion)
+                    const existePieza = item.value?.hallazgos.filter((elem) => elem.diente == fila.diente  && elem.ubicacion == fila.ubicacion && elem.sigla == fila.sigla && elem.posicion == fila.posicion).length;
+                    if (existePieza > 0) {
+                        item.value?.hallazgos.splice(index, 1);
                     }
                     */
                     if (!existeDiente(param.diente, fila)) {
@@ -208,7 +206,7 @@ export function agregarLista(id, param) {
                 }
             }
         });
-        itemodontograma.value?.hallazgos.splice(index, 1)
+        //itemodontograma.value?.hallazgos.splice(index, 1)
         
         actualizarDetalle(id, item.value.hallazgos)
     }

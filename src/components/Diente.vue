@@ -41,6 +41,12 @@ function slelecteditem(ubicacion) {
             }
         }
         if (comboHallazgo.value != '' && comboPieza.value != '') {
+           /* const index = itemModel.value?.hallazgos.findIndex(elem => elem.diente == comboPieza.value && elem.ubicacion == zonaDiente && elem.sigla == sigla && elem.posicion == ubicacion)
+            const existePieza = item.value?.hallazgos.filter((elem) => elem.diente == comboPieza.value && elem.ubicacion == zonaDiente && elem.sigla == sigla && elem.posicion == ubicacion).length;
+            if (existePieza > 0) {
+                itemModel.value?.hallazgos.splice(index, 1);
+            }
+            */
             itemModel.value.hallazgos.push({ hallazgo: Hallazgo.value, ubicacion: zonaDiente, sigla: sigla, posicion: ubicacion })
         }
     }

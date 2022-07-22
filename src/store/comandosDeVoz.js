@@ -147,7 +147,11 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
         const registroSiglas = listaDeHallazgos.filter((elem) => elem.value == hallazgo);
         sigla = registroSiglas[0]?.sigla;
         if (hallazgo != 'caries' && hallazgo != 'restauración') {
-            item.value.hallazgos.push({ hallazgo, sigla: sigla, posicion: _posicion })
+            item.value.hallazgos.push({
+                hallazgo,
+                sigla: sigla,
+                posicion: (hallazgo == 'caries') ? _posicion : (hallazgo == 'restauración') ? _posicion:''  
+            })
             mensaje += `Hallazgo ${hallazgo}`
         }
     } else if (hallazgo && listaDeUbicacion.length > 0) {
@@ -165,7 +169,13 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
             }
             if (ubicacionnes.arriva.trim() == ubicacion || ubicacionnes.centro.trim() == ubicacion ||
                 ubicacionnes.abajo.trim() == ubicacion || ubicacionnes.izquierda.trim() == ubicacion || ubicacionnes.derecha.trim() == ubicacion) {
-                item.value.hallazgos.push({ hallazgo, ubicacion, sigla: sigla, posicion: _posicion })
+                ubicacion = (hallazgo == 'caries') ? ubicacion : (hallazgo == 'restauración') ? ubicacion : '';
+                item.value.hallazgos.push({
+                    hallazgo,
+                    ubicacion,
+                    sigla: sigla,
+                    posicion: (hallazgo == 'caries') ? _posicion : (hallazgo == 'restauración') ? _posicion : ''
+                })
                 mensajeUbicacion += ubicacion
             }
         })
@@ -200,6 +210,8 @@ export const agregar = () => {
     item.value.hallazgos?.map(({ hallazgo, ubicacion, sigla, posicion }) => ({ diente: item.value.diente, ubicacion: ubicacion || "", hallazgo, sigla, posicion })).forEach(item => {
         const index = itemodontograma.value?.hallazgos?.findIndex(i => i.hallazgo == item.hallazgo && i.diente == item.diente && i.ubicacion == item.ubicacion)
         if (index == -1 || index == undefined) {
+            item.ubicacion = (item.hallazgo == 'caries') ? item.ubicacion : (item.hallazgo == 'restauración') ? item.ubicacion : '';
+            item.posicion = (item.hallazgo == 'caries') ? item.posicion : (item.hallazgo == 'restauración') ? item.posicion : '';
             itemodontograma.value?.hallazgos ? itemodontograma.value.hallazgos.push(item) : itemodontograma.value.hallazgos = [item];
         }
     })
@@ -283,8 +295,6 @@ export default {
         'fin *any': detenerVoz,
         'adios': detenerVoz,
         'adios *any': detenerVoz,
-        //'borrar (pieza) (diente) :pieza': limpiarPieza,
-        //'eliminar (pieza) (diente) :pieza': limpiarPieza,
         'borrar (fila) :fila': eliminarFila,
         'eliminar (fila) :fila': eliminarFila,
         'limpiar (pieza) (diente) :pieza': limpiarPieza,
