@@ -207,7 +207,11 @@ export function agregarLista(id, param) {
             }
         });
         //itemodontograma.value?.hallazgos.splice(index, 1)
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> 5390a5aecf0c658da6b9a1df500979df2690d93d
         actualizarDetalle(id, item.value.hallazgos)
     }
 }

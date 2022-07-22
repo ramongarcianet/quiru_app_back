@@ -115,7 +115,7 @@ function limpiarHallazgoDiente() {
 }
 function ordenarAsc(listado, p_key) {
   listado.sort(function (a, b) {
-    return a[p_key] > b[p_key];
+    return b[p_key] - a[p_key];
   });
 }
 function ordenarDesc(listado, p_key) {
