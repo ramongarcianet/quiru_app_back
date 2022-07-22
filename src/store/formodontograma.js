@@ -196,13 +196,13 @@ export function agregarLista(id, param) {
                     */
                     if (!existeDiente(param.diente, fila)) {
                         item.value.hallazgos ? item.value.hallazgos.push(fila) : item.value.hallazgos = [fila];
-                    } else {
+                    } /*else {
                         if (fila.hallazgo === 'caries' || fila.hallazgo === 'restauración') {
                             mensajeExistePieza.value = 'Pieza: ' + param.diente + ', Hallazgo: ' + fila.hallazgo + ' y Ubicación: ' + fila.ubicacion + ', ya existen en el odontograma';
                         } else {
                             mensajeExistePieza.value = 'Pieza: ' + param.diente + ' y Hallazgo: ' + fila.hallazgo + ', ya existen en el odontograma';
                         }
-                    }
+                    }*/
                 }
             }
         });
