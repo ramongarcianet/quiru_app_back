@@ -50,10 +50,13 @@ onMounted(() => {
   } else {
 
   }
+  /*
   if (itemodontograma.value?.hallazgos.length > 0) {
     temList = ordenarDesc(itemodontograma?.value?.hallazgos, "fila")
   }
   setList((itemodontograma.value?.hallazgos.length > 0) ? temList : [], 1);
+  */
+  setList(itemodontograma.value.hallazgos, 1);
 })
 
 onUnmounted(() => {
@@ -75,11 +78,14 @@ watch(
     let idOdontograma = route.params.idOdontograma
     VerFormato((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [])
 
+/*
     if (itemodontograma.value?.hallazgos.length > 0) {
       temList = ordenarDesc(itemodontograma?.value?.hallazgos, "fila")
     }
     setList((itemodontograma.value?.hallazgos.length > 0) ? temList : [], 1);
-    limpiarSinVoz()
+*/
+   setList((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [], 1);
+   limpiarSinVoz()
   },
   { deep: true }
 )
@@ -96,10 +102,11 @@ const borrar = ({ diente, hallazgo, ubicacion }) => {
   if (index > -1) {
     itemodontograma.value?.hallazgos.splice(index, 1)
     actualizarDetalle(itemodontograma.value.id, (itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [])
-    if (itemodontograma.value?.hallazgos.length > 0) {
+    /*if (itemodontograma.value?.hallazgos.length > 0) {
 
       temList = ordenarDesc(itemodontograma?.value?.hallazgos, "fila")
     }
+    */
     setListDelete((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma?.value?.hallazgos : []);
   }
 }
@@ -147,7 +154,7 @@ function ordenarDesc(listado, p_key) {
             option(selected disabled value="") Pieza
             option(v-for='{ text, value } of listaDeDientesCombo' :value="value")
         span.input-group-text(style="padding: 0.01rem 0.01rem 0.01rem 1.01rem;") Hallazgo :
-          input.form-control#comboHallazgo(list='ListaHallazgos', name='comboHallazgo', v-model='Hallazgo', v-on:change="changeHallazgoDiente()")
+          input.form-control#comboHallazgo(list='ListaHallazgos', name='comboHallazgo', v-model='Hallazgo')
           datalist#ListaHallazgos
             option(selected disabled value="") Hallazgo
             option(v-for='{ text, value } of listaDeHallazgos' :value="value")
