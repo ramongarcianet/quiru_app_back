@@ -18,6 +18,7 @@ import {
   Hallazgo,
   item,
   paginaOdontograma,
+  textoEscuchado,
 } from "../../store/odontograma";
 import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarLista, mensajeExistePieza } from '../../store/formodontograma';
 import { VerFormato } from "../../store/Canvas";
@@ -133,6 +134,8 @@ function ordenarDesc(listado, p_key) {
 </script>
 
 <template lang="pug">
+.row
+  p {{ textoEscuchado }}
 .row
   .col
     .d-flex.align-content-start.flex-wrap

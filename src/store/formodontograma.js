@@ -185,6 +185,7 @@ export function agregarLista(id, param) {
                     ubicacion: (element.hallazgo == 'caries') ? element.ubicacion : (element.hallazgo == 'restauración') ? element.ubicacion : '',
                     sigla: element.sigla,
                     posicion: (element.hallazgo == 'caries') ? element.posicion : (element.hallazgo == 'restauración') ? element.posicion : '',
+                    fechaHallazgo:new Date(),
                 }
                 if (param.diente != '') {
                    /*
@@ -211,9 +212,13 @@ export function agregarLista(id, param) {
 }
 
 export const actualizarDetalle = (id, Hallazgos) => {
+    let hallazgosOrder= Hallazgos.sort(function(a, b) {
+        //console.log(b.fechaHallazgo-a.fechaHallazgo)
+        return b.fechaHallazgo-a.fechaHallazgo
+    })
     var itemUpd = {
         id: id,
-        hallazgos: Hallazgos
+        hallazgos: hallazgosOrder
     }
     const referencia = doc(firestore, 'odontograma', itemUpd.id)
     return updateDoc(referencia, itemUpd)

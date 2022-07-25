@@ -150,7 +150,8 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
             item.value.hallazgos.push({
                 hallazgo,
                 sigla: sigla,
-                posicion: (hallazgo == 'caries') ? _posicion : (hallazgo == 'restauración') ? _posicion:''  
+                posicion: (hallazgo == 'caries') ? _posicion : (hallazgo == 'restauración') ? _posicion:'',
+                fechaHallazgo:new Date(),
             })
             mensaje += `Hallazgo ${hallazgo}`
         }
@@ -174,7 +175,8 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
                     hallazgo,
                     ubicacion,
                     sigla: sigla,
-                    posicion: (hallazgo == 'caries') ? _posicion : (hallazgo == 'restauración') ? _posicion : ''
+                    posicion: (hallazgo == 'caries') ? _posicion : (hallazgo == 'restauración') ? _posicion : '',
+                    fechaHallazgo:new Date(),
                 })
                 mensajeUbicacion += ubicacion
             }
@@ -207,7 +209,7 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
 }
 export const agregar = () => {
     if (item.value.hallazgos?.length == 0) return speak('No he registrado un hallazgo')
-    item.value.hallazgos?.map(({ hallazgo, ubicacion, sigla, posicion }) => ({ diente: item.value.diente, ubicacion: ubicacion || "", hallazgo, sigla, posicion })).forEach(item => {
+    item.value.hallazgos?.map(({ hallazgo, ubicacion, sigla, posicion,fechaHallazgo }) => ({ diente: item.value.diente, ubicacion: ubicacion || "", hallazgo, sigla, posicion,fechaHallazgo })).forEach(item => {
         const index = itemodontograma.value?.hallazgos?.findIndex(i => i.hallazgo == item.hallazgo && i.diente == item.diente && i.ubicacion == item.ubicacion)
         if (index == -1 || index == undefined) {
             item.ubicacion = (item.hallazgo == 'caries') ? item.ubicacion : (item.hallazgo == 'restauración') ? item.ubicacion : '';
@@ -226,10 +228,11 @@ export function limpiarPieza(pieza) {
     speak(`Limpiando pieza ${pieza}`)
 }
 export function eliminarFila(filaEliminar) {
-    if (!isNaN(filaEliminar)) {
-        itemodontograma.value.hallazgos = itemodontograma.value?.hallazgos.filter(({ fila }) => fila != filaEliminar)
+    const filaTemp = (filaEliminar.toLowerCase() =='uno')? 1 : filaEliminar
+    if (!isNaN(filaTemp)) {
+        itemodontograma.value.hallazgos = itemodontograma.value?.hallazgos.filter(({ fila }) => fila != filaTemp)
         actualizarDetalle(itemodontograma.value.id, itemodontograma.value.hallazgos)
-        speak(`Limpiando fila ${filaEliminar}`)
+        speak(`Limpiando fila ${filaTemp}`)
     }
 }
 
