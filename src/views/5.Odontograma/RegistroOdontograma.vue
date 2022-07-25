@@ -36,10 +36,10 @@ onUnmounted(()=>{
       tr
         th Tipo
         th Fecha
-        th Ver
-        th Presupuesto
-        th Agregar
-        th Borrar
+        th.d-none.d-md-table-cell Ver
+        th.d-none.d-md-table-cell Presupuesto
+        th.d-none.d-md-table-cell Agregar
+        th.d-none.d-md-table-cell Borrar
     tbody
       tr(v-for="item of registroodonto" :key="item.id" :item="item")
         td {{item.tipo}}

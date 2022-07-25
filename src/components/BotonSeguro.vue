@@ -5,7 +5,7 @@ const quitarSeguro = ref(false)
 watchEffect(
   ()=> quitarSeguro.value && setTimeout( 
          ()=> quitarSeguro.value = false,
-        3000
+        2300
        )
 )
 </script>
