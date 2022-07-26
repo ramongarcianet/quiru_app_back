@@ -30,6 +30,7 @@ import {
   registro_ as _hallazgos, setListDelete, SetPage
 } from "../../config/Paginator";
 import { listaDeDientesCombo, listaDeHallazgos } from '../../config/Parametros';
+import '../../assets/annyang.min'
 const route = useRoute();
 const listaDiccionario = obtenerTodoDiccionario();
 const listaPieza = obtenerTodoPieza();
@@ -130,7 +131,13 @@ function ordenarDesc(listado, p_key) {
   ordenarAsc(listado, p_key);
   return listado.reverse();
 }
+watch(
+  () => annyang.isListening(),
+  () => {
+    annyang.start({ autoRestart: false });
+  }
 
+)
 </script>
 
 <template lang="pug">
