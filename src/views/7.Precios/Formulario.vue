@@ -8,7 +8,6 @@ const maxDinero = ref(5);
 obtenerTodos();
 let index = 0;
 
-
 const guardarOActualizar = () => {
   if (item.value.id) {
     return actualizar(item.value);

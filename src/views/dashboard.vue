@@ -30,7 +30,12 @@ const rutas = computed(() => [
     onClick: () => (isActive.value = !isActive.value),
     icon: isActive.value ? "fa-solid fa-times" : "fa-solid fa-bars",
     aditionalClass: "d-sm-none only-bottom-nav",
-    
+  },
+  {
+    name: "Ayuda",
+    onClick: () => push({ name: "ayuda" }),
+    icon: "fas fa-question-circle",
+    routeName: "ayuda",
   },
 ]);
 const rutasMoviles = computed(() => [

@@ -123,6 +123,11 @@ const routes = [
                 component: ()=>import('../views/7.Precios/formulario.vue')
             },
             {
+                path: 'ayuda',
+                name: 'ayuda',
+                component: ()=>import('../views/8.Ayuda/instrucciones.vue')
+            },
+            {
                 path: 'cotizacion/:idOdontograma?/:idPaciente?',
                 name: 'cotizacion',
                 component: ()=>import('../views/5.Odontograma/4.cotizacion.vue')
