@@ -54,8 +54,8 @@ watch(
                     button.ms-auto.btn( @click="push({ name: 'paciente', params: { idPaciente: item.id } })")
                         i.fa-solid.fa-pen-clip
                 td.dropdown
-                    BotonSeguro( :onSuccess= '() => eliminar(item.id)')
-                        i.fa-solid.fa-trash
+                    BotonNuevo( :onSuccess= '() => eliminar(item.id)')
+                    
     .div(v-if="registro.length > 8",style="text-align: center;")
         nav.d-flex.justify-content-center(aria-label='Page navigation example')
             ul.pagination

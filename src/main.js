@@ -5,6 +5,7 @@ import Form from './components/uikit/Form.vue'
 import Dialog from './components/uikit/Dialog.vue'
 import Diente from './components/Diente.vue'
 import BotonSeguro from './components/BotonSeguro.vue'
+import BotonNuevo from './components/BotonNuevo.vue'
 import Odontograma from './components/Odontograma.vue'
 
 import MicroButton from './components/MicroButton.vue'
@@ -24,6 +25,7 @@ createApp(App)
 .component("MicroButton", MicroButton)
 .component("Odontograma", Odontograma)
 .component("BotonSeguro", BotonSeguro)
+.component("BotonNuevo", BotonNuevo)
 
 
 
