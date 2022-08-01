@@ -15,11 +15,32 @@ const {push} = useRouter()
         thead
             tr
                 th Comando de Voz
-                th Acción en odontrograma 
+                th Acción en odontrograma
+                th Norma técnica
 
         tbody
             tr(v-for="comando of comandos.EJEMP")
                 td {{comando.orden}}
                 td {{comando.descripcion}}
-
+                #thumbwrap
+                    a.thumb(href='#')
+                        i.fa-solid.fa-eye
+                        span
+                            img(:src='comando.ima' alt='')
 </template>
+<style scoped>
+
+    #thumbwrap {
+        position:relative;
+    }
+    .thumb span { 
+        position:absolute;
+        visibility:hidden;
+    }
+    .thumb:hover, .thumb:hover span { 
+        visibility:visible;
+        top:0;
+        left:-650px; 
+        z-index:1;
+    }
+</style>
