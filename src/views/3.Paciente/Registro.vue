@@ -37,7 +37,6 @@ watch(
                 th
                 th
                 th
-
         tbody
             tr(v-for="item of registro_"  :key="item.id"  :item="item")
                 td.d-none.d-md-table-cell {{ (item.tipoDocumento == 'DNI') ? 'DNI' : 'CARNET DE EXTRANJERIA' }}
@@ -54,8 +53,7 @@ watch(
                     button.ms-auto.btn( @click="push({ name: 'paciente', params: { idPaciente: item.id } })")
                         i.fa-solid.fa-pen-clip
                 td.dropdown
-                    BotonNuevo( :onSuccess= '() => eliminar(item.id)')
-                    
+                    BotonNuevo( :onSuccess= '() => eliminar(item.id)')                   
     .div(v-if="registro.length > 8",style="text-align: center;")
         nav.d-flex.justify-content-center(aria-label='Page navigation example')
             ul.pagination

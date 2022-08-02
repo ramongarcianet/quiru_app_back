@@ -16,12 +16,14 @@ const {push} = useRouter()
             tr
                 th Comando de Voz
                 th Acción en odontrograma
+                th Ejemplos
                 th Norma técnica
 
         tbody
             tr(v-for="comando of comandos.EJEMP")
                 td {{comando.orden}}
                 td {{comando.descripcion}}
+                td {{comando.ejemplo}}
                 #thumbwrap
                     a.thumb(href='#')
                         i.fa-solid.fa-eye

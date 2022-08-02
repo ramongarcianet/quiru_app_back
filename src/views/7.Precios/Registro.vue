@@ -30,7 +30,6 @@ watch(
             tr
                 th Hallazgo
                 th Precio 
-
         tbody
             tr(v-for="item of registro_"  :key="item.id"  :item="item")
                 td {{ item.tipo }}
@@ -39,7 +38,7 @@ watch(
                     button.ms-auto.btn( @click="push({ name: 'formulario', params: { idPaciente: item.id } })")
                         i.fa-solid.fa-pen-clip
                 td(width="25%")
-                    BotonSeguro( :onSuccess= '() => eliminar(item.id)' )
+                    BotonSeguro(:onSuccess= '() => eliminar(item.id)' )
                         i.fa.fa-trash-o(aria-hidden='true')
     .div(v-if="registro.length > 8",style="text-align: center;")
         nav.d-flex.justify-content-center(aria-label='Page navigation example')
@@ -53,6 +52,3 @@ watch(
                     a.page-link(href='#', aria-label='Next', @click="nextPage(registro)")
                         span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
 </template>
-<style scoped>
-
-</style>
