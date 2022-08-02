@@ -12,10 +12,10 @@ button(onclick="document.getElementById('id01').style.display='block'")
   .modal-content.modal-sm
     .container
       h1 Eliminar Paciente
-      p ¿Está seguro que desea eliminar?
+      p Estos pacientes no se pueden eliminar
       .clearfix
         button.cancelbtn(type='button' onclick="document.getElementById('id01').style.display='none'") Cancelar
-        button.deletebtn(type='button' onclick="document.getElementById('id01').style.display='none'") Eliminar
+        button.deletebtn(type='button' onclick="document.getElementById('id01').style.display='none'") OK
 
 </template>
 <style scoped>

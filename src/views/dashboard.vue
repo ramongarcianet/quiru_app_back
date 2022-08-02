@@ -26,17 +26,18 @@ const rutas = computed(() => [
     routeName: "precios",
   },
   {
-    name: "Menú",
-    onClick: () => (isActive.value = !isActive.value),
-    icon: isActive.value ? "fa-solid fa-times" : "fa-solid fa-bars",
-    aditionalClass: "d-sm-none only-bottom-nav",
-  },
-  {
     name: "Ayuda",
     onClick: () => push({ name: "ayuda" }),
     icon: "fas fa-question-circle",
     routeName: "ayuda",
   },
+  {
+    name: "Menú",
+    onClick: () => (isActive.value = !isActive.value),
+    icon: isActive.value ? "fa-solid fa-times" : "fa-solid fa-bars",
+    aditionalClass: "d-sm-none only-bottom-nav",
+  },
+ 
 ]);
 const rutasMoviles = computed(() => [
   {
@@ -50,6 +51,12 @@ const rutasMoviles = computed(() => [
     onClick: () => push({ name: "precios" }),
     icon: "fa-solid fa-coins",
     routeName: "precios",
+  },
+  {
+    name: "Ayuda",
+    onClick: () => push({ name: "ayuda" }),
+    icon: "fa-solid fa-question-circle",
+    routeName: "ayuda",
   },
   {
     name: "Cerrar sesión",
@@ -213,7 +220,8 @@ window.addEventListener("resize", () => {
       display: block
     button
       &.active
-        width: 105px
+        width: 45px
+        height: 100%
         display: block
         i
           display: flex

@@ -14,7 +14,7 @@ const {push} = useRouter()
     table.table.table-hover
         thead
             tr
-                th Comando de Voz
+                th Comando de voz
                 th Acción en odontrograma
                 th Ejemplos
                 th Norma técnica
@@ -24,11 +24,12 @@ const {push} = useRouter()
                 td {{comando.orden}}
                 td {{comando.descripcion}}
                 td {{comando.ejemplo}}
-                #thumbwrap
-                    a.thumb(href='#')
-                        i.fa-solid.fa-eye
-                        span
-                            img(:src='comando.ima' alt='')
+                td
+                    #thumbwrap
+                        button.thumb(href='#')
+                            i.fa-solid.fa-eye
+                            span
+                                img(:src='comando.ima' alt='')
 </template>
 <style scoped>
 
@@ -42,7 +43,14 @@ const {push} = useRouter()
     .thumb:hover, .thumb:hover span { 
         visibility:visible;
         top:0;
-        left:-650px; 
+        left:-520px; 
         z-index:1;
+    }
+    button {
+        border: none;
+        background: none;
+    }
+    table {
+        border: 1px;
     }
 </style>
