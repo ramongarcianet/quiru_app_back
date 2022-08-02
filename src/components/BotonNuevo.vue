@@ -23,11 +23,14 @@ button(onclick="document.getElementById('id01').style.display='block'")
 body {font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box;}
 
-
+#id01 {
+  background-color: rgba(0,0,0,0.6);
+}
+  
 button {
-  margin-top: 5px;
+  margin-top: 6px;
   border: none;
-  opacity: 0.9;
+  opacity: 0.85;
   background: none;
 }
 
@@ -36,7 +39,7 @@ button {
   width: 50%;
 }
 .cancelbtn {
-  background-color: #ccc;
+  background-color: rgb(189, 189, 189);
   color: black;
 }
 
