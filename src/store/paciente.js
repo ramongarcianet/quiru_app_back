@@ -1,5 +1,4 @@
 import { ref } from 'vue';
-
 import {addDoc, collection, onSnapshot, getDoc, doc, updateDoc, deleteDoc,orderBy,query,where } from 'firebase/firestore'
 import {firestore } from '../config/firebase'
 import {usuario} from '../store/sesion'
@@ -11,7 +10,8 @@ const item = ref({
     sexo: '',
     fechaNacimiento: new Date().toISOString().slice(0, 10),
     fechaIngreso: new Date().toISOString().slice(0, 10),
-    constancia:'N'
+    constancia:'N',
+    estado: true
 })
 
 const guardar = item => {
@@ -22,6 +22,11 @@ const guardar = item => {
 const actualizar = (item) => {
     const referencia = doc(firestore, 'paciente', item.id)
     return updateDoc(referencia, item)
+}
+
+const updateEstado = (item) => {
+    const referencia = doc(firestore, 'paciente', item.id)
+    return updateDoc(referencia, {estado: false})
 }
 
 const eliminar = (id) => {
@@ -38,7 +43,6 @@ const obtenerTodos = () => {
         collection => registro.value = collection.docs.map(doc => ({ ...doc.data(), id: doc.id }))
     )
 }
-
 
 const leer = id => {
     const referencia = doc(firestore, 'paciente', id)
@@ -59,7 +63,6 @@ const limpiar = () => {
     }
 }
 
-
 export {
     registro,
     item,
@@ -70,5 +73,6 @@ export {
     actualizar,
     eliminar,
     limpiar,
+    updateEstado,
     dialog
 }

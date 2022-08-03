@@ -34,55 +34,43 @@ const {push} = useRouter()
 <style lang="sass" scoped>
 .thumbwrap
   position: relative
-
 .thumb
   span
     position: absolute
     visibility: hidden
-
   &:hover
     visibility: visible
     top: 0
     z-index: 1
-
     span
       visibility: visible
       top: 0
       left: -520px
       z-index: 1
-
 button
   border: none
   background: none
-
 table
   border: 1px
 
 @media (max-width: 540px)
-
     .thumbwrap
         position: relative
         width: 100px
-
     .thumb
         span
             position: absolute
             visibility: hidden
-
         &:hover
             visibility: visible
-            top: 0
             z-index: 1
-
             span
                 visibility: visible
                 left: -300px
                 z-index: 1
-
     button
         border: none
         background: none
-
     table
         border: 1px
 
