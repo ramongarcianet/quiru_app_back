@@ -15,42 +15,75 @@ const {push} = useRouter()
         thead
             tr
                 th Comando de voz
-                th Acción en odontrograma
+                th.d-none.d-md-table-cell Acción en odontrograma
                 th Ejemplos
                 th Norma técnica
 
         tbody
             tr(v-for="comando of comandos.EJEMP")
                 td {{comando.orden}}
-                td {{comando.descripcion}}
+                td.d-none.d-md-table-cell {{comando.descripcion}}
                 td {{comando.ejemplo}}
                 td
-                    #thumbwrap
+                    .thumbwrap
                         button.thumb(href='#')
                             i.fa-solid.fa-eye
                             span
                                 img(:src='comando.ima' alt='')
 </template>
-<style scoped>
+<style lang="sass" scoped>
+.thumbwrap
+  position: relative
 
-    #thumbwrap {
-        position:relative;
-    }
-    .thumb span { 
-        position:absolute;
-        visibility:hidden;
-    }
-    .thumb:hover, .thumb:hover span { 
-        visibility:visible;
-        top:0;
-        left:-520px; 
-        z-index:1;
-    }
-    button {
-        border: none;
-        background: none;
-    }
-    table {
-        border: 1px;
-    }
+.thumb
+  span
+    position: absolute
+    visibility: hidden
+
+  &:hover
+    visibility: visible
+    top: 0
+    z-index: 1
+
+    span
+      visibility: visible
+      top: 0
+      left: -520px
+      z-index: 1
+
+button
+  border: none
+  background: none
+
+table
+  border: 1px
+
+@media (max-width: 540px)
+
+    .thumbwrap
+        position: relative
+        width: 100px
+
+    .thumb
+        span
+            position: absolute
+            visibility: hidden
+
+        &:hover
+            visibility: visible
+            top: 0
+            z-index: 1
+
+            span
+                visibility: visible
+                left: -300px
+                z-index: 1
+
+    button
+        border: none
+        background: none
+
+    table
+        border: 1px
+
 </style>
