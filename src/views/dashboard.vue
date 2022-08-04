@@ -100,10 +100,10 @@ window.addEventListener("resize", () => {
   nav.nav.vh-100( :class="`nav ${isActive ? 'active' : ''}`" )
     Logo(fill="currentcolor" @click='isActive = !isActive' )
     div
-      button.btn.btn-primary.mb-3(:title= {routeName} v-for="{ name, onClick, icon, routeName, aditionalClass }, i of rutas" :key='`rutas-${i}`' @click="onClick()" :class='`${routeName == route.name ? "active" : ""} ${aditionalClass}`')
+      button.btn.btn-primary.mb-3(:title= 'name' v-for="{ name, onClick, icon, routeName, aditionalClass }, i of rutas" :key='`rutas-${i}`' @click="onClick()" :class='`${routeName == route.name ? "active" : ""} ${aditionalClass}`')
         i.fa-xl( :class="icon" :label="name" )
     div
-      button.btn.btn-primary(title='2' v-for="{ name, onClick, icon }, i of rutasAdministrador" :key='`rutas-${i}`' @click="onClick()" )
+      button.btn.btn-primary(v-for="{ name, onClick, icon }, i of rutasAdministrador" :key='`rutas-${i}`' @click="onClick()" )
         i.fa-xl( :class="icon" :label="name" )
     div
       button.btn.btn-primary(title='Cerrar Sesion' v-for="{ name, onClick, icon }, i of rutasInferior" :key='`rutas-${i}`' @click="onClick()" )
