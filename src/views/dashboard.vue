@@ -98,15 +98,15 @@ window.addEventListener("resize", () => {
 <template lang="pug">
 .container-fluid.vh-100.d-flex.px-0
   nav.nav.vh-100( :class="`nav ${isActive ? 'active' : ''}`" )
-    Logo( fill="currentcolor" @click='isActive = !isActive' )
+    Logo(fill="currentcolor" @click='isActive = !isActive' )
     div
-      button.btn.btn-primary.mb-3( v-for="{ name, onClick, icon, routeName, aditionalClass }, i of rutas" :key='`rutas-${i}`' @click="onClick()" :class='`${routeName == route.name ? "active" : ""} ${aditionalClass}`')
+      button.btn.btn-primary.mb-3(:title= {routeName} v-for="{ name, onClick, icon, routeName, aditionalClass }, i of rutas" :key='`rutas-${i}`' @click="onClick()" :class='`${routeName == route.name ? "active" : ""} ${aditionalClass}`')
         i.fa-xl( :class="icon" :label="name" )
     div
-      button.btn.btn-primary( v-for="{ name, onClick, icon }, i of rutasAdministrador" :key='`rutas-${i}`' @click="onClick()" )
+      button.btn.btn-primary(title='2' v-for="{ name, onClick, icon }, i of rutasAdministrador" :key='`rutas-${i}`' @click="onClick()" )
         i.fa-xl( :class="icon" :label="name" )
     div
-      button.btn.btn-primary( v-for="{ name, onClick, icon }, i of rutasInferior" :key='`rutas-${i}`' @click="onClick()" )
+      button.btn.btn-primary(title='Cerrar Sesion' v-for="{ name, onClick, icon }, i of rutasInferior" :key='`rutas-${i}`' @click="onClick()" )
         i.fa-xl( :class="icon" :label="name" )
   nav.nav-mobile.d-sm-none
     button.btn.btn-outline-light( v-for="{ name, onClick, icon, routeName, aditionalClass }, i of rutasMoviles" :key='`rutas-${i}`' :class='`${routeName == route.name ? "active" : ""} ${aditionalClass}`' @click="onClick()" )

@@ -35,12 +35,17 @@ const eliminar = (id) => {
 }
 
 const registro = ref([])
+const verEliminados = ref(false)
 const obtenerTodos = () => {
     const referencia = collection(firestore, 'paciente')
-    const referenciaOrden= query(referencia,where('idOdontologo', '==',usuario.value.uid),orderBy("fechaIngreso", "desc"))
+    const referenciaOrden = !verEliminados.value
+        ? query(referencia, where('idOdontologo', '==',usuario.value.uid), where('estado', '==', true))
+        : query(referencia, where('idOdontologo', '==',usuario.value.uid), orderBy("fechaIngreso", "desc"))
     return onSnapshot(
         referenciaOrden,
-        collection => registro.value = collection.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+        collection => {
+            registro.value = collection.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+        }
     )
 }
 
@@ -59,7 +64,6 @@ const limpiar = () => {
         fechaNacimiento: new Date().toISOString().slice(0, 10),
         fechaIngreso: new Date().toISOString().slice(0, 10),
         constancia:'N'
-
     }
 }
 

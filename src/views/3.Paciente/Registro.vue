@@ -1,7 +1,7 @@
 <script setup>
 import { onUnmounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import {obtenerTodos, registro, updateEstado} from "../../store/paciente";
+import {obtenerTodos, registro, updateEstado, eliminar} from "../../store/paciente";
 import {previousPage,nextPage,setList,registro_,search, setListDelete, SetPage} from "../../config/Paginator";
 const obtenerRegistro = obtenerTodos();
 const confirmar = ref(false);
@@ -17,6 +17,8 @@ watch(
         setList(registro.value,1);
     }
 )
+
+
 </script>
 
 <template lang="pug">
@@ -39,6 +41,7 @@ watch(
                 th
         tbody
             tr(v-for="item of registro_"  :key="item.id"  :item="item")
+            
                 td.d-none.d-md-table-cell {{ (item.tipoDocumento == 'DNI') ? 'DNI' : 'CARNET DE EXTRANJERIA' }}
                 td.d-none.d-md-table-cell {{ item.numeroDocumento }}
                 td
@@ -47,13 +50,13 @@ watch(
                 td.d-none.d-md-table-cell {{ item.fechaIngreso }}
                 td.d-none.d-md-table-cell {{ (item.sexo == 'M') ? 'MASCULINO' : 'FEMENINO' }}
                 td.dropdown
-                    button.ms-auto.btn( @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })")
+                    button.ms-auto.btn(title='Odontograma' @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })")
                         i.fa.fa-solid.fa-tooth
                 td.dropdown
-                    button.ms-auto.btn( @click="push({ name: 'paciente', params: { idPaciente: item.id } })")
+                    button.ms-auto.btn(title='Editar' @click="push({ name: 'paciente', params: { idPaciente: item.id } })")
                         i.fa-solid.fa-pen-clip
                 td.dropdown
-                    BotonNuevo( :onSuccess= '() => updateEstado(item)')    
+                    BotonNuevo( :onSuccess= '() => updateEstado(item)')
     .div(v-if="registro.length > 8",style="text-align: center;")
         nav.d-flex.justify-content-center(aria-label='Page navigation example')
             ul.pagination

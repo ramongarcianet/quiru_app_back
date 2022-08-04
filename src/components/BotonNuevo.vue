@@ -1,21 +1,24 @@
 <script setup>
-import {ref, watchEffect} from 'vue'
+import {ref, watchEffect} from 'vue';
+import {obtenerTodos, registro, updateEstado, eliminar} from "../store/paciente";
+
 const props = defineProps(['onSuccess'])
 
+const mostrar = ref(false)
 </script>
 <template lang='pug'>
 
-button(onclick="document.getElementById('id01').style.display='block'")
+button(@click="mostrar=true" title='Eliminar')
     i.fa-solid.fa-trash
-#id01.modal
-  span.close(onclick="document.getElementById('id01').style.display='none'" title='Close Modal') &times;
+#id01.modal(v-if='mostrar')
+  span.close(@click="mostrar=false" title='Cerrar') &times;
   .modal-content.modal-sm
     .container
       h1 Eliminar Paciente
       p Estos pacientes no se pueden eliminar
       .clearfix
-        button.cancelbtn(type='button' onclick="document.getElementById('id01').style.display='none'") Cancelar
-        button.deletebtn(type='button' onclick="document.getElementById('id01').style.display='none'") OK
+        button.cancelbtn(@click="mostrar=false") Cancelar
+        button.deletebtn(@click="onSuccess(), mostrar=false") OK
 
 </template>
 <style scoped>
@@ -40,7 +43,7 @@ button {
 }
 .cancelbtn {
   background-color: rgb(189, 189, 189);
-  color: black;
+
 }
 
 .deletebtn {
@@ -53,7 +56,7 @@ button {
 }
 
 .modal {
-  display: none;
+  display: block;
   position: fixed;
   z-index: 1;
   left: 0;
