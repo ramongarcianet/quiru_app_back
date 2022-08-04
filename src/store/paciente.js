@@ -78,5 +78,6 @@ export {
     eliminar,
     limpiar,
     updateEstado,
-    dialog
+    dialog,
+    verEliminados,
 }

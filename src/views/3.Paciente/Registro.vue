@@ -1,7 +1,7 @@
 <script setup>
 import { onUnmounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import {obtenerTodos, registro, updateEstado, eliminar} from "../../store/paciente";
+import {obtenerTodos, registro, updateEstado, eliminar, verEliminados} from "../../store/paciente";
 import {previousPage,nextPage,setList,registro_,search, setListDelete, SetPage} from "../../config/Paginator";
 const obtenerRegistro = obtenerTodos();
 const confirmar = ref(false);
@@ -57,6 +57,7 @@ watch(
                         i.fa-solid.fa-pen-clip
                 td.dropdown
                     BotonNuevo( :onSuccess= '() => updateEstado(item)')
+    button(@click='verEliminados= !verEliminados') Papelera     
     .div(v-if="registro.length > 8",style="text-align: center;")
         nav.d-flex.justify-content-center(aria-label='Page navigation example')
             ul.pagination
