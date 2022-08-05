@@ -57,7 +57,6 @@ watch(
                         i.fa-solid.fa-pen-clip
                 td.dropdown
                     BotonNuevo( :onSuccess= '() => updateEstado(item)')
-    //* button(@click='verEliminados= !verEliminados') Papelera   
     .div(v-if="registro.length > 8",style="text-align: center;")
         nav.d-flex.justify-content-center(aria-label='Page navigation example')
             ul.pagination
