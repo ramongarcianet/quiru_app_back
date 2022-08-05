@@ -46,7 +46,7 @@ function Cancelar() {
 .row
     .col
     .col
-        input#SearchInput.form-control(type='text', v-on:keyup='search(registro)', placeholder='Buscar por Tipo/Número Doc/Nombre.', title='Type in a name', style="width: 100% !important;")
+        input#SearchInput.form-control.mb-3(v-on:keyup='search(registro)', placeholder='Buscar por Tipo/Número Doc/Nombre.', style="width: 100% !important;")
 #alerta.alert.alert-danger.alert-dismissible(style='display:none')
     
     strong Cuidado!
