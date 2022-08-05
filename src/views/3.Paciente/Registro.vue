@@ -2,7 +2,7 @@
 import { injectProp } from '@vue/compiler-core';
 import { onUnmounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import { obtenerTodos, registro } from "../../store/paciente";
+import { obtenerTodos, registro, updateEstado } from "../../store/paciente";
 import { previousPage, nextPage, setList, registro_, search, setListDelete, SetPage } from "../../config/Paginator";
 import { registroodonto, obtenerTodos as obtenerOdontograma } from "../../store/formodontograma";
 const obtenerRegistro = obtenerTodos();
@@ -46,11 +46,12 @@ function Cancelar() {
 .row
     .col
     .col
-        input#SearchInput.form-control(type='text', v-on:keyup='search(registro)', placeholder='Buscar por Tipo/Número Doc/Nombre.', title='Type in a name', style="width: 100% !important;")
+        input#SearchInput.form-control.mb-3(v-on:keyup='search(registro)', placeholder='Buscar por Tipo/Número Doc/Nombre.', style="width: 100% !important;")
 #alerta.alert.alert-danger.alert-dismissible(style='display:none')
-    a.close(href='#' data-dismiss='alert' aria-label='close') &times;
-    strong Warning!
-        |  This alert box could indicate a warning that might need attention.
+    
+    strong Cuidado!
+        |  Este paciente no se puede eliminar por que tiene un diagnostico/tratamiento registrado
+    a.close(@click="Cancelar()" href='#' data-dismiss='alert' aria-label='close') &times;
 .div(style="background-color: white; border-radius: 2%;")
     table.table.table-hover
         thead
@@ -95,7 +96,7 @@ function Cancelar() {
                     a.page-link(href='#', aria-label='Next', @click="nextPage(registro)")
                         span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
 #id01.modal(style="display:none;")
-    span.close(@click="Cancelar()" title='Cerrar') &times;
+    
     .modal-content.modal-sm
         .container
             p(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Eliminar Paciente
@@ -172,17 +173,13 @@ hr {
 }
 
 .close {
-    position: absolute;
-    right: 35px;
-    top: 15px;
-    font-size: 40px;
+    position: relative;
+    font-size: 20px;
     font-weight: bold;
-    color: #f1f1f1;
+    color: black;
 }
 
-.close:hover,
 .close:focus {
-    color: #f44336;
     cursor: pointer;
 }
 

@@ -11,7 +11,7 @@ watchEffect(
 </script>
 <template lang='pug'>
 button.btn( @click='quitarSeguro ? onSuccess() : quitarSeguro = true' :class='quitarSeguro? "btn-danger" : ""' )
-  span( v-if='quitarSeguro') ¿Estás seguro?
+  span( v-if='quitarSeguro') Confirmar
   template( v-else )
     slot
 </template>
