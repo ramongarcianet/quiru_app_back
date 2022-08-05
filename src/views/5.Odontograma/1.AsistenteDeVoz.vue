@@ -5,6 +5,9 @@ import "../../config/html2canvas";
 import { useRoute, useRouter } from "vue-router";
 import Cie10 from '../../config/Cie10.json';
 import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma } from '../../store/formodontograma';
+import pdfMake from 'pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import htmlToPdfmake from 'html-to-pdfmake';
 const route = useRoute()
 const { back, push } = useRouter();
 let w;
@@ -17,10 +20,10 @@ if (route.params.idOdontograma) {
   ObtenerOdontograma(route.params.idOdontograma);
 }
 function printOdontograma() {
-  w = window.open("", "Download Image", "directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width=500, height=500");
+  //w = window.open("", "Download Image", "directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width=500, height=500");
   canvas = document.getElementById('myCanvas');
   canvas_image_data = canvas.toDataURL();
-  w.document.open();
+  //w.document.open();
   var trtable = "";
   var trtableTrata = "";
   if (itemodontograma != undefined) {
@@ -34,44 +37,49 @@ function printOdontograma() {
             Piezas = Piezas + dient.diente + '; ';
           }
         });
-        trtable = trtable + "<tr><td style='width:70%;text-align:left'><li>" + element.DECRICIE10 + " : " + Piezas + "</li></td><td style='width:30%;text-align:right'>" + element.CIE10 + "</td></tr>";
+        trtable = trtable + "<tr><td style='text-align:left'>" + element.DECRICIE10 + " : " + Piezas + "</td><td style='text-align:right'>" + element.CIE10 + "</td></tr>";
         if (element.TRATAMIENTO != "") {
-          trtableTrata = trtableTrata + "<tr><td style='width:100%;text-align:left'><li>" + element.TRATAMIENTO + " : " + Piezas + "</li></td></tr>";
+          trtableTrata = trtableTrata + "<tr><td colspan='2' style='width:100%;text-align:left'>" + element.TRATAMIENTO + " : " + Piezas + "</td></tr>";
         }
       }
     });
   }
-  let html = '<div style="width:100%"><table style="width:100%;"><tbody style="border:solid 1px #DDEEEE;">'
-    + '  <tr><td style="text-align:left">FICHA DE IDENTIFICACIÓN SANITARIA</td>'
-    + '  <td style="text-align:right">FICHA DENTAL</td></tr>'
-    + '</tbody></table></div>'
-    + '<div style="width:100%"><table style="width:100%;"><tbody style="border:solid 1px #DDEEEE;">'
-    + '  <tr><td style="text-align:left">NOMBRE : ' + itemPas.value.nombre + '</td>'
-    + '  <td style="text-align:left">APELLIDOS : ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno + '</td></tr>'
-    + '  <tr><td style="text-align:left">FECHA DE NACIMIENTO : ' + itemPas.value.fechaNacimiento + '</td>'
-    + '  <td style="text-align:left">TIM/DNI : ' + itemPas.value.numeroDocumento + '</td></tr>'
-    + '  <tr><td colspan="2" style="text-align:left">DIRECCIÓN : ' + itemPas.value.Direccion + '</td>'
-    + '</tbody></table></div>'
-    + '<div style="width:100%;text-align:center;font-weight: bold;">ODONTOGRAMA</div>'
-    + '<div style="width:100%;text-align:center">'
-    + '<img src="' + canvas_image_data + '" style="border: 0;" width="300" height="300"/> </div>'
-    + '<br><div style="width:100%;text-align:left; font-weight: bold;">DIAGNOSTICO</div>'
-    + '<div style="width:100%;text-align:center"><ul style= "list-style-type: square;"><table style="width:100%;"><tbody style="border:solid 1px #DDEEEE;">'
-    + trtable
-    + '</tbody></table></ul><br></div>'
-    + '<br><div style="width:100%;text-align:left; font-weight: bold;">TRATAMIENTO</div>'
-    + '<div style="width:100%;text-align:center"><ul style= "list-style-type: square;"><table style="width:100%;"><tbody style="border:solid 1px #DDEEEE;">'
-    + trtableTrata
-    + '</tbody></table></ul><br></div>'
-  w.document.write(html);
-  w.document.addEventListener('load', function () {
-    w.focus();
-    w.print();
-    w.document.close();
-    w.close();
-  }, true);
+  let htmldiv = '';
+  htmldiv = htmldiv + '<div style="width:50%;text-align:left;font-weight: bold;">FICHA DE IDENTIFICACIÓN SANITARIA</div>';
+  htmldiv = htmldiv + '<div style="width:30%;text-align:right;font-weight: bold; float:right ">FICHA DENTAL</div>';
+  htmldiv = htmldiv + '<div style="width:100%;text-align:center">';
+  htmldiv = htmldiv + '  <table>';
+  htmldiv = htmldiv + '     <tbody>';
+  htmldiv = htmldiv + '         <tr><td colspan="2" style="text-align:left"><br></td></tr>';
+  htmldiv = htmldiv + '         <tr><td style="text-align:left">NOMBRE : ' + itemPas.value.nombre + '</td><td style="text-align:left">APELLIDOS : ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno + '</td></tr>';
+  htmldiv = htmldiv + '         <tr><td style="text-align:left">FECHA DE NACIMIENTO : ' + itemPas.value.fechaNacimiento + '</td><td style="text-align:left">TIM/DNI : ' + itemPas.value.numeroDocumento + '</td></tr>';
+  htmldiv = htmldiv + '         <tr><td colspan="2" style="text-align:left">DIRECCIÓN : ' + itemPas.value.Direccion + '</td></tr>';
+  htmldiv = htmldiv + '       </tbody>';
+  htmldiv = htmldiv + '   </table>';
+  htmldiv = htmldiv + '</div>';
+  htmldiv = htmldiv + '<div style="width:100%;text-align:center;font-weight: bold;">ODONTOGRAMA</div>';
+  htmldiv = htmldiv + '<div style="width:100%;text-align:center">';
+  htmldiv = htmldiv + '   <img src="' + canvas_image_data + '" style="border: 0;" width="400" height="400"/> ';
+  htmldiv = htmldiv + '</div>';
+  htmldiv = htmldiv + '<br>';
+  htmldiv = htmldiv + '   <table style="width:100%;">';
+  htmldiv = htmldiv + '      <tbody style="border-style: none;">';
+  htmldiv = htmldiv + '         <tr><td colspan="2" style="text-align:left"><div style="width:100%;text-align:left; font-weight: bold;">DIAGNOSTICO </div></td></tr>';
+  htmldiv = htmldiv + trtable;
+  htmldiv = htmldiv + '         <tr><td colspan="2" style="text-align:left"><div style="width:100%;text-align:left; font-weight: bold;">TRATAMIENTO </div></td></tr>';
+  htmldiv = htmldiv + trtableTrata;
+  htmldiv = htmldiv + '       </tbody>';
+  htmldiv = htmldiv + '   </table>';
+
+  var html = htmlToPdfmake(htmldiv);
+  const documentDefinition = { content: html };
+  pdfMake.vfs = pdfFonts.pdfMake.vfs;
+  pdfMake.createPdf(documentDefinition).open();
+
+
 
 }
+
 </script>
 
 
@@ -84,3 +92,5 @@ function printOdontograma() {
       button.ms-auto( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente } })').btn.btn-primary Datos adicionales
       button.ms-auto.btn.btn-primary(@click="printOdontograma()") Imprimir 
 </template>
+<style>
+</style>
