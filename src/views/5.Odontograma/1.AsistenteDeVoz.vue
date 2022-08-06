@@ -5,12 +5,12 @@ import "../../config/html2canvas";
 import { useRoute, useRouter } from "vue-router";
 import Cie10 from '../../config/Cie10.json';
 import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma } from '../../store/formodontograma';
-import pdfMake from 'pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-import htmlToPdfmake from 'html-to-pdfmake';
+//import _pdfMake from 'pdfmake';
+//import pdfFonts from 'pdfmake/build/vfs_fonts';
+//mport htmlToPdfmake from 'html-to-pdfmake';
+import jsPDF from 'jsPDF'
 const route = useRoute()
 const { back, push } = useRouter();
-let w;
 let canvas;
 let canvas_image_data;
 if (route.params.idPaciente) {
@@ -20,10 +20,8 @@ if (route.params.idOdontograma) {
   ObtenerOdontograma(route.params.idOdontograma);
 }
 function printOdontograma() {
-  //w = window.open("", "Download Image", "directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width=500, height=500");
   canvas = document.getElementById('myCanvas');
   canvas_image_data = canvas.toDataURL();
-  //w.document.open();
   var trtable = "";
   var trtableTrata = "";
   if (itemodontograma != undefined) {
@@ -50,7 +48,6 @@ function printOdontograma() {
   htmldiv = htmldiv + '<div style="width:100%;text-align:center">';
   htmldiv = htmldiv + '  <table>';
   htmldiv = htmldiv + '     <tbody>';
-  htmldiv = htmldiv + '         <tr><td colspan="2" style="text-align:left"><br></td></tr>';
   htmldiv = htmldiv + '         <tr><td style="text-align:left">NOMBRE : ' + itemPas.value.nombre + '</td><td style="text-align:left">APELLIDOS : ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno + '</td></tr>';
   htmldiv = htmldiv + '         <tr><td style="text-align:left">FECHA DE NACIMIENTO : ' + itemPas.value.fechaNacimiento + '</td><td style="text-align:left">TIM/DNI : ' + itemPas.value.numeroDocumento + '</td></tr>';
   htmldiv = htmldiv + '         <tr><td colspan="2" style="text-align:left">DIRECCIÓN : ' + itemPas.value.Direccion + '</td></tr>';
@@ -71,13 +68,13 @@ function printOdontograma() {
   htmldiv = htmldiv + '       </tbody>';
   htmldiv = htmldiv + '   </table>';
 
-  var html = htmlToPdfmake(htmldiv);
-  const documentDefinition = { content: html };
-  pdfMake.vfs = pdfFonts.pdfMake.vfs;
-  pdfMake.createPdf(documentDefinition).open();
-
-
-
+  let pdfName = 'test';
+  var doc = new jsPDF('p', 'pt', 'letter');
+  doc.html(htmldiv, {
+    callback: function (doc) {
+      doc.save(pdfName + '.pdf');
+    }
+  });
 }
 
 </script>
