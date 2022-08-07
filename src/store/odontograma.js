@@ -8,7 +8,7 @@ import '../assets/annyang.min'
 const { push } = router;
 const isSpeech = ref(false);
 let flagAnnyang;
-
+export const resizeWindow = ref(1366)
 export const verOdontograma = ref(true)
 export let flagLimpiar = ref(false)
 export const textoEscuchado = ref()
@@ -48,19 +48,31 @@ if (annyang) {
             textoEscuchado.value = frase[0];
     })
     annyang.addCallback('soundstart', function () {
-        if (isSpeech.value) { }
+        if (isSpeech.value) {
+            console.log('0');
+        }
     });
     annyang.addCallback('error', function (e) {
-
+        if (isSpeech.value){
+            if (resizeWindow.value<500)
+                alert('Activar microfono1')
+        }
     });
     annyang.addCallback('errorNetwork', function () {
-
+        if (isSpeech.value){
+            console.log('2')
+        }
     });
     annyang.addCallback('errorPermissionBlocked', function () {
-
+        if (isSpeech.value){
+            console.log('3')
+        }
     });
     annyang.addCallback('errorPermissionDenied', function () {
-
+        if (isSpeech.value){
+            if (resizeWindow.value<500)
+                alert('Activar microfono4')
+        }
     });
 
 
@@ -85,6 +97,7 @@ export function activarVoz() {
         annyang.addCommands(comandosDeVoz.conVozEncendida)
         isSpeech.value = true;
         comandosDeVoz.saludar()
+        //console.log(annyang.getSpeechRecognizer());
     }
 }
 export function detenerVoz() {

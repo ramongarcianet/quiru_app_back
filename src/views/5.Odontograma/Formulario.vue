@@ -19,6 +19,7 @@ import {
   item,
   paginaOdontograma,
   textoEscuchado,
+  resizeWindow,
 } from "../../store/odontograma";
 import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarLista, mensajeExistePieza } from '../../store/formodontograma';
 import { VerFormato } from "../../store/Canvas";
@@ -138,7 +139,14 @@ watch(
   }
 
 )
-
+watch (
+  ()=>{
+    resizeWindow.value = window.innerWidth
+    window.addEventListener('resize', function(){
+      resizeWindow.value = window.innerWidth
+    });
+  }
+)
 </script>
 
 <template lang="pug">
