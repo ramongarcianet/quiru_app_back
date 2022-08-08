@@ -21,7 +21,7 @@ function CallConfirm(item) {
     var modal = document.getElementById('id01');
     modal.style.display = 'block';
 }
-function EliminarPasiente() {
+function EliminarPaciente() {
     var alerta = document.getElementById("alerta");
     var modal = document.getElementById('id01');
     if (registroodonto.value.length > 0) {
@@ -47,8 +47,7 @@ function Cancelar() {
     .col
     .col
         input#SearchInput.form-control.mb-3(v-on:keyup='search(registro)', placeholder='Buscar por Tipo/Número Doc/Nombre.', style="width: 100% !important;")
-#alerta.alert.alert-danger.alert-dismissible(style='display:none')
-    
+#alerta.alert.alert-danger.alert-dismissible(style='display:none')   
     strong Cuidado!
         |  Este paciente no se puede eliminar por que tiene un diagnostico/tratamiento registrado
     a.close(@click="Cancelar()" href='#' data-dismiss='alert' aria-label='close') &times;
@@ -103,7 +102,7 @@ function Cancelar() {
             p ¿Esta seguro que desea eliminar?
             .clearfix
                 button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
-                button.btn.btn-danger.deletebtn(@click="EliminarPasiente(), mostrar = false") Aceptar
+                button.btn.btn-danger.deletebtn(@click="EliminarPaciente(), mostrar = false") Aceptar
 
 </template>
 <style scoped>

@@ -6,16 +6,15 @@ import { onMounted } from "@vue/runtime-core";
 const { push } = useRouter();
 const route = useRoute()
 onMounted(()=> {
-    let mensaje = document.getElementById('mensaje');
-    mensaje.innerText = '';
+    var mensaje = document.getElementById('mensaje');
 })
 if (route.params.idOdontograma) {
   leerOdonto(route.params.idOdontograma)
 }
 const grabarAdicionales = (idOdontograma)=>{
   actualizar(idOdontograma);
-  let mensaje = document.getElementById('mensaje');
-  mensaje.innerText = 'Se registro correctamente';
+  var mensaje = document.getElementById('mensaje');
+  mensaje.style.display = "block";
 }
 </script>
 <template lang="pug">
@@ -32,7 +31,7 @@ h1 Datos Adicionales
       label.form-label Receta
       textarea#inputReceta.form-control( rows="4" v-model="item.receta")
     .row.mt-3
-      span#mensaje(style="color: red; font-weight:bold;")
+      #mensaje.alert.alert-success.alert-dismissible(style='display:none') Se registró correctamente
   .d-flex.mt-4
     button.btn.btn-primary( @click='push({name: "Detalle", params: {idOdontograma: route.params.idOdontograma,idPaciente: route.params.idPaciente}})') Volver
     button.ms-auto.btn.btn-primary(type="submit", @click="grabarAdicionales(route.params.idOdontograma);") Guardar

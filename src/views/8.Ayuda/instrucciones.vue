@@ -10,26 +10,27 @@ const {push} = useRouter()
 .d-flex.align-content-start.flex-wrap
     i.fa-solid.fa-circle-info.me-2(style="color: #37DFBB; font-weight:bold; font-size: 1.5em;")
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Ayuda
-.div(style="background-color: white; border-radius: 2%;").mt-1
-    table.table.table-hover
-        thead
-            tr
-                th Comando de voz
-                th.d-none.d-md-table-cell Acción en odontrograma
-                th Ejemplos
-                th Norma técnica
+.container 
+    .div(style="background-color: white; border-radius: 2%;").mt-1
+        table.table.table-hover
+            thead
+                tr
+                    th Comando de voz
+                    th.d-none.d-md-table-cell Acción en odontrograma
+                    th Ejemplos
+                    th Norma técnica
 
-        tbody
-            tr(v-for="comando of comandos.EJEMP")
-                td {{comando.orden}}
-                td.d-none.d-md-table-cell {{comando.descripcion}}
-                td {{comando.ejemplo}}
-                td
-                    .thumbwrap
-                        button.thumb(href='#')
-                            i.fa-solid.fa-eye
-                            span
-                                img(:src='comando.ima' alt='')
+            tbody
+                tr(v-for="comando of comandos.EJEMP")
+                    td {{comando.orden}}
+                    td.d-none.d-md-table-cell {{comando.descripcion}}
+                    td {{comando.ejemplo}}
+                    td
+                        .thumbwrap
+                            button.thumb(href='#')
+                                i.fa-solid.fa-eye
+                                span
+                                    img(:src='comando.ima' alt='')
 </template>
 <style lang="sass" scoped>
 .thumbwrap
