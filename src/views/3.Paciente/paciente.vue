@@ -27,6 +27,10 @@ function definirMaxLimit(tipoDocumento){
       maxDocumento.value = 9;
   }
 }
+function incompleto() {
+    var alerta = document.getElementById("alerta");
+        alerta.style.display = "none";
+}
 
 </script>
 
@@ -49,7 +53,7 @@ Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
       input.form-control(type="date", v-model="item.fechaNacimiento")
     .col
       label.form-label Sexo*
-      select.form-select(placeholder="Ubigeo", v-model="item.sexo",required)
+      select.form-select(v-model="item.sexo",required)
         option(value="") SELECCIONE
         option(value="M") MASCULINO
         option(value="F") FEMENINO
@@ -73,8 +77,12 @@ Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
     .col
       label.form-label Comentario
       input.form-control(placeholder="Comentario", v-model="item.Comentario",@keypress="isLetter($event)",maxlength="40")
+  .row
+    #alerta.alert.alert-danger.alert-dismissible(style='display:none')   
+      strong Cuidado!
+        |  te falta completar campos
   .d-flex.mt-3
     button.btn.btn-primary(@click="push({ name: 'pacientes', params: {} })") Volver
-    button.ms-auto.btn.btn-primary(type='submit') Guardar
+    button.ms-auto.btn.btn-primary(@click="incompleto()" type='submit') Guardar
 
 </template>

@@ -74,5 +74,9 @@ onUnmounted(()=>{
   .btn:disabled, .btn.disabled, fieldset:disabled .btn {
     opacity: 0.35;
 }
-
+button {
+    margin-top: -4px;
+    border: none;
+    background: none;
+}
 </style>
