@@ -32,41 +32,41 @@ function definirMaxLimit(tipoDocumento){
 
 <template lang="pug">
 Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
-  label.form-label Documento de identidad
+  label.form-label Documento de identidad*
   .input-group
     select.form-select(placeholder="Ubigeo", v-model="item.tipoDocumento",v-on:change="definirMaxLimit(item.tipoDocumento)")
       option(value="DNI") DNI
       option(value="CE") CARNET DE EXTRANJERIA
     input.form-control(placeholder="Número documento", v-model="item.numeroDocumento", @keypress="isNumber($event)",required,:maxlength="maxDocumento",:minlength="maxDocumento")
-  label.form-label Nombre del paciente
+  label.form-label Nombre del paciente*
   .input-group
     input.form-control(placeholder="Nombre", v-model="item.nombre",@keypress="isLetter($event)" ,required,maxlength="30")
     input.form-control(placeholder="Apellido paterno", v-model="item.apellidoPaterno",@keypress="isLetter($event)" ,required,maxlength="30")
     input.form-control(placeholder="Apellido materno", v-model="item.apellidoMaterno",@keypress="isLetter($event)", required,maxlength="30")
   .row
     .col
-      label.form-label Fecha de nacimiento
+      label.form-label Fecha de nacimiento*
       input.form-control(type="date", v-model="item.fechaNacimiento")
     .col
-      label.form-label Sexo
+      label.form-label Sexo*
       select.form-select(placeholder="Ubigeo", v-model="item.sexo",required)
         option(value="") SELECCIONE
         option(value="M") MASCULINO
         option(value="F") FEMENINO
-  label.form-label Dirección
+  label.form-label Dirección*
   .input-group
     input.form-control(placeholder="Departamento", v-model="item.departamento",@keypress="isLetter($event)" ,required,maxlength="30")
     input.form-control(placeholder="Dirección", v-model="item.Direccion",required,maxlength="40")
   .row
     .col
-      label.form-label Correo electrónico
+      label.form-label Correo electrónico*
       input.form-control(placeholder="Correo Electrónico", v-model="item.email", type="email", required,maxlength="30")
     .col
-      label.form-label Teléfono
+      label.form-label Teléfono*
       input.form-control(type="tel", placeholder="Teléfono", v-model="item.telefono",@keypress="isNumber($event)" ,required,maxlength="15")
   .row
     .col
-      label.form-label Constancia de informado
+      label.form-label Constancia de informado*
       select.form-select(placeholder="Constancia informado", v-model="item.constancia")
         option(value="S") SI
         option(value="N") NO
