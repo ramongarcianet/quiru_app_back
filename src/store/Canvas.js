@@ -195,7 +195,7 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro) {
             }
         });
     }
-    context.fillStyle = 'blue';
+    context.fillStyle = 'red';
 }
 function marcar_cabecera(contexto, inicio_x, medida, inicio_y, color, tipo) {
     var ctx = contexto;

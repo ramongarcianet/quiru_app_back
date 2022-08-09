@@ -1,35 +1,13 @@
 <script setup>
 import { onMounted, onUnmounted, watch } from "vue";
 import OdonOficial from "./2.impresion.vue";
-import {
-  limpiarSinVoz
-} from "../../store/comandosDeVoz";
-import {
-  obtenerTodoDiccionario,
-  obtenerTodoPieza,
-  obtenerTodoHallazgo,
-  obtenerTodoCaries,
-} from "../../store/odonto";
-import {
-  detenerVoz,
-  activarVoz,
-  isSpeech,
-  escucharInicializarVoz,
-  Hallazgo,
-  item,
-  paginaOdontograma,
-  textoEscuchado,
-  resizeWindow,
-} from "../../store/odontograma";
+import {limpiarSinVoz} from "../../store/comandosDeVoz";
+import {obtenerTodoDiccionario, obtenerTodoPieza, obtenerTodoHallazgo, obtenerTodoCaries,} from "../../store/odonto";
+import {detenerVoz, activarVoz, isSpeech, escucharInicializarVoz, Hallazgo, item, paginaOdontograma, textoEscuchado, resizeWindow,} from "../../store/odontograma";
 import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarLista, mensajeExistePieza } from '../../store/formodontograma';
 import { VerFormato } from "../../store/Canvas";
 import { useRoute, useRouter } from "vue-router";
-import {
-  previousPage,
-  nextPage,
-  setList,
-  registro_ as _hallazgos, setListDelete, SetPage
-} from "../../config/Paginator";
+import {previousPage,nextPage,setList,registro_ as _hallazgos, setListDelete, SetPage} from "../../config/Paginator";
 import { listaDeDientesCombo, listaDeHallazgos } from '../../config/Parametros';
 import '../../assets/annyang.min'
 const route = useRoute();
@@ -156,7 +134,7 @@ watch (
   .col
     .d-flex.align-content-start.flex-wrap
       i.fa.fa-tooth.me-2(style="color: #37DFBB; font-weight:bold; font-size: 1.5em;")
-      h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family); ") Odontograma de 
+      h1.me-1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family); ") Odontograma de
       h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family); ") {{itemodontograma.tipo}}
 
 .div(style='background-color: #37DFBB;width: 100px;height: 130px;margin-top: -145px;left:80%; position: absolute;z-index: 2;border-radius: 50% 50% 50% 50%;')
