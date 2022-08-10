@@ -167,74 +167,78 @@ watch (
       span#mensaje(style="color: red; font-weight:bold;")
   .col.d-flex.justify-content-left(v-if="!isSpeech")
     OdonOficial
-.row(v-if="isSpeech")
+.row.mt-2(v-if="isSpeech")
   .col.d-flex.justify-content-center
     OdonOficial
   .col
-    .div(style="background-color: white; border-radius: 2%;")
-      table.table.table-hover
-        thead
-          tr
-            th N°
-            th Pieza
-            th Hallazgo
-            th Ubicación
-            th Sigla
-            th
-        tbody
-          tr(v-for="item of _hallazgos")
-            td {{ item.fila }}
-            td {{ item.diente }}
-            td {{ item.hallazgo }}
-            td {{ item.ubicacion }}
-            td {{ item.sigla }}
-            td(width="25%")
-              BotonSeguro( :onSuccess= '() => borrar(item)' )
-                i.fa.fa-trash-o(aria-hidden='true')
-      .div(v-if="itemodontograma.hallazgos?.length > 8",style="text-align: center;")
-        nav.d-flex.justify-content-center(aria-label='Page navigation example')
-          ul.pagination
-            li.page-item
-              a.page-link(href='#', aria-label='Previous', @click="previousPage(itemodontograma.hallazgos)")
-                span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
-            li.page-item(v-for="n in (Math.trunc(itemodontograma.hallazgos.length / 8) + (((itemodontograma.hallazgos.length % 8) > 0) ? 1 : 0))")
-              a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}
-            li.page-item
-              a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma.hallazgos)")
-                span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
+    #collapseExample.collapse
+      .card.card-body
+        .div(style="background-color: white; border-radius: 2%;")
+          table.table.table-hover
+            thead
+              tr
+                th N°
+                th Pieza
+                th Hallazgo
+                th Ubicación
+                th Sigla
+                th
+            tbody
+              tr(v-for="item of _hallazgos")
+                td {{ item.fila }}
+                td {{ item.diente }}
+                td {{ item.hallazgo }}
+                td {{ item.ubicacion }}
+                td {{ item.sigla }}
+                td(width="25%")
+                  BotonSeguro( :onSuccess= '() => borrar(item)' )
+                    i.fa.fa-trash-o(aria-hidden='true')
+          .div(v-if="itemodontograma.hallazgos?.length > 8",style="text-align: center;")
+            nav.d-flex.justify-content-center(aria-label='Page navigation example')
+              ul.pagination
+                li.page-item
+                  a.page-link(href='#', aria-label='Previous', @click="previousPage(itemodontograma.hallazgos)")
+                    span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
+                li.page-item(v-for="n in (Math.trunc(itemodontograma.hallazgos.length / 8) + (((itemodontograma.hallazgos.length % 8) > 0) ? 1 : 0))")
+                  a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}
+                li.page-item
+                  a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma.hallazgos)")
+                    span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
 
 .row.mt-2(v-if="!isSpeech")
   .col
-    .div(style="background-color: white; border-radius: 2%;")
-      table.table.table-hover
-        thead
-          tr
-            th N°
-            th Pieza
-            th Hallazgo
-            th Ubicación
-            th Sigla
-            th
-        tbody
-          tr(v-for="item of _hallazgos")
-            td {{ item.fila }}
-            td {{ item.diente }}
-            td {{ item.hallazgo }}
-            td {{ item.ubicacion }}
-            td {{ item.sigla }}
-            td(width="25%")
-              BotonSeguro( :onSuccess= '() => borrar(item)' )
-                i.fa.fa-trash-o(aria-hidden='true')
-      .div(v-if="itemodontograma.hallazgos?.length > 8",style="text-align: center;")
-        nav.d-flex.justify-content-center(aria-label='Page navigation example')
-          ul.pagination
-            li.page-item
-              a.page-link(href='#', aria-label='Previous', @click="previousPage(itemodontograma.hallazgos)")
-                span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
-            li.page-item(v-for="n in (Math.trunc(itemodontograma.hallazgos.length / 8) + (((itemodontograma.hallazgos.length % 8) > 0) ? 1 : 0))")
-              a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}
-            li.page-item
-              a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma.hallazgos)")
-                span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
+    #collapseExample.collapse
+      .card.card-body
+        .div(style="background-color: white; border-radius: 2%;")
+          table.table.table-hover
+            thead
+              tr
+                th N°
+                th Pieza
+                th Hallazgo
+                th Ubicación
+                th Sigla
+                th
+            tbody
+              tr(v-for="item of _hallazgos")
+                td {{ item.fila }}
+                td {{ item.diente }}
+                td {{ item.hallazgo }}
+                td {{ item.ubicacion }}
+                td {{ item.sigla }}
+                td(width="25%")
+                  BotonSeguro( :onSuccess= '() => borrar(item)' )
+                    i.fa.fa-trash-o(aria-hidden='true')
+          .div(v-if="itemodontograma.hallazgos?.length > 8",style="text-align: center;")
+            nav.d-flex.justify-content-center(aria-label='Page navigation example')
+              ul.pagination
+                li.page-item
+                  a.page-link(href='#', aria-label='Previous', @click="previousPage(itemodontograma.hallazgos)")
+                    span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
+                li.page-item(v-for="n in (Math.trunc(itemodontograma.hallazgos.length / 8) + (((itemodontograma.hallazgos.length % 8) > 0) ? 1 : 0))")
+                  a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}
+                li.page-item
+                  a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma.hallazgos)")
+                    span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
 
 </template>

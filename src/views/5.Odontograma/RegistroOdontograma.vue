@@ -1,21 +1,12 @@
 <script setup>
 import { onUnmounted, ref } from "vue";
-import {
-  registroodonto,
-  eliminar,
-  guardar as guardarOdontograma,
-  actualizarEsUltimo
-} from "../../store/formodontograma";
-
+import {registroodonto, eliminar, guardar as guardarOdontograma, actualizarEsUltimo} from "../../store/formodontograma";
 import { obtenerTodos } from "../../store/formodontograma";
 import { useRouter, useRoute } from "vue-router";
-
 const confirmar = ref(false);
-
 const { push } = useRouter();
 const route = useRoute()
 let obtener
-
 if (route.params.idPaciente) {
   obtener = obtenerTodos(route.params.idPaciente);
 }

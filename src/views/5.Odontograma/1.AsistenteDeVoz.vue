@@ -86,8 +86,11 @@ function printOdontograma() {
     Formulario
     .d-flex.mt-5
       button( @click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })').btn.btn-primary Volver
+      button.ms-auto.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample')
+        | Ver hallazgos
       button.ms-auto( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente } })').btn.btn-primary Datos adicionales
-      button.ms-auto.btn.btn-primary(@click="printOdontograma()") Imprimir 
+      button.ms-auto.btn.btn-primary(@click="printOdontograma()") Imprimir
+      
 </template>
 <style>
 </style>
