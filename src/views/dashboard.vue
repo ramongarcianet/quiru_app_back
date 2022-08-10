@@ -25,12 +25,12 @@ const rutas = computed(() => [
     icon: "fa-solid fa-coins",
     routeName: "precios",
   },
-  {
+  /*{
     name: "Ayuda",
     onClick: () => push({ name: "ayuda" }),
     icon: "fas fa-question-circle",
     routeName: "ayuda",
-  },
+  },*/
   {
     name: "Menú",
     onClick: () => (isActive.value = !isActive.value),
@@ -52,12 +52,12 @@ const rutasMoviles = computed(() => [
     icon: "fa-solid fa-coins",
     routeName: "precios",
   },
-  {
+  /*{
     name: "Ayuda",
     onClick: () => push({ name: "ayuda" }),
     icon: "fa-solid fa-question-circle",
     routeName: "ayuda",
-  },
+  },*/
   {
     name: "Cerrar sesión",
     onClick: () => cerrarSesion(),

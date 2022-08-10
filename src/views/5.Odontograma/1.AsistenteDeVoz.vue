@@ -85,13 +85,15 @@ function printOdontograma() {
   .col
     Formulario
     .d-flex.mt-5
-      button( @click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })').btn.btn-primary Volver
+      button( @click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })').btn.btn-primary
+        i.fa-solid.fa-circle-chevron-left
       button.ms-auto.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
         | Hallazgos
       button.ms-auto.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseAyuda' aria-expanded='false' aria-controls='collapseAyuda')
         | Ayuda
       button.ms-auto( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente } })').btn.btn-primary + Datos
-      button.ms-auto.btn.btn-primary(@click="printOdontograma()") Imprimir
+      button.ms-auto.btn.btn-primary(@click="printOdontograma()")
+        i.fa-solid.fa-print
     #collapseAyuda.collapse.mt-2
       Instrucciones
       button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseAyuda' aria-expanded='false' aria-controls='collapseAyuda')
