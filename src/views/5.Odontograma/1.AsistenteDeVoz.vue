@@ -1,6 +1,5 @@
 <script setup>
 import Formulario from "./Formulario.vue";
-import intrucciones from "./../8.Ayuda/instrucciones.vue"
 import { item as itemPas, leer } from "../../store/paciente";
 import "../../config/html2canvas";
 import { useRoute, useRouter } from "vue-router";
@@ -10,6 +9,7 @@ import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma } from '.
 //import pdfFonts from 'pdfmake/build/vfs_fonts';
 //mport htmlToPdfmake from 'html-to-pdfmake';
 import jsPDF from 'jsPDF'
+import Instrucciones from "./../8.Ayuda/instrucciones.vue";
 const route = useRoute()
 const { back, push } = useRouter();
 let canvas;
