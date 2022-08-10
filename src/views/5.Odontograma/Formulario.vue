@@ -149,12 +149,10 @@ watch (
         span.input-group-text(style="padding: 0.01rem 0.01rem 0.01rem 1.01rem;") Pieza :
           input.form-control#comboPieza(list='listaDeDientes', name='comboPieza', v-model='item.diente')
           datalist#listaDeDientes
-            option(selected disabled value="") Pieza
             option(v-for='{ text, value } of listaDeDientesCombo' :value="value")
         span.input-group-text(style="padding: 0.01rem 0.01rem 0.01rem 1.01rem;") Hallazgo :
           input.form-control#comboHallazgo(list='ListaHallazgos', name='comboHallazgo', v-model='Hallazgo')
           datalist#ListaHallazgos
-            option(selected disabled value="") Hallazgo
             option(v-for='{ text, value } of listaDeHallazgos' :value="value")
     .row(v-if="!isSpeech")
       .col.d-flex.justify-content-center
@@ -165,9 +163,9 @@ watch (
         button.btn.btn-primary(type="submit", @click="limpiarHallazgoDiente()" style="width: 7rem;") Limpiar
     .row.mt-2(v-if="!isSpeech")
       span#mensaje(style="color: red; font-weight:bold;")
-  .col.d-flex.justify-content-left(v-if="!isSpeech")
+  .col.d-flex.justify-content(v-if="!isSpeech")
     OdonOficial
-.row.mt-2(v-if="isSpeech")
+.col.mt-2(v-if="isSpeech")
   .col.d-flex.justify-content-center
     OdonOficial
   .col
