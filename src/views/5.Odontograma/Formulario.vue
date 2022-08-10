@@ -169,7 +169,7 @@ watch (
   .col.d-flex.justify-content-center
     OdonOficial
   .col
-    #collapseExample.collapse
+    #collapseHallazgos.collapse
       .card.card-body
         .div(style="background-color: white; border-radius: 2%;")
           table.table.table-hover
@@ -205,7 +205,7 @@ watch (
 
 .row.mt-2(v-if="!isSpeech")
   .col
-    #collapseExample.collapse
+    #collapseHallazgos.collapse
       .card.card-body
         .div(style="background-color: white; border-radius: 2%;")
           table.table.table-hover

@@ -1,5 +1,6 @@
 <script setup>
 import Formulario from "./Formulario.vue";
+import intrucciones from "./../8.Ayuda/instrucciones.vue"
 import { item as itemPas, leer } from "../../store/paciente";
 import "../../config/html2canvas";
 import { useRoute, useRouter } from "vue-router";
@@ -79,18 +80,21 @@ function printOdontograma() {
 
 </script>
 
-
 <template lang="pug">
 .row
   .col
     Formulario
     .d-flex.mt-5
       button( @click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })').btn.btn-primary Volver
-      button.ms-auto.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseExample' aria-expanded='false' aria-controls='collapseExample')
-        | Ver hallazgos
-      button.ms-auto( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente } })').btn.btn-primary Datos adicionales
+      button.ms-auto.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
+        | Hallazgos
+      button.ms-auto.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseAyuda' aria-expanded='false' aria-controls='collapseAyuda')
+        | Ayuda
+      button.ms-auto( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente } })').btn.btn-primary + Datos
       button.ms-auto.btn.btn-primary(@click="printOdontograma()") Imprimir
+    #collapseAyuda.collapse.mt-2
+      Instrucciones
+      button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseAyuda' aria-expanded='false' aria-controls='collapseAyuda')
+        | Cerrar
       
 </template>
-<style>
-</style>
