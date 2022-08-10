@@ -9,7 +9,7 @@ const {push} = useRouter()
 
 .d-flex.align-content-start.flex-wrap
   i.fa-solid.fa-coins.me-2(style="color: #37DFBB; font-weight:bold; font-size: 1.5em;")
-  h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Precios
+  h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Gestion de precios
 .container.fluid
   .container
     Registro
