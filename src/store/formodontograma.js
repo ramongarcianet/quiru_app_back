@@ -67,7 +67,10 @@ export const actualizar = (id) => {
     const referencia = doc(firestore, 'odontograma', itemUpd.id)
     return updateDoc(referencia, itemUpd)
 }
-
+function dienteConSiglas(lista,diente){
+   const filtro = lista.filter(item => item.diente == diente && item.sigla !='')
+   return  filtro.length;
+}
 export function existeDiente(diente,fila){
     let result = false;
     let lista =  (item.value.hallazgos != undefined)? item.value.hallazgos : [];
@@ -136,12 +139,23 @@ export function existeDiente(diente,fila){
                                 break;
                             }
                         } else {
-                            if (isSpeech.value)
-                                speak('pieza '+diente+' ya existe en el odontograma, no se puede registrar como hallazgo '+fila.hallazgo)
-                            else
-                                mensajeExistePieza.value = 'Pieza: '+diente+', ya existe en el odontograma, no se puede registrar como Hallazgo: '+fila.hallazgo
-                            result = true;
-                            break;
+                            if(item.diente==diente && item.hallazgo==fila.hallazgo && item.sigla==fila.sigla ){
+                                if (isSpeech.value)
+                                    speak('pieza '+diente+' y hallazgo '+fila.hallazgo+' ya existe en el odontograma')
+                                else
+                                    mensajeExistePieza.value ='Pieza: '+diente+', Hallazgo: '+fila.hallazgo+', ya existe en el odontograma'
+                                result = true;
+                                break;
+                            } else {
+                                if (dienteConSiglas(lista,diente)>0){
+                                    if (isSpeech.value)
+                                        speak('pieza '+diente+' ya existe en el odontograma con Sigla, no se puede registrar como hallazgo '+fila.hallazgo)
+                                    else
+                                        mensajeExistePieza.value = 'Pieza: '+diente+', ya existe en el odontograma con Sigla, no se puede registrar como Hallazgo: '+fila.hallazgo
+                                    result = true;
+                                    break;
+                                }
+                            }
                         }
 
                     }

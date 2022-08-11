@@ -17,7 +17,7 @@ export function VerFormato(registro) {
     var x = 0;
     iniciar_x = 2;
     var arr = ['18', '17', '16', '15', '14', '13', '12', '11', '21', '22', '23', '24', '25', '26', '27', '28'];
-    arr.forEach(function (entry) {        
+    arr.forEach(function (entry) {
         inicio_y = 75;
         context.fillText(entry, iniciar_x + 10, 45);
         dibuja_contorno(context, iniciar_x, inicio_y, medida, entry, registro);
@@ -34,12 +34,12 @@ export function VerFormato(registro) {
         else if (entry == "14" || entry == "24") {
             marcar_cabecera(context, iniciar_x, medida, inicio_y, colo_cab, "top_duo");
         }
-        context.fillStyle = 'blue';        
+        context.fillStyle = 'blue';
         iniciar_x = iniciar_x + 24;
     }, this);
     iniciar_x = 2;
     arr = ['1', '1', '1', '55', '54', '53', '52', '51', '61', '62', '63', '64', '65', '1', '1', '1'];
-    arr.forEach(function (entry) {        
+    arr.forEach(function (entry) {
         if (entry != "1") {
             inicio_y = 180;
             context.fillText(entry, iniciar_x + 10, 150);
@@ -58,7 +58,7 @@ export function VerFormato(registro) {
     }, this);
     iniciar_x = 2;
     arr = ['1', '1', '1', '85', '84', '83', '82', '81', '71', '72', '73', '74', '75', '1', '1', '1'];
-    arr.forEach(function (entry) {        
+    arr.forEach(function (entry) {
         if (entry != "1") {
             inicio_y = 213;
             context.fillText(entry, iniciar_x + 10, 270);
@@ -78,7 +78,7 @@ export function VerFormato(registro) {
     }, this);
     iniciar_x = 2;
     arr = ['48', '47', '46', '45', '44', '43', '42', '41', '31', '32', '33', '34', '35', '36', '37', '38'];
-    arr.forEach(function (entry) {        
+    arr.forEach(function (entry) {
         if (entry != "1") {
             inicio_y = 315;
             context.fillText(entry, iniciar_x + 10, 372);
@@ -362,10 +362,7 @@ function marcar_ControlTop(ctx, inicio_x, inicio_y, med, registro, pieza) {
                 if (element.sigla == undefined)
                     ctx.fillText(' ', cua * 2 + inicio_x, cua * 2 + inicio_y);
                 else
-                    if (unasigla == 0) {
-                        ctx.fillText(element.sigla, cua * 2 + inicio_x, cua * 2 + inicio_y);
-                    }
-                unasigla = 1;
+                    ctx.fillText(element.sigla, cua * 2 + inicio_x, cua * 2 + inicio_y);
             }
         });
     }
