@@ -59,6 +59,10 @@ let beneficios = [
 
 </template>
 <style lang="sass" scoped>
+
+button
+    padding: 1rem
+
 .container-fluid
     padding-top: 7rem
 </style>

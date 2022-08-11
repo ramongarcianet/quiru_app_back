@@ -22,10 +22,13 @@ const { push} = useRouter()
 </template>
 
 <style scoped lang="sass">
+
+button
+    padding: 1rem
+
 h1
     font-size: 3em
-</style>
-<style lang="sass" scoped>
+
 .container-fluid
     padding-top: 7rem
 </style>

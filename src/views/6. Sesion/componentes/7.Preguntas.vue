@@ -28,6 +28,10 @@ const {registrarEvento} = marketing
 
 <style scoped lang="sass">
 
+button
+    padding: 1rem
+
+
 .container-fluid
     padding-top: 7rem
     background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(190,245,234,1) 100%)

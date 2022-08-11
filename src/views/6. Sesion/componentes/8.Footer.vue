@@ -28,6 +28,10 @@ const listaDeRedes = [
 </template>
 
 <style lang="sass" scoped>
+
+button
+    padding: 1rem
+
 .container
     padding-top: 7rem
 </style>

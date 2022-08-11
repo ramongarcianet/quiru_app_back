@@ -36,6 +36,9 @@ nav.navbar.navbar-expand-lg.bg-light
 
 <style scoped lang="sass">
 
+button
+    padding: 1rem
+
 nav
     
     img
