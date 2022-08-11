@@ -72,7 +72,8 @@ function printOdontograma() {
         pdf.text(10, 205, 'DIAGNOSTICO');
         pdf.setFontSize(17);
         pdf.text(10, posis + 2, 'TRATAMIENTO');
-        pdf.save('Test.pdf');
+        var pdfName = itemPas.value.numeroDocumento
+        pdf.save(pdfName + '.pdf');
       }
     });
   }
