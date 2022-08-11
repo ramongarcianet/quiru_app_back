@@ -5,9 +5,6 @@ import "../../config/html2canvas";
 import { useRoute, useRouter } from "vue-router";
 import Cie10 from '../../config/Cie10.json';
 import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma } from '../../store/formodontograma';
-//import _pdfMake from 'pdfmake';
-//import pdfFonts from 'pdfmake/build/vfs_fonts';
-//mport htmlToPdfmake from 'html-to-pdfmake';
 import jsPDF from 'jsPDF'
 import Instrucciones from "./../8.Ayuda/instrucciones.vue";
 const route = useRoute()
@@ -21,63 +18,65 @@ if (route.params.idOdontograma) {
   ObtenerOdontograma(route.params.idOdontograma);
 }
 function printOdontograma() {
+
+  var pdf = new jsPDF()
   canvas = document.getElementById('myCanvas');
   canvas_image_data = canvas.toDataURL();
-  var trtable = "";
-  var trtableTrata = "";
+  let posis = 212;
+  let posis1 = 0;
   if (itemodontograma != undefined) {
+    pdf.setFontSize(12);
     Cie10.CIE10.forEach(element => {
       let ubicacionnes = itemodontograma.value?.hallazgos.filter((elem) => elem.hallazgo.toUpperCase() == element.HALLAZGO);
       let Piezas = "";
-      let PiezasTrata = "";
       if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
         ubicacionnes.forEach(dient => {
           if (!Piezas.includes(dient.diente)) {
             Piezas = Piezas + dient.diente + '; ';
           }
         });
-        trtable = trtable + "<tr><td style='text-align:left'>" + element.DECRICIE10 + " : " + Piezas + "</td><td style='text-align:right'>" + element.CIE10 + "</td></tr>";
+        pdf.text(10, posis, element.DECRICIE10 + " / Piezas : " + Piezas + " / CIE10 : " + element.CIE10);
+        posis = posis + 7;
+      }
+    });
+    posis1 = posis + 10;
+    pdf.setFontSize(12);
+    Cie10.CIE10.forEach(element => {
+      let ubicacionnes = itemodontograma.value?.hallazgos.filter((elem) => elem.hallazgo.toUpperCase() == element.HALLAZGO);
+      let Piezas = "";
+      if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
+        ubicacionnes.forEach(dient => {
+          if (!Piezas.includes(dient.diente)) {
+            Piezas = Piezas + dient.diente + '; ';
+          }
+        });
         if (element.TRATAMIENTO != "") {
-          trtableTrata = trtableTrata + "<tr><td colspan='2' style='width:100%;text-align:left'>" + element.TRATAMIENTO + " : " + Piezas + "</td></tr>";
+          pdf.text(10, posis1, element.TRATAMIENTO + " / Piezas : " + Piezas);
+          posis1 = posis1 + 7;
         }
       }
     });
+    pdf.html("", {
+      callback: function (pdf) {
+        pdf.setFontSize(17);
+        pdf.text(30, 20, 'FICHA DE IDENTIFICACIÓN SANITARIA/ FICHA DENTAL');
+        pdf.setFontSize(12);
+        pdf.text(10, 30, 'NOMBRE : ' + itemPas.value.nombre + ' APELLIDOS : ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno);
+        pdf.text(10, 37, 'FECHA DE NACIMIENTO : ' + itemPas.value.fechaNacimiento + ' TIM/DNI : ' + itemPas.value.numeroDocumento);
+        pdf.text(10, 44, 'DIRECCIÓN : ' + itemPas.value.Direccion);
+        pdf.setFontSize(17);
+        pdf.text(80, 55, 'ODONTOGRAMA');
+        pdf.setFontSize(12);
+        pdf.addImage(canvas_image_data, 'JPEG', 30, 55, 140, 140)
+        pdf.setFontSize(17);
+        pdf.text(10, 205, 'DIAGNOSTICO');
+        pdf.setFontSize(17);
+        pdf.text(10, posis + 2, 'TRATAMIENTO');
+        pdf.save('Test.pdf');
+      }
+    });
   }
-  let htmldiv = '';
-  htmldiv = htmldiv + '<div style="width:50%;text-align:left;font-weight: bold;">FICHA DE IDENTIFICACIÓN SANITARIA</div>';
-  htmldiv = htmldiv + '<div style="width:30%;text-align:right;font-weight: bold; float:right ">FICHA DENTAL</div>';
-  htmldiv = htmldiv + '<div style="width:100%;text-align:center">';
-  htmldiv = htmldiv + '  <table>';
-  htmldiv = htmldiv + '     <tbody>';
-  htmldiv = htmldiv + '         <tr><td style="text-align:left">NOMBRE : ' + itemPas.value.nombre + '</td><td style="text-align:left">APELLIDOS : ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno + '</td></tr>';
-  htmldiv = htmldiv + '         <tr><td style="text-align:left">FECHA DE NACIMIENTO : ' + itemPas.value.fechaNacimiento + '</td><td style="text-align:left">TIM/DNI : ' + itemPas.value.numeroDocumento + '</td></tr>';
-  htmldiv = htmldiv + '         <tr><td colspan="2" style="text-align:left">DIRECCIÓN : ' + itemPas.value.Direccion + '</td></tr>';
-  htmldiv = htmldiv + '       </tbody>';
-  htmldiv = htmldiv + '   </table>';
-  htmldiv = htmldiv + '</div>';
-  htmldiv = htmldiv + '<div style="width:100%;text-align:center;font-weight: bold;">ODONTOGRAMA</div>';
-  htmldiv = htmldiv + '<div style="width:100%;text-align:center">';
-  htmldiv = htmldiv + '   <img src="' + canvas_image_data + '" style="border: 0;" width="400" height="400"/> ';
-  htmldiv = htmldiv + '</div>';
-  htmldiv = htmldiv + '<br>';
-  htmldiv = htmldiv + '   <table style="width:100%;">';
-  htmldiv = htmldiv + '      <tbody style="border-style: none;">';
-  htmldiv = htmldiv + '         <tr><td colspan="2" style="text-align:left"><div style="width:100%;text-align:left; font-weight: bold;">DIAGNOSTICO </div></td></tr>';
-  htmldiv = htmldiv + trtable;
-  htmldiv = htmldiv + '         <tr><td colspan="2" style="text-align:left"><div style="width:100%;text-align:left; font-weight: bold;">TRATAMIENTO </div></td></tr>';
-  htmldiv = htmldiv + trtableTrata;
-  htmldiv = htmldiv + '       </tbody>';
-  htmldiv = htmldiv + '   </table>';
-
-  let pdfName = 'test';
-  var doc = new jsPDF('p', 'pt', 'letter');
-  doc.html(htmldiv, {
-    callback: function (doc) {
-      doc.save(pdfName + '.pdf');
-    }
-  });
 }
-
 </script>
 
 <template lang="pug">
@@ -98,5 +97,4 @@ function printOdontograma() {
       Instrucciones
       button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseAyuda' aria-expanded='false' aria-controls='collapseAyuda')
         | Cerrar
-      
 </template>
