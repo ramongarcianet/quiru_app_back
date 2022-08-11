@@ -5,8 +5,19 @@ import { item, guardar, actualizar, limpiar, leerEnRegistro } from "../../store/
 import {isLetter,isNumber} from '../../config/libreria'
 const maxDocumento = ref(8);
 const guardarOActualizar = () => {
-
-  if (item.value.id) return actualizar(item.value);
+  let _incompleto = incompleto();
+  if (_incompleto.length>0) 
+  {
+    var alerta = document.getElementById("alerta");
+    alerta.innerHTML = alerta.innerText + _incompleto;
+        alerta.style.display = "block"
+      return  Promise.undefined();
+  }
+  else {
+        var alerta = document.getElementById("alerta");
+        alerta.style.display = "none"
+  }
+   if (item.value.id) return actualizar(item.value);
   else return guardar(item.value);
 };
 const route = useRoute()
@@ -28,8 +39,11 @@ function definirMaxLimit(tipoDocumento){
   }
 }
 function incompleto() {
-    var alerta = document.getElementById("alerta");
-        alerta.style.display = "none";
+   /*;*/
+      var conErrores = '';
+      conErrores =conErrores+((item.value.numeroDocumento.length<8)? ', Número documento' : '') ;
+      conErrores =conErrores+((item.value.telefono.length<9)? ', Telefono' : '') ;
+      return conErrores;
 }
 
 </script>
@@ -83,6 +97,6 @@ Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
         |  te falta completar campos
   .d-flex.mt-3
     button.btn.btn-primary(@click="push({ name: 'pacientes', params: {} })") Volver
-    button.ms-auto.btn.btn-primary(@click="incompleto()" type='submit') Guardar
+    button.ms-auto.btn.btn-primary( type='submit') Guardar
 
 </template>
