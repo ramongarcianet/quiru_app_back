@@ -35,7 +35,7 @@ function printOdontograma() {
             Piezas = Piezas + dient.diente + '; ';
           }
         });
-        pdf.text(10, posis, element.DECRICIE10 + " / Piezas : " + Piezas + " / CIE10 : " + element.CIE10);
+        pdf.text(10, posis, element.DECRICIE10 + " / Piezas : " + Piezas + " / " + element.CIE10);
         posis = posis + 7;
       }
     });
@@ -61,9 +61,9 @@ function printOdontograma() {
         pdf.setFontSize(17);
         pdf.text(30, 20, 'FICHA DE IDENTIFICACIÓN SANITARIA/ FICHA DENTAL');
         pdf.setFontSize(12);
-        pdf.text(10, 30, 'NOMBRE : ' + itemPas.value.nombre + ' APELLIDOS : ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno);
-        pdf.text(10, 37, 'FECHA DE NACIMIENTO : ' + itemPas.value.fechaNacimiento + ' TIM/DNI : ' + itemPas.value.numeroDocumento);
-        pdf.text(10, 44, 'DIRECCIÓN : ' + itemPas.value.Direccion);
+        pdf.text(10, 30, pad('NOMBRE : ' + itemPas.value.nombre, 80, ' ') + pad('APELLIDOS : ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno, 90, ' '));
+        pdf.text(10, 37, pad('FECHA DE NACIMIENTO : ' + itemPas.value.fechaNacimiento, 80, ' ') + pad('TIM/DNI : ' + itemPas.value.numeroDocumento, 90, ' '));
+        pdf.text(10, 44, pad('DIRECCIÓN : ' + itemPas.value.Direccion, 180, ' '));
         pdf.setFontSize(17);
         pdf.text(80, 55, 'ODONTOGRAMA');
         pdf.setFontSize(12);
@@ -77,6 +77,11 @@ function printOdontograma() {
       }
     });
   }
+}
+function pad(n, width, z) {
+  z = z || '0';
+  n = n + '';
+  return n.length >= width ? n : n + new Array(width - n.length + 1).join(z);
 }
 </script>
 
