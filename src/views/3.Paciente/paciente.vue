@@ -44,7 +44,7 @@ function incompleto() {
   var alerta = document.getElementById("alerta");
   if (alerta != null) {
     if (conErrores.length > 0) {
-      alerta.innerHTML = "strong Cuidado!|  te falta completar campo(s)[" + conErrores + "]";
+      alerta.innerHTML = "Te falta completar campo(s)" + conErrores + "";
       alerta.style.display = "block"
       btguardar.disabled = true;
     }
@@ -101,10 +101,10 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
     .col
       label.form-label Comentario
       input.form-control(placeholder="Comentario", v-model="item.Comentario",@keypress="isLetter($event)",maxlength="40")
-  .row
+  .row.mt-2
     #alerta.alert.alert-danger.alert-dismissible(style='display:none')   
-      strong Cuidado!|  te falta completar campos
-  .d-flex.mt-3
+      strong Cuidado! te falta completar campos
+  .d-flex.mt-2
     button.btn.btn-primary(@click="push({ name: 'pacientes', params: {} })") Volver
     button#btguardar.ms-auto.btn.btn-primary( type='submit', disabled) Guardar
 
