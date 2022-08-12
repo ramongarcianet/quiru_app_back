@@ -244,7 +244,7 @@ function slelecteditem(ubicacion) {
             border-bottom-left-radius: var(--border-radius-bottom)
             border-bottom-right-radius: var(--border-radius-bottom)
 
-        #arriaa, #izquierda, #centro, #derecha, #abajo
+        #arriba, #izquierda, #centro, #derecha, #abajo
             &::before
                 position: absolute
                 margin: auto
