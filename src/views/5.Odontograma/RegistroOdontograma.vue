@@ -37,7 +37,7 @@ onUnmounted(()=>{
         td {{item.fechaRegistro}}
         td
           .dropdown
-            button.ms-auto.btn(type="button", @click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente} })")
+            button.ms-auto.btn(type="button", @click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")
               i.fa.fa-solid.fa-tooth
         td
           .dropdown

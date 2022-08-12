@@ -55,16 +55,16 @@ export const listaDeDientesCombo = [
 ];
 
 export const listaDeHallazgos = [
-    { value: "caries", text: "Caries",sigla:"" },
-    { value: "extracción", text: "Extracción",sigla:"" },
-    { value: "ausente", text: "Ausente",sigla:"" },
-    { value: "fractura", text: "Fractura",sigla:"" },
-    { value: "restauración", text: "Restauración",sigla:"E" },
-    { value: "hipoplasia", text: "Hipoplasia",sigla:"HP" },
-    { value: "hipomineralizacion", text: "Hipo Mineralización",sigla:"HM" },
-    { value: "opacidad", text: "Opacidad del Esmalte",sigla:"O" },
-    { value: "decoloración", text: "Decoloración del Esmalte",sigla:"D" },
-    { value: "fluorosis", text: "Fluorosis",sigla:"F" },
+    { value: "caries", text: "Caries", sigla: "", tipo: "Diagnóstico" },
+    { value: "extracción", text: "Extracción", sigla: "", tipo: "Tratamiento" },
+    { value: "ausente", text: "Ausente", sigla: "", tipo: "Diagnóstico" },
+    { value: "fractura", text: "Fractura", sigla: "", tipo: "Diagnóstico" },
+    { value: "restauración", text: "Restauración", sigla: "E", tipo: "Tratamiento" },
+    { value: "hipoplasia", text: "Hipoplasia", sigla: "HP", tipo: "Diagnóstico" },
+    { value: "hipomineralizacion", text: "Hipo Mineralización", sigla: "HM", tipo: "Diagnóstico" },
+    { value: "opacidad", text: "Opacidad del Esmalte", sigla: "O", tipo: "Diagnóstico" },
+    { value: "decoloración", text: "Decoloración del Esmalte", sigla: "D", tipo: "Diagnóstico" },
+    { value: "fluorosis", text: "Fluorosis", sigla: "F", tipo: "Diagnóstico" },
 ];
 export const listaDeTipos = [
     { value: "vestibular", text: "vestibular" },

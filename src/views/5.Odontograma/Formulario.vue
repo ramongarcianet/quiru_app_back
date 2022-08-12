@@ -1,14 +1,14 @@
 <script setup>
 import { onMounted, onUnmounted, watch } from "vue";
 import OdonOficial from "./2.impresion.vue";
-import {limpiarSinVoz} from "../../store/comandosDeVoz";
-import {obtenerTodoDiccionario, obtenerTodoPieza, obtenerTodoHallazgo, obtenerTodoCaries,} from "../../store/odonto";
-import {detenerVoz, activarVoz, isSpeech, escucharInicializarVoz, Hallazgo, item, paginaOdontograma, textoEscuchado, resizeWindow,} from "../../store/odontograma";
+import { limpiarSinVoz } from "../../store/comandosDeVoz";
+import { obtenerTodoDiccionario, obtenerTodoPieza, obtenerTodoHallazgo, obtenerTodoCaries, } from "../../store/odonto";
+import { detenerVoz, activarVoz, isSpeech, escucharInicializarVoz, Hallazgo, item, paginaOdontograma, textoEscuchado, resizeWindow, } from "../../store/odontograma";
 import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarLista, mensajeExistePieza } from '../../store/formodontograma';
 import { VerFormato } from "../../store/Canvas";
 import { useRoute, useRouter } from "vue-router";
-import {previousPage,nextPage,setList,registro_ as _hallazgos, setListDelete, SetPage} from "../../config/Paginator";
-import { listaDeDientesCombo, listaDeHallazgos } from '../../config/Parametros';
+import { previousPage, nextPage, setList, registro_ as _hallazgos, setListDelete, SetPage } from "../../config/Paginator";
+import { listaDeDientesCombo, listaDeHallazgos as _Hallazgos } from '../../config/Parametros';
 import '../../assets/annyang.min'
 const route = useRoute();
 const listaDiccionario = obtenerTodoDiccionario();
@@ -17,6 +17,8 @@ const listaHallazgo = obtenerTodoHallazgo();
 const listaCaries = obtenerTodoCaries();
 const { push } = useRouter()
 leerEnRegistro(route.params.idOdontograma);
+const listaDeHallazgos = _Hallazgos.filter(i => i.tipo == route.params.tipoOdonto).map(({ text, value }) => ({ text, value }))
+
 escucharInicializarVoz();
 let temList = [];
 let wakeLock = null;
@@ -31,12 +33,6 @@ onMounted(() => {
   } else {
 
   }
-  /*
-  if (itemodontograma.value?.hallazgos.length > 0) {
-    temList = ordenarDesc(itemodontograma?.value?.hallazgos, "fila")
-  }
-  setList((itemodontograma.value?.hallazgos.length > 0) ? temList : [], 1);
-  */
   setList(itemodontograma.value.hallazgos, 1);
 })
 
@@ -58,15 +54,8 @@ watch(
   (registro) => {
     let idOdontograma = route.params.idOdontograma
     VerFormato((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [])
-
-/*
-    if (itemodontograma.value?.hallazgos.length > 0) {
-      temList = ordenarDesc(itemodontograma?.value?.hallazgos, "fila")
-    }
-    setList((itemodontograma.value?.hallazgos.length > 0) ? temList : [], 1);
-*/
-   setList((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [], 1);
-   limpiarSinVoz()
+    setList((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [], 1);
+    limpiarSinVoz()
   },
   { deep: true }
 )
@@ -83,11 +72,6 @@ const borrar = ({ diente, hallazgo, ubicacion }) => {
   if (index > -1) {
     itemodontograma.value?.hallazgos.splice(index, 1)
     actualizarDetalle(itemodontograma.value.id, (itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [])
-    /*if (itemodontograma.value?.hallazgos.length > 0) {
-
-      temList = ordenarDesc(itemodontograma?.value?.hallazgos, "fila")
-    }
-    */
     setListDelete((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma?.value?.hallazgos : []);
   }
 }
@@ -117,10 +101,10 @@ watch(
   }
 
 )
-watch (
-  ()=>{
+watch(
+  () => {
     resizeWindow.value = window.innerWidth
-    window.addEventListener('resize', function(){
+    window.addEventListener('resize', function () {
       resizeWindow.value = window.innerWidth
     });
   }
@@ -135,7 +119,7 @@ watch (
     .d-flex.align-content-start.flex-wrap
       i.fa.fa-tooth.me-2(style="color: #37DFBB; font-weight:bold; font-size: 1.5em;")
       h1.me-1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family); ") Odontograma de
-      h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family); ") {{itemodontograma.tipo}}
+      h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family); ") {{ itemodontograma.tipo }}
 
 .div(style='background-color: #37DFBB;width: 100px;height: 130px;margin-top: -145px;left:80%; position: absolute;z-index: 2;border-radius: 50% 50% 50% 50%;')
   #button-microfono
