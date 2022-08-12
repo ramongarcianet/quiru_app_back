@@ -1,55 +1,65 @@
 <script setup>
-import { onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, watch, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { item, guardar, actualizar, limpiar, leerEnRegistro } from "../../store/paciente";
-import {isLetter,isNumber} from '../../config/libreria'
+import { isLetter, isNumber } from '../../config/libreria'
 const maxDocumento = ref(8);
 const guardarOActualizar = () => {
-  let _incompleto = incompleto();
-  if (_incompleto.length>0) 
-  {
-    var alerta = document.getElementById("alerta");
-    alerta.innerHTML = alerta.innerText + _incompleto;
-        alerta.style.display = "block"
-      return  Promise.undefined();
-  }
-  else {
-        var alerta = document.getElementById("alerta");
-        alerta.style.display = "none"
-  }
-   if (item.value.id) return actualizar(item.value);
+  var alerta = document.getElementById("alerta");
+  alerta.style.display = "none"
+  if (item.value.id) return actualizar(item.value);
   else return guardar(item.value);
 };
 const route = useRoute()
-const {back, push} = useRouter()
+const { back, push } = useRouter()
 let obtener
 if (route.params.idPaciente) {
   leerEnRegistro(route.params.idPaciente)
 }
-onUnmounted(()=> {
+onUnmounted(() => {
   limpiar()
   if (obtener) obtener();
 })
-function definirMaxLimit(tipoDocumento){
+onMounted(() => {
+  incompleto();
+})
+function definirMaxLimit(tipoDocumento) {
   item.value.numeroDocumento = '';
-  if (tipoDocumento=='DNI'){
-      maxDocumento.value = 8;
+  if (tipoDocumento == 'DNI') {
+    maxDocumento.value = 8;
   } else {
-      maxDocumento.value = 9;
+    maxDocumento.value = 9;
   }
 }
+watch(
+  () => item.value,
+  () => {
+    incompleto();
+  }
+);
 function incompleto() {
-   /*;*/
-      var conErrores = '';
-      conErrores =conErrores+((item.value.numeroDocumento.length<8)? ', Número documento' : '') ;
-      conErrores =conErrores+((item.value.telefono.length<9)? ', Telefono' : '') ;
-      return conErrores;
+  var conErrores = '';
+  conErrores = conErrores + ((item.value.numeroDocumento.length < 8) ? ', Número documento' : '');
+  conErrores = conErrores + ((item.value.telefono.length < 9) ? ', Telefono' : '');
+  var alerta = document.getElementById("alerta");
+  if (alerta != null) {
+    if (conErrores.length > 0) {
+      alerta.innerHTML = "strong Cuidado!|  te falta completar campo(s)[" + conErrores + "]";
+      alerta.style.display = "block"
+      btguardar.disabled = true;
+    }
+    else {
+      alerta.innerHTML = "";
+      alerta.style.display = "none"
+      btguardar.disabled = false;
+    }
+  }
+  return conErrores;
 }
-
 </script>
 
 <template lang="pug">
-Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
+Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError='incompleto()')
   label.form-label Documento de identidad*
   .input-group
     select.form-select(placeholder="Ubigeo", v-model="item.tipoDocumento",v-on:change="definirMaxLimit(item.tipoDocumento)")
@@ -93,10 +103,9 @@ Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
       input.form-control(placeholder="Comentario", v-model="item.Comentario",@keypress="isLetter($event)",maxlength="40")
   .row
     #alerta.alert.alert-danger.alert-dismissible(style='display:none')   
-      strong Cuidado!
-        |  te falta completar campos
+      strong Cuidado!|  te falta completar campos
   .d-flex.mt-3
     button.btn.btn-primary(@click="push({ name: 'pacientes', params: {} })") Volver
-    button.ms-auto.btn.btn-primary( type='submit') Guardar
+    button#btguardar.ms-auto.btn.btn-primary( type='submit', disabled) Guardar
 
 </template>
