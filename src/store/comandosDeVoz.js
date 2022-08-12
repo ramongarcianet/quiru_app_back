@@ -162,13 +162,13 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
         let mensajeUbicacion = ''
         listaDeUbicacion.forEach(ubicacion => {
             if (ubicacionnes != undefined) {
-                _posicion = (ubicacionnes.arriva.trim() == ubicacion) ? 'arriva' : _posicion;
+                _posicion = (ubicacionnes.arriba.trim() == ubicacion) ? 'arriba' : _posicion;
                 _posicion = (ubicacionnes.centro.trim() == ubicacion) ? 'centro' : _posicion;
                 _posicion = (ubicacionnes.abajo.trim() == ubicacion) ? 'abajo' : _posicion;
                 _posicion = (ubicacionnes.izquierda.trim() == ubicacion) ? 'izquierda' : _posicion;
                 _posicion = (ubicacionnes.derecha.trim() == ubicacion) ? 'derecha' : _posicion;
             }
-            if (ubicacionnes.arriva.trim() == ubicacion || ubicacionnes.centro.trim() == ubicacion ||
+            if (ubicacionnes.arriba.trim() == ubicacion || ubicacionnes.centro.trim() == ubicacion ||
                 ubicacionnes.abajo.trim() == ubicacion || ubicacionnes.izquierda.trim() == ubicacion || ubicacionnes.derecha.trim() == ubicacion) {
                 ubicacion = (hallazgo == 'caries') ? ubicacion : (hallazgo == 'restauración') ? ubicacion : '';
                 item.value.hallazgos.push({
@@ -185,7 +185,7 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
         mensaje += `Hallazgo ${hallazgo} por ${mensajeUbicacion}`
     }
     if (item.value.diente && item.value.diente != '' && hallazgo) {
-        if ((listaDeUbicacion.length > 0) && (ubicacionnes.arriva == listaDeUbicacion[0] ||
+        if ((listaDeUbicacion.length > 0) && (ubicacionnes.arriba == listaDeUbicacion[0] ||
             ubicacionnes.centro == listaDeUbicacion[0] || ubicacionnes.abajo == listaDeUbicacion[0] ||
             ubicacionnes.izquierda == listaDeUbicacion[0] || ubicacionnes.derecha == listaDeUbicacion[0])) {
             let fila = { hallazgo: hallazgo, ubicacion: ubicacion, sigla: sigla }

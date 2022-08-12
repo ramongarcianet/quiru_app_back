@@ -6,7 +6,7 @@ import escenarios from '../config/Escenarios.json';
 const props = defineProps(['item'])
 const emit = defineEmits(['update:ubicacion', 'update:hallazgo', 'update:diente'])
 
-const posiciones = ['arriva', 'izquierda', 'centro', 'derecha', 'abajo']
+const posiciones = ['arriba', 'izquierda', 'centro', 'derecha', 'abajo']
 
 const diente = computed(() => (Number(props.item.diente) / 10).toFixed(1) || "00")
 
@@ -23,8 +23,8 @@ function slelecteditem(ubicacion) {
         const ubicacionnes = escenarios.Esenarios.filter((elem) => elem.pieza == itemModel.value.diente)[0];
         if (ubicacionnes != undefined && comboHallazgo.value != '' && comboPieza.value != '') {
             switch (ubicacion) {
-                case "arriva":
-                    zonaDiente = ubicacionnes.arriva;
+                case "arriba":
+                    zonaDiente = ubicacionnes.arriba;
                     break;
                 case "centro":
                     zonaDiente = ubicacionnes.centro;
@@ -109,7 +109,7 @@ function slelecteditem(ubicacion) {
         font-weight: bold
         color: var(--color-dark) !important
     &.toDown
-        #arriva
+        #arriba
             transform: rotate(180deg)
             bottom: 0!important
             top: unset!important
@@ -187,7 +187,7 @@ function slelecteditem(ubicacion) {
         height: var(--size)
         width: var(--size)
 
-        #arriva, #izquierda, #centro, #derecha, #abajo
+        #arriba, #izquierda, #centro, #derecha, #abajo
             position: absolute
             top: 0
             left: 0
@@ -207,7 +207,7 @@ function slelecteditem(ubicacion) {
         div
             *
                 color: transparent
-        #arriva
+        #arriba
             height: var(--proporcion-inicial)
             width: 100%
             bottom: unset
@@ -244,7 +244,7 @@ function slelecteditem(ubicacion) {
             border-bottom-left-radius: var(--border-radius-bottom)
             border-bottom-right-radius: var(--border-radius-bottom)
 
-        #arriva, #izquierda, #centro, #derecha, #abajo
+        #arriaa, #izquierda, #centro, #derecha, #abajo
             &::before
                 position: absolute
                 margin: auto
@@ -260,7 +260,7 @@ function slelecteditem(ubicacion) {
                 width: calc( 100% - var(--min))
                 height: calc( 100% - var(--min))
                 --border-radius: 1.2rem
-        #arriva::before
+        #arriba::before
             clip-path: polygon(var(--min) var(--border), var(--max) var(--border), var(--proporcion-final) 100%,var(--proporcion-inicial) 100%)
             border-top-left-radius: var(--border-radius-top)
             border-top-right-radius: var(--border-radius-top)

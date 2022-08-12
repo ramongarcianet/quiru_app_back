@@ -157,7 +157,7 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro) {
         registro.forEach(element => {
             var seccion = 0;
             switch (element.posicion) {
-                case "arriva":
+                case "arriba":
                     seccion = 1;
                     break;
                 case "izquierda":
