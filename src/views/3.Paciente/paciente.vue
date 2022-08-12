@@ -39,8 +39,8 @@ watch(
 );
 function incompleto() {
   var conErrores = '';
-  conErrores = conErrores + ((item.value.numeroDocumento.length < 8) ? ', Número documento' : '');
-  conErrores = conErrores + ((item.value.telefono.length < 9) ? ', Telefono' : '');
+  conErrores = conErrores + ((item.value.numeroDocumento?.length < 8) ? ', Número documento' : '');
+  conErrores = conErrores + ((item.value.telefono?.length < 9) ? ', Telefono' : '');
   var alerta = document.getElementById("alerta");
   if (alerta != null) {
     if (conErrores.length > 0) {
