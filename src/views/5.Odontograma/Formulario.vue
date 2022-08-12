@@ -112,14 +112,18 @@ watch(
 </script>
 
 <template lang="pug">
-.row
+//.row
   p {{ textoEscuchado }}
 .row
   .col
     .d-flex.align-content-start.flex-wrap
       i.fa.fa-tooth.me-2(style="color: #37DFBB; font-weight:bold; font-size: 1.5em;")
+<<<<<<< HEAD
       h1.me-1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family); ") Odontograma de
       h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family); ") {{ itemodontograma.tipo }}
+=======
+      h1.me-1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family); ") {{itemodontograma.tipo}}
+>>>>>>> 047e85993d07d9a99a7ddd090e01cf1c060a757a
 
 .div(style='background-color: #37DFBB;width: 100px;height: 130px;margin-top: -145px;left:80%; position: absolute;z-index: 2;border-radius: 50% 50% 50% 50%;')
   #button-microfono
