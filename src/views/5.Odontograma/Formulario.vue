@@ -128,7 +128,7 @@ watch (
 </script>
 
 <template lang="pug">
-.row
+//.row
   p {{ textoEscuchado }}
 .row
   .col
