@@ -39,8 +39,8 @@ watch(
 );
 function incompleto() {
   var conErrores = '';
-  conErrores = conErrores + ((item.value.numeroDocumento?.length < 8) ? ', Número documento' : '');
-  conErrores = conErrores + ((item.value.telefono?.length < 9) ? ', Telefono' : '');
+  conErrores = conErrores + ((item.value.numeroDocumento?.length < 8) ? ', Número documento incompleto' : '');
+  conErrores = conErrores + ((item.value.telefono?.length < 9) ? ', Telefono mínimo de 9 dígitos' : '');
   var alerta = document.getElementById("alerta");
   if (alerta != null) {
     if (conErrores.length > 0) {
@@ -91,7 +91,7 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
       input.form-control(placeholder="Correo Electrónico", v-model="item.email", type="email", required,maxlength="30")
     .col
       label.form-label Teléfono*
-      input.form-control(type="tel", placeholder="Teléfono", v-model="item.telefono",@keypress="isNumber($event)" ,required,maxlength="15")
+      input.form-control(type="tel", placeholder="Teléfono", v-model="item.telefono",@keypress="isNumber($event)" ,required,minlength="9",maxlength="12")
   .row
     .col
       label.form-label Constancia de informado*

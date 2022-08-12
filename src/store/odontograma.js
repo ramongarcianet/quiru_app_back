@@ -55,7 +55,7 @@ if (annyang) {
     annyang.addCallback('error', function (e) {
         if (isSpeech.value){
             if (resizeWindow.value<500)
-                alert('Activar microfono1')
+                alert('Permitir usar microfono')
         }
     });
     annyang.addCallback('errorNetwork', function () {
