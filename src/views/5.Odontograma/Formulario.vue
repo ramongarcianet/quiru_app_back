@@ -129,21 +129,21 @@ watch(
     .row
       .col.d-flex.justify-content-left(v-if="!isSpeech")
         input#tipoReg(type="hidden", value="0")
-        span.input-group-text(style="padding: 0.01rem 0.01rem 0.01rem 1.01rem;") Pieza :
+        span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;") Pieza :
           input.form-control#comboPieza(list='listaDeDientes', name='comboPieza', v-model='item.diente')
           datalist#listaDeDientes
             option(v-for='{ text, value } of listaDeDientesCombo' :value="value")
-        span.input-group-text(style="padding: 0.01rem 0.01rem 0.01rem 1.01rem;") Hallazgo :
+        span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;") Hallazgo :
           input.form-control#comboHallazgo(list='ListaHallazgos', name='comboHallazgo', v-model='Hallazgo')
           datalist#ListaHallazgos
             option(v-for='{ text, value } of listaDeHallazgos' :value="value")
     .row(v-if="!isSpeech")
       .col.d-flex.justify-content-center
-        Diente(:item='item' style='--size: 10rem;').raiz-0
+        Diente(:item='item' style='--size: 12rem;').raiz-0
     .row.mt-2(v-if="!isSpeech")
       .col.d-flex.justify-content-center
-        button.btn.btn-primary(type="submit", @click="agregarLista(route.params.idOdontograma, item)" style="width: 7rem;") Agregar
-        button.btn.btn-primary(type="submit", @click="limpiarHallazgoDiente()" style="width: 7rem;") Limpiar
+        button.btn.btn-primary.m-1(type="submit", @click="agregarLista(route.params.idOdontograma, item)" style="width: 7rem;") Agregar
+        button.btn.btn-primary.m-1(type="submit", @click="limpiarHallazgoDiente()" style="width: 7rem;") Limpiar
     .row.mt-2(v-if="!isSpeech")
       span#mensaje(style="color: red; font-weight:bold;")
   .col.d-flex.justify-content(v-if="!isSpeech")

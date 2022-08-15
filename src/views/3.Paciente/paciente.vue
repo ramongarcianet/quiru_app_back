@@ -74,7 +74,7 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
   .row
     .col
       label.form-label Fecha de nacimiento*
-      input.form-control(type="date", v-model="item.fechaNacimiento")
+      input.form-control(type="date", v-model="item.fechaNacimiento", :max="new Date()")
     .col
       label.form-label Sexo*
       select.form-select(v-model="item.sexo",required)

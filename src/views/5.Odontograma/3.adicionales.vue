@@ -20,19 +20,19 @@ const grabarAdicionales = (idOdontograma)=>{
 <template lang="pug">
 h1 Datos Adicionales
 .row
-  .col
+  .col.m-2
     .row
-      label.form-label Especficaciones
+      label.form-label.mb-1 Especficaciones
       textarea#inputDescription.form-control( rows="4" v-model="item.especificaciones")
-    .row
-      label.form-label Observaciones
+    .row.mt-2
+      label.form-label.mb-1 Observaciones
       textarea#inputObservacion.form-control( rows="4" v-model="item.observaciones" )
-    .row
-      label.form-label Receta
+    .row.mt-2
+      label.form-label.mb-1 Receta
       textarea#inputReceta.form-control( rows="4" v-model="item.receta")
-    .row.mt-3
+    .row.mt-2
       #mensaje.alert.alert-success.alert-dismissible(style='display:none') Se registró correctamente
-  .d-flex.mt-4
+  .d-flex.mt-2
     button.btn.btn-primary( @click='push({name: "Detalle", params: {idOdontograma: route.params.idOdontograma,idPaciente: route.params.idPaciente}})') Volver
     button.ms-auto.btn.btn-primary(type="submit", @click="grabarAdicionales(route.params.idOdontograma);") Guardar
 </template>
