@@ -16,7 +16,7 @@ div
         input.form-control( v-model='item.password' type='password' required)
         button.btn.btn-outline-light.ms-auto( type='submit') Iniciar sesión
         p No tengo una cuenta  
-            strong.pointer.light-text( type='button' @click='push({name: "registro"})') Registro
+            strong.pointer.light-text( type='button' @click='push({name: "registro"})') Registrarse
     
 </template>
 <style lang="sass" scoped>
