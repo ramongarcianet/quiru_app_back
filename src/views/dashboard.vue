@@ -1,10 +1,17 @@
 <script setup>
 import { cerrarSesion, miUsuario } from "../store/sesion";
+import {alertMensaje} from "../store/helper"
 import { useRouter, useRoute } from "vue-router";
 import Logo from "../assets/logoQuiru.vue";
-import { ref, computed } from "vue";
+import { ref, computed, watch} from "vue";
 const { push } = useRouter();
 const route = useRoute();
+const verDialog = ref(false)
+
+watch(
+  ()=> alertMensaje.value,
+  ()=> verDialog.value = true
+)
 const rutas = computed(() => [
   /*{
     name: "Admisión",
@@ -96,6 +103,11 @@ window.addEventListener("resize", () => {
 });
 </script>
 <template lang="pug">
+
+Dialog( v-model='verDialog' )
+  template(#title) Alerta de sistema
+  template(#body) {{alertMensaje}}
+
 .container-fluid.vh-100.d-flex.px-0
   nav.nav.vh-100( :class="`nav ${isActive ? 'active' : ''}`" )
     Logo(fill="currentcolor" @click='isActive = !isActive' )
@@ -117,10 +129,8 @@ window.addEventListener("resize", () => {
 
   #info
 
-
 </template>
 <style lang="sass" scoped>
-
 
 .nav
   flex-shrink: 0

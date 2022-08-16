@@ -1,4 +1,5 @@
 import { computed, ref } from 'vue';
+import {alertMensaje} from './helper.js'
 import { limpiarCaries, clearcanvas } from "./Canvas"
 import { convertToText } from "./numeroLetras.js"
 import router from '../config/router'
@@ -54,7 +55,7 @@ if (annyang) {
     annyang.addCallback('error', function (e) {
         if (isSpeech.value){
             if (resizeWindow.value<500)
-                alert('Permitir usar microfono')
+            alertMensaje.value = 'Permitir usar microfono'
         }
     });
     annyang.addCallback('errorNetwork', function () {
@@ -73,7 +74,6 @@ if (annyang) {
                 alert('Reconectando al microfono')
         }
     });
-
 
     flagAnnyang = annyang.start()
 

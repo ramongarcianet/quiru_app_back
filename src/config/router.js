@@ -41,15 +41,11 @@ const routes = [
                     name: 'registro',
                     component: ()=>import('../views/6. Sesion/1.2 Registro.vue')
                 },
-
             ]
-
         },
-
       ]
     },
     {
-
         path:'/dashboard',
         component: ()=>import('../views/dashboard.vue'),
         meta: { requiereAuth: true },
@@ -70,19 +66,16 @@ const routes = [
                 component: ()=>import('../views/2.Usuarios/usuario.vue')
             },
             {
-
                 path: 'pacientes',
                 name: 'pacientes',
                 component: ()=>import('../views/3.Paciente/pacientes.vue')
             },
             {
-
                 path: 'paciente/:idPaciente?',
                 name: 'paciente',
                 component: ()=>import('../views/3.Paciente/paciente.vue')
             },
             {
-
                 path: 'pacienteVer/:idPaciente?',
                 name: 'pacienteVer',
                 component: ()=>import('../views/3.Paciente/pacienteVer.vue')
@@ -134,7 +127,6 @@ const routes = [
             },
         ]
     }
-
 ]
 
 const router = createRouter({

@@ -14,7 +14,6 @@ const {push} = useRouter()
   Registro
   .div(style="text-align: right;")
     button.btn.btn-primary(style="border-radius: 50%;" @click="push({name: 'paciente'})")
-      i.fa.fa-plus(aria-hidden='true' style="font-size: 2em; font-weight: bold; color: white;")
+      i.fa-solid.fa-plus(style="font-size: 2em; font-weight: bold; color: white;")
     
-      
 </template>
