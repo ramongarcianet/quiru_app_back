@@ -105,7 +105,7 @@ window.addEventListener("resize", () => {
 <template lang="pug">
 
 Dialog( v-model='verDialog' )
-  template(#title) Alerta de sistema
+  template(#title) Quiru dice
   template(#body) {{alertMensaje}}
 
 .container-fluid.vh-100.d-flex.px-0
