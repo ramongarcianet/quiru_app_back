@@ -9,6 +9,14 @@ import jsPDF from 'jsPDF'
 import Instrucciones from "./../8.Ayuda/instrucciones.vue";
 const route = useRoute()
 const { back, push } = useRouter();
+function AyudaOpen() {
+    var modal = document.getElementById('id02');
+    modal.style.display = 'block';
+}
+function AyudaClose() {
+    var modal = document.getElementById('id02');
+    modal.style.display = 'none';
+}
 let canvas;
 let canvas_image_data;
 if (route.params.idPaciente) {
@@ -96,9 +104,20 @@ function pad(n, width, z) {
         i.fa-solid.fa-circle-chevron-left
       button.ms-auto.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
         | Hallazgos
+      //button.ms-auto.btn.btn-primary(@click="AyudaOpen()")
+        | Ayuda
       button.ms-auto.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseAyuda' aria-expanded='false' aria-controls='collapseAyuda')
         | Ayuda
       button.ms-auto( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente } })').btn.btn-primary + Datos
       button.ms-auto.btn.btn-primary(@click="printOdontograma()")
         i.fa-solid.fa-print
+    #id02.modal 
+      .modal-content.modal-sm
+          button.ms-auto(@click="AyudaClose()")
+            i.fa-solid.fa-close
+          Instrucciones
 </template>
+
+<style scoped>
+
+</style>
