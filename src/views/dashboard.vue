@@ -3,14 +3,15 @@ import { cerrarSesion, miUsuario } from "../store/sesion";
 import {alertMensaje} from "../store/helper"
 import { useRouter, useRoute } from "vue-router";
 import Logo from "../assets/logoQuiru.vue";
-import { ref, computed, watchEffect} from "vue";
+import { ref, computed, watchEffect, watch} from "vue";
 const { push } = useRouter();
 const route = useRoute();
 const verDialog = ref(false)
 
-watchEffect(
+watch(
   ()=> alertMensaje.value,
-  ()=> verDialog.value = true
+  ()=> {
+    verDialog.value = true}
 )
 const rutas = computed(() => [
   /*{
@@ -105,7 +106,7 @@ window.addEventListener("resize", () => {
 <template lang="pug">
 
 Dialog( v-model='verDialog' )
-  template(#title) Quiru dice
+  template(#title) Quiru
   template(#body) {{alertMensaje}}
 
 .container-fluid.vh-100.d-flex.px-0

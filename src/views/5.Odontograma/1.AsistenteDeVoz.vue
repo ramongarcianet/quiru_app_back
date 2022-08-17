@@ -91,8 +91,6 @@ function pad(n, width, z) {
 .row
   .col
     Formulario
-    #collapseAyuda.collapse.mt-2
-      Instrucciones
     .d-flex.mt-5
       button( @click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })').btn.btn-primary
         i.fa-solid.fa-circle-chevron-left
@@ -106,8 +104,6 @@ function pad(n, width, z) {
               button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
             .modal-body
               Instrucciones
-      //button.ms-auto.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseAyuda' aria-expanded='false' aria-controls='collapseAyuda')
-        | Ayuda
       button.ms-auto( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente } })').btn.btn-primary + Datos
       button.ms-auto.btn.btn-primary(@click="printOdontograma()")
         i.fa-solid.fa-print
