@@ -29,5 +29,4 @@ onMounted(() => {
       .modal-body
         slot(name='body')
         
-
 </template>
