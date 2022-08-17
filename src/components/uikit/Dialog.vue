@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, watch, ref } from "@vue/runtime-core";
+import { onMounted, watchEffect, ref } from "@vue/runtime-core";
 
 const props = defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue"]);
@@ -8,7 +8,7 @@ const dialog = ref();
 onMounted(() => {
   const mydialog = new bootstrap.Modal(dialog.value);
 
-  watch(
+  watchEffect(
     () => props.modelValue,
     () => {
       if (props.modelValue) mydialog.show();

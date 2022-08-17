@@ -3,12 +3,12 @@ import { cerrarSesion, miUsuario } from "../store/sesion";
 import {alertMensaje} from "../store/helper"
 import { useRouter, useRoute } from "vue-router";
 import Logo from "../assets/logoQuiru.vue";
-import { ref, computed, watch} from "vue";
+import { ref, computed, watchEffect} from "vue";
 const { push } = useRouter();
 const route = useRoute();
 const verDialog = ref(false)
 
-watch(
+watchEffect(
   ()=> alertMensaje.value,
   ()=> verDialog.value = true
 )
