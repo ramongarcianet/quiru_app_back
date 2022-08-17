@@ -26,7 +26,7 @@ function printOdontograma() {
   canvas_image_data = canvas.toDataURL();
   let posis = 212;
   let posis1 = 0;
-  if (itemodontograma != undefined) {
+  if (itemodontograma.value?.hallazgos != undefined) {
     pdf.setFontSize(12);
     Cie10.CIE10.forEach(element => {
       let ubicacionnes = itemodontograma.value?.hallazgos.filter((elem) => elem.hallazgo.toUpperCase() == element.HALLAZGO);
