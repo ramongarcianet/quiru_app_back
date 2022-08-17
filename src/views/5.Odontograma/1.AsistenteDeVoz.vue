@@ -100,7 +100,7 @@ function pad(n, width, z) {
         | Hallazgos
       button.btn.btn-primary.ms-auto(type='button' data-bs-toggle='modal' data-bs-target='#exampleModal') Ayuda
       #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
-        .modal-dialog
+        .modal-dialog-lg
           .modal-content
             .modal-header
               button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
