@@ -40,6 +40,7 @@ function printOdontograma() {
         pdf.text(10, posis, element.DECRICIE10 + " / Piezas : " + Piezas + " / " + element.CIE10);
         posis = posis + 7;
       }
+      
     });
     posis1 = posis + 10;
     pdf.setFontSize(12);
@@ -79,6 +80,14 @@ function printOdontograma() {
       }
     });
   }
+  else {
+        var alerta = document.getElementById("alerta");
+          alerta.style.display = "block";
+      }
+}
+function Cancelar() {
+    var alerta = document.getElementById("alerta");
+        alerta.style.display = "none";
 }
 function pad(n, width, z) {
   z = z || '0';
@@ -91,6 +100,8 @@ function pad(n, width, z) {
 .row
   .col
     Formulario
+    #alerta.alert.alert-danger.alert-dismissible(style='display:none') No hay nada que imprimir
+      a.close(@click="Cancelar()" href='#' data-dismiss='alert' aria-label='close') &times;
     .d-flex.mt-5
       button( @click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })').btn.btn-primary
         i.fa-solid.fa-circle-chevron-left
@@ -111,6 +122,6 @@ function pad(n, width, z) {
 
 </template>
 
-<style lang="sass" scoped>
+<style scoped>
 
 </style>
