@@ -108,6 +108,8 @@ window.addEventListener("resize", () => {
 Dialog( v-model='verDialog' )
   template(#title) Quiru
   template(#body) {{alertMensaje}}
+  template(#footer)
+    button.btn.btn-primary(type='button' data-bs-dismiss='modal') Aceptar
 
 .container-fluid.vh-100.d-flex.px-0
   nav.nav.vh-100( :class="`nav ${isActive ? 'active' : ''}`" )

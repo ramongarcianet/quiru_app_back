@@ -55,7 +55,7 @@ if (annyang) {
     annyang.addCallback('error', function (e) {
         if (isSpeech.value){
             if (resizeWindow.value<500)
-            alertMensaje.value = 'Micrófono activado'
+            alert('Micrófono activado')
         }
     });
     annyang.addCallback('errorNetwork', function () {
