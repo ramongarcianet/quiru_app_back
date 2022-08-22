@@ -71,7 +71,7 @@ if (annyang) {
     annyang.addCallback('errorPermissionDenied', function () {
         if (isSpeech.value){
             if (resizeWindow.value<500)
-            alertMensaje.value = 'Reconectando al micrófono'
+            alert('Reconectando al micrófono')
         }
     });
 
