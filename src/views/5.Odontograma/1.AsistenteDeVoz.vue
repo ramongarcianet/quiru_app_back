@@ -107,11 +107,6 @@ function pad(n, width, z) {
         i.fa-solid.fa-circle-chevron-left
       button.ms-auto.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
         | Hallazgos
-<<<<<<< HEAD
-      button.ms-auto.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseAyuda' aria-expanded='false' aria-controls='collapseAyuda')
-        | Ayuda
-      button.ms-auto( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })').btn.btn-primary + Datos
-=======
       button.btn.btn-primary.ms-auto(type='button' data-bs-toggle='modal' data-bs-target='#exampleModal') Ayuda
       #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
         .modal-dialog.modal-lg
@@ -120,8 +115,7 @@ function pad(n, width, z) {
               button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
             .modal-body
               Instrucciones
-      button.ms-auto( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente } })').btn.btn-primary + Datos
->>>>>>> 177bd983c88f6324890fd6a155c031926b8d48e8
+      button.ms-auto( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })').btn.btn-primary + Datos
       button.ms-auto.btn.btn-primary(@click="printOdontograma()")
         i.fa-solid.fa-print
       
