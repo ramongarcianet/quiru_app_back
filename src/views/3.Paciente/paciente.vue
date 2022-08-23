@@ -74,7 +74,7 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
   .row
     .col
       label.form-label Fecha de nacimiento*
-      input.form-control(type="date", v-model="item.fechaNacimiento", :max="new Date()")
+      input.form-control(type="date", v-model="item.fechaNacimiento", max="3000-01-01" onfocus="this.max=new Date().toISOString().split('T')[0]")
     .col
       label.form-label Sexo*
       select.form-select(v-model="item.sexo",required)
@@ -90,7 +90,7 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
       label.form-label Correo electrónico*
       input.form-control(placeholder="Correo Electrónico", v-model="item.email", type="email", required,maxlength="30")
     .col
-      label.form-label Teléfono*
+      label.form-label Celular*
       input.form-control(type="tel", placeholder="Teléfono", v-model="item.telefono",@keypress="isNumber($event)" ,required,minlength="9",maxlength="12")
   .row
     .col

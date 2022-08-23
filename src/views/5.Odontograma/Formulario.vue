@@ -153,6 +153,8 @@ watch(
     OdonOficial
   .col
     #collapseHallazgos.collapse
+      button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
+          | Cerrar
       .card.card-body
         .div(style="background-color: white; border-radius: 2%;")
           table.table.table-hover
@@ -189,6 +191,8 @@ watch(
 .row.mt-2(v-if="!isSpeech")
   .col
     #collapseHallazgos.collapse
+      button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
+          | Cerrar
       .card.card-body
         .div(style="background-color: white; border-radius: 2%;")
           table.table.table-hover

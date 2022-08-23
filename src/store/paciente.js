@@ -16,7 +16,8 @@ const item = ref({
 
 const guardar = item => {
     const referencia = collection(firestore, 'paciente')
-    return addDoc(referencia, {...item,idOdontologo:usuario.value.uid})
+    return addDoc(referencia, {...item,idOdontologo:usuario.value.uid,
+        estado: true})
 }
 
 const actualizar = (item) => {

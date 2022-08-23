@@ -7,6 +7,8 @@ import Cie10 from '../../config/Cie10.json';
 import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma } from '../../store/formodontograma';
 import jsPDF from 'jsPDF'
 import Instrucciones from "./../8.Ayuda/instrucciones.vue";
+const myModal = document.getElementById('myModal')
+const myInput = document.getElementById('myInput')
 const route = useRoute()
 const { back, push } = useRouter();
 let canvas;
@@ -24,7 +26,7 @@ function printOdontograma() {
   canvas_image_data = canvas.toDataURL();
   let posis = 212;
   let posis1 = 0;
-  if (itemodontograma != undefined) {
+  if (itemodontograma.value?.hallazgos != undefined) {
     pdf.setFontSize(12);
     Cie10.CIE10.forEach(element => {
       let ubicacionnes = itemodontograma.value?.hallazgos.filter((elem) => elem.hallazgo.toUpperCase() == element.HALLAZGO);
@@ -38,6 +40,7 @@ function printOdontograma() {
         pdf.text(10, posis, element.DECRICIE10 + " / Piezas : " + Piezas + " / " + element.CIE10);
         posis = posis + 7;
       }
+      
     });
     posis1 = posis + 10;
     pdf.setFontSize(12);
@@ -77,6 +80,14 @@ function printOdontograma() {
       }
     });
   }
+  else {
+        var alerta = document.getElementById("alerta");
+          alerta.style.display = "block";
+      }
+}
+function Cancelar() {
+    var alerta = document.getElementById("alerta");
+        alerta.style.display = "none";
 }
 function pad(n, width, z) {
   z = z || '0';
@@ -89,16 +100,34 @@ function pad(n, width, z) {
 .row
   .col
     Formulario
-    #collapseAyuda.collapse.mt-2
-      Instrucciones
+    #alerta.alert.alert-danger.alert-dismissible(style='display:none') No hay nada que imprimir
+      a.close(@click="Cancelar()" href='#' data-dismiss='alert' aria-label='close') &times;
     .d-flex.mt-5
       button( @click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })').btn.btn-primary
         i.fa-solid.fa-circle-chevron-left
       button.ms-auto.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
         | Hallazgos
+<<<<<<< HEAD
       button.ms-auto.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseAyuda' aria-expanded='false' aria-controls='collapseAyuda')
         | Ayuda
       button.ms-auto( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })').btn.btn-primary + Datos
+=======
+      button.btn.btn-primary.ms-auto(type='button' data-bs-toggle='modal' data-bs-target='#exampleModal') Ayuda
+      #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+        .modal-dialog.modal-lg
+          .modal-content
+            .modal-header
+              button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+            .modal-body
+              Instrucciones
+      button.ms-auto( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente } })').btn.btn-primary + Datos
+>>>>>>> 177bd983c88f6324890fd6a155c031926b8d48e8
       button.ms-auto.btn.btn-primary(@click="printOdontograma()")
         i.fa-solid.fa-print
+      
+
 </template>
+
+<style scoped>
+
+</style>

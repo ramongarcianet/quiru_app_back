@@ -18,14 +18,14 @@ const {push} = useRouter()
                     th Comando de voz
                     th.d-none.d-md-table-cell Acción en odontrograma
                     th Ejemplos
-                    th Norma técnica
+                    th.d-none.d-md-table-cell Norma técnica
 
             tbody
                 tr(v-for="comando of comandos.EJEMP")
                     td {{comando.orden}}
                     td.d-none.d-md-table-cell {{comando.descripcion}}
                     td {{comando.ejemplo}}
-                    td
+                    td.d-none.d-md-table-cell 
                         .thumbwrap
                             button.thumb(href='#')
                                 i.fa-solid.fa-eye

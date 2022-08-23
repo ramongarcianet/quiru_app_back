@@ -1,4 +1,5 @@
 import { computed, ref } from 'vue';
+import {alertMensaje} from './helper.js'
 import { limpiarCaries, clearcanvas } from "./Canvas"
 import { convertToText } from "./numeroLetras.js"
 import router from '../config/router'
@@ -13,7 +14,6 @@ export const verOdontograma = ref(true)
 export let flagLimpiar = ref(false)
 export const textoEscuchado = ref()
 export const paginaOdontograma = ref(false);
-
 export const listaDeDientes = [
     [[[{ diente: '18', clase: "raiz-3 " }, { diente: "17", clase: "raiz-3" }, { diente: "16", clase: "raiz-3" }, { diente: "15", clase: "raiz-1" }, { diente: "14", clase: "raiz-2" }, { diente: "13", clase: "raiz-1 toCenter" }, { diente: "12", clase: "raiz-1 toCenter" }, { diente: "11", clase: "raiz-1 toCenter" }], [{ diente: "21", clase: "raiz-1 toLeft toCenter" }, { diente: "22", clase: "raiz-1 toLeft toCenter" }, { diente: "23", clase: "raiz-1 toLeft toCenter" }, { diente: "24", clase: "raiz-2 toLeft" }, { diente: "25", clase: "raiz-1  toLeft" }, { diente: "26", clase: "raiz-3  toLeft" }, { diente: "27", clase: "raiz-3  toLeft" }, { diente: "28", clase: "raiz-3  toLeft" },]],
     [[{ diente: "55", clase: "raiz-3 " }, { diente: "54", clase: "raiz-3" }, { diente: "53", clase: "raiz-1 toCenter" }, { diente: "52", clase: "raiz-1 toCenter" }, { diente: "51", clase: "raiz-1 toCenter" }], [{ diente: "61", clase: "raiz-1 toLeft toCenter" }, { diente: "62", clase: "raiz-1 toLeft toCenter" }, { diente: "63", clase: "raiz-1 toLeft toCenter" }, { diente: "64", clase: "raiz-3 toLeft" }, { diente: "65", clase: "raiz-3 toLeft" }]]],
@@ -55,7 +55,7 @@ if (annyang) {
     annyang.addCallback('error', function (e) {
         if (isSpeech.value){
             if (resizeWindow.value<500)
-                alert('Permitir usar microfono')
+            alert('Micrófono activado')
         }
     });
     annyang.addCallback('errorNetwork', function () {
@@ -71,10 +71,9 @@ if (annyang) {
     annyang.addCallback('errorPermissionDenied', function () {
         if (isSpeech.value){
             if (resizeWindow.value<500)
-                alert('Activar microfono4')
+            alert('Reconectando al micrófono')
         }
     });
-
 
     flagAnnyang = annyang.start()
 

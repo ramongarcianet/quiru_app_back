@@ -24,12 +24,14 @@ watch(
     .col
     .col
         input#SearchInput.form-control(type='text', v-on:keyup='searchPrecio(registro)', placeholder='Buscar por Hallazgo/Precio.', title='Type in a name', style="width: 100% !important;")
-.div(style="background-color: white; border-radius: 2%;").mt-1
+.div(style="background-color: white; border-radius: 2%; ").mt-1
     table.table.table-hover
         thead
             tr
-                th Hallazgo
-                th Precio 
+                th(width="15%") Hallazgo
+                th(width="15%") Precio
+                th
+                th
         tbody
             tr(v-for="item of registro_"  :key="item.id"  :item="item")
                 td {{ item.tipo }}
@@ -37,7 +39,7 @@ watch(
                 td
                     button.ms-auto.btn( @click="push({ name: 'formulario', params: { idPaciente: item.id } })")
                         i.fa-solid.fa-pen-clip
-                td(width="25%")
+                td
                     BotonSeguro(:onSuccess= '() => eliminar(item.id)' )
                         i.fa.fa-trash-o(aria-hidden='true')
     .div(v-if="registro.length > 8",style="text-align: center;")
