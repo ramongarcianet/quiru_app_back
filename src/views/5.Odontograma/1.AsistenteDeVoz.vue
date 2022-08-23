@@ -98,7 +98,7 @@ function pad(n, width, z) {
         | Hallazgos
       button.ms-auto.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseAyuda' aria-expanded='false' aria-controls='collapseAyuda')
         | Ayuda
-      button.ms-auto( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente } })').btn.btn-primary + Datos
+      button.ms-auto( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })').btn.btn-primary + Datos
       button.ms-auto.btn.btn-primary(@click="printOdontograma()")
         i.fa-solid.fa-print
 </template>
