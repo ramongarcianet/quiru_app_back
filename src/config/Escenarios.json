@@ -118,5 +118,53 @@
         {"pieza": "4.6","arriba": "lingual","centro": "oclusal","abajo": "vestibular","izquierda": "distal","derecha": "mesial"},
         {"pieza": "4.7","arriba": "lingual","centro": "oclusal","abajo": "vestibular","izquierda": "distal","derecha": "mesial"},
         {"pieza": "4.8","arriba": "lingual","centro": "oclusal","abajo": "vestibular","izquierda": "distal","derecha": "mesial"}
-]
-  }
+],
+
+    "EsenariosSellantes": [
+          {"pieza": "14"},
+          {"pieza": "15"},
+          {"pieza": "16"},
+          {"pieza": "17"},
+          {"pieza": "18"},
+          {"pieza": "24"},
+          {"pieza": "25"},
+          {"pieza": "26"},
+          {"pieza": "27"},
+          {"pieza": "28"},
+
+          {"pieza": "34"},
+          {"pieza": "35"},
+          {"pieza": "36"},
+          {"pieza": "37"},
+          {"pieza": "38"},
+          {"pieza": "44"},
+          {"pieza": "45"},
+          {"pieza": "46"},
+          {"pieza": "47"},
+          {"pieza": "48"},
+
+          {"pieza": "1.4"},
+          {"pieza": "1.5"},
+          {"pieza": "1.6"},
+          {"pieza": "1.7"},
+          {"pieza": "1.8"},
+          {"pieza": "2.4"},
+          {"pieza": "2.5"},
+          {"pieza": "2.6"},
+          {"pieza": "2.7"},
+          {"pieza": "2.8"},
+
+          {"pieza": "3.4"},
+          {"pieza": "3.5"},
+          {"pieza": "3.6"},
+          {"pieza": "3.7"},
+          {"pieza": "3.8"},
+          {"pieza": "4.4"},
+          {"pieza": "4.5"},
+          {"pieza": "4.6"},
+          {"pieza": "4.7"},
+          {"pieza": "4.8"}
+
+    ]
+
+}
