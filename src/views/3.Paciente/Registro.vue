@@ -15,74 +15,24 @@ watch(
         setList(registro.value, 1);
     }
 )
-function CallConfirm(item) {
-    itemseleccionado = item;
-    obtenerOdontograma(item.id);
-    var modal = document.getElementById('id01');
-    modal.style.display = 'block';
-}
-function EliminarPaciente() {
-    var alerta = document.getElementById("alerta");
-    var modal = document.getElementById('id01');
-    if (registroodonto.value.length > 0) {
-        alerta.style.display = "block";
-        modal.style.display = 'none';
-    }
-    else {
-        alerta.style.display = "none";
-        modal.style.display = 'none';
-        updateEstado(itemseleccionado)
-    }
-}
-function Cancelar() {
-    var alerta = document.getElementById("alerta");
-    var modal = document.getElementById('id01');
-        alerta.style.display = "none";
-        modal.style.display = 'none';
-}
 </script>
 
 <template lang="pug">
 .row
-    .col
-    .col
-        input#SearchInput.form-control.mb-3(v-on:keyup='search(registro)', placeholder='Buscar por Tipo/Número Doc/Nombre.', style="width: 100% !important;")
-#alerta.alert.alert-danger.alert-dismissible(style='display:none')   
-    strong Cuidado!
-        |  Este paciente no se puede eliminar por que tiene un diagnostico/tratamiento registrado
-    a.close(@click="Cancelar()" href='#' data-dismiss='alert' aria-label='close') &times;
-.div(style="background-color: white; border-radius: 2%;")
-    table.table.table-hover
-        thead
-            tr
-            tr
-                th.d-none.d-md-table-cell Tip Doc.
-                th.d-none.d-md-table-cell Número Doc.
-                th Nombres
-                th.d-none.d-md-table-cell Fecha Ingreso
-                th.d-none.d-md-table-cell Sexo
-                th
-                th
-                th
+    .col-5
+    .col-7
+        input#SearchInput.form-control.mb-2.ms-auto(v-on:keyup='search(registro)', placeholder="Buscar")
+.div.mb-5(style="background-color: white; border-radius: 2%;")
+    table.table.table-hover(style="cursor: pointer")
         tbody
-            tr(v-for="item of registro_"  :key="item.id"  :item="item")
-
-                td.d-none.d-md-table-cell {{ (item.tipoDocumento == 'DNI') ? 'DNI' : 'CARNET DE EXTRANJERIA' }}
+            tr(v-for="item of registro_"  :key="item.id"  :item="item" @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })")
                 td.d-none.d-md-table-cell {{ item.numeroDocumento }}
                 td
-                    span.d-block.d-md-none {{ item.numeroDocumento }} -
+                    span.d-block.d-md-none {{ item.numeroDocumento }}
                     | {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }}
-                td.d-none.d-md-table-cell {{ item.fechaIngreso }}
-                td.d-none.d-md-table-cell {{ (item.sexo == 'M') ? 'MASCULINO' : 'FEMENINO' }}
                 td.dropdown
-                    button.ms-auto.btn(title='Odontograma' @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })")
+                    button.ms-auto.btn(title='Odontograma')
                         i.fa.fa-solid.fa-tooth
-                td.dropdown
-                    button.ms-auto.btn(title='Editar' @click="push({ name: 'paciente', params: { idPaciente: item.id } })")
-                        i.fa-solid.fa-pen-clip
-                td.dropdown
-                    button.ms-auto.btn(title='Eliminar' @click="CallConfirm(item)")
-                        i.fa-solid.fa-trash
     .div(v-if="registro.length > 8",style="text-align: center;")
         nav.d-flex.justify-content-center(aria-label='Page navigation example')
             ul.pagination
@@ -94,16 +44,6 @@ function Cancelar() {
                 li.page-item
                     a.page-link(href='#', aria-label='Next', @click="nextPage(registro)")
                         span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
-#id01.modal(style="display:none;")
-    
-    .modal-content.modal-sm
-        .container
-            p(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Eliminar Paciente
-            p ¿Esta seguro que desea eliminar?
-            .clearfix
-                button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
-                button.btn.btn-danger.deletebtn(@click="EliminarPaciente(), mostrar = false") Aceptar
-
 </template>
 <style scoped>
 body {

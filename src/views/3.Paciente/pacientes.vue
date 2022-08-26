@@ -7,13 +7,23 @@ const {push} = useRouter()
 </script>
 <template lang="pug">
 
-.d-flex.align-content-start.flex-wrap
-  i.fa-solid.fa-address-card.me-2(style="color: #37DFBB; font-weight:bold; font-size: 1.5em;")
-  h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Pacientes
-.container.fluid
-  Registro
-  .div(style="text-align: right;")
-    button.btn.btn-primary(style="border-radius: 50%;" @click="push({name: 'paciente'})")
-      i.fa-solid.fa-plus(style="font-size: 2em; font-weight: bold; color: white;")
-    
+.row
+  .col-12.col-md-4.pb-2
+    h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Lista de
+    h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") pacientes
+    button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.py-2.align-items-center(style="border-radius: 50px; " @click="push({name: 'paciente'})")
+      div
+        strong(style="color: white") Añadir 
+        p.mb-0(style="color: white") Nuevo Paciente
+      ion-icon(name="person-add-outline" style="color: white" size="large")
+  .col-12.col-md-8
+    Registro
+
 </template>
+<style lang="sass" scoped>
+
+@media (min-width: 575px)
+  button
+    margin-top: 150px
+
+</style>
