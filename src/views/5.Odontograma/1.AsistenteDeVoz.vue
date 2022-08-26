@@ -115,7 +115,7 @@ function pad(n, width, z) {
               button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
             .modal-body
               Instrucciones
-      button.ms-auto( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente } })').btn.btn-primary + Datos
+      button.ms-auto( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })').btn.btn-primary + Datos
       button.ms-auto.btn.btn-primary(@click="printOdontograma()")
         i.fa-solid.fa-print
       

@@ -33,7 +33,7 @@ h1 Datos Adicionales
     .row.mt-2
       #mensaje.alert.alert-success.alert-dismissible(style='display:none') Se registró correctamente
   .d-flex.mt-2
-    button.btn.btn-primary( @click='push({name: "Detalle", params: {idOdontograma: route.params.idOdontograma,idPaciente: route.params.idPaciente}})') Volver
+    button.btn.btn-primary( @click='push({name: "Detalle", params: {idOdontograma: route.params.idOdontograma,idPaciente: route.params.idPaciente, tipoOdonto: route.params.tipoOdonto}})') Volver
     button.ms-auto.btn.btn-primary(type="submit", @click="grabarAdicionales(route.params.idOdontograma);") Guardar
 </template>
 
