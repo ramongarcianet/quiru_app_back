@@ -11,7 +11,6 @@ const guardarOActualizar = () => {
     else return guardar( item.value)
 }
 
-
 if(route.params.idUsuario) leerEnRegistro(route.params.idUsuario)
 
 onUnmounted(()=>{

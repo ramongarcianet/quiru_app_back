@@ -24,12 +24,22 @@ watch(
         input#SearchInput.form-control.mb-2.ms-auto(v-on:keyup='search(registro)', placeholder="Buscar")
 .div.mb-5(style="background-color: white; border-radius: 2%;")
     table.table.table-hover(style="cursor: pointer")
+        thead
+            td.d-none.d-md-table-cell Tipo Doc.
+            td.d-none.d-md-table-cell Número Doc.
+            td.d-none.d-md-table-cell Nombre
+            td.d-none.d-md-table-cell Teléfono
+            td.d-none.d-md-table-cell Correo
+            td.d-none.d-md-table-cell 
         tbody
             tr(v-for="item of registro_"  :key="item.id"  :item="item" @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })")
+                td.d-none.d-md-table-cell {{item.tipoDocumento}}
                 td.d-none.d-md-table-cell {{ item.numeroDocumento }}
                 td
-                    span.d-block.d-md-none {{ item.numeroDocumento }}
+                    span.d-block.d-md-none {{item.tipoDocumento + ' ' +item.numeroDocumento }}
                     | {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }}
+                td.d-none.d-md-table-cell {{item.telefono}}
+                td.d-none.d-md-table-cell {{item.email}}
                 td.dropdown
                     button.ms-auto.btn(title='Odontograma')
                         i.fa.fa-solid.fa-tooth

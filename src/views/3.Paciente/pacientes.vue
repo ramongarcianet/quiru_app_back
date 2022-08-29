@@ -6,24 +6,25 @@ import { useRouter } from "vue-router";
 const {push} = useRouter()
 </script>
 <template lang="pug">
-
 .row
   .col-12.col-md-4.pb-2
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Lista de
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") pacientes
+  .col-md-4
+  .col-12.col-md-4.pb-2
     button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.py-2.align-items-center(style="border-radius: 50px; " @click="push({name: 'paciente'})")
       div
         strong(style="color: white") Añadir 
         p.mb-0(style="color: white") Nuevo Paciente
       ion-icon(name="person-add-outline" style="color: white" size="large")
-  .col-12.col-md-8
-    Registro
+.col
+  Registro
 
 </template>
 <style lang="sass" scoped>
 
-@media (min-width: 575px)
-  button
-    margin-top: 150px
+//@media (min-width: 575px)
+  //button
+    //margin-top: 150px
 
 </style>
