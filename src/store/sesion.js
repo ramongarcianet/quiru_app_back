@@ -53,4 +53,6 @@ export const obtenerEstadoDeAutentificacion = ()=> new Promise( resolve =>{
     }
 )})
 
+
+//acá se extrase el uid ejecutando la funcion y recibiendo un objeti
 export const miUsuario = () => auth?.currentUser
