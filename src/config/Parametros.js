@@ -65,6 +65,8 @@ export const listaDeHallazgos = [
     { value: "opacidad", text: "Opacidad del Esmalte", sigla: "O", tipo: "Diagnóstico" },
     { value: "decoloración", text: "Decoloración del Esmalte", sigla: "D", tipo: "Diagnóstico" },
     { value: "fluorosis", text: "Fluorosis", sigla: "F", tipo: "Diagnóstico" },
+    { value: "sellanteazul", text: "Sellante en buen estado", sigla: "S", tipo: "Diagnóstico" },
+    { value: "sellanterojo", text: "Sellante en mal estado", sigla: "S", tipo: "Diagnóstico" },
 ];
 export const listaDeTipos = [
     { value: "vestibular", text: "vestibular" },

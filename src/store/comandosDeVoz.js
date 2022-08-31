@@ -130,6 +130,7 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
     const hallazgoCorrecto = hallazgo ? listaDeHallazgos.map(({ value }) => value).indexOf(hallazgo) > -1 : true
     const piezaCorrecta = ubicacion ? listaDeUbicacion.length > 0 : true
     const ubicacionCorrecta = pieza ? listaDeDientes_.find(item => item == pieza) : true
+    const existeSellante = escenarios.EsenariosSellantes.filter((elem) => elem.pieza == pieza)[0];
     let mensaje = ''
     let _posicion = "";
     let sigla = "";
@@ -184,23 +185,49 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
 
         mensaje += `Hallazgo ${hallazgo} por ${mensajeUbicacion}`
     }
-    if (item.value.diente && item.value.diente != '' && hallazgo) {
-        if ((listaDeUbicacion.length > 0) && (ubicacionnes.arriba == listaDeUbicacion[0] ||
-            ubicacionnes.centro == listaDeUbicacion[0] || ubicacionnes.abajo == listaDeUbicacion[0] ||
-            ubicacionnes.izquierda == listaDeUbicacion[0] || ubicacionnes.derecha == listaDeUbicacion[0])) {
-            let fila = { hallazgo: hallazgo, ubicacion: ubicacion, sigla: sigla }
-            if (!existeDiente(item.value.diente, fila)) {
-                agregar()
-            }
-        } else {
-            if (listaDeUbicacion.length == 0) {
+    if (existeSellante != undefined){
+        if (item.value.diente && item.value.diente != '' && hallazgo) {
+            if ((listaDeUbicacion.length > 0) && (ubicacionnes.arriba == listaDeUbicacion[0] ||
+                ubicacionnes.centro == listaDeUbicacion[0] || ubicacionnes.abajo == listaDeUbicacion[0] ||
+                ubicacionnes.izquierda == listaDeUbicacion[0] || ubicacionnes.derecha == listaDeUbicacion[0])) {
                 let fila = { hallazgo: hallazgo, ubicacion: ubicacion, sigla: sigla }
                 if (!existeDiente(item.value.diente, fila)) {
                     agregar()
                 }
             } else {
-                speak('La ubicación ' + ubicacion + ' no corresponde a la pieza ' + item.value.diente)
+                if (listaDeUbicacion.length == 0) {
+                    let fila = { hallazgo: hallazgo, ubicacion: ubicacion, sigla: sigla }
+                    if (!existeDiente(item.value.diente, fila)) {
+                        agregar()
+                    }
+                } else {
+                    speak('La ubicación ' + ubicacion + ' no corresponde a la pieza ' + item.value.diente)
+                }
             }
+        }
+    } else {
+        if (hallazgo != 'sellanteazul' && hallazgo != 'sellanterojo') {
+            if (item.value.diente && item.value.diente != '' && hallazgo) {
+                if ((listaDeUbicacion.length > 0) && (ubicacionnes.arriba == listaDeUbicacion[0] ||
+                    ubicacionnes.centro == listaDeUbicacion[0] || ubicacionnes.abajo == listaDeUbicacion[0] ||
+                    ubicacionnes.izquierda == listaDeUbicacion[0] || ubicacionnes.derecha == listaDeUbicacion[0])) {
+                    let fila = { hallazgo: hallazgo, ubicacion: ubicacion, sigla: sigla }
+                    if (!existeDiente(item.value.diente, fila)) {
+                        agregar()
+                    }
+                } else {
+                    if (listaDeUbicacion.length == 0) {
+                        let fila = { hallazgo: hallazgo, ubicacion: ubicacion, sigla: sigla }
+                        if (!existeDiente(item.value.diente, fila)) {
+                            agregar()
+                        }
+                    } else {
+                        speak('La ubicación ' + ubicacion + ' no corresponde a la pieza ' + item.value.diente)
+                    }
+                }
+            }
+        } else {
+            speak('Hallazgo ' + hallazgo + ' no corresponde a la pieza ' + item.value.diente)
         }
     }
     return hablar && speak(mensaje)
@@ -253,6 +280,8 @@ listaDeDientes_.map(num => {
     listaDeFuncionesPorDiente[`${num}Opacidad`] = () => actualizarItem('opacidad', false, String(num))
     listaDeFuncionesPorDiente[`${num}Decoloracion`] = () => actualizarItem('decoloración', false, String(num))
     listaDeFuncionesPorDiente[`${num}Fluorosis`] = () => actualizarItem('fluorosis', false, String(num))
+    listaDeFuncionesPorDiente[`${num}SellanteBueno`] = () => actualizarItem('sellanteazul', false, String(num))
+    listaDeFuncionesPorDiente[`${num}SellanteMalo`] = () => actualizarItem('sellanterojo', false, String(num))
 
     listaDeFuncionesPorDiente[`${num}num2Hallazgo`] = (num2, hallazgo) => seleccionMultiple(num, num2, hallazgo, false)
     listaDeFuncionesPorDiente[`${num}num2HallazgoUbicacion`] = (num2, hallazgo, ubicacion) => seleccionMultiple(num, num2, hallazgo, ubicacion)
@@ -274,6 +303,8 @@ listaDeDientes_?.map(num => {
     listaDeComandosDeDientes[`${num} opacidad`] = listaDeFuncionesPorDiente[`${num}Opacidad`]
     listaDeComandosDeDientes[`${num} decoloración`] = listaDeFuncionesPorDiente[`${num}Decoloracion`]
     listaDeComandosDeDientes[`${num} fluorosis`] = listaDeFuncionesPorDiente[`${num}Fluorosis`]
+    listaDeComandosDeDientes[`${num} sellante en buen estado`] = listaDeFuncionesPorDiente[`${num}SellanteBueno`]
+    listaDeComandosDeDientes[`${num} sellante en mal estado`] = listaDeFuncionesPorDiente[`${num}SellanteMalo`]
 
     listaDeComandosDeDientes[`${num} (a) (la) (ala) (al) :num2 :hallazgo`] = listaDeFuncionesPorDiente[`${num}num2Hallazgo`]
     listaDeComandosDeDientes[`${num} (a) (la) (al) :num2 :hallazgo *ubicacion`] = listaDeFuncionesPorDiente[`${num}num2HallazgoUbicacion`]

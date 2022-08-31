@@ -192,10 +192,18 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro) {
                 else if (element.hallazgo == "restauración") {
                     dibuja_seccion(ctx, pieza, seccion, "blue", med, inicio_x, inicio_y)
                 }
+                else if (element.hallazgo == "sellanteazul") {
+                    context.fillStyle = 'blue';
+                }
+                else if (element.hallazgo == "sellanterojo") {
+                    context.fillStyle = 'red';
+                } else {
+                    context.fillStyle = 'red';
+                }
             }
         });
     }
-    context.fillStyle = 'red';
+    //context.fillStyle = 'red';
 }
 function marcar_cabecera(contexto, inicio_x, medida, inicio_y, color, tipo) {
     var ctx = contexto;
