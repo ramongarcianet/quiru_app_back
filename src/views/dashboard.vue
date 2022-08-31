@@ -14,13 +14,13 @@ watch(
     verDialog.value = true}
 )
 const rutas = computed(() => [
-  /*{
+  {
     name: "Admisión",
     onClick: () => push({ name: "admision" }),
     icon: "fa-solid fa-calendar",
     routeName: "admision",
     aditionalClass: "d-none d-sm-block",
-  },*/
+  },
   {
     name: "Pacientes",
     onClick: () => push({ name: "pacientes" }),
