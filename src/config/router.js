@@ -18,11 +18,6 @@ const routes = [
 
         },
         {
-            path:'demo/:codigo?',
-            name: 'demo',
-            component: ()=>import('../views/6. Sesion/2. Demo.vue'),
-        },
-        {
             path:'inscripcion/:codigo?',
             name: 'inscripcion',
             component: ()=>import('../views/6. Sesion/4. Inscripcion.vue'),
@@ -45,88 +40,6 @@ const routes = [
         },
       ]
     },
-    {
-        path:'/dashboard',
-        component: ()=>import('../views/dashboard.vue'),
-        meta: { requiereAuth: true },
-        children:[
-           {
-                path: 'admision',
-                name: 'admision',
-                component: ()=>import('../views/1.Admision/index.vue')
-            },
-            {
-                path: 'usuarios',
-                name: 'usuarios',
-                component: ()=>import('../views/2.Usuarios/usuarios.vue')
-            },
-            {
-                path: 'usuario/:idUsuario?',
-                name: 'usuario',
-                component: ()=>import('../views/2.Usuarios/usuario.vue')
-            },
-            {
-                path: 'pacientes',
-                name: 'pacientes',
-                component: ()=>import('../views/3.Paciente/pacientes.vue')
-            },
-            {
-                path: 'paciente/:idPaciente?',
-                name: 'paciente',
-                component: ()=>import('../views/3.Paciente/paciente.vue')
-            },
-            {
-                path: 'pacienteVer/:idPaciente?',
-                name: 'pacienteVer',
-                component: ()=>import('../views/3.Paciente/pacienteVer.vue')
-            },
-            {
-                path: 'diccionarios',
-                name: 'diccionarios',
-                component: ()=>import('../views/4.Diccionario/diccionarios.vue')
-            },
-            {
-                path: 'diccionario/:idDiccionario?',
-                name: 'diccionario',
-                component: ()=>import('../views/4.Diccionario/diccionario.vue')
-            },
-            {
-                path: 'Detalle/:idOdontograma?/:idPaciente?',
-                name: 'Detalle',
-                component: ()=>import('../views/5.Odontograma/1.AsistenteDeVoz.vue')
-            },
-            {
-                path: 'impresion/:idOdontograma?/:idPaciente?',
-                name: 'impresion',
-                component: ()=>import('../views/5.Odontograma/2.impresion.vue')
-            },
-            {
-                path: 'adicionales/:idOdontograma?/:idPaciente?',
-                name: 'adicionales',
-                component: ()=>import('../views/5.Odontograma/3.adicionales.vue')
-            },
-            {
-                path: 'precios',
-                name: 'precios',
-                component: ()=>import('../views/7.Precios/precios.vue')
-            },
-            {
-                path: 'formulario',
-                name: 'formulario',
-                component: ()=>import('../views/7.Precios/formulario.vue')
-            },
-            {
-                path: 'ayuda',
-                name: 'ayuda',
-                component: ()=>import('../views/8.Ayuda/instrucciones.vue')
-            },
-            {
-                path: 'cotizacion/:idOdontograma?/:idPaciente?',
-                name: 'cotizacion',
-                component: ()=>import('../views/5.Odontograma/4.cotizacion.vue')
-            },
-        ]
-    }
 ]
 
 const router = createRouter({

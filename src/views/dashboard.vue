@@ -21,51 +21,9 @@ const rutas = computed(() => [
     routeName: "admision",
     aditionalClass: "d-none d-sm-block",
   },
-  {
-    name: "Pacientes",
-    onClick: () => push({ name: "pacientes" }),
-    icon: "fa-solid fa-address-book",
-    routeName: "paciente",
-  },
-  {
-    name: "Precios",
-    onClick: () => push({ name: "precios" }),
-    icon: "fa-solid fa-coins",
-    routeName: "precios",
-  },
-  {
-    name: "Ayuda",
-    onClick: () => push({ name: "ayuda" }),
-    icon: "fas fa-question-circle",
-    routeName: "ayuda",
-  },
-  {
-    name: "Menú",
-    onClick: () => (isActive.value = !isActive.value),
-    icon: isActive.value ? "fa-solid fa-times" : "fa-solid fa-bars",
-    aditionalClass: "d-sm-none only-bottom-nav",
-  },
  
 ]);
 const rutasMoviles = computed(() => [
-  {
-    name: "Paciente",
-    onClick: () => push({ name: "pacientes" }),
-    icon: "fa-solid fa-address-book",
-    routeName: "paciente",
-  },
-  {
-    name: "Precios",
-    onClick: () => push({ name: "precios" }),
-    icon: "fa-solid fa-coins",
-    routeName: "precios",
-  },
-  /*{
-    name: "Ayuda",
-    onClick: () => push({ name: "ayuda" }),
-    icon: "fa-solid fa-question-circle",
-    routeName: "ayuda",
-  },*/
   {
     name: "Cerrar sesión",
     onClick: () => cerrarSesion(),
@@ -104,18 +62,10 @@ window.addEventListener("resize", () => {
 });
 </script>
 <template lang="pug">
-
-Dialog( v-model='verDialog' )
-  template(#title) Quiru
-  template(#body) {{alertMensaje}}
-  template(#footer)
-    button.btn.btn-primary(type='button' data-bs-dismiss='modal') Aceptar
-
 .container-fluid.vh-100.d-flex.px-0.pb-4.light
   #body.py-5
     .container.mb-3
       router-view
-  Nav
 </template>
 <style lang="sass" scoped>
 

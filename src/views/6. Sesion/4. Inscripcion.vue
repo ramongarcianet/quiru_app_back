@@ -22,7 +22,7 @@ onMounted(()=>{
     .row.h-100
         .col-12.col-md-6.d-flex.flex-column.justify-content-center.px-5
             .row.mb-auto.mt-5
-                Img.logo(  @click='push({ name: "landingConCodigo", params: {codigo: route.params.codigo} })' src="https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/Group%2073%20(1).png?alt=media&token=13f628f8-46ea-41f4-a4f4-b4d2aa604323")
+                Img.logo(  @click='push({ name: "landingConCodigo", params: {codigo: route.params.codigo} })' src="iniciar-sesion")
 
             h1.primary-text.my-5 Hola Doc. 
             p La versión completa saldrá el
