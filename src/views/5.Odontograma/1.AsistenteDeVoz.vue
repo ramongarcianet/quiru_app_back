@@ -99,6 +99,7 @@ function pad(n, width, z) {
 <template lang="pug">
 .row
   .col
+    h1 Holaaa
     Formulario
     #alerta.alert.alert-danger.alert-dismissible(style='display:none') No hay nada que imprimir
       a.close(@click="Cancelar()" href='#' data-dismiss='alert' aria-label='close') &times;
