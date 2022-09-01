@@ -48,10 +48,10 @@ onUnmounted(()=> {
 <template lang="pug">
 Seguro
 .row
-  .col-4.pb-2.col-md-9
+  .col-4.col-md-9
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Ver
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") paciente
-    button.btn.btn-outline-primary.border-0(@click="push({ name: 'pacientes', params: {} })" )
+    button.btn.btn-outline-primary.border-0.pb-md-0(@click="push({ name: 'pacientes', params: {} })" )
       ion-icon(name="return-down-back-outline" size="large")
   .col-8.col-md-3
     .col.ms-5
@@ -63,27 +63,34 @@ Seguro
     strong Cuidado!
         |  Este paciente no se puede eliminar por que tiene un diagnostico/tratamiento registrado
     a.close(@click="Cancelar()" href='#' data-dismiss='alert' aria-label='close') &times;
-Form
-  label.form-label Documento de identidad
-  .input-group
-    select.form-select(v-model="item.tipoDocumento", disabled)
-      option(value="DNI") DNI
-      option(value="CE") CARNET DE EXTRANJERIA
-    input.form-control(v-model="item.numeroDocumento", disabled)
-  label.form-label Nombre del paciente
-  .input-group
-    input.form-control(v-model="item.nombre", disabled)
-    input.form-control(v-model="item.apellidoPaterno", disabled)
-    input.form-control(v-model="item.apellidoMaterno", disabled)
-.d-flex.align-content-start.flex-wrap.mt-3
-  h1(style="color: #37DFBB; font-size: 1em; font-family: var(--font-family)") Lista de
-    h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") odontogramas
-.col-12.col-md-5.mx-auto.my-3
-  button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','2','0')")
+.row
+  .col.col-md-4
+    Form.mt-md-5
+      label.form-label Documento de identidad
+      .input-group.mb-md-3
+        select.form-select(v-model="item.tipoDocumento", disabled)
+          option(value="DNI") DNI
+          option(value="CE") CARNET DE EXTRANJERIA
+        input.form-control(v-model="item.numeroDocumento", disabled)
+      label.form-label Nombre del paciente
+      .input-group.pb-md-3
+        input.form-control(v-model="item.nombre", disabled)
+        input.form-control(v-model="item.apellidoPaterno", disabled)
+        input.form-control(v-model="item.apellidoMaterno", disabled)
+    .col-12.mx-auto.my-3
+      button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','2','0')")
         div
           strong(style="color: white") Crear
           p.mb-0(style="color: white") Nuevo Odontograma
         ion-icon(name="document-outline" style="color: white" size="large")
-RegistroOdontograma
+  .col.col-md-8
+    .d-flex.align-content-start.flex-wrap.mt-3
+      h1(style="color: #37DFBB; font-size: 1em; font-family: var(--font-family)") Lista de
+        h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") odontogramas
+    RegistroOdontograma
 </template>
-
+<style>
+ion-icon {
+  pointer-events: none;
+}
+</style>
