@@ -1,5 +1,7 @@
 <script setup>
 import Formulario from "./Formulario.vue";
+import {registroodonto, eliminar, guardar as guardarOdontograma, actualizarEsUltimo} from "../../store/formodontograma";
+
 import { item as itemPas, leer } from "../../store/paciente";
 import "../../config/html2canvas";
 import { useRoute, useRouter } from "vue-router";
@@ -99,30 +101,104 @@ function pad(n, width, z) {
 <template lang="pug">
 .row
   .col
-    h1 Holaaa
+    .row
+      #alerta.alert.alert-danger.alert-dismissible(style='display:none') No hay nada que imprimir
+        a.close(@click="Cancelar()" href='#' data-dismiss='alert' aria-label='close') &times;
+      .col-6.pb-2.col-md-9
+        ion-icon.mb-3(name="return-down-back-outline" style="color: var(--color-primary); font-size: 40px; cursor: pointer;" @click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })')
+        h1.my-0(style="color: #395D56; font-size: 1.8em; font-family: var(--font-family)") Panel de
+        h1(style="color: #37DFBB; font-weight:bold; font-size: 1.8em; font-family: var(--font-family)") {{itemodontograma.tipo}}
+      .col-6.col-md-3.align-self-center
+        .col.mt-5.left
+          button.btn(title='Imprimir' @click="printOdontograma()")
+            ion-icon(name="print-outline" style="color: var(--color-primary); font-size: 26px;")
+          button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
+            ion-icon(name="help-outline" style="color: var(--color-primary); font-size: 26px;" )
+          #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+            .modal-dialog.modal-lg
+              .modal-content
+                .modal-header
+                  button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                .modal-body
+                  Instrucciones
     Formulario
-    #alerta.alert.alert-danger.alert-dismissible(style='display:none') No hay nada que imprimir
-      a.close(@click="Cancelar()" href='#' data-dismiss='alert' aria-label='close') &times;
-    .d-flex.mt-5
-      button( @click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })').btn.btn-primary
-        i.fa-solid.fa-circle-chevron-left
-      button.ms-auto.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
+
+    div.mt-5.opciones
+      button.outline-quiru( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
+        .contenido
+          .title Crear
+          .subtitle Datos adicionales
+        ion-icon(name="document-outline").icono  
+    div.opciones
+      button.outline-quiru.solid()
+        .contenido
+          .title.light-quiru Crear
+          .subtitle.light-quiru Tratamiento
+        ion-icon(name="medkit-outline").icono.light-quiru 
+    div.opciones
+      button.outline-quiru()
+        .contenido
+          .title Agregar
+          .subtitle Precio
+        ion-icon(name="pricetag-outline").icono  
+      //-Hallazgos en tabla
+      //-button.ms-auto.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
         | Hallazgos
-      button.btn.btn-primary.ms-auto(type='button' data-bs-toggle='modal' data-bs-target='#exampleModal') Ayuda
-      #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
-        .modal-dialog.modal-lg
-          .modal-content
-            .modal-header
-              button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
-            .modal-body
-              Instrucciones
-      button.ms-auto( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })').btn.btn-primary + Datos
-      button.ms-auto.btn.btn-primary(@click="printOdontograma()")
-        i.fa-solid.fa-print
-      
+     
 
 </template>
 
-<style scoped>
+<style lang="sass" scoped>
+.left
+  display: flex
+  justify-content: end
+  align-items: center
+.opciones
+  margin-top: 16px
+  margin-left: auto
+  margin-right: auto
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  width: 100%
+  height: auto
+  .outline-quiru
+    width: 100%
+    height: 75px
+    border-radius: 50px
+    border: 1px solid var(--color-primary)
+    background-color: transparent
+    display: flex
+    flex-direction: row
+    justify-content: space-around
+    align-items: center
+    &.solid
+      background-color: var(--color-primary)
+    .contenido
+      display: flex
+      flex-direction: column
+      align-items: start
+      justify-content: start
+      width: 150px
+      .title
+        font-weight: 700
+        color: var(--color-primary)
+
+        &.light-quiru
+          color: var(--color-white)
+          background: transparent
+      .subtitle
+        font-weight: 400
+        color: var(--color-primary)
+        &.light-quiru
+          color: var(--color-white)
+    .icono
+      font-size: 26px
+      color: var(--color-primary)
+      &.light-quiru
+        color: var(--color-white)
+
+  
 
 </style>

@@ -112,19 +112,16 @@ watch(
 </script>
 
 <template lang="pug">
-//.row
+//-.row
   p {{ textoEscuchado }}
-.row
-  .col
-    .d-flex.align-content-start.flex-wrap
-      i.fa.fa-tooth.me-2(style="color: #37DFBB; font-weight:bold; font-size: 1.5em;")
-      h1.me-1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family); ") {{itemodontograma.tipo}}
 
-.div(style='background-color: #37DFBB;width: 100px;height: 130px;margin-top: -145px;left:80%; position: absolute;z-index: 2;border-radius: 50% 50% 50% 50%;')
-  #button-microfono
-    MicroButton( style='--size: 4rem; position:absolute; z-index:3;left:18%; margin-top:57%' :class="{ active: isSpeech }" @click="isSpeech ? detenerVoz() : activarVoz()")
-  .col
-.row.mt-3
+.contenedor
+  .anim(v-if='isSpeech')
+  .microfono( @click="isSpeech ? detenerVoz() : activarVoz()" )
+    ion-icon.icono(name="mic" )
+  
+//-Input sin micrófono
+//-.row.mt-3
   .col
     .row
       .col.d-flex.justify-content-left(v-if="!isSpeech")
@@ -148,7 +145,7 @@ watch(
       span#mensaje(style="color: red; font-weight:bold;")
   .col.d-flex.justify-content(v-if="!isSpeech")
     OdonOficial
-.col.mt-2(v-if="isSpeech")
+.col.mt-2
   .col.d-flex.justify-content-center
     OdonOficial
   .col
@@ -227,3 +224,46 @@ watch(
                     span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
 
 </template>
+<style lang="sass" scoped>
+
+.contenedor
+  display: flex
+  flex-direction: row
+  justify-content: center
+  align-items: center
+  margin-top: 40px
+  margin-bottom: 40px
+  position: relative
+  .microfono
+    height: 110px
+    width: 110px
+    background-color: var(--color-primary)
+    border-radius: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    position: relative
+    z-index: 1
+    .icono
+      font-size: 60px
+      color: var(--color-white)
+  .anim
+    content: ""
+    height: 140px
+    width: 140px
+    background-color: var(--color-primary)
+    opacity: .1
+    position: absolute
+    border-radius: 100%
+    animation: palpitar 2s  infinite
+    z-index: 0
+  
+@keyframes palpitar
+  0%
+    transform: scale(1)  
+  50%  
+    transform: scale(1.2)  
+  100%
+    transform: scale(1)  
+
+</style>
