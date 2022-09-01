@@ -121,7 +121,7 @@ watch(
     ion-icon.icono(name="mic" )
   
 //-Input sin micrófono
-//-.row.mt-3
+.row.mt-3
   .col
     .row
       .col.d-flex.justify-content-left(v-if="!isSpeech")
