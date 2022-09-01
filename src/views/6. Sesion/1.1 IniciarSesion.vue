@@ -16,6 +16,7 @@ const { push } = useRouter();
         .row
             button.btn.btn-outline-light( type='submit') Iniciar sesión
             button.btn.btn-outline-light.text-center.m-1( type='button' @click='push({name: "registro"})' style="border: 0!important;") Registrarme
+//Hi
 </template>
 
 <style lang="sass" scoped>
