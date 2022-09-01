@@ -13,7 +13,6 @@ import {
 
 import { onUnmounted, onMounted, computed, watch, ref} from "vue";
 
-
 escucharInicializarVoz();
 
 let wakeLock = null;
