@@ -5,7 +5,7 @@ const route = useRoute()
 const {push} = useRouter()
 const routeName = computed(()=>route.name)
 const rutas = [
-    {name:'Ayuda', icono:'help-outline', ruta:'ayuda'},
+    {name:'Dashboard', icono:'bar-chart-outline', ruta:'resumen'},
     {name:'Pacientes', icono:'person-outline', ruta:'pacientes'},
     {name:'Configuración', icono:'settings-outline', ruta:'usuario'},
 ]

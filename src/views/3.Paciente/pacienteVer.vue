@@ -51,7 +51,7 @@ Seguro
   .col-4.col-md-9
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Ver
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") paciente
-    button.btn.btn-outline-primary.border-0.pb-md-0(@click="push({ name: 'pacientes', params: {} })" )
+    button.btn.btn-outline-primary.border-0.pb-md-0(title='Volver' @click="push({ name: 'pacientes', params: {} })" )
       ion-icon(name="return-down-back-outline" size="large")
   .col-8.col-md-3
     .col.ms-5

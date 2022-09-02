@@ -34,10 +34,10 @@ const rutas = computed(() => [
     routeName: "precios",
   },
   {
-    name: "Ayuda",
-    onClick: () => push({ name: "ayuda" }),
+    name: "Resumen",
+    onClick: () => push({ name: "resumen" }),
     icon: "fas fa-question-circle",
-    routeName: "ayuda",
+    routeName: "resumen",
   },
   {
     name: "Menú",
