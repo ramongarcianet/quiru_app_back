@@ -32,5 +32,7 @@ VerFormato(itemodontograma?.value?.hallazgos);
 </template>
 <style lang="sass" scoped>
 #myCanvas
-  border: 1px solid #9c9898
+  border: 0px solid #9c9898
+  height: 370px
+  overflow: hidden
 </style>
