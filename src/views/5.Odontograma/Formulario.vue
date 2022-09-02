@@ -275,7 +275,7 @@ watch(
     height: 140px
     width: 140px
     background-color: var(--color-primary)
-    opacity: .1
+    opacity: .3
     position: absolute
     border-radius: 100%
     animation: palpitar 2s  infinite
