@@ -37,7 +37,7 @@ watch(
 </script>
 
 <template lang="pug">
-.row
+.row.mb-3
   .col-10
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Hola
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Bienvenido
@@ -54,13 +54,26 @@ Form( :onPromise="() => guardarOActualizar()" :onSuccess='() => back()')
         input.form-control(placeholder="Apellido Paterno", v-model="item.apellidoPaterno",v-on:keypress="isLetter($event)" required,maxlength="30")
         input.form-control(placeholder="Apellido Materno", v-model="item.apellidoMaterno",v-on:keypress="isLetter($event)" ,required,maxlength="30")
   .row
-    .col-12
+    .col-12.col-md-6
       label.form-label() Documento
       .input-group
         select.form-select(placeholder="Tipo Documento" v-model="item.tipoDocumento" required,v-on:change="definirMaxLimit(item.tipoDocumento)")
           option(value="DNI") DNI
           option(value="CE") CARNET DE EXTRANJERIA
         input.form-control(placeholder="Número Documento" v-model="item.numeroDocumento" ,v-on:keypress="isNumber($event)",required,:maxlength="maxDocumento",:minlength="maxDocumento")
+    .col-12.col-md-6
+      .row
+        .col
+          label.form-label() Fecha Nac.
+          .input-group
+            input.form-control(type="date", v-model="item.fechaNacimiento", required)
+        .col
+          label.form-label() Sexo
+          .input-group
+            select.form-select(placeholder="Sexo", v-model="item.sexo", required)
+              option(value="") SELECCIONE
+              option(value="M") MASCULINO
+              option(value="F") FEMENINO 
   .row
     .col
       label.form-label() Email
@@ -71,30 +84,17 @@ Form( :onPromise="() => guardarOActualizar()" :onSuccess='() => back()')
       .input-group
       input.form-control(placeholder="Número Celular" v-model="item.numeroTlf" ,v-on:keypress="isNumber($event)",required,:maxlength="9",:minlength="9")
   .row
-    .col
-      label.form-label() Fecha Nac.
-      .input-group
-        input.form-control(type="date", v-model="item.fechaNacimiento", required)
-    .col
-      label.form-label() Sexo
-      .input-group
-        select.form-select(placeholder="Sexo", v-model="item.sexo", required)
-          option(value="") SELECCIONE
-          option(value="M") MASCULINO
-          option(value="F") FEMENINO 
-  .row
-    .col-12
+    .col-12.col-md-6
       label.form-label() Nombre de Consultorio
       .input-group
         input.form-control(placeholder="Tipo", v-model="item.tipoConsultorio",v-on:keypress="isLetter($event)", required,maxlength="30")
         input.form-control(placeholder="Nombre consultorio", v-model="item.nombreconsultorio",v-on:keypress="isLetter($event)" required,maxlength="30")
-  .row
-    .col
+    .col-12.col-md-6
       label.form-label() Direccion
       .input-group
         input.form-control(placeholder="Dirección", v-model="item.direccion", required,maxlength="60")
   .row
-    .col-12.col-md-4.mx-auto.mt-3
+    .col-12.col-md-4.mx-auto.mt-4
       button#btguardar.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center( 
         type='submit', style="border-radius: 50px"
         )
