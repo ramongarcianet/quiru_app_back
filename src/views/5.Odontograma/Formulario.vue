@@ -112,18 +112,15 @@ watch(
 </script>
 
 <template lang="pug">
-//.row
-  p {{ textoEscuchado }}
-.row
-  .col
-    .d-flex.align-content-start.flex-wrap
-      i.fa.fa-tooth.me-2(style="color: #37DFBB; font-weight:bold; font-size: 1.5em;")
-      h1.me-1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family); ") {{itemodontograma.tipo}}
 
-.div(style='background-color: #37DFBB;width: 100px;height: 130px;margin-top: -145px;left:80%; position: absolute;z-index: 2;border-radius: 50% 50% 50% 50%;')
-  #button-microfono
-    MicroButton( style='--size: 4rem; position:absolute; z-index:3;left:18%; margin-top:57%' :class="{ active: isSpeech }" @click="isSpeech ? detenerVoz() : activarVoz()")
-  .col
+.row
+  p {{ textoEscuchado }}
+.contenedor
+  .anim(v-if='isSpeech')
+  .microfono( @click="isSpeech ? detenerVoz() : activarVoz()" )
+    ion-icon.icono(name="mic" )
+  
+//-Input sin micrófono
 .row.mt-3
   .col
     .row
@@ -146,49 +143,47 @@ watch(
         button.btn.btn-primary.m-1(type="submit", @click="limpiarHallazgoDiente()" style="width: 7rem;") Limpiar
     .row.mt-2(v-if="!isSpeech")
       span#mensaje(style="color: red; font-weight:bold;")
-  .col.d-flex.justify-content(v-if="!isSpeech")
-    OdonOficial
-.col.mt-2(v-if="isSpeech")
+.col.mt-2.d-flex.justify-content.desplazable
   .col.d-flex.justify-content-center
     OdonOficial
   .col
-    #collapseHallazgos.collapse
+    //-#collapseHallazgos.collapse
       button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
           | Cerrar
-      .card.card-body
-        .div(style="background-color: white; border-radius: 2%;")
-          table.table.table-hover
-            thead
-              tr
-                th N°
-                th Pieza
-                th Hallazgo
-                th Ubicación
-                th Sigla
-                th
-            tbody
-              tr(v-for="item of _hallazgos")
-                td {{ item.fila }}
-                td {{ item.diente }}
-                td {{ item.hallazgo }}
-                td {{ item.ubicacion }}
-                td {{ item.sigla }}
-                td(width="25%")
-                  BotonSeguro( :onSuccess= '() => borrar(item)' )
-                    i.fa.fa-trash-o(aria-hidden='true')
-          .div(v-if="itemodontograma.hallazgos?.length > 8",style="text-align: center;")
-            nav.d-flex.justify-content-center(aria-label='Page navigation example')
-              ul.pagination
-                li.page-item
-                  a.page-link(href='#', aria-label='Previous', @click="previousPage(itemodontograma.hallazgos)")
-                    span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
-                li.page-item(v-for="n in (Math.trunc(itemodontograma.hallazgos.length / 8) + (((itemodontograma.hallazgos.length % 8) > 0) ? 1 : 0))")
-                  a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}
-                li.page-item
-                  a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma.hallazgos)")
-                    span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
+    .card.card-body.cartita
+      .div(style="background-color: white; border-radius: 2%;")
+        table.table.table-hover
+          thead
+            tr
+              th N°
+              th Pieza
+              th Hallazgo
+              th Ubicación
+              th Sigla
+              th
+          tbody
+            tr(v-for="item of _hallazgos")
+              td {{ item.fila }}
+              td {{ item.diente }}
+              td {{ item.hallazgo }}
+              td {{ item.ubicacion }}
+              td {{ item.sigla }}
+              td(width="25%")
+                BotonSeguro( :onSuccess= '() => borrar(item)' )
+                  i.fa.fa-trash-o(aria-hidden='true')
+        .div(v-if="itemodontograma.hallazgos?.length > 8",style="text-align: center;")
+          nav.d-flex.justify-content-center(aria-label='Page navigation example')
+            ul.pagination
+              li.page-item
+                a.page-link(href='#', aria-label='Previous', @click="previousPage(itemodontograma.hallazgos)")
+                  span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
+              li.page-item(v-for="n in (Math.trunc(itemodontograma.hallazgos.length / 8) + (((itemodontograma.hallazgos.length % 8) > 0) ? 1 : 0))")
+                a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}
+              li.page-item
+                a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma.hallazgos)")
+                  span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
 
-.row.mt-2(v-if="!isSpeech")
+//-.row.mt-2(v-if="!isSpeech")
   .col
     #collapseHallazgos.collapse
       button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
@@ -227,3 +222,71 @@ watch(
                     span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
 
 </template>
+<style lang="sass" scoped>
+.cartita
+  margin-left: 40px
+.desplazable
+  display: flex
+  flex-direction: row
+  height: auto
+  width: auto
+  overflow: auto
+  justify-content: start
+  align-items: center
+  padding-bottom: 40px
+  &::-webkit-scrollbar-track 
+    border-radius: 50px 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1) 
+  &::-webkit-scrollbar-thumb 
+    background-color: var(--color-primary) 
+    outline: 1px solid var(--color-primary)
+    border-radius: 50px 
+  &::-webkit-scrollbar 
+    width: 1em
+    height: 10px
+
+
+
+  
+
+.contenedor
+  display: flex
+  flex-direction: row
+  justify-content: center
+  align-items: center
+  margin-top: 40px
+  margin-bottom: 40px
+  position: relative
+  .microfono
+    height: 110px
+    width: 110px
+    background-color: var(--color-primary)
+    border-radius: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    position: relative
+    z-index: 1
+    .icono
+      font-size: 60px
+      color: var(--color-white)
+  .anim
+    content: ""
+    height: 140px
+    width: 140px
+    background-color: var(--color-primary)
+    opacity: .1
+    position: absolute
+    border-radius: 100%
+    animation: palpitar 2s  infinite
+    z-index: 0
+  
+@keyframes palpitar
+  0%
+    transform: scale(1)  
+  50%  
+    transform: scale(1.2)  
+  100%
+    transform: scale(1)  
+
+</style>
