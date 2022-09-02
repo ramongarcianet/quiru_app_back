@@ -129,13 +129,16 @@ function pad(n, width, z) {
           .title Crear
           .subtitle Datos adicionales
         ion-icon(name="document-outline").icono  
-    div.opciones
-      button.outline-quiru.solid()
+    div.opciones(v-if="itemodontograma.esultimo==='2' && itemodontograma.hallazgos")
+      button.outline-quiru.solid( type="button", @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','2',itemodontograma.id), push({ name: 'pacienteVer', params: { idPaciente: route.params.idPaciente } })")
         .contenido
           .title.light-quiru Crear
           .subtitle.light-quiru Tratamiento
         ion-icon(name="medkit-outline").icono.light-quiru 
-    div.opciones
+    div(v-else="itemodontograma.esultimo==='1' || itemodontograma.esultimo==='0'")
+
+
+    //-div.opciones
       button.outline-quiru()
         .contenido
           .title Agregar
@@ -175,6 +178,10 @@ function pad(n, width, z) {
     align-items: center
     &.solid
       background-color: var(--color-primary)
+    &.disabled
+      border: none
+      background-color: gray
+      
     .contenido
       display: flex
       flex-direction: column

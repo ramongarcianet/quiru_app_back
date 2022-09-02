@@ -28,8 +28,8 @@ onUnmounted(()=>{
         th Tipo
         th Fecha
         th.d-none.d-md-table-cell Ver
-        th.d-none.d-md-table-cell Presupuesto
-        th.d-none.d-md-table-cell Agregar
+        //-th.d-none.d-md-table-cell Presupuesto
+        //-th.d-none.d-md-table-cell Agregar
         th.d-none.d-md-table-cell Borrar
     tbody
       tr(v-for="item of registroodonto" :key="item.id" :item="item")
@@ -39,15 +39,15 @@ onUnmounted(()=>{
           .dropdown
             button.ms-auto.btn(type="button", @click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")
               i.fa.fa-solid.fa-tooth
-        td
+        //-td
           .dropdown
             button.ms-auto.btn(type="button", @click="push({name: 'cotizacion', params: {idOdontograma: item.id,idPaciente: item.idPaciente} })")
               i.fa.fa-usd
-        td(v-if="item.esultimo==='2' && item.hallazgos")
+        //-td(v-if="item.esultimo==='2' && item.hallazgos")
           .dropdown
             button.ms-auto.btn(type="button", @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','2',item.id)")
               i.fa.fa-solid.fa-circle-plus
-        td(v-else="item.esultimo==='1' || item.esultimo==='0'")
+        //-td(v-else="item.esultimo==='1' || item.esultimo==='0'")
           .dropdown
             button.ms-auto.btn(type="button", disabled)
              i.fa.fa-solid.fa-circle-plus

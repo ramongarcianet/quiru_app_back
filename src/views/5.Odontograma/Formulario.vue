@@ -112,9 +112,9 @@ watch(
 </script>
 
 <template lang="pug">
-//-.row
-  p {{ textoEscuchado }}
 
+.row
+  p {{ textoEscuchado }}
 .contenedor
   .anim(v-if='isSpeech')
   .microfono( @click="isSpeech ? detenerVoz() : activarVoz()" )
@@ -143,49 +143,47 @@ watch(
         button.btn.btn-primary.m-1(type="submit", @click="limpiarHallazgoDiente()" style="width: 7rem;") Limpiar
     .row.mt-2(v-if="!isSpeech")
       span#mensaje(style="color: red; font-weight:bold;")
-  .col.d-flex.justify-content(v-if="!isSpeech")
-    OdonOficial
-.col.mt-2
+.col.mt-2.d-flex.justify-content.desplazable
   .col.d-flex.justify-content-center
     OdonOficial
   .col
-    #collapseHallazgos.collapse
+    //-#collapseHallazgos.collapse
       button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
           | Cerrar
-      .card.card-body
-        .div(style="background-color: white; border-radius: 2%;")
-          table.table.table-hover
-            thead
-              tr
-                th N°
-                th Pieza
-                th Hallazgo
-                th Ubicación
-                th Sigla
-                th
-            tbody
-              tr(v-for="item of _hallazgos")
-                td {{ item.fila }}
-                td {{ item.diente }}
-                td {{ item.hallazgo }}
-                td {{ item.ubicacion }}
-                td {{ item.sigla }}
-                td(width="25%")
-                  BotonSeguro( :onSuccess= '() => borrar(item)' )
-                    i.fa.fa-trash-o(aria-hidden='true')
-          .div(v-if="itemodontograma.hallazgos?.length > 8",style="text-align: center;")
-            nav.d-flex.justify-content-center(aria-label='Page navigation example')
-              ul.pagination
-                li.page-item
-                  a.page-link(href='#', aria-label='Previous', @click="previousPage(itemodontograma.hallazgos)")
-                    span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
-                li.page-item(v-for="n in (Math.trunc(itemodontograma.hallazgos.length / 8) + (((itemodontograma.hallazgos.length % 8) > 0) ? 1 : 0))")
-                  a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}
-                li.page-item
-                  a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma.hallazgos)")
-                    span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
+    .card.card-body.cartita
+      .div(style="background-color: white; border-radius: 2%;")
+        table.table.table-hover
+          thead
+            tr
+              th N°
+              th Pieza
+              th Hallazgo
+              th Ubicación
+              th Sigla
+              th
+          tbody
+            tr(v-for="item of _hallazgos")
+              td {{ item.fila }}
+              td {{ item.diente }}
+              td {{ item.hallazgo }}
+              td {{ item.ubicacion }}
+              td {{ item.sigla }}
+              td(width="25%")
+                BotonSeguro( :onSuccess= '() => borrar(item)' )
+                  i.fa.fa-trash-o(aria-hidden='true')
+        .div(v-if="itemodontograma.hallazgos?.length > 8",style="text-align: center;")
+          nav.d-flex.justify-content-center(aria-label='Page navigation example')
+            ul.pagination
+              li.page-item
+                a.page-link(href='#', aria-label='Previous', @click="previousPage(itemodontograma.hallazgos)")
+                  span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
+              li.page-item(v-for="n in (Math.trunc(itemodontograma.hallazgos.length / 8) + (((itemodontograma.hallazgos.length % 8) > 0) ? 1 : 0))")
+                a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}
+              li.page-item
+                a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma.hallazgos)")
+                  span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
 
-.row.mt-2(v-if="!isSpeech")
+//-.row.mt-2(v-if="!isSpeech")
   .col
     #collapseHallazgos.collapse
       button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
@@ -225,6 +223,31 @@ watch(
 
 </template>
 <style lang="sass" scoped>
+.cartita
+  margin-left: 40px
+.desplazable
+  display: flex
+  flex-direction: row
+  height: auto
+  width: auto
+  overflow: auto
+  justify-content: start
+  align-items: center
+  padding-bottom: 40px
+  &::-webkit-scrollbar-track 
+    border-radius: 50px 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1) 
+  &::-webkit-scrollbar-thumb 
+    background-color: var(--color-primary) 
+    outline: 1px solid var(--color-primary)
+    border-radius: 50px 
+  &::-webkit-scrollbar 
+    width: 1em
+    height: 10px
+
+
+
+  
 
 .contenedor
   display: flex
