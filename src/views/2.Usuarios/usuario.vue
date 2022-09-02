@@ -39,8 +39,8 @@ watch(
 <template lang="pug">
 .row.mb-3
   .col-10
-    h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Hola
-    h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Bienvenido
+    h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Viste de
+    h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Configuración
   .col-2
     button.btn.btn-outline-primary.border-0.pb-md-0(title='Cerrar Sesion' @click="cerrarSesion()")
       ion-icon(name="power-outline" size="large")
