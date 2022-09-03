@@ -14,8 +14,7 @@ const { push} = useRouter()
                     span.dark-text ¡Beneficios!
             .col-12.col-md-6.d-flex.flex-column.justify-content-center.align-items-start
                 span Ten acceso anticipado y gana un descuento del 50% en los primeros 6 meses. Déjanos tus datos para darte el acceso anticipado y puedas probar esta nueva forma de atender a tus pacientes * Inscríbete sin consto.Válido hasta 20/05/2022. 
-                a.btn.btn-primary.mt-2.py-2.px-0.w-50(href='https://quiru.app/sesion') Iniciar prueba
-                //registrarEvento("act_btn_price")') Iniciar prueba
+                button.btn.btn-primary.mt-5( @click='push({ name: "demo" }), registrarEvento("act_btn_price")') Iniciar prueba
         .row.d-flex.justify-content-center.align-items-center
             .col-12.col-md-6.align-items-center.mt-5
                 Img.w-100( width='500' src="https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/quiru%2Fdescuentos.webp?alt=media&token=681a5c26-f1d3-4c94-a99e-09452c2dddd5 ")

@@ -1,0 +1,19 @@
+{
+    "EJEMP": [
+        {"orden": "<Pieza> caries por <vestibular>","descripcion": "grafica caries por vestibular", "ima": "https://i.ibb.co/rpDvKrN/5-3-2.png", "ejemplo": "1.4 caries por vestibular"},
+        {"orden": "<Pieza> caries por <oclusal>","descripcion": "grafica caries por oclusal", "ima": "https://i.ibb.co/rpDvKrN/5-3-2.png", "ejemplo": "2.4 caries por oclusal"},
+        {"orden": "<Pieza> caries por <palatino>","descripcion": "grafica caries por palatino", "ima": "https://i.ibb.co/rpDvKrN/5-3-2.png", "ejemplo": "1.7 caries por palatino"},
+        {"orden": "<Pieza> caries por <lingual>","descripcion": "grafica caries por lingual", "ima": "https://i.ibb.co/rpDvKrN/5-3-2.png", "ejemplo": "7.3 caries por lingual"},
+        {"orden": "<Pieza> caries por <distal>","descripcion": "grafica caries por distal", "ima": "https://i.ibb.co/rpDvKrN/5-3-2.png", "ejemplo": "2.3 caries por distal"},
+        {"orden": "<Pieza> caries por <mesial>","descripcion": "grafica caries por mesial", "ima": "https://i.ibb.co/rpDvKrN/5-3-2.png", "ejemplo": "6.4 caries por mesial"},
+        {"orden": "<Pieza> caries por <incisal>","descripcion": "grafica caries por incisal", "ima": "https://i.ibb.co/rpDvKrN/5-3-2.png", "ejemplo": "1.3 caries por incisal"},
+        {"orden": "<Pieza> <hipoplasia>","descripcion": "coloca en el recuadro correspondiente las siglas HP de color rojo", "ima": "https://i.ibb.co/rpDvKrN/5-3-2.png", "ejemplo": "1.8 hipoplasia"},
+        {"orden": "<Pieza> <hipomineralizacion>","descripcion": "coloca en el recuadro correspondiente las siglas HM de color rojo", "ima": "https://i.ibb.co/rpDvKrN/5-3-2.png", "ejemplo": "2.6 hipomineralizacion"},
+        {"orden": "<Pieza> <opacidad>","descripcion": "coloca en el recuadro correspondiente las siglas O de color rojo", "ima": "https://i.ibb.co/rpDvKrN/5-3-2.png", "ejemplo": "5.4 opacidad"},
+        {"orden": "<Pieza> <decoloracion>","descripcion": "coloca en el recuadro correspondiente las siglas D de color rojo", "ima": "https://i.ibb.co/rpDvKrN/5-3-2.png", "ejemplo": "3.7 decoloracion"},
+        {"orden": "<Pieza> <fluorosis>","descripcion": "coloca en el recuadro correspondiente las siglas F de color rojo", "ima": "https://i.ibb.co/rpDvKrN/5-3-2.png", "ejemplo": "4.5 fluorosis"},
+        {"orden": "<Pieza> <fractura>","descripcion": "grafica una linea diagonal de color rojo", "ima": "https://i.ibb.co/ZLnCR1s/5-3-4.png", "ejemplo": "6.2 fractura"},
+        {"orden": "<Pieza> <extraccion>","descripcion": "grafica un diente extraido marcandolo con una X rojo", "ima": "https://i.ibb.co/mtdL98D/5-3-6.png", "ejemplo": "7.4 extraccion"},
+        {"orden": "<Pieza> <ausente>","descripcion": "grafica un diente ausente marcandolo con una X azul", "ima": "https://i.ibb.co/mtdL98D/5-3-6.png", "ejemplo": "8.5 ausente"}
+    ]
+}

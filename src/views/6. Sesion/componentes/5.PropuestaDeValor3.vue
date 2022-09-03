@@ -18,8 +18,7 @@ const {push} = useRouter()
                             span.dark-text pacientes 
                         Img.ms-3( width='60' src="https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/quiru%2Fgestion-pacientes.webp?alt=media&token=b7af13fd-834c-4945-9d53-c9e71bc59370")
                 span La agenda o el archivador quedaron atrás, ten el control total de tus pacientes. Consulta tu información en un solo panel y empieza tu consulta en el acto para que tu puedas enfocarte en brindar el mejor servicio.
-                a.btn.btn-primary.mt-2.py-2.px-0.w-50(href='https://quiru.app/sesion') Iniciar prueba
-                // registrarEvento("act_btn_pv3")')
+                button.btn.btn-primary.mt-5( @click='push({ name: "demo" }), registrarEvento("act_btn_pv3")') Iniciar prueba
 
 </template>
 <style lang="sass" scoped>
