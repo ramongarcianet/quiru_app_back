@@ -18,11 +18,6 @@ const routes = [
 
         },
         {
-            path:'demo/:codigo?',
-            name: 'demo',
-            component: ()=>import('../views/6. Sesion/2. Demo.vue'),
-        },
-        {
             path:'inscripcion/:codigo?',
             name: 'inscripcion',
             component: ()=>import('../views/6. Sesion/4. Inscripcion.vue'),

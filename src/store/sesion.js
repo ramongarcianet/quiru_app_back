@@ -33,10 +33,9 @@ export const cerrarSesion = () => signOut(auth)
 export const sesion = () => onAuthStateChanged(
     auth,
     ( user ) => {
-        if( user ) router.push({name:'pacientes'})
+        if( user ) router.push({name:'landing'})
         else if( router.currentRoute.value.meta.requiereAuth && !user ) router.push({name:'landing'})
         else return
-
     }
 )
 
@@ -53,6 +52,5 @@ export const obtenerEstadoDeAutentificacion = ()=> new Promise( resolve =>{
     }
 )})
 
-
-//acá se extrase el uid ejecutando la funcion y recibiendo un objeti
+//acá se extrae el uid ejecutando la funcion y recibiendo un objeti
 export const miUsuario = () => auth?.currentUser
