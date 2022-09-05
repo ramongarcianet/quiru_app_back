@@ -2,7 +2,6 @@
 import { ref } from "vue";
 import { item, guardar, actualizar, limpiar, leerEnRegistro, obtenerTodos, registro, updateEstado } from "../../store/paciente";
 import { guardar as guardarOdontograma, registroodonto, obtenerTodos as obtenerOdontograma } from "../../store/formodontograma";
-import Seguro from "../../components/uikit/Seguro.vue";
 const obtenerRegistro = obtenerTodos();
 const confirmar = ref(false);
 let itemseleccionado = {};
@@ -22,7 +21,9 @@ function EliminarPaciente() {
     else {
         alerta.style.display = "none";
         modal.style.display = 'none';
-        updateEstado(itemseleccionado).then(()=>back())
+        console.log('llego hasta aquí sin error?si')
+        console.log('llega el item seleccionado?', itemseleccionado)
+        //updateEstado(itemseleccionado).then(()=>back())
     }
 }
 function Cancelar() {
