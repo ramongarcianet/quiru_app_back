@@ -21,8 +21,6 @@ function EliminarPaciente() {
     else {
         alerta.style.display = "none";
         modal.style.display = 'none';
-        console.log('llego hasta aquí sin error?si')
-        console.log('llega el item seleccionado?', itemseleccionado)
         //updateEstado(itemseleccionado).then(()=>back())
     }
 }
