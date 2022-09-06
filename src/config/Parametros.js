@@ -58,9 +58,9 @@ export const listaDeHallazgos = [
     { value: "caries", text: "Caries", sigla: "", tipo: "Diagnóstico" },
 
     { value: "manchablanca", text: "Mancha Blanca", sigla: "MB", tipo: "Diagnóstico" },
-    { value: "lesionesmalte", text: "Lesión Caries de Esmalte", sigla: "CE", tipo: "Diagnóstico" },
-    { value: "lesiondentina", text: "Lesión Caries de Dentina", sigla: "CD", tipo: "Diagnóstico" },
-    { value: "lesionpulga", text: "Lesión Caries de Pulga", sigla: "CDP", tipo: "Diagnóstico" },
+   // { value: "lesionesmalte", text: "Lesión Caries de Esmalte", sigla: "CE", tipo: "Diagnóstico" },
+    //{ value: "lesiondentina", text: "Lesión Caries de Dentina", sigla: "CD", tipo: "Diagnóstico" },
+   // { value: "lesionpulpa", text: "Lesión Caries de Pulpa", sigla: "CDP", tipo: "Diagnóstico" },
 
     { value: "extracción", text: "Extracción", sigla: "", tipo: "Tratamiento" },
     { value: "ausente", text: "Ausente", sigla: "", tipo: "Diagnóstico" },
