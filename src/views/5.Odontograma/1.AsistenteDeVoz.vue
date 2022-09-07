@@ -207,6 +207,16 @@ function pad(n, width, z) {
       &.light-quiru
         color: var(--color-white)
 
-  
+@media (min-width: 800px)
+  .opciones
+    margin-top: 16px
+    margin-left: auto
+    margin-right: auto
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    width: 40%
+    height: auto
 
 </style>
