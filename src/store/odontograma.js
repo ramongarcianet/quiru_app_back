@@ -137,35 +137,6 @@ export function speak(pHablar) {
     }
 }
 
-function diagnostico(param) {
-    if (isSpeech.value || (param === 'manual')) {
-        headerVoz.style = "visibility: hidden;";
-        tipoReg.value = "0";
-        var _tituloTratamiento = document.getElementById('tituloTratamiento');
-        _tituloTratamiento.innerText = 'Registro de Diagnóstico';
-        comboHallazgo.value = 'caries';
-        limpiarCaries();
-    }
-}
-function tratamiento(param) {
-    if (isSpeech.value || (param === 'manual')) {
-        headerVoz.style = "visibility: hidden;";
-        tipoReg.value = "1";
-        var _tituloTratamiento = document.getElementById('tituloTratamiento');
-        _tituloTratamiento.innerText = 'Registro de Tratamiento';
-        comboHallazgo.value = 'caries';
-        limpiarCaries();
-    }
-}
-
-function limpiar() {
-    let comboHallazgo = document.getElementById('comboHallazgo');
-    comboHallazgo.value = 'caries';
-    let comboPieza = document.getElementById('comboPieza');
-    comboPieza.value = '11';
-    limpiarCaries();
-    clearcanvas("cvhallazgo");
-}
 
 function volver() {
     push({ name: 'odontograma' })
@@ -190,9 +161,6 @@ export function activarMicro() {
 
 }
 export {
-    diagnostico,
-    tratamiento,
-    limpiar,
     volver,
     isSpeech
 }
