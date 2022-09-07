@@ -11,9 +11,9 @@ const { push } = useRouter();
         h1.text-center.light-text Inicia sesión
         Form( :onPromise='()=>iniciarSesion(item)' ) 
             label.form-label Correo electrónico
-            input.form-control.mb-2( v-model='item.email' type='email' required)
+            input.form-control.mb-2(placeholder="Ejemplo@gmail.com" v-model='item.email' type='email' required)
             label.form-label Contraseña
-            input.form-control.mb-3( v-model='item.password' type='password' required)
+            input.form-control.mb-3(placeholder="********" v-model='item.password' type='password' required)
             .row
                 button.btn.btn-outline-light( type='submit') Iniciar sesión
                 button.btn.btn-outline-light.text-center.m-1( type='button' @click='push({name: "registro"})' style="border: 0!important;") Registrarme

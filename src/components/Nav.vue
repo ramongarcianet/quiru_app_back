@@ -118,7 +118,7 @@ const rutas = [
     left: -22px
     width: 20px
     height: 20px
-    background: transparent
+    background: transparent !important
     border-top-right-radius: 20px
     box-shadow: 1px -10px 0 0 var(--color-light)
   &::after
@@ -128,7 +128,7 @@ const rutas = [
     right: -22px
     width: 20px
     height: 20px
-    background: transparent
+    background: transparent !important
     border-top-left-radius: 20px
     box-shadow: -1px -10px 0 0 var(--color-light)
 </style>

@@ -22,27 +22,27 @@ watch(
     .col-5
     .col-7
         input#SearchInput.form-control.mb-2.ms-auto(v-on:keyup='search(registro)', placeholder="Buscar")
-.div.mb-5(style="background-color: white; border-radius: 2%;")
-    table.table.table-hover(style="cursor: pointer")
-        thead
-            td.d-none.d-md-table-cell Tipo Doc.
-            td.d-none.d-md-table-cell Número Doc.
-            td.d-none.d-md-table-cell Nombre
-            td.d-none.d-md-table-cell Teléfono
-            td.d-none.d-md-table-cell Correo
-            td.d-none.d-md-table-cell 
-        tbody
-            tr(v-for="item of registro_"  :key="item.id"  :item="item" @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })")
-                td.d-none.d-md-table-cell {{item.tipoDocumento}}
-                td.d-none.d-md-table-cell {{ item.numeroDocumento }}
-                td
-                    span.d-block.d-md-none {{item.tipoDocumento + ' ' +item.numeroDocumento }}
-                    | {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }}
-                td.d-none.d-md-table-cell {{item.telefono}}
-                td.d-none.d-md-table-cell {{item.email}}
-                td.dropdown
-                    button.ms-auto.btn(title='Odontograma')
-                        i.fa.fa-solid.fa-tooth
+.div.mb-5
+    .card.mb-1.d-none.d-md-block
+        .row.align-items-center.p-1
+            .col.ps-4.d-none.d-md-block Documento
+            .col-3.d-none.d-md-block Nombre
+            .col-2.d-none.d-md-block Teléfono
+            .col-3.d-none.d-md-block Email
+            .col-1
+    .card.mb-2(v-for="item of registro_"  :key="item.id"  :item="item" @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })")
+        .row.align-items-center.p-1(style="cursor: pointer")
+            .col-10.d-block.d-md-none {{item.tipoDocumento + ' ' +item.numeroDocumento }}
+            .col-10.d-block.d-md-none {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }}
+
+            .col.ps-4.d-none.d-md-block {{item.tipoDocumento}}
+            .col-2.d-none.d-md-block {{ item.numeroDocumento }}
+            .col-3.d-none.d-md-block {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }} 
+            .col-2.d-none.d-md-block {{item.telefono}}
+            .col-3.d-none.d-md-block {{item.email}}
+            .col-1.dropdown
+                button.ms-auto.btn(title='Odontograma')
+                    i.fa.fa-solid.fa-tooth
     .div(v-if="registro.length > 8",style="text-align: center;")
         nav.d-flex.justify-content-center(aria-label='Page navigation example')
             ul.pagination
