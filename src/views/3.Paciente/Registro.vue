@@ -23,19 +23,19 @@ watch(
     .col-7
         input#SearchInput.form-control.mb-2.ms-auto(v-on:keyup='search(registro)', placeholder="Buscar")
 .div.mb-5
-    .card.mb-1.d-none.d-md-block
+    .card.mb-1.d-none.d-md-block(style="border-radius: 30px; background-color:#f5f5f5;")
         .row.align-items-center.p-1
-            .col.ps-4.d-none.d-md-block Documento
+            .col-3.ps-4.d-none.d-md-block Documento
             .col-3.d-none.d-md-block Nombre
             .col-2.d-none.d-md-block Teléfono
             .col-3.d-none.d-md-block Email
             .col-1
-    .card.mb-2(v-for="item of registro_"  :key="item.id"  :item="item" @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })")
+    .card.mb-2.p-2(v-for="item of registro_"  :key="item.id"  :item="item" @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })" style="border-radius: 40px")
         .row.align-items-center.p-1(style="cursor: pointer")
             .col-10.d-block.d-md-none {{item.tipoDocumento + ' ' +item.numeroDocumento }}
             .col-10.d-block.d-md-none {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }}
 
-            .col.ps-4.d-none.d-md-block {{item.tipoDocumento}}
+            .col.ps-3.d-none.d-md-block {{item.tipoDocumento}}
             .col-2.d-none.d-md-block {{ item.numeroDocumento }}
             .col-3.d-none.d-md-block {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }} 
             .col-2.d-none.d-md-block {{item.telefono}}
