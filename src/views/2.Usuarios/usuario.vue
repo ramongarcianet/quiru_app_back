@@ -34,7 +34,6 @@ watch(
             leerEnRegistro(miUsuario().uid);
         }
     }
-  }
 );
 </script>
 
