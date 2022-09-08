@@ -41,6 +41,11 @@ const routes = [
                     name: 'registro',
                     component: ()=>import('../views/6. Sesion/1.2 Registro.vue')
                 },
+                {
+                    path: 'reset-contrasena',
+                    name: 'reset-contrasena',
+                    component: ()=>import('../views/6. Sesion/1.3 ResetContraseña.vue')
+                },
             ]
         },
       ]
