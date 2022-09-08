@@ -27,10 +27,12 @@ function definirMaxLimit(tipoDocumento) {
   }
 }
 watch(
-  () => registro.value,
-  () => {
-    if (registro.value.length > 0) {
-      leerEnRegistro(miUsuario().uid);
+    () => registro.value,
+    () => {
+        let valores= registro.value.find(item => item.idUsuario == miUsuario().uid)
+        if(valores !=undefined) {
+            leerEnRegistro(miUsuario().uid);
+        }
     }
   }
 );

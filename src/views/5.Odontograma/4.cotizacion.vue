@@ -118,7 +118,7 @@ h2.primary-text
             input.form-control(placeholder="Concepto" v-model="item.concepto", required)
           .col
             label.input-group Precio
-            input.form-control(type="number" placeholder="Precio" v-model="item.precio",required :maxlength="maxDinero")          
+            input.form-control(type="number" placeholder="Precio" v-model="item.precio",required :maxlength="maxDinero")
           .col.d-flex.justify-content-left.mt-3
             button.btn.btn-primary(type='submit') Agregar 
             button.btn.btn-primary(@click="AddItemsAutomatico()") Generar desde Diagnóstico

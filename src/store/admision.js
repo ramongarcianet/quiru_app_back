@@ -10,8 +10,6 @@ const item = ref ({
     fechaAdmisión:new Date().toISOString().slice(0,10)
 
 })
-
-//const {push} = useRouter()
 const verOdontograma=()=>{
     //this.useRouter.push('../views/7.Odontogramas/index.vue');
     //push({name: "../views/7.Odontogramas/index.vue"})
