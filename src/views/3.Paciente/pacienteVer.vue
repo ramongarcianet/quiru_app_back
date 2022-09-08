@@ -4,7 +4,7 @@ import { useRoute, useRouter} from "vue-router";
 import { item, guardar, actualizar, limpiar, leerEnRegistro, obtenerTodos, registro, updateEstado } from "../../store/paciente";
 import RegistroOdontograma from "../5.Odontograma/RegistroOdontograma.vue";
 import { guardar as guardarOdontograma, registroodonto, obtenerTodos as obtenerOdontograma } from "../../store/formodontograma";
-import Seguro from "../../components/uikit/Seguro.vue";
+//import Seguro from "../../components/uikit/Seguro.vue";
 const obtenerRegistro = obtenerTodos();
 const confirmar = ref(false);
 let itemseleccionado = {};
@@ -46,7 +46,14 @@ onUnmounted(()=> {
 </script>
 
 <template lang="pug">
-Seguro
+#id01.modal(style="display:none;")
+    .modal-content.modal-sm
+        .container
+            p(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Eliminar Paciente
+            p ¿Esta seguro que desea eliminar?
+            .clearfix
+                button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
+                button.btn.btn-danger.deletebtn(@click="EliminarPaciente(), mostrar = false") Aceptar
 .row
   .col-4.col-md-9
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Ver
@@ -90,8 +97,83 @@ Seguro
         h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") odontogramas
     RegistroOdontograma
 </template>
-<style>
+<style scoped>
 ion-icon {
   pointer-events: none;
 }
+
+#id01 {
+background-color: rgba(0, 0, 0, 0.6);
+}
+
+.cancelbtn,
+.deletebtn {
+float: left;
+width: 50%;
+}
+
+.cancelbtn {
+background-color: rgb(189, 189, 189);
+
+}
+
+.deletebtn {
+background-color: #f44336;
+}
+
+.container {
+padding: 16px;
+text-align: center;
+}
+
+.modal {
+display: block;
+position: fixed;
+z-index: 1;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+overflow: auto;
+opacity: 1;
+padding-top: 50px;
+
+}
+
+.modal-content {
+background-color: #fefefe;
+margin: 5% auto 15% auto;
+border: 1px solid #888;
+width: 80%;
+}
+
+hr {
+border: 1px solid #f1f1f1;
+margin-bottom: 25px;
+}
+
+.close {
+position: relative;
+font-size: 20px;
+font-weight: bold;
+color: black;
+}
+
+.close:focus {
+cursor: pointer;
+}
+
+.clearfix::after {
+content: "";
+clear: both;
+display: table;
+}
+
+@media screen and (max-width: 300px) {
+
+  .cancelbtn,
+  .deletebtn {
+      width: 100%;
+  }
+  }
 </style>
