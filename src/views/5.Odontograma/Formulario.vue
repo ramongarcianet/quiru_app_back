@@ -64,6 +64,7 @@ watch(
     if (mensajeExistePieza.value != '') {
       let mensaje = document.getElementById('mensaje');
       mensaje.innerText = mensajeExistePieza.value;
+      mensaje.style.display = "block"
     }
   }
 )
@@ -76,13 +77,14 @@ const borrar = ({ diente, hallazgo, ubicacion }) => {
   }
 }
 function changeHallazgoDiente() {
-
   let mensaje = document.getElementById('mensaje');
   mensaje.innerText = '';
+  mensaje.style.display = "none"
 }
 function limpiarHallazgoDiente() {
   let mensaje = document.getElementById('mensaje');
   mensaje.innerText = '';
+  mensaje.style.display = "none"
   limpiarSinVoz();
 }
 function ordenarAsc(listado, p_key) {
@@ -131,9 +133,9 @@ watch(
           datalist#listaDeDientes
             option(v-for='{ text, value } of listaDeDientesCombo' :value="value")
         span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;") Hallazgo :
-          input.form-control#comboHallazgo(list='ListaHallazgos', name='comboHallazgo', v-model='Hallazgo')
-          datalist#ListaHallazgos
-            option(v-for='{ text, value } of listaDeHallazgos' :value="value")
+          input.form-control#comboHallazgo(list='listaDeHallazgos', name='comboHallazgo', v-model='Hallazgo')
+          datalist#listaDeHallazgos
+            option(v-for='{ text, value } of listaDeHallazgos' :value="value") {{text}}
     .row(v-if="!isSpeech")
       .col.d-flex.justify-content-center
         Diente(:item='item' style='--size: 12rem;').raiz-0
@@ -142,7 +144,7 @@ watch(
         button.btn.btn-primary.m-1(type="submit", @click="agregarLista(route.params.idOdontograma, item)" style="width: 7rem;") Agregar
         button.btn.btn-primary.m-1(type="submit", @click="limpiarHallazgoDiente()" style="width: 7rem;") Limpiar
     .row.mt-2(v-if="!isSpeech")
-      span#mensaje(style="color: red; font-weight:bold;")
+    #mensaje.alert.alert-danger(style='display:none')
 .col.mt-2.d-flex.justify-content.desplazable
   .col.d-flex.justify-content-center.item
     OdonOficial
@@ -249,14 +251,10 @@ watch(
   &::-webkit-scrollbar 
     width: 1em
     height: 10px
-  .item
-    flex: 0 0 100%
-    scroll-snap-align: start
-    scroll-snap-stop: always
-
-
-  
-
+.item
+  flex: 0 0 100%
+  scroll-snap-align: start
+  scroll-snap-stop: always
 .contenedor
   display: flex
   flex-direction: row
