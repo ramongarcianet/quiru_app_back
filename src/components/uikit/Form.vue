@@ -9,8 +9,8 @@ const submit = ()=> {
         .then(()=>{
             if(props.onSuccess) props.onSuccess()
             loading.value = false
-        }).catch(()=>{
-            if(props.onCatch)props.onCatch()
+        }).catch((e)=>{
+            if(props.onCatch)props.onCatch(e)
             loading.value = false
         })
     else if ( props.onFunction ) {

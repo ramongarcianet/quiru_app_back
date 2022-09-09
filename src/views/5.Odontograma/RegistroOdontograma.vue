@@ -21,41 +21,37 @@ onUnmounted(()=>{
 </script>
 
 <template lang="pug"> 
-.div(style="background-color: white; border-radius: 2%;")
-  table.table.table-hover
-    thead
-      tr
-        th Tipo
-        th Fecha
-        th.d-none.d-md-table-cell Ver
-        //-th.d-none.d-md-table-cell Presupuesto
-        //-th.d-none.d-md-table-cell Agregar
-        th.d-none.d-md-table-cell Borrar
-    tbody
-      tr(v-for="item of registroodonto" :key="item.id" :item="item")
-        td {{item.tipo}}
-        td {{item.fechaRegistro}}
-        td
+.div
+    //.card.mb-1.d-none.d-md-block
+      .row
+        .col-6.ps-4 Tipo
+        .col.d-none.d-md-table-cell Ver
+        .col.d-none.d-md-table-cell Agregar
+        .col.d-none.d-md-table-cell Borrar
+    .card.mb-2.p-3(v-for="item of registroodonto" :key="item.id" :item="item" style="border-radius: 40px")
+      .row(style="cursor: pointer")
+        .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") {{item.fechaRegistro}}
+        .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")  {{item.tipo}}
+
+        .col-6.d-block.d-md-none(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")  {{item.fechaRegistro}} {{item.tipo}}
+        .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") 
+        .col-2.col-md-1(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") 
           .dropdown
-            button.ms-auto.btn(type="button", @click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")
+            button.ms-auto.btn(type="button")
               i.fa.fa-solid.fa-tooth
-        //-td
-          .dropdown
-            button.ms-auto.btn(type="button", @click="push({name: 'cotizacion', params: {idOdontograma: item.id,idPaciente: item.idPaciente} })")
-              i.fa.fa-usd
-        //-td(v-if="item.esultimo==='2' && item.hallazgos")
+        //.col-2.col-md-1(v-if="item.esultimo==='2' && item.hallazgos")
           .dropdown
             button.ms-auto.btn(type="button", @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','2',item.id)")
               i.fa.fa-solid.fa-circle-plus
-        //-td(v-else="item.esultimo==='1' || item.esultimo==='0'")
+        //.col-2.col-md-1(v-else="item.esultimo==='1' || item.esultimo==='0'")
           .dropdown
             button.ms-auto.btn(type="button", disabled)
-             i.fa.fa-solid.fa-circle-plus
-        td(v-if="item.esultimo==='2'" width="25%")
+              i.fa.fa-solid.fa-circle-plus
+        .col-2.col-md-1(v-if="item.esultimo==='2'")
           .dropdown
             BotonSeguro( :onSuccess= '() => eliminar(item.id)' )
                 i.fa.fa-trash-o
-        td(v-else="item.esultimo==='1' || item.esultimo==='0'")
+        .col-2.col-md-1(v-else="item.esultimo==='1' || item.esultimo==='0'")
           .dropdown
             button.ms-auto.btn(type="button", disabled)
               i.fa.fa-trash-o(aria-hidden='true')

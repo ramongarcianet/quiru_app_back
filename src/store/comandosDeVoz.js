@@ -147,11 +147,11 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
     if (hallazgo && listaDeUbicacion.length == 0) {
         const registroSiglas = listaDeHallazgos.filter((elem) => elem.value == hallazgo);
         sigla = registroSiglas[0]?.sigla;
-        if (hallazgo != 'caries' && hallazgo != 'restauración') {
+        if (hallazgo != 'caries' && hallazgo != 'restauración' && hallazgo != 'manchablanca' ) {
             item.value.hallazgos.push({
                 hallazgo,
                 sigla: sigla,
-                posicion: (hallazgo == 'caries') ? _posicion : (hallazgo == 'restauración') ? _posicion:'',
+                posicion: '',
                 fechaHallazgo:new Date(),
             })
             mensaje += `Hallazgo ${hallazgo}`
@@ -171,12 +171,12 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
             }
             if (ubicacionnes.arriba.trim() == ubicacion || ubicacionnes.centro.trim() == ubicacion ||
                 ubicacionnes.abajo.trim() == ubicacion || ubicacionnes.izquierda.trim() == ubicacion || ubicacionnes.derecha.trim() == ubicacion) {
-                ubicacion = (hallazgo == 'caries') ? ubicacion : (hallazgo == 'restauración') ? ubicacion : '';
+                ubicacion = (hallazgo == 'caries' || hallazgo == 'manchablanca') ? ubicacion : (hallazgo == 'restauración') ? ubicacion : '';
                 item.value.hallazgos.push({
                     hallazgo,
                     ubicacion,
                     sigla: sigla,
-                    posicion: (hallazgo == 'caries') ? _posicion : (hallazgo == 'restauración') ? _posicion : '',
+                    posicion: (hallazgo == 'caries' || hallazgo == 'manchablanca') ? _posicion : (hallazgo == 'restauración') ? _posicion : '',
                     fechaHallazgo:new Date(),
                 })
                 mensajeUbicacion += ubicacion
@@ -239,8 +239,6 @@ export const agregar = () => {
     item.value.hallazgos?.map(({ hallazgo, ubicacion, sigla, posicion,fechaHallazgo }) => ({ diente: item.value.diente, ubicacion: ubicacion || "", hallazgo, sigla, posicion,fechaHallazgo })).forEach(item => {
         const index = itemodontograma.value?.hallazgos?.findIndex(i => i.hallazgo == item.hallazgo && i.diente == item.diente && i.ubicacion == item.ubicacion)
         if (index == -1 || index == undefined) {
-            item.ubicacion = (item.hallazgo == 'caries') ? item.ubicacion : (item.hallazgo == 'restauración') ? item.ubicacion : '';
-            item.posicion = (item.hallazgo == 'caries') ? item.posicion : (item.hallazgo == 'restauración') ? item.posicion : '';
             itemodontograma.value?.hallazgos ? itemodontograma.value.hallazgos.push(item) : itemodontograma.value.hallazgos = [item];
         }
     })
@@ -270,6 +268,7 @@ const prefijosMultiples = '(a) (la) (ala) (al)'
 const listaDeFuncionesPorDiente = {}
 listaDeDientes_.map(num => {
     listaDeFuncionesPorDiente[`${num}CariesUbicacion`] = (ubicacion) => actualizarItem('caries', ubicacion, String(num))
+    listaDeFuncionesPorDiente[`${num}ManchaBlancaUbicacion`] = (ubicacion) => actualizarItem('manchablanca', ubicacion, String(num))
     listaDeFuncionesPorDiente[`${num}Fractura`] = () => actualizarItem('fractura', false, String(num))
     listaDeFuncionesPorDiente[`${num}Extraccion`] = () => actualizarItem('extracción', false, String(num))
     listaDeFuncionesPorDiente[`${num}Ausente`] = () => actualizarItem('ausente', false, String(num))
@@ -291,6 +290,7 @@ const listaDeComandosDeDientes = {}
 listaDeDientes_?.map(num => {
     listaDeComandosDeDientes[`${num} carie ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesUbicacion`]
     listaDeComandosDeDientes[`${num} caries ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesUbicacion`]
+    listaDeComandosDeDientes[`${num} mancha blanca ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}ManchaBlancaUbicacion`]
     listaDeComandosDeDientes[`${num} restauración ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}Restauracion`]
     listaDeComandosDeDientes[`${num} factura`] = listaDeFuncionesPorDiente[`${num}Fractura`]
     listaDeComandosDeDientes[`${num} fractura`] = listaDeFuncionesPorDiente[`${num}Fractura`]

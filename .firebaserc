@@ -10,8 +10,12 @@
         ],
         "test": [
           "test-quiru"
+        ],
+        "dev": [
+          "dev-quiru"
         ]
       }
     }
-  }
+  },
+  "etags": {}
 }

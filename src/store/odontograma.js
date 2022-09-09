@@ -53,10 +53,8 @@ if (annyang) {
         }
     });
     annyang.addCallback('error', function (e) {
-        if (isSpeech.value){
-            if (resizeWindow.value<500)
+        if (resizeWindow.value<500)
             alert('Micrófono activado')
-        }
     });
     annyang.addCallback('errorNetwork', function () {
         if (isSpeech.value){
@@ -69,10 +67,8 @@ if (annyang) {
         }
     });
     annyang.addCallback('errorPermissionDenied', function () {
-        if (isSpeech.value){
-            if (resizeWindow.value<500)
+        if (resizeWindow.value<500)
             alert('Reconectando al micrófono')
-        }
     });
 
     flagAnnyang = annyang.start()
@@ -137,35 +133,6 @@ export function speak(pHablar) {
     }
 }
 
-function diagnostico(param) {
-    if (isSpeech.value || (param === 'manual')) {
-        headerVoz.style = "visibility: hidden;";
-        tipoReg.value = "0";
-        var _tituloTratamiento = document.getElementById('tituloTratamiento');
-        _tituloTratamiento.innerText = 'Registro de Diagnóstico';
-        comboHallazgo.value = 'caries';
-        limpiarCaries();
-    }
-}
-function tratamiento(param) {
-    if (isSpeech.value || (param === 'manual')) {
-        headerVoz.style = "visibility: hidden;";
-        tipoReg.value = "1";
-        var _tituloTratamiento = document.getElementById('tituloTratamiento');
-        _tituloTratamiento.innerText = 'Registro de Tratamiento';
-        comboHallazgo.value = 'caries';
-        limpiarCaries();
-    }
-}
-
-function limpiar() {
-    let comboHallazgo = document.getElementById('comboHallazgo');
-    comboHallazgo.value = 'caries';
-    let comboPieza = document.getElementById('comboPieza');
-    comboPieza.value = '11';
-    limpiarCaries();
-    clearcanvas("cvhallazgo");
-}
 
 function volver() {
     push({ name: 'odontograma' })
@@ -190,9 +157,6 @@ export function activarMicro() {
 
 }
 export {
-    diagnostico,
-    tratamiento,
-    limpiar,
     volver,
     isSpeech
 }

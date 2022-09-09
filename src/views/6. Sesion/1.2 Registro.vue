@@ -10,16 +10,16 @@ const { push } = useRouter();
         h2.text-center.mt-4(style="color:#395D56") Bienvenido
         h1.text-center.light-text Registro
         Form( :onPromise='()=>crearCuenta(item)' ) 
-            label.form-label Nombre
-            input.form-control( v-model='item.nombre' required)
-            label.form-label Apellidos
+            label.form-label Nombre*
+            input.form-control(placeholder="Nombre(s)" v-model='item.nombre' required)
+            label.form-label Apellidos*
             .input-group
-                input.form-control( v-model='item.apellidoPaterno' required)
-                input.form-control( v-model='item.apellidoMaterno' required)
-            label.form-label Correo electrónico
-            input.form-control( v-model='item.email' type='email' required)
-            label.form-label Contraseña
-            input.form-control.mb-4( v-model='item.password' type='password' required)
+                input.form-control(placeholder="Paterno" v-model='item.apellidoPaterno' required)
+                input.form-control(placeholder="Materno" v-model='item.apellidoMaterno' required)
+            label.form-label Correo electrónico*
+            input.form-control(placeholder="Ejemplo@gmail.com" v-model='item.email' type='email' required)
+            label.form-label Contraseña*
+            input.form-control.mb-4(placeholder="********" v-model='item.password' type='password' required)
             button.btn.btn-outline-light.m-1( type='submit') Registrarme
             button.btn.btn-outline-light.m-2( type='button' @click='push({name: "iniciar-sesion"})' style="border: 0!important;") Iniciar sesión
 </template>

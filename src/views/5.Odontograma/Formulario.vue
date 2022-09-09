@@ -124,7 +124,7 @@ watch(
 .row.mt-3
   .col
     .row
-      .col.d-flex.justify-content-left(v-if="!isSpeech")
+      .col.d-flex(v-if="!isSpeech").inputs-manual
         input#tipoReg(type="hidden", value="0")
         span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;") Pieza :
           input.form-control#comboPieza(list='listaDeDientes', name='comboPieza', v-model='item.diente')
@@ -144,13 +144,13 @@ watch(
     .row.mt-2(v-if="!isSpeech")
       span#mensaje(style="color: red; font-weight:bold;")
 .col.mt-2.d-flex.justify-content.desplazable
-  .col.d-flex.justify-content-center
+  .col.d-flex.justify-content-center.item
     OdonOficial
-  .col
+  .col.item
     //-#collapseHallazgos.collapse
       button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
           | Cerrar
-    .card.card-body.cartita
+    .card.card-body
       .div(style="background-color: white; border-radius: 2%;")
         table.table.table-hover
           thead
@@ -223,14 +223,19 @@ watch(
 
 </template>
 <style lang="sass" scoped>
-.cartita
-  margin-left: 40px
 .desplazable
   display: flex
   flex-direction: row
   height: auto
   width: auto
   overflow: auto
+  
+  scroll-snap-type: x mandatory
+  padding: 10px
+  gap: 12px
+  scroll-padding: 10px
+
+
   justify-content: start
   align-items: center
   padding-bottom: 40px
@@ -244,7 +249,10 @@ watch(
   &::-webkit-scrollbar 
     width: 1em
     height: 10px
-
+  .item
+    flex: 0 0 100%
+    scroll-snap-align: start
+    scroll-snap-stop: always
 
 
   
@@ -289,4 +297,19 @@ watch(
   100%
     transform: scale(1)  
 
+@media (min-width: 800px)
+  .desplazable
+    display: flex
+    flex-direction: row
+    height: auto
+    width: 100%
+    overflow: hidden
+    .item
+      flex: 0 0 50%
+      scroll-snap-align: start
+      scroll-snap-stop: always
+  .inputs-manual
+    display: flex
+    justify-content: center
+    align-items: center
 </style>
