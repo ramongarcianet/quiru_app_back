@@ -105,7 +105,8 @@ function pad(n, width, z) {
       #alerta.alert.alert-danger.alert-dismissible(style='display:none') No hay nada que imprimir
         a.close(@click="Cancelar()" href='#' data-dismiss='alert' aria-label='close') &times;
       .col-6.pb-2.col-md-9
-        ion-icon.mb-3(name="return-down-back-outline" style="color: var(--color-primary); font-size: 40px; cursor: pointer;" @click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })')
+        button.mb-3.btn(@click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })')
+          ion-icon(name="return-down-back-outline" style="color: var(--color-primary); font-size: 40px" )
         h1.my-0(style="color: #395D56; font-size: 1.8em; font-family: var(--font-family)") Panel de
         h1(style="color: #37DFBB; font-weight:bold; font-size: 1.8em; font-family: var(--font-family)") {{itemodontograma.tipo}}
       .col-6.col-md-3.align-self-center
@@ -206,6 +207,16 @@ function pad(n, width, z) {
       &.light-quiru
         color: var(--color-white)
 
-  
+@media (min-width: 800px)
+  .opciones
+    margin-top: 16px
+    margin-left: auto
+    margin-right: auto
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    width: 40%
+    height: auto
 
 </style>

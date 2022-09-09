@@ -43,7 +43,7 @@ form
         border-top-right-radius: 0
         height: 100vh
         width: 100%
-        .centrar
+    .centrar
         padding: 10% 10%
         form
             padding: 0px 60px

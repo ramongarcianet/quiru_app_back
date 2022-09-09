@@ -301,7 +301,7 @@ function slelecteditem(ubicacion) {
 
 
         div
-            &.caries, &.restauración
+            &.caries, &.restauración, &.manchablanca
                 *
                     user-select: none
                     position: relative
@@ -312,7 +312,7 @@ function slelecteditem(ubicacion) {
                 &:hover
                     &::before
                         background: mix(black, #37DFBB, 10%)!important
-            &.caries
+            &.caries, &.manchablanca
                 &.active
                     color: var(--bs-white)
                     &::before
