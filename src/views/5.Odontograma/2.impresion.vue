@@ -35,4 +35,10 @@ VerFormato(itemodontograma?.value?.hallazgos);
   border: 0px solid #9c9898
   height: 370px
   overflow: hidden
+@media (min-width: 800px)
+  #myCanvas
+    border: 0px solid #9c9898
+    height: 490px
+    overflow: hidden
+
 </style>
