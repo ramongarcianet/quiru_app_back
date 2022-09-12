@@ -30,16 +30,21 @@ watch(
             .col-2.d-none.d-md-block Teléfono
             .col-3.d-none.d-md-block Email
             .col-1
-    .card.mb-2.p-2(v-for="item of registro_"  :key="item.id"  :item="item" @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })" style="border-radius: 40px")
+    .card.mb-2.p-2.d-block.d-md-none(v-for="item of registro_"  :key="item.id"  :item="item" @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })" style="border-radius: 40px")
         .row.align-items-center.p-1(style="cursor: pointer")
-            .col-10.d-block.d-md-none {{item.tipoDocumento + ' ' +item.numeroDocumento }}
-            .col-10.d-block.d-md-none {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }}
-
-            .col.ps-3.d-none.d-md-block {{item.tipoDocumento}}
-            .col-2.d-none.d-md-block {{ item.numeroDocumento }}
-            .col-3.d-none.d-md-block {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }} 
-            .col-2.d-none.d-md-block {{item.telefono}}
-            .col-3.d-none.d-md-block {{item.email}}
+            .col-10 {{item.tipoDocumento + ' ' +item.numeroDocumento }}
+            .col-1.dropdown(style="max-height: 24px")
+                button.ms-auto.btn.p-0.m-0(title='Odontograma')
+                    i.fa.fa-solid.fa-tooth
+            .col-10 {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }}
+            
+    .card.mb-2.p-2.d-none.d-md-block(v-for="item of registro_"  :key="item.id"  :item="item" @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })" style="border-radius: 40px")
+        .row.align-items-center.p-1(style="cursor: pointer")
+            .col.ps-3 {{item.tipoDocumento}}
+            .col-2 {{ item.numeroDocumento }}
+            .col-3 {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }} 
+            .col-2 {{item.telefono}}
+            .col-3 {{item.email}}
             .col-1.dropdown
                 button.ms-auto.btn(title='Odontograma')
                     i.fa.fa-solid.fa-tooth
