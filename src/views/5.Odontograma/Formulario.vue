@@ -149,9 +149,6 @@ watch(
   .col.d-flex.justify-content-center.item
     OdonOficial
   .col.item
-    //-#collapseHallazgos.collapse
-      button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
-          | Cerrar
     .card.card-body
       .div(style="background-color: white; border-radius: 2%;")
         table.table.table-hover
@@ -160,17 +157,15 @@ watch(
               th N°
               th Pieza
               th Hallazgo
-              th Ubicación
               th Sigla
               th
           tbody
             tr(v-for="item of _hallazgos")
               td {{ item.fila }}
               td {{ item.diente }}
-              td {{ item.hallazgo }}
-              td {{ item.ubicacion }}
+              td {{ item.hallazgo }} {{ item.ubicacion }}
               td {{ item.sigla }}
-              td(width="25%")
+              td
                 BotonSeguro( :onSuccess= '() => borrar(item)' )
                   i.fa.fa-trash-o(aria-hidden='true')
         .div(v-if="itemodontograma.hallazgos?.length > 8",style="text-align: center;")
