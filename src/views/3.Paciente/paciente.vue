@@ -64,7 +64,7 @@ function incompleto() {
 <template lang="pug">
 h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Nuevo
 h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") paciente
-button.btn.btn-outline-primary.border-0(@click="push({ name: 'pacientes', params: {} })" )
+button.btn.btn-outline-primary.border-0(@click="back()" )
   ion-icon(name="return-down-back-outline" size="large")
 Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError='incompleto()')
   .row
