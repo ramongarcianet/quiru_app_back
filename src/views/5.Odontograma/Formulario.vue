@@ -64,6 +64,7 @@ watch(
     if (mensajeExistePieza.value != '') {
       let mensaje = document.getElementById('mensaje');
       mensaje.innerText = mensajeExistePieza.value;
+      mensaje.style.display = "block"
     }
   }
 )
@@ -76,13 +77,14 @@ const borrar = ({ diente, hallazgo, ubicacion }) => {
   }
 }
 function changeHallazgoDiente() {
-
   let mensaje = document.getElementById('mensaje');
   mensaje.innerText = '';
+  mensaje.style.display = "none"
 }
 function limpiarHallazgoDiente() {
   let mensaje = document.getElementById('mensaje');
   mensaje.innerText = '';
+  mensaje.style.display = "none"
   limpiarSinVoz();
 }
 function ordenarAsc(listado, p_key) {
@@ -124,16 +126,16 @@ watch(
 .row.mt-3
   .col
     .row
-      .col.d-flex.justify-content-left(v-if="!isSpeech")
+      .col.d-flex(v-if="!isSpeech").inputs-manual
         input#tipoReg(type="hidden", value="0")
         span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;") Pieza :
           input.form-control#comboPieza(list='listaDeDientes', name='comboPieza', v-model='item.diente')
           datalist#listaDeDientes
             option(v-for='{ text, value } of listaDeDientesCombo' :value="value")
         span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;") Hallazgo :
-          input.form-control#comboHallazgo(list='ListaHallazgos', name='comboHallazgo', v-model='Hallazgo')
-          datalist#ListaHallazgos
-            option(v-for='{ text, value } of listaDeHallazgos' :value="value")
+          input.form-control#comboHallazgo(list='listaDeHallazgos', name='comboHallazgo', v-model='Hallazgo')
+          datalist#listaDeHallazgos
+            option(v-for='{ text, value } of listaDeHallazgos' :value="value") {{text}}
     .row(v-if="!isSpeech")
       .col.d-flex.justify-content-center
         Diente(:item='item' style='--size: 12rem;').raiz-0
@@ -142,15 +144,12 @@ watch(
         button.btn.btn-primary.m-1(type="submit", @click="agregarLista(route.params.idOdontograma, item)" style="width: 7rem;") Agregar
         button.btn.btn-primary.m-1(type="submit", @click="limpiarHallazgoDiente()" style="width: 7rem;") Limpiar
     .row.mt-2(v-if="!isSpeech")
-      span#mensaje(style="color: red; font-weight:bold;")
+    #mensaje.alert.alert-danger(style='display:none')
 .col.mt-2.d-flex.justify-content.desplazable
-  .col.d-flex.justify-content-center
+  .col.d-flex.justify-content-center.item
     OdonOficial
-  .col
-    //-#collapseHallazgos.collapse
-      button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
-          | Cerrar
-    .card.card-body.cartita
+  .col.item
+    .card.card-body
       .div(style="background-color: white; border-radius: 2%;")
         table.table.table-hover
           thead
@@ -158,17 +157,15 @@ watch(
               th N°
               th Pieza
               th Hallazgo
-              th Ubicación
               th Sigla
               th
           tbody
             tr(v-for="item of _hallazgos")
               td {{ item.fila }}
               td {{ item.diente }}
-              td {{ item.hallazgo }}
-              td {{ item.ubicacion }}
+              td {{ item.hallazgo }} {{ item.ubicacion }}
               td {{ item.sigla }}
-              td(width="25%")
+              td
                 BotonSeguro( :onSuccess= '() => borrar(item)' )
                   i.fa.fa-trash-o(aria-hidden='true')
         .div(v-if="itemodontograma.hallazgos?.length > 8",style="text-align: center;")
@@ -223,14 +220,19 @@ watch(
 
 </template>
 <style lang="sass" scoped>
-.cartita
-  margin-left: 40px
 .desplazable
   display: flex
   flex-direction: row
   height: auto
   width: auto
   overflow: auto
+  
+  scroll-snap-type: x mandatory
+  padding: 10px
+  gap: 12px
+  scroll-padding: 10px
+
+
   justify-content: start
   align-items: center
   padding-bottom: 40px
@@ -244,11 +246,10 @@ watch(
   &::-webkit-scrollbar 
     width: 1em
     height: 10px
-
-
-
-  
-
+.item
+  flex: 0 0 100%
+  scroll-snap-align: start
+  scroll-snap-stop: always
 .contenedor
   display: flex
   flex-direction: row
@@ -289,4 +290,19 @@ watch(
   100%
     transform: scale(1)  
 
+@media (min-width: 800px)
+  .desplazable
+    display: flex
+    flex-direction: row
+    height: auto
+    width: 100%
+    overflow: hidden
+    .item
+      flex: 0 0 50%
+      scroll-snap-align: start
+      scroll-snap-stop: always
+  .inputs-manual
+    display: flex
+    justify-content: center
+    align-items: center
 </style>

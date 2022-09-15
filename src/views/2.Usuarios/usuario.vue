@@ -88,7 +88,11 @@ Form( :onPromise="() => guardarOActualizar()" :onSuccess='() => back()')
     .col-12.col-md-6
       label.form-label() Nombre de Consultorio
       .input-group
-        input.form-control(placeholder="Tipo", v-model="item.tipoConsultorio",v-on:keypress="isLetter($event)", required,maxlength="30")
+        select.form-select(placeholder="Tipo", v-model="item.tipoConsultorio", required)
+              option(value="") TIPOS 
+              option(value="C") CLÍNICA
+              option(value="H") HOSPITAL
+              option(value="I") CONSULTORIO INDEPENDIENTE
         input.form-control(placeholder="Nombre consultorio", v-model="item.nombreconsultorio",v-on:keypress="isLetter($event)" required,maxlength="30")
     .col-12.col-md-6
       label.form-label() Direccion
