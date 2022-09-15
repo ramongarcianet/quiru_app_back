@@ -7,6 +7,7 @@ const { push } = useRouter();
 const route = useRoute()
 onMounted(()=> {
     var mensaje = document.getElementById('mensaje');
+    mensaje.style.display = "none";
 })
 if (route.params.idOdontograma) {
   leerOdonto(route.params.idOdontograma)
