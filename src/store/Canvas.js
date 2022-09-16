@@ -423,7 +423,7 @@ export function VerTipoCaries(event) {
 export function VerDataTipoCaries() {
     VerDemo(comboPieza.value);
 }
-export function ChangeHallazgo(event) {
+/*export function ChangeHallazgo(event) {
     clearcanvas("cvhallazgo")
     if (event.target.value == "extracción") {
         DienteAusente("cvhallazgo", "red");
@@ -444,6 +444,7 @@ export function ChangeHallazgo(event) {
     }
     return false;
 }
+*/
 export function clearcanvas(id) {
     var canvas = document.getElementById(id);
     var contexto = canvas.getContext("2d");
@@ -538,6 +539,20 @@ function Fractura_Extract_Ausent(contexto, inicio_x, medida, inicio_y, color, ti
     if (tipo != "fractura") {
         ctx.moveTo(inicio_x + 20, inicio_y);
         ctx.lineTo(inicio_x, inicio_y + 20);
+    }
+    ctx.stroke();
+    ctx.lineWidth = 1;
+}
+
+function GraphicFinding(contexto, inicio_x, medida, inicio_y, color, tipo) {
+    var ctx = contexto;
+    var med = medida;
+    ctx.beginPath();
+    ctx.lineWidth = 2;
+    var img = new Image();
+    img.src = "../../../src/assets/imagenes/WhatsappPNG.png";
+    img.onload = function () {
+        ctx.drawImage(img, inicio_x, inicio_y + 30, med,med);
     }
     ctx.stroke();
     ctx.lineWidth = 1;
