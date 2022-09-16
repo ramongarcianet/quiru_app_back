@@ -147,7 +147,7 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
     if (hallazgo && listaDeUbicacion.length == 0) {
         const registroSiglas = listaDeHallazgos.filter((elem) => elem.value == hallazgo);
         sigla = registroSiglas[0]?.sigla;
-        if (hallazgo != 'caries' && hallazgo != 'restauración' && hallazgo != 'manchablanca' ) {
+        if (hallazgo != 'caries' && hallazgo != 'restauración' && hallazgo != 'manchablanca' && hallazgo != 'lesionesmalte' && hallazgo != 'lesiondentina' && hallazgo != 'lesionpulpa' ) {
             item.value.hallazgos.push({
                 hallazgo,
                 sigla: sigla,
@@ -171,12 +171,12 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
             }
             if (ubicacionnes.arriba.trim() == ubicacion || ubicacionnes.centro.trim() == ubicacion ||
                 ubicacionnes.abajo.trim() == ubicacion || ubicacionnes.izquierda.trim() == ubicacion || ubicacionnes.derecha.trim() == ubicacion) {
-                ubicacion = (hallazgo == 'caries' || hallazgo == 'manchablanca') ? ubicacion : (hallazgo == 'restauración') ? ubicacion : '';
+                ubicacion = (hallazgo == 'caries' || hallazgo == 'manchablanca' || hallazgo == 'lesionesmalte' || hallazgo == 'lesiondentina' || hallazgo == 'lesionpulpa') ? ubicacion : (hallazgo == 'restauración') ? ubicacion : '';
                 item.value.hallazgos.push({
                     hallazgo,
                     ubicacion,
                     sigla: sigla,
-                    posicion: (hallazgo == 'caries' || hallazgo == 'manchablanca') ? _posicion : (hallazgo == 'restauración') ? _posicion : '',
+                    posicion: (hallazgo == 'caries' || hallazgo == 'manchablanca' || hallazgo == 'lesionesmalte' || hallazgo == 'lesiondentina' || hallazgo == 'lesionpulpa') ? _posicion : (hallazgo == 'restauración') ? _posicion : '',
                     fechaHallazgo:new Date(),
                 })
                 mensajeUbicacion += ubicacion
@@ -269,6 +269,9 @@ const listaDeFuncionesPorDiente = {}
 listaDeDientes_.map(num => {
     listaDeFuncionesPorDiente[`${num}CariesUbicacion`] = (ubicacion) => actualizarItem('caries', ubicacion, String(num))
     listaDeFuncionesPorDiente[`${num}ManchaBlancaUbicacion`] = (ubicacion) => actualizarItem('manchablanca', ubicacion, String(num))
+    listaDeFuncionesPorDiente[`${num}CariesEsmalteUbicacion`] = (ubicacion) => actualizarItem('lesionesmalte', ubicacion, String(num))
+    listaDeFuncionesPorDiente[`${num}CariesDentinaUbicacion`] = (ubicacion) => actualizarItem('lesiondentina', ubicacion, String(num))
+    listaDeFuncionesPorDiente[`${num}CariesPulpaUbicacion`] = (ubicacion) => actualizarItem('lesionpulpa', ubicacion, String(num))
     listaDeFuncionesPorDiente[`${num}Fractura`] = () => actualizarItem('fractura', false, String(num))
     listaDeFuncionesPorDiente[`${num}Extraccion`] = () => actualizarItem('extracción', false, String(num))
     listaDeFuncionesPorDiente[`${num}Ausente`] = () => actualizarItem('ausente', false, String(num))
@@ -291,6 +294,9 @@ listaDeDientes_?.map(num => {
     listaDeComandosDeDientes[`${num} carie ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesUbicacion`]
     listaDeComandosDeDientes[`${num} caries ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesUbicacion`]
     listaDeComandosDeDientes[`${num} mancha blanca ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}ManchaBlancaUbicacion`]
+    listaDeComandosDeDientes[`${num} lesión esmalte ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesEsmalteUbicacion`]
+    listaDeComandosDeDientes[`${num} lesión dentina ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesDentinaUbicacion`]
+    listaDeComandosDeDientes[`${num} lesión pulpa ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesPulpaUbicacion`]
     listaDeComandosDeDientes[`${num} restauración ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}Restauracion`]
     listaDeComandosDeDientes[`${num} factura`] = listaDeFuncionesPorDiente[`${num}Fractura`]
     listaDeComandosDeDientes[`${num} fractura`] = listaDeFuncionesPorDiente[`${num}Fractura`]

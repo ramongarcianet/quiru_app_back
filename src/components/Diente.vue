@@ -301,7 +301,7 @@ function slelecteditem(ubicacion) {
 
 
         div
-            &.caries, &.restauración, &.manchablanca
+            &.caries, &.restauración, &.manchablanca, &.lesionesmalte, &.lesiondentina, &.lesionpulpa
                 *
                     user-select: none
                     position: relative
@@ -312,7 +312,7 @@ function slelecteditem(ubicacion) {
                 &:hover
                     &::before
                         background: mix(black, #37DFBB, 10%)!important
-            &.caries, &.manchablanca
+            &.caries, &.manchablanca, &.lesionesmalte, &.lesiondentina, &.lesionpulpa
                 &.active
                     color: var(--bs-white)
                     &::before

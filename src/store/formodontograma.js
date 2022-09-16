@@ -96,7 +96,7 @@ export function existeDiente(diente,fila){
                 }
             }
         } else {
-            if (fila.hallazgo == 'caries' || fila.hallazgo == 'restauración' || fila.hallazgo == 'manchablanca'){
+            if (fila.hallazgo == 'caries' || fila.hallazgo == 'restauración' || fila.hallazgo == 'manchablanca' || fila.hallazgo == 'lesionesmalte' || fila.hallazgo == 'lesiondentina' || fila.hallazgo == 'lesionpulpa'){
                 if(item.diente==diente && item.hallazgo==fila.hallazgo && item.ubicacion==fila.ubicacion ){
                     if (isSpeech.value)
                         speak('pieza '+diente+' hallazgo '+fila.hallazgo+ ' y ubicación '+fila.ubicacion+' ya existe en el odontograma')
@@ -105,7 +105,7 @@ export function existeDiente(diente,fila){
                     result = true;
                     break;
                 }
-               if (fila.hallazgo == 'caries' || fila.hallazgo == 'manchablanca') {
+               if (fila.hallazgo == 'caries' || fila.hallazgo == 'manchablanca'  || fila.hallazgo == 'lesionesmalte' || fila.hallazgo == 'lesiondentina' || fila.hallazgo == 'lesionpulpa') {
                   if (item.diente==diente && item.ubicacion==fila.ubicacion && item.hallazgo=='restauración' ){
                     if (isSpeech.value)
                         speak('pieza '+diente+' y ubicación '+fila.ubicacion+' ya está registrado como hallazgo restauración')
@@ -116,7 +116,7 @@ export function existeDiente(diente,fila){
                   }
                }
                if (fila.hallazgo == 'restauración') {
-                if (item.diente==diente && item.ubicacion==fila.ubicacion && (item.hallazgo=='caries' || item.hallazgo=='manchablanca' ) ){
+                if (item.diente==diente && item.ubicacion==fila.ubicacion && (item.hallazgo=='caries' || item.hallazgo=='manchablanca' || fila.hallazgo == 'lesionesmalte' || fila.hallazgo == 'lesiondentina' || fila.hallazgo == 'lesionpulpa') ){
                     if (isSpeech.value)
                         speak('pieza '+diente+' y ubicación '+fila.ubicacion+' ya está registrado como hallazgo caries')
                     else
@@ -201,9 +201,9 @@ export function agregarLista(id, param) {
                     let fila = {
                         diente: param.diente,
                         hallazgo: element.hallazgo,
-                        ubicacion: (element.hallazgo == 'caries' || element.hallazgo == 'manchablanca') ? element.ubicacion : (element.hallazgo == 'restauración') ? element.ubicacion : '',
+                        ubicacion: (element.hallazgo == 'caries' || element.hallazgo == 'manchablanca' || element.hallazgo == 'lesionesmalte' || element.hallazgo == 'lesiondentina' || element.hallazgo == 'lesionpulpa') ? element.ubicacion : (element.hallazgo == 'restauración') ? element.ubicacion : '',
                         sigla: element.sigla,
-                        posicion: (element.hallazgo == 'caries' || element.hallazgo == 'manchablanca') ? element.posicion : (element.hallazgo == 'restauración') ? element.posicion : '',
+                        posicion: (element.hallazgo == 'caries' || element.hallazgo == 'manchablanca' || element.hallazgo == 'lesionesmalte' || element.hallazgo == 'lesiondentina' || element.hallazgo == 'lesionpulpa') ? element.posicion : (element.hallazgo == 'restauración') ? element.posicion : '',
                         fechaHallazgo:new Date(),
                     }
                     if (param.diente != '') {
@@ -231,9 +231,9 @@ export function agregarLista(id, param) {
                         let fila = {
                             diente: param.diente,
                             hallazgo: element.hallazgo,
-                            ubicacion: (element.hallazgo == 'caries' || element.hallazgo == 'manchablanca') ? element.ubicacion : (element.hallazgo == 'restauración') ? element.ubicacion : '',
+                            ubicacion: (element.hallazgo == 'caries' || element.hallazgo == 'manchablanca' || element.hallazgo == 'lesionesmalte' || element.hallazgo == 'lesiondentina' || element.hallazgo == 'lesionpulpa') ? element.ubicacion : (element.hallazgo == 'restauración') ? element.ubicacion : '',
                             sigla: element.sigla,
-                            posicion: (element.hallazgo == 'caries' || element.hallazgo == 'manchablanca') ? element.posicion : (element.hallazgo == 'restauración') ? element.posicion : '',
+                            posicion: (element.hallazgo == 'caries' || element.hallazgo == 'manchablanca' || element.hallazgo == 'lesionesmalte' || element.hallazgo == 'lesiondentina' || element.hallazgo == 'lesionpulpa') ? element.posicion : (element.hallazgo == 'restauración') ? element.posicion : '',
                             fechaHallazgo:new Date(),
                         }
                         if (param.diente != '') {
