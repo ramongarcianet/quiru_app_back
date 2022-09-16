@@ -186,7 +186,7 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro) {
                 else if (element.hallazgo == "fractura") {
                     Fractura_Extract_Ausent(ctx, inicio_x, med, inicio_y, "red", "fractura");
                 }
-                else if (element.hallazgo == "caries" || element.hallazgo == "manchablanca") {
+                else if (element.hallazgo == "caries" || element.hallazgo == "manchablanca" || element.hallazgo == "lesionesmalte" || element.hallazgo == "lesiondentina" || element.hallazgo == "lesionpulpa") {
                     dibuja_seccion(ctx, pieza, seccion, "red", med, inicio_x, inicio_y)
                 }
                 else if (element.hallazgo == "restauración") {
