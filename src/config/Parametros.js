@@ -55,24 +55,26 @@ export const listaDeDientesCombo = [
 ];
 
 export const listaDeHallazgos = [
-    { value: "caries", text: "Caries", sigla: "", tipo: "Diagnóstico" },
+    { tipo: "Diagnóstico", text: "Extracción", value: "extracción", sigla: "", Especificacion: "", Estado: "", Simbolo: "extracción", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
+    { tipo: "Diagnóstico", text: "Ausente", value: "ausente", sigla: "", Especificacion: "", Estado: "", Simbolo: "ausente", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
+    { tipo: "Diagnóstico", text: "Fractura", value: "fractura", sigla: "", Especificacion: "", Estado: "", Simbolo: "fractura", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
+    { tipo: "Diagnóstico", text: "Pieza dentaria extruida", value: "extruida", sigla: "", Especificacion: "", Estado: "", Simbolo: "extruida", Color: "", masX: 3, masY: 20, ancho: 15, alto: 10, esDirecto: "SI", SimboloAlterno: "intruida", PosicionAlt: -10 },
+    { tipo: "Diagnóstico", text: "Pieza dentaria intruida", value: "intruida", sigla: "", Especificacion: "", Estado: "", Simbolo: "intruida", Color: "", masX: 3, masY: 20, ancho: 15, alto: 10, esDirecto: "SI", SimboloAlterno: "extruida", PosicionAlt: -10 },
 
-    { value: "manchablanca", text: "Mancha Blanca", sigla: "MB", tipo: "Diagnóstico" },
-    { value: "lesionesmalte", text: "Lesión Esmalte", sigla: "CE", tipo: "Diagnóstico" },
-    { value: "lesiondentina", text: "Lesión Dentina", sigla: "CD", tipo: "Diagnóstico" },
-    { value: "lesionpulpa", text: "Lesión Pulpa", sigla: "CDP", tipo: "Diagnóstico" },
+    { tipo: "Diagnóstico", text: "Sellante en buen estado", value: "sellanteazul", sigla: "S", Especificacion: "", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Sellante en mal estado", value: "sellanterojo", sigla: "S", Especificacion: "", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Implante dental", value: "implante", sigla: "IMP", Especificacion: "", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
 
-    { value: "extracción", text: "Extracción", sigla: "", tipo: "Tratamiento" },
-    { value: "ausente", text: "Ausente", sigla: "", tipo: "Diagnóstico" },
-    { value: "fractura", text: "Fractura", sigla: "", tipo: "Diagnóstico" },
-    { value: "restauración", text: "Restauración", sigla: "E", tipo: "Tratamiento" },
-    { value: "hipoplasia", text: "Hipoplasia", sigla: "HP", tipo: "Diagnóstico" },
-    { value: "hipomineralizacion", text: "Hipo Mineralización", sigla: "HM", tipo: "Diagnóstico" },
-    { value: "opacidad", text: "Opacidad del Esmalte", sigla: "O", tipo: "Diagnóstico" },
-    { value: "decoloración", text: "Decoloración del Esmalte", sigla: "D", tipo: "Diagnóstico" },
-    { value: "fluorosis", text: "Fluorosis", sigla: "F", tipo: "Diagnóstico" },
-    { value: "sellanteazul", text: "Sellante en buen estado", sigla: "S", tipo: "Diagnóstico" },
-    { value: "sellanterojo", text: "Sellante en mal estado", sigla: "S", tipo: "Diagnóstico" },
+    { tipo: "Diagnóstico", text: "Caries", value: "caries", sigla: "", Especificacion: "", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Mancha Blanca", value: "manchablanca", sigla: "MB", Especificacion: "", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Lesión Esmalte", value: "lesionesmalte", sigla: "CE", Especificacion: "", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Lesión Dentina", value: "lesiondentina", sigla: "CD", Especificacion: "", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Lesión Pulpa", value: "lesionpulpa", sigla: "CDP", Especificacion: "", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Restauración", value: "restauración", sigla: "E", Especificacion: "", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
+
+    { tipo: "Diagnóstico", text: "Opacidad del Esmalte", value: "opacidad", sigla: "O", Especificacion: "", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "" },
+    { tipo: "Diagnóstico", text: "Decoloración del Esmalte", value: "decoloración", sigla: "D", Especificacion: "", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Fluorosis", value: "fluorosis", sigla: "F", Especificacion: "", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
 ];
 export const listaDeTipos = [
     { value: "vestibular", text: "vestibular" },

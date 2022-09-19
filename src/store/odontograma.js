@@ -1,6 +1,5 @@
 import { computed, ref } from 'vue';
 import {alertMensaje} from './helper.js'
-import { limpiarCaries, clearcanvas } from "./Canvas"
 import { convertToText } from "./numeroLetras.js"
 import router from '../config/router'
 import comandosDeVoz from './comandosDeVoz';
