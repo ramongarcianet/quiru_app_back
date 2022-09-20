@@ -290,35 +290,33 @@ const listaDeComandosDeDientes = {}
 
 listaDeDientes_?.map(num => {
 
-    listaDeComandosDeDientes[`${num} carie ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesUbicacion`] = (ubicacion) => actualizarItem('caries', ubicacion, String(num))
-    listaDeComandosDeDientes[`${num} caries ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesUbicacion`] = (ubicacion) => actualizarItem('caries', ubicacion, String(num))
-    listaDeComandosDeDientes[`${num} mancha blanca ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}ManchaBlancaUbicacion`] = (ubicacion) => actualizarItem('manchablanca', ubicacion, String(num))
-    listaDeComandosDeDientes[`${num} lesión esmalte ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesEsmalteUbicacion`] = (ubicacion) => actualizarItem('lesionesmalte', ubicacion, String(num))
-    listaDeComandosDeDientes[`${num} lesión dentina ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesDentinaUbicacion`] = (ubicacion) => actualizarItem('lesiondentina', ubicacion, String(num))
-    listaDeComandosDeDientes[`${num} lesión pulpa ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesPulpaUbicacion`] = (ubicacion) => actualizarItem('lesionpulpa', ubicacion, String(num))
-    listaDeComandosDeDientes[`${num} restauración ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}Restauracion`] = (ubicacion) => actualizarItem('restauración', ubicacion, String(num))
-    listaDeComandosDeDientes[`${num} factura`] = listaDeFuncionesPorDiente[`${num}Fractura`] = () => actualizarItem('fractura', false, String(num))
-    listaDeComandosDeDientes[`${num} fractura`] = listaDeFuncionesPorDiente[`${num}Fractura`] = () => actualizarItem('fractura', false, String(num))
-    listaDeComandosDeDientes[`${num} fracturas`] = listaDeFuncionesPorDiente[`${num}Fractura`] = () => actualizarItem('fractura', false, String(num))
-    listaDeComandosDeDientes[`${num} extracción`] = listaDeFuncionesPorDiente[`${num}Extraccion`] = () => actualizarItem('extracción', false, String(num))
-    listaDeComandosDeDientes[`${num} ausente`] = listaDeFuncionesPorDiente[`${num}Ausente`] = () => actualizarItem('ausente', false, String(num))
+    listaDeComandosDeDientes[`${num} carie ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('caries', ubicacion, String(num))
+    listaDeComandosDeDientes[`${num} caries ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('caries', ubicacion, String(num))
+    listaDeComandosDeDientes[`${num} mancha blanca ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('manchablanca', ubicacion, String(num))
+    listaDeComandosDeDientes[`${num} lesión esmalte ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('lesionesmalte', ubicacion, String(num))
+    listaDeComandosDeDientes[`${num} lesión dentina ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('lesiondentina', ubicacion, String(num))
+    listaDeComandosDeDientes[`${num} lesión pulpa ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('lesionpulpa', ubicacion, String(num))
+    listaDeComandosDeDientes[`${num} restauración ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('restauración', ubicacion, String(num))
+    listaDeComandosDeDientes[`${num} factura`] = () => actualizarItem('fractura', false, String(num))
+    listaDeComandosDeDientes[`${num} fractura`] = () => actualizarItem('fractura', false, String(num))
+    listaDeComandosDeDientes[`${num} fracturas`] = () => actualizarItem('fractura', false, String(num))
+    listaDeComandosDeDientes[`${num} extracción`] = () => actualizarItem('extracción', false, String(num))
+    listaDeComandosDeDientes[`${num} ausente`] = () => actualizarItem('ausente', false, String(num))
 
-    listaDeComandosDeDientes[`${num} hipoplasia`] = listaDeFuncionesPorDiente[`${num}Hipoplasia`] = () => actualizarItem('hipoplasia', false, String(num))
-    listaDeComandosDeDientes[`${num} hipomineralizacion`] = listaDeFuncionesPorDiente[`${num}Hipomineralizacion`] = () => actualizarItem('hipomineralizacion', false, String(num))
-    listaDeComandosDeDientes[`${num} opacidad`] = listaDeFuncionesPorDiente[`${num}Opacidad`] = () => actualizarItem('opacidad', false, String(num))
+    listaDeComandosDeDientes[`${num} opacidad`] = () => actualizarItem('opacidad', false, String(num))
     listaDeComandosDeDientes[`${num} decoloración`] = listaDeFuncionesPorDiente[`${num}Decoloracion`] = () => actualizarItem('decoloración', false, String(num))
     listaDeComandosDeDientes[`${num} fluorosis`] = listaDeFuncionesPorDiente[`${num}Fluorosis`] = () => actualizarItem('fluorosis', false, String(num))
-    listaDeComandosDeDientes[`${num} sellante en buen estado`] = listaDeFuncionesPorDiente[`${num}SellanteBueno`] = () => actualizarItem('sellanteazul', false, String(num))
-    listaDeComandosDeDientes[`${num} sellante en mal estado`] = listaDeFuncionesPorDiente[`${num}SellanteMalo`] = () => actualizarItem('sellanterojo', false, String(num))
+    listaDeComandosDeDientes[`${num} sellante en buen estado`] = () => actualizarItem('sellanteazul', false, String(num))
+    listaDeComandosDeDientes[`${num} sellante en mal estado`] = () => actualizarItem('sellanterojo', false, String(num))
     /*
         listaDeComandosDeDientes[`${num} (a) (la) (ala) (al) :num2 :hallazgo`] = listaDeFuncionesPorDiente[`${num}num2Hallazgo`] = (num2, hallazgo) => seleccionMultiple(num, num2, hallazgo, false)
        listaDeComandosDeDientes[`${num} (a) (la) (al) :num2 :hallazgo *ubicacion`] = listaDeFuncionesPorDiente[`${num}num2HallazgoUbicacion`] = (num2, hallazgo, ubicacion) => seleccionMultiple(num, num2, hallazgo, ubicacion)
     */
 
-    listaDeComandosDeDientes[`${num} Extruida`] = listaDeFuncionesPorDiente[`${num}Extruida`] = () => actualizarItem('extruida', false, String(num))
-    listaDeComandosDeDientes[`${num} Instruida`] = listaDeFuncionesPorDiente[`${num}Instruida`] = () => actualizarItem('intruida', false, String(num))
+    listaDeComandosDeDientes[`${num} Extruida`] = () => actualizarItem('extruida', false, String(num))
+    listaDeComandosDeDientes[`${num} Instruida`] = () => actualizarItem('intruida', false, String(num))
 
-    listaDeComandosDeDientes[`${num} metálica en buen estado`] = () => { actualizarItem('Corona_metalica_good', false, String(num)) }
+    listaDeComandosDeDientes[`${num} metálica en buen estado`] = () => actualizarItem('Corona_metalica_good', false, String(num))
     listaDeComandosDeDientes[`${num} metalica en buen estado`] = () => actualizarItem('Corona_metalica_good', false, String(num))
     listaDeComandosDeDientes[`${num} fenestrada en buen estado`] = () => actualizarItem('Corona_fenestrada_good', false, String(num))
     listaDeComandosDeDientes[`${num} Cerámica en buen estado`] = () => actualizarItem('Corona_ceramica_good', false, String(num))
