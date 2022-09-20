@@ -74,11 +74,37 @@ export const listaDeHallazgos = [
     { tipo: "Diagnóstico", text: "Opacidad del Esmalte", value: "opacidad", sigla: "O", Especificacion: "6.1.5 DDE", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "" },
     { tipo: "Diagnóstico", text: "Decoloración del Esmalte", value: "decoloración", sigla: "D", Especificacion: "6.1.5 DDE", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
     { tipo: "Diagnóstico", text: "Fluorosis", value: "fluorosis", sigla: "F", Especificacion: "6.1.5 DDE", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    //{ tipo: "Diagnóstico", text: "Diastema", value: "diastema", sigla: "", Especificacion: "6.1.6 Diastema", Estado: "", Simbolo: "pendiente", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
+    { tipo: "Diagnóstico", text: "Edéntulo total superior", value: "edentulo", sigla: "", Especificacion: "6.1.7 Edéntulo total superior", Estado: "", Simbolo: "pendiente", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
+    { tipo: "Diagnóstico", text: "Espigo en buen estado", value: "espigo_good", sigla: "", Especificacion: "6.1.8 Espigo munion", Estado: "", Simbolo: "pendiente", Color: "blue", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Espigo en mal estado", value: "espigo_bad", sigla: "", Especificacion: "6.1.8 Espigo munion", Estado: "", Simbolo: "pendiente", Color: "red", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
 
+    { tipo: "Diagnóstico", text: "Fosas y fisuras profundas", value: "fosas_fisuras", sigla: "FFP", Especificacion: "6.1.9 Fosas y Fisuras Profundas", Estado: "", Simbolo: "pendiente", Color: "blue", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+
+    { tipo: "Diagnóstico", text: "Fractura", value: "fractura", sigla: "", Especificacion: "6.1.10 Fractura Dental", Estado: "", Simbolo: "fractura", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
+    //{ tipo: "Diagnóstico", text: "Fusión", value: "fusion", sigla: "", Especificacion: "6.1.11 Fusión", Estado: "", Simbolo: "pendiente", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
+    { tipo: "Diagnóstico", text: "Geminación", value: "geminacion", sigla: "", Especificacion: "6.1.12 Geminación", Estado: "", Simbolo: "pendiente", Color: "blue", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
+    { tipo: "Diagnóstico", text: "Giroversión", value: "geminacion", sigla: "", Especificacion: "6.1.13 Giroversión", Estado: "", Simbolo: "pendiente", Color: "blue", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
+    { tipo: "Diagnóstico", text: "Impactación", value: "impactacion", sigla: "I", Especificacion: "6.1.14 Impactación", Estado: "", Simbolo: "", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
+    { tipo: "Diagnóstico", text: "Implante dental", value: "implante", sigla: "IMP", Especificacion: "6.1.15 Implante dental", Estado: "", Simbolo: "", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
+
+    { tipo: "Diagnóstico", text: "Caries", value: "caries", sigla: "", Especificacion: "", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Mancha Blanca", value: "manchablanca", sigla: "MB", Especificacion: "6.1.16 Lesión de caries dental", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Lesión Esmalte", value: "lesionesmalte", sigla: "CE", Especificacion: "6.1.16 Lesión de caries dental", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Lesión Dentina", value: "lesiondentina", sigla: "CD", Especificacion: "6.1.16 Lesión de caries dental", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Lesión Pulpa", value: "lesionpulpa", sigla: "CDP", Especificacion: "6.1.16 Lesión de caries dental", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
+
+    { tipo: "Diagnóstico", text: "Macrodoncia", value: "macrodoncia", sigla: "MAC", Especificacion: "6.1.17 Macrodoncia", Estado: "", Simbolo: "", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
+    { tipo: "Diagnóstico", text: "Microdoncia", value: "microdoncia", sigla: "MAC", Especificacion: "6.1.18 Microdoncia", Estado: "", Simbolo: "", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
+    { tipo: "Diagnóstico", text: "Movilidad patológica 1", value: "movilidad_pato_uno", sigla: "M1", Especificacion: "6.1.19 Movilidad patológica", Estado: "", Simbolo: "", Color: "", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Movilidad patológica 2", value: "movilidad_pato_dos", sigla: "M2", Especificacion: "6.1.19 Movilidad patológica", Estado: "", Simbolo: "", Color: "", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+
+    { tipo: "Diagnóstico", text: "Diente ausente no erupcionado", value: "ausente_no_erupcionado", sigla: "DNE", Especificacion: "6.1.20 Pieza dentaria ausente", Estado: "", Simbolo: "ausente", Color: "", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Diente ausente por extracción", value: "ausente_extraccion", sigla: "DEX", Especificacion: "6.1.20 Pieza dentaria ausente", Estado: "", Simbolo: "ausente", Color: "", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Diente ausente por otras razones", value: "ausente_otras_razones", sigla: "DAO", Especificacion: "6.1.20 Pieza dentaria ausente", Estado: "", Simbolo: "ausente", Color: "", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
 
     { tipo: "Diagnóstico", text: "Extracción", value: "extracción", sigla: "", Especificacion: "", Estado: "", Simbolo: "extracción", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
-    { tipo: "Diagnóstico", text: "Ausente", value: "ausente", sigla: "", Especificacion: "", Estado: "", Simbolo: "ausente", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
-    { tipo: "Diagnóstico", text: "Fractura", value: "fractura", sigla: "", Especificacion: "", Estado: "", Simbolo: "fractura", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
+
     { tipo: "Diagnóstico", text: "Pieza dentaria extruida", value: "extruida", sigla: "", Especificacion: "", Estado: "", Simbolo: "extruida", Color: "", masX: 3, masY: 20, ancho: 15, alto: 10, esDirecto: "SI", SimboloAlterno: "intruida", PosicionAlt: -10 },
     { tipo: "Diagnóstico", text: "Pieza dentaria intruida", value: "intruida", sigla: "", Especificacion: "", Estado: "", Simbolo: "intruida", Color: "", masX: 3, masY: 20, ancho: 15, alto: 10, esDirecto: "SI", SimboloAlterno: "extruida", PosicionAlt: -10 },
 
@@ -86,11 +112,6 @@ export const listaDeHallazgos = [
     { tipo: "Diagnóstico", text: "Sellante en mal estado", value: "sellanterojo", sigla: "S", Especificacion: "", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
     { tipo: "Diagnóstico", text: "Implante dental", value: "implante", sigla: "IMP", Especificacion: "", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
 
-    { tipo: "Diagnóstico", text: "Caries", value: "caries", sigla: "", Especificacion: "", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
-    { tipo: "Diagnóstico", text: "Mancha Blanca", value: "manchablanca", sigla: "MB", Especificacion: "", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
-    { tipo: "Diagnóstico", text: "Lesión Esmalte", value: "lesionesmalte", sigla: "CE", Especificacion: "", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
-    { tipo: "Diagnóstico", text: "Lesión Dentina", value: "lesiondentina", sigla: "CD", Especificacion: "", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
-    { tipo: "Diagnóstico", text: "Lesión Pulpa", value: "lesionpulpa", sigla: "CDP", Especificacion: "", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
     { tipo: "Diagnóstico", text: "Restauración", value: "restauración", sigla: "E", Especificacion: "", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
 
 
