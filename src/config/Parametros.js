@@ -75,6 +75,10 @@ export const listaDeHallazgos = [
     { tipo: "Diagnóstico", text: "Decoloración del Esmalte", value: "decoloración", sigla: "D", Especificacion: "6.1.5 DDE", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
     { tipo: "Diagnóstico", text: "Fluorosis", value: "fluorosis", sigla: "F", Especificacion: "6.1.5 DDE", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
 
+    //{ tipo: "Diagnóstico", text: "Diastema", value: "Diastema", sigla: "", Especificacion: "6.1.6 Diastema", Estado: "", Simbolo: "pendiente", Color: "", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    //{ tipo: "Diagnóstico", text: "Edentulo", value: "Edentulo", sigla: "", Especificacion: "6.1.7 Edentulo Total superior", Estado: "", Simbolo: "pendiente", Color: "", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    //{ tipo: "Diagnóstico", text: "Espigo muñon", value: "Espigo_munon", sigla: "", Especificacion: "6.1.8 Espigo muñon", Estado: "", Simbolo: "pendiente", Color: "", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+
 
     { tipo: "Diagnóstico", text: "Extracción", value: "extracción", sigla: "", Especificacion: "", Estado: "", Simbolo: "extracción", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
     { tipo: "Diagnóstico", text: "Ausente", value: "ausente", sigla: "", Especificacion: "", Estado: "", Simbolo: "ausente", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
