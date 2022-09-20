@@ -117,7 +117,7 @@ function AgregarLista1() {
     const hzgoMatriz = _Hallazgos.filter((elem) => elem.value == comboHallazgo.value);
     if (hzgoMatriz.length > 0) {
       if (hzgoMatriz[0]?.esDirecto == "SI") {
-        item.value.hallazgos.push({ diente: comboPieza.value, hallazgo: comboHallazgo.value, ubicacion: "", sigla: "", posicion: "" })
+        item.value.hallazgos.push({ diente: comboPieza.value, hallazgo: comboHallazgo.value, ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "" })
       }
     }
   }

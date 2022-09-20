@@ -55,6 +55,22 @@ export const listaDeDientesCombo = [
 ];
 
 export const listaDeHallazgos = [
+    { tipo: "Diagnóstico", text: "Aparato Ortodóntico Fijo", value: "Ortodontico_Fijo", sigla: "", Especificacion: "6.1.1 Aparato Ortodóntico Fijo", Estado: "", Simbolo: "pendiente", Color: "", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Aparato Ortodóntico Removible", value: "Ortodontico_Removible", sigla: "", Especificacion: "6.1.2 Aparato Ortodóntico Removible", Estado: "", Simbolo: "pendiente", Color: "", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    
+    { tipo: "Diagnóstico", text: "Corona metálica en buen estado", value: "Corona_metalica_good", sigla: "CM", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "blue", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Corona fenestrada en buen estado", value: "Corona_fenestrada_good", sigla: "CF", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "blue", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Corona Metal Cerámica en buen estado", value: "Corona_ceramica_good", sigla: "CMC", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "blue", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Corona veneer en buen estado", value: "Corona_veneer_good", sigla: "CV", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "blue", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Corona libre en buen estado", value: "Corona_libre_good", sigla: "CLM", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "blue", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Corona metálica en mal estado", value: "Corona_metalica_bad", sigla: "CM", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "red", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Corona fenestrada en mal estado", value: "Corona_fenestrada_bad", sigla: "CF", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "red", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Corona Metal Cerámica en mal estado", value: "Corona_ceramica_bad", sigla: "CMC", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "red", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Corona veneer en mal estado", value: "Corona_veneer_bad", sigla: "CV", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "red", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Corona libre en mal estado", value: "Corona_libre_bad", sigla: "CLM", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "red", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+
+
+
     { tipo: "Diagnóstico", text: "Extracción", value: "extracción", sigla: "", Especificacion: "", Estado: "", Simbolo: "extracción", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
     { tipo: "Diagnóstico", text: "Ausente", value: "ausente", sigla: "", Especificacion: "", Estado: "", Simbolo: "ausente", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
     { tipo: "Diagnóstico", text: "Fractura", value: "fractura", sigla: "", Especificacion: "", Estado: "", Simbolo: "fractura", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
@@ -75,6 +91,7 @@ export const listaDeHallazgos = [
     { tipo: "Diagnóstico", text: "Opacidad del Esmalte", value: "opacidad", sigla: "O", Especificacion: "", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "" },
     { tipo: "Diagnóstico", text: "Decoloración del Esmalte", value: "decoloración", sigla: "D", Especificacion: "", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
     { tipo: "Diagnóstico", text: "Fluorosis", value: "fluorosis", sigla: "F", Especificacion: "", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+   
 ];
 export const listaDeTipos = [
     { value: "vestibular", text: "vestibular" },
