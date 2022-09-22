@@ -124,6 +124,10 @@ function formatUbicacion(ubicacion) {
 }
 export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
     let mensaje = ''
+    const hallazgoCorrecto = hallazgo ? listaDeHallazgos.map(({ value }) => value).indexOf(hallazgo) > -1 : true
+    const piezaCorrecta = ubicacion ? listaDeUbicacion.length > 0 : true
+    const ubicacionCorrecta = pieza ? listaDeDientes_.find(item => item == pieza) : true
+    if (!hallazgoCorrecto || !ubicacionCorrecta || !piezaCorrecta) return
     let pieza_ = pieza < 10 ? pieza * 10 : pieza
     if (ubicacion) {
         ubicacion = formatUbicacion(ubicacion)
@@ -139,119 +143,11 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
     const hzgoMatriz = listaDeHallazgos.filter((elem) => elem.value == hallazgo);
     if (hzgoMatriz.length > 0) {
         if (hzgoMatriz[0]?.esDirecto == "SI") {
-            item.value.hallazgos.push({ diente: pieza_, hallazgo: hallazgo, ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "" })
+            item.value.hallazgos.push({ diente: pieza_, hallazgo: hallazgo, ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "", fechaHallazgo: new Date(), })
         }
         agregarLista(itemodontograma.value.id, item.value)
     }
-    /*
-    const listaDeUbicacion = ubicacion ? ubicacion.split(' ').filter(item => listaDeTipos.map(({ value }) => value).indexOf(item) > -1) : []
-    const hallazgoCorrecto = hallazgo ? listaDeHallazgos.map(({ value }) => value).indexOf(hallazgo) > -1 : true
-    const piezaCorrecta = ubicacion ? listaDeUbicacion.length > 0 : true
-    const ubicacionCorrecta = pieza ? listaDeDientes_.find(item => item == pieza) : true
-    const existeSellante = escenarios.EsenariosSellantes.filter((elem) => elem.pieza == pieza)[0];
-    let mensaje = ''
-    let _posicion = "";
-    let sigla = "";
-
-    if (!hallazgoCorrecto || !ubicacionCorrecta || !piezaCorrecta) return
-
-    if (pieza) {
-        let pieza_ = pieza < 10 ? pieza * 10 : pieza
-        if (item.value.diente != pieza_) item.value.hallazgos = []
-        item.value.diente = pieza_
-        mensaje += `Pieza ${pieza}`
-    }
-    const ubicacionnes = escenarios.Esenarios.filter((elem) => elem.pieza == item.value.diente)[0];
-    if (hallazgo && listaDeUbicacion.length == 0) {
-        const registroSiglas = listaDeHallazgos.filter((elem) => elem.value == hallazgo);
-        sigla = registroSiglas[0]?.sigla;
-        if (hallazgo != 'caries' && hallazgo != 'restauración' && hallazgo != 'manchablanca' && hallazgo != 'lesionesmalte' && hallazgo != 'lesiondentina' && hallazgo != 'lesionpulpa' ) {
-            item.value.hallazgos.push({
-                hallazgo,
-                sigla: sigla,
-                posicion: '',
-                fechaHallazgo:new Date(),
-            })
-            mensaje += `Hallazgo ${hallazgo}`
-        }
-    } else if (hallazgo && listaDeUbicacion.length > 0) {
-        const registroSiglas = listaDeHallazgos.filter((elem) => elem.value == hallazgo);
-        sigla = registroSiglas[0]?.sigla;
-
-        let mensajeUbicacion = ''
-        listaDeUbicacion.forEach(ubicacion => {
-            if (ubicacionnes != undefined) {
-                _posicion = (ubicacionnes.arriba.trim() == ubicacion) ? 'arriba' : _posicion;
-                _posicion = (ubicacionnes.centro.trim() == ubicacion) ? 'centro' : _posicion;
-                _posicion = (ubicacionnes.abajo.trim() == ubicacion) ? 'abajo' : _posicion;
-                _posicion = (ubicacionnes.izquierda.trim() == ubicacion) ? 'izquierda' : _posicion;
-                _posicion = (ubicacionnes.derecha.trim() == ubicacion) ? 'derecha' : _posicion;
-            }
-            if (ubicacionnes.arriba.trim() == ubicacion || ubicacionnes.centro.trim() == ubicacion ||
-                ubicacionnes.abajo.trim() == ubicacion || ubicacionnes.izquierda.trim() == ubicacion || ubicacionnes.derecha.trim() == ubicacion) {
-                ubicacion = (hallazgo == 'caries' || hallazgo == 'manchablanca' || hallazgo == 'lesionesmalte' || hallazgo == 'lesiondentina' || hallazgo == 'lesionpulpa') ? ubicacion : (hallazgo == 'restauración') ? ubicacion : '';
-                item.value.hallazgos.push({
-                    hallazgo,
-                    ubicacion,
-                    sigla: sigla,
-                    posicion: (hallazgo == 'caries' || hallazgo == 'manchablanca' || hallazgo == 'lesionesmalte' || hallazgo == 'lesiondentina' || hallazgo == 'lesionpulpa') ? _posicion : (hallazgo == 'restauración') ? _posicion : '',
-                    fechaHallazgo:new Date(),
-                })
-                mensajeUbicacion += ubicacion
-            }
-        })
-
-        mensaje += `Hallazgo ${hallazgo} por ${mensajeUbicacion}`
-    }
-    if (existeSellante != undefined){
-        if (item.value.diente && item.value.diente != '' && hallazgo) {
-            if ((listaDeUbicacion.length > 0) && (ubicacionnes.arriba == listaDeUbicacion[0] ||
-                ubicacionnes.centro == listaDeUbicacion[0] || ubicacionnes.abajo == listaDeUbicacion[0] ||
-                ubicacionnes.izquierda == listaDeUbicacion[0] || ubicacionnes.derecha == listaDeUbicacion[0])) {
-                let fila = { hallazgo: hallazgo, ubicacion: ubicacion, sigla: sigla }
-                if (!existeDiente(item.value.diente, fila)) {
-                    agregar()
-                }
-            } else {
-                if (listaDeUbicacion.length == 0) {
-                    let fila = { hallazgo: hallazgo, ubicacion: ubicacion, sigla: sigla }
-                    if (!existeDiente(item.value.diente, fila)) {
-                        agregar()
-                    }
-                } else {
-                    speak('La ubicación ' + ubicacion + ' no corresponde a la pieza ' + item.value.diente)
-                }
-            }
-        }
-    } else {
-        if (hallazgo != 'sellanteazul' && hallazgo != 'sellanterojo') {
-            if (item.value.diente && item.value.diente != '' && hallazgo) {
-                if ((listaDeUbicacion.length > 0) && (ubicacionnes.arriba == listaDeUbicacion[0] ||
-                    ubicacionnes.centro == listaDeUbicacion[0] || ubicacionnes.abajo == listaDeUbicacion[0] ||
-                    ubicacionnes.izquierda == listaDeUbicacion[0] || ubicacionnes.derecha == listaDeUbicacion[0])) {
-                    let fila = { hallazgo: hallazgo, ubicacion: ubicacion, sigla: sigla }
-                    if (!existeDiente(item.value.diente, fila)) {
-                        agregar()
-                    }
-                } else {
-                    if (listaDeUbicacion.length == 0) {
-                        let fila = { hallazgo: hallazgo, ubicacion: ubicacion, sigla: sigla }
-                        if (!existeDiente(item.value.diente, fila)) {
-                            agregar()
-                        }
-                    } else {
-                        speak('La ubicación ' + ubicacion + ' no corresponde a la pieza ' + item.value.diente)
-                    }
-                }
-            }
-        } else {
-            speak('Hallazgo ' + hallazgo + ' no corresponde a la pieza ' + item.value.diente)
-        }
-    }
-    */
     return hablar && speak(mensaje)
-
-
 }
 export const agregar = () => {
     if (item.value.hallazgos?.length == 0) return speak('No he registrado un hallazgo')

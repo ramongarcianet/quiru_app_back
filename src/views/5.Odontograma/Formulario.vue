@@ -18,6 +18,7 @@ const listaHallazgo = obtenerTodoHallazgo();
 const listaCaries = obtenerTodoCaries();
 const { push } = useRouter()
 leerEnRegistro(route.params.idOdontograma);
+console.log(route.params.tipoOdonto)
 const listaDeHallazgos = _Hallazgos.filter(i => i.tipo == route.params.tipoOdonto).map(({ text, value }) => ({ text, value }))
 
 escucharInicializarVoz();
@@ -162,6 +163,7 @@ function VisibleDiente() {
           input.form-control#comboHallazgo(list='listaDeHallazgos', name='comboHallazgo', v-model='Hallazgo', v-on:change="VisibleDiente()")
           datalist#listaDeHallazgos
             option(v-for='{ text, value } of listaDeHallazgos' :value="value") {{text}}
+            
     .row#VistaDiente(style="display: none;")
       .col.d-flex.justify-content-center
         Diente(:item='item' style='--size: 12rem;').raiz-0
