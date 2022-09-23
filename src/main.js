@@ -11,6 +11,8 @@ import Odontograma from './components/Odontograma.vue'
 import MicroButton from './components/MicroButton.vue'
 
 import Img from './components/uikit/Img.vue'
+import StorageItem from './components/uikit/StorageItem.vue'
+
 import router from './config/router'
 import "./config/bootstrap/scss/bootstrap.scss"
 import './config/basics.sass'
@@ -20,6 +22,8 @@ iniciarFirebase()
 createApp(App)
 .component("Form", Form)
 .component("Img", Img)
+.component("StorageItem", StorageItem)
+
 .component("Dialog", Dialog)
 .component("Diente", Diente)
 .component("MicroButton", MicroButton)

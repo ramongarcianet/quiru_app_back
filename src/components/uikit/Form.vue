@@ -1,12 +1,11 @@
 <script setup>
 import { ref } from "vue"
-
 const props = defineProps(['onPromise', 'onSuccess', 'onCatch', 'onFunction'])
 const loading = ref(false)
 const submit = ()=> {
     loading.value = true
     if( props.onPromise ) props.onPromise()
-        .then(()=>{
+        .then((e)=>{
             if(props.onSuccess) props.onSuccess()
             loading.value = false
         }).catch((e)=>{
