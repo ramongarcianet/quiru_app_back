@@ -4,10 +4,10 @@ import {storage} from '../config/firebase'
 export const progressFile = ref(0)
 export const setFile = (file, idOdontograma) => new Promise( (resolve, reject )=> {
     if(!file) return reject( false )
-    if(file.size > 4000000) return reject('archivo muy pesado')
     if(file.type != 'image/jpeg' && file.type != 'image/png' && file.type != 'application/pdf') return reject('formato no admitido')
+    if(file.size > 4000000) return reject('archivo muy pesado')
     const uploadTask = uploadBytesResumable(
-        StorageRef(storage, 'images/'+ idOdontograma+'/' + file.name ), 
+        StorageRef(storage, 'documento/'+ idOdontograma+'/' + file.name ),
         file, 
         { contentType: file.type }
     )
@@ -40,7 +40,7 @@ export const dowFile = (file) => new Promise ( (resolve, reject)=>{
 })
 
 export const borrarFile = (file) => new Promise ((resolve, reject) => {
-    console.log(file)
+    //console.log(file)
     const desertRef = StorageRef(storage, file);
     deleteObject(desertRef).then(() => {
       }).catch((error) => {
