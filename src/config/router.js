@@ -55,11 +55,6 @@ const routes = [
         component: ()=>import('../views/dashboard.vue'),
         meta: { requiereAuth: true },
         children:[
-           {
-                path: 'admision',
-                name: 'admision',
-                component: ()=>import('../views/1.Admision/index.vue')
-            },
             {
                 path: 'usuarios',
                 name: 'usuarios',

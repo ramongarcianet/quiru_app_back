@@ -1,5 +1,4 @@
 import { ref } from 'vue';
-
 import {addDoc, collection, onSnapshot, getDoc, getFirestore, doc, updateDoc, deleteDoc, query, where} from 'firebase/firestore'
 import {firestore} from '../config/firebase'
 import { miUsuario } from './sesion';
@@ -7,7 +6,7 @@ import {useRouter} from 'vue-router'
 const dialog = ref( false )
 const item = ref ({
     tipoDocumento:'DNI',
-    fechaAdmisión:new Date().toISOString().slice(0,10)
+    fechaAdmision:new Date().toISOString().slice(0,10)
 
 })
 const verOdontograma=()=>{
@@ -54,10 +53,13 @@ const leerEnRegistro = id => {
     return item.value = registro.value.find( item  => item.id == id )
 }
 
-const limpiar=()=> {
+const limpiar = () => {
     item.value = {
-        tipoDocumento:'DNI',
-        fechaAdmisión:new Date().toISOString().slice(0,10)
+        tipoDocumento: 'DNI',
+        sexo: '',
+        fechaNacimiento: new Date().toISOString().slice(0, 10),
+        fechaAdmision: new Date().toISOString().slice(0, 10),
+        constancia:'N'
     }
 }
 

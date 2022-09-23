@@ -59,14 +59,8 @@ export const actualizarEsUltimo = (id, esUltimo) => {
     return updateDoc(referencia, itemUpd)
 }
 export const actualizar = (id) => {
-    var itemUpd = {
-        id: id,
-        especificaciones: inputDescription.value,
-        observaciones: inputObservacion.value,
-        receta: inputReceta.value
-    }
-    const referencia = doc(firestore, 'odontograma', itemUpd.id)
-    return updateDoc(referencia, itemUpd)
+    const referencia = doc(firestore, 'odontograma', id)
+    return updateDoc(referencia, item.value)
 }
 function dienteConSiglas(lista,diente){
    const filtro = lista.filter(item => item.diente == diente && item.sigla !='')
@@ -262,6 +256,10 @@ export const actualizarDetalle = (id, Hallazgos) => {
     }
     const referencia = doc(firestore, 'odontograma', itemUpd.id)
     return updateDoc(referencia, itemUpd)
+}
+
+const borrarDeLaColeccion = () => {
+    item.archivos.splice(i, 0)
 }
 const eliminar = (id) => {
     const ordenUltimo = registroodonto.value.length - 1;

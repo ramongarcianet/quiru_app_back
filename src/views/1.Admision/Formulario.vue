@@ -1,66 +1,110 @@
 <script setup>
-import {ref} from 'vue'
-import {item, guardar, actualizar,limpiar, dialog}  from '../../store/admision'
-
+import { onMounted, onUnmounted, watch, ref } from "vue";
+import {item, guardar, actualizar, limpiar}  from '../../store/admision'
+import { isLetter, isNumber } from '../../config/libreria'
+const maxDocumento = ref(8);
 const guardarOActualizar = () => {
-    if (item.value.id) actualizar(item.value).then(()=>limpiar())
-    else guardar( item.value).then(()=>limpiar())
+  var alerta = document.getElementById("alerta");
+  alerta.style.display = "none"
+  if (item.value.id) return actualizar(item.value);
+  else return guardar(item.value);
+};
+onMounted(() => {
+  incompleto();
+});
+watch(
+  () => item.value,
+  () => {
+    incompleto();
+  }
+);
+function definirMaxLimit(tipoDocumento) {
+  item.value.numeroDocumento = '';
+  if (tipoDocumento == 'DNI') {
+    maxDocumento.value = 8;
+  } else {
+    maxDocumento.value = 9;
+  }
 }
-
-
+function incompleto() {
+  var conErrores = '';
+  conErrores = conErrores + ((item.value.numeroDocumento?.length < 8) ? ' Número documento incompleto,' : '');
+  conErrores = conErrores + ((item.value.telefono?.length < 9) ? ' Telefono mínimo de 9 dígitos,' : '');
+  var alerta = document.getElementById("alerta");
+  if (alerta != null) {
+    if (conErrores.length > 0) {
+      alerta.innerHTML = "Te falta completar datos de: " + conErrores + "";
+      alerta.style.display = "block"
+      btguardar.disabled = true;
+    }
+    else {
+      alerta.innerHTML = "";
+      alerta.style.display = "none"
+      btguardar.disabled = false;
+    }
+  }
+  return conErrores;
+}
 </script>
 
-<template>
+<template lang="pug">
 
-<dialog :open="$attrs.dialog">
-    <form @submit.prevent="e => guardarOActualizar()">
-        <Col>
-        <Row>
-          <!--   <Col>
-                <input placeholder="Código" v-model="item.codigo" required>
-            </Col> -->
-            <Col>
-                <select v-model="item.tipoDocumento"  required>
-                    <option value="DNI"> DNI</option>
-                    <option value="CE"> CARNET DE EXTRAJERIA</option>
-                </select>
-            </Col>
-            <Col>
-                <input placeholder="Número Documento" v-model="item.numeroDocumento" required>
-            </Col>
-        </Row>
-        <Row>
-            <Col>
-                <input placeholder="Nombre" v-model="item.nombre" required>
-            </Col>
-            <Col>
-                <input placeholder="Apellido Paterno" v-model="item.apellidoPaterno"  required>
-            </Col>
-             <Col>
-                <input placeholder="Apellido Materno" v-model="item.apellidoMaterno"  required>
-            </Col>
-        </Row>
-        <Row>
-            <Col>
-                <input placeholder="Fecha Admisión" type="date" v-model="item.fechaAdmisión"  required>
-            </Col>
-        </Row>
-        <Row>
-            <Col>
-                <input placeholder="Comentario" v-model="item.Comentario"  required>
-            </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Button type="button" @click="dialog = false;limpiar()"> Cancelar </Button>
-          </Col>
-          <Col>
-            <Button> Guardar</Button>
-          </Col>
-        </Row>
-    </Col>
-    </form>
-</dialog>
-
+Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => limpiar()' :onError='incompleto()')
+  .row
+    .col-md-6
+      label.form-label Nombre*
+      .input-group.mb-2
+        input.form-control(placeholder="Nombre", v-model="item.nombre",@keypress="isLetter($event)" ,required,maxlength="30")
+        input.form-control(placeholder="Apellido paterno", v-model="item.apellidoPaterno",@keypress="isLetter($event)" ,required,maxlength="30")
+        input.form-control(placeholder="Apellido materno", v-model="item.apellidoMaterno",@keypress="isLetter($event)", required,maxlength="30")
+      label.form-label Documento de identidad*
+      .input-group.mb-2
+        select.form-select(placeholder="Ubigeo", v-model="item.tipoDocumento",v-on:change="definirMaxLimit(item.tipoDocumento)")
+          option(value="DNI") DNI
+          option(value="CE") CARNET DE EXTRANJERIA
+        input.form-control(placeholder="Número documento", v-model="item.numeroDocumento", @keypress="isNumber($event)",required,:maxlength="maxDocumento",:minlength="maxDocumento")
+      .row.mb-2
+        .col
+          label.form-label Fecha de nacimiento*
+          input.form-control(type="date", v-model="item.fechaNacimiento", max="3000-01-01" onfocus="this.max=new Date().toISOString().split('T')[0]")
+        .col
+          label.form-label Sexo*
+          select.form-select(v-model="item.sexo",required)
+            option(value="M", selected) MASCULINO
+            option(value="F") FEMENINO
+    .col-md-6
+      .col.mb-2
+        label.form-label Dirección*
+        .input-group
+          input.form-control(placeholder="Departamento", v-model="item.departamento",@keypress="isLetter($event)" ,required,maxlength="30")
+          input.form-control(placeholder="Dirección", v-model="item.Direccion",required,maxlength="40")
+      .row
+          .col.mb-2
+            label.form-label Correo electrónico*
+            input.form-control(placeholder="Correo Electrónico", v-model="item.email", type="email", required,maxlength="30")
+          .col.mb-2
+            label.form-label Celular*
+            input.form-control(type="tel", placeholder="Teléfono", v-model="item.telefono",@keypress="isNumber($event)" ,required,minlength="9",maxlength="12")
+      .row
+        .col.mb-2
+          label.form-label Constancia de informado*
+          select.form-select( v-model="item.constancia")
+            option(value="S") SI
+            option(value="N") NO
+        .col.mb-2
+          label.form-label Comentario
+          input.form-control(placeholder="Comentario", v-model="item.Comentario",@keypress="isLetter($event)",maxlength="40")
+  .col-12.col-md-4.mx-auto.mt-3
+    button#btguardar.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(
+      type='submit', disabled style="border-radius: 50px"
+    )
+      span
+        small
+          strong Registrar
+        p.mb-0 Admisión
+      i.fa-solid.fa-save.fa-lg.ms-5(style=" color: white;")
+  .row.mt-2
+    #alerta.alert.alert-danger.alert-dismissible(style='display:none')   
+      strong Cuidado! te falta completar campos
 </template>
 
