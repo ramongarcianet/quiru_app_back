@@ -10,6 +10,7 @@ import { useRoute, useRouter } from "vue-router";
 import { previousPage, nextPage, setList, registro_ as _hallazgos, setListDelete, SetPage } from "../../config/Paginator";
 import { listaDeDientesCombo, listaDeHallazgos as _Hallazgos } from '../../config/Parametros';
 import '../../assets/annyang.min'
+
 const route = useRoute();
 const listaDiccionario = obtenerTodoDiccionario();
 const listaPieza = obtenerTodoPieza();
@@ -17,6 +18,7 @@ const listaHallazgo = obtenerTodoHallazgo();
 const listaCaries = obtenerTodoCaries();
 const { push } = useRouter()
 leerEnRegistro(route.params.idOdontograma);
+console.log(route.params.tipoOdonto)
 const listaDeHallazgos = _Hallazgos.filter(i => i.tipo == route.params.tipoOdonto).map(({ text, value }) => ({ text, value }))
 
 escucharInicializarVoz();
@@ -111,6 +113,31 @@ watch(
     });
   }
 )
+function AgregarLista1() {
+  if (comboHallazgo.value != '' && comboPieza.value != '') {
+    const hzgoMatriz = _Hallazgos.filter((elem) => elem.value == comboHallazgo.value);
+    if (hzgoMatriz.length > 0) {
+      if (hzgoMatriz[0]?.esDirecto == "SI") {
+        item.value.hallazgos.push({ diente: comboPieza.value, hallazgo: comboHallazgo.value, ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "" })
+      }
+    }
+  }
+  var VistaDiente = document.getElementById("VistaDiente");
+  VistaDiente.style.display = "none"
+  agregarLista(route.params.idOdontograma, item.value);
+}
+function VisibleDiente() {
+  const hzgoMatriz = _Hallazgos.filter((elem) => elem.value == comboHallazgo.value);
+  if (hzgoMatriz.length > 0) {
+    var VistaDiente = document.getElementById("VistaDiente");
+    if (hzgoMatriz[0]?.esDirecto == "SI") {
+      VistaDiente.style.display = "none"
+    }
+    else {
+      VistaDiente.style.display = "block"
+    }
+  }
+}
 </script>
 
 <template lang="pug">
@@ -121,7 +148,7 @@ watch(
   .anim(v-if='isSpeech')
   .microfono( @click="isSpeech ? detenerVoz() : activarVoz()" )
     ion-icon.icono(name="mic" )
-  
+
 //-Input sin micrófono
 .row.mt-3
   .col
@@ -133,15 +160,16 @@ watch(
           datalist#listaDeDientes
             option(v-for='{ text, value } of listaDeDientesCombo' :value="value")
         span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;") Hallazgo :
-          input.form-control#comboHallazgo(list='listaDeHallazgos', name='comboHallazgo', v-model='Hallazgo')
+          input.form-control#comboHallazgo(list='listaDeHallazgos', name='comboHallazgo', v-model='Hallazgo', v-on:change="VisibleDiente()")
           datalist#listaDeHallazgos
             option(v-for='{ text, value } of listaDeHallazgos' :value="value") {{text}}
-    .row(v-if="!isSpeech")
+            
+    .row#VistaDiente(style="display: none;")
       .col.d-flex.justify-content-center
         Diente(:item='item' style='--size: 12rem;').raiz-0
     .row.mt-2(v-if="!isSpeech")
       .col.d-flex.justify-content-center
-        button.btn.btn-primary.m-1(type="submit", @click="agregarLista(route.params.idOdontograma, item)" style="width: 7rem;") Agregar
+        button.btn.btn-primary.m-1(type="submit", @click="AgregarLista1" style="width: 7rem;") Agregar
         button.btn.btn-primary.m-1(type="submit", @click="limpiarHallazgoDiente()" style="width: 7rem;") Limpiar
     .row.mt-2(v-if="!isSpeech")
     #mensaje.alert.alert-danger(style='display:none')
@@ -179,44 +207,6 @@ watch(
               li.page-item
                 a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma.hallazgos)")
                   span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
-
-//-.row.mt-2(v-if="!isSpeech")
-  .col
-    #collapseHallazgos.collapse
-      button.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
-          | Cerrar
-      .card.card-body
-        .div(style="background-color: white; border-radius: 2%;")
-          table.table.table-hover
-            thead
-              tr
-                th N°
-                th Pieza
-                th Hallazgo
-                th Ubicación
-                th Sigla
-                th
-            tbody
-              tr(v-for="item of _hallazgos")
-                td {{ item.fila }}
-                td {{ item.diente }}
-                td {{ item.hallazgo }}
-                td {{ item.ubicacion }}
-                td {{ item.sigla }}
-                td(width="25%")
-                  BotonSeguro( :onSuccess= '() => borrar(item)' )
-                    i.fa.fa-trash-o(aria-hidden='true')
-          .div(v-if="itemodontograma.hallazgos?.length > 8",style="text-align: center;")
-            nav.d-flex.justify-content-center(aria-label='Page navigation example')
-              ul.pagination
-                li.page-item
-                  a.page-link(href='#', aria-label='Previous', @click="previousPage(itemodontograma.hallazgos)")
-                    span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
-                li.page-item(v-for="n in (Math.trunc(itemodontograma.hallazgos.length / 8) + (((itemodontograma.hallazgos.length % 8) > 0) ? 1 : 0))")
-                  a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}
-                li.page-item
-                  a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma.hallazgos)")
-                    span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
 
 </template>
 <style lang="sass" scoped>

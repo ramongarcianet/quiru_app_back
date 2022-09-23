@@ -1,16 +1,14 @@
-﻿
+﻿import { listaDeHallazgos } from '../config/Parametros';
 export function VerFormato(registro) {
     var canvas = document.getElementById('myCanvas');
     var contexto = canvas.getContext("2d");
     contexto.clearRect(0, 0, canvas.width, canvas.height);
-    //console.log(registro)
     var canvas = document.getElementById('myCanvas');
     var context = canvas.getContext('2d');
     var colo_cab = '#bfbfbf';
     context.font = '8pt Calibri';
     context.textAlign = 'center';
     context.fillStyle = 'blue';
-
     var medida = 21;
     var iniciar_x = 0;
     var inicio_y = 0;
@@ -21,20 +19,21 @@ export function VerFormato(registro) {
         inicio_y = 75;
         context.fillText(entry, iniciar_x + 10, 45);
         dibuja_contorno(context, iniciar_x, inicio_y, medida, entry, registro);
-        marcar_ControlTop(context, iniciar_x - 12, inicio_y - 75, medida, registro, entry);
+        dibuja_ControlTop(context, iniciar_x - 12, inicio_y - 75, medida, registro, entry);
         if (entry == "18" || entry == "17" || entry == "16" || entry == "28" || entry == "27" || entry == "26") {
-            marcar_cabecera(context, iniciar_x, medida, inicio_y, colo_cab, "top_tri");
+            dibuja_raiz(context, iniciar_x, medida, inicio_y, colo_cab, "top_tri");
         }
         else if (entry == "13" || entry == "12" || entry == "11" || entry == "21" || entry == "22" || entry == "23") {
-            marcar_cabecera(context, iniciar_x, medida, inicio_y, colo_cab, "top");
+            dibuja_raiz(context, iniciar_x, medida, inicio_y, colo_cab, "top");
         }
         else if (entry == "15" || entry == "25") {
-            marcar_cabecera(context, iniciar_x, medida, inicio_y, colo_cab, "top_one");
+            dibuja_raiz(context, iniciar_x, medida, inicio_y, colo_cab, "top_one");
         }
         else if (entry == "14" || entry == "24") {
-            marcar_cabecera(context, iniciar_x, medida, inicio_y, colo_cab, "top_duo");
+            dibuja_raiz(context, iniciar_x, medida, inicio_y, colo_cab, "top_duo");
         }
         context.fillStyle = 'blue';
+        SetFinding(context, iniciar_x, inicio_y, medida, entry, registro);
         iniciar_x = iniciar_x + 24;
     }, this);
     iniciar_x = 2;
@@ -45,14 +44,15 @@ export function VerFormato(registro) {
             context.fillText(entry, iniciar_x + 10, 150);
             dibuja_contorno(context, iniciar_x, inicio_y, medida, entry, registro);
             if (entry == "55" || entry == "54" || entry == "28" || entry == "64" || entry == "65") {
-                marcar_cabecera(context, iniciar_x, medida, inicio_y, colo_cab, "top_tri");
+                dibuja_raiz(context, iniciar_x, medida, inicio_y, colo_cab, "top_tri");
             }
             else {
 
-                marcar_cabecera(context, iniciar_x, medida, inicio_y, colo_cab, "top");
+                dibuja_raiz(context, iniciar_x, medida, inicio_y, colo_cab, "top");
             }
-            marcar_ControlTop(context, iniciar_x - 12, inicio_y - 75, medida, registro, entry);
+            dibuja_ControlTop(context, iniciar_x - 12, inicio_y - 75, medida, registro, entry);
             context.fillStyle = 'blue';
+            SetFinding(context, iniciar_x, inicio_y, medida, entry, registro);
         }
         iniciar_x = iniciar_x + 24;
     }, this);
@@ -65,14 +65,15 @@ export function VerFormato(registro) {
             dibuja_contorno(context, iniciar_x, inicio_y, medida, entry, registro);
 
             if (entry == "85" || entry == "84" || entry == "74" || entry == "75") {
-                marcar_cabecera(context, iniciar_x, medida, inicio_y + 47, colo_cab, "bot_duo");
+                dibuja_raiz(context, iniciar_x, medida, inicio_y + 47, colo_cab, "bot_duo");
             }
             else {
 
-                marcar_cabecera(context, iniciar_x, medida, inicio_y + 47, colo_cab, "bot");
+                dibuja_raiz(context, iniciar_x, medida, inicio_y + 47, colo_cab, "bot");
             }
-            marcar_ControlBot(context, iniciar_x - 12, inicio_y + 50, medida, registro, entry);
+            dibuja_ControlBot(context, iniciar_x - 12, inicio_y + 50, medida, registro, entry);
             context.fillStyle = 'blue';
+            SetFinding(context, iniciar_x, inicio_y, medida, entry, registro);
         }
         iniciar_x = iniciar_x + 24;
     }, this);
@@ -84,18 +85,19 @@ export function VerFormato(registro) {
             context.fillText(entry, iniciar_x + 10, 372);
             dibuja_contorno(context, iniciar_x, inicio_y, medida, entry, registro);
             if (entry == "48" || entry == "47" || entry == "46" || entry == "36" || entry == "37" || entry == "38") {
-                marcar_cabecera(context, iniciar_x, medida, inicio_y + 47, colo_cab, "bot_duo");
+                dibuja_raiz(context, iniciar_x, medida, inicio_y + 47, colo_cab, "bot_duo");
             }
             else if (entry == "41" || entry == "42" || entry == "43" || entry == "31" || entry == "32" || entry == "33") {
 
-                marcar_cabecera(context, iniciar_x, medida, inicio_y + 47, colo_cab, "bot");
+                dibuja_raiz(context, iniciar_x, medida, inicio_y + 47, colo_cab, "bot");
             }
             else if (entry == "44" || entry == "45" || entry == "34" || entry == "35") {
 
-                marcar_cabecera(context, iniciar_x, medida, inicio_y + 47, colo_cab, "bot_one");
+                dibuja_raiz(context, iniciar_x, medida, inicio_y + 47, colo_cab, "bot_one");
             }
-            marcar_ControlBot(context, iniciar_x - 12, inicio_y + 50, medida, registro, entry);
+            dibuja_ControlBot(context, iniciar_x - 12, inicio_y + 50, medida, registro, entry);
             context.fillStyle = 'blue';
+            SetFinding(context, iniciar_x, inicio_y, medida, entry, registro);
         }
         iniciar_x = iniciar_x + 24;
     }, this);
@@ -115,7 +117,6 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro) {
         ctx.closePath();
         ctx.stroke();
     }
-    /* 2da zona */
     if (ctx) {
         ctx.strokeStyle = color_line;
         ctx.beginPath();
@@ -126,7 +127,6 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro) {
         ctx.closePath();
         ctx.stroke();
     }
-    /* 3ra zona */
     if (ctx) {
         ctx.strokeStyle = color_line;
         ctx.beginPath();
@@ -137,7 +137,6 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro) {
         ctx.closePath();
         ctx.stroke();
     }
-    /* 4ta zona */
     if (ctx) {
         ctx.strokeStyle = color_line;
         ctx.beginPath();
@@ -153,69 +152,17 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro) {
     dibuja_seccion(ctx, pieza, 3, "#37DFBB", med, inicio_x, inicio_y)
     dibuja_seccion(ctx, pieza, 4, "#37DFBB", med, inicio_x, inicio_y)
     dibuja_seccion(ctx, pieza, 5, "#37DFBB", med, inicio_x, inicio_y)
-    if (registro != undefined) {
-        registro.forEach(element => {
-            var seccion = 0;
-            switch (element.posicion) {
-                case "arriba":
-                    seccion = 1;
-                    break;
-                case "izquierda":
-                    seccion = 4;
-                    break;
-                case "centro":
-                    seccion = 5;
-                    break;
-                case "derecha":
-                    seccion = 2;
-                    break;
-                case "abajo":
-                    seccion = 3;
-                    break;
-                default:
-                    seccion = 0;
-                    break;
-            }
-            if (element.diente == pieza) {
-                if (element.hallazgo == "extracción") {
-                    Fractura_Extract_Ausent(ctx, inicio_x, med, inicio_y, "red", "");
-                }
-                else if (element.hallazgo == "ausente") {
-                    Fractura_Extract_Ausent(ctx, inicio_x, med, inicio_y, "blue", "");
-                }
-                else if (element.hallazgo == "fractura") {
-                    Fractura_Extract_Ausent(ctx, inicio_x, med, inicio_y, "red", "fractura");
-                }
-                else if (element.hallazgo == "caries" || element.hallazgo == "manchablanca" || element.hallazgo == "lesionesmalte" || element.hallazgo == "lesiondentina" || element.hallazgo == "lesionpulpa") {
-                    dibuja_seccion(ctx, pieza, seccion, "red", med, inicio_x, inicio_y)
-                }
-                else if (element.hallazgo == "restauración") {
-                    dibuja_seccion(ctx, pieza, seccion, "blue", med, inicio_x, inicio_y)
-                }
-                else if (element.hallazgo == "sellanteazul") {
-                    context.fillStyle = 'blue';
-                }
-                else if (element.hallazgo == "sellanterojo") {
-                    context.fillStyle = 'red';
-                } else {
-                    context.fillStyle = 'red';
-                }
-            }
-        });
-    }
-    //context.fillStyle = 'red';
 }
-function marcar_cabecera(contexto, inicio_x, medida, inicio_y, color, tipo) {
+function dibuja_raiz(contexto, inicio_x, medida, inicio_y, color, tipo) {
     var ctx = contexto;
     var med = medida;
     ctx.beginPath();
-    //ctx.lineWidth = 3;
     ctx.strokeStyle = color;
     if (tipo == "bot") {
-        ctx.moveTo(inicio_x +1, inicio_y - 25);
-        ctx.lineTo(inicio_x + 10, inicio_y-5);
+        ctx.moveTo(inicio_x + 1, inicio_y - 25);
+        ctx.lineTo(inicio_x + 10, inicio_y - 5);
         ctx.moveTo(inicio_x + 20, inicio_y - 25);
-        ctx.lineTo(inicio_x + 10, inicio_y-5);
+        ctx.lineTo(inicio_x + 10, inicio_y - 5);
     }
     else if (tipo == "top") {
         ctx.moveTo(inicio_x + 10, inicio_y - 22);
@@ -259,20 +206,20 @@ function marcar_cabecera(contexto, inicio_x, medida, inicio_y, color, tipo) {
     }
     else if (tipo == "bot_duo") {
         ctx.moveTo(inicio_x, inicio_y - 25);
-        ctx.lineTo(inicio_x + 5, inicio_y -5);
+        ctx.lineTo(inicio_x + 5, inicio_y - 5);
         ctx.moveTo(inicio_x + 11, inicio_y - 25);
-        ctx.lineTo(inicio_x + 15, inicio_y-5);
+        ctx.lineTo(inicio_x + 15, inicio_y - 5);
 
         ctx.moveTo(inicio_x + 11, inicio_y - 25);
-        ctx.lineTo(inicio_x + 5, inicio_y -5);
+        ctx.lineTo(inicio_x + 5, inicio_y - 5);
         ctx.moveTo(inicio_x + 21, inicio_y - 25);
-        ctx.lineTo(inicio_x + 15, inicio_y-5);
+        ctx.lineTo(inicio_x + 15, inicio_y - 5);
     }
     else if (tipo == "bot_one") {
         ctx.moveTo(inicio_x + 5, inicio_y - 25);
-        ctx.lineTo(inicio_x + 11, inicio_y -5);
+        ctx.lineTo(inicio_x + 11, inicio_y - 5);
         ctx.moveTo(inicio_x + 17, inicio_y - 25);
-        ctx.lineTo(inicio_x + 11, inicio_y-5);
+        ctx.lineTo(inicio_x + 11, inicio_y - 5);
     }
     ctx.stroke();
     ctx.lineWidth = 1;
@@ -359,21 +306,9 @@ function dibuja_seccion(contexto, num_diente, seccion, color_pas, medida, inicio
         }
     }
 }
-function marcar_ControlTop(ctx, inicio_x, inicio_y, med, registro, pieza) {
+function dibuja_ControlTop(ctx, inicio_x, inicio_y, med, registro, pieza) {
     var cua = med / 2;
     var ter = cua * 3;
-    ctx.fillText(' ', cua * 2 + inicio_x, cua * 2 + inicio_y);
-    var unasigla = 0;
-    if (registro != undefined) {
-        registro.forEach(element => {
-            if (element.diente == pieza) {
-                if (element.sigla == undefined)
-                    ctx.fillText(' ', cua * 2 + inicio_x, cua * 2 + inicio_y);
-                else
-                    ctx.fillText(element.sigla, cua * 2 + inicio_x, cua * 2 + inicio_y);
-            }
-        });
-    }
     ctx.fillStyle = 'transparent';
     ctx.beginPath();
     ctx.moveTo(cua + inicio_x, cua + inicio_y);
@@ -385,133 +320,108 @@ function marcar_ControlTop(ctx, inicio_x, inicio_y, med, registro, pieza) {
     ctx.strokeStyle = '#bfbfbf';
     ctx.stroke();
 }
-function marcar_ControlBot(ctx, inicio_x, inicio_y, med, registro, pieza) {
+function dibuja_ControlBot(ctx, inicio_x, inicio_y, med, registro, pieza) {
     var cua = med / 2;
     var ter = cua * 3;
-    ctx.fillText(' ', cua * 2 + inicio_x, cua * 2 + inicio_y);
+    ctx.fillStyle = 'transparent';
+    ctx.beginPath();
+    ctx.moveTo(cua + inicio_x, cua + inicio_y);
+    ctx.lineTo(ter + inicio_x, cua + inicio_y);
+    ctx.lineTo(ter + inicio_x, ter + inicio_y);
+    ctx.lineTo(cua + inicio_x, ter + inicio_y);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = '#bfbfbf';
+    ctx.stroke();
+}
+function SetFinding(context, iniciar_x, inicio_y, medida, diente, registro) {
     if (registro != undefined) {
-        registro.forEach(element => {
-            if (element.diente == pieza) {
-                if (element.sigla == undefined)
-                    ctx.fillText('', cua * 2 + inicio_x, cua * 2 + inicio_y);
-                else {
-                    ctx.fillText(element.sigla, cua * 2 + inicio_x, cua * 2 + inicio_y);
+        var number1 = ['18', '17', '16', '15', '14', '13', '12', '11', '21', '22', '23', '24', '25', '26', '27', '28', '55', '54', '53', '52', '51', '61', '62', '63', '64', '65'];
+        const existeDiente1 = number1.filter((x) => x == diente);
+        const Cuadrante1 = (existeDiente1.length > 0) ? 1 : 0
+        var number2 = ['85', '84', '83', '82', '81', '71', '72', '73', '74', '75', '48', '47', '46', '45', '44', '43', '42', '41', '31', '32', '33', '34', '35', '36', '37', '38'];
+        const existeDiente2 = number2.filter((x) => x == diente);
+        const Cuadrante2 = (existeDiente2.length > 0) ? 1 : 0
+        const Hallazgos = registro.filter((elem) => elem.diente == diente);
+        if (Hallazgos.length > 0) {
+            Hallazgos.forEach(hzgo => {
+                var seccion = 0;
+                switch (hzgo?.posicion) {
+                    case "arriba":
+                        seccion = 1;
+                        break;
+                    case "izquierda":
+                        seccion = 4;
+                        break;
+                    case "centro":
+                        seccion = 5;
+                        break;
+                    case "derecha":
+                        seccion = 2;
+                        break;
+                    case "abajo":
+                        seccion = 3;
+                        break;
+                    default:
+                        seccion = 0;
+                        break;
                 }
-            }
-        });
+                const hzgoMatriz = listaDeHallazgos.filter((elem) => elem.value == hzgo?.hallazgo);
+                if (hzgoMatriz.length > 0) {
+                    if (hzgoMatriz[0]?.esDirecto == "NO") {
+                        dibuja_seccion(context, diente, seccion, hzgoMatriz[0]?.Color, medida, iniciar_x, inicio_y)
+                    }
+                    else {
+                        if (Cuadrante1 == 1) {
+                            FindingGraphic(context, iniciar_x + hzgoMatriz[0]?.masX, inicio_y + hzgoMatriz[0]?.masY, hzgoMatriz[0]?.ancho, hzgoMatriz[0]?.alto, hzgoMatriz[0]?.Simbolo, hzgoMatriz[0]?.sigla, medida)
+                        }
+                        if (Cuadrante2 == 1) {
+                            var simb = (hzgoMatriz[0]?.SimboloAlterno != "") ? hzgoMatriz[0]?.SimboloAlterno : hzgoMatriz[0]?.Simbolo;
+                            FindingGraphic(context, iniciar_x + hzgoMatriz[0]?.masX, inicio_y - hzgoMatriz[0]?.masY - hzgoMatriz[0]?.PosicionAlt, hzgoMatriz[0]?.ancho, hzgoMatriz[0]?.alto, simb, hzgoMatriz[0]?.sigla, medida)
+                        }
+                    }
+                    if (Cuadrante1 == 1) {
+                        FindingText(context, iniciar_x - 12, inicio_y - 71, hzgoMatriz[0]?.sigla, medida, hzgoMatriz[0]?.Color)
+                    }
+                    if (Cuadrante2 == 1) {
+                        FindingText(context, iniciar_x - 12, inicio_y + 55, hzgoMatriz[0]?.sigla, medida, hzgoMatriz[0]?.Color)
+                    }
+                }
+            });
+        }
     }
-    ctx.fillStyle = 'transparent';
+}
+function FindingGraphic(contexto, inicio_x, inicio_y, ancho, alto, Simbolo, sigla, med) {
+    var ctx = contexto;
+    var cua = med / 2;
     ctx.beginPath();
-    ctx.moveTo(cua + inicio_x, cua + inicio_y);
-    ctx.lineTo(ter + inicio_x, cua + inicio_y);
-    ctx.lineTo(ter + inicio_x, ter + inicio_y);
-    ctx.lineTo(cua + inicio_x, ter + inicio_y);
-    ctx.closePath();
-    ctx.fill();
-    ctx.strokeStyle = '#bfbfbf';
+    ctx.lineWidth = 2;
+    var img = new Image();
+    img.src = "../../../src/assets/imagenes/" + Simbolo + ".png";
+    img.onload = function () {
+        ctx.drawImage(img, inicio_x, inicio_y, ancho, alto);
+    }
     ctx.stroke();
+    ctx.lineWidth = 1;
 }
-export function VerTipoCaries(event) {
-    if (event.target.value == "caries" || event.target.value == "restauración") {
-        cTipCaries.style = "";
-    }
-    else {
-        cTipCaries.style = "visibility: hidden;";
-    }
-    VerDemo(comboPieza.value);
-}
-export function VerDataTipoCaries() {
-    VerDemo(comboPieza.value);
-}
-export function ChangeHallazgo(event) {
-    clearcanvas("cvhallazgo")
-    if (event.target.value == "extracción") {
-        DienteAusente("cvhallazgo", "red");
-    }
-    else if (event.target.value == "ausente") {
-        DienteAusente("cvhallazgo", "blue");
-    }
-    else if (event.target.value == "fractura") {
-        DienteFracturado("cvhallazgo", "red");
-    }
-    else if (event.target.value == "caries") {
-        var tipoReg = document.getElementById("tipoReg")
-        tipoReg.value = "0"
-    }
-    else if (event.target.value == "restauración") {
-        var tipoReg = document.getElementById("tipoReg")
-        tipoReg.value = "1"
-    }
-    return false;
+function FindingText(contexto, inicio_x, inicio_y, sigla, med, color) {
+    var ctx = contexto;
+    var cua = med / 2;
+    ctx.fillStyle = color;
+    ctx.fillText(sigla, cua * 2 + inicio_x, cua * 2 + inicio_y);
+    ctx.beginPath();
+    ctx.stroke();
+    ctx.lineWidth = 1;
+    ctx.fillStyle = 'blue';
 }
 export function clearcanvas(id) {
     var canvas = document.getElementById(id);
     var contexto = canvas.getContext("2d");
     contexto.clearRect(0, 0, canvas.width, canvas.height);
-
     document.getElementById("comboHallazgo").value = ""
-    //document.getElementById("comboHallazgoTipo").value=""
     document.getElementById("comboPieza").value = ""
-}
-export function DienteAusente(id, color) {
-    var canvas = document.getElementById(id);
-    if (canvas && canvas.getContext) {
-        var ctx = canvas.getContext("2d");
-        if (ctx) {
-            ctx.lineWidth = 5;
-            ctx.strokeStyle = color;
-            ctx.beginPath();
-            ctx.moveTo(20, 150);
-            ctx.lineTo(130, 20);
-            ctx.moveTo(40, 20);
-            ctx.lineTo(140, 150);
-            ctx.stroke();
-        }
-    }
-    return false;
-}
-export function DienteFracturado(id, color) {
-    var canvas = document.getElementById(id);
-    if (canvas && canvas.getContext) {
-        var ctx = canvas.getContext("2d");
-        if (ctx) {
-            ctx.lineWidth = 5;
-            ctx.strokeStyle = color;
-            ctx.beginPath();
-            ctx.moveTo(40, 20);
-            ctx.lineTo(140, 150);
-            ctx.stroke();
-        }
-    }
-    return false;
-}
-export function DienteCaries(value) {
-    var _control = document.getElementById(value);
-    var tipoReg = document.getElementById("tipoReg");
-    var _className = "button-diente";
-    if (tipoReg.value == "1") {
-        _className = "button-blue";
-    }
-    else {
-        _className = "button-red";
-    }
-    if (value == "btnleftCar") {
-        piezaleftCar.value = "1";
-    }
-    if (value == "btncenterCar") {
-        piezacenterCar.value = "1";
-    }
-    if (value == "btnrigthCar") {
-        piezarigthCar.value = "1";
-    }
-    if (value == "btntopcar") {
-        piezatopcar.value = "1";
-    }
-    if (value == "btnbotCar") {
-        piezabotCar.value = "1";
-    }
-    _control.className = _className;
-    return false;
+    var alerta = document.getElementById("VistaDiente");
+    alerta.style.display = "block"
 }
 export function limpiarCaries() {
     var stle = "width: 100%; height:60px;";
@@ -526,19 +436,4 @@ export function limpiarCaries() {
     piezatopcar.value = "0";
     piezabotCar.value = "0";
     return false;
-}
-function Fractura_Extract_Ausent(contexto, inicio_x, medida, inicio_y, color, tipo) {
-    var ctx = contexto;
-    var med = medida;
-    ctx.beginPath();
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = color;
-    ctx.moveTo(inicio_x, inicio_y);
-    ctx.lineTo(inicio_x + 20, inicio_y + 20);
-    if (tipo != "fractura") {
-        ctx.moveTo(inicio_x + 20, inicio_y);
-        ctx.lineTo(inicio_x, inicio_y + 20);
-    }
-    ctx.stroke();
-    ctx.lineWidth = 1;
 }

@@ -4,7 +4,7 @@ import { addDoc, collection, onSnapshot, getDoc, doc, updateDoc, deleteDoc, quer
 import { firestore } from '../config/firebase'
 import { miUsuario } from './sesion';
 import { listaDeHallazgos } from '../config/Parametros'
-import { isSpeech,speak } from './odontograma'
+import { isSpeech, speak } from './odontograma'
 import escenarios from '../config/Escenarios.json';
 const dialog = ref(false)
 const regpasciente = ref([])
@@ -62,121 +62,50 @@ export const actualizar = (id) => {
     const referencia = doc(firestore, 'odontograma', id)
     return updateDoc(referencia, item.value)
 }
-function dienteConSiglas(lista,diente){
-   const filtro = lista.filter(item => item.diente == diente && item.sigla !='')
-   return  filtro.length;
+function dienteConSiglas(lista, diente) {
+    const filtro = lista.filter(item => item.diente == diente && item.sigla != '')
+    return filtro.length;
 }
-export function existeDiente(diente,fila){
+export function existeDiente(diente, fila) {
     let result = false;
-    let lista =  (item.value.hallazgos != undefined)? item.value.hallazgos : [];
-    for (let item of lista ){
-        //--verificamos  si existe ausente en la lista
-        if (item.hallazgo==='ausente'){
-            if (item.diente==diente){
-                if (fila.hallazgo === 'ausente'){
+    let lista = (item.value.hallazgos != undefined) ? item.value.hallazgos : [];
+    for (let item of lista) {
+        const hzgoMatriz = listaDeHallazgos.filter((elem) => elem.value == fila.hallazgo);
+        if (hzgoMatriz.length > 0) {
+            if (hzgoMatriz[0]?.esDirecto == "SI") {
+                if (item.diente == diente && item.hallazgo == fila.hallazgo && item.sigla == fila.sigla) {
                     if (isSpeech.value)
-                        speak('pieza '+diente+' ya existe como ausente en el odontograma')
+                        speak('pieza ' + diente + ' ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.hallazgo)
                     else
-                        mensajeExistePieza.value = 'Pieza: '+diente+', ya existe como ausente en el odontograma'
+                        mensajeExistePieza.value = 'Pieza: ' + diente + ', ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.hallazgo
                     result = true;
                     break;
-                } else {
+                }
+                else if (item.diente == diente && item.hallazgo != fila.hallazgo) {
                     if (isSpeech.value)
-                        speak('pieza '+diente+' es ausente en el odontograma, no se puede registrar el hallazgo '+fila.hallazgo+' en una pieza ausente')
+                        speak('pieza ' + diente + ' ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.hallazgo)
                     else
-                        mensajeExistePieza.value = 'Pieza: '+diente+', es ausente en el odontograma, no se puede registrar el Hallazgo: '+fila.hallazgo+', en una pieza ausente'
+                        mensajeExistePieza.value = 'Pieza: ' + diente + ', ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.hallazgo
                     result = true;
                     break;
                 }
             }
-        } else {
-            if (fila.hallazgo == 'caries' || fila.hallazgo == 'restauración' || fila.hallazgo == 'manchablanca' || fila.hallazgo == 'lesionesmalte' || fila.hallazgo == 'lesiondentina' || fila.hallazgo == 'lesionpulpa'){
-                if(item.diente==diente && item.hallazgo==fila.hallazgo && item.ubicacion==fila.ubicacion ){
+            else {
+                if (item.diente == diente && item.hallazgo == fila.hallazgo && item.ubicacion == fila.ubicacion && item.posicion == fila.posicion) {
                     if (isSpeech.value)
-                        speak('pieza '+diente+' hallazgo '+fila.hallazgo+ ' y ubicación '+fila.ubicacion+' ya existe en el odontograma')
+                        speak('pieza ' + diente + ' hallazgo ' + fila.hallazgo + ' y ubicación ' + fila.ubicacion + ' ya existe en el odontograma')
                     else
-                        mensajeExistePieza.value = 'Pieza: '+diente+', Hallazgo: '+fila.hallazgo+ ', Ubicación: '+fila.ubicacion+', ya existe en el odontograma'
+                        mensajeExistePieza.value = 'Pieza: ' + diente + ', Hallazgo: ' + fila.hallazgo + ', Ubicación: ' + fila.ubicacion + ', ya existe en el odontograma'
                     result = true;
                     break;
                 }
-               if (fila.hallazgo == 'caries' || fila.hallazgo == 'manchablanca'  || fila.hallazgo == 'lesionesmalte' || fila.hallazgo == 'lesiondentina' || fila.hallazgo == 'lesionpulpa') {
-                  if (item.diente==diente && item.ubicacion==fila.ubicacion && item.hallazgo=='restauración' ){
+                else if (item.diente == diente && item.hallazgo != fila.hallazgo) {
                     if (isSpeech.value)
-                        speak('pieza '+diente+' y ubicación '+fila.ubicacion+' ya está registrado como hallazgo restauración')
+                        speak('pieza ' + diente + ' ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.hallazgo)
                     else
-                        mensajeExistePieza.value = 'Pieza: '+diente+', Ubicación: '+fila.ubicacion+', ya está registrado como Hallazgo restauración'
+                        mensajeExistePieza.value = 'Pieza: ' + diente + ', ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.hallazgo
                     result = true;
                     break;
-                  }
-               }
-               if (fila.hallazgo == 'restauración') {
-                if (item.diente==diente && item.ubicacion==fila.ubicacion && (item.hallazgo=='caries' || item.hallazgo=='manchablanca' || fila.hallazgo == 'lesionesmalte' || fila.hallazgo == 'lesiondentina' || fila.hallazgo == 'lesionpulpa') ){
-                    if (isSpeech.value)
-                        speak('pieza '+diente+' y ubicación '+fila.ubicacion+' ya está registrado como hallazgo caries')
-                    else
-                        mensajeExistePieza.value = 'Pieza: '+diente+', Ubicación: '+fila.ubicacion+', ya está registrado como Hallazgo caries'
-                    result = true;
-                    break;
-                }
-             }
-            } else {
-                if (fila.hallazgo == 'hipoplasia' || fila.hallazgo == 'hipomineralizacion'||
-                    fila.hallazgo == 'opacidad' || fila.hallazgo == 'decoloración' || fila.hallazgo == 'fluorosis' ||
-                    fila.hallazgo == 'sellanteazul' || fila.hallazgo == 'sellanterojo'
-                    )
-                {
-                    if(item.diente==diente ){
-                        if(fila.sigla==''){
-                            if(item.diente==diente && item.hallazgo==fila.hallazgo){
-                                if (isSpeech.value)
-                                    speak('pieza '+diente+' y hallazgo '+fila.hallazgo+' ya existe en el odontograma')
-                                else
-                                    mensajeExistePieza.value ='Pieza: '+diente+', Hallazgo: '+fila.hallazgo+', ya existe en el odontograma'
-                                result = true;
-                                break;
-                            }
-                        } else {
-                            if(item.diente==diente && item.hallazgo==fila.hallazgo && item.sigla==fila.sigla ){
-                                if (isSpeech.value)
-                                    speak('pieza '+diente+' y hallazgo '+fila.hallazgo+' ya existe en el odontograma')
-                                else
-                                    mensajeExistePieza.value ='Pieza: '+diente+', Hallazgo: '+fila.hallazgo+', ya existe en el odontograma'
-                                result = true;
-                                break;
-                            } else {
-                                if (dienteConSiglas(lista,diente)>0){
-                                    if (isSpeech.value)
-                                        speak('pieza '+diente+' ya existe en el odontograma con Sigla, no se puede registrar como hallazgo '+fila.hallazgo)
-                                    else
-                                        mensajeExistePieza.value = 'Pieza: '+diente+', ya existe en el odontograma con Sigla, no se puede registrar como Hallazgo: '+fila.hallazgo
-                                    result = true;
-                                    break;
-                                }
-                            }
-                        }
-
-                    }
-                } else {
-                    //verificamos que el hallazgo dictado sea ausente
-                    if(fila.hallazgo == 'ausente'){
-                        if(item.diente==diente){
-                            if(isSpeech.value)
-                                speak('pieza '+diente+' ya existe en el odontograma, no se puede registrar una pieza ausente en una pieza que no es ausente')
-                            else
-                                mensajeExistePieza.value = 'Pieza: '+diente+', ya existe en el odontograma, no se puede registrar una pieza ausente en una pieza que no es ausente'
-                            result = true;
-                            break;
-                        }
-                    } else{
-                        if(item.diente==diente && item.hallazgo==fila.hallazgo){
-                            if(isSpeech.value)
-                                speak('pieza '+diente+' y hallazgo '+fila.hallazgo+' ya existe en el odontograma')
-                            else
-                                mensajeExistePieza.value = 'Pieza: '+diente+', Hallazgo: '+fila.hallazgo+', ya existe en el odontograma'
-                            result = true;
-                            break;
-                        }
-                    }
                 }
             }
         }
@@ -189,55 +118,19 @@ export function agregarLista(id, param) {
     if (param.hallazgos.length > 0) {
         param.hallazgos.forEach(element => {
             const existeHallazgo = listaDeHallazgos.filter((elem) => elem.value == element.hallazgo)[0];
-            const existeSellante = escenarios.EsenariosSellantes.filter((elem) => elem.pieza == param.diente)[0];
-            if (existeSellante != undefined ) {
-                if (existeHallazgo != undefined) {
-                    let fila = {
-                        diente: param.diente,
-                        hallazgo: element.hallazgo,
-                        ubicacion: (element.hallazgo == 'caries' || element.hallazgo == 'manchablanca' || element.hallazgo == 'lesionesmalte' || element.hallazgo == 'lesiondentina' || element.hallazgo == 'lesionpulpa') ? element.ubicacion : (element.hallazgo == 'restauración') ? element.ubicacion : '',
-                        sigla: element.sigla,
-                        posicion: (element.hallazgo == 'caries' || element.hallazgo == 'manchablanca' || element.hallazgo == 'lesionesmalte' || element.hallazgo == 'lesiondentina' || element.hallazgo == 'lesionpulpa') ? element.posicion : (element.hallazgo == 'restauración') ? element.posicion : '',
-                        fechaHallazgo:new Date(),
-                    }
-                    if (param.diente != '') {
-                       /*
-                        const index = item.value?.hallazgos.findIndex(i => i.diente == fila.diente && i.ubicacion == fila.ubicacion && i.sigla == fila.sigla && i.posicion == fila.posicion)
-                        const existePieza = item.value?.hallazgos.filter((elem) => elem.diente == fila.diente  && elem.ubicacion == fila.ubicacion && elem.sigla == fila.sigla && elem.posicion == fila.posicion).length;
-                        if (existePieza > 0) {
-                            item.value?.hallazgos.splice(index, 1);
-                        }
-                        */
-                        if (!existeDiente(param.diente, fila)) {
-                            item.value.hallazgos ? item.value.hallazgos.push(fila) : item.value.hallazgos = [fila];
-                        } /*else {
-                            if (fila.hallazgo === 'caries' || fila.hallazgo === 'restauración') {
-                                mensajeExistePieza.value = 'Pieza: ' + param.diente + ', Hallazgo: ' + fila.hallazgo + ' y Ubicación: ' + fila.ubicacion + ', ya existen en el odontograma';
-                            } else {
-                                mensajeExistePieza.value = 'Pieza: ' + param.diente + ' y Hallazgo: ' + fila.hallazgo + ', ya existen en el odontograma';
-                            }
-                        }*/
-                    }
+            if (existeHallazgo != undefined) {
+                let fila = {
+                    diente: param.diente,
+                    hallazgo: element.hallazgo,
+                    ubicacion: element.ubicacion,
+                    sigla: element.sigla,
+                    posicion: element.posicion,
+                    fechaHallazgo: new Date(),
                 }
-            } else {
-                if (element.hallazgo != 'sellanteazul' && element.hallazgo != 'sellanterojo'){
-                    if (existeHallazgo != undefined) {
-                        let fila = {
-                            diente: param.diente,
-                            hallazgo: element.hallazgo,
-                            ubicacion: (element.hallazgo == 'caries' || element.hallazgo == 'manchablanca' || element.hallazgo == 'lesionesmalte' || element.hallazgo == 'lesiondentina' || element.hallazgo == 'lesionpulpa') ? element.ubicacion : (element.hallazgo == 'restauración') ? element.ubicacion : '',
-                            sigla: element.sigla,
-                            posicion: (element.hallazgo == 'caries' || element.hallazgo == 'manchablanca' || element.hallazgo == 'lesionesmalte' || element.hallazgo == 'lesiondentina' || element.hallazgo == 'lesionpulpa') ? element.posicion : (element.hallazgo == 'restauración') ? element.posicion : '',
-                            fechaHallazgo:new Date(),
-                        }
-                        if (param.diente != '') {
-                            if (!existeDiente(param.diente, fila)) {
-                                item.value.hallazgos ? item.value.hallazgos.push(fila) : item.value.hallazgos = [fila];
-                            }
-                        }
+                if (param.diente != '') {
+                    if (!existeDiente(param.diente, fila)) {
+                        item.value.hallazgos ? item.value.hallazgos.push(fila) : item.value.hallazgos = [fila];
                     }
-                } else {
-                    mensajeExistePieza.value = 'Hallazgo: '+element.hallazgo+', no corresponde a la pieza: ' + param.diente ;
                 }
             }
         });
@@ -246,9 +139,9 @@ export function agregarLista(id, param) {
 }
 
 export const actualizarDetalle = (id, Hallazgos) => {
-    let hallazgosOrder= Hallazgos.sort(function(a, b) {
+    let hallazgosOrder = Hallazgos.sort(function (a, b) {
         //console.log(b.fechaHallazgo-a.fechaHallazgo)
-        return b.fechaHallazgo-a.fechaHallazgo
+        return b.fechaHallazgo - a.fechaHallazgo
     })
     var itemUpd = {
         id: id,

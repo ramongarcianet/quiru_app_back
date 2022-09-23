@@ -1,6 +1,6 @@
 import { item, verOdontograma, detenerVoz, activarVoz, speak, flagLimpiar } from './odontograma'
 import { listaDeTipos, listaDeHallazgos } from '../config/Parametros';
-import { item as itemodontograma, actualizarDetalle, existeDiente } from './formodontograma';
+import { item as itemodontograma, actualizarDetalle, existeDiente, agregarLista } from './formodontograma';
 import escenarios from '../config/Escenarios.json';
 const seleccionarHallazgo = hallazgo => actualizarItem(hallazgo, false, false)
 
@@ -123,120 +123,35 @@ function formatUbicacion(ubicacion) {
 
 }
 export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
-    if (ubicacion) {
-        ubicacion = formatUbicacion(ubicacion)
-    }
-    const listaDeUbicacion = ubicacion ? ubicacion.split(' ').filter(item => listaDeTipos.map(({ value }) => value).indexOf(item) > -1) : []
+    let mensaje = ''
     const hallazgoCorrecto = hallazgo ? listaDeHallazgos.map(({ value }) => value).indexOf(hallazgo) > -1 : true
     const piezaCorrecta = ubicacion ? listaDeUbicacion.length > 0 : true
     const ubicacionCorrecta = pieza ? listaDeDientes_.find(item => item == pieza) : true
-    const existeSellante = escenarios.EsenariosSellantes.filter((elem) => elem.pieza == pieza)[0];
-    let mensaje = ''
-    let _posicion = "";
-    let sigla = "";
-
     if (!hallazgoCorrecto || !ubicacionCorrecta || !piezaCorrecta) return
-
+    let pieza_ = pieza < 10 ? pieza * 10 : pieza
+    if (ubicacion) {
+        ubicacion = formatUbicacion(ubicacion)
+    }
     if (pieza) {
-        let pieza_ = pieza < 10 ? pieza * 10 : pieza
-        if (item.value.diente != pieza_) item.value.hallazgos = []
-        item.value.diente = pieza_
+
+        if (item.value.diente != pieza_) {
+            item.value.hallazgos = []
+            item.value.diente = pieza_
+        }
         mensaje += `Pieza ${pieza}`
     }
-    const ubicacionnes = escenarios.Esenarios.filter((elem) => elem.pieza == item.value.diente)[0];
-    if (hallazgo && listaDeUbicacion.length == 0) {
-        const registroSiglas = listaDeHallazgos.filter((elem) => elem.value == hallazgo);
-        sigla = registroSiglas[0]?.sigla;
-        if (hallazgo != 'caries' && hallazgo != 'restauración' && hallazgo != 'manchablanca' && hallazgo != 'lesionesmalte' && hallazgo != 'lesiondentina' && hallazgo != 'lesionpulpa' ) {
-            item.value.hallazgos.push({
-                hallazgo,
-                sigla: sigla,
-                posicion: '',
-                fechaHallazgo:new Date(),
-            })
-            mensaje += `Hallazgo ${hallazgo}`
+    const hzgoMatriz = listaDeHallazgos.filter((elem) => elem.value == hallazgo);
+    if (hzgoMatriz.length > 0) {
+        if (hzgoMatriz[0]?.esDirecto == "SI") {
+            item.value.hallazgos.push({ diente: pieza_, hallazgo: hallazgo, ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "", fechaHallazgo: new Date(), })
         }
-    } else if (hallazgo && listaDeUbicacion.length > 0) {
-        const registroSiglas = listaDeHallazgos.filter((elem) => elem.value == hallazgo);
-        sigla = registroSiglas[0]?.sigla;
-
-        let mensajeUbicacion = ''
-        listaDeUbicacion.forEach(ubicacion => {
-            if (ubicacionnes != undefined) {
-                _posicion = (ubicacionnes.arriba.trim() == ubicacion) ? 'arriba' : _posicion;
-                _posicion = (ubicacionnes.centro.trim() == ubicacion) ? 'centro' : _posicion;
-                _posicion = (ubicacionnes.abajo.trim() == ubicacion) ? 'abajo' : _posicion;
-                _posicion = (ubicacionnes.izquierda.trim() == ubicacion) ? 'izquierda' : _posicion;
-                _posicion = (ubicacionnes.derecha.trim() == ubicacion) ? 'derecha' : _posicion;
-            }
-            if (ubicacionnes.arriba.trim() == ubicacion || ubicacionnes.centro.trim() == ubicacion ||
-                ubicacionnes.abajo.trim() == ubicacion || ubicacionnes.izquierda.trim() == ubicacion || ubicacionnes.derecha.trim() == ubicacion) {
-                ubicacion = (hallazgo == 'caries' || hallazgo == 'manchablanca' || hallazgo == 'lesionesmalte' || hallazgo == 'lesiondentina' || hallazgo == 'lesionpulpa') ? ubicacion : (hallazgo == 'restauración') ? ubicacion : '';
-                item.value.hallazgos.push({
-                    hallazgo,
-                    ubicacion,
-                    sigla: sigla,
-                    posicion: (hallazgo == 'caries' || hallazgo == 'manchablanca' || hallazgo == 'lesionesmalte' || hallazgo == 'lesiondentina' || hallazgo == 'lesionpulpa') ? _posicion : (hallazgo == 'restauración') ? _posicion : '',
-                    fechaHallazgo:new Date(),
-                })
-                mensajeUbicacion += ubicacion
-            }
-        })
-
-        mensaje += `Hallazgo ${hallazgo} por ${mensajeUbicacion}`
-    }
-    if (existeSellante != undefined){
-        if (item.value.diente && item.value.diente != '' && hallazgo) {
-            if ((listaDeUbicacion.length > 0) && (ubicacionnes.arriba == listaDeUbicacion[0] ||
-                ubicacionnes.centro == listaDeUbicacion[0] || ubicacionnes.abajo == listaDeUbicacion[0] ||
-                ubicacionnes.izquierda == listaDeUbicacion[0] || ubicacionnes.derecha == listaDeUbicacion[0])) {
-                let fila = { hallazgo: hallazgo, ubicacion: ubicacion, sigla: sigla }
-                if (!existeDiente(item.value.diente, fila)) {
-                    agregar()
-                }
-            } else {
-                if (listaDeUbicacion.length == 0) {
-                    let fila = { hallazgo: hallazgo, ubicacion: ubicacion, sigla: sigla }
-                    if (!existeDiente(item.value.diente, fila)) {
-                        agregar()
-                    }
-                } else {
-                    speak('La ubicación ' + ubicacion + ' no corresponde a la pieza ' + item.value.diente)
-                }
-            }
-        }
-    } else {
-        if (hallazgo != 'sellanteazul' && hallazgo != 'sellanterojo') {
-            if (item.value.diente && item.value.diente != '' && hallazgo) {
-                if ((listaDeUbicacion.length > 0) && (ubicacionnes.arriba == listaDeUbicacion[0] ||
-                    ubicacionnes.centro == listaDeUbicacion[0] || ubicacionnes.abajo == listaDeUbicacion[0] ||
-                    ubicacionnes.izquierda == listaDeUbicacion[0] || ubicacionnes.derecha == listaDeUbicacion[0])) {
-                    let fila = { hallazgo: hallazgo, ubicacion: ubicacion, sigla: sigla }
-                    if (!existeDiente(item.value.diente, fila)) {
-                        agregar()
-                    }
-                } else {
-                    if (listaDeUbicacion.length == 0) {
-                        let fila = { hallazgo: hallazgo, ubicacion: ubicacion, sigla: sigla }
-                        if (!existeDiente(item.value.diente, fila)) {
-                            agregar()
-                        }
-                    } else {
-                        speak('La ubicación ' + ubicacion + ' no corresponde a la pieza ' + item.value.diente)
-                    }
-                }
-            }
-        } else {
-            speak('Hallazgo ' + hallazgo + ' no corresponde a la pieza ' + item.value.diente)
-        }
+        agregarLista(itemodontograma.value.id, item.value)
     }
     return hablar && speak(mensaje)
-
-
 }
 export const agregar = () => {
     if (item.value.hallazgos?.length == 0) return speak('No he registrado un hallazgo')
-    item.value.hallazgos?.map(({ hallazgo, ubicacion, sigla, posicion,fechaHallazgo }) => ({ diente: item.value.diente, ubicacion: ubicacion || "", hallazgo, sigla, posicion,fechaHallazgo })).forEach(item => {
+    item.value.hallazgos?.map(({ hallazgo, ubicacion, sigla, posicion, fechaHallazgo }) => ({ diente: item.value.diente, ubicacion: ubicacion || "", hallazgo, sigla, posicion, fechaHallazgo })).forEach(item => {
         const index = itemodontograma.value?.hallazgos?.findIndex(i => i.hallazgo == item.hallazgo && i.diente == item.diente && i.ubicacion == item.ubicacion)
         if (index == -1 || index == undefined) {
             itemodontograma.value?.hallazgos ? itemodontograma.value.hallazgos.push(item) : itemodontograma.value.hallazgos = [item];
@@ -253,7 +168,7 @@ export function limpiarPieza(pieza) {
     speak(`Limpiando pieza ${pieza}`)
 }
 export function eliminarFila(filaEliminar) {
-    const filaTemp = (filaEliminar.toLowerCase() =='uno')? 1 : filaEliminar
+    const filaTemp = (filaEliminar.toLowerCase() == 'uno') ? 1 : filaEliminar
     if (!isNaN(filaTemp)) {
         itemodontograma.value.hallazgos = itemodontograma.value?.hallazgos.filter(({ fila }) => fila != filaTemp)
         actualizarDetalle(itemodontograma.value.id, itemodontograma.value.hallazgos)
@@ -266,54 +181,260 @@ const prefijosParaUbicacion = '(por) (parte)'
 const prefijosMultiples = '(a) (la) (ala) (al)'
 
 const listaDeFuncionesPorDiente = {}
-listaDeDientes_.map(num => {
-    listaDeFuncionesPorDiente[`${num}CariesUbicacion`] = (ubicacion) => actualizarItem('caries', ubicacion, String(num))
-    listaDeFuncionesPorDiente[`${num}ManchaBlancaUbicacion`] = (ubicacion) => actualizarItem('manchablanca', ubicacion, String(num))
-    listaDeFuncionesPorDiente[`${num}CariesEsmalteUbicacion`] = (ubicacion) => actualizarItem('lesionesmalte', ubicacion, String(num))
-    listaDeFuncionesPorDiente[`${num}CariesDentinaUbicacion`] = (ubicacion) => actualizarItem('lesiondentina', ubicacion, String(num))
-    listaDeFuncionesPorDiente[`${num}CariesPulpaUbicacion`] = (ubicacion) => actualizarItem('lesionpulpa', ubicacion, String(num))
-    listaDeFuncionesPorDiente[`${num}Fractura`] = () => actualizarItem('fractura', false, String(num))
-    listaDeFuncionesPorDiente[`${num}Extraccion`] = () => actualizarItem('extracción', false, String(num))
-    listaDeFuncionesPorDiente[`${num}Ausente`] = () => actualizarItem('ausente', false, String(num))
-    listaDeFuncionesPorDiente[`${num}Restauracion`] = (ubicacion) => actualizarItem('restauración', ubicacion, String(num))
 
-    listaDeFuncionesPorDiente[`${num}Hipoplasia`] = () => actualizarItem('hipoplasia', false, String(num))
-    listaDeFuncionesPorDiente[`${num}Hipomineralizacion`] = () => actualizarItem('hipomineralizacion', false, String(num))
-    listaDeFuncionesPorDiente[`${num}Opacidad`] = () => actualizarItem('opacidad', false, String(num))
-    listaDeFuncionesPorDiente[`${num}Decoloracion`] = () => actualizarItem('decoloración', false, String(num))
-    listaDeFuncionesPorDiente[`${num}Fluorosis`] = () => actualizarItem('fluorosis', false, String(num))
-    listaDeFuncionesPorDiente[`${num}SellanteBueno`] = () => actualizarItem('sellanteazul', false, String(num))
-    listaDeFuncionesPorDiente[`${num}SellanteMalo`] = () => actualizarItem('sellanterojo', false, String(num))
-
-    listaDeFuncionesPorDiente[`${num}num2Hallazgo`] = (num2, hallazgo) => seleccionMultiple(num, num2, hallazgo, false)
-    listaDeFuncionesPorDiente[`${num}num2HallazgoUbicacion`] = (num2, hallazgo, ubicacion) => seleccionMultiple(num, num2, hallazgo, ubicacion)
-})
 const listaDeComandosDeDientes = {}
 
 listaDeDientes_?.map(num => {
-    listaDeComandosDeDientes[`${num} carie ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesUbicacion`]
-    listaDeComandosDeDientes[`${num} caries ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesUbicacion`]
-    listaDeComandosDeDientes[`${num} mancha blanca ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}ManchaBlancaUbicacion`]
-    listaDeComandosDeDientes[`${num} lesión esmalte ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesEsmalteUbicacion`]
-    listaDeComandosDeDientes[`${num} lesión dentina ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesDentinaUbicacion`]
-    listaDeComandosDeDientes[`${num} lesión pulpa ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}CariesPulpaUbicacion`]
-    listaDeComandosDeDientes[`${num} restauración ${prefijosParaUbicacion} *ubicacion`] = listaDeFuncionesPorDiente[`${num}Restauracion`]
-    listaDeComandosDeDientes[`${num} factura`] = listaDeFuncionesPorDiente[`${num}Fractura`]
-    listaDeComandosDeDientes[`${num} fractura`] = listaDeFuncionesPorDiente[`${num}Fractura`]
-    listaDeComandosDeDientes[`${num} fracturas`] = listaDeFuncionesPorDiente[`${num}Fractura`]
-    listaDeComandosDeDientes[`${num} extracción`] = listaDeFuncionesPorDiente[`${num}Extraccion`]
-    listaDeComandosDeDientes[`${num} ausente`] = listaDeFuncionesPorDiente[`${num}Ausente`]
+    //listaDeComandosDeDientes[`${num} Aparato ortodóntico fijo en buen estado`] = () => actualizarItem('Ortodontico_Fijo_good', false, String(num))                                            
+    //listaDeComandosDeDientes[`${num} Aparato ortodóntico fijo en mal estado`] = () => actualizarItem('Ortodontico_Fijo_bad', false, String(num))                                              
+    //listaDeComandosDeDientes[`${num} Aparato ortodóntico removible en buen estado`] = () => actualizarItem('Ortodontico_Removible_good', false, String(num))                                  
+    //listaDeComandosDeDientes[`${num} Aparato ortodóntico removible en mal estado`] = () => actualizarItem('Ortodontico_Removible_bad', false, String(num))                                    
 
-    listaDeComandosDeDientes[`${num} hipoplasia`] = listaDeFuncionesPorDiente[`${num}Hipoplasia`]
-    listaDeComandosDeDientes[`${num} hipomineralizacion`] = listaDeFuncionesPorDiente[`${num}Hipomineralizacion`]
-    listaDeComandosDeDientes[`${num} opacidad`] = listaDeFuncionesPorDiente[`${num}Opacidad`]
-    listaDeComandosDeDientes[`${num} decoloración`] = listaDeFuncionesPorDiente[`${num}Decoloracion`]
-    listaDeComandosDeDientes[`${num} fluorosis`] = listaDeFuncionesPorDiente[`${num}Fluorosis`]
-    listaDeComandosDeDientes[`${num} sellante en buen estado`] = listaDeFuncionesPorDiente[`${num}SellanteBueno`]
-    listaDeComandosDeDientes[`${num} sellante en mal estado`] = listaDeFuncionesPorDiente[`${num}SellanteMalo`]
+    listaDeComandosDeDientes[`${num} Corona metálica en buen estado`] = () => actualizarItem('Corona_metalica_good', false, String(num))
+    listaDeComandosDeDientes[`${num} metálica en buen estado`] = () => actualizarItem('Corona_metalica_good', false, String(num))
+    listaDeComandosDeDientes[`${num} metalica en buen estado`] = () => actualizarItem('Corona_metalica_good', false, String(num))
 
-    listaDeComandosDeDientes[`${num} (a) (la) (ala) (al) :num2 :hallazgo`] = listaDeFuncionesPorDiente[`${num}num2Hallazgo`]
-    listaDeComandosDeDientes[`${num} (a) (la) (al) :num2 :hallazgo *ubicacion`] = listaDeFuncionesPorDiente[`${num}num2HallazgoUbicacion`]
+    listaDeComandosDeDientes[`${num} Corona fenestrada en buen estado`] = () => actualizarItem('Corona_fenestrada_good', false, String(num))
+    listaDeComandosDeDientes[`${num} fenestrada en buen estado`] = () => actualizarItem('Corona_fenestrada_good', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Cerámica en buen estado`] = () => actualizarItem('Corona_ceramica_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Corona metal cerámica en buen estado`] = () => actualizarItem('Corona_ceramica_good', false, String(num))
+
+    listaDeComandosDeDientes[`${num} vener en buen estado`] = () => actualizarItem('Corona_veneer_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Corona veneer en buen estado`] = () => actualizarItem('Corona_veneer_good', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Corona libre en buen estado`] = () => actualizarItem('Corona_libre_good', false, String(num))
+    listaDeComandosDeDientes[`${num} libre en buen estado`] = () => actualizarItem('Corona_libre_good', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Corona metálica en mal estado`] = () => actualizarItem('Corona_metalica_bad', false, String(num))
+    listaDeComandosDeDientes[`${num} metálica en mal estado`] = () => actualizarItem('Corona_metalica_bad', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Corona fenestrada en mal estado`] = () => actualizarItem('Corona_fenestrada_bad', false, String(num))
+    listaDeComandosDeDientes[`${num} fenestrada en mal estado`] = () => actualizarItem('Corona_fenestrada_bad', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Corona metal cerámica en mal estado`] = () => actualizarItem('Corona_ceramica_bad', false, String(num))
+    listaDeComandosDeDientes[`${num} Cerámica en mal estado`] = () => actualizarItem('Corona_ceramica_bad', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Corona veneer en mal estado`] = () => actualizarItem('Corona_veneer_bad', false, String(num))
+    listaDeComandosDeDientes[`${num} vener en mal estado`] = () => actualizarItem('Corona_veneer_bad', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Corona libre en mal estado`] = () => actualizarItem('Corona_libre_bad', false, String(num))
+    listaDeComandosDeDientes[`${num} libre en mal estado`] = () => actualizarItem('Corona_libre_bad', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Corona temporal`] = () => actualizarItem('Corona_temporal', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Opacidad del esmalte`] = () => actualizarItem('opacidad', false, String(num))
+    listaDeComandosDeDientes[`${num} opacidad`] = () => actualizarItem('opacidad', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Decoloración del esmalte`] = () => actualizarItem('decoloración', false, String(num))
+    listaDeComandosDeDientes[`${num} decoloración`] = () => actualizarItem('decoloración', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Fluorosis`] = () => actualizarItem('fluorosis', false, String(num))
+    listaDeComandosDeDientes[`${num} flurosis`] = () => actualizarItem('fluorosis', false, String(num))
+
+    //listaDeComandosDeDientes[`${num} Diastema`] = () => actualizarItem('diastema', false, String(num))                                                                                        
+
+    listaDeComandosDeDientes[`${num} Edéntulo total`] = () => actualizarItem('edentulo', false, String(num))
+    listaDeComandosDeDientes[`${num} Edentulo total`] = () => actualizarItem('edentulo', false, String(num))
+    listaDeComandosDeDientes[`${num} Edentulo`] = () => actualizarItem('edentulo', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Espigo en buen estado`] = () => actualizarItem('espigo_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Epigo en buen estado`] = () => actualizarItem('espigo_good', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Espigo en mal estado`] = () => actualizarItem('espigo_bad', false, String(num))
+    listaDeComandosDeDientes[`${num} Epigo en mal estado`] = () => actualizarItem('espigo_bad', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Fosas y fisuras profundas`] = () => actualizarItem('fosas_fisuras', false, String(num))
+    listaDeComandosDeDientes[`${num} Fosas profundas`] = () => actualizarItem('fosas_fisuras', false, String(num))
+    listaDeComandosDeDientes[`${num} fisuras profundas`] = () => actualizarItem('fosas_fisuras', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Fractura dental`] = () => actualizarItem('fractura', false, String(num))
+    listaDeComandosDeDientes[`${num} factura`] = () => actualizarItem('fractura', false, String(num))
+    listaDeComandosDeDientes[`${num} fractura`] = () => actualizarItem('fractura', false, String(num))
+    listaDeComandosDeDientes[`${num} fracturas`] = () => actualizarItem('fractura', false, String(num))
+
+    //listaDeComandosDeDientes[`${num} Fusión`] = () => actualizarItem('fusion', false, String(num))  
+    //listaDeComandosDeDientes[`${num} Función`] = () => actualizarItem('fusion', false, String(num)) 
+
+    listaDeComandosDeDientes[`${num} Geminación`] = () => actualizarItem('geminacion', false, String(num))
+    listaDeComandosDeDientes[`${num} Geminacion`] = () => actualizarItem('geminacion', false, String(num))
+    listaDeComandosDeDientes[`${num} Germinación`] = () => actualizarItem('geminacion', false, String(num))
+    listaDeComandosDeDientes[`${num} Germinacion`] = () => actualizarItem('geminacion', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Giroversión`] = () => actualizarItem('giroversion', false, String(num))
+    listaDeComandosDeDientes[`${num} Giroversion`] = () => actualizarItem('giroversion', false, String(num))
+    listaDeComandosDeDientes[`${num} Versión`] = () => actualizarItem('giroversion', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Impactación`] = () => actualizarItem('impactacion', false, String(num))
+    listaDeComandosDeDientes[`${num} Impacto`] = () => actualizarItem('impactacion', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Implante dental en buen estado`] = () => actualizarItem('implante_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Implante en buen estado`] = () => actualizarItem('implante_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Implante dental en mal estado`] = () => actualizarItem('implante_bad', false, String(num))
+    listaDeComandosDeDientes[`${num} Implante en mal estado`] = () => actualizarItem('implante_bad', false, String(num))
+
+    listaDeComandosDeDientes[`${num} carie ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('caries', ubicacion, String(num))
+    listaDeComandosDeDientes[`${num} caries ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('caries', ubicacion, String(num))
+    listaDeComandosDeDientes[`${num} mancha blanca ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('manchablanca', ubicacion, String(num))
+    listaDeComandosDeDientes[`${num} lesión esmalte ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('lesionesmalte', ubicacion, String(num))
+    listaDeComandosDeDientes[`${num} lesión dentina ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('lesiondentina', ubicacion, String(num))
+    listaDeComandosDeDientes[`${num} lesión pulpa ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('lesionpulpa', ubicacion, String(num))
+    listaDeComandosDeDientes[`${num} restauración ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('restauración', ubicacion, String(num))
+    listaDeComandosDeDientes[`${num} restauración temporal ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('restauracion_temporal', ubicacion, String(num))
+
+    listaDeComandosDeDientes[`${num} Macrodoncia`] = () => actualizarItem('macrodoncia', false, String(num))
+    listaDeComandosDeDientes[`${num} Microdoncia`] = () => actualizarItem('microdoncia', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Movilidad patológica 1`] = () => actualizarItem('movilidad_patologia_uno', false, String(num))
+    listaDeComandosDeDientes[`${num} Movilidad patológica 2`] = () => actualizarItem('movilidad_patologia_dos', false, String(num))
+    listaDeComandosDeDientes[`${num} Movilidad 1`] = () => actualizarItem('movilidad_patologia_uno', false, String(num))
+    listaDeComandosDeDientes[`${num} Movilidad 2`] = () => actualizarItem('movilidad_patologia_dos', false, String(num))
+
+
+    listaDeComandosDeDientes[`${num} Diente ausente no erupcionado`] = () => actualizarItem('ausente_no_erupcionado', false, String(num))
+    listaDeComandosDeDientes[`${num} Ausente no erupcionado`] = () => actualizarItem('ausente_no_erupcionado', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Diente ausente por extracción`] = () => actualizarItem('ausente_extraccion', false, String(num))
+    listaDeComandosDeDientes[`${num} Ausente por extracción`] = () => actualizarItem('ausente_extraccion', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Diente ausente por otras razones`] = () => actualizarItem('ausente_otras_razones', false, String(num))
+    listaDeComandosDeDientes[`${num} Ausente por otras razones`] = () => actualizarItem('ausente_otras_razones', false, String(num))
+
+    listaDeComandosDeDientes[`${num} ausente`] = () => actualizarItem('ausente', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Pieza dentaria en clavija`] = () => actualizarItem('clavija', false, String(num))
+    listaDeComandosDeDientes[`${num} Dentaria en clavija`] = () => actualizarItem('clavija', false, String(num))
+    listaDeComandosDeDientes[`${num} Pieza en clavija`] = () => actualizarItem('clavija', false, String(num))
+    listaDeComandosDeDientes[`${num} Diente en clavija`] = () => actualizarItem('clavija', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Pieza dentaria ectópica`] = () => actualizarItem('ectopica', false, String(num))
+    listaDeComandosDeDientes[`${num} Dentaria ectópica`] = () => actualizarItem('ectopica', false, String(num))
+    listaDeComandosDeDientes[`${num} Pieza ectópica`] = () => actualizarItem('ectopica', false, String(num))
+    listaDeComandosDeDientes[`${num} Diente ectópico`] = () => actualizarItem('ectopica', false, String(num))
+    listaDeComandosDeDientes[`${num} Diente ectópica`] = () => actualizarItem('ectopica', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Pieza dentaria en erupción`] = () => actualizarItem('erupcion', false, String(num))
+    listaDeComandosDeDientes[`${num} Dentaria en erupción`] = () => actualizarItem('erupcion', false, String(num))
+    listaDeComandosDeDientes[`${num} Pieza en erupción`] = () => actualizarItem('erupcion', false, String(num))
+    listaDeComandosDeDientes[`${num} Diente en erupción`] = () => actualizarItem('erupcion', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Pieza dentaria extruida`] = () => actualizarItem('extruida', false, String(num))
+    listaDeComandosDeDientes[`${num} Extruida`] = () => actualizarItem('extruida', false, String(num))
+    listaDeComandosDeDientes[`${num} Extruido`] = () => actualizarItem('extruida', false, String(num))
+    listaDeComandosDeDientes[`${num} Pieza extruida`] = () => actualizarItem('extruida', false, String(num))
+    listaDeComandosDeDientes[`${num} Diente extruida`] = () => actualizarItem('extruida', false, String(num))
+    listaDeComandosDeDientes[`${num} Diente extruid0`] = () => actualizarItem('extruida', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Pieza dentaria intruida`] = () => actualizarItem('intruida', false, String(num))
+    listaDeComandosDeDientes[`${num} Instruida`] = () => actualizarItem('intruida', false, String(num))
+    listaDeComandosDeDientes[`${num} Instruido`] = () => actualizarItem('intruida', false, String(num))
+    listaDeComandosDeDientes[`${num} Pieza intruida`] = () => actualizarItem('intruida', false, String(num))
+    listaDeComandosDeDientes[`${num} Diente intruida`] = () => actualizarItem('intruida', false, String(num))
+    listaDeComandosDeDientes[`${num} Diente intruido`] = () => actualizarItem('intruida', false, String(num))
+
+    //listaDeComandosDeDientes[`${num} Pieza dentaria supernumeraria`] = () => actualizarItem('supernumeraria', false, String(num))  
+
+    listaDeComandosDeDientes[`${num} Pulpotomia en buen estado`] = () => actualizarItem('pulpotomia_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Pulpotomia`] = () => actualizarItem('pulpotomia_good', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Pulpotomia en mal estado`] = () => actualizarItem('pulpotomia_bad', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Mesializado`] = () => actualizarItem('mesializado', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Distalizado`] = () => actualizarItem('distalizado', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Vestibularizado`] = () => actualizarItem('vestibularizado', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Palatinizado`] = () => actualizarItem('palatinizado', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Lingualizado`] = () => actualizarItem('lingualizado', false, String(num))
+
+    //listaDeComandosDeDientes[`${num} Protesis dental parcial fija en buen estado`] = () => actualizarItem('protesis_parcial_fija_good', false, String(num))                           
+    //listaDeComandosDeDientes[`${num} Protesis parcial fija en buen estado`] = () => actualizarItem('protesis_parcial_fija_good', false, String(num))                           
+    //listaDeComandosDeDientes[`${num} Protesis parcial en buen estado`] = () => actualizarItem('protesis_parcial_fija_good', false, String(num))                           
+    //listaDeComandosDeDientes[`${num} Protesis parcial fija`] = () => actualizarItem('protesis_parcial_fija_good', false, String(num))                           
+
+    //listaDeComandosDeDientes[`${num} Protesis dental parcial fija en mal estado`] = () => actualizarItem('protesis_parcial_fija_bad', false, String(num))                            
+    //listaDeComandosDeDientes[`${num} Protesis parcial fija en mal estado`] = () => actualizarItem('protesis_parcial_fija_bad', false, String(num))                            
+    //listaDeComandosDeDientes[`${num} Protesis parcial en mal estado`] = () => actualizarItem('protesis_parcial_fija_bad', false, String(num))                            
+
+    //listaDeComandosDeDientes[`${num} Protesis dental completo en buen estado`] = () => actualizarItem('protesis_completo_good', false, String(num))                                   
+    //listaDeComandosDeDientes[`${num} Protesis completo en buen estado`] = () => actualizarItem('protesis_completo_good', false, String(num))                                   
+    //listaDeComandosDeDientes[`${num} Protesis completo`] = () => actualizarItem('protesis_completo_good', false, String(num))                                   
+
+    //listaDeComandosDeDientes[`${num} Protesis dental completo en mal estado`] = () => actualizarItem('protesis_completo_bad', false, String(num))                                     
+    //listaDeComandosDeDientes[`${num} Protesis completo en mal estado`] = () => actualizarItem('protesis_completo_bad', false, String(num))                                     
+
+    //listaDeComandosDeDientes[`${num} Protesis dental parcial removible en buen estado`] = () => actualizarItem('protesis_parcial_good', false, String(num))                           
+    //listaDeComandosDeDientes[`${num} Protesis parcial removible en buen estado`] = () => actualizarItem('protesis_parcial_good', false, String(num))                           
+    //listaDeComandosDeDientes[`${num} Protesis parcial removible`] = () => actualizarItem('protesis_parcial_good', false, String(num))                           
+
+
+    //listaDeComandosDeDientes[`${num} Protesis dental parcial removible en mal estado`] = () => actualizarItem('protesis_parcial_bad', false, String(num))                    
+    //listaDeComandosDeDientes[`${num} Protesis parcial removible en mal estado`] = () => actualizarItem('protesis_parcial_bad', false, String(num))                    
+
+    listaDeComandosDeDientes[`${num} Remanente radicular en buen estado`] = () => actualizarItem('remanente_radicular_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Remanente radicular`] = () => actualizarItem('remanente_radicular_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Remanente radicular en mal estado`] = () => actualizarItem('remanente_radicular_bad', false, String(num))
+
+
+    listaDeComandosDeDientes[`${num} Amalgama dental en buen estado`] = () => actualizarItem('amalgama_dental_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Amalgama en buen estado`] = () => actualizarItem('amalgama_dental_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Amalgama`] = () => actualizarItem('amalgama_dental_good', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Amalgama dental en mal estado`] = () => actualizarItem('amalgama_dental_bad', false, String(num))
+    listaDeComandosDeDientes[`${num} Amalgama en mal estado`] = () => actualizarItem('amalgama_dental_bad', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Resina en buen estado`] = () => actualizarItem('resina_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Resina en mal estado`] = () => actualizarItem('resina_bad', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Ionómetro de vidrio en buen estado`] = () => actualizarItem('ionometro_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Ionómetro de vidrio`] = () => actualizarItem('ionometro_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Ionómetro de vidrio en mal estado`] = () => actualizarItem('ionometro_bad', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Incrustación metálica en buen estado`] = () => actualizarItem('incrustacion_metalica_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Incrustación metálica`] = () => actualizarItem('incrustacion_metalica_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Incrustación metálica en mal estado`] = () => actualizarItem('incrustacion_metalica_bad', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Incrustación estática en buen estado`] = () => actualizarItem('incrustacion_estetica_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Incrustación estática`] = () => actualizarItem('incrustacion_estetica_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Incrustación estática en mal estado`] = () => actualizarItem('incrustacion_estetica_bad', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Carilla en buen estado`] = () => actualizarItem('carilla_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Carilla`] = () => actualizarItem('carilla_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Carilla en mal estado`] = () => actualizarItem('carilla_bad', false, String(num))
+    listaDeComandosDeDientes[`${num} Carillas`] = () => actualizarItem('carilla_good', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Sellante en buen estado`] = () => actualizarItem('sellante_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Sellante`] = () => actualizarItem('sellante_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Sellante en mal estado`] = () => actualizarItem('sellante_bad', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Superficie desgastada`] = () => actualizarItem('superfice_desgastada', false, String(num))
+
+    listaDeComandosDeDientes[`${num} tratamiento de conducto en buen estado`] = () => actualizarItem('tratamiento_conducto_good', false, String(num))
+    listaDeComandosDeDientes[`${num} tratamiento de conducto`] = () => actualizarItem('tratamiento_conducto_good', false, String(num))
+
+    listaDeComandosDeDientes[`${num} Pulpectomía en buen estado`] = () => actualizarItem('pulpectomia_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Pulpectonía en buen estado`] = () => actualizarItem('pulpectomia_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Pulpectomía`] = () => actualizarItem('pulpectomia_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Pulpectonía`] = () => actualizarItem('pulpectomia_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Pulpectomía en mal estado`] = () => actualizarItem('pulpectomia_bad', false, String(num))
+    listaDeComandosDeDientes[`${num} Pulpectonía en mal estado`] = () => actualizarItem('pulpectomia_bad', false, String(num))
+
+    listaDeComandosDeDientes[`${num} tratamiento de conducto en mal estado`] = () => actualizarItem('tratamiento_conducto_bad', false, String(num))
+    listaDeComandosDeDientes[`${num} tratamiento de conducto`] = () => actualizarItem('tratamiento_conducto_bad', false, String(num))
+
+    //listaDeComandosDeDientes[`${num} Transposición dentaria`] = () => actualizarItem('transposicion_dentaria', false, String(num))         
+    //listaDeComandosDeDientes[`${num} Transposición`] = () => actualizarItem('transposicion_dentaria', false, String(num))         
+
+    listaDeComandosDeDientes[`${num} extracción`] = () => actualizarItem('extracción', false, String(num))
+
+
+    /*
+        listaDeComandosDeDientes[`${num} (a) (la) (ala) (al) :num2 :hallazgo`] = listaDeFuncionesPorDiente[`${num}num2Hallazgo`] = (num2, hallazgo) => seleccionMultiple(num, num2, hallazgo, false)
+       listaDeComandosDeDientes[`${num} (a) (la) (al) :num2 :hallazgo *ubicacion`] = listaDeFuncionesPorDiente[`${num}num2HallazgoUbicacion`] = (num2, hallazgo, ubicacion) => seleccionMultiple(num, num2, hallazgo, ubicacion)
+    */
+
 })
 
 export default {
