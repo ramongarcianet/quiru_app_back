@@ -70,8 +70,19 @@ export const listaDeHallazgos = [
     { tipo: "Diagnóstico", text: "Corona metal cerámica en mal estado", value: "Corona_ceramica_bad", sigla: "CMC", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "red", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
     { tipo: "Diagnóstico", text: "Corona veneer en mal estado", value: "Corona_veneer_bad", sigla: "CV", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "red", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
     { tipo: "Diagnóstico", text: "Corona libre en mal estado", value: "Corona_libre_bad", sigla: "CLM", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "red", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
-
     { tipo: "Diagnóstico", text: "Corona temporal", value: "Corona_temporal", sigla: "CT", Especificacion: "6.1.4 Corona Temporal", Estado: "", Simbolo: "pendiente", Color: "red", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "metálica en buen estado", value: "Corona_metalica_good", sigla: "CM", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "blue", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "fenestrada en buen estado", value: "Corona_fenestrada_good", sigla: "CF", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "blue", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "metal cerámica en buen estado", value: "Corona_ceramica_good", sigla: "CMC", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "blue", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "veneer en buen estado", value: "Corona_veneer_good", sigla: "CV", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "blue", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "libre en buen estado", value: "Corona_libre_good", sigla: "CLM", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "blue", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "metálica en mal estado", value: "Corona_metalica_bad", sigla: "CM", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "red", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "fenestrada en mal estado", value: "Corona_fenestrada_bad", sigla: "CF", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "red", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "metal cerámica en mal estado", value: "Corona_ceramica_bad", sigla: "CMC", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "red", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "veneer en mal estado", value: "Corona_veneer_bad", sigla: "CV", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "red", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "libre en mal estado", value: "Corona_libre_bad", sigla: "CLM", Especificacion: "6.1.3 Corona", Estado: "", Simbolo: "pendiente", Color: "red", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "temporal", value: "Corona_temporal", sigla: "CT", Especificacion: "6.1.4 Corona Temporal", Estado: "", Simbolo: "pendiente", Color: "red", masX: 0, masY: 0, ancho: 21, alto: 21, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+
 
     { tipo: "Diagnóstico", text: "Opacidad del esmalte", value: "opacidad", sigla: "O", Especificacion: "6.1.5 DDE", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "" },
     { tipo: "Diagnóstico", text: "Decoloración del esmalte", value: "decoloración", sigla: "D", Especificacion: "6.1.5 DDE", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
@@ -147,8 +158,8 @@ export const listaDeHallazgos = [
     {tipo: "Diagnóstico", text: "Carilla en mal estado", value: "carilla_bad", sigla: "C", Especificacion: "6.1.33 Restauración definitiva", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
 
     { tipo: "Diagnóstico", text: "Restauración temporal", value: "restauracion_temporal", sigla: "", Especificacion: "6.1.34 Restauración temporal", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
-    { tipo: "Diagnóstico", text: "Sellante en buen estado", value: "sellanteazul", sigla: "S", Especificacion: "6.1.35 Sellantes", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
-    { tipo: "Diagnóstico", text: "Sellante en mal estado", value: "sellanterojo", sigla: "S", Especificacion: "6.1.35 Sellantes", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Sellante en buen estado", value: "sellante_good", sigla: "S", Especificacion: "6.1.35 Sellantes", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Sellante en mal estado", value: "sellante_bad", sigla: "S", Especificacion: "6.1.35 Sellantes", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
 
     { tipo: "Diagnóstico", text: "Superficie desgastada", value: "superfice_desgastada", sigla: "DES", Especificacion: "6.1.36 Superfice desgastada", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
 
@@ -159,7 +170,7 @@ export const listaDeHallazgos = [
 
     //{ tipo: "Diagnóstico", text: "Transposición dentaria", value: "transposicion_dentaria", sigla: "", Especificacion: "6.1.38 Transposición dentaria", Estado: "", Simbolo: "pendiente", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
 
-    //{ tipo: "Diagnóstico", text: "Extracción", value: "extracción", sigla: "", Especificacion: "", Estado: "", Simbolo: "extracción", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
+    { tipo: "Diagnóstico", text: "Extracción", value: "extracción", sigla: "", Especificacion: "", Estado: "", Simbolo: "extracción", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 13 },
 
 
 ];
