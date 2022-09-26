@@ -397,7 +397,7 @@ function FindingGraphic(contexto, inicio_x, inicio_y, ancho, alto, Simbolo, sigl
     ctx.beginPath();
     ctx.lineWidth = 2;
     var img = new Image();
-    img.src = "../../../src/assets/imagenes/" + Simbolo + ".png";
+    img.src = "/" + Simbolo + ".png";
     img.onload = function () {
         ctx.drawImage(img, inicio_x, inicio_y, ancho, alto);
     }
