@@ -55,8 +55,8 @@ export const listaDeDientesCombo = [
 ];
 
 export const listaDeHallazgos = [
-    //{ tipo: "Diagnóstico", text: "Aparato ortodóntico fijo en buen estado", value: "Ortodontico_Fijo_good", sigla: "", Especificacion: "6.1.1 Aparato Ortodóntico Fijo", Estado: "", Simbolo: "pendiente", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
-    //{ tipo: "Diagnóstico", text: "Aparato ortodóntico fijo en mal estado", value: "Ortodontico_Fijo_bad", sigla: "", Especificacion: "6.1.1 Aparato Ortodóntico Fijo", Estado: "", Simbolo: "pendiente", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
+    { tipo: "Diagnóstico", text: "Aparato ortodóntico fijo en buen estado", value: "Ortodontico_Fijo_good", sigla: "", Especificacion: "6.1.1 Aparato Ortodóntico Fijo_good", Estado: "", Simbolo: "6.1.1 Aparato Ortodóntico Fijo_good", Color: "blue", masX: 5, masY: -28, ancho: 227, alto: 7, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: -13 },
+    { tipo: "Diagnóstico", text: "Aparato ortodóntico fijo en mal estado", value: "Ortodontico_Fijo_bad", sigla: "", Especificacion: "6.1.1 Aparato Ortodóntico Fijo_bad", Estado: "", Simbolo: "6.1.1 Aparato Ortodóntico Fijo_bad", Color: "red", masX: 5, masY: -28, ancho: 227, alto: 7, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: -13 },
     //{ tipo: "Diagnóstico", text: "Aparato ortodóntico removible en buen estado", value: "Ortodontico_Removible_good", sigla: "", Especificacion: "6.1.2 Aparato Ortodóntico Removible", Estado: "", Simbolo: "pendiente", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
     //{ tipo: "Diagnóstico", text: "Aparato ortodóntico removible en mal estado", value: "Ortodontico_Removible_bad", sigla: "", Especificacion: "6.1.2 Aparato Ortodóntico Removible", Estado: "", Simbolo: "pendiente", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
 
@@ -113,8 +113,8 @@ export const listaDeHallazgos = [
 
     { tipo: "Diagnóstico", text: "Pieza dentaria en erupción", value: "erupcion", sigla: "", Especificacion: "6.1.23 Pieza dentaria en erupción", Estado: "", Simbolo: "6.1.23 Pieza dentaria en erupción", Color: "blue", masX: 2, masY: -20, ancho: 15, alto: 35, esDirecto: "SI", SimboloAlterno: "6.1.23 Pieza dentaria en erupciónR", PosicionAlt: 14 },
 
-    { tipo: "Diagnóstico", text: "Pieza dentaria extruida", value: "extruida", sigla: "", Especificacion: "6.1.24 Pieza dentaria extruida", Estado: "", Simbolo: "abajo", Color: "", masX: 3, masY: 20, ancho: 15, alto: 10, esDirecto: "SI", SimboloAlterno: "arriba", PosicionAlt: -10 },
-    { tipo: "Diagnóstico", text: "Pieza dentaria intruida", value: "intruida", sigla: "", Especificacion: "6.1.25 Pieza dentaria intruida", Estado: "", Simbolo: "arriba", Color: "", masX: 3, masY: 20, ancho: 15, alto: 10, esDirecto: "SI", SimboloAlterno: "abajo", PosicionAlt: -10 },
+    { tipo: "Diagnóstico", text: "Pieza dentaria extruida", value: "extruida", sigla: "", Especificacion: "6.1.24 Pieza dentaria extruida", Estado: "", Simbolo: "6.1.24", Color: "", masX: 3, masY: 20, ancho: 15, alto: 10, esDirecto: "SI", SimboloAlterno: "6.1.24 Alt", PosicionAlt: -10 },
+    { tipo: "Diagnóstico", text: "Pieza dentaria intruida", value: "intruida", sigla: "", Especificacion: "6.1.25 Pieza dentaria intruida", Estado: "", Simbolo: "6.1.24 Alt", Color: "", masX: 3, masY: 20, ancho: 15, alto: 10, esDirecto: "SI", SimboloAlterno: "6.1.24", PosicionAlt: -10 },
 
     //{ tipo: "Diagnóstico", text: "Pieza dentaria supernumeraria", value: "supernumeraria", sigla: "", Especificacion: "6.1.26 Pieza dentaria supernumeraria", Estado: "", Simbolo: "pendiente", Color: "blue", masX: 3, masY: 20, ancho: 15, alto: 10, esDirecto: "SI", SimboloAlterno: "", PosicionAlt: 0 },
     { tipo: "Diagnóstico", text: "Pulpotomia en buen estado", value: "pulpotomia_good", sigla: "PP", Especificacion: "6.1.27 Pulpotomia", Estado: "", Simbolo: "", Color: "blue", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", SimboloAlterno: "", PosicionAlt: 0 },
