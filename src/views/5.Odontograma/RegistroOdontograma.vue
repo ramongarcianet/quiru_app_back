@@ -59,26 +59,27 @@ function Cancelar() {
         |  Este Odontograma tiene hallazgos registrados
     a.close(@click="Cancelar()" href='#' data-dismiss='alert' aria-label='close') &times;
 .div
-  .card.mb-2.p-3(v-for="item of registroodonto" :key="item.id" :item="item" style="border-radius: 40px")
-    .row(style="cursor: pointer")
-      .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") {{item.fechaRegistro}}
-      .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")  {{item.tipo}}
+  .div(v-for="item of registroodonto" :key="item.id" :item="item" )
+    .card.mb-2.p-3(v-if="item.tipo === 'Diagnóstico'" style="border-radius: 40px" )
+      .row(style="cursor: pointer" )
+        .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") {{item.fechaRegistro}}
+        .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")  {{item.tipo}}
 
-      .col-6.d-block.d-md-none(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")  {{item.fechaRegistro}} {{item.tipo}}
-      .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") 
-      
-      .col-2.col-md-1(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") 
-        .dropdown
-          button.ms-auto.btn(type="button")
-            i.fa.fa-solid.fa-tooth
-      .col-2.col-md-1(v-if="item.esultimo==='2'")
-        .dropdown
-          button.btn(title='Eliminar' @click="CallConfirm2(item)")
-            i.fa.fa-trash-o
-      .col-2.col-md-1(v-else="item.esultimo==='1' || item.esultimo==='0'")
-        .dropdown
-          button.ms-auto.btn(type="button", disabled)
-            i.fa.fa-trash-o(aria-hidden='true')
+        .col-6.d-block.d-md-none(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")  {{item.fechaRegistro}} {{item.tipo}}
+        .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") 
+        
+        .col-2.col-md-1(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") 
+          .dropdown
+            button.ms-auto.btn(type="button")
+              i.fa.fa-solid.fa-tooth
+        .col-2.col-md-1(v-if="item.esultimo==='2'")
+          .dropdown
+            button.btn(title='Eliminar' @click="CallConfirm2(item)")
+              i.fa.fa-trash-o
+        .col-2.col-md-1(v-else="item.esultimo==='1' || item.esultimo==='0'")
+          .dropdown
+            button.ms-auto.btn(type="button", disabled)
+              i.fa.fa-trash-o(aria-hidden='true')
 
 </template>
 <style scoped>
