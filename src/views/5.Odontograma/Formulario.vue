@@ -18,7 +18,7 @@ const listaHallazgo = obtenerTodoHallazgo();
 const listaCaries = obtenerTodoCaries();
 const { push } = useRouter()
 leerEnRegistro(route.params.idOdontograma);
-console.log(route.params.tipoOdonto)
+//console.log(route.params.tipoOdonto)
 const listaDeHallazgos = _Hallazgos.filter(i => i.tipo == route.params.tipoOdonto).map(({ text, value }) => ({ text, value }))
 
 escucharInicializarVoz();
@@ -55,8 +55,8 @@ watch(
   () => itemodontograma.value?.hallazgos,
   (registro) => {
     let idOdontograma = route.params.idOdontograma
-    VerFormato((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [])
-    setList((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [], 1);
+    VerFormato((itemodontograma.value?.hallazgos?.length > 0) ? itemodontograma.value?.hallazgos : [])
+    setList((itemodontograma.value?.hallazgos?.length > 0) ? itemodontograma.value?.hallazgos : [], 1);
     limpiarSinVoz()
   },
   { deep: true }
