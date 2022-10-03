@@ -1,6 +1,6 @@
 <script setup>
 import Formulario from "./Formulario.vue";
-import {registroodonto, guardar as guardarOdontograma, actualizarEsUltimo} from "../../store/formodontograma";
+import {registroodonto, guardar as guardarOdontograma, actualizarEsUltimo, getItemEnRegistro} from "../../store/formodontograma";
 import { item as itemPas, leer } from "../../store/paciente";
 import "../../config/html2canvas";
 import { useRoute, useRouter } from "vue-router";
@@ -8,7 +8,7 @@ import Cie10 from '../../config/Cie10.json';
 import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma, eliminar } from '../../store/formodontograma';
 import jsPDF from 'jsPDF'
 import Instrucciones from "./../8.Ayuda/instrucciones.vue";
-import { watch, ref } from "vue";
+import { watch, ref, computed } from "vue";
 const myModal = document.getElementById('myModal')
 const myInput = document.getElementById('myInput')
 const route = useRoute()
@@ -129,6 +129,9 @@ function Cancelar() {
         modal.style.display = 'none';
         alerta.style.display = "none";
 }
+console.log(itemodontograma.value)
+
+
 </script>
 
 <template lang="pug">
@@ -149,14 +152,43 @@ function Cancelar() {
         a.close(@click="Cancelar()" href='#' data-dismiss='alert') &times;
       .col
         h1.my-0.mx-3(style="color: #395D56; font-size: 1.8em; font-family: var(--font-family)") Panel de
-        ul(class="nav nav-tabs" id="myTab" role="tablist")
-          h4.ptmr(class="nav-item" role="presentation" v-if="itemodontograma.esultimo != '2' || itemodontograma.tipo === 'Diagnóstico' ")
-            .div(v-for="item2 of registroodonto")
-              button(class="nav-link" id="diagnostico-tab" data-bs-toggle="tab" data-bs-target="#diagnostico-tab-pane" type="button" role="tab" style="color: #37DFBB; font-weight:bold; font-size: 1.6em; font-family: var(--font-family)" @click="push({name: 'Detalle', params: {idOdontograma: item2.id,idPaciente: item2.idPaciente} })") {{item2.tipo}}
-        
-          h4.ptmr(class="nav-item" role="presentation" v-if="itemodontograma.tipo === 'Tratamiento'")
-            .div(v-for="item2 of registroodonto")
-              button(class="nav-link" id="tratamiento-tab" data-bs-toggle="tab" data-bs-target="#tratamiento-tab-pane" type="button" role="tab" style="color: #37DFBB; font-weight:bold; font-size: 1.6em; font-family: var(--font-family)" @click="push({name: 'Detalle', params: {idOdontograma: item2.id,idPaciente: item2.idPaciente} })") {{item2.tipo}}
+        ul.nav.nav-tabs( id="myTab" role="tablist")
+          h4.ptmr.nav-item( 
+            v-if="itemodontograma.tipo=='Diagnóstico'"
+            role="presentation" 
+          )
+            .div()
+              button.nav-link( 
+                id="diagnostico-tab" 
+                data-bs-toggle="tab" 
+                data-bs-target="#diagnostico-tab-pane"
+                type="button" 
+                role="tab" 
+                style="color: #37DFBB; font-weight:bold; font-size: 1.6em; font-family: var(--font-family)" 
+               
+              ) Diagnóstico
+
+          h4.ptmr.nav-item( role="presentation" v-if="itemodontograma.idsTratamientos")
+            .div(v-for="idTratamiento of itemodontograma.idsTratamientos")
+              button.nav-link( 
+                id="tratamiento-tab" 
+                data-bs-toggle="tab" 
+                data-bs-target="#tratamiento-tab-pane" 
+                type="button" role="tab" 
+                style="color: #37DFBB; font-weight:bold; font-size: 1.6em; font-family: var(--font-family)" 
+                @click="push({name: 'Detalle', params: {idOdontograma: idTratamientoHermano, idPaciente: route.params.idPaciente} })"
+              ) Tratamiento
+
+          h4.ptmr.nav-item( role="presentation" v-if="itemodontograma.idDiagnostico")
+            .div(v-for="idTratamientoHermano of getItemEnRegistro(itemodontograma.idDiagnostico).idsTratamientos")
+              button.nav-link( 
+                id="tratamiento-tab" 
+                data-bs-toggle="tab" 
+                data-bs-target="#tratamiento-tab-pane" 
+                type="button" role="tab" 
+                style="color: #37DFBB; font-weight:bold; font-size: 1.6em; font-family: var(--font-family)" 
+                @click="push({name: 'Detalle', params: {idOdontograma: idTratamientoHermano, idPaciente: route.params.idPaciente} })"
+              ) Tratamiento
     .row
       .col-2
         button.mb-2.btn(@click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })')
@@ -172,11 +204,11 @@ function Cancelar() {
             ion-icon(name="print-outline" style="color: var(--color-primary); font-size: 26px;")
           button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
             ion-icon(name="help-outline" style="color: var(--color-primary); font-size: 26px;" )
-          #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+          #exampleModal.modal.fade(tabindex='-1')
             .modal-dialog.modal-lg
               .modal-content
                 .modal-header
-                  button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                  button.btn-close(type='button' data-bs-dismiss='modal')
                 .modal-body
                   Instrucciones
     Formulario
@@ -188,7 +220,7 @@ function Cancelar() {
           .subtitle Datos adicionales
         ion-icon(name="document-outline").icono  
     div.opciones(v-if="itemodontograma.esultimo==='2' && itemodontograma.hallazgos && itemodontograma.tipo === 'Diagnóstico'")
-      button.outline-quiru.solid( type="button", @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','2',itemodontograma.id), push({ name: 'pacienteVer', params: { idPaciente: route.params.idPaciente } })")
+      button.outline-quiru.solid( type="button", @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','2',itemodontograma.id ), push({ name: 'pacienteVer', params: { idPaciente: route.params.idPaciente } })")
         .contenido
           .title.light-quiru Crear
           .subtitle.light-quiru Tratamiento
