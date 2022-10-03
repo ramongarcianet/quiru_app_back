@@ -52,48 +52,57 @@ function incompleto() {
 Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => limpiar()' :onError='incompleto()')
   .row
     .col-md-6
-      label.form-label Nombre*
-      .input-group.mb-2
-        input.form-control(placeholder="Nombre", v-model="item.nombre",@keypress="isLetter($event)" ,required,maxlength="30")
-        input.form-control(placeholder="Apellido paterno", v-model="item.apellidoPaterno",@keypress="isLetter($event)" ,required,maxlength="30")
-        input.form-control(placeholder="Apellido materno", v-model="item.apellidoMaterno",@keypress="isLetter($event)", required,maxlength="30")
-      label.form-label Documento de identidad*
-      .input-group.mb-2
-        select.form-select(placeholder="Ubigeo", v-model="item.tipoDocumento",v-on:change="definirMaxLimit(item.tipoDocumento)")
-          option(value="DNI") DNI
-          option(value="CE") CARNET DE EXTRANJERIA
-        input.form-control(placeholder="Número documento", v-model="item.numeroDocumento", @keypress="isNumber($event)",required,:maxlength="maxDocumento",:minlength="maxDocumento")
+      label.form-label Antecedentes
+      .input.mb-2
+        input.form-control(placeholder="Antecedentes familiares", v-model="item.antecedentesFam")
+      .input.mb-2
+        input.form-control(placeholder="Antecedentes personales", v-model="item.antecedentesPer")
+      label.form-label Sígnos vitales
       .row.mb-2
-        .col
-          label.form-label Fecha de nacimiento*
-          input.form-control(type="date", v-model="item.fechaNacimiento", max="3000-01-01" onfocus="this.max=new Date().toISOString().split('T')[0]")
-        .col
-          label.form-label Sexo*
-          select.form-select(v-model="item.sexo",required)
-            option(value="M", selected) MASCULINO
-            option(value="F") FEMENINO
+        .col-6
+          .input.mb-2
+            input.form-control(placeholder="P.A.", v-model="item.pa")
+          .input.mb-2
+            input.form-control(placeholder="Pulso", v-model="item.pulso")
+        .col-6
+          .input.mb-2
+            input.form-control(placeholder="Temperatura", v-model="item.temperatura")
+          .input.mb-2
+            input.form-control(placeholder="F.C.", v-model="item.fc")
+        .col-6
+          .input.mb-2
+            input.form-control(placeholder="F.Resp.", v-model="item.fResp")
     .col-md-6
       .col.mb-2
-        label.form-label Dirección*
+        label.form-label Motivo de consulta
         .input-group
-          input.form-control(placeholder="Departamento", v-model="item.departamento",@keypress="isLetter($event)" ,required,maxlength="30")
-          input.form-control(placeholder="Dirección", v-model="item.Direccion",required,maxlength="40")
-      .row
-          .col.mb-2
-            label.form-label Correo electrónico*
-            input.form-control(placeholder="Correo Electrónico", v-model="item.email", type="email", required,maxlength="30")
-          .col.mb-2
-            label.form-label Celular*
-            input.form-control(type="tel", placeholder="Teléfono", v-model="item.telefono",@keypress="isNumber($event)" ,required,minlength="9",maxlength="12")
-      .row
-        .col.mb-2
-          label.form-label Constancia de informado*
-          select.form-select( v-model="item.constancia")
-            option(value="S") SI
-            option(value="N") NO
-        .col.mb-2
-          label.form-label Comentario
-          input.form-control(placeholder="Comentario", v-model="item.Comentario",@keypress="isLetter($event)",maxlength="40")
+          input.form-control(placeholder="Motivo de consulta", v-model="item.motivoConsulta")
+      .col.mb-2
+        label.form-label Enfermadad actual
+        .input.mb-2
+          input.form-control(placeholder="Enfermadad actual", v-model="item.enfermedadActual")
+        .input.mb-2
+          input.form-control(placeholder="Tiempo de enfermedad", v-model="item.tiempoEnfermedad")
+        .input.mb-2
+          input.form-control(placeholder="Signos y síntomas principales", v-model="item.signosYSintomas")
+        .input.mb-2
+          input.form-control(placeholder="Relato cronológico", v-model="item.relatoCronologico")
+    .col.mb-2
+      label.form-label Exámen clínico general
+      select.form-select(placeholder="Exámen clínico general", v-model="item.examClinicoGeneral")
+        option(value="S") SI
+        option(value="N") NO
+    .col.mb-2
+      label.form-label Exámen clínico odontoestomatológico
+      select.form-select(placeholder="Exámen clínico odontoestomatológico", v-model="item.examClinicoOdonto")
+        option(value="S") SI
+        option(value="N") NO
+      //label.form-label Exámen clínico odontoestomatológico
+      //input.form-control(placeholder="Exámen clínico odontoestomatológico", v-model="item.examClinicoOdonto")
+      //.div(class="form-check")Exámen clínico general
+        label(class="form-check-label" for="flexCheckDefault")
+          Default Exámen clínico odontoestomatológico
+        input(class="form-check-input" type="checkbox" value="" id="flexCheckDefault")
   .col-12.col-md-4.mx-auto.mt-3
     button#btguardar.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(
       type='submit', disabled style="border-radius: 50px"
