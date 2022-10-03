@@ -25,8 +25,7 @@ const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
       button.ms-auto.btn.p-0.m-0(@click='leerEnRegistro(item.id)')
         i.fa.fa-solid.fa-pen
     .col-2
-      //button.ms-auto.btn.p-1.m-0(@click="confirmar == false ? confirmar = true : confirmarEliminar(item.id) " style="background-color: #AB2E46; color: var(--color-light)") {{confirmar ? 'Confirmar' : 'Borrar'}}
       BotonSeguro( :onSuccess= '() => confirmarEliminar(item.id)' )
-        i.fa.fa-trash-o(aria-hidden='true')
+        i.fa.fa-trash-o
 </template>
 

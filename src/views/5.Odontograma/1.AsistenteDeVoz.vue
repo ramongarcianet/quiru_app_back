@@ -109,7 +109,7 @@ function CallConfirm2(item) {
 function EliminarOdonto() {
     var alerto = document.getElementById("alerto");
     var modal = document.getElementById('id02');
-    if (!itemSeleccionado.value.hallazgos || itemSeleccionado.value.hallazgos.length == 0) {
+    if (!itemSeleccionado.value?.hallazgos || itemSeleccionado.value?.hallazgos.length == 0) {
         alerto.style.display = "none";
         modal.style.display = 'none';
         eliminar(itemSeleccionado.value.id)
@@ -154,7 +154,7 @@ console.log(itemodontograma.value)
         h1.my-0.mx-3(style="color: #395D56; font-size: 1.8em; font-family: var(--font-family)") Panel de
         ul.nav.nav-tabs( id="myTab" role="tablist")
           h4.ptmr.nav-item( 
-            v-if="itemodontograma.tipo=='Diagnóstico'"
+            v-if="itemodontograma?.tipo=='Diagnóstico'"
             role="presentation" 
           )
             .div()
@@ -168,8 +168,8 @@ console.log(itemodontograma.value)
                
               ) Diagnóstico
 
-          h4.ptmr.nav-item( role="presentation" v-if="itemodontograma.idsTratamientos")
-            .div(v-for="idTratamiento of itemodontograma.idsTratamientos")
+          h4.ptmr.nav-item( role="presentation" v-if="itemodontograma?.idsTratamientos")
+            .div(v-for="idTratamientoHermano of itemodontograma?.idsTratamientos")
               button.nav-link( 
                 id="tratamiento-tab" 
                 data-bs-toggle="tab" 
@@ -179,7 +179,7 @@ console.log(itemodontograma.value)
                 @click="push({name: 'Detalle', params: {idOdontograma: idTratamientoHermano, idPaciente: route.params.idPaciente} })"
               ) Tratamiento
 
-          h4.ptmr.nav-item( role="presentation" v-if="itemodontograma.idDiagnostico")
+          h4.ptmr.nav-item( role="presentation" v-if="itemodontograma?.idDiagnostico")
             .div(v-for="idTratamientoHermano of getItemEnRegistro(itemodontograma.idDiagnostico).idsTratamientos")
               button.nav-link( 
                 id="tratamiento-tab" 
@@ -195,9 +195,9 @@ console.log(itemodontograma.value)
           ion-icon(name="return-down-back-outline" style="color: var(--color-primary); font-size: 40px" )
       .col-10
         .left
-          .div(v-if="itemodontograma.tipo === 'Tratamiento'")
+          .div(v-if="itemodontograma?.tipo === 'Tratamiento'")
             .div(v-for="item of registroodonto" :key="item.id" :item="item" )
-              .div(v-if="item.tipo === 'Tratamiento'")
+              .div(v-if="item?.tipo === 'Tratamiento'")
                 button.btn(title='Borrar'  @click="CallConfirm2(item)")
                   ion-icon(name="trash-outline" style="color: var(--color-primary); font-size: 26px;")
           button.btn(title='Imprimir' @click="printOdontograma()")
@@ -219,7 +219,7 @@ console.log(itemodontograma.value)
           .title Agregar
           .subtitle Datos adicionales
         ion-icon(name="document-outline").icono  
-    div.opciones(v-if="itemodontograma.esultimo==='2' && itemodontograma.hallazgos && itemodontograma.tipo === 'Diagnóstico'")
+    div.opciones(v-if="itemodontograma?.esultimo==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico'")
       button.outline-quiru.solid( type="button", @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','2',itemodontograma.id ), push({ name: 'pacienteVer', params: { idPaciente: route.params.idPaciente } })")
         .contenido
           .title.light-quiru Crear
