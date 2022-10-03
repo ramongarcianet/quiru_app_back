@@ -120,15 +120,16 @@ export function agregarLista(id, param) {
             const existeHallazgo = listaDeHallazgos.filter((elem) => elem.value == element.hallazgo)[0];
             if (existeHallazgo != undefined) {
                 let fila = {
-                    diente: param.diente,
+                    diente: element.diente,
                     hallazgo: element.hallazgo,
                     ubicacion: element.ubicacion,
                     sigla: element.sigla,
                     posicion: element.posicion,
                     fechaHallazgo: new Date(),
+                    dienteAlterno: element.dienteAlterno,
                 }
                 if (param.diente != '') {
-                    if (!existeDiente(param.diente, fila)) {
+                    if (!existeDiente(element.diente, fila)) {
                         item.value.hallazgos ? item.value.hallazgos.push(fila) : item.value.hallazgos = [fila];
                     }
                 }
