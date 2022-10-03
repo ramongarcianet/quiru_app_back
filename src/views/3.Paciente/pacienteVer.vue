@@ -86,7 +86,7 @@ onUnmounted(()=> {
         input.form-control(v-model="item.numeroDocumento", disabled)
       
     .col-12.mx-auto.my-3
-      button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','2','0')")
+      button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','2')")
         div
           strong(style="color: white") Crear
           p.mb-0(style="color: white") Nuevo Odontograma
