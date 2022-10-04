@@ -51,9 +51,16 @@ const guardar = (idPaciente, tipo, esUltimo,  idRelacionado) => new Promise( (re
         }
     }
     const referencia = collection(firestore, 'odontograma')
-    return addDoc(referencia, fila).then( () => {
+
+    return addDoc(referencia, fila).then( (docRef) => { 
+         leer(docRef.id )
         return resolve()
     })
+  /*
+    return addDoc(referencia, fila).then( () => {
+        return resolve()
+    })*/
+    
 })
 
 export const actualizarEsUltimo = (id, esUltimo) => {
@@ -191,7 +198,7 @@ const obtenerTodos = (idPaciente) => {
     return onSnapshot(
         referencia,
         collection => {
-            console.log(collection.docs.map(doc => ({ ...doc.data(), id: doc.id })))
+            //console.log(collection.docs.map(doc => ({ ...doc.data(), id: doc.id })))
             registroodonto.value = collection.docs.map(doc => ({ ...doc.data(), id: doc.id }))
         }
     )

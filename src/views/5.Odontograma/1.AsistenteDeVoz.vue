@@ -129,8 +129,7 @@ function Cancelar() {
         modal.style.display = 'none';
         alerta.style.display = "none";
 }
-console.log(itemodontograma.value)
-
+const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelacionados))
 
 </script>
 
@@ -166,12 +165,12 @@ console.log(itemodontograma.value)
 
           l1.nav-item( role="presentation" )
             button.nav-link( 
-              v-for="idTratamientoHermano of getItemEnRegistro(itemodontograma.id).idRelacionados"
+              v-for="idTratamientoHermano of idRelacionados_(itemodontograma.id)"
               @click="push({name: 'Detalle', params: {idOdontograma: idTratamientoHermano, idPaciente: route.params.idPaciente} })"
             ) 
               strong.h2.fw-bold Tratamiento
-
-          
+    //.row 
+      p {{itemodontograma}}
     .row
       .col-2
         button.mb-2.btn(@click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })')
@@ -203,7 +202,7 @@ console.log(itemodontograma.value)
           .subtitle Datos adicionales
         ion-icon(name="document-outline").icono  
     div.opciones(v-if="itemodontograma?.esultimo==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico'")
-      button.outline-quiru.solid( type="button", @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','2',itemodontograma.id ), push({ name: 'pacienteVer', params: { idPaciente: route.params.idPaciente } })")
+      button.outline-quiru.solid( type="button", @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','2',itemodontograma.id )")
         .contenido
           .title.light-quiru Crear
           .subtitle.light-quiru Tratamiento
