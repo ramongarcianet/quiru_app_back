@@ -151,44 +151,27 @@ console.log(itemodontograma.value)
       #alerto.alert.alert-danger.alert-dismissible(style='display:none') Cuidado! Este Odontograma tiene hallazgos registrados
         a.close(@click="Cancelar()" href='#' data-dismiss='alert') &times;
       .col
-        h1.my-0.mx-3(style="color: #395D56; font-size: 1.8em; font-family: var(--font-family)") Panel de
+        h2.my-0.mx-3 Panel de
         ul.nav.nav-tabs( id="myTab" role="tablist")
-          h4.ptmr.nav-item( 
-            v-if="itemodontograma?.tipo=='Diagnóstico'"
-            role="presentation" 
-          )
-            .div()
-              button.nav-link( 
-                id="diagnostico-tab" 
-                data-bs-toggle="tab" 
-                data-bs-target="#diagnostico-tab-pane"
-                type="button" 
-                role="tab" 
-                style="color: #37DFBB; font-weight:bold; font-size: 1.6em; font-family: var(--font-family)" 
-               
-              ) Diagnóstico
+          li.nav-item( role="presentation" v-if="itemodontograma?.idRelacionado")
+            button.nav-link( 
+              @click="push({name: 'Detalle', params: {idOdontograma: itemodontograma?.idRelacionado, idPaciente: route.params.idPaciente} })"
+            ) 
+              strong.h2.fw-bold Diagnóstico
+          li.nav-item()
+            button.nav-link(   
+              :class='route.params.idOdontograma == itemodontograma.id ? "active" : "" '
+            ) 
+              strong.h2.fw-bold {{itemodontograma?.tipo}}
 
-          h4.ptmr.nav-item( role="presentation" v-if="itemodontograma?.idsTratamientos")
-            .div(v-for="idTratamientoHermano of itemodontograma?.idsTratamientos")
-              button.nav-link( 
-                id="tratamiento-tab" 
-                data-bs-toggle="tab" 
-                data-bs-target="#tratamiento-tab-pane" 
-                type="button" role="tab" 
-                style="color: #37DFBB; font-weight:bold; font-size: 1.6em; font-family: var(--font-family)" 
-                @click="push({name: 'Detalle', params: {idOdontograma: idTratamientoHermano, idPaciente: route.params.idPaciente} })"
-              ) Tratamiento
+          l1.nav-item( role="presentation" )
+            button.nav-link( 
+              v-for="idTratamientoHermano of getItemEnRegistro(itemodontograma.id).idRelacionados"
+              @click="push({name: 'Detalle', params: {idOdontograma: idTratamientoHermano, idPaciente: route.params.idPaciente} })"
+            ) 
+              strong.h2.fw-bold Tratamiento
 
-          h4.ptmr.nav-item( role="presentation" v-if="itemodontograma?.idDiagnostico")
-            .div(v-for="idTratamientoHermano of getItemEnRegistro(itemodontograma.idDiagnostico).idsTratamientos")
-              button.nav-link( 
-                id="tratamiento-tab" 
-                data-bs-toggle="tab" 
-                data-bs-target="#tratamiento-tab-pane" 
-                type="button" role="tab" 
-                style="color: #37DFBB; font-weight:bold; font-size: 1.6em; font-family: var(--font-family)" 
-                @click="push({name: 'Detalle', params: {idOdontograma: idTratamientoHermano, idPaciente: route.params.idPaciente} })"
-              ) Tratamiento
+          
     .row
       .col-2
         button.mb-2.btn(@click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })')
@@ -245,9 +228,7 @@ console.log(itemodontograma.value)
 </template>
 
 <style lang="sass" scoped>
-.ptmr
-  display: flex
-  flex-direction: row
+
 
 #id02 
   background-color: rgba(0, 0, 0, 0.6)
