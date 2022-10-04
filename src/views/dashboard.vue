@@ -5,6 +5,7 @@ import { useRouter, useRoute } from "vue-router";
 import Logo from "../assets/logoQuiru.vue";
 import { ref, computed, watchEffect, watch} from "vue";
 import Nav from "../components/Nav.vue";
+import Avatar from "../components/Avatar.vue";
 const { push } = useRouter();
 const route = useRoute();
 const verDialog = ref(false)
@@ -114,6 +115,7 @@ Dialog( v-model='verDialog' )
 .container-fluid.vh-100.d-flex.px-0.pb-4.light
   #body.py-5
     .container.mb-3
+      Avatar
       router-view
   Nav
 </template>
