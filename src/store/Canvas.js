@@ -412,18 +412,21 @@ function SetFinding(context, iniciar_x, inicio_y, medida, diente, registro) {
                         dibuja_seccion(context, diente, seccion, hzgoMatriz[0]?.Color, medida, iniciar_x, inicio_y)
                     }
                     else {
-                        var simb = (hzgoMatriz[0]?.SimboloAlterno != "") ? hzgoMatriz[0]?.SimboloAlterno : hzgoMatriz[0]?.Simbolo;
+                        var simb = (hzgoMatriz[0]?.Simbolo != "") ? hzgoMatriz[0]?.Simbolo : hzgoMatriz[0]?.SimboloAlterno;
                         let dienteAlterno = listaDeDientesCombo.filter((elem) => elem.value == hzgo?.dienteAlterno);
                         let _ancho = hzgoMatriz[0]?.ancho;
                         if (hzgoMatriz[0]?.Replicable_Intermedio == "NO") {
                             if (dienteAlterno.length > 0) {
-                                _ancho = (dienteAlterno[0]?.indice - _dienteSelect[0]?.indice + 2) * _ancho;
+                               let cantidadDeDientes = (dienteAlterno[0]?.indice - _dienteSelect[0]?.indice) + 1;
+                               console.log(cantidadDeDientes)
+                                _ancho = (_ancho * (cantidadDeDientes - 1)) + 3 * (cantidadDeDientes) ;
                             }
                             if (_dienteSelect[0]?.grupo == "G1" || _dienteSelect[0]?.grupo == "G2") {
 
                                 FindingGraphic(context, iniciar_x + hzgoMatriz[0]?.masX, inicio_y + hzgoMatriz[0]?.masY, _ancho, hzgoMatriz[0]?.alto, simb, hzgoMatriz[0]?.sigla, medida)
                             }
                             if (_dienteSelect[0]?.grupo == "G3" || _dienteSelect[0]?.grupo == "G4") {
+                                simb = (hzgoMatriz[0]?.SimboloAlterno != "") ? hzgoMatriz[0]?.SimboloAlterno : hzgoMatriz[0]?.Simbolo;
                                 FindingGraphic(context, iniciar_x + hzgoMatriz[0]?.masX, inicio_y - hzgoMatriz[0]?.masY - hzgoMatriz[0]?.PosicionAlt, _ancho, hzgoMatriz[0]?.alto, simb, hzgoMatriz[0]?.sigla, medida)
                             }
                         }
@@ -436,20 +439,6 @@ function SetFinding(context, iniciar_x, inicio_y, medida, diente, registro) {
                                 if (_dienteSelect[0]?.grupo == "G3" || _dienteSelect[0]?.grupo == "G4") {
                                     FindingGraphic(context, iniciar_x + hzgoMatriz[0]?.masX, inicio_y - hzgoMatriz[0]?.masY - hzgoMatriz[0]?.PosicionAlt, _ancho, hzgoMatriz[0]?.alto, simb, hzgoMatriz[0]?.sigla, medida)
                                 }
-                                /* let dientesReplicables = listaDeDientesCombo.filter((elem) => elem.grupo == _dienteSelect[0]?.grupo && elem.indice >= _dienteSelect[0]?.indice && elem.indice <= dienteAlterno[0]?.indice);
-                                let _enx = 0;
-                                let _eny = 0;
-                                dientesReplicables.forEach(element => {
-                                    _enx = iniciar_x + hzgoMatriz[0]?.masX + _enx;
-                                    _eny = inicio_y + hzgoMatriz[0]?.masY + _eny;
-                                    if (_dienteSelect[0]?.grupo == "G1" || _dienteSelect[0]?.grupo == "G2") {
-                                        console.log(_enx)
-                                        FindingGraphic(context, _enx, _eny, _ancho, hzgoMatriz[0]?.alto, simb, hzgoMatriz[0]?.sigla, medida)
-                                    }
-                                    if (_dienteSelect[0]?.grupo == "G3" || _dienteSelect[0]?.grupo == "G4") {
-                                        FindingGraphic(context, _enx, _eny - hzgoMatriz[0]?.PosicionAlt, _ancho, hzgoMatriz[0]?.alto, simb, hzgoMatriz[0]?.sigla, medida)
-                                    }
-                                });*/
                             }
                         }
                     }
