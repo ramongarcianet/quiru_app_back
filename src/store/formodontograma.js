@@ -51,9 +51,18 @@ const guardar = (idPaciente, tipo, esUltimo,  idRelacionado) => new Promise( (re
         }
     }
     const referencia = collection(firestore, 'odontograma')
-    return addDoc(referencia, fila).then( () => {
+
+    return addDoc(referencia, fila).then( (docRef) => { 
+        item.value.idRelacionados 
+            ? item.value.idRelacionados.push(docRef.id)
+            : item.value.idRelacionados = [docRef.id]
         return resolve()
     })
+  /*
+    return addDoc(referencia, fila).then( () => {
+        return resolve()
+    })*/
+    
 })
 
 export const actualizarEsUltimo = (id, esUltimo) => {
@@ -126,15 +135,16 @@ export function agregarLista(id, param) {
             const existeHallazgo = listaDeHallazgos.filter((elem) => elem.value == element.hallazgo)[0];
             if (existeHallazgo != undefined) {
                 let fila = {
-                    diente: param.diente,
+                    diente: element.diente,
                     hallazgo: element.hallazgo,
                     ubicacion: element.ubicacion,
                     sigla: element.sigla,
                     posicion: element.posicion,
                     fechaHallazgo: new Date(),
+                    dienteAlterno: element.dienteAlterno,
                 }
                 if (param.diente != '') {
-                    if (!existeDiente(param.diente, fila)) {
+                    if (!existeDiente(element.diente, fila)) {
                         item.value.hallazgos ? item.value.hallazgos.push(fila) : item.value.hallazgos = [fila];
                     }
                 }
@@ -177,11 +187,7 @@ const eliminar = (id) => {
 
 const registroodonto = ref([])
 
-const registro_ = computed(()=>registroodonto.value.map( item => {
-    
-    return ({...item, idRelacionados: registroodonto.value.filter( item_ => {
-        return item_.idRelacionado == item.id})?.map(_item => _item.id) || [] })
-}))
+const registro_ = computed(()=>registroodonto.value)
 const obtenerTodos = (idPaciente) => {
     const referencia = query(
         collection(firestore, 'odontograma'),
@@ -191,8 +197,13 @@ const obtenerTodos = (idPaciente) => {
     return onSnapshot(
         referencia,
         collection => {
-            console.log(collection.docs.map(doc => ({ ...doc.data(), id: doc.id })))
-            registroodonto.value = collection.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+            //console.log(collection.docs.map(doc => ({ ...doc.data(), id: doc.id })))
+            let r = collection.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+            r = r.map(item => {
+                return ({...item, idRelacionados: r.filter( item_ => {
+                    return item_.idRelacionado == item.id })?.map(_item => _item.id) || [] })
+            }) 
+            registroodonto.value = r
         }
     )
 }
@@ -212,7 +223,7 @@ export const leerOdonto = id => {
 const leerEnRegistro = id => {
     return item.value = registroodonto.value.find(item => item.id == id)
 }
-export const getItemEnRegistro = id => registro_.value.find(item => item.id == id)
+export const getItemEnRegistro = id => registroodonto.value.find(item => item.id == id)
 
 
 const limpiar = () => {

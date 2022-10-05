@@ -76,10 +76,22 @@ const routes = [
                 component: ()=>import('../views/3.Paciente/paciente.vue')
             },
             {
-                path: 'pacienteVer/:idPaciente?',
-                name: 'pacienteVer',
-                component: ()=>import('../views/3.Paciente/pacienteVer.vue')
+                path: 'paciente-informacion/:idPaciente?',
+                component: ()=> import('../views/5.Odontograma/InformacionPaciente.vue'),
+                children: [
+                    {
+                        path: 'pacienteVer',
+                        name: 'pacienteVer',
+                        component: ()=>import('../views/3.Paciente/pacienteVer.vue')
+                    },
+                    {
+                        path: 'Detalle/:idOdontograma?',
+                        name: 'Detalle',
+                        component: ()=>import('../views/5.Odontograma/1.AsistenteDeVoz.vue')
+                    },  
+                ]
             },
+            
             {
                 path: 'diccionarios',
                 name: 'diccionarios',
@@ -90,11 +102,7 @@ const routes = [
                 name: 'diccionario',
                 component: ()=>import('../views/4.Diccionario/diccionario.vue')
             },
-            {
-                path: 'Detalle/:idOdontograma?/:idPaciente?',
-                name: 'Detalle',
-                component: ()=>import('../views/5.Odontograma/1.AsistenteDeVoz.vue')
-            },
+            
             {
                 path: 'impresion/:idOdontograma?/:idPaciente?',
                 name: 'impresion',
