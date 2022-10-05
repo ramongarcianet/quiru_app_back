@@ -1,23 +1,18 @@
 <script setup>
 import { onUnmounted, ref } from "vue";
 import {registroodonto, eliminar, guardar as guardarOdontograma, actualizarEsUltimo, obtenerTodos as obtenerOdontograma} from "../../store/formodontograma";
-import { obtenerTodos } from "../../store/formodontograma";
+
 import { useRouter, useRoute } from "vue-router";
 const confirmar = ref(false);
 const itemSeleccionado = ref({})
 const { push } = useRouter();
 const route = useRoute()
-let obtener
-if (route.params.idPaciente) {
-  obtener = obtenerTodos(route.params.idPaciente);
-}
+
 const confirmarEliminar = (id) => eliminar(id).then(() => {
   confirmar.value = false
   });
 
-onUnmounted(()=>{
-  if(obtener) obtener()
-})
+
 function CallConfirm2(item) {
     itemSeleccionado.value = item;
     var modal = document.getElementById('id02');
