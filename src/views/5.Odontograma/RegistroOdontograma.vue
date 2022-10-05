@@ -1,23 +1,18 @@
 <script setup>
 import { onUnmounted, ref } from "vue";
 import {registroodonto, eliminar, guardar as guardarOdontograma, actualizarEsUltimo, obtenerTodos as obtenerOdontograma} from "../../store/formodontograma";
-import { obtenerTodos } from "../../store/formodontograma";
+
 import { useRouter, useRoute } from "vue-router";
 const confirmar = ref(false);
 const itemSeleccionado = ref({})
 const { push } = useRouter();
 const route = useRoute()
-let obtener
-if (route.params.idPaciente) {
-  obtener = obtenerTodos(route.params.idPaciente);
-}
+
 const confirmarEliminar = (id) => eliminar(id).then(() => {
   confirmar.value = false
   });
 
-onUnmounted(()=>{
-  if(obtener) obtener()
-})
+
 function CallConfirm2(item) {
     itemSeleccionado.value = item;
     var modal = document.getElementById('id02');
@@ -58,27 +53,29 @@ function Cancelar() {
     strong Cuidado!
         |  Este Odontograma tiene hallazgos registrados
     a.close(@click="Cancelar()" href='#' data-dismiss='alert' aria-label='close') &times;
-.div
-  .card.mb-2.p-3(v-for="item of registroodonto" :key="item.id" :item="item" style="border-radius: 40px")
-    .row(style="cursor: pointer")
-      .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") {{item.fechaRegistro}}
+
+template(v-for="item of registroodonto" :key="item.id" :item="item" )
+  .card.mb-2.p-3(v-if="item.tipo === 'Diagnóstico'" style="border-radius: 40px" )
+    .row(style="cursor: pointer" )
+      .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") {{item.fechaRegistro.toDate().toISOString().slice(0, 10)}}
       .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")  {{item.tipo}}
 
-      .col-6.d-block.d-md-none(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")  {{item.fechaRegistro}} {{item.tipo}}
-      .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") 
+      .col-6.d-block.d-md-none(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")  {{item.fechaRegistro.toDate().toISOString().slice(0, 10)}} {{item.tipo}}
+      .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")
       
       .col-2.col-md-1(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") 
-        .dropdown
-          button.ms-auto.btn(type="button")
-            i.fa.fa-solid.fa-tooth
+        button.ms-auto.btn
+          i.fa.fa-solid.fa-tooth
       .col-2.col-md-1(v-if="item.esultimo==='2'")
-        .dropdown
-          button.btn(title='Eliminar' @click="CallConfirm2(item)")
-            i.fa.fa-trash-o
+        button.btn(title='Eliminar' @click="CallConfirm2(item)")
+          i.fa.fa-trash-o
       .col-2.col-md-1(v-else="item.esultimo==='1' || item.esultimo==='0'")
-        .dropdown
-          button.ms-auto.btn(type="button", disabled)
-            i.fa.fa-trash-o(aria-hidden='true')
+        button.ms-auto.btn(type="button", disabled)
+          i.fa.fa-trash-o
+      .col-2.col-md-1(v-if="item.esultimo==='2'")
+        i.fa-solid.fa-circle.primary-text
+      .col-2.col-md-1(v-else="item.esultimo==='1' || item.esultimo==='0'")
+        i.fa-solid.fa-circle(style="color: #8c8c8c")
 
 </template>
 <style scoped>

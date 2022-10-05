@@ -18,7 +18,7 @@ const listaHallazgo = obtenerTodoHallazgo();
 const listaCaries = obtenerTodoCaries();
 const { push } = useRouter()
 leerEnRegistro(route.params.idOdontograma);
-console.log(route.params.tipoOdonto)
+//console.log(route.params.tipoOdonto)
 const listaDeHallazgos = _Hallazgos.filter(i => i.tipo == route.params.tipoOdonto).map(({ text, value }) => ({ text, value }))
 escucharInicializarVoz();
 let temList = [];
@@ -54,8 +54,8 @@ watch(
   () => itemodontograma.value?.hallazgos,
   (registro) => {
     let idOdontograma = route.params.idOdontograma
-    VerFormato((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [])
-    setList((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma.value?.hallazgos : [], 1);
+    VerFormato((itemodontograma.value?.hallazgos?.length > 0) ? itemodontograma.value?.hallazgos : [])
+    setList((itemodontograma.value?.hallazgos?.length > 0) ? itemodontograma.value?.hallazgos : [], 1);
     limpiarSinVoz()
   },
   { deep: true }
@@ -237,16 +237,16 @@ function VisibleDiente() {
               td
                 BotonSeguro( :onSuccess= '() => borrar(item)' )
                   i.fa.fa-trash-o(aria-hidden='true')
-        .div(v-if="itemodontograma.hallazgos?.length > 8",style="text-align: center;")
+        .div(v-if="itemodontograma?.hallazgos?.length > 8",style="text-align: center;")
           nav.d-flex.justify-content-center(aria-label='Page navigation example')
             ul.pagination
               li.page-item
                 a.page-link(href='#', aria-label='Previous', @click="previousPage(itemodontograma.hallazgos)")
                   span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
-              li.page-item(v-for="n in (Math.trunc(itemodontograma.hallazgos.length / 8) + (((itemodontograma.hallazgos.length % 8) > 0) ? 1 : 0))")
+              li.page-item(v-for="n in (Math.trunc(itemodontograma?.hallazgos?.length / 8) + (((itemodontograma?.hallazgos?.length % 8) > 0) ? 1 : 0))")
                 a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}
               li.page-item
-                a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma.hallazgos)")
+                a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma?.hallazgos)")
                   span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
 
 </template>

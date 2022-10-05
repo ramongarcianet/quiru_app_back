@@ -167,6 +167,7 @@ export const listaDeHallazgos = [
     { tipo: "Diagnóstico", text: "Extracción", value: "extracción", sigla: "", Especificacion: "", Estado: "", Simbolo: "extracción", Color: "", masX: 0, masY: -10, ancho: 21, alto: 35, esDirecto: "SI", EsMultiple: "NO", Replicable_Intermedio: "NO", SimboloAlterno: "", PosicionAlt: 13 },
 
 
+
 ];
 export const listaDeTipos = [
     { value: "vestibular", text: "vestibular" },

@@ -15,9 +15,10 @@ onMounted(()=> {
 VerFormato(itemodontograma?.value?.hallazgos);
 
   watch(
-    () => itemodontograma.value.hallazgos,
+    () => itemodontograma.value?.hallazgos,
     () => {
-      VerFormato(itemodontograma.value.hallazgos);
+      if(itemodontograma.value?.hallazgos)
+        VerFormato(itemodontograma.value.hallazgos);
     }
   );
 })
