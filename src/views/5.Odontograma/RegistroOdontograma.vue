@@ -69,12 +69,12 @@ template(v-for="item of registroodonto" :key="item.id" :item="item" )
       .col-2.col-md-1(v-if="item.estado==='2'")
         button.btn(title='Eliminar' @click="CallConfirm2(item)")
           i.fa.fa-trash-o
-      .col-2.col-md-1(v-else="item.estado==='1' || item.estado==='0'")
+      .col-2.col-md-1(v-else="item.estado==='1'")
         button.ms-auto.btn(type="button", disabled)
           i.fa.fa-trash-o
       .col-2.col-md-1(v-if="item.estado==='2'")
         i.fa-solid.fa-circle.primary-text
-      .col-2.col-md-1(v-else="item.estado==='1' || item.estado==='0'")
+      .col-2.col-md-1(v-else="item.estado==='1'")
         i.fa-solid.fa-circle(style="color: #8c8c8c")
 
 </template>

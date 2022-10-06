@@ -200,7 +200,7 @@ const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelaciona
           .title Agregar
           .subtitle Datos adicionales
         ion-icon(name="document-outline").icono
-    div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico'")
+    div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.papa!='Si'")
       a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','2',itemodontograma?.id )")
         .contenido
           .title.light-quiru Crear

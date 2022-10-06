@@ -21,7 +21,12 @@ const item = ref({
 })
 
 
-const guardar = (idPaciente, tipo, estado, idRelacionado) => new Promise((resolve, reject) => {
+const guardar = (idPaciente, tipo, estado, idRelacionado, papa) => new Promise((resolve, reject) => {
+    for (const item of registroodonto.value) {
+        if (tipo != 'Diagnóstico') {
+            actualizarPapa(item.id, 'Si');
+        }
+    }
     for (const item of registroodonto.value) {
         if (tipo === 'Diagnóstico') {
             actualizarestado(item.id, '1');
@@ -36,6 +41,7 @@ const guardar = (idPaciente, tipo, estado, idRelacionado) => new Promise((resolv
         idPaciente,
         userId: miUsuario()?.uid,
         estado: (tipo == "Diagnóstico") ? "2" : "1",
+        papa: (tipo == "Diagnóstico") ? "No" : "Si",
         order: registroodonto.value.length + 1,
     }
 
@@ -50,7 +56,6 @@ const guardar = (idPaciente, tipo, estado, idRelacionado) => new Promise((resolv
         }
     }
     const referencia = collection(firestore, 'odontograma')
-
     return addDoc(referencia, fila).then((docRef) => {
         item.value.idRelacionados
             ? item.value.idRelacionados.push(docRef.id)
@@ -64,6 +69,14 @@ export const actualizarestado = (id, estado) => {
     var itemUpd = {
         id: id,
         estado: estado
+    }
+    const referencia = doc(firestore, 'odontograma', id)
+    return updateDoc(referencia, itemUpd)
+}
+export const actualizarPapa = (id, papa) => {
+    var itemUpd = {
+        id: id,
+        papa: papa
     }
     const referencia = doc(firestore, 'odontograma', id)
     return updateDoc(referencia, itemUpd)
