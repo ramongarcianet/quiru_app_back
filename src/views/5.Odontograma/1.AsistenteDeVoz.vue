@@ -1,6 +1,6 @@
 <script setup>
 import Formulario from "./Formulario.vue";
-import {registroodonto, guardar as guardarOdontograma, actualizarEsUltimo, getItemEnRegistro} from "../../store/formodontograma";
+import {registroodonto, guardar as guardarOdontograma, actualizarestado, getItemEnRegistro} from "../../store/formodontograma";
 import { item as itemPas, leer } from "../../store/paciente";
 import "../../config/html2canvas";
 import { useRoute, useRouter } from "vue-router";
@@ -200,30 +200,12 @@ const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelaciona
           .title Agregar
           .subtitle Datos adicionales
         ion-icon(name="document-outline").icono
-    div.opciones(v-if="itemodontograma?.esultimo==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico'")
+    div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico'")
       a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','2',itemodontograma?.id )")
         .contenido
           .title.light-quiru Crear
           .subtitle.light-quiru Tratamiento
         ion-icon(name="medkit-outline").icono.light-quiru
-    //div.opciones(v-if="itemodontograma.esultimo==='1' || itemodontograma.esultimo==='0'")
-      button.outline-quiru.solid( type="button", @click="push({ name: 'pacienteVer', params: { idPaciente: route.params.idPaciente } })")
-        .contenido
-          .title.light-quiru Ver 
-          .subtitle.light-quiru Tratamiento
-        ion-icon(name="medkit-outline").icono.light-quiru
-    
-    //-div.opciones
-      button.outline-quiru()
-        .contenido
-          .title Agregar
-          .subtitle Precio
-        ion-icon(name="pricetag-outline").icono  
-      //-Hallazgos en tabla
-      //-button.ms-auto.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
-        | Hallazgos
-
-
 </template>
 
 <style lang="sass" scoped>
