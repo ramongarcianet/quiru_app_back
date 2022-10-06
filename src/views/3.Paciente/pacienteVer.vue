@@ -4,7 +4,6 @@ import { useRoute, useRouter} from "vue-router";
 import { item, guardar, actualizar, limpiar, leerEnRegistro, obtenerTodos, registro, updateEstado } from "../../store/paciente";
 import RegistroOdontograma from "../5.Odontograma/RegistroOdontograma.vue";
 import { guardar as guardarOdontograma, registroodonto, obtenerTodos as obtenerOdontograma } from "../../store/formodontograma";
-//import Seguro from "../../components/uikit/Seguro.vue";
 const obtenerRegistro = obtenerTodos();
 const confirmar = ref(false);
 let itemseleccionado = {};
@@ -86,7 +85,7 @@ onUnmounted(()=> {
         input.form-control(v-model="item.numeroDocumento", disabled)
       
     .col-12.mx-auto.my-3
-      button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','2')")
+      button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','No')")
         div
           strong(style="color: white") Crear
           p.mb-0(style="color: white") Nuevo Odontograma

@@ -1,4 +1,4 @@
-import { ref , computed} from 'vue';
+import { ref, computed } from 'vue';
 
 import { addDoc, collection, onSnapshot, getDoc, doc, updateDoc, deleteDoc, query, where, arrayUnion, orderBy } from 'firebase/firestore'
 import { firestore } from '../config/firebase'
@@ -21,12 +21,15 @@ const item = ref({
 })
 
 
-const guardar = (idPaciente, tipo, esUltimo,  idRelacionado) => new Promise( (resolve, reject) => {
+const guardar = (idPaciente, tipo, papa, idRelacionado) => new Promise((resolve, reject) => {
     for (const item of registroodonto.value) {
-        if (item.esultimo === '2')
-            actualizarEsUltimo(item.id, '1');
-        if (item.esultimo === '1')
-            actualizarEsUltimo(item.id, '0');
+        if (item.papa === 'No')
+            actualizarPapa(item.id, 'Si');
+    }
+    for (const item of registroodonto.value) {
+        if (tipo === 'Diagnóstico') {
+            actualizarestado(item.id, '1');
+        }
     }
     const fila = {
         tipo: tipo,
@@ -36,7 +39,8 @@ const guardar = (idPaciente, tipo, esUltimo,  idRelacionado) => new Promise( (re
         fechaRegistro: new Date(),
         idPaciente,
         userId: miUsuario()?.uid,
-        esultimo: esUltimo,
+        estado: (tipo == "Diagnóstico") ? "2" : "1",
+        papa: papa,
         order: registroodonto.value.length + 1,
     }
 
@@ -51,24 +55,27 @@ const guardar = (idPaciente, tipo, esUltimo,  idRelacionado) => new Promise( (re
         }
     }
     const referencia = collection(firestore, 'odontograma')
-
-    return addDoc(referencia, fila).then( (docRef) => { 
-        item.value.idRelacionados 
+    return addDoc(referencia, fila).then((docRef) => {
+        item.value.idRelacionados
             ? item.value.idRelacionados.push(docRef.id)
             : item.value.idRelacionados = [docRef.id]
         return resolve()
     })
-  /*
-    return addDoc(referencia, fila).then( () => {
-        return resolve()
-    })*/
-    
+
 })
 
-export const actualizarEsUltimo = (id, esUltimo) => {
+export const actualizarestado = (id, estado) => {
     var itemUpd = {
         id: id,
-        esultimo: esUltimo
+        estado: estado
+    }
+    const referencia = doc(firestore, 'odontograma', id)
+    return updateDoc(referencia, itemUpd)
+}
+export const actualizarPapa = (id, papa) => {
+    var itemUpd = {
+        id: id,
+        papa: papa
     }
     const referencia = doc(firestore, 'odontograma', id)
     return updateDoc(referencia, itemUpd)
@@ -171,38 +178,38 @@ const borrarDeLaColeccion = () => {
     item.archivos.splice(i, 0)
 }
 const eliminar = (id) => {
-    const ordenUltimo = registroodonto.value.length - 1;
-    if (ordenUltimo > 0) {
-        const idOdontograma = registroodonto.value.find(item => item.order === ordenUltimo)?.id;
-        actualizarEsUltimo(idOdontograma, '2')
+   const diagnosticos =registroodonto.value.filter((elem) => elem.tipo == "Diagnóstico" && elem.id !=id);
+    let maxValueOfOrder = Math.max(...diagnosticos.map(o => o.order));
+    for (const item of diagnosticos) {
+        if (maxValueOfOrder === item.order) {
+            actualizarestado(item.id, '2');
+        }
     }
-    const ordenPenuultimo = registroodonto.value.length - 2;
-    if (ordenPenuultimo > 0) {
-        const idOdontograma = registroodonto.value.find(item => item.order === ordenPenuultimo)?.id;
-        actualizarEsUltimo(idOdontograma, '1')
-    }
+
     const referencia = doc(firestore, 'odontograma', id)
     return deleteDoc(referencia)
 }
 
 const registroodonto = ref([])
 
-const registro_ = computed(()=>registroodonto.value)
+const registro_ = computed(() => registroodonto.value)
 const obtenerTodos = (idPaciente) => {
     const referencia = query(
         collection(firestore, 'odontograma'),
-        where("idPaciente", "==", idPaciente), 
+        where("idPaciente", "==", idPaciente),
         orderBy("fechaRegistro", "desc")
     )
     return onSnapshot(
         referencia,
         collection => {
-            //console.log(collection.docs.map(doc => ({ ...doc.data(), id: doc.id })))
             let r = collection.docs.map(doc => ({ ...doc.data(), id: doc.id }))
             r = r.map(item => {
-                return ({...item, idRelacionados: r.filter( item_ => {
-                    return item_.idRelacionado == item.id })?.map(_item => _item.id) || [] })
-            }) 
+                return ({
+                    ...item, idRelacionados: r.filter(item_ => {
+                        return item_.idRelacionado == item.id
+                    })?.map(_item => _item.id) || []
+                })
+            })
             registroodonto.value = r
         }
     )

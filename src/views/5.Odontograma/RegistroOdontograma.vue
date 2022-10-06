@@ -1,6 +1,6 @@
 <script setup>
 import { onUnmounted, ref } from "vue";
-import {registroodonto, eliminar, guardar as guardarOdontograma, actualizarEsUltimo, obtenerTodos as obtenerOdontograma} from "../../store/formodontograma";
+import {registroodonto, eliminar} from "../../store/formodontograma";
 
 import { useRouter, useRoute } from "vue-router";
 const confirmar = ref(false);
@@ -66,15 +66,15 @@ template(v-for="item of registroodonto" :key="item.id" :item="item" )
       .col-2.col-md-1(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") 
         button.ms-auto.btn
           i.fa.fa-solid.fa-tooth
-      .col-2.col-md-1(v-if="item.esultimo==='2'")
+      .col-2.col-md-1(v-if="item.estado==='2'")
         button.btn(title='Eliminar' @click="CallConfirm2(item)")
           i.fa.fa-trash-o
-      .col-2.col-md-1(v-else="item.esultimo==='1' || item.esultimo==='0'")
+      .col-2.col-md-1(v-else="item.estado==='1'")
         button.ms-auto.btn(type="button", disabled)
           i.fa.fa-trash-o
-      .col-2.col-md-1(v-if="item.esultimo==='2'")
+      .col-2.col-md-1(v-if="item.estado==='2'")
         i.fa-solid.fa-circle.primary-text
-      .col-2.col-md-1(v-else="item.esultimo==='1' || item.esultimo==='0'")
+      .col-2.col-md-1(v-else="item.estado==='1'")
         i.fa-solid.fa-circle(style="color: #8c8c8c")
 
 </template>
