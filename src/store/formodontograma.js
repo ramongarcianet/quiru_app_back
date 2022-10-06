@@ -21,11 +21,10 @@ const item = ref({
 })
 
 
-const guardar = (idPaciente, tipo, estado, idRelacionado, papa) => new Promise((resolve, reject) => {
+const guardar = (idPaciente, tipo, papa, idRelacionado) => new Promise((resolve, reject) => {
     for (const item of registroodonto.value) {
-        if (tipo != 'Diagnóstico') {
+        if (item.papa === 'No')
             actualizarPapa(item.id, 'Si');
-        }
     }
     for (const item of registroodonto.value) {
         if (tipo === 'Diagnóstico') {
@@ -41,7 +40,7 @@ const guardar = (idPaciente, tipo, estado, idRelacionado, papa) => new Promise((
         idPaciente,
         userId: miUsuario()?.uid,
         estado: (tipo == "Diagnóstico") ? "2" : "1",
-        papa: (tipo == "Diagnóstico") ? "No" : "Si",
+        papa: papa,
         order: registroodonto.value.length + 1,
     }
 
@@ -183,7 +182,6 @@ const eliminar = (id) => {
     let maxValueOfOrder = Math.max(...diagnosticos.map(o => o.order));
     for (const item of diagnosticos) {
         if (maxValueOfOrder === item.order) {
-
             actualizarestado(item.id, '2');
         }
     }

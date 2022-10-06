@@ -129,7 +129,7 @@ function Cancelar() {
         alerta.style.display = "none";
 }
 const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelacionados))
-
+const idDiagnostico_ = itemodontograma?.value.id;
 </script>
 
 <template lang="pug">
@@ -177,7 +177,7 @@ const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelaciona
       .col-10
         .left
           .div(v-if="itemodontograma?.tipo === 'Tratamiento'")
-            .div(v-for="item of registroodonto" :key="item.id" :item="item" )
+            .div(v-for="item of registroodonto.filter((elem) => elem.tipo == 'Tratamiento' && elem.idRelacionado ==idDiagnostico_)" :key="item.id" :item="item" )
               .div(v-if="item?.tipo === 'Tratamiento'")
                 button.btn(title='Borrar'  @click="CallConfirm2(item)")
                   ion-icon(name="trash-outline" style="color: var(--color-primary); font-size: 26px;")
@@ -201,7 +201,7 @@ const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelaciona
           .subtitle Datos adicionales
         ion-icon(name="document-outline").icono
     div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.papa!='Si'")
-      a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','2',itemodontograma?.id )")
+      a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id )")
         .contenido
           .title.light-quiru Crear
           .subtitle.light-quiru Tratamiento
