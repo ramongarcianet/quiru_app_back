@@ -23,7 +23,7 @@ const item = ref({
 
 const guardar = (idPaciente, tipo, esUltimo,  idRelacionado) => new Promise( (resolve, reject) => {
     for (const item of registroodonto.value) {
-        if (item.esultimo === '2')
+        if (item.esultimo === '2' && item.tipo === 'Tratamiento')
             actualizarEsUltimo(item.id, '1');
         if (item.esultimo === '1')
             actualizarEsUltimo(item.id, '0');
@@ -197,7 +197,6 @@ const obtenerTodos = (idPaciente) => {
     return onSnapshot(
         referencia,
         collection => {
-            //console.log(collection.docs.map(doc => ({ ...doc.data(), id: doc.id })))
             let r = collection.docs.map(doc => ({ ...doc.data(), id: doc.id }))
             r = r.map(item => {
                 return ({...item, idRelacionados: r.filter( item_ => {

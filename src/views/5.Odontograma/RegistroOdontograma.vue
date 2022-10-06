@@ -1,6 +1,6 @@
 <script setup>
 import { onUnmounted, ref } from "vue";
-import {registroodonto, eliminar, guardar as guardarOdontograma, actualizarEsUltimo, obtenerTodos as obtenerOdontograma} from "../../store/formodontograma";
+import {registroodonto, eliminar} from "../../store/formodontograma";
 
 import { useRouter, useRoute } from "vue-router";
 const confirmar = ref(false);

@@ -4,7 +4,6 @@ import { useRoute, useRouter} from "vue-router";
 import { item, guardar, actualizar, limpiar, leerEnRegistro, obtenerTodos, registro, updateEstado } from "../../store/paciente";
 import RegistroOdontograma from "../5.Odontograma/RegistroOdontograma.vue";
 import { guardar as guardarOdontograma, registroodonto, obtenerTodos as obtenerOdontograma } from "../../store/formodontograma";
-//import Seguro from "../../components/uikit/Seguro.vue";
 const obtenerRegistro = obtenerTodos();
 const confirmar = ref(false);
 let itemseleccionado = {};
