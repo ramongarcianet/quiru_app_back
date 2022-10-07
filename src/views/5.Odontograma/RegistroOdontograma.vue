@@ -38,6 +38,22 @@ function Cancelar() {
         alerto.style.display = "none";
         modal.style.display = 'none';
 }
+function obtenerIdTratamiento(id) {
+const diagnosticos =registroodonto.value.filter((elem) => elem.tipo == "Tratamiento" && elem.idRelacionado ==id);
+if(diagnosticos.length > 0){
+ return  diagnosticos[0].id
+}
+else 
+  return id
+}
+function obtenerTipo(id) {
+const diagnosticos =registroodonto.value.filter((elem) => elem.tipo == "Tratamiento" && elem.idRelacionado ==id);
+if(diagnosticos.length > 0){
+ return  "Tratamiento"
+}
+else 
+  return "Diagnóstico"
+}
 </script>
 
 <template lang="pug"> 
@@ -61,7 +77,7 @@ template(v-for="item of registroodonto" :key="item.id" :item="item" )
       .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")  {{item.tipo}}
 
       .col-6.d-block.d-md-none(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")  {{item.fechaRegistro.toDate().toISOString().slice(0, 10)}} {{item.tipo}}
-      .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")
+      .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: obtenerIdTratamiento(item.id),idPaciente: item.idPaciente, tipoOdonto: obtenerTipo(item.id)} })") {{(obtenerTipo(item.id) == "Diagnóstico" )? "" : "Tratamiento"}}
       
       .col-2.col-md-1(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") 
         button.ms-auto.btn

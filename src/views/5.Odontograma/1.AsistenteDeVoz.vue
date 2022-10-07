@@ -143,6 +143,7 @@ const idDiagnostico_ = itemodontograma?.value.id;
                 button.btn.btn-danger.deletebtn(@click="EliminarOdonto(), mostrar = false") Aceptar
 .scrollspy-example(data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" tabindex="0")
   h4(id="list-item-1") 
+p {{idRelacionados_(itemodontograma?.id).length}}
 .row
   .col
     .row
@@ -162,7 +163,7 @@ const idDiagnostico_ = itemodontograma?.value.id;
             button.nav-link(
               :class='route.params.idOdontograma == itemodontograma?.id ? "active" : "" '
             ) 
-              strong.h2.fw-bold {{itemodontograma?.tipo}}  
+              strong.h2.fw-bold {{itemodontograma?.tipo}}
 
           l1.nav-item( role="presentation" )
             button.nav-link( 
