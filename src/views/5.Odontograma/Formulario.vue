@@ -1,10 +1,10 @@
 <script setup>
-import { onMounted, onUnmounted, watch } from "vue";
+import { onMounted, onUnmounted, watch, computed } from "vue";
 import OdonOficial from "./2.impresion.vue";
 import { limpiarSinVoz } from "../../store/comandosDeVoz";
 import { obtenerTodoDiccionario, obtenerTodoPieza, obtenerTodoHallazgo, obtenerTodoCaries, } from "../../store/odonto";
 import { detenerVoz, activarVoz, isSpeech, escucharInicializarVoz, Hallazgo, item, paginaOdontograma, textoEscuchado, resizeWindow, } from "../../store/odontograma";
-import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarLista, mensajeExistePieza } from '../../store/formodontograma';
+import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarLista, mensajeExistePieza, getItemEnRegistro } from '../../store/formodontograma';
 import { VerFormato } from "../../store/Canvas";
 import { useRoute, useRouter } from "vue-router";
 import { previousPage, nextPage, setList, registro_ as _hallazgos, setListDelete, SetPage } from "../../config/Paginator";
@@ -18,7 +18,6 @@ const listaHallazgo = obtenerTodoHallazgo();
 const listaCaries = obtenerTodoCaries();
 const { push } = useRouter()
 leerEnRegistro(route.params.idOdontograma);
-//console.log(route.params.tipoOdonto)
 const listaDeHallazgos = _Hallazgos.filter(i => i.tipo == route.params.tipoOdonto).map(({ text, value }) => ({ text, value }))
 escucharInicializarVoz();
 let temList = [];
@@ -176,20 +175,20 @@ function VisibleDiente() {
     spanPiezaAl.style.display = "none"
   }
 }
+const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelacionados))
 </script>
 
 <template lang="pug">
-
-.row
+.row(:hidden="itemodontograma?.estado === '1' && !itemodontograma.idRelacionado")
   p {{ textoEscuchado }}
-.contenedor
+.contenedor(:hidden="itemodontograma?.estado === '1' && !itemodontograma.idRelacionado")
   .anim(v-if='isSpeech')
   .microfono( @click="isSpeech ? detenerVoz() : activarVoz()" )
     ion-icon.icono(name="mic" )
 
 //-Input sin micrófono
 .row.mt-3
-  .col
+  .col(:hidden="itemodontograma?.estado === '1' && !itemodontograma.idRelacionado")
     .row
       .col.d-flex(v-if="!isSpeech").inputs-manual
         input#tipoReg(type="hidden", value="0")
@@ -235,7 +234,7 @@ function VisibleDiente() {
               td {{ item.hallazgo }} {{ item.ubicacion }}
               td {{ item.sigla }}
               td
-                BotonSeguro( :onSuccess= '() => borrar(item)' )
+                BotonSeguro.mt-0( :onSuccess= '() => borrar(item)' :hidden="itemodontograma?.estado === '1' && !itemodontograma.idRelacionado")
                   i.fa.fa-trash-o(aria-hidden='true')
         .div(v-if="itemodontograma?.hallazgos?.length > 8",style="text-align: center;")
           nav.d-flex.justify-content-center(aria-label='Page navigation example')
