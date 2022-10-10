@@ -17,23 +17,23 @@ export function printHistoriaClinicaPaciente(idPaciente) {
         obtenerPacienteAdmision(idPaciente).then((admision) => {
             //console.log(admision);
             const pacienteAdmision = admision[0];
-            leerEnRegistro(idPaciente);            
+            leerEnRegistro(idPaciente);
             obtenerOdontologo(itemPas.value.idOdontologo).then((odonto) => {
                 //console.log(odonto);
-                const odontologo = odonto[0];                                
+                let odontologo = odonto[0];
                 //datos admision
-                const motivoConsulta = ''
-                const motivoConsulta1 = ''
-                const motivoConsulta2 = ''
-                const enfermedadActual = ''
-                const enfermedadActual1 = ''
-                const enfermedadActual2 = ''
-                const examenClinicoGene = ''
-                const examenClinicoGene1 = ''
-                const examenClinicoGene2 = ''
-                const examenClinicoEstoma = ''
-                const examenClinicoEstoma1 = ''
-                const examenClinicoEstoma2 = ''
+                let motivoConsulta = ''
+                let motivoConsulta1 = ''
+                let motivoConsulta2 = ''
+                let enfermedadActual = ''
+                let enfermedadActual1 = ''
+                let enfermedadActual2 = ''
+                let examenClinicoGene = ''
+                let examenClinicoGene1 = ''
+                let examenClinicoGene2 = ''
+                let examenClinicoEstoma = ''
+                let examenClinicoEstoma1 = ''
+                let examenClinicoEstoma2 = ''
                 if (admision.length > 0) {
                     motivoConsulta = '----';//pacienteAdmision.motivoCOnsulta
                     motivoConsulta1 = motivoConsulta.substring(0, 99)
@@ -57,7 +57,7 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         pdf.setFont(undefined, 'bold')
                         pdf.text(45, 20, 'HISTORIA CLÍNICA ODONTOLÓGICA');
                         pdf.setFont(undefined, 'normal')
-                        pdf.setFontSize(12);                       
+                        pdf.setFontSize(12);
                         pdf.text(10, 30, pad('Fecha : ' + fechaFormato, 40, ' ') + pad('Hora : ' + horaFormato, 40, ' '));
                         pdf.setFontSize(14);
                         pdf.setFont(undefined, 'bold')
@@ -92,7 +92,7 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                             pdf.text(10, 168, pad('Relato cronológico : ' + '---------------------', 90, ' '));//pacienteAdmision.relatoCronologico
                             pdf.text(10, 175, pad('Funciones biológicas : ' + '---------------------', 90, ' '));//pacienteAdmision.funcionesBiologicas    
                         } else {
-                            pdf.text(10, 154, pad('Tiempo de enfermedad : ' + '', 90, ' ')); 
+                            pdf.text(10, 154, pad('Tiempo de enfermedad : ' + '', 90, ' '));
                             pdf.text(10, 161, pad('Signos y sintómas principales : ' + '', 90, ' '));
                             pdf.text(10, 168, pad('Relato cronológico : ' + '', 90, ' '));
                             pdf.text(10, 175, pad('Funciones biológicas : ' + '', 90, ' '));
@@ -168,7 +168,7 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         pdf.setFont(undefined, 'normal')
                         pdf.setFontSize(12);
                         pdf.text(10, posis1 + 10, pad(' ', 100, ' '));//pacienteOdontograma.pronostico
-                        pdf.text(10, posis1 + 25, pad('Nombres y apellidos del profesional : ' + odontologo.nombre + ' '+odontologo.apellidoPaterno+' '+odontologo.apellidoMaterno, 90, ' '));
+                        pdf.text(10, posis1 + 25, pad('Nombres y apellidos del profesional : ' + odontologo.nombre + ' ' + odontologo.apellidoPaterno + ' ' + odontologo.apellidoMaterno, 90, ' '));
                         pdf.setFont(undefined, 'bold')
                         pdf.text(10, posis1 + 45, 'Sello y firma');
                         var pdfName = 'historiaClinica' + itemPas.value.numeroDocumento
