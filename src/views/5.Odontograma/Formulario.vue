@@ -175,7 +175,7 @@ function VisibleDiente() {
     spanPiezaAl.style.display = "none"
   }
 }
-const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelacionados))
+const idRelacionados_ = computed((() => id => getItemEnRegistro(id)?.idRelacionados))
 </script>
 
 <template lang="pug">
