@@ -143,7 +143,6 @@ const idDiagnostico_ = itemodontograma?.value.id;
                 button.btn.btn-danger.deletebtn(@click="EliminarOdonto(), mostrar = false") Aceptar
 .scrollspy-example(data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" tabindex="0")
   h4(id="list-item-1") 
-p {{idRelacionados_(itemodontograma?.id).length}}
 .row
   .col
     .row
