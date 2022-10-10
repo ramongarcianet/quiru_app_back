@@ -162,7 +162,7 @@ const idDiagnostico_ = itemodontograma?.value.id;
             button.nav-link(
               :class='route.params.idOdontograma == itemodontograma?.id ? "active" : "" '
             ) 
-              strong.h2.fw-bold {{itemodontograma?.tipo}}  
+              strong.h2.fw-bold {{itemodontograma?.tipo}}
 
           l1.nav-item( role="presentation" )
             button.nav-link( 
