@@ -1,6 +1,6 @@
 import { ref , computed} from 'vue';
 
-import { addDoc, collection, onSnapshot, getDoc, doc, updateDoc, deleteDoc, query, where, arrayUnion, orderBy } from 'firebase/firestore'
+import { addDoc, collection, onSnapshot, getDoc,getDocs, doc, updateDoc, deleteDoc, query, where, arrayUnion, orderBy } from 'firebase/firestore'
 import { firestore } from '../config/firebase'
 import { miUsuario } from './sesion';
 import { listaDeHallazgos } from '../config/Parametros'
@@ -225,6 +225,11 @@ const leerEnRegistro = id => {
 }
 export const getItemEnRegistro = id => registroodonto.value.find(item => item.id == id)
 
+export const obtenerPacienteOdontograma = (idPaciente) => new Promise(resolve =>  {
+    const referencia = collection(firestore, 'odontograma')
+    return getDocs(query(referencia, where("idPaciente", "==", idPaciente),where("tipo", "==", "Tratamiento"),where("estado", "==", "2")))
+    .then(coleccion => resolve(coleccion.docs.map( doc => doc.data())))
+})
 
 const limpiar = () => {
     item.value = {
