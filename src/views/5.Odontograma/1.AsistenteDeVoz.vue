@@ -9,6 +9,7 @@ import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma, eliminar
 import jsPDF from 'jsPDF'
 import Instrucciones from "./../8.Ayuda/instrucciones.vue";
 import { watch, ref, computed } from "vue";
+import MicroButtonVue from "../../components/MicroButton.vue";
 const myModal = document.getElementById('myModal')
 const myInput = document.getElementById('myInput')
 const route = useRoute()
@@ -130,6 +131,13 @@ function Cancelar() {
 }
 const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelacionados))
 const idDiagnostico_ = itemodontograma?.value.id;
+
+function guardar_() {
+  //guardarOdontograma(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id );
+  var hol = document.getElementById("holo");
+    hol.style.display = "none";
+
+}
 </script>
 
 <template lang="pug">
@@ -200,9 +208,9 @@ const idDiagnostico_ = itemodontograma?.value.id;
           .title Agregar
           .subtitle Datos adicionales
         ion-icon(name="document-outline").icono
-    div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.papa!='Si'")
-      a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id )")
-        .contenido
+    div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.papa!='Si'" id="holo")
+      a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id ), guardar_()")
+        .contenido()
           .title.light-quiru Crear
           .subtitle.light-quiru Tratamiento
         ion-icon(name="medkit-outline").icono.light-quiru

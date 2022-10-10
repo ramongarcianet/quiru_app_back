@@ -31,6 +31,7 @@ const guardar = (idPaciente, tipo, papa, idRelacionado) => new Promise((resolve,
             actualizarestado(item.id, '1');
         }
     }
+   
     const fila = {
         tipo: tipo,
         especificaciones: '',
