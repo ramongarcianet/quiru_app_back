@@ -1,6 +1,6 @@
 <script setup>
 import Formulario from "./Formulario.vue";
-import {registroodonto, guardar as guardarOdontograma, actualizarEsUltimo, getItemEnRegistro} from "../../store/formodontograma";
+import {registroodonto, guardar as guardarOdontograma, actualizarestado, getItemEnRegistro} from "../../store/formodontograma";
 import { item as itemPas, leer } from "../../store/paciente";
 import "../../config/html2canvas";
 import { useRoute, useRouter } from "vue-router";
@@ -9,6 +9,7 @@ import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma, eliminar
 import jsPDF from 'jsPDF'
 import Instrucciones from "./../8.Ayuda/instrucciones.vue";
 import { watch, ref, computed } from "vue";
+import MicroButtonVue from "../../components/MicroButton.vue";
 const myModal = document.getElementById('myModal')
 const myInput = document.getElementById('myInput')
 const route = useRoute()
@@ -101,7 +102,6 @@ function pad(n, width, z) {
   return n.length >= width ? n : n + new Array(width - n.length + 1).join(z);
 }
 function CallConfirm2(item) {
-    console.log(item)
     itemSeleccionado.value = item;
     var modal = document.getElementById('id02');
     modal.style.display = 'block';
@@ -129,9 +129,15 @@ function Cancelar() {
         modal.style.display = 'none';
         alerta.style.display = "none";
 }
-console.log(itemodontograma.value)
+const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelacionados))
+const idDiagnostico_ = itemodontograma?.value.id;
 
+function guardar_() {
+  //guardarOdontograma(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id );
+  var hol = document.getElementById("holo");
+    hol.style.display = "none";
 
+}
 </script>
 
 <template lang="pug">
@@ -143,6 +149,8 @@ console.log(itemodontograma.value)
             .clearfix
                 button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
                 button.btn.btn-danger.deletebtn(@click="EliminarOdonto(), mostrar = false") Aceptar
+.scrollspy-example(data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" tabindex="0")
+  h4(id="list-item-1") 
 .row
   .col
     .row
@@ -151,44 +159,25 @@ console.log(itemodontograma.value)
       #alerto.alert.alert-danger.alert-dismissible(style='display:none') Cuidado! Este Odontograma tiene hallazgos registrados
         a.close(@click="Cancelar()" href='#' data-dismiss='alert') &times;
       .col
-        h1.my-0.mx-3(style="color: #395D56; font-size: 1.8em; font-family: var(--font-family)") Panel de
+        h2.my-0.mx-3 Panel de
         ul.nav.nav-tabs( id="myTab" role="tablist")
-          h4.ptmr.nav-item( 
-            v-if="itemodontograma?.tipo=='Diagnóstico'"
-            role="presentation" 
-          )
-            .div()
-              button.nav-link( 
-                id="diagnostico-tab" 
-                data-bs-toggle="tab" 
-                data-bs-target="#diagnostico-tab-pane"
-                type="button" 
-                role="tab" 
-                style="color: #37DFBB; font-weight:bold; font-size: 1.6em; font-family: var(--font-family)" 
-               
-              ) Diagnóstico
+          li.nav-item( role="presentation" v-if="itemodontograma?.idRelacionado")
+            button.nav-link( 
+              @click="push({name: 'Detalle', params: {idOdontograma: itemodontograma?.idRelacionado, idPaciente: route.params.idPaciente} })"
+            ) 
+              strong.h2.fw-bold Diagnóstico
+          li.nav-item()
+            button.nav-link(
+              :class='route.params.idOdontograma == itemodontograma?.id ? "active" : "" '
+            ) 
+              strong.h2.fw-bold {{itemodontograma?.tipo}}
 
-          h4.ptmr.nav-item( role="presentation" v-if="itemodontograma?.idsTratamientos")
-            .div(v-for="idTratamientoHermano of itemodontograma?.idsTratamientos")
-              button.nav-link( 
-                id="tratamiento-tab" 
-                data-bs-toggle="tab" 
-                data-bs-target="#tratamiento-tab-pane" 
-                type="button" role="tab" 
-                style="color: #37DFBB; font-weight:bold; font-size: 1.6em; font-family: var(--font-family)" 
-                @click="push({name: 'Detalle', params: {idOdontograma: idTratamientoHermano, idPaciente: route.params.idPaciente} })"
-              ) Tratamiento
-
-          h4.ptmr.nav-item( role="presentation" v-if="itemodontograma?.idDiagnostico")
-            .div(v-for="idTratamientoHermano of getItemEnRegistro(itemodontograma.idDiagnostico).idsTratamientos")
-              button.nav-link( 
-                id="tratamiento-tab" 
-                data-bs-toggle="tab" 
-                data-bs-target="#tratamiento-tab-pane" 
-                type="button" role="tab" 
-                style="color: #37DFBB; font-weight:bold; font-size: 1.6em; font-family: var(--font-family)" 
-                @click="push({name: 'Detalle', params: {idOdontograma: idTratamientoHermano, idPaciente: route.params.idPaciente} })"
-              ) Tratamiento
+          l1.nav-item( role="presentation" )
+            button.nav-link( 
+              v-for="idTratamientoHermano of idRelacionados_(itemodontograma?.id)"
+              @click="push({name: 'Detalle', params: {idOdontograma: idTratamientoHermano, idPaciente: route.params.idPaciente} })"
+            ) 
+              strong.h2.fw-bold Tratamiento
     .row
       .col-2
         button.mb-2.btn(@click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })')
@@ -196,7 +185,7 @@ console.log(itemodontograma.value)
       .col-10
         .left
           .div(v-if="itemodontograma?.tipo === 'Tratamiento'")
-            .div(v-for="item of registroodonto" :key="item.id" :item="item" )
+            .div(v-for="item of registroodonto.filter((elem) => elem.tipo == 'Tratamiento' && elem.idRelacionado ==idDiagnostico_)" :key="item.id" :item="item" )
               .div(v-if="item?.tipo === 'Tratamiento'")
                 button.btn(title='Borrar'  @click="CallConfirm2(item)")
                   ion-icon(name="trash-outline" style="color: var(--color-primary); font-size: 26px;")
@@ -218,36 +207,17 @@ console.log(itemodontograma.value)
         .contenido
           .title Agregar
           .subtitle Datos adicionales
-        ion-icon(name="document-outline").icono  
-    div.opciones(v-if="itemodontograma?.esultimo==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico'")
-      button.outline-quiru.solid( type="button", @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','2',itemodontograma.id ), push({ name: 'pacienteVer', params: { idPaciente: route.params.idPaciente } })")
-        .contenido
+        ion-icon(name="document-outline").icono
+    div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.papa!='Si'" id="holo")
+      a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id ), guardar_()")
+        .contenido()
           .title.light-quiru Crear
           .subtitle.light-quiru Tratamiento
         ion-icon(name="medkit-outline").icono.light-quiru
-    //div.opciones(v-if="itemodontograma.esultimo==='1' || itemodontograma.esultimo==='0'")
-      button.outline-quiru.solid( type="button", @click="push({ name: 'pacienteVer', params: { idPaciente: route.params.idPaciente } })")
-        .contenido
-          .title.light-quiru Ver 
-          .subtitle.light-quiru Tratamiento
-        ion-icon(name="medkit-outline").icono.light-quiru
-    
-    //-div.opciones
-      button.outline-quiru()
-        .contenido
-          .title Agregar
-          .subtitle Precio
-        ion-icon(name="pricetag-outline").icono  
-      //-Hallazgos en tabla
-      //-button.ms-auto.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
-        | Hallazgos
-
 </template>
 
 <style lang="sass" scoped>
-.ptmr
-  display: flex
-  flex-direction: row
+
 
 #id02 
   background-color: rgba(0, 0, 0, 0.6)

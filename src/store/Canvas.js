@@ -1,4 +1,4 @@
-﻿import { listaDeHallazgos } from '../config/Parametros';
+﻿import { listaDeHallazgos, listaDeDientesCombo } from '../config/Parametros';
 export function VerFormato(registro) {
     var canvas = document.getElementById('myCanvas');
     var contexto = canvas.getContext("2d");
@@ -33,7 +33,7 @@ export function VerFormato(registro) {
             dibuja_raiz(context, iniciar_x, medida, inicio_y, colo_cab, "top_duo");
         }
         context.fillStyle = 'blue';
-        SetFinding(context, iniciar_x, inicio_y, medida, entry, registro);
+        //SetFinding(context, iniciar_x, inicio_y, medida, entry, registro);
         iniciar_x = iniciar_x + 24;
     }, this);
     iniciar_x = 2;
@@ -52,7 +52,7 @@ export function VerFormato(registro) {
             }
             dibuja_ControlTop(context, iniciar_x - 12, inicio_y - 75, medida, registro, entry);
             context.fillStyle = 'blue';
-            SetFinding(context, iniciar_x, inicio_y, medida, entry, registro);
+            //SetFinding(context, iniciar_x, inicio_y, medida, entry, registro);
         }
         iniciar_x = iniciar_x + 24;
     }, this);
@@ -73,7 +73,7 @@ export function VerFormato(registro) {
             }
             dibuja_ControlBot(context, iniciar_x - 12, inicio_y + 50, medida, registro, entry);
             context.fillStyle = 'blue';
-            SetFinding(context, iniciar_x, inicio_y, medida, entry, registro);
+            //SetFinding(context, iniciar_x, inicio_y, medida, entry, registro);
         }
         iniciar_x = iniciar_x + 24;
     }, this);
@@ -97,6 +97,51 @@ export function VerFormato(registro) {
             }
             dibuja_ControlBot(context, iniciar_x - 12, inicio_y + 50, medida, registro, entry);
             context.fillStyle = 'blue';
+            //SetFinding(context, iniciar_x, inicio_y, medida, entry, registro);
+        }
+        iniciar_x = iniciar_x + 24;
+    }, this);
+    CallFindinf(context, registro)
+}
+
+export function CallFindinf(context, registro) {
+    context.font = '8pt Calibri';
+    context.textAlign = 'center';
+    context.fillStyle = 'blue';
+    var medida = 21;
+    var iniciar_x = 0;
+    var inicio_y = 0;
+    var x = 0;
+    iniciar_x = 2;
+    var arr = ['18', '17', '16', '15', '14', '13', '12', '11', '21', '22', '23', '24', '25', '26', '27', '28'];
+    arr.forEach(function (entry) {
+        inicio_y = 75;
+        SetFinding(context, iniciar_x, inicio_y, medida, entry, registro);
+        iniciar_x = iniciar_x + 24;
+    }, this);
+    iniciar_x = 2;
+    arr = ['1', '1', '1', '55', '54', '53', '52', '51', '61', '62', '63', '64', '65', '1', '1', '1'];
+    arr.forEach(function (entry) {
+        if (entry != "1") {
+            inicio_y = 180;
+            SetFinding(context, iniciar_x, inicio_y, medida, entry, registro);
+        }
+        iniciar_x = iniciar_x + 24;
+    }, this);
+    iniciar_x = 2;
+    arr = ['1', '1', '1', '85', '84', '83', '82', '81', '71', '72', '73', '74', '75', '1', '1', '1'];
+    arr.forEach(function (entry) {
+        if (entry != "1") {
+            inicio_y = 213;
+            SetFinding(context, iniciar_x, inicio_y, medida, entry, registro);
+        }
+        iniciar_x = iniciar_x + 24;
+    }, this);
+    iniciar_x = 2;
+    arr = ['48', '47', '46', '45', '44', '43', '42', '41', '31', '32', '33', '34', '35', '36', '37', '38'];
+    arr.forEach(function (entry) {
+        if (entry != "1") {
+            inicio_y = 315;
             SetFinding(context, iniciar_x, inicio_y, medida, entry, registro);
         }
         iniciar_x = iniciar_x + 24;
@@ -336,12 +381,7 @@ function dibuja_ControlBot(ctx, inicio_x, inicio_y, med, registro, pieza) {
 }
 function SetFinding(context, iniciar_x, inicio_y, medida, diente, registro) {
     if (registro != undefined) {
-        var number1 = ['18', '17', '16', '15', '14', '13', '12', '11', '21', '22', '23', '24', '25', '26', '27', '28', '55', '54', '53', '52', '51', '61', '62', '63', '64', '65'];
-        const existeDiente1 = number1.filter((x) => x == diente);
-        const Cuadrante1 = (existeDiente1.length > 0) ? 1 : 0
-        var number2 = ['85', '84', '83', '82', '81', '71', '72', '73', '74', '75', '48', '47', '46', '45', '44', '43', '42', '41', '31', '32', '33', '34', '35', '36', '37', '38'];
-        const existeDiente2 = number2.filter((x) => x == diente);
-        const Cuadrante2 = (existeDiente2.length > 0) ? 1 : 0
+        const _dienteSelect = listaDeDientesCombo.filter((elem) => elem.value == diente);
         const Hallazgos = registro.filter((elem) => elem.diente == diente);
         if (Hallazgos.length > 0) {
             Hallazgos.forEach(hzgo => {
@@ -372,18 +412,40 @@ function SetFinding(context, iniciar_x, inicio_y, medida, diente, registro) {
                         dibuja_seccion(context, diente, seccion, hzgoMatriz[0]?.Color, medida, iniciar_x, inicio_y)
                     }
                     else {
-                        if (Cuadrante1 == 1) {
-                            FindingGraphic(context, iniciar_x + hzgoMatriz[0]?.masX, inicio_y + hzgoMatriz[0]?.masY, hzgoMatriz[0]?.ancho, hzgoMatriz[0]?.alto, hzgoMatriz[0]?.Simbolo, hzgoMatriz[0]?.sigla, medida)
+                        var simb = (hzgoMatriz[0]?.Simbolo != "") ? hzgoMatriz[0]?.Simbolo : hzgoMatriz[0]?.SimboloAlterno;
+                        let dienteAlterno = listaDeDientesCombo.filter((elem) => elem.value == hzgo?.dienteAlterno);
+                        let _ancho = hzgoMatriz[0]?.ancho;
+                        if (hzgoMatriz[0]?.Replicable_Intermedio == "NO") {
+                            if (dienteAlterno.length > 0) {
+                               let cantidadDeDientes = (dienteAlterno[0]?.indice - _dienteSelect[0]?.indice) + 1;
+                               console.log(cantidadDeDientes)
+                                _ancho = (_ancho * (cantidadDeDientes - 1)) + 3 * (cantidadDeDientes) ;
+                            }
+                            if (_dienteSelect[0]?.grupo == "G1" || _dienteSelect[0]?.grupo == "G2") {
+
+                                FindingGraphic(context, iniciar_x + hzgoMatriz[0]?.masX, inicio_y + hzgoMatriz[0]?.masY, _ancho, hzgoMatriz[0]?.alto, simb, hzgoMatriz[0]?.sigla, medida)
+                            }
+                            if (_dienteSelect[0]?.grupo == "G3" || _dienteSelect[0]?.grupo == "G4") {
+                                simb = (hzgoMatriz[0]?.SimboloAlterno != "") ? hzgoMatriz[0]?.SimboloAlterno : hzgoMatriz[0]?.Simbolo;
+                                FindingGraphic(context, iniciar_x + hzgoMatriz[0]?.masX, inicio_y - hzgoMatriz[0]?.masY - hzgoMatriz[0]?.PosicionAlt, _ancho, hzgoMatriz[0]?.alto, simb, hzgoMatriz[0]?.sigla, medida)
+                            }
                         }
-                        if (Cuadrante2 == 1) {
-                            var simb = (hzgoMatriz[0]?.SimboloAlterno != "") ? hzgoMatriz[0]?.SimboloAlterno : hzgoMatriz[0]?.Simbolo;
-                            FindingGraphic(context, iniciar_x + hzgoMatriz[0]?.masX, inicio_y - hzgoMatriz[0]?.masY - hzgoMatriz[0]?.PosicionAlt, hzgoMatriz[0]?.ancho, hzgoMatriz[0]?.alto, simb, hzgoMatriz[0]?.sigla, medida)
+                        else {
+                            if (hzgoMatriz[0]?.Replicable_Intermedio == "RE") {
+                                if (_dienteSelect[0]?.grupo == "G1" || _dienteSelect[0]?.grupo == "G2") {
+
+                                    FindingGraphic(context, iniciar_x + hzgoMatriz[0]?.masX, inicio_y + hzgoMatriz[0]?.masY, _ancho, hzgoMatriz[0]?.alto, simb, hzgoMatriz[0]?.sigla, medida)
+                                }
+                                if (_dienteSelect[0]?.grupo == "G3" || _dienteSelect[0]?.grupo == "G4") {
+                                    FindingGraphic(context, iniciar_x + hzgoMatriz[0]?.masX, inicio_y - hzgoMatriz[0]?.masY - hzgoMatriz[0]?.PosicionAlt, _ancho, hzgoMatriz[0]?.alto, simb, hzgoMatriz[0]?.sigla, medida)
+                                }
+                            }
                         }
                     }
-                    if (Cuadrante1 == 1) {
+                    if (_dienteSelect[0]?.grupo == "G1" || _dienteSelect[0]?.grupo == "G2") {
                         FindingText(context, iniciar_x - 12, inicio_y - 71, hzgoMatriz[0]?.sigla, medida, hzgoMatriz[0]?.Color)
                     }
-                    if (Cuadrante2 == 1) {
+                    if (_dienteSelect[0]?.grupo == "G3" || _dienteSelect[0]?.grupo == "G4") {
                         FindingText(context, iniciar_x - 12, inicio_y + 55, hzgoMatriz[0]?.sigla, medida, hzgoMatriz[0]?.Color)
                     }
                 }

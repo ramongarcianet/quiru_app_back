@@ -1,10 +1,10 @@
 <script setup>
-import { onMounted, onUnmounted, watch } from "vue";
+import { onMounted, onUnmounted, watch, computed } from "vue";
 import OdonOficial from "./2.impresion.vue";
 import { limpiarSinVoz } from "../../store/comandosDeVoz";
 import { obtenerTodoDiccionario, obtenerTodoPieza, obtenerTodoHallazgo, obtenerTodoCaries, } from "../../store/odonto";
 import { detenerVoz, activarVoz, isSpeech, escucharInicializarVoz, Hallazgo, item, paginaOdontograma, textoEscuchado, resizeWindow, } from "../../store/odontograma";
-import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarLista, mensajeExistePieza } from '../../store/formodontograma';
+import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarLista, mensajeExistePieza, getItemEnRegistro } from '../../store/formodontograma';
 import { VerFormato } from "../../store/Canvas";
 import { useRoute, useRouter } from "vue-router";
 import { previousPage, nextPage, setList, registro_ as _hallazgos, setListDelete, SetPage } from "../../config/Paginator";
@@ -18,9 +18,7 @@ const listaHallazgo = obtenerTodoHallazgo();
 const listaCaries = obtenerTodoCaries();
 const { push } = useRouter()
 leerEnRegistro(route.params.idOdontograma);
-//console.log(route.params.tipoOdonto)
 const listaDeHallazgos = _Hallazgos.filter(i => i.tipo == route.params.tipoOdonto).map(({ text, value }) => ({ text, value }))
-
 escucharInicializarVoz();
 let temList = [];
 let wakeLock = null;
@@ -113,63 +111,105 @@ watch(
     });
   }
 )
-function AgregarLista1() {
+function AgregarHallazgo() {
   if (comboHallazgo.value != '' && comboPieza.value != '') {
     const hzgoMatriz = _Hallazgos.filter((elem) => elem.value == comboHallazgo.value);
     if (hzgoMatriz.length > 0) {
-      if (hzgoMatriz[0]?.esDirecto == "SI") {
-        item.value.hallazgos.push({ diente: comboPieza.value, hallazgo: comboHallazgo.value, ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "" })
+      if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.Replicable_Intermedio != "RE") {
+        item.value.hallazgos.push({ diente: comboPieza.value, hallazgo: comboHallazgo.value, ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "", dienteAlterno: comboPiezaAl.value })
+      };
+      if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.EsMultiple == "SI" && hzgoMatriz[0]?.Replicable_Intermedio == "RE") {
+        const _dienteSelect = listaDeDientesCombo.filter((elem) => elem.value == comboPieza.value);
+        let dienteAlterno = listaDeDientesCombo.filter((elem) => elem.value == comboPiezaAl.value);
+        let dientesReplicables = listaDeDientesCombo.filter((elem) => elem.grupo == _dienteSelect[0]?.grupo && elem.indice >= _dienteSelect[0]?.indice && elem.indice <= dienteAlterno[0]?.indice);
+        dientesReplicables.forEach(element => {
+          item.value.hallazgos.push({ diente: element.value, hallazgo: comboHallazgo.value, ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "", dienteAlterno: "" })
+        })
       }
     }
   }
   var VistaDiente = document.getElementById("VistaDiente");
+  var PiezaAl = document.getElementById("comboPiezaAl");
+  var spanPiezaAl = document.getElementById("spanPiezaAl");
   VistaDiente.style.display = "none"
+  PiezaAl.style.display = "none"
+  spanPiezaAl.style.display = "none"
   agregarLista(route.params.idOdontograma, item.value);
+}
+function ListaAlterna(seleccionado) {
+  let grupo = listaDeDientesCombo.filter((elem) => elem.value == seleccionado);
+  if (grupo.length == 0) return false;
+  let ListaDientesAlternos = listaDeDientesCombo.filter((elem) => elem.grupo == grupo[0].grupo);
+  let str = "";
+  ListaDientesAlternos.forEach(element => {
+    if (element.indice > grupo[0].indice) {
+      str += '<option value="' + element.value + '" />';
+    }
+  });
+  var my_list = document.getElementById("listaDeDientesAl");
+  my_list.innerHTML = str;
 }
 function VisibleDiente() {
   const hzgoMatriz = _Hallazgos.filter((elem) => elem.value == comboHallazgo.value);
+  var VistaDiente = document.getElementById("VistaDiente");
+  var PiezaAl = document.getElementById("comboPiezaAl");
+  var spanPiezaAl = document.getElementById("spanPiezaAl");
   if (hzgoMatriz.length > 0) {
-    var VistaDiente = document.getElementById("VistaDiente");
     if (hzgoMatriz[0]?.esDirecto == "SI") {
       VistaDiente.style.display = "none"
+      if (hzgoMatriz[0]?.EsMultiple == "SI") {
+        PiezaAl.style.display = "block";
+        spanPiezaAl.style.display = "block"
+      }
+      else {
+        PiezaAl.style.display = "none";
+        spanPiezaAl.style.display = "none"
+      }
     }
     else {
       VistaDiente.style.display = "block"
     }
   }
+  else {
+    PiezaAl.style.display = "none";
+    spanPiezaAl.style.display = "none"
+  }
 }
+const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelacionados))
 </script>
 
 <template lang="pug">
-
-.row
+.row(:hidden="itemodontograma?.estado === '1' && !itemodontograma.idRelacionado")
   p {{ textoEscuchado }}
-.contenedor
+.contenedor(:hidden="itemodontograma?.estado === '1' && !itemodontograma.idRelacionado")
   .anim(v-if='isSpeech')
   .microfono( @click="isSpeech ? detenerVoz() : activarVoz()" )
     ion-icon.icono(name="mic" )
 
 //-Input sin micrófono
 .row.mt-3
-  .col
+  .col(:hidden="itemodontograma?.estado === '1' && !itemodontograma.idRelacionado")
     .row
       .col.d-flex(v-if="!isSpeech").inputs-manual
         input#tipoReg(type="hidden", value="0")
         span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;") Pieza :
-          input.form-control#comboPieza(list='listaDeDientes', name='comboPieza', v-model='item.diente')
+          input.form-control#comboPieza(list='listaDeDientes', name='comboPieza', v-model='item.diente', v-on:change="ListaAlterna(item.diente)")
           datalist#listaDeDientes
             option(v-for='{ text, value } of listaDeDientesCombo' :value="value")
+          span#spanPiezaAl(style="display: none;") a la pieza :
+          input.form-control#comboPiezaAl(style="display: none;",list='listaDeDientesAl', name='comboPieza', v-model='item.dienteAlterno')
+          datalist#listaDeDientesAl
         span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;") Hallazgo :
           input.form-control#comboHallazgo(list='listaDeHallazgos', name='comboHallazgo', v-model='Hallazgo', v-on:change="VisibleDiente()")
           datalist#listaDeHallazgos
             option(v-for='{ text, value } of listaDeHallazgos' :value="value") {{text}}
-            
+
     .row#VistaDiente(style="display: none;")
       .col.d-flex.justify-content-center
         Diente(:item='item' style='--size: 12rem;').raiz-0
     .row.mt-2(v-if="!isSpeech")
       .col.d-flex.justify-content-center
-        button.btn.btn-primary.m-1(type="submit", @click="AgregarLista1" style="width: 7rem;") Agregar
+        button.btn.btn-primary.m-1(type="submit", @click="AgregarHallazgo" style="width: 7rem;") Agregar
         button.btn.btn-primary.m-1(type="submit", @click="limpiarHallazgoDiente()" style="width: 7rem;") Limpiar
     .row.mt-2(v-if="!isSpeech")
     #mensaje.alert.alert-danger(style='display:none')
@@ -190,11 +230,11 @@ function VisibleDiente() {
           tbody
             tr(v-for="item of _hallazgos")
               td {{ item.fila }}
-              td {{ item.diente }}
+              td {{ item.diente }} {{ item.dienteAlterno !=""? " - " + item.dienteAlterno : ""}}
               td {{ item.hallazgo }} {{ item.ubicacion }}
               td {{ item.sigla }}
               td
-                BotonSeguro( :onSuccess= '() => borrar(item)' )
+                BotonSeguro.mt-0( :onSuccess= '() => borrar(item)' :hidden="itemodontograma?.estado === '1' && !itemodontograma.idRelacionado")
                   i.fa.fa-trash-o(aria-hidden='true')
         .div(v-if="itemodontograma?.hallazgos?.length > 8",style="text-align: center;")
           nav.d-flex.justify-content-center(aria-label='Page navigation example')

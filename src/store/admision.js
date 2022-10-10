@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import {addDoc, collection, onSnapshot, getDoc, getFirestore, doc, updateDoc, deleteDoc, query, where} from 'firebase/firestore'
+import {addDoc, collection, onSnapshot, getDoc,getDocs, getFirestore, doc, updateDoc, deleteDoc, query, where} from 'firebase/firestore'
 import {firestore} from '../config/firebase'
 import { miUsuario } from './sesion';
 import {useRouter} from 'vue-router'
@@ -52,7 +52,11 @@ const leer = id => {
 const leerEnRegistro = id => {
     return item.value = registro.value.find( item  => item.id == id )
 }
-
+export const obtenerPacienteAdmision = (idPaciente)=> new Promise(resolve=>{
+    const referencia = collection(firestore, 'admision')
+    return getDocs(query(referencia, where("idPaciente", "==", idPaciente)))
+        .then(coleccion => resolve(coleccion.docs.map( doc => doc.data())))
+})
 const limpiar = () => {
     item.value = {
         tipoDocumento: 'DNI',

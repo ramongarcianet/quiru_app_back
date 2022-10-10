@@ -52,6 +52,12 @@ function incompleto() {
 Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => limpiar()' :onError='incompleto()')
   .row
     .col-md-6
+      label.form-label Ocupación
+      .input.mb-2
+        input.form-control(placeholder="Ocupación", v-model="item.ocupacion")
+      label.form-label Número de emergencia
+      .input.mb-2
+        input.form-control(placeholder="Número de emergencía", v-model="item.numeroEmergencia")
       label.form-label Antecedentes
       .input.mb-2
         input.form-control(placeholder="Antecedentes familiares", v-model="item.antecedentesFam")
@@ -73,6 +79,9 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => limpiar()' :onEr
           .input.mb-2
             input.form-control(placeholder="F.Resp.", v-model="item.fResp")
     .col-md-6
+      label.form-label Procedencia
+      .input.mb-2
+        input.form-control(placeholder="Procedencia", v-model="item.procedencia")
       .col.mb-2
         label.form-label Motivo de consulta
         .input-group
@@ -87,22 +96,25 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => limpiar()' :onEr
           input.form-control(placeholder="Signos y síntomas principales", v-model="item.signosYSintomas")
         .input.mb-2
           input.form-control(placeholder="Relato cronológico", v-model="item.relatoCronologico")
-    .col.mb-2
-      label.form-label Exámen clínico general
-      select.form-select(placeholder="Exámen clínico general", v-model="item.examClinicoGeneral")
-        option(value="S") SI
-        option(value="N") NO
-    .col.mb-2
-      label.form-label Exámen clínico odontoestomatológico
-      select.form-select(placeholder="Exámen clínico odontoestomatológico", v-model="item.examClinicoOdonto")
-        option(value="S") SI
-        option(value="N") NO
-      //label.form-label Exámen clínico odontoestomatológico
-      //input.form-control(placeholder="Exámen clínico odontoestomatológico", v-model="item.examClinicoOdonto")
-      //.div(class="form-check")Exámen clínico general
-        label(class="form-check-label" for="flexCheckDefault")
-          Default Exámen clínico odontoestomatológico
-        input(class="form-check-input" type="checkbox" value="" id="flexCheckDefault")
+        .input.mb-2
+          input.form-control(placeholder="Funciones biológicas", v-model="item.funcionesBio")
+    .col-6
+      .row
+        .col.mb-2
+          label.form-label Exámen clínico general
+          select.form-select(placeholder="Exámen clínico general", v-model="item.examClinicoGeneral")
+            option(value="S") SI
+            option(value="N") NO
+        .col.mb-2
+          label.form-label Exámen odontoestomatológico
+          select.form-select(placeholder="Exámen clínico odontoestomatológico", v-model="item.examClinicoOdonto")
+            option(value="S") SI
+            option(value="N") NO
+    .col-6
+      label.form-label Viajes de los últimos años
+      .input-group
+        input.form-control(placeholder="Motivo de consulta", v-model="item.viajesUltimos")
+
   .col-12.col-md-4.mx-auto.mt-3
     button#btguardar.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(
       type='submit', disabled style="border-radius: 50px"
