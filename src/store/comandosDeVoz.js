@@ -1,5 +1,5 @@
 import { item, verOdontograma, detenerVoz, activarVoz, speak, flagLimpiar } from './odontograma'
-import { listaDeTipos, listaDeHallazgos } from '../config/Parametros';
+import { listaDeTipos, listaDeHallazgos, listaDeDientesCombo } from '../config/Parametros';
 import { item as itemodontograma, actualizarDetalle, existeDiente, agregarLista } from './formodontograma';
 import escenarios from '../config/Escenarios.json';
 const seleccionarHallazgo = hallazgo => actualizarItem(hallazgo, false, false)
@@ -39,16 +39,38 @@ const agradecer = () => speak('Encantada de ayudarte')
 const mellamo = () => speak(`Yo soy Quiru, encantada de conocerte.`)
 const cambiarVista = () => verOdontograma.value = !verOdontograma.value
 
-const seleccionMultiple = (num1, num2, hallazgo, ubicacion) => {
-    const num1_ = num1 < 10 ? num1 * 10 : num1
-    const num2_ = num2 < 10 ? num2 * 10 : num2
-    const condicion = num1_ > num2_ ? num1_ : num2_
-    const inicio = num1_ > num2_ ? num2_ : num1_
-    for (let i = inicio; i <= condicion; i++) {
-        actualizarItem(hallazgo, ubicacion, i, false)
+
+const seleccionMultiple = (num1, num2, hallazgo) => {
+    const num1_ = Math.abs(num1) < 10 ? Math.abs(num1) * 10 : Math.abs(num1)
+    const num2_ = Math.abs(num2) < 10 ? Math.abs(num2) * 10 : Math.abs(num2)
+    const hzgoMatriz = listaDeHallazgos.filter((elem) =>
+        elem.value.toLowerCase().includes(hallazgo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")),
+    );
+    if (hzgoMatriz.length > 0) {
+        let _hallazgo = hzgoMatriz[0]?.value;
+        if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.EsMultiple == "SI" && hzgoMatriz[0]?.Replicable_Intermedio != "RE") {
+            item.value.hallazgos.push({ diente: num1_, hallazgo: _hallazgo, ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "", dienteAlterno: num2_ })
+        };
+        if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.EsMultiple == "SI" && hzgoMatriz[0]?.Replicable_Intermedio == "RE") {
+            let _dienteSelect1 = listaDeDientesCombo.filter((elem) => elem.value == num1_);
+            let _dienteSelect2 = listaDeDientesCombo.filter((elem) => elem.value == num2_);
+            if (_dienteSelect1.length > 0 && _dienteSelect2.length > 0) {
+                let indice1 = (_dienteSelect1[0]?.indice > _dienteSelect2[0]?.indice) ? _dienteSelect2[0]?.indice : _dienteSelect1[0]?.indice;
+                let indice2 = (_dienteSelect2[0]?.indice > _dienteSelect1[0]?.indice) ? _dienteSelect2[0]?.indice : _dienteSelect1[0]?.indice;
+
+                let dientesReplicables = listaDeDientesCombo.filter((elem) => elem.grupo == _dienteSelect1[0]?.grupo &&
+                    elem.indice >= indice1 && elem.indice <= indice2);
+                dientesReplicables.forEach(element => {
+                    item.value.hallazgos.push({ diente: element.value, hallazgo: _hallazgo, ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "", dienteAlterno: "" })
+                })
+            }
+        }
+        item.diente = num1_;
+        item.value.diente = num1_;
+        agregarLista(itemodontograma.value.id, item.value);
     }
-    speak(`${hallazgo} de ${num1} al ${num2}`)
 }
+
 export const limpiar = () => {
     item.value = {
         diente: '',
@@ -430,10 +452,8 @@ listaDeDientes_?.map(num => {
     listaDeComandosDeDientes[`${num} extracción`] = () => actualizarItem('extracción', false, String(num))
 
 
-    /*
-        listaDeComandosDeDientes[`${num} (a) (la) (ala) (al) :num2 :hallazgo`] = listaDeFuncionesPorDiente[`${num}num2Hallazgo`] = (num2, hallazgo) => seleccionMultiple(num, num2, hallazgo, false)
-       listaDeComandosDeDientes[`${num} (a) (la) (al) :num2 :hallazgo *ubicacion`] = listaDeFuncionesPorDiente[`${num}num2HallazgoUbicacion`] = (num2, hallazgo, ubicacion) => seleccionMultiple(num, num2, hallazgo, ubicacion)
-    */
+    listaDeComandosDeDientes[`${num} (a) (la) (ala) (al) :num2 :ortodóntico fijo en buen estado`] = (num2, hallazgo) => seleccionMultiple(num, num2, 'Ortodontico_Fijo_good')
+    listaDeComandosDeDientes[`${num} (a) (la) (ala) (al) :num2 :ortodóntico fijo en mal estado`] = (num2, hallazgo) => seleccionMultiple(num, num2, 'Ortodontico_Fijo_bad')
 
 })
 
@@ -498,13 +518,12 @@ export default {
         'regresar': cambiarVista,
         'cambiar': cambiarVista,
         ...listaDeComandosDeDientes,
-        //[`de (la) :num1 ${prefijosMultiples} :num2 :hallazgo`] : seleccionMultiple,
         'de (la) :num1 (a) (la) (ala) (al) :num2 :hallazgo': seleccionMultiple,
         'de (la) :num1 (a) (la) (ala) :num2 :hallazgo': seleccionMultiple,
         'del :num1 (a) (la) (ala) (al) :num2 :hallazgo': seleccionMultiple,
-        'de (la) :num1 (a la) (al) :num2 :hallazgo *ubicacion': seleccionMultiple,
-        'de (la) :num1 (a) (la) (ala) (al) :num2 :hallazgo *ubicacion': seleccionMultiple,
-        'del :num1 (a) (la) (ala) (al) :num2 :hallazgo *ubicacion': seleccionMultiple,
+        'de (la) :num1 (a la) (al) :num2 :hallazgo': seleccionMultiple,
+        'de (la) :num1 (a) (la) (ala) (al) :num2 :hallazgo': seleccionMultiple,
+        'del :num1 (a) (la) (ala) (al) :num2 :hallazgo': seleccionMultiple,
     },
     gramatica: '#JSGF V1.0; grammar colors; public <color> = ' + opcionesDeComandosDeVoz.join(' | ') + ' ;',
     saludar,
