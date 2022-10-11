@@ -451,7 +451,6 @@ listaDeDientes_?.map(num => {
 
     listaDeComandosDeDientes[`${num} extracción`] = () => actualizarItem('extracción', false, String(num))
 
-
     listaDeComandosDeDientes[`${num} (a) (la) (ala) (al) :num2 :ortodóntico fijo en buen estado`] = (num2, hallazgo) => seleccionMultiple(num, num2, 'Ortodontico_Fijo_good')
     listaDeComandosDeDientes[`${num} (a) (la) (ala) (al) :num2 :ortodóntico fijo en mal estado`] = (num2, hallazgo) => seleccionMultiple(num, num2, 'Ortodontico_Fijo_bad')
 
