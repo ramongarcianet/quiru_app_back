@@ -177,6 +177,7 @@ const idDiagnostico_ = itemodontograma?.value.id;
       .col-10
         .left
           .div(v-if="itemodontograma?.tipo === 'Tratamiento'")
+            p {{itemodontograma?.tipo}}
             .div(v-for="item of registroodonto.filter((elem) => elem.tipo == 'Tratamiento' && elem.idRelacionado ==idDiagnostico_)" :key="item.id" :item="item" )
               .div(v-if="item?.tipo === 'Tratamiento'")
                 button.btn(title='Borrar'  @click="CallConfirm2(item)")
