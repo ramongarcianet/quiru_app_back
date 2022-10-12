@@ -26,11 +26,6 @@ const guardar = (idPaciente, tipo, papa, idRelacionado) => new Promise((resolve,
         if (item.papa === 'No')
             actualizarPapa(item.id, 'Si');
     }
-    for (const item of registroodonto.value) {
-        if (tipo === 'Diagnóstico') {
-            actualizarestado(item.id, '1');
-        }
-    }
     const fila = {
         tipo: tipo,
         especificaciones: '',
@@ -39,7 +34,6 @@ const guardar = (idPaciente, tipo, papa, idRelacionado) => new Promise((resolve,
         fechaRegistro: new Date(),
         idPaciente,
         userId: miUsuario()?.uid,
-        estado: (tipo == "Diagnóstico") ? "2" : "1",
         papa: papa,
         order: registroodonto.value.length + 1,
     }
@@ -64,14 +58,8 @@ const guardar = (idPaciente, tipo, papa, idRelacionado) => new Promise((resolve,
 
 })
 
-export const actualizarestado = (id, estado) => {
-    var itemUpd = {
-        id: id,
-        estado: estado
-    }
-    const referencia = doc(firestore, 'odontograma', id)
-    return updateDoc(referencia, itemUpd)
-}
+//export const actualizarestado = (id, estado) => updateDoc(doc(firestore, 'odontograma', id), {estado})
+
 export const actualizarPapa = (id, papa) => {
     var itemUpd = {
         id: id,
@@ -180,11 +168,11 @@ const borrarDeLaColeccion = () => {
 const eliminar = (id) => {
    const diagnosticos =registroodonto.value.filter((elem) => elem.tipo == "Diagnóstico" && elem.id !=id);
     let maxValueOfOrder = Math.max(...diagnosticos.map(o => o.order));
-    for (const item of diagnosticos) {
-        if (maxValueOfOrder === item.order) {
-            actualizarestado(item.id, '2');
-        }
-    }
+    //for (const item of diagnosticos) {
+        //if (maxValueOfOrder === item.order) {
+        //    actualizarestado(item.id, '2');
+        //}
+    //}
 
     const referencia = doc(firestore, 'odontograma', id)
     return deleteDoc(referencia)
@@ -203,11 +191,13 @@ const obtenerTodos = (idPaciente) => {
         referencia,
         collection => {
             let r = collection.docs.map(doc => ({ ...doc.data(), id: doc.id }))
-            r = r.map(item => {
+            r = r.map((item, index) => {
                 return ({
-                    ...item, idRelacionados: r.filter(item_ => {
+                    ...item, 
+                    idRelacionados: r.filter(item_ => {
                         return item_.idRelacionado == item.id
-                    })?.map(_item => _item.id) || []
+                    })?.map(_item => _item.id) || [],
+                    estado: index == 0 || (index == 1 && item.tipo=="Diagnóstico" && r[0].tipo == "Tratamiento") ? '2' : '1'
                 })
             })
             registroodonto.value = r
