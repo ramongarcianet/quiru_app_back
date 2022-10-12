@@ -4,7 +4,7 @@ import OdonOficial from "./2.impresion.vue";
 import { limpiarSinVoz } from "../../store/comandosDeVoz";
 import { obtenerTodoDiccionario, obtenerTodoPieza, obtenerTodoHallazgo, obtenerTodoCaries, } from "../../store/odonto";
 import { detenerVoz, activarVoz, isSpeech, escucharInicializarVoz, Hallazgo, item, paginaOdontograma, textoEscuchado, resizeWindow, } from "../../store/odontograma";
-import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarLista, mensajeExistePieza, getItemEnRegistro } from '../../store/formodontograma';
+import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarLista, mensajeExistePieza, getItemEnRegistro, validaDoble } from '../../store/formodontograma';
 import { VerFormato } from "../../store/Canvas";
 import { useRoute, useRouter } from "vue-router";
 import { previousPage, nextPage, setList, registro_ as _hallazgos, setListDelete, SetPage } from "../../config/Paginator";
@@ -116,6 +116,11 @@ function AgregarHallazgo() {
     const hzgoMatriz = _Hallazgos.filter((elem) => elem.value == comboHallazgo.value);
     if (hzgoMatriz.length > 0) {
       if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.Replicable_Intermedio != "RE") {
+        let fila = { diente: comboPieza.value, hallazgo: comboHallazgo.value, ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "", dienteAlterno: comboPiezaAl.value }
+        if (!validaDoble(fila)) {
+          mensajeExistePieza.value = 'No se puede registrar este hallazgo para más de 2 dientes'
+          return false
+        }
         item.value.hallazgos.push({ diente: comboPieza.value, hallazgo: comboHallazgo.value, ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "", dienteAlterno: comboPiezaAl.value })
       };
       if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.EsMultiple == "SI" && hzgoMatriz[0]?.Replicable_Intermedio == "RE") {
@@ -134,6 +139,7 @@ function AgregarHallazgo() {
   VistaDiente.style.display = "none"
   PiezaAl.style.display = "none"
   spanPiezaAl.style.display = "none"
+
   agregarLista(route.params.idOdontograma, item.value);
 }
 function ListaAlterna(seleccionado) {
