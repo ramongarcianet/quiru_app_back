@@ -1,6 +1,6 @@
 <script setup>
 import Formulario from "./Formulario.vue";
-import {registroodonto, guardar as guardarOdontograma, actualizarestado, getItemEnRegistro} from "../../store/formodontograma";
+import {registroodonto, guardar as guardarOdontograma, getItemEnRegistro} from "../../store/formodontograma";
 import { item as itemPas, leer } from "../../store/paciente";
 import "../../config/html2canvas";
 import { useRoute, useRouter } from "vue-router";
@@ -128,6 +128,12 @@ function Cancelar() {
         modal.style.display = 'none';
         alerta.style.display = "none";
 }
+function guardar_() {
+  var hol = document.getElementById("holo");
+    hol.style.display = "none";
+
+}
+
 const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelacionados))
 const idDiagnostico_ = itemodontograma?.value.id;
 </script>
@@ -176,11 +182,8 @@ const idDiagnostico_ = itemodontograma?.value.id;
           ion-icon(name="return-down-back-outline" style="color: var(--color-primary); font-size: 40px" )
       .col-10
         .left
-          .div(v-if="itemodontograma?.tipo === 'Tratamiento'")
-            .div(v-for="item of registroodonto.filter((elem) => elem.tipo == 'Tratamiento' && elem.idRelacionado ==idDiagnostico_)" :key="item.id" :item="item" )
-              .div(v-if="item?.tipo === 'Tratamiento'")
-                button.btn(title='Borrar'  @click="CallConfirm2(item)")
-                  ion-icon(name="trash-outline" style="color: var(--color-primary); font-size: 26px;")
+          button.btn(v-if="itemodontograma?.tipo === 'Tratamiento'" title='Borrar'  @click="CallConfirm2(itemodontograma)")
+            ion-icon(name="trash-outline" style="color: var(--color-primary); font-size: 26px;")
           button.btn(title='Imprimir' @click="printOdontograma()")
             ion-icon(name="print-outline" style="color: var(--color-primary); font-size: 26px;")
           button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
@@ -200,8 +203,8 @@ const idDiagnostico_ = itemodontograma?.value.id;
           .title Agregar
           .subtitle Datos adicionales
         ion-icon(name="document-outline").icono
-    div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.papa!='Si'")
-      a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id )")
+    div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.papa!='Si'" id="holo")
+      a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id ), guardar_()")
         .contenido
           .title.light-quiru Crear
           .subtitle.light-quiru Tratamiento
