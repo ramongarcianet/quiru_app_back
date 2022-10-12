@@ -35,19 +35,19 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                 let examenClinicoEstoma1 = ''
                 let examenClinicoEstoma2 = ''
                 if (admision.length > 0) {
-                    motivoConsulta = '----';//pacienteAdmision.motivoCOnsulta
+                    motivoConsulta = pacienteAdmision.motivoConsulta;
                     motivoConsulta1 = motivoConsulta.substring(0, 99)
                     motivoConsulta2 = motivoConsulta.substring(99, motivoConsulta.length)
 
-                    enfermedadActual = '--';//pacienteAdmision.enfermedadActual
+                    enfermedadActual = pacienteAdmision.enfermedadActual;
                     enfermedadActual1 = enfermedadActual.substring(0, 99)
                     enfermedadActual2 = enfermedadActual.substring(99, enfermedadActual.length)
 
-                    examenClinicoGene = '--';//pacienteAdmision.examenClinicoGeneral
+                    examenClinicoGene = pacienteAdmision.examClinicoGeneral;
                     examenClinicoGene1 = examenClinicoGene.substring(0, 99)
                     examenClinicoGene2 = examenClinicoGene.substring(99, examenClinicoGene.length)
 
-                    examenClinicoEstoma = '--';//pacienteAdmision.examenClinicoEstoma
+                    examenClinicoEstoma = ' ';//pacienteAdmision.examenClinicoEstoma
                     examenClinicoEstoma1 = examenClinicoEstoma.substring(0, 99)
                     examenClinicoEstoma2 = examenClinicoEstoma.substring(99, examenClinicoEstoma.length)
                 }
@@ -65,7 +65,7 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         pdf.text(10, 50, 'FILIACIÓN');
                         pdf.setFont(undefined, 'normal')
                         pdf.setFontSize(12);
-                        pdf.text(10, 57, pad('Nombres del paciente : ' + itemPas.value.nombre + ' ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno, 90, ' ') + pad('Edad : ' + '', 15, ' ') + pad('Sexo : ' + itemPas.value.sexo, 15, ' '));//itemPas.value.edad
+                        pdf.text(10, 57, pad('Nombres del paciente : ' + itemPas.value.nombre + ' ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno, 90, ' ') + pad('Edad : ' + getEdad(itemPas.value.fechaNacimiento), 15, ' ') + pad('Sexo : ' + itemPas.value.sexo, 15, ' '));
                         pdf.text(10, 64, pad('Fecha de nacimiento : ' + itemPas.value.fechaNacimiento, 80, ' '));
                         pdf.text(10, 71, pad('Dirección : ' + itemPas.value.Direccion, 100, ' '));
                         pdf.text(10, 78, pad('Procedencia : ' + '', 60, ' ') + pad('Ocupación : ' + '', 60, ' '));//itemPas.value.prcedencia,itemPas.value.ocupacion
@@ -87,10 +87,10 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         pdf.text(10, 140, pad(enfermedadActual1, 120, ' '));
                         pdf.text(10, 147, pad(enfermedadActual2, 120, ' '));
                         if (admision.length > 0) {
-                            pdf.text(10, 154, pad('Tiempo de enfermedad : ' + '---------------------', 90, ' ')); //pacienteAdmision.tiempoEnfermedad
-                            pdf.text(10, 161, pad('Signos y sintómas principales : ' + '---------------------', 90, ' '));//pacienteAdmision.signosSintomas
-                            pdf.text(10, 168, pad('Relato cronológico : ' + '---------------------', 90, ' '));//pacienteAdmision.relatoCronologico
-                            pdf.text(10, 175, pad('Funciones biológicas : ' + '---------------------', 90, ' '));//pacienteAdmision.funcionesBiologicas    
+                            pdf.text(10, 154, pad('Tiempo de enfermedad : ' + pacienteAdmision.tiempoEnfermedad, 90, ' '));
+                            pdf.text(10, 161, pad('Signos y sintómas principales : ' + pacienteAdmision.signosYSintomas, 90, ' '));
+                            pdf.text(10, 168, pad('Relato cronológico : ' + pacienteAdmision.relatoCronologico, 90, ' '));
+                            pdf.text(10, 175, pad('Funciones biológicas : ' + ' ', 90, ' '));//pacienteAdmision.funcionesBiologicas    
                         } else {
                             pdf.text(10, 154, pad('Tiempo de enfermedad : ' + '', 90, ' '));
                             pdf.text(10, 161, pad('Signos y sintómas principales : ' + '', 90, ' '));
@@ -103,8 +103,7 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         pdf.setFont(undefined, 'normal')
                         pdf.setFontSize(12);
                         if (admision.length > 0) {
-                            pdf.text(10, 192, pad('Signos Vitales. P.A. : ' + '-------', 35, ' ') + pad('Pulso : ' + '-------', 25, ' ') + pad('Temp : ' + '-------', 25, ' ') + pad('F.C. : ' + '-------', 20, ' ') + pad('F.Resp. : ' + '-------', 20, ' '));
-                            //pacienteAdmision.signosVitales,pacienteAdmision.pulso,pacienteAdmision.temperatura,pacienteAdmision.fc,pacienteAdmision.fResp
+                            pdf.text(10, 192, pad('Signos Vitales. P.A. : ' + pacienteAdmision.pa, 35, ' ') + pad('Pulso : ' + pacienteAdmision.pulso, 25, ' ') + pad('Temp : ' + pacienteAdmision.temperatura, 25, ' ') + pad('F.C. : ' + pacienteAdmision.fc, 20, ' ') + pad('F.Resp. : ' + pacienteAdmision.fResp, 20, ' '));
                         } else {
                             pdf.text(10, 192, pad('Signos Vitales. P.A. : ' + '', 35, ' ') + pad('Pulso : ' + '', 25, ' ') + pad('Temp : ' + '', 25, ' ') + pad('F.C. : ' + '', 20, ' ') + pad('F.Resp. : ' + '', 20, ' '));
                         }
@@ -198,3 +197,13 @@ function padLeadingZeros(num, size) {
     while (s.length < size) s = "0" + s;
     return s;
 }
+function getEdad(dateString) {
+    let hoy = new Date()
+    let fechaNacimiento = new Date(dateString)
+    let edad = hoy.getFullYear() - fechaNacimiento.getFullYear()
+    let diferenciaMeses = hoy.getMonth() - fechaNacimiento.getMonth()
+    if (diferenciaMeses < 0 || (diferenciaMeses === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
+      edad--
+    }
+    return edad
+  }
