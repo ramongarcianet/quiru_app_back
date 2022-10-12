@@ -3,7 +3,7 @@ import { ref, computed } from 'vue';
 import { addDoc, collection, onSnapshot, getDoc,getDocs, doc, updateDoc, deleteDoc, query, where, arrayUnion, orderBy } from 'firebase/firestore'
 import { firestore } from '../config/firebase'
 import { miUsuario } from './sesion';
-import { listaDeHallazgos } from '../config/Parametros'
+import { listaDeHallazgos, listaDeDientesCombo } from '../config/Parametros'
 import { isSpeech, speak } from './odontograma'
 import escenarios from '../config/Escenarios.json';
 const dialog = ref(false)
@@ -145,10 +145,34 @@ export function agregarLista(id, param) {
                 }
             }
         });
+        if(!validaDoble()){
+             if (isSpeech.value)
+                        speak('pieza ' + diente + ' No se puede registrar este hallazgo para más de 2 dientes')
+                    else
+                        mensajeExistePieza.value = 'No se puede registrar este hallazgo para más de 2 dientes ' 
+                    result = true;
+            return false 
+        }
         actualizarDetalle(id, item.value.hallazgos)
+        
     }
 }
-
+const  validaDoble = (item) => {
+    const hzgoMatriz = _Hallazgos.filter((elem) => elem.value == item.hallazgo);
+    if (hzgoMatriz.length > 0) {
+        if (hzgoMatriz[0]?.esDirecto == "SI" &&  hzgoMatriz[0]?.EsMultiple == "SI" && hzgoMatriz[0]?.DobleD == "DD"){
+    let _dienteSelect1 = listaDeDientesCombo.filter((elem) => elem.value == item.diente);
+    let _dienteSelect2 = listaDeDientesCombo.filter((elem) => elem.value == item.dienteAlterno);
+    if (_dienteSelect1.length > 0 && _dienteSelect2.length > 0) {
+        let indice1 = (_dienteSelect1[0]?.indice > _dienteSelect2[0]?.indice) ? _dienteSelect2[0]?.indice : _dienteSelect1[0]?.indice;
+        let indice2 = (_dienteSelect2[0]?.indice > _dienteSelect1[0]?.indice) ? _dienteSelect2[0]?.indice : _dienteSelect1[0]?.indice;
+        let diferencia = indice1 - indice2 
+        if (diferencia > 1 ) {
+            return false
+        }
+    }}}
+    return true
+}
 export const actualizarDetalle = (id, Hallazgos) => {
     let hallazgosOrder = Hallazgos.sort(function (a, b) {
         //console.log(b.fechaHallazgo-a.fechaHallazgo)
