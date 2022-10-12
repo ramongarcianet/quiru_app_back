@@ -179,16 +179,16 @@ const idRelacionados_ = computed((() => id => getItemEnRegistro(id)?.idRelaciona
 </script>
 
 <template lang="pug">
-.row(:hidden="itemodontograma?.estado === '1' && !itemodontograma.idRelacionado")
+.row(:hidden="itemodontograma?.estado === '1'")
   p {{ textoEscuchado }}
-.contenedor(:hidden="itemodontograma?.estado === '1' && !itemodontograma.idRelacionado")
+.contenedor(:hidden="itemodontograma?.estado === '1' ")
   .anim(v-if='isSpeech')
   .microfono( @click="isSpeech ? detenerVoz() : activarVoz()" )
     ion-icon.icono(name="mic" )
 
 //-Input sin micrófono
 .row.mt-3
-  .col(:hidden="itemodontograma?.estado === '1' && !itemodontograma.idRelacionado")
+  .col(:hidden="itemodontograma?.estado === '1'")
     .row
       .col.d-flex(v-if="!isSpeech").inputs-manual
         input#tipoReg(type="hidden", value="0")
