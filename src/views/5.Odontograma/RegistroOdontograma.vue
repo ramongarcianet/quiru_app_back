@@ -74,11 +74,13 @@ template(v-for="item of registroodonto" :key="item.id" :item="item" )
   .card.mb-2.p-3(v-if="item.tipo === 'Diagnóstico'" style="border-radius: 40px" )
     .row(style="cursor: pointer" )
       .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") {{item.fechaRegistro.toDate().toISOString().slice(0, 10)}}
-      .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")  {{item.tipo}}
-
+      //--------------------------------------------------------------------------------------------------------------------------------------------- Pc
+      .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")  {{item.tipo}} 
+      //--------------------------------------------------------------------------------------------------------------------------------------------- Móvil
       .col-6.d-block.d-md-none(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")  {{item.fechaRegistro.toDate().toISOString().slice(0, 10)}} {{item.tipo}}
-      .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: obtenerIdTratamiento(item.id),idPaciente: item.idPaciente, tipoOdonto: obtenerTipo(item.id)} })") {{(obtenerTipo(item.id) == "Diagnóstico" )? "" : "Tratamiento"}}
-      
+      //--------------------------------------------------------------------------------------------------------------------------------------------- Alternativa
+      .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: obtenerIdTratamiento(item.id),idPaciente: item.idPaciente, tipoOdonto: obtenerTipo(item.id)} })") {{(obtenerTipo(item.id) == "Diagnóstico" )? "" : "Tratamiento"}} 
+      //------------------------------------------------------------------------------------------------------------------------------------ Muela
       .col-2.col-md-1(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") 
         button.ms-auto.btn
           i.fa.fa-solid.fa-tooth

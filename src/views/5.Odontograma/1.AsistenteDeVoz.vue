@@ -9,6 +9,7 @@ import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma, eliminar
 import jsPDF from 'jsPDF'
 import Instrucciones from "./../8.Ayuda/instrucciones.vue";
 import { watch, ref, computed } from "vue";
+import MicroButtonVue from "../../components/MicroButton.vue";
 const myModal = document.getElementById('myModal')
 const myInput = document.getElementById('myInput')
 const route = useRoute()
@@ -136,6 +137,13 @@ function guardar_() {
 
 const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelacionados))
 const idDiagnostico_ = itemodontograma?.value.id;
+
+function guardar_() {
+  //guardarOdontograma(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id );
+  var hol = document.getElementById("holo");
+    hol.style.display = "none";
+
+}
 </script>
 
 <template lang="pug">
