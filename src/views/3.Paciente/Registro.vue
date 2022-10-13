@@ -45,13 +45,13 @@ function printHistoriaClinica(idPaciente) {
                     i.fa.fa-solid.fa-tooth
             .col-10 {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }}
 
-    .card.mb-2.p-2.d-none.d-md-block(v-for="item of registro_"  :key="item.id"  :item="item" style="border-radius: 40px")
+    .card.mb-2.p-2.d-none.d-md-block(v-for="item of registro_"  :key="item.id"  :item="item" style="border-radius: 40px" )
         .row.align-items-center.p-1(style="cursor: pointer")
-            .col.ps-3 {{item.tipoDocumento}}
-            .col-2 {{ item.numeroDocumento }}
-            .col-3 {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }} 
-            .col-2 {{item.telefono}}
-            .col-2 {{item.email}}
+            .col.ps-3(@click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })") {{item.tipoDocumento}}
+            .col-2(@click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })") {{ item.numeroDocumento }}
+            .col-3(@click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })") {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }} 
+            .col-2(@click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })") {{item.telefono}}
+            .col-2(@click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })") {{item.email}}
             .col-1.dropdown
                 button.ms-auto.btn(title='Historia Clínica' @click="printHistoriaClinica(item.id)")
                     i.fa-solid.fa-briefcase-medical            
