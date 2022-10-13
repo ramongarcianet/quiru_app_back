@@ -1,6 +1,6 @@
 <script setup>
 import Formulario from "./Formulario.vue";
-import {registroodonto, guardar as guardarOdontograma, getItemEnRegistro} from "../../store/formodontograma";
+import { registroodonto, guardar as guardarOdontograma, getItemEnRegistro } from "../../store/formodontograma";
 import { item as itemPas, leer } from "../../store/paciente";
 import "../../config/html2canvas";
 import { useRoute, useRouter } from "vue-router";
@@ -26,8 +26,8 @@ if (route.params.idOdontograma) {
 }
 //onwatch
 watch(
-  ()=> route.params.idOdontograma,
-  ()=> ObtenerOdontograma(route.params.idOdontograma)
+  () => route.params.idOdontograma,
+  () => ObtenerOdontograma(route.params.idOdontograma)
 )
 
 function printOdontograma() {
@@ -51,7 +51,7 @@ function printOdontograma() {
         pdf.text(10, posis, element.DECRICIE10 + " / Piezas : " + Piezas + " / " + element.CIE10);
         posis = posis + 7;
       }
-      
+
     });
     posis1 = posis + 10;
     pdf.setFontSize(12);
@@ -92,9 +92,9 @@ function printOdontograma() {
     });
   }
   else {
-        var alerta = document.getElementById("alerta");
-          alerta.style.display = "block";
-      }
+    var alerta = document.getElementById("alerta");
+    alerta.style.display = "block";
+  }
 }
 function pad(n, width, z) {
   z = z || '0';
@@ -102,59 +102,53 @@ function pad(n, width, z) {
   return n.length >= width ? n : n + new Array(width - n.length + 1).join(z);
 }
 function CallConfirm2(item) {
-    itemSeleccionado.value = item;
-    var modal = document.getElementById('id02');
-    modal.style.display = 'block';
+  itemSeleccionado.value = item;
+  var modal = document.getElementById('id02');
+  modal.style.display = 'block';
 }
 function EliminarOdonto() {
-    var alerto = document.getElementById("alerto");
-    var modal = document.getElementById('id02');
-    if (!itemSeleccionado.value?.hallazgos || itemSeleccionado.value?.hallazgos.length == 0) {
-        alerto.style.display = "none";
-        modal.style.display = 'none';
-        eliminar(itemSeleccionado.value.id)
-        push({ name: 'pacienteVer', params: { idPaciente: route.params.idPaciente } })
-    }
-    else {
-        alerto.style.display = "block";
-        modal.style.display = 'none';
+  var alerto = document.getElementById("alerto");
+  var modal = document.getElementById('id02');
+  if (!itemSeleccionado.value?.hallazgos || itemSeleccionado.value?.hallazgos.length == 0) {
+    alerto.style.display = "none";
+    modal.style.display = 'none';
+    eliminar(itemSeleccionado.value.id)
+    push({ name: 'pacienteVer', params: { idPaciente: route.params.idPaciente } })
+  }
+  else {
+    alerto.style.display = "block";
+    modal.style.display = 'none';
 
-    }
+  }
 }
 function Cancelar() {
-    var alerto = document.getElementById("alerto");
-    var alerta = document.getElementById("alerta");
-    var modal = document.getElementById('id02');
-        alerto.style.display = "none";
-        modal.style.display = 'none';
-        alerta.style.display = "none";
+  var alerto = document.getElementById("alerto");
+  var alerta = document.getElementById("alerta");
+  var modal = document.getElementById('id02');
+  alerto.style.display = "none";
+  modal.style.display = 'none';
+  alerta.style.display = "none";
 }
 function guardar_() {
   var hol = document.getElementById("holo");
-    hol.style.display = "none";
+  hol.style.display = "none";
 
 }
 
-const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelacionados))
+const idRelacionados_ = computed((() => id => getItemEnRegistro(id)?.idRelacionados))
 const idDiagnostico_ = itemodontograma?.value.id;
 
-function guardar_() {
-  //guardarOdontograma(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id );
-  var hol = document.getElementById("holo");
-    hol.style.display = "none";
-
-}
 </script>
 
 <template lang="pug">
 #id02.modal(style="display:none;")
-    .modal-content.modal-sm
-        .container
-            p(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Eliminar Odontograma
-            p ¿Esta seguro que desea eliminar?
-            .clearfix
-                button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
-                button.btn.btn-danger.deletebtn(@click="EliminarOdonto(), mostrar = false") Aceptar
+  .modal-content.modal-sm
+    .container
+      p(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Eliminar Odontograma
+      p ¿Esta seguro que desea eliminar?
+      .clearfix
+        button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
+        button.btn.btn-danger.deletebtn(@click="EliminarOdonto(), mostrar = false") Aceptar
 .scrollspy-example(data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" tabindex="0")
   h4(id="list-item-1") 
 .row
