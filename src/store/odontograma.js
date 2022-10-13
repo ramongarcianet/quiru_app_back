@@ -46,7 +46,7 @@ if (annyang) {
         if (isSpeech.value)
             textoEscuchado.value = frase[0];
     })
-    annyang.addCallback('soundstart', function () {
+    /*annyang.addCallback('soundstart', function () {
         if (isSpeech.value) {
             console.log('0');
         }
@@ -68,7 +68,7 @@ if (annyang) {
     annyang.addCallback('errorPermissionDenied', function () {
         if (resizeWindow.value<500)
             alert('Reconectando al micrófono')
-    });
+    });*/
 
     flagAnnyang = annyang.start()
 

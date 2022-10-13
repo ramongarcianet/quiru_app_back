@@ -183,7 +183,7 @@ const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelaciona
   p {{ textoEscuchado }}
 .contenedor(:hidden="itemodontograma?.estado === '1' && !itemodontograma.idRelacionado")
   .anim(v-if='isSpeech')
-  .microfono( @click="isSpeech ? detenerVoz() : activarVoz()" )
+  .microfono( @click="isSpeech ? detenerVoz() : activarVoz()" )#destacarMicrofono
     ion-icon.icono(name="mic" )
 
 //-Input sin micrófono
@@ -250,6 +250,14 @@ const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelaciona
 
 </template>
 <style lang="sass" scoped>
+.elevar
+  position: relative
+  z-index: 3 !important
+  background-color: var(--color-white)
+.noElevar
+  position: relative
+  z-index: 0 !important
+  background-color: transparent
 .desplazable
   display: flex
   flex-direction: row

@@ -9,6 +9,7 @@ import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma, eliminar
 import jsPDF from 'jsPDF'
 import Instrucciones from "./../8.Ayuda/instrucciones.vue";
 import { watch, ref, computed } from "vue";
+import { item } from "../../store/usuario";
 const myModal = document.getElementById('myModal')
 const myInput = document.getElementById('myInput')
 const route = useRoute()
@@ -26,7 +27,7 @@ if (route.params.idOdontograma) {
 //onwatch
 watch(
   ()=> route.params.idOdontograma,
-  ()=> ObtenerOdontograma(route.params.idOdontograma)
+  ()=> ObtenerOdontograma(route.params.idOdontograma),
 )
 
 function printOdontograma() {
@@ -130,9 +131,60 @@ function Cancelar() {
 }
 const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelacionados))
 const idDiagnostico_ = itemodontograma?.value.id;
+
+
+const visto = ref(0)
+const finalizar = ()=>{
+  visto.value = 1
+} 
+const visitaGuiada = [
+  {id:'1', topResponsiveCari:'80%', topBurbujaResponsive:'55%', leftResponsiveCari:'20px', leftResponsiveBurbuja:'20%', top:'45%', left:'20px', topBurbuja:'30%', elementoDestacado:'destacarMicrofono' ,scroll:'0', data:"Hola, soy Quiru. Puedes activarme diciendo,  “Hola Quiru” o presionando el micrófono"},
+  {id:'2', topResponsiveCari:'80%', topBurbujaResponsive:'25%', leftResponsiveCari:'20px', leftResponsiveBurbuja:'20%',top:'77%', left:'20px', topBurbuja:'62%', elementoDestacado:'destacarOdontograma' ,scroll:'500', data:"Este es tu nuevo odontograma, se llena de forma automática luego de cada registro dictado por voz."},
+  {id:'3', topResponsiveCari:'80%', topBurbujaResponsive:'25%', leftResponsiveCari:'20px', leftResponsiveBurbuja:'20%',top:'30%', left:'20px', topBurbuja:'15%', elementoDestacado:'destacarImpresion' ,scroll:'0', data:"Este es el botón de impresión, para tener tu odontograma en formato pdf o mandarlo a imprimir de una vez"},
+  {id:"4", topResponsiveCari:'80%', topBurbujaResponsive:'25%', leftResponsiveCari:'20px', leftResponsiveBurbuja:'20%',top:'30%', left:'20px', topBurbuja:'15%', elementoDestacado:'destacarAyuda' ,scroll:'0', data:"Aquí puedes ver los distintos comandos de voz de Quiru."},
+  {id:"5", topResponsiveCari:'80%', topBurbujaResponsive:'35%', leftResponsiveCari:'20px', leftResponsiveBurbuja:'20%',top:'45%', left:'20px', topBurbuja:'30%', elementoDestacado:'' ,scroll:'0', data:"Y eso es todo, experimenta la nueva forma de atender a tus pacientes."},
+]
+const indice = ref(0)
+const item2 = ref(  {id:'1', topResponsiveCari:'80%', topBurbujaResponsive:'55%', leftResponsiveCari:'20px', leftResponsiveBurbuja:'20%', top:'45%', left:'20px', topBurbuja:'30%', elementoDestacado:'destacarMicrofono' ,scroll:'0', data:"Hola, soy Quiru. Puedes activarme diciendo,  “Hola Quiru” o presionando el micrófono"},
+)
+let position = ref(0)
+const moverCarrusel = (adelanteOAtras) => {
+  indice.value = indice.value + adelanteOAtras
+  let anterior = (indice.value == 0) ? visitaGuiada[0] : visitaGuiada[indice.value - 1]
+  let posterior = (indice.value == 3) ? visitaGuiada[3] : visitaGuiada[indice.value + 1]
+  item2.value = visitaGuiada[indice.value]
+  position.value = window.scrollY
+        window.scrollTo({
+          top: item2.value.scroll,
+          left: 0,
+          behavior: 'smooth',
+        })
+  let noDestacar = document.getElementById(anterior.elementoDestacado)
+  noDestacar.classList.add('noElevar')
+  let noDestacarPosterior = document.getElementById(posterior.elementoDestacado)
+  noDestacarPosterior.classList.add('noElevar')
+  let destacar = document.getElementById(item2.value.elementoDestacado)
+    destacar.classList.remove('noElevar')
+    destacar.classList.add('elevar')
+  
+}
+
+
 </script>
 
 <template lang="pug">
+.visita_guiada(v-if='visto == 0')
+  img.cari(:style="`top: ${item2.top}; left: ${item2.left}; `" src='https://firebasestorage.googleapis.com/v0/b/quiru-b444f.appspot.com/o/Elementos%20ui%2FComponent_60_2_.webp?alt=media&token=603036f4-d6aa-45d4-9990-8d486ca38cdd')
+  .burbuja(:style="`top: ${item2.topBurbuja}`")
+    span {{item2.data}}
+    .accionables
+      btn.atras(v-if='indice!=0' @click='moverCarrusel(-1)')
+        ion-icon(name="chevron-back-circle-outline" size='large')
+      btn.siguiente(v-if='indice != 4 ' @click="moverCarrusel(1)") 
+        ion-icon(name="chevron-forward-circle-outline" size='large')
+      btn.siguiente(v-else @click='finalizar()')
+        ion-icon(name="chevron-forward-circle-outline" size='large')
+        
 #id02.modal(style="display:none;")
     .modal-content.modal-sm
         .container
@@ -182,9 +234,9 @@ const idDiagnostico_ = itemodontograma?.value.id;
                 button.btn(title='Borrar'  @click="CallConfirm2(item)")
                   ion-icon(name="trash-outline" style="color: var(--color-primary); font-size: 26px;")
           button.btn(title='Imprimir' @click="printOdontograma()")
-            ion-icon(name="print-outline" style="color: var(--color-primary); font-size: 26px;")
+            ion-icon(name="print-outline" style="color: var(--color-primary); font-size: 26px;")#destacarImpresion
           button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
-            ion-icon(name="help-outline" style="color: var(--color-primary); font-size: 26px;" )
+            ion-icon(name="help-outline" style="color: var(--color-primary); font-size: 26px;" )#destacarAyuda
           #exampleModal.modal.fade(tabindex='-1')
             .modal-dialog.modal-lg
               .modal-content
@@ -209,7 +261,67 @@ const idDiagnostico_ = itemodontograma?.value.id;
 </template>
 
 <style lang="sass" scoped>
-
+:root
+  --cariTop: 0%
+  --cariLeft: 0%
+  --burbujaTop: 0%
+  --burbujaLeft: 0%
+.elevar
+  position: relative
+  z-index: 3 !important
+.noElevar
+  position: relative
+  z-index: 0 !important
+.visita_guiada
+  margin: 0px
+  padding: 0px
+  display: flex
+  position: absolute
+  width: 100%
+  height: 170%
+  background-color: rgba(2, 55, 44, .8)
+  z-index: 1
+  left: 0 
+  top: 0 
+  .cari
+    height: 140px !important
+    display: flex
+    opacity: 1
+    width: 140px !important
+    position: absolute
+    z-index: 5
+    animation: cari 8s ease-in 0s infinite alternate forwards
+  .burbuja
+    display: flex
+    flex-direction: column
+    padding: 20px
+    top: 40%
+    left: 50%
+    transform: translateX(-50%)
+    width: 300px
+    height: 160px
+    background-color: var(--color-white)
+    position: absolute
+    z-index: 5
+    border-radius: 20px
+    &:before
+      content: ""
+      position: absolute
+      bottom: -49px
+      left: 30px
+      width: 54px
+      height: 50px
+      background-color: var(--color-white)
+      clip-path: polygon(100% 0, 0 0, 50% 100%)
+    .accionables
+      display: flex
+      flex-direction: row
+      justify-content: end
+      position: absolute
+      bottom: 10px
+      right: 20px
+      .atras, .siguiente
+        color: var(--color-primary)
 
 #id02 
   background-color: rgba(0, 0, 0, 0.6)
@@ -308,5 +420,74 @@ const idDiagnostico_ = itemodontograma?.value.id;
     align-items: center
     width: 40%
     height: auto
+  .visita_guiada
+    margin: 0px
+    padding: 0px
+    display: flex
+    position: absolute
+    width: 100%
+    height: 100%
+    background-color: rgba(2, 55, 44, .8)
+    z-index: 1
+    left: 0 
+    top: 0 
+    .cari
+      height: 140px !important
+      display: flex
+      opacity: 1
+      width: 140px !important
+      position: absolute
+      top: 72% !important
+      left: 78% !important
+      z-index: 5
+      animation: cari 8s ease-in 0s infinite alternate forwards
+    .burbuja
+      display: flex
+      flex-direction: column
+      padding: 20px
+      top: 45% !important
+      left: 78% !important
+      width: 300px
+      height: 160px
+      background-color: var(--color-white)
+      position: absolute
+      z-index: 5
+      border-radius: 20px
+      &:before
+        content: ""
+        position: absolute
+        bottom: -49px
+        left: 190px
+        width: 54px
+        height: 50px
+        background-color: var(--color-white)
+        clip-path: polygon(100% 0, 0 0, 50% 100%)
+      .accionables
+        display: flex
+        flex-direction: row
+        justify-content: end
+        position: absolute
+        bottom: 10px
+        right: 20px
+        .atras, .siguiente
+          color: var(--color-primary)
+    
+@keyframes cari
+  0%
+    transform: translate(0)
 
+  20%
+    transform: translate(-4px, 4px)
+
+  40%
+    transform: translate(-4px, -4px)
+
+  60%
+    transform: translate(4px, 4px)
+
+  80%
+    transform: translate(4px, -4px)
+
+  100%
+    transform: translate(0)
 </style>
