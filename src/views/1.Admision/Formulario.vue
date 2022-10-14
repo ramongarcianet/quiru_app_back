@@ -121,7 +121,7 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => limpiar()' :onEr
     )
       span
         small
-          strong Registrar
+          strong Guardar
         p.mb-0 Admisión
       i.fa-solid.fa-save.fa-lg.ms-5(style=" color: white;")
   .row.mt-2

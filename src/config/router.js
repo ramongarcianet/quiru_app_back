@@ -88,7 +88,12 @@ const routes = [
                         path: 'Detalle/:idOdontograma?',
                         name: 'Detalle',
                         component: ()=>import('../views/5.Odontograma/1.AsistenteDeVoz.vue')
-                    },  
+                    }, 
+                    {
+                        path: 'Admision',
+                        name: 'Admision',
+                        component: ()=>import('../views/1.Admision/Admision.vue')
+                    },
                 ]
             },
             
