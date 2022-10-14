@@ -11,7 +11,7 @@
         {"orden": "<Pieza> <hipoplasia>","descripcion": "coloca en el recuadro correspondiente las siglas HP de color rojo", "ima": "https://i.ibb.co/rpDvKrN/5-3-2.png", "ejemplo": "1.8 hipoplasia"},
         {"orden": "<Pieza> <hipomineralizacion>","descripcion": "coloca en el recuadro correspondiente las siglas HM de color rojo", "ima": "https://i.ibb.co/rpDvKrN/5-3-2.png", "ejemplo": "2.6 hipomineralizacion"},
         {"orden": "<Pieza> <opacidad>","descripcion": "coloca en el recuadro correspondiente las sigla O de color rojo", "ima": "https://i.ibb.co/rpDvKrN/5-3-2.png", "ejemplo": "5.4 opacidad"},
-        {"orden": "<Pieza> <decoloracion>","descripcion": "coloca en el recuadro correspondiente las sigla D de color rojo", "ima": "https://i.ibb.co/rpDvKrN/5-3-2.png", "ejemplo": "3.7 decoloracion"},
+        {"orden": "<Pieza> <pigmentación>","descripcion": "coloca en el recuadro correspondiente las sigla PE de color rojo", "ima": "https://i.ibb.co/rpDvKrN/5-3-2.png", "ejemplo": "3.7 decoloracion"},
         {"orden": "<Pieza> <fluorosis>","descripcion": "coloca en el recuadro correspondiente las sigla F de color rojo", "ima": "https://i.ibb.co/rpDvKrN/5-3-2.png", "ejemplo": "4.5 fluorosis"},
         {"orden": "<Pieza> <fractura>","descripcion": "grafica una linea diagonal de color rojo", "ima": "https://i.ibb.co/ZLnCR1s/5-3-4.png", "ejemplo": "6.2 fractura"},
         {"orden": "<Pieza> <extraccion>","descripcion": "grafica un diente extraido marcandolo con una X roja", "ima": "https://i.ibb.co/mtdL98D/5-3-6.png", "ejemplo": "7.4 extraccion"},
