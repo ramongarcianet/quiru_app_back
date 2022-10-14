@@ -138,12 +138,6 @@ function guardar_() {
 const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelacionados))
 const idDiagnostico_ = itemodontograma?.value.id;
 
-function guardar_() {
-  //guardarOdontograma(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id );
-  var hol = document.getElementById("holo");
-    hol.style.display = "none";
-
-}
 </script>
 
 <template lang="pug">
