@@ -111,7 +111,7 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         pdf.text(10, 199, 'Examen clínico general : ');
                         pdf.text(10, 206, pad(examenClinicoGene1, 120, ' '));
                         pdf.text(10, 213, pad(examenClinicoGene2, 120, ' '));
-                        pdf.text(10, 220, 'Examen clínico estomatológico : ');
+                        pdf.text(10, 220, 'Examen clínico odontoestomatológico : ');
                         pdf.text(10, 227, pad(examenClinicoEstoma1, 120, ' '));
                         pdf.text(10, 235, pad(examenClinicoEstoma2, 120, ' '));
                         pdf.insertPage();
@@ -131,8 +131,10 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                                             Piezas = Piezas + dient.diente + '; ';
                                         }
                                     });
-                                    pdf.text(10, posis, element.DECRICIE10 + " / Piezas : " + Piezas + " / " + element.CIE10);
-                                    posis = posis + 7;
+                                    if (element.TRATAMIENTO != "") {
+                                        pdf.text(10, posis, element.DECRICIE10 + " / Piezas : " + Piezas + " / " + element.CIE10);
+                                        posis = posis + 7;
+                                    }
                                 }
                             });
                         }
