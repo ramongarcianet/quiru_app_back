@@ -1,12 +1,12 @@
 import { ref } from 'vue';
-import {addDoc, collection, onSnapshot, getDoc,getDocs, getFirestore, doc, updateDoc, deleteDoc, query, where, setDoc} from 'firebase/firestore'
-import {firestore} from '../config/firebase'
+import { addDoc, collection, onSnapshot, getDocs, doc, updateDoc, deleteDoc, query, where} from 'firebase/firestore'
+import { firestore } from '../config/firebase'
 import { miUsuario } from './sesion';
 import {useRouter} from 'vue-router'
 export const dialog = ref( false )
 
 export const item = ref ({
-    tipoDocumento:'DNI',
+    //tipoDocumento:'DNI',
 })
 
 export const registro = ref([])
