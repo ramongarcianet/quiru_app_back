@@ -2,11 +2,12 @@
 import { onMounted, onUnmounted, watch, ref } from "vue";
 import {item, guardar, actualizar, limpiar}  from '../../store/admision'
 import { isLetter, isNumber } from '../../config/libreria'
+import { useRoute } from "vue-router";
 const maxDocumento = ref(8);
-const guardarOActualizar = () => {
+const guardarOActualizar = (idPaciente) => {
   var alerta = document.getElementById("alerta");
   alerta.style.display = "none"
-  if (item.value.id) return actualizar(item.value);
+  if (item.value.id) return actualizar(item.value, idPaciente);
   else return guardar(item.value);
 };
 onMounted(() => {
@@ -45,11 +46,14 @@ function incompleto() {
   }
   return conErrores;
 }
+const route = useRoute()
+const idPaciente = route.params.idPaciente
+
 </script>
 
 <template lang="pug">
 
-Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => limpiar()' :onError='incompleto()')
+Form( :onPromise='() => guardarOActualizar(idPaciente)' :onSuccess='() => limpiar()' :onError='incompleto()')
   .row
     .col-md-6
       label.form-label Ocupación
