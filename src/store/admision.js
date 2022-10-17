@@ -9,11 +9,11 @@ export const item = ref ({
     tipoDocumento:'DNI',
 })
 
-
 export const registro = ref([])
 
 export const guardar = (item, idPaciente) => {
-    const referencia = doc(firestore, 'admision')
+    const referencia = collection(firestore, 'admision')
+    console.log(item);
     return addDoc(referencia, {
         ...item,
         idPaciente: idPaciente,

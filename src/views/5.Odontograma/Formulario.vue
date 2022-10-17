@@ -201,14 +201,14 @@ const idRelacionados_ = computed((() => id => getItemEnRegistro(id)?.idRelaciona
         span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;") Pieza :
           input.form-control#comboPieza(list='listaDeDientes', name='comboPieza', v-model='item.diente', v-on:change="ListaAlterna(item.diente)")
           datalist#listaDeDientes
-            option(v-for='{ text, value } of listaDeDientesCombo' :value="value")
+            option(v-for='{ value } of listaDeDientesCombo' :value="value")
           span#spanPiezaAl(style="display: none;") a la pieza :
           input.form-control#comboPiezaAl(style="display: none;",list='listaDeDientesAl', name='comboPieza', v-model='item.dienteAlterno')
           datalist#listaDeDientesAl
         span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;") Hallazgo :
           input.form-control#comboHallazgo(list='listaDeHallazgos', name='comboHallazgo', v-model='Hallazgo', v-on:change="VisibleDiente()")
           datalist#listaDeHallazgos
-            option(v-for='{ text, value } of listaDeHallazgos' :value="value") {{text}}
+            option(v-for='{ value } of listaDeHallazgos' :value="value")
 
     .row#VistaDiente(style="display: none;")
       .col.d-flex.justify-content-center

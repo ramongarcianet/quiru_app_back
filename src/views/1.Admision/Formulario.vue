@@ -4,11 +4,12 @@ import {item, guardar, actualizar, limpiar}  from '../../store/admision'
 import { isLetter, isNumber } from '../../config/libreria'
 import { useRoute } from "vue-router";
 const maxDocumento = ref(8);
-const guardarOActualizar = (idPaciente) => {
+const guardarOActualizar = (item, idPaciente) => {
+  console.log(item)
   var alerta = document.getElementById("alerta");
   alerta.style.display = "none"
-  if (item.value.id) return actualizar(item.value, idPaciente);
-  else return guardar(item.value);
+  if (item.id) return actualizar(item.value, idPaciente);
+  else return guardar(item, idPaciente);
 };
 onMounted(() => {
   incompleto();
@@ -19,14 +20,6 @@ watch(
     incompleto();
   }
 );
-function definirMaxLimit(tipoDocumento) {
-  item.value.numeroDocumento = '';
-  if (tipoDocumento == 'DNI') {
-    maxDocumento.value = 8;
-  } else {
-    maxDocumento.value = 9;
-  }
-}
 function incompleto() {
   var conErrores = '';
   conErrores = conErrores + ((item.value.numeroDocumento?.length < 8) ? ' Número documento incompleto,' : '');
@@ -53,7 +46,8 @@ const idPaciente = route.params.idPaciente
 
 <template lang="pug">
 
-Form( :onPromise='() => guardarOActualizar(idPaciente)' :onSuccess='() => limpiar()' :onError='incompleto()')
+
+Form( :onPromise='() => guardarOActualizar(item, idPaciente)' )
   .row
     .col-md-6
       label.form-label Ocupación
