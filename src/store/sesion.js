@@ -1,17 +1,18 @@
-import {auth} from '../config/firebase'
-import {ref} from 'vue'
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, getAuth } from 'firebase/auth'
-import {crearUsuarioConId} from './usuario'
+import { auth } from '../config/firebase'
+import { ref } from 'vue'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, getAuth } from 'firebase/auth'
+import { crearUsuarioConId } from './usuario'
 import router from '../config/router'
 export const usuario = ref({});
 export const item = ref({})
 
-export const crearCuenta = ({email, password, nombre, apellido})=>{
+export const crearCuenta = ({email, password, nombre, apellidoPaterno, apellidoMaterno})=>{
   return createUserWithEmailAndPassword(auth, email, password).then(({user}) => {
     crearUsuarioConId( {
-      nombre,
-      apellido,
-      email,
+      nombre: nombre,
+      apellidoPaterno: apellidoPaterno,
+      apellidoMaterno: apellidoMaterno,
+      email: email,
       id: user.uid
     })
   })
