@@ -34,10 +34,10 @@ const item1 = ref({
     direccion: ''
 })
 export const crearUsuarioConId = item => {
-    //const referencia = doc(firestore, 'usuario', item.id)
-    const referencia = collection(firestore, 'usuario')
-    return addDoc(referencia, item)
-    //return setDoc(referencia, item)
+    const referencia = doc(firestore, 'usuario', item.id)
+    //const referencia = collection(firestore, 'usuario')
+    //return addDoc(referencia, item)
+    return setDoc(referencia, item)
 }
 
 const guardar = item => {

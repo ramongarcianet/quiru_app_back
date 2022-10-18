@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { addDoc, collection, onSnapshot, getDocs, doc, updateDoc, deleteDoc, query, where} from 'firebase/firestore'
 import { firestore } from '../config/firebase'
 import { miUsuario } from './sesion';
@@ -34,11 +34,16 @@ export const eliminar = (id) => {
 
 export const obtenerTodos = idPaciente => {
     const referencia = query(collection(firestore, 'admision'), where( 'idPaciente', '==', idPaciente))
-    return onSnapshot( referencia ).then( coll => registro.value = coll.docs.map(item => ({...item.data(), id: item.ida})) )
+    return onSnapshot( referencia , coll =>{
+        item.value = coll.docs.map(item => ({...item.data(), id: item.id})) [0]
+        console.log(item.value)
+    } )
 }
-export const leerEnRegistro = id => {
-    return item.value = registro.value.find(item => item.id == id)
-}
+
+export const leerEnRegistro = computed( ()=> idPaciente => {
+    return item.value = registro.value.find(item => item.idPaciente == idPaciente) || {}
+} )
+
 export const obtenerPacienteAdmision = idPaciente => new Promise( resolve => {
     const referencia = query(collection(firestore, 'admision'), where( 'idPaciente', '==', idPaciente))
     return getDocs( referencia ).then( coll => resolve(coll.docs.map(item => ({...item.data(), id: item.ida}))) )
