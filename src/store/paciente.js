@@ -5,7 +5,7 @@ import {usuario} from '../store/sesion'
 
 const dialog = ref(false)
 
-const item = ref({
+let item = ref({
     tipoDocumento: 'DNI',
     sexo: '',
     fechaNacimiento: new Date().toISOString().slice(0, 10),
