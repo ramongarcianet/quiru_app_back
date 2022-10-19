@@ -22,41 +22,42 @@ export function printHistoriaClinicaPaciente(idPaciente) {
         
         obtenerPacienteAdmision(idPaciente,idOdontologo).then((admision) => {
             //console.log(admision);
-            const pacienteAdmision = admision[0];
+            const pacienteAdmision =  (admision.length>0)? admision[0]:{};
             leerEnRegistro(idPaciente);
             obtenerOdontologo(itemPas.value.idOdontologo).then((odonto) => {
                 //console.log(odonto);
-                let odontologo = odonto[0];
+                const odontologo = odonto[0];
                 //datos admision
-                let motivoConsulta = ''
-                let motivoConsulta1 = ''
-                let motivoConsulta2 = ''
-                let enfermedadActual = ''
-                let enfermedadActual1 = ''
-                let enfermedadActual2 = ''
-                let examenClinicoGene = ''
-                let examenClinicoGene1 = ''
-                let examenClinicoGene2 = ''
-                let examenClinicoEstoma = ''
-                let examenClinicoEstoma1 = ''
-                let examenClinicoEstoma2 = ''
-                if (admision.length > 0) {
-                    motivoConsulta = pacienteAdmision.motivoConsulta;
-                    motivoConsulta1 = motivoConsulta.substring(0, 99)
-                    motivoConsulta2 = motivoConsulta.substring(99, motivoConsulta.length)
+                let motivoConsulta = (pacienteAdmision.motivoConsulta != undefined)? pacienteAdmision.motivoConsulta:''
+                let motivoConsulta1 = motivoConsulta.substring(0, 99)
+                let motivoConsulta2 = motivoConsulta.substring(99, motivoConsulta.length)
+                let enfermedadActual = (pacienteAdmision.enfermedadActual != undefined)? pacienteAdmision.enfermedadActual:''
+                let enfermedadActual1 = enfermedadActual.substring(0, 99)
+                let enfermedadActual2 = enfermedadActual.substring(99, enfermedadActual.length)
+                let examenClinicoGene = (pacienteAdmision.examClinicoGeneral != undefined)? pacienteAdmision.examClinicoGeneral:''
+                let examenClinicoGene1 = examenClinicoGene.substring(0, 99)
+                let examenClinicoGene2 = examenClinicoGene.substring(99, examenClinicoGene.length)
+                let examenClinicoEstoma = (pacienteAdmision.examClinicoOdonto != undefined)? pacienteAdmision.examClinicoOdonto:''
+                let examenClinicoEstoma1 = examenClinicoEstoma.substring(0, 99)
+                let examenClinicoEstoma2 = examenClinicoEstoma.substring(99, examenClinicoEstoma.length)
+                //debugger;
+                let sexoPaciente = (itemPas.value.sexo=='F')? 'Femenino':'Masculino'
+                let procedencia = (pacienteAdmision.procedencia != undefined)?pacienteAdmision.procedencia:'';
+                let ocupacion = (pacienteAdmision.ocupacion != undefined)?pacienteAdmision.ocupacion:'';
+                let viajesUltimos = (pacienteAdmision.viajesUltimos != undefined)?pacienteAdmision.viajesUltimos:'';
+                let numeroEmergencia = (pacienteAdmision.numeroEmergencia != undefined)?pacienteAdmision.numeroEmergencia:'';
+                let tiempoEnfermedad = (pacienteAdmision.tiempoEnfermedad != undefined)?pacienteAdmision.tiempoEnfermedad:'';
+                let signosYSintomas = (pacienteAdmision.signosYSintomas != undefined)?pacienteAdmision.signosYSintomas:'';
+                let relatoCronologico = (pacienteAdmision.relatoCronologico != undefined)?pacienteAdmision.relatoCronologico:'';
 
-                    enfermedadActual = pacienteAdmision.enfermedadActual;
-                    enfermedadActual1 = enfermedadActual.substring(0, 99)
-                    enfermedadActual2 = enfermedadActual.substring(99, enfermedadActual.length)
+                let antecedentesFam = (pacienteAdmision.antecedentesFam != undefined)?pacienteAdmision.antecedentesFam:'';
+                let antecedentesPer = (pacienteAdmision.antecedentesPer != undefined)?pacienteAdmision.antecedentesPer:'';
 
-                    examenClinicoGene = pacienteAdmision.examClinicoGeneral;
-                    examenClinicoGene1 = examenClinicoGene.substring(0, 99)
-                    examenClinicoGene2 = examenClinicoGene.substring(99, examenClinicoGene.length)
-
-                    examenClinicoEstoma = ' ';//pacienteAdmision.examenClinicoEstoma
-                    examenClinicoEstoma1 = examenClinicoEstoma.substring(0, 99)
-                    examenClinicoEstoma2 = examenClinicoEstoma.substring(99, examenClinicoEstoma.length)
-                }
+                let pa = (pacienteAdmision.pa != undefined)?pacienteAdmision.pa:'';
+                let pulso = (pacienteAdmision.pulso != undefined)?pacienteAdmision.pulso:'';
+                let temperatura = (pacienteAdmision.temperatura != undefined)?pacienteAdmision.temperatura:'';
+                let fc = (pacienteAdmision.fc != undefined)?pacienteAdmision.fc:'';
+                let fResp = (pacienteAdmision.fResp != undefined)?pacienteAdmision.fResp:'';
                 pdf.html("", {
                     callback: function (pdf) {
                         pdf.setFontSize(17);
@@ -64,20 +65,20 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         pdf.text(45, 20, 'HISTORIA CLÍNICA ODONTOLÓGICA');
                         pdf.setFont(undefined, 'normal')
                         pdf.setFontSize(12);
-                        pdf.text(10, 30, pad('HC : ' + ' ', 50, ' ')+pad('Fecha : ' + fechaFormato, 50, ' ') + pad('Hora : ' + horaFormato, 50, ' '));//pacienteAdmision.numeroHC
+                        pdf.text(10, 30, pad('HC : ' + itemPas.value.numeroDocumento, 50, ' ')+pad('Fecha : ' + fechaFormato, 50, ' ') + pad('Hora : ' + horaFormato, 50, ' '));
                         pdf.setFontSize(14);
                         pdf.setFont(undefined, 'bold')
                         pdf.text(10, 40, 'ANAMNESIS');
                         pdf.text(10, 50, 'FILIACIÓN');
                         pdf.setFont(undefined, 'normal')
                         pdf.setFontSize(12);
-                        pdf.text(10, 57, pad('Nombres del paciente : ' + itemPas.value.nombre + ' ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno, 90, ' ') + pad('Edad : ' + getEdad(itemPas.value.fechaNacimiento), 15, ' ') + pad('Sexo : ' + itemPas.value.sexo, 15, ' '));
+                        pdf.text(10, 57, pad('Nombres del paciente : ' + itemPas.value.nombre + ' ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno, 70, ' ') + pad('Edad : ' + getEdad(itemPas.value.fechaNacimiento), 15, ' ') + pad('Sexo : ' + sexoPaciente, 35, ' '));
                         pdf.text(10, 64, pad('Fecha de nacimiento : ' + itemPas.value.fechaNacimiento, 80, ' '));
                         pdf.text(10, 71, pad('Dirección : ' + itemPas.value.Direccion, 100, ' '));
-                        pdf.text(10, 78, pad('Procedencia : ' + '', 60, ' ') + pad('Ocupación : ' + '', 60, ' '));//itemPas.value.prcedencia,itemPas.value.ocupacion
-                        pdf.text(10, 85, pad('Viajes en el último año : ' + '', 100, ' '));//itemPas.value.viajeUltimoAnio
+                        pdf.text(10, 78, pad('Procedencia : ' + procedencia, 60, ' ') + pad('Ocupación : ' + ocupacion, 60, ' '));
+                        pdf.text(10, 85, pad('Viajes en el último año : ' + viajesUltimos, 100, ' '));
                         pdf.text(10, 92, pad('Teléfono : ' + itemPas.value.telefono, 50, ' '));
-                        pdf.text(10, 99, pad('En caso de emergencia comunicarse a : ' + '', 90, ' '));//itemPas.value.telefonoEmergencia
+                        pdf.text(10, 99, pad('En caso de emergencia comunicarse a : ' + numeroEmergencia, 90, ' '));
                         pdf.setFontSize(14);
                         pdf.setFont(undefined, 'bold')
                         pdf.text(10, 109, 'MOTIVO DE CONSULTA');
@@ -92,34 +93,30 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         pdf.setFontSize(12);
                         pdf.text(10, 140, pad(enfermedadActual1, 120, ' '));
                         pdf.text(10, 147, pad(enfermedadActual2, 120, ' '));
-                        if (admision.length > 0) {
-                            pdf.text(10, 154, pad('Tiempo de enfermedad : ' + pacienteAdmision.tiempoEnfermedad, 90, ' '));
-                            pdf.text(10, 161, pad('Signos y sintómas principales : ' + pacienteAdmision.signosYSintomas, 90, ' '));
-                            pdf.text(10, 168, pad('Relato cronológico : ' + pacienteAdmision.relatoCronologico, 90, ' '));
-                            pdf.text(10, 175, pad('Funciones biológicas : ' + ' ', 90, ' '));//pacienteAdmision.funcionesBiologicas    
-                        } else {
-                            pdf.text(10, 154, pad('Tiempo de enfermedad : ' + '', 90, ' '));
-                            pdf.text(10, 161, pad('Signos y sintómas principales : ' + '', 90, ' '));
-                            pdf.text(10, 168, pad('Relato cronológico : ' + '', 90, ' '));
-                            pdf.text(10, 175, pad('Funciones biológicas : ' + '', 90, ' '));
-                        }
+                        pdf.text(10, 154, pad('Tiempo de enfermedad : ' + tiempoEnfermedad, 90, ' '));
+                        pdf.text(10, 161, pad('Signos y sintómas principales : ' + signosYSintomas, 90, ' '));
+                        pdf.text(10, 168, pad('Relato cronológico : ' + relatoCronologico, 90, ' '));
+                        pdf.text(10, 175, pad('Funciones biológicas : ' + ' ', 90, ' '));//pacienteAdmision.funcionesBiologicas    
+                        
                         pdf.setFontSize(14);
                         pdf.setFont(undefined, 'bold')
-                        pdf.text(10, 185, 'EXAMEN CLÍNICO');
+                        pdf.text(10, 185, 'ANTECENDENTES');
+                        pdf.setFont(undefined, 'normal')
+                        pdf.text(10, 192, pad('Antecedentes familiares : ' + antecedentesFam, 90, ' '));
+                        pdf.text(10, 199, pad('Antecedentes personales : ' + antecedentesPer, 90, ' '));
+                        pdf.setFontSize(14);
+                        pdf.setFont(undefined, 'bold')
+                        pdf.text(10, 209, 'EXAMEN CLÍNICO');
                         pdf.setFont(undefined, 'normal')
                         pdf.setFontSize(12);
-                        if (admision.length > 0) {
-                            pdf.text(10, 192, pad('Signos Vitales. P.A. : ' + pacienteAdmision.pa, 35, ' ') + pad('Pulso : ' + pacienteAdmision.pulso, 25, ' ') + pad('Temp : ' + pacienteAdmision.temperatura, 25, ' ') + pad('F.C. : ' + pacienteAdmision.fc, 20, ' ') + pad('F.Resp. : ' + pacienteAdmision.fResp, 20, ' '));
-                        } else {
-                            pdf.text(10, 192, pad('Signos Vitales. P.A. : ' + '', 35, ' ') + pad('Pulso : ' + '', 25, ' ') + pad('Temp : ' + '', 25, ' ') + pad('F.C. : ' + '', 20, ' ') + pad('F.Resp. : ' + '', 20, ' '));
-                        }
+                        pdf.text(10, 216, pad('Signos Vitales. P.A. : ' + pa, 35, ' ') + pad('Pulso : ' + pulso, 25, ' ') + pad('Temp : ' + temperatura, 25, ' ') + pad('F.C. : ' + fc, 20, ' ') + pad('F.Resp. : ' + fResp, 20, ' '));
 
-                        pdf.text(10, 199, 'Examen clínico general : ');
-                        pdf.text(10, 206, pad(examenClinicoGene1, 120, ' '));
-                        pdf.text(10, 213, pad(examenClinicoGene2, 120, ' '));
-                        pdf.text(10, 220, 'Examen clínico odontoestomatológico : ');
-                        pdf.text(10, 227, pad(examenClinicoEstoma1, 120, ' '));
-                        pdf.text(10, 235, pad(examenClinicoEstoma2, 120, ' '));
+                        pdf.text(10, 223, 'Examen clínico general : ');
+                        pdf.text(10, 230, pad(examenClinicoGene1, 120, ' '));
+                        pdf.text(10, 237, pad(examenClinicoGene2, 120, ' '));
+                        pdf.text(10, 244, 'Examen clínico odontoestomatológico : ');
+                        pdf.text(10, 251, pad(examenClinicoEstoma1, 120, ' '));
+                        pdf.text(10, 258, pad(examenClinicoEstoma2, 120, ' '));
                         pdf.insertPage();
                         pdf.setFontSize(14);
                         pdf.setFont(undefined, 'bold')
