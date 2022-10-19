@@ -52,9 +52,9 @@ const leer = id => {
 const leerEnRegistro = id => {
     return item.value = registro.value.find( item  => item.id == id )
 }
-export const obtenerPacienteAdmision = (idPaciente)=> new Promise(resolve=>{
+export const obtenerPacienteAdmision = (idPaciente,idOdontologo)=> new Promise(resolve=>{
     const referencia = collection(firestore, 'admision')
-    return getDocs(query(referencia, where("idPaciente", "==", idPaciente)))
+    return getDocs(query(referencia, where("idPaciente", "==", idPaciente),where("odontologoId", "==", idOdontologo)))
         .then(coleccion => resolve(coleccion.docs.map( doc => doc.data())))
 })
 const limpiar = () => {

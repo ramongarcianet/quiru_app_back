@@ -52,7 +52,7 @@ if (annyang) {
         }
     });
     annyang.addCallback('error', function (e) {
-        if (resizeWindow.value<500)
+        if (resizeWindow.value<500 && e.error == 'aborted')
             alert('Micrófono activado')
     });
     annyang.addCallback('errorNetwork', function () {
