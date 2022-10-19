@@ -205,7 +205,7 @@ const idDiagnostico_ = itemodontograma?.value.id;
           .title Agregar
           .subtitle Datos adicionales
         ion-icon(name="document-outline").icono
-    div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.papa!='Si'" id="holo")
+    div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.tieneTratamiento!='Si'" id="holo")
       a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id ), guardar_()")
         .contenido
           .title.light-quiru Crear

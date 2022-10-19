@@ -1,63 +1,53 @@
-import { ref } from 'vue';
-import {addDoc, collection, onSnapshot, getDoc,getDocs, getFirestore, doc, updateDoc, deleteDoc, query, where} from 'firebase/firestore'
-import {firestore} from '../config/firebase'
+import { computed, ref } from 'vue';
+import { addDoc, collection, onSnapshot, getDocs, doc, updateDoc, deleteDoc, query, where} from 'firebase/firestore'
+import { firestore } from '../config/firebase'
 import { miUsuario } from './sesion';
 import {useRouter} from 'vue-router'
-const dialog = ref( false )
-const item = ref ({
-    tipoDocumento:'DNI',
-    fechaAdmision:new Date().toISOString().slice(0,10)
+export const dialog = ref( false )
 
-})
-const verOdontograma=()=>{
-    //this.useRouter.push('../views/7.Odontogramas/index.vue');
-    //push({name: "../views/7.Odontogramas/index.vue"})
-}
-const guardar = item => {
+export const item = ref ({})
+
+export const registro = ref([])
+
+export const guardar = (item, idPaciente) => {
     const referencia = collection(firestore, 'admision')
+    console.log(item);
     return addDoc(referencia, {
         ...item,
-        odontologoId: miUsuario()?.uid
+        idPaciente: idPaciente,
+        odontologoId: miUsuario()?.uid,
+        fechaAdmision: new Date()
     })
 }
 
-const actualizar = (item) => {
+export const actualizar = (item) => {
     const referencia = doc(firestore, 'admision', item.id)
     return updateDoc(referencia, item)
 }
 
-const eliminar = (id) => {
+export const eliminar = (id) => {
     const referencia = doc(firestore, 'admision', id)
     return deleteDoc(referencia)
 }
 
-const registro = ref([])
-
-const obtenerTodos = () => {
-    if(!miUsuario() ) return
-    const referencia = collection(firestore, 'admision')
-
-    const busqueda = query( referencia, where( "odontologoId", "==", miUsuario()?.uid))
-    return onSnapshot(
-        busqueda,
-        collection => registro.value = collection.docs.map( doc => ({...doc.data(), id: doc.id }))
-    )
+export const obtenerTodos = idPaciente => {
+    const referencia = query(collection(firestore, 'admision'), where( 'idPaciente', '==', idPaciente))
+    return onSnapshot( referencia , coll =>{
+        if (coll.empty) return item.value = {}
+        item.value = coll.docs.map(item => ({...item.data(), id: item.id})) [0]
+    } )
 }
 
-const leer = id => {
-    const referencia = doc(firestore, 'admision', id)
-    return getDoc( referencia ).then( doc => item.value = doc.data())
-}
+export const leerEnRegistro = computed( ()=> idPaciente => {
+    return item.value = registro.value.find(item => item.idPaciente == idPaciente) || {}
+} )
 
-const leerEnRegistro = id => {
-    return item.value = registro.value.find( item  => item.id == id )
-}
-export const obtenerPacienteAdmision = (idPaciente,idOdontologo)=> new Promise(resolve=>{
-    const referencia = collection(firestore, 'admision')
-    return getDocs(query(referencia, where("idPaciente", "==", idPaciente),where("odontologoId", "==", idOdontologo)))
-        .then(coleccion => resolve(coleccion.docs.map( doc => doc.data())))
-})
-const limpiar = () => {
+export const obtenerPacienteAdmision = idPaciente => new Promise( resolve => {
+    const referencia = query(collection(firestore, 'admision'), where( 'idPaciente', '==', idPaciente))
+    return getDocs( referencia ).then( coll => resolve(coll.docs.map(item => ({...item.data(), id: item.ida}))) )
+} )
+
+export const limpiar = () => {
     item.value = {
         tipoDocumento: 'DNI',
         sexo: '',
@@ -65,18 +55,4 @@ const limpiar = () => {
         fechaAdmision: new Date().toISOString().slice(0, 10),
         constancia:'N'
     }
-}
-
-export {
-    registro,
-    item,
-    guardar,
-    obtenerTodos,
-    leer,
-    leerEnRegistro,
-    actualizar,
-    eliminar,
-    limpiar,
-    dialog,
-    verOdontograma
 }

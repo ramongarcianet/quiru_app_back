@@ -67,7 +67,7 @@ if (annyang) {
     });
     annyang.addCallback('errorPermissionDenied', function () {
         if (resizeWindow.value<500)
-            alert('Reconectando al micrófono')
+            console.log('Reconectando al micrófono')
     });
 
     flagAnnyang = annyang.start()

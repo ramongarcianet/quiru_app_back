@@ -35,7 +35,7 @@ const seleccionarHallazgoExtraccionPieza = (pieza) => actualizarItem('extracció
 
 const saludar = () => speak('Hola, soy Quiru, tu nuevo asistente de voz odontológico')
 const queSabesHacer = () => speak('Yo me encargo del registro de tus odontogramas: diagnóstico y tratamiento. Tu encárgate de atender a tus pacientes')
-const agradecer = () => speak('Encantada de ayudarte')
+const agradecer = () => speak('')
 const mellamo = () => speak(`Yo soy Quiru, encantada de conocerte.`)
 const cambiarVista = () => verOdontograma.value = !verOdontograma.value
 
