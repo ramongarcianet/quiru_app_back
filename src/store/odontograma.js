@@ -1,5 +1,5 @@
 import { computed, ref } from 'vue';
-import {alertMensaje} from './helper.js'
+import { alertMensaje } from './helper.js'
 import { convertToText } from "./numeroLetras.js"
 import router from '../config/router'
 import comandosDeVoz from './comandosDeVoz';
@@ -55,9 +55,11 @@ if (annyang) {
         }
     });
     annyang.addCallback('error', function (e) {
-        if (resizeWindow.value<500 && e.error == 'aborted'){            
-        detenerVozAutomat()
+        if (resizeWindow.value < 500) {
+            //detenerVozAutomat()&& e.error == 'aborted'
+            alert(e.error)
         }
+
     });
     annyang.addCallback('errorNetwork', function () {
         if (!isSpeech.value) {
@@ -70,7 +72,7 @@ if (annyang) {
         }
     });
     annyang.addCallback('errorPermissionDenied', function () {
-        if (resizeWindow.value<500)
+        if (resizeWindow.value < 500)
             console.log('Reconectando al micrófono')
     });
 
