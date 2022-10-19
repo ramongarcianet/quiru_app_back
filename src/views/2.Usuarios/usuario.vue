@@ -41,6 +41,8 @@ watch(
   .col-10
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Vista de
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Configuración
+    button.btn.btn-outline-primary.border-0(@click="back()" )
+      ion-icon(name="return-down-back-outline" size="large")
   .col-2
     button.btn.btn-outline-primary.border-0.pb-md-0(title='Cerrar Sesion' @click="cerrarSesion()")
       ion-icon(name="power-outline" size="large")
@@ -50,9 +52,9 @@ Form( :onPromise="() => guardarOActualizar()" :onSuccess='() => back()')
     .col-12
       label.form-label() Nombre(s) y Apellidos
       .input-group
-        input.form-control(placeholder="Nombre", v-model="item.nombre",v-on:keypress="isLetter($event)", required,maxlength="30")
-        input.form-control(placeholder="Apellido Paterno", v-model="item.apellidoPaterno",v-on:keypress="isLetter($event)" required,maxlength="30")
-        input.form-control(placeholder="Apellido Materno", v-model="item.apellidoMaterno",v-on:keypress="isLetter($event)" ,required,maxlength="30")
+        input.form-control(placeholder="Nombre", v-model="item.nombre", required,maxlength="30")
+        input.form-control(placeholder="Apellido Paterno", v-model="item.apellidoPaterno", required,maxlength="30")
+        input.form-control(placeholder="Apellido Materno", v-model="item.apellidoMaterno" ,required,maxlength="30")
   .row
     .col-12.col-md-6
       label.form-label() Documento
@@ -60,7 +62,7 @@ Form( :onPromise="() => guardarOActualizar()" :onSuccess='() => back()')
         select.form-select(placeholder="Tipo Documento" v-model="item.tipoDocumento" required,v-on:change="definirMaxLimit(item.tipoDocumento)")
           option(value="DNI") DNI
           option(value="CE") CARNET DE EXTRANJERIA
-        input.form-control(placeholder="Número Documento" v-model="item.numeroDocumento" ,v-on:keypress="isNumber($event)",required,:maxlength="maxDocumento",:minlength="maxDocumento")
+        input.form-control(placeholder="Número Documento" v-model="item.numeroDocumento" ,required,:maxlength="maxDocumento",:minlength="maxDocumento")
     .col-12.col-md-6
       .row
         .col
@@ -82,7 +84,7 @@ Form( :onPromise="() => guardarOActualizar()" :onSuccess='() => back()')
     .col
       label.form-label() Telefono
       .input-group
-      input.form-control(placeholder="Número Celular" v-model="item.numeroTlf" ,v-on:keypress="isNumber($event)",required,:maxlength="9",:minlength="9")
+      input.form-control(placeholder="Número Celular" v-model="item.numeroTlf" ,required,:maxlength="9",:minlength="9")
   .row
     .col-12.col-md-6
       label.form-label() Nombre de Consultorio
@@ -92,7 +94,7 @@ Form( :onPromise="() => guardarOActualizar()" :onSuccess='() => back()')
               option(value="C") CLÍNICA
               option(value="H") HOSPITAL
               option(value="I") CONSULTORIO INDEPENDIENTE
-        input.form-control(placeholder="Nombre consultorio", v-model="item.nombreconsultorio",v-on:keypress="isLetter($event)" required,maxlength="30")
+        input.form-control(placeholder="Nombre consultorio", v-model="item.nombreconsultorio" required,maxlength="30")
     .col-12.col-md-6
       label.form-label() Direccion
       .input-group
