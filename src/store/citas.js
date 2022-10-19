@@ -8,6 +8,8 @@ moment.locale('es-ES');
 const dialog = ref(false)
 
 const cita = ref({
+  numeroDocumento: '',
+  tipoDocumento: 'DNI',
   nombre: '',
   apellidoPaterno: '',
   apellidoMaterno: '',
@@ -20,7 +22,7 @@ const cita = ref({
 
 })
 
-const guardar = item => {
+const guardarCita = item => {
   const mesActual = moment().format('MMMM')
   const referencia = collection(firestore, 'citas')
   return addDoc(referencia, {...item, idOdontologo: usuario.value.uid, estado: true})
@@ -88,7 +90,7 @@ const limpiar = () => {
 export {
   cita,
   actualizar, 
-  guardar,
+  guardarCita,
   obtenerTodos,
   updateEstado,
   registro,
