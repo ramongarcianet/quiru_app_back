@@ -35,6 +35,12 @@ let _event = [
   { id: '2', resourceId: 'a', start: '2022-10-18T09:00:00', end: '2022-10-18T14:00:00', title: 'event 2', borderColor: "#0dcaf0", backgroundColor: '#fd7e14' },
   { id: '3', resourceId: 'b', start: '2022-10-20T12:00:00', end: '2022-10-20T06:00:00', title: 'event 3' },
   { id: '4', resourceId: 'c', start: '2022-10-19T07:30:00', end: '2022-10-19T09:30:00', title: 'event 4' },
+  { id: '4', resourceId: 'c', start: '2022-10-19T07:30:00', end: '2022-10-19T09:30:00', title: 'event 4' },
+  { id: '4', resourceId: 'c', start: '2022-10-19T07:30:00', end: '2022-10-19T09:30:00', title: 'event 4' },
+  { id: '4', resourceId: 'c', start: '2022-10-19T07:30:00', end: '2022-10-19T09:30:00', title: 'event 4' },
+  { id: '4', resourceId: 'c', start: '2022-10-19T07:30:00', end: '2022-10-19T09:30:00', title: 'event 4' },
+  { id: '4', resourceId: 'c', start: '2022-10-19T07:30:00', end: '2022-10-19T09:30:00', title: 'event 4' },
+  { id: '4', resourceId: 'c', start: '2022-10-19T07:30:00', end: '2022-10-19T09:30:00', title: 'event 4' },
   { id: '5', resourceId: 'd', start: '2022-10-19T10:00:00', end: '2022-10-19T15:00:00', title: 'event 5' }
 ];
 const id = ref(10)
@@ -60,8 +66,10 @@ const options = reactive({
   datesAboveResources: true,
   themeSystem: 'bootstrap5',
   slotLabelFormat: { hour: 'numeric', minute: '2-digit', omitZeroMinute: true, hour12: true },
-  slotMinTime: '08:00:00',
+  slotMinTime: '13:00:00',
   slotMaxTime: '22:00:00',
+  allDaySlot: false,
+  contentHeight: 'auto',
   headerToolbar: {
     left: 'prev,next',
     center: 'title',
