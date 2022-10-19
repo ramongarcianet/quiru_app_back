@@ -15,7 +15,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useRoute, useRouter } from 'vue-router';
 import { obtenerTodos, registro, updateEstado } from "../../store/citas";
 import { previousPage, nextPage, setList, registro_, search, setListDelete, SetPage } from "../../config/Paginator";
-const {push} = useRouter()
+const { push } = useRouter()
 const route = useRoute()
 const obtenerRegistro = obtenerTodos();
 
@@ -175,7 +175,7 @@ const options = reactive({
         button.btn.btn-success(type='button') Save Your Schedule
 </template>
 
-<style lang="sass" setup>
+<style lang="sass">
 .btn-primary
   --bs-btn-color:#fff
   --bs-btn-bg:rgb(55, 223, 187)
@@ -194,8 +194,9 @@ const options = reactive({
 .fc-theme-bootstrap5
   .fc-list, .fc-scrollgrid, td, th
     border: 1px solid rgb(55, 223, 187)
-body
-  color: rgb(55, 223, 187)
 .fc .fc-daygrid-day
   background-color: transparent
+.fc-theme-bootstrap5 a:not([href]) 
+  color: rgb(55, 223, 187)
+  text-decoration: inherit
 </style>
