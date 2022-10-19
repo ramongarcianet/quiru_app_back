@@ -2,6 +2,7 @@ import { item as itemPas, leerEnRegistro } from "../store/paciente";
 import { obtenerPacienteOdontograma } from "../store/formodontograma";
 import { obtenerPacienteAdmision } from "../store/admision";
 import { obtenerOdontologo } from "../store/usuario";
+import { miUsuario } from '../store/sesion';
 import Cie10 from '../config/Cie10.json';
 import jsPDF from 'jsPDF'
 
@@ -12,9 +13,14 @@ export function printHistoriaClinicaPaciente(idPaciente) {
     const today = new Date();
     const fechaFormato = padLeadingZeros(today.getDate(), 2) + '/' + padLeadingZeros((today.getMonth() + 1)) + '/' + today.getFullYear();
     const horaFormato = padLeadingZeros(today.getHours(), 2) + ":" + padLeadingZeros(today.getMinutes(), 2);
-    obtenerPacienteOdontograma(idPaciente).then((odontograma) => {
-        const pacienteOdontograma = odontograma[0];
-        obtenerPacienteAdmision(idPaciente).then((admision) => {
+    const idOdontologo = miUsuario()?.uid;
+    obtenerPacienteOdontograma(idPaciente,idOdontologo).then((odontograma) => {
+        //debugger;
+        //console.log(odontograma)
+        const lastDiagnostico= Math.max(...odontograma.map(o => o.order));
+        const pacienteOdontograma = odontograma.filter(o=> o.order==lastDiagnostico)
+        
+        obtenerPacienteAdmision(idPaciente,idOdontologo).then((admision) => {
             //console.log(admision);
             const pacienteAdmision = admision[0];
             leerEnRegistro(idPaciente);
@@ -58,7 +64,7 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         pdf.text(45, 20, 'HISTORIA CLÍNICA ODONTOLÓGICA');
                         pdf.setFont(undefined, 'normal')
                         pdf.setFontSize(12);
-                        pdf.text(10, 30, pad('Fecha : ' + fechaFormato, 40, ' ') + pad('Hora : ' + horaFormato, 40, ' '));
+                        pdf.text(10, 30, pad('HC : ' + ' ', 50, ' ')+pad('Fecha : ' + fechaFormato, 50, ' ') + pad('Hora : ' + horaFormato, 50, ' '));//pacienteAdmision.numeroHC
                         pdf.setFontSize(14);
                         pdf.setFont(undefined, 'bold')
                         pdf.text(10, 40, 'ANAMNESIS');
@@ -120,10 +126,10 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         pdf.text(10, 30, 'DIAGNÓSTICO(CIE 10)');
                         pdf.setFont(undefined, 'normal')
                         //Existe odontograma
-                        if (odontograma.length > 0) {
+                        if (pacienteOdontograma.length > 0) {
                             pdf.setFontSize(12);
                             Cie10.CIE10.forEach(element => {
-                                let ubicacionnes = pacienteOdontograma.hallazgos.filter((elem) => elem.hallazgo == element.HALLAZGO);
+                                let ubicacionnes = pacienteOdontograma[0].hallazgos.filter((elem) => elem.hallazgo == element.HALLAZGO);
                                 let Piezas = "";
                                 if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
                                     ubicacionnes.forEach(dient => {
@@ -142,11 +148,11 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         pdf.setFont(undefined, 'bold')
                         pdf.text(10, posis + 4, 'PLAN DE TRATAMIENTO');
                         pdf.setFont(undefined, 'normal')
-                        if (odontograma.length > 0) {
+                        if (pacienteOdontograma.length > 0) {
                             posis1 = posis + 12;
                             pdf.setFontSize(12);
                             Cie10.CIE10.forEach(element => {
-                                let ubicacionnes = pacienteOdontograma.hallazgos.filter((elem) => elem.hallazgo == element.HALLAZGO);
+                                let ubicacionnes = pacienteOdontograma[0].hallazgos.filter((elem) => elem.hallazgo == element.HALLAZGO);
                                 let Piezas = "";
                                 if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
                                     ubicacionnes.forEach(dient => {
