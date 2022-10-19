@@ -1,24 +1,14 @@
 <script setup>
-import { onMounted, onUnmounted, watch, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { item, guardar, actualizar, limpiar, leerEnRegistro,obtenerTodos, registro }  from '../../store/admision'
+import { item, guardar, actualizar, leerEnRegistro, obtenerTodos, registro }  from '../../store/admision.js'
 const route = useRoute()
-const { back, push } = useRouter()
+const { back } = useRouter()
 const idPaciente = route.params.idPaciente
 const guardarOActualizar = (item, idPaciente) => {
-  console.log(item)
   if (item.id) return actualizar(item, idPaciente);
   else return guardar(item, idPaciente);
 };
-let obtener
-/*if (route.params.idPaciente) {
-  leerEnRegistro(route.params.idPaciente)
-} else {
-  limpiar()
-}
-onUnmounted(() => {
-  if (obtener) obtener();
-})*/
+
 obtenerTodos(route.params.idPaciente) 
 </script>
 

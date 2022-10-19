@@ -5,9 +5,7 @@ import { miUsuario } from './sesion';
 import {useRouter} from 'vue-router'
 export const dialog = ref( false )
 
-export const item = ref ({
-    //tipoDocumento:'DNI',
-})
+export const item = ref ({})
 
 export const registro = ref([])
 
@@ -35,8 +33,8 @@ export const eliminar = (id) => {
 export const obtenerTodos = idPaciente => {
     const referencia = query(collection(firestore, 'admision'), where( 'idPaciente', '==', idPaciente))
     return onSnapshot( referencia , coll =>{
+        if (coll.empty) return item.value = {}
         item.value = coll.docs.map(item => ({...item.data(), id: item.id})) [0]
-        console.log(item.value)
     } )
 }
 

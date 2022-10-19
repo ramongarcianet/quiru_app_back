@@ -99,7 +99,7 @@ function ordenarDesc(listado, p_key) {
 watch(
   () => annyang.isListening(),
   () => {
-    annyang.start({ autoRestart: false });
+    annyang.start({ autoRestart: true });
   }
 
 )
