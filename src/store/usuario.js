@@ -1,6 +1,5 @@
 import { ref } from 'vue';
-
-import { addDoc, collection, onSnapshot, getDoc,getDocs,doc, updateDoc, deleteDoc, setDoc, orderBy, query, where } from 'firebase/firestore'
+import { addDoc, collection, onSnapshot, getDoc,getDocs,doc, updateDoc, deleteDoc, setDoc, query, where } from 'firebase/firestore'
 import { firestore } from '../config/firebase'
 import { usuario } from '../store/sesion'
 const registro = ref([])
@@ -36,13 +35,10 @@ const item1 = ref({
 })
 export const crearUsuarioConId = item => {
     const referencia = doc(firestore, 'usuario', item.id)
+    //const referencia = collection(firestore, 'usuario')
+    //return addDoc(referencia, item)
     return setDoc(referencia, item)
 }
-
-//por lo que al guardar el usuario, debemos usar la llave del usuario (uid)
-//const referencia = doc(firestore, 'usuario', uid)
-//return setDoc(referencia, {...} )
-//con esta forma obtenemos el uid de la sesion para buscar
 
 const guardar = item => {
     const referencia = collection(firestore, 'usuario')

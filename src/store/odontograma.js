@@ -53,7 +53,7 @@ if (annyang) {
     });
     annyang.addCallback('error', function (e) {
         if (resizeWindow.value<500)
-            alert('Micrófono activado')
+            console.log('Micrófono activado')
     });
     annyang.addCallback('errorNetwork', function () {
         if (isSpeech.value){
@@ -67,7 +67,7 @@ if (annyang) {
     });
     annyang.addCallback('errorPermissionDenied', function () {
         if (resizeWindow.value<500)
-            alert('Reconectando al micrófono')
+            console.log('Reconectando al micrófono')
     });
 
     flagAnnyang = annyang.start()

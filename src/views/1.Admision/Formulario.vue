@@ -1,55 +1,21 @@
 <script setup>
-import { onMounted, onUnmounted, watch, ref } from "vue";
-import {item, guardar, actualizar, limpiar}  from '../../store/admision'
-import { isLetter, isNumber } from '../../config/libreria'
-const maxDocumento = ref(8);
-const guardarOActualizar = () => {
-  var alerta = document.getElementById("alerta");
-  alerta.style.display = "none"
-  if (item.value.id) return actualizar(item.value);
-  else return guardar(item.value);
+import { useRoute, useRouter } from "vue-router";
+import { item, guardar, actualizar, leerEnRegistro, obtenerTodos, registro }  from '../../store/admision.js'
+const route = useRoute()
+const { back } = useRouter()
+const idPaciente = route.params.idPaciente
+const guardarOActualizar = (item, idPaciente) => {
+  if (item.id) return actualizar(item, idPaciente);
+  else return guardar(item, idPaciente);
 };
-onMounted(() => {
-  incompleto();
-});
-watch(
-  () => item.value,
-  () => {
-    incompleto();
-  }
-);
-function definirMaxLimit(tipoDocumento) {
-  item.value.numeroDocumento = '';
-  if (tipoDocumento == 'DNI') {
-    maxDocumento.value = 8;
-  } else {
-    maxDocumento.value = 9;
-  }
-}
-function incompleto() {
-  var conErrores = '';
-  conErrores = conErrores + ((item.value.numeroDocumento?.length < 8) ? ' Número documento incompleto,' : '');
-  conErrores = conErrores + ((item.value.telefono?.length < 9) ? ' Telefono mínimo de 9 dígitos,' : '');
-  var alerta = document.getElementById("alerta");
-  if (alerta != null) {
-    if (conErrores.length > 0) {
-      alerta.innerHTML = "Te falta completar datos de: " + conErrores + "";
-      alerta.style.display = "block"
-      btguardar.disabled = true;
-    }
-    else {
-      alerta.innerHTML = "";
-      alerta.style.display = "none"
-      btguardar.disabled = false;
-    }
-  }
-  return conErrores;
-}
+
+obtenerTodos(route.params.idPaciente) 
 </script>
 
 <template lang="pug">
 
-Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => limpiar()' :onError='incompleto()')
+
+Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => back()')
   .row
     .col-md-6
       label.form-label Ocupación
@@ -114,18 +80,14 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => limpiar()' :onEr
       label.form-label Viajes de los últimos años
       .input-group
         input.form-control(placeholder="Motivo de consulta", v-model="item.viajesUltimos")
-
   .col-12.col-md-4.mx-auto.mt-3
-    button#btguardar.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(
-      type='submit', disabled style="border-radius: 50px"
+    button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(
+      type='submit', style="border-radius: 50px"
     )
       span
         small
-          strong Registrar
+          strong Guardar
         p.mb-0 Admisión
       i.fa-solid.fa-save.fa-lg.ms-5(style=" color: white;")
-  .row.mt-2
-    #alerta.alert.alert-danger.alert-dismissible(style='display:none')   
-      strong Cuidado! te falta completar campos
 </template>
 

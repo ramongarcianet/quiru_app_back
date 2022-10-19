@@ -58,7 +58,7 @@ function incompleto() {
   }
   return conErrores;
 }
-//Prueba Rama Rgarcia
+
 </script>
 
 <template lang="pug">
@@ -71,9 +71,9 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
     .col-md-6
       label.form-label Nombre del paciente*
       .input-group.mb-2
-        input.form-control(placeholder="Nombre", v-model="item.nombre",@keypress="isLetter($event)" ,required,maxlength="30")
-        input.form-control(placeholder="Apellido paterno", v-model="item.apellidoPaterno",@keypress="isLetter($event)" ,required,maxlength="30")
-        input.form-control(placeholder="Apellido materno", v-model="item.apellidoMaterno",@keypress="isLetter($event)", required,maxlength="30")
+        input.form-control(placeholder="Nombre", v-model="item.nombre" ,required,maxlength="30")
+        input.form-control(placeholder="Apellido paterno", v-model="item.apellidoPaterno",type="text" ,required,maxlength="30")
+        input.form-control(placeholder="Apellido materno", v-model="item.apellidoMaterno",type="text", required,maxlength="30")
       label.form-label Documento de identidad*
       .input-group.mb-2
         select.form-select(placeholder="Ubigeo", v-model="item.tipoDocumento",v-on:change="definirMaxLimit(item.tipoDocumento)")
@@ -94,7 +94,7 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
       .col.mb-2
         label.form-label Dirección*
         .input-group
-          input.form-control(placeholder="Departamento", v-model="item.departamento",@keypress="isLetter($event)" ,required,maxlength="30")
+          input.form-control(placeholder="Departamento", v-model="item.departamento",type="text" ,required,maxlength="30")
           input.form-control(placeholder="Dirección", v-model="item.Direccion",required,maxlength="40")
       .row
           .col.mb-2
@@ -111,7 +111,7 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
             option(value="N") NO
         .col.mb-2
           label.form-label Comentario
-          input.form-control(placeholder="Comentario", v-model="item.Comentario",@keypress="isLetter($event)",maxlength="40")
+          input.form-control(placeholder="Comentario", v-model="item.Comentario",type="text",maxlength="40")
   .col-12.col-md-4.mx-auto.mt-3
     button#btguardar.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(
       type='submit', disabled style="border-radius: 50px"
