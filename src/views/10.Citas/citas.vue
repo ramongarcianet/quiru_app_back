@@ -18,7 +18,7 @@ import { previousPage, nextPage, setList, registro_, search, setListDelete, SetP
 const { push } = useRouter()
 const route = useRoute()
 const obtenerRegistro = obtenerTodos();
-
+let showModal = false;
 watch(
   () => registro.value,
   () => {
@@ -47,10 +47,11 @@ const id = ref(10)
 
 function createEvent(item) {
   _event.push({ id: item.id, resourceId: 'd', start: item.start, end: item.end, title: item.title })
+  let control= document.getElementById("btnschedule");
   if (item) {
-    push({ name: 'crearCita' })
+    control.click();
   } else {
-    push({ name: 'verCita' })
+    control.click();
   }
 }
 const options = reactive({
@@ -138,7 +139,8 @@ const options = reactive({
   .contenido
     fullcalendar(v-bind:options='options')
 .row 
-#schedule-add.modal.fade
+#btnschedule.button.btn.btn-primary.ms-auto(type='button' hidden="hidden" data-bs-toggle='modal' data-bs-target='#schedule-add') Ayuda
+#schedule-add.modal.fade(tabindex='-1' aria-hidden='true')
   .modal-dialog
     .modal-content
       // Modal Header
@@ -199,4 +201,8 @@ const options = reactive({
 .fc-theme-bootstrap5 a:not([href]) 
   color: rgb(55, 223, 187)
   text-decoration: inherit
+.fc .fc-toolbar-title
+  color: rgb(57, 93, 86) !important
+.fc .fc-timegrid-slot-label
+  color: rgb(57, 93, 86) !important
 </style>
