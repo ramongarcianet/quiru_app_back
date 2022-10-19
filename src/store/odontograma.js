@@ -55,8 +55,9 @@ if (annyang) {
         }
     });
     annyang.addCallback('error', function (e) {
-        if (resizeWindow.value<500 && e.error == 'aborted')
-            alert('Micrófono activado')
+        if (resizeWindow.value<500 && e.error == 'aborted'){            
+        detenerVozAutomat()
+        }
     });
     annyang.addCallback('errorNetwork', function () {
         if (!isSpeech.value) {
