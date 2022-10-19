@@ -57,7 +57,8 @@ if (annyang) {
     annyang.addCallback('error', function (e) {
         if (resizeWindow.value < 500) {
             //detenerVozAutomat()&& e.error == 'aborted'
-            alert(e.error)
+            //alert(e.error)
+            detenerVozAutomat();
         }
 
     });
