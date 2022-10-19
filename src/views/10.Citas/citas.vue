@@ -47,7 +47,7 @@ const id = ref(10)
 
 function createEvent(item) {
   _event.push({ id: item.id, resourceId: 'd', start: item.start, end: item.end, title: item.title })
-  let control= document.getElementById("btnschedule");
+  let control = document.getElementById("btnschedule");
   if (item) {
     control.click();
   } else {
@@ -220,4 +220,8 @@ const options = reactive({
   --bs-btn-disabled-bg:transparent
   --bs-btn-disabled-border-color:rgb(55, 223, 187)
   --bs-gradient:none
+.nav-link
+  color: rgb(55, 223, 187)
+.nav-link:hover, .nav-link:focus
+    hover-color:#fff
 </style>
