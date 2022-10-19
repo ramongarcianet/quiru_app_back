@@ -241,9 +241,9 @@ const leerEnRegistro = id => {
 }
 export const getItemEnRegistro = id => registroodonto.value.find(item => item.id == id)
 
-export const obtenerPacienteOdontograma = (idPaciente) => new Promise(resolve => {
+export const obtenerPacienteOdontograma = (idPaciente,idOdontologo) => new Promise(resolve => {
     const referencia = collection(firestore, 'odontograma')
-    return getDocs(query(referencia, where("idPaciente", "==", idPaciente), where("tipo", "==", "Tratamiento"), where("estado", "==", "2")))
+    return getDocs(query(referencia, where("idPaciente", "==", idPaciente), where("userId", "==",idOdontologo), where("tipo", "==", "Diagnóstico")))
         .then(coleccion => resolve(coleccion.docs.map(doc => doc.data())))
 })
 
