@@ -53,7 +53,7 @@ if (annyang) {
     });
     annyang.addCallback('error', function (e) {
         if (resizeWindow.value<500)
-            alert('Micrófono activado')
+            console.log('Micrófono activado')
     });
     annyang.addCallback('errorNetwork', function () {
         if (isSpeech.value){
