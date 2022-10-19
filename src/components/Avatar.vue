@@ -1,19 +1,29 @@
 <script setup>
-import { onMounted, watch } from 'vue'
-import { useRouter } from "vue-router"
-import {  miUsuario } from '../store/sesion'
-
+import { onUnmounted, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { item, leer, registro, leerEnRegistro } from '../store/usuario'
+import { miUsuario } from '../store/sesion'
+const route = useRoute()
 const { push } = useRouter()
-
-
-
+onMounted(() => {
+  leer(miUsuario().uid);
+});
+watch(
+    () => registro.value,
+    () => {
+        let valores= registro.value.find(item => item.idUsuario == miUsuario().uid)
+        if(valores !=undefined) {
+            leerEnRegistro(miUsuario().uid);
+        }
+    }
+);
 </script>
 
 <template lang="pug">
 .row.perfil
-  .cuadro 
-    .avatar(@click="push({name:'usuario'})")
-      .text AF
+  .cuadro
+    .avatar(@click="push({name:'usuario'})" style="cursor: pointer")
+      .text {{item.nombre.substr(0,1) + item.apellidoPaterno.substr(0,1)}}
 </template>
 <style lang="sass" scoped>
 .perfil
@@ -38,7 +48,6 @@ const { push } = useRouter()
       height: 50px
       border-radius: 60px
       background-color: var(--color-primary)
-      opacity: .3
       .text
         font-size: 20px
         color: var(--color-light)
