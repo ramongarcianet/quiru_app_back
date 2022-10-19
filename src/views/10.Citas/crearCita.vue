@@ -101,10 +101,6 @@ function incompletoPaciente() {
 
 </script>
 
-
-
-
-
 <template lang="pug">
 .row
   .col-6.pb-2.col-md-9

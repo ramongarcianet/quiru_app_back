@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive ,watch} from 'vue'
+import { ref, reactive, watch } from 'vue'
 import '@fullcalendar/core/vdom'
 import fullcalendar from '@fullcalendar/vue3'
 import dayGrigPlugin from '@fullcalendar/daygrid'
@@ -15,7 +15,16 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useRoute, useRouter } from 'vue-router';
 import { obtenerTodos, registro, updateEstado } from "../../store/citas";
 import { previousPage, nextPage, setList, registro_, search, setListDelete, SetPage } from "../../config/Paginator";
+const {push} = useRouter()
+const route = useRoute()
+const obtenerRegistro = obtenerTodos();
 
+watch(
+  () => registro.value,
+  () => {
+    setList(registro.value, 1);
+  }
+)
 let _resources = [
   { id: 'a' },
   { id: 'b', eventColor: 'green' },
@@ -23,8 +32,8 @@ let _resources = [
   { id: 'd', eventColor: 'red' }
 ];
 let _event = [
-  { id: '2', resourceId: 'a', start: '2022-10-18T09:00:00', end: '2022-10-18T14:00:00', title: 'event 2' },
-  { id: '3', resourceId: 'b', start: '2022-10-18T12:00:00', end: '2022-10-18T06:00:00', title: 'event 3' },
+  { id: '2', resourceId: 'a', start: '2022-10-18T09:00:00', end: '2022-10-18T14:00:00', title: 'event 2', borderColor: "#0dcaf0", backgroundColor: '#fd7e14' },
+  { id: '3', resourceId: 'b', start: '2022-10-20T12:00:00', end: '2022-10-20T06:00:00', title: 'event 3' },
   { id: '4', resourceId: 'c', start: '2022-10-19T07:30:00', end: '2022-10-19T09:30:00', title: 'event 4' },
   { id: '5', resourceId: 'd', start: '2022-10-19T10:00:00', end: '2022-10-19T15:00:00', title: 'event 5' }
 ];
@@ -32,25 +41,47 @@ const id = ref(10)
 
 function createEvent(item) {
   _event.push({ id: item.id, resourceId: 'd', start: item.start, end: item.end, title: item.title })
+  if (item) {
+    push({ name: 'crearCita' })
+  } else {
+    push({ name: 'verCita' })
+  }
 }
 const options = reactive({
+  plugins: [dayGrigPlugin, timeGrigPlugin, listPlugin, interactionPlugin, bootstrap5Plugin],
   locale: esLocale,
   nowIndicator: true,
-  plugins: [dayGrigPlugin, timeGrigPlugin, listPlugin, interactionPlugin, bootstrap5Plugin],
-  initialView: 'timeGridDay',
-  themeSystem: 'standard',
+  initialView: 'timeGridWeek',
   businessHours: true,
+  timeFormat: 'h(:mm)t',
+  selectable: true,
+  dayMaxEvents: true,
+  weekends: true,
+  datesAboveResources: true,
   themeSystem: 'bootstrap5',
+  slotLabelFormat: { hour: 'numeric', minute: '2-digit', omitZeroMinute: true, hour12: true },
+  slotMinTime: '08:00:00',
+  slotMaxTime: '22:00:00',
   headerToolbar: {
     left: 'prev,next',
     center: 'title',
     right: 'dayGridMonth,timeGridWeek,timeGridDay'
   },
-  //editable: true,
-  selectable: true,
-  dayMaxEvents: true,
-  weekends: true,
-  datesAboveResources: true,
+  views: {
+    dayGridMonth: {
+      titleFormat: { month: 'long' }
+    },
+    timeGridWeek: {
+      titleFormat: {
+        day: '2-digit'
+      }
+    },
+    timeGridDay: {
+      titleFormat: {
+        day: '2-digit'
+      }
+    }
+  },
   select: (arg) => {
     id.value = id.value + 1
     const cal = arg.view.calendar
@@ -62,14 +93,8 @@ const options = reactive({
       end: arg.end
     })
   },
-  eventClick: (arg) => {
-    if (arg.event) {
-      //arg.event.remove()
-    }
-  },
   resources: _resources,
   events: _event,
-  eventColor: 'rgb(55, 223, 187)',
   eventAdd: (arg) => {
     createEvent(
       {
@@ -95,23 +120,51 @@ const options = reactive({
     //deleteEvent(arg.event.id)
   }
 })
-
-
-const route = useRoute()
-const {push} = useRouter()
-const obtenerRegistro = obtenerTodos();
-
-watch(
-    () => registro.value,
-    () => {
-        setList(registro.value, 1);
-    }
-)
 </script>
 <template lang="pug">
+.row
+  .col-4.col-md-9
+    h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Lista
+    h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") de citas
 .row 
   .contenido
     fullcalendar(v-bind:options='options')
+.row 
+#schedule-add.modal.fade
+  .modal-dialog
+    .modal-content
+      // Modal Header
+      .modal-header
+        h4.modal-title Add Your Schedule
+        button.close(type='button', data-dismiss='modal') &times;
+      // Modal body
+      .modal-body
+        form
+          .form-group
+            label Schedule Name:
+            input.form-control(type='text')
+      // Modal footer
+      .modal-footer
+        button.btn.btn-danger(type='button', data-dismiss='modal') Close
+        button.btn.btn-success(type='button') Add Your Schedule
+    // Edit Modal
+#schedule-edit.modal.fade
+  .modal-dialog
+    .modal-content
+      // Modal Header
+      .modal-header
+        h4.modal-title Edit Your Schedule
+        button.close(type='button', data-dismiss='modal') &times;
+      // Modal body
+      .modal-body
+        form
+          .form-group
+            label Schedule Name:
+            input.form-control(type='text')
+      // Modal footer
+      .modal-footer
+        button.btn.btn-danger(type='button', data-dismiss='modal') Close
+        button.btn.btn-success(type='button') Save Your Schedule
 </template>
 
 <style lang="sass" setup>
