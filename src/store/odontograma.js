@@ -43,12 +43,15 @@ if (annyang) {
 
     annyang.setLanguage("es-PE");
     annyang.addCallback('result', function (frase) {
-        if (isSpeech.value)
+        if (isSpeech.value) {
             textoEscuchado.value = frase[0];
+        } else {
+            detenerVozAutomat()
+        }
     })
     annyang.addCallback('soundstart', function () {
-        if (isSpeech.value) {
-            console.log('0');
+        if (!isSpeech.value) {
+            detenerVozAutomat()
         }
     });
     annyang.addCallback('error', function (e) {
@@ -56,13 +59,13 @@ if (annyang) {
             console.log('Micrófono activado')
     });
     annyang.addCallback('errorNetwork', function () {
-        if (isSpeech.value){
-            console.log('2')
+        if (!isSpeech.value) {
+            detenerVozAutomat()
         }
     });
     annyang.addCallback('errorPermissionBlocked', function () {
-        if (isSpeech.value){
-            console.log('3')
+        if (!isSpeech.value) {
+            detenerVozAutomat()
         }
     });
     annyang.addCallback('errorPermissionDenied', function () {
@@ -94,6 +97,13 @@ export function activarVoz() {
         //console.log(annyang.getSpeechRecognizer());
     }
 }
+export function reactivarVoz() {
+    if (paginaOdontograma.value) {
+        annyang.removeCommands();
+        annyang.addCommands(comandosDeVoz.conVozEncendida)
+        isSpeech.value = true;
+    }
+}
 export function detenerVoz() {
     annyang.removeCommands();
     annyang.addCommands(comandosDeVoz.conVozApagada)
@@ -105,7 +115,16 @@ export function detenerVoz() {
     }
     comandosDeVoz.agradecer()
 }
-
+export function detenerVozAutomat() {
+    annyang.removeCommands();
+    annyang.addCommands(comandosDeVoz.conVozApagada)
+    isSpeech.value = false;//stop
+    textoEscuchado.value = '';
+    item.value = {
+        diente: '',
+        hallazgos: []
+    }
+}
 let synth = window.speechSynthesis;
 
 let voices = synth.getVoices();

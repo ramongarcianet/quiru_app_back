@@ -147,9 +147,8 @@ function formatUbicacion(ubicacion) {
 export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
     let mensaje = ''
     const hallazgoCorrecto = hallazgo ? listaDeHallazgos.map(({ value }) => value).indexOf(hallazgo) > -1 : true
-    const piezaCorrecta = ubicacion ? listaDeUbicacion.length > 0 : true
     const ubicacionCorrecta = pieza ? listaDeDientes_.find(item => item == pieza) : true
-    if (!hallazgoCorrecto || !ubicacionCorrecta || !piezaCorrecta) return
+    if (!hallazgoCorrecto || !ubicacionCorrecta) return
     let pieza_ = pieza < 10 ? pieza * 10 : pieza
     if (ubicacion) {
         ubicacion = formatUbicacion(ubicacion)
