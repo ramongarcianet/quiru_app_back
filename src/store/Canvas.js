@@ -418,7 +418,6 @@ function SetFinding(context, iniciar_x, inicio_y, medida, diente, registro) {
                         if (hzgoMatriz[0]?.Replicable_Intermedio == "NO") {
                             if (dienteAlterno.length > 0) {
                                let cantidadDeDientes = (dienteAlterno[0]?.indice - _dienteSelect[0]?.indice) + 1;
-                               console.log(cantidadDeDientes)
                                 _ancho = (_ancho * (cantidadDeDientes - 1)) + 3 * (cantidadDeDientes) ;
                             }
                             if (_dienteSelect[0]?.grupo == "G1" || _dienteSelect[0]?.grupo == "G2") {
