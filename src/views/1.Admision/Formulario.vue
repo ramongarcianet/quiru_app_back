@@ -26,23 +26,28 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
         input.form-control(placeholder="Número de emergencía", v-model="item.numeroEmergencia")
       label.form-label Antecedentes
       .input.mb-2
+        h5.form-label Familiares
         input.form-control(placeholder="Antecedentes familiares", v-model="item.antecedentesFam")
       .input.mb-2
+        h5.form-label Familiares
         input.form-control(placeholder="Antecedentes personales", v-model="item.antecedentesPer")
       label.form-label Sígnos vitales
       .row.mb-2
-        .col-6
-          .input.mb-2
-            input.form-control(placeholder="P.A.", v-model="item.pa")
-          .input.mb-2
-            input.form-control(placeholder="Pulso", v-model="item.pulso")
-        .col-6
-          .input.mb-2
+        .col.d-flex
+          span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") Temperatura:
             input.form-control(placeholder="Temperatura", v-model="item.temperatura")
-          .input.mb-2
+        .col.d-flex
+          span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") Pulso:
+            input.form-control(placeholder="Pulso", v-model="item.pulso")
+      .row
+        .col.d-flex
+          span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") P.A:
+            input.form-control(placeholder="P.A.", v-model="item.pa")
+        .col.d-flex
+          span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") F.C:
             input.form-control(placeholder="F.C.", v-model="item.fc")
-        .col-6
-          .input.mb-2
+        .col.d-flex
+          span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") F.R:
             input.form-control(placeholder="F.Resp.", v-model="item.fResp")
     .col-md-6
       label.form-label Procedencia
@@ -57,12 +62,16 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
         .input.mb-2
           input.form-control(placeholder="Enfermadad actual", v-model="item.enfermedadActual")
         .input.mb-2
+          h6.form-label Tiempo de enfermedad
           input.form-control(placeholder="Tiempo de enfermedad", v-model="item.tiempoEnfermedad")
         .input.mb-2
+          h6.form-label Signos y síntomas principales
           input.form-control(placeholder="Signos y síntomas principales", v-model="item.signosYSintomas")
         .input.mb-2
+          h6.form-label Relato cronológico
           input.form-control(placeholder="Relato cronológico", v-model="item.relatoCronologico")
         .input.mb-2
+          h6.form-label Funciones biológicas
           input.form-control(placeholder="Funciones biológicas", v-model="item.funcionesBio")
     .col-6
       .row
