@@ -6,7 +6,7 @@ import comandosDeVoz from './comandosDeVoz';
 import { item as itemodontograma } from './formodontograma';
 import '../assets/annyang.min'
 const { push } = router;
-const isSpeech = ref(false);
+export const isSpeech = ref(false);
 let flagAnnyang;
 export const resizeWindow = ref(1366)
 export const verOdontograma = ref(true)
@@ -152,10 +152,9 @@ export function speak(pHablar) {
 }
 
 
-function volver() {
+export function volver() {
     push({ name: 'odontograma' })
 }
-
 
 export function activarMicro() {
     return activarMicro = function () {
@@ -173,8 +172,4 @@ export function activarMicro() {
         } else { }
     }();
 
-}
-export {
-    volver,
-    isSpeech
 }

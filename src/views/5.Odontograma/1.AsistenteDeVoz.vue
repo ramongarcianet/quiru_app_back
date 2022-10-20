@@ -130,7 +130,8 @@ function Cancelar() {
         modal.style.display = 'none';
         alerta.style.display = "none";
 }
-function guardar_() {
+function guardar_(var1, var2, var3, var4) {
+  guardarOdontograma(var1, var2, var3, var4 ).then( idTratamiento => push({name: 'Detalle', params: {idOdontograma: idTratamiento, idPaciente: route.params.idPaciente} }))
   var hol = document.getElementById("holo");
     hol.style.display = "none";
 
@@ -207,7 +208,7 @@ const idDiagnostico_ = itemodontograma?.value.id;
           .subtitle Datos adicionales
         ion-icon(name="document-outline").icono
     div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.tieneTratamiento!='Si'" id="holo")
-      a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id ), guardar_()")
+      a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardar_(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id)")
         .contenido
           .title.light-quiru Crear
           .subtitle.light-quiru Tratamiento
