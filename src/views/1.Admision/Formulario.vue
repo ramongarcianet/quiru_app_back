@@ -68,14 +68,12 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
       .row
         .col.mb-2
           label.form-label Exámen clínico general
-          select.form-select(placeholder="Exámen clínico general", v-model="item.examClinicoGeneral")
-            option(value="S") SI
-            option(value="N") NO
+          .input.mb-2
+            input.form-control(placeholder="Exámen clínico general", v-model="item.examClinicoGeneral")
         .col.mb-2
           label.form-label Exámen odontoestomatológico
-          select.form-select(placeholder="Exámen clínico odontoestomatológico", v-model="item.examClinicoOdonto")
-            option(value="S") SI
-            option(value="N") NO
+          .input.mb-2
+            input.form-control(placeholder="Exámen odontoestomatológico", v-model="item.examClinicoOdonto")
     .col-6
       label.form-label Viajes de los últimos años
       .input-group
