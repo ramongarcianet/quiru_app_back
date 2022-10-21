@@ -80,7 +80,7 @@ const leerEnRegistro = id => {
 }
 export const obtenerOdontologo = (idUsuario)=> new Promise(resolve=>{
     const referencia = collection(firestore, 'usuario')
-    return getDocs(query(referencia, where("idUsuario", "==", idUsuario)))
+    return getDocs(query(referencia, where("id", "==", idUsuario)))
         .then(coleccion => resolve(coleccion.docs.map( doc => doc.data())))
 })
 const limpiar = () => {
