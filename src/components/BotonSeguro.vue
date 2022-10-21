@@ -2,6 +2,10 @@
 import {ref, watchEffect} from 'vue'
 const props = defineProps(['onSuccess'])
 const quitarSeguro = ref(false)
+const onSuccess_ = () => {
+  quitarSeguro.value = false
+  props.onSuccess()
+}
 watchEffect(
   ()=> quitarSeguro.value && setTimeout( 
          ()=> quitarSeguro.value = false,
@@ -10,7 +14,7 @@ watchEffect(
 )
 </script>
 <template lang='pug'>
-button.btn( @click='quitarSeguro ? onSuccess() : quitarSeguro = true' :class='quitarSeguro? "btn-danger" : ""' )
+button.btn( @click='quitarSeguro ? onSuccess_() : quitarSeguro = true' :class='quitarSeguro? "btn-danger" : ""' )
   span( v-if='quitarSeguro') Confirmar
   template( v-else )
     slot

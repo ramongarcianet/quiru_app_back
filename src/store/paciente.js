@@ -1,11 +1,11 @@
 import { ref } from 'vue';
-import {addDoc, collection, onSnapshot, getDoc, doc, updateDoc, deleteDoc,orderBy,query,where } from 'firebase/firestore'
-import {firestore } from '../config/firebase'
-import {usuario} from '../store/sesion'
+import { addDoc, collection, onSnapshot, getDoc, doc, updateDoc, deleteDoc, orderBy, query, where } from 'firebase/firestore'
+import { firestore } from '../config/firebase'
+import { usuario } from '../store/sesion'
 
 const dialog = ref(false)
 
-const item = ref({
+let item = ref({
     tipoDocumento: 'DNI',
     sexo: '',
     fechaNacimiento: new Date().toISOString().slice(0, 10),
@@ -49,6 +49,18 @@ const obtenerTodos = () => {
         }
     )
 }
+const obtenerTodosDni = () => {
+    const referencia = collection(firestore, 'paciente')
+    const referenciaOrden = !verEliminados.value
+        ? query(referencia, where('idOdontologo', '==',usuario.value.uid), where('estado', '==', true))
+        : query(referencia, where('idOdontologo', '==',usuario.value.uid), orderBy("fechaIngreso", "desc"))
+    return onSnapshot(
+        referenciaOrden,
+        collection => {
+            registro.value = collection.docs.map(doc => ({ ...doc.data(), dni: doc.dni }))
+        }
+    )
+}
 
 const leer = id => {
     const referencia = doc(firestore, 'paciente', id)
@@ -57,6 +69,9 @@ const leer = id => {
 
 const leerEnRegistro = id => {
     return item.value = registro.value.find(item => item.id == id)
+}
+const leerDniRegistro = dni => {
+    return item = registro.value.find(item => item.dni == dni)
 }
 const limpiar = () => {
     item.value = {
@@ -75,6 +90,8 @@ export {
     obtenerTodos,
     leer,
     leerEnRegistro,
+    obtenerTodosDni,
+    leerDniRegistro,
     actualizar,
     eliminar,
     limpiar,

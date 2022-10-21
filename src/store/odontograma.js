@@ -1,13 +1,12 @@
 import { computed, ref } from 'vue';
-import {alertMensaje} from './helper.js'
-import { limpiarCaries, clearcanvas } from "./Canvas"
+import { alertMensaje } from './helper.js'
 import { convertToText } from "./numeroLetras.js"
 import router from '../config/router'
 import comandosDeVoz from './comandosDeVoz';
 import { item as itemodontograma } from './formodontograma';
 import '../assets/annyang.min'
 const { push } = router;
-const isSpeech = ref(false);
+export const isSpeech = ref(false);
 let flagAnnyang;
 export const resizeWindow = ref(1366)
 export const verOdontograma = ref(true)
@@ -44,31 +43,38 @@ if (annyang) {
 
     annyang.setLanguage("es-PE");
     annyang.addCallback('result', function (frase) {
-        if (isSpeech.value)
+        if (isSpeech.value) {
             textoEscuchado.value = frase[0];
+        } else {
+            detenerVozAutomat()
+        }
     })
     annyang.addCallback('soundstart', function () {
-        if (isSpeech.value) {
-            console.log('0');
+        if (!isSpeech.value) {
+            detenerVozAutomat()
         }
     });
     annyang.addCallback('error', function (e) {
-        if (resizeWindow.value<500)
-            alert('Micrófono activado')
+        if (e.error == 'aborted') {
+            //detenerVozAutomat()&& 
+            //alert(e.error)
+            detenerVozAutomat();
+        }
+
     });
     annyang.addCallback('errorNetwork', function () {
-        if (isSpeech.value){
-            console.log('2')
+        if (!isSpeech.value) {
+            detenerVozAutomat()
         }
     });
     annyang.addCallback('errorPermissionBlocked', function () {
-        if (isSpeech.value){
-            console.log('3')
+        if (!isSpeech.value) {
+            detenerVozAutomat()
         }
     });
     annyang.addCallback('errorPermissionDenied', function () {
-        if (resizeWindow.value<500)
-            alert('Reconectando al micrófono')
+        if (resizeWindow.value < 500)
+            console.log('Reconectando al micrófono')
     });
 
     flagAnnyang = annyang.start()
@@ -95,6 +101,13 @@ export function activarVoz() {
         //console.log(annyang.getSpeechRecognizer());
     }
 }
+export function reactivarVoz() {
+    if (paginaOdontograma.value) {
+        annyang.removeCommands();
+        annyang.addCommands(comandosDeVoz.conVozEncendida)
+        isSpeech.value = true;
+    }
+}
 export function detenerVoz() {
     annyang.removeCommands();
     annyang.addCommands(comandosDeVoz.conVozApagada)
@@ -106,7 +119,12 @@ export function detenerVoz() {
     }
     comandosDeVoz.agradecer()
 }
-
+export function detenerVozAutomat() {
+    annyang.removeCommands();
+    annyang.addCommands(comandosDeVoz.conVozApagada)
+    isSpeech.value = false;//stop
+    textoEscuchado.value = '';
+}
 let synth = window.speechSynthesis;
 
 let voices = synth.getVoices();
@@ -134,10 +152,9 @@ export function speak(pHablar) {
 }
 
 
-function volver() {
+export function volver() {
     push({ name: 'odontograma' })
 }
-
 
 export function activarMicro() {
     return activarMicro = function () {
@@ -155,8 +172,4 @@ export function activarMicro() {
         } else { }
     }();
 
-}
-export {
-    volver,
-    isSpeech
 }

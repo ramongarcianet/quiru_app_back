@@ -1,26 +1,35 @@
 <script setup>
 import Formulario from "./Formulario.vue";
-import {registroodonto, eliminar, guardar as guardarOdontograma, actualizarEsUltimo} from "../../store/formodontograma";
-
+import { registroodonto, guardar as guardarOdontograma, getItemEnRegistro } from "../../store/formodontograma";
 import { item as itemPas, leer } from "../../store/paciente";
 import "../../config/html2canvas";
 import { useRoute, useRouter } from "vue-router";
 import Cie10 from '../../config/Cie10.json';
-import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma } from '../../store/formodontograma';
+import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma, eliminar } from '../../store/formodontograma';
 import jsPDF from 'jsPDF'
 import Instrucciones from "./../8.Ayuda/instrucciones.vue";
+import { watch, ref, computed } from "vue";
+import MicroButtonVue from "../../components/MicroButton.vue";
 const myModal = document.getElementById('myModal')
 const myInput = document.getElementById('myInput')
 const route = useRoute()
 const { back, push } = useRouter();
+const itemSeleccionado = ref({})
 let canvas;
 let canvas_image_data;
 if (route.params.idPaciente) {
   leer(route.params.idPaciente)
 }
+//oncreated
 if (route.params.idOdontograma) {
   ObtenerOdontograma(route.params.idOdontograma);
 }
+//onwatch
+watch(
+  () => route.params.idOdontograma,
+  () => ObtenerOdontograma(route.params.idOdontograma)
+)
+
 function printOdontograma() {
 
   var pdf = new jsPDF()
@@ -42,7 +51,7 @@ function printOdontograma() {
         pdf.text(10, posis, element.DECRICIE10 + " / Piezas : " + Piezas + " / " + element.CIE10);
         posis = posis + 7;
       }
-      
+
     });
     posis1 = posis + 10;
     pdf.setFontSize(12);
@@ -77,49 +86,117 @@ function printOdontograma() {
         pdf.text(10, 205, 'DIAGNOSTICO');
         pdf.setFontSize(17);
         pdf.text(10, posis + 2, 'TRATAMIENTO');
+        //pdf.text(10, 245, pad('ESPECIFICACIONES : ' + itemPas.value.especificaciones, ' '));
         var pdfName = itemPas.value.numeroDocumento
         pdf.save(pdfName + '.pdf');
       }
     });
   }
   else {
-        var alerta = document.getElementById("alerta");
-          alerta.style.display = "block";
-      }
-}
-function Cancelar() {
     var alerta = document.getElementById("alerta");
-        alerta.style.display = "none";
+    alerta.style.display = "block";
+  }
 }
 function pad(n, width, z) {
   z = z || '0';
   n = n + '';
   return n.length >= width ? n : n + new Array(width - n.length + 1).join(z);
 }
+function CallConfirm2(item) {
+  itemSeleccionado.value = item;
+  var modal = document.getElementById('id02');
+  modal.style.display = 'block';
+}
+function EliminarOdonto() {
+  var alerto = document.getElementById("alerto");
+  var modal = document.getElementById('id02');
+  if (!itemSeleccionado.value?.hallazgos || itemSeleccionado.value?.hallazgos.length == 0) {
+    alerto.style.display = "none";
+    modal.style.display = 'none';
+    eliminar(itemSeleccionado.value.id)
+    push({ name: 'pacienteVer', params: { idPaciente: route.params.idPaciente } })
+  }
+  else {
+    alerto.style.display = "block";
+    modal.style.display = 'none';
+
+  }
+}
+function Cancelar() {
+  var alerto = document.getElementById("alerto");
+  var alerta = document.getElementById("alerta");
+  var modal = document.getElementById('id02');
+  alerto.style.display = "none";
+  modal.style.display = 'none';
+  alerta.style.display = "none";
+}
+function guardar_(var1, var2, var3, var4) {
+  guardarOdontograma(var1, var2, var3, var4 ).then( idTratamiento => push({name: 'Detalle', params: {idOdontograma: idTratamiento, idPaciente: route.params.idPaciente} }))
+  var hol = document.getElementById("holo");
+  hol.style.display = "none";
+
+}
+
+const idRelacionados_ = computed((() => id => getItemEnRegistro(id)?.idRelacionados))
+const idDiagnostico_ = itemodontograma?.value.id;
+
 </script>
 
 <template lang="pug">
+#id02.modal(style="display:none;")
+  .modal-content.modal-sm
+    .container
+      p(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Eliminar Odontograma
+      p ¿Esta seguro que desea eliminar?
+      .clearfix
+        button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
+        button.btn.btn-danger.deletebtn(@click="EliminarOdonto(), mostrar = false") Aceptar
+.scrollspy-example(data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" tabindex="0")
+  h4(id="list-item-1") 
 .row
   .col
     .row
       #alerta.alert.alert-danger.alert-dismissible(style='display:none') No hay nada que imprimir
         a.close(@click="Cancelar()" href='#' data-dismiss='alert' aria-label='close') &times;
-      .col-6.pb-2.col-md-9
-        button.mb-3.btn(@click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })')
+      #alerto.alert.alert-danger.alert-dismissible(style='display:none') Cuidado! Este Odontograma tiene hallazgos registrados
+        a.close(@click="Cancelar()" href='#' data-dismiss='alert') &times;
+      .col
+        h2.my-0.mx-3 Panel de
+        ul.nav.nav-tabs( id="myTab" role="tablist")
+          li.nav-item( role="presentation" v-if="itemodontograma?.idRelacionado")
+            button.nav-link( 
+              @click="push({name: 'Detalle', params: {idOdontograma: itemodontograma?.idRelacionado, idPaciente: route.params.idPaciente} })"
+            ) 
+              strong.h2.fw-bold Diagnóstico
+          li.nav-item()
+            button.nav-link(
+              :class='route.params.idOdontograma == itemodontograma?.id ? "active" : "" '
+            ) 
+              strong.h2.fw-bold {{itemodontograma?.tipo}}
+
+          l1.nav-item( role="presentation" )
+            button.nav-link( 
+              v-for="idTratamientoHermano of idRelacionados_(itemodontograma?.id)"
+              @click="push({name: 'Detalle', params: {idOdontograma: idTratamientoHermano, idPaciente: route.params.idPaciente} })"
+            ) 
+              strong.h2.fw-bold Tratamiento
+    .row
+      .col-2
+        button.mb-2.btn(@click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })')
           ion-icon(name="return-down-back-outline" style="color: var(--color-primary); font-size: 40px" )
-        h1.my-0(style="color: #395D56; font-size: 1.8em; font-family: var(--font-family)") Panel de
-        h1(style="color: #37DFBB; font-weight:bold; font-size: 1.8em; font-family: var(--font-family)") {{itemodontograma.tipo}}
-      .col-6.col-md-3.align-self-center
-        .col.mt-5.left
+      .col-10
+        .left
+          button.btn(v-if="itemodontograma?.tipo === 'Tratamiento'" title='Borrar'  @click="CallConfirm2(itemodontograma)")
+            ion-icon(name="trash-outline" style="color: var(--color-primary); font-size: 26px;")
           button.btn(title='Imprimir' @click="printOdontograma()")
             ion-icon(name="print-outline" style="color: var(--color-primary); font-size: 26px;")
           button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
             ion-icon(name="help-outline" style="color: var(--color-primary); font-size: 26px;" )
-          #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+          #exampleModal.modal.fade(tabindex='-1')
             .modal-dialog.modal-lg
               .modal-content
                 .modal-header
-                  button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                  button.btn-close(type='button' data-bs-dismiss='modal')
                 .modal-body
                   Instrucciones
     Formulario
@@ -127,32 +204,52 @@ function pad(n, width, z) {
     div.mt-5.opciones
       button.outline-quiru( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
         .contenido
-          .title Crear
+          .title Agregar
           .subtitle Datos adicionales
-        ion-icon(name="document-outline").icono  
-    div.opciones(v-if="itemodontograma.esultimo==='2' && itemodontograma.hallazgos")
-      button.outline-quiru.solid( type="button", @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','2',itemodontograma.id), push({ name: 'pacienteVer', params: { idPaciente: route.params.idPaciente } })")
+        ion-icon(name="document-outline").icono
+    div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.tieneTratamiento!='Si'" id="holo")
+      a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardar_(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id)")
         .contenido
           .title.light-quiru Crear
           .subtitle.light-quiru Tratamiento
-        ion-icon(name="medkit-outline").icono.light-quiru 
-    div(v-else="itemodontograma.esultimo==='1' || itemodontograma.esultimo==='0'")
-
-
-    //-div.opciones
-      button.outline-quiru()
-        .contenido
-          .title Agregar
-          .subtitle Precio
-        ion-icon(name="pricetag-outline").icono  
-      //-Hallazgos en tabla
-      //-button.ms-auto.btn.btn-primary(type='button' data-bs-toggle='collapse' data-bs-target='#collapseHallazgos' aria-expanded='false' aria-controls='collapseHallazgos')
-        | Hallazgos
-     
-
+        ion-icon(name="medkit-outline").icono.light-quiru
 </template>
 
 <style lang="sass" scoped>
+
+
+#id02 
+  background-color: rgba(0, 0, 0, 0.6)
+.cancelbtn,
+.deletebtn 
+  float: left 
+  width: 50% 
+.cancelbtn 
+  background-color: rgb(189, 189, 189) 
+.deletebtn 
+  background-color: #f44336 
+.container 
+  padding: 16px 
+  text-align: center 
+.modal
+  position: fixed 
+  left: 0 
+  top: 0 
+  width: 100% 
+  height: 100% 
+  overflow: auto 
+  opacity: 1 
+  padding-top: 50px 
+.modal-content 
+  background-color: #fefefe 
+  margin: 5% auto 15% auto 
+  border: 1px solid #888 
+  width: 80%
+.clearfix 
+  &::after 
+    content: "" 
+    clear: both 
+    display: table 
 .left
   display: flex
   justify-content: end

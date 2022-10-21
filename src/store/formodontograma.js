@@ -1,10 +1,10 @@
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
-import { addDoc, collection, onSnapshot, getDoc, doc, updateDoc, deleteDoc, query, where } from 'firebase/firestore'
+import { addDoc, collection, onSnapshot, getDoc, getDocs, doc, updateDoc, deleteDoc, query, where, arrayUnion, orderBy } from 'firebase/firestore'
 import { firestore } from '../config/firebase'
 import { miUsuario } from './sesion';
-import { listaDeHallazgos } from '../config/Parametros'
-import { isSpeech,speak } from './odontograma'
+import { listaDeHallazgos, listaDeDientesCombo } from '../config/Parametros'
+import { isSpeech, speak } from './odontograma'
 import escenarios from '../config/Escenarios.json';
 const dialog = ref(false)
 const regpasciente = ref([])
@@ -16,173 +16,106 @@ const item = ref({
     receta: '',
     fechaRegistro: new Date().toISOString().slice(0, 10),
     userId: miUsuario()?.uid,
-    hallazgos: []
+    hallazgos: [],
+    idRelacionado: '',
 })
 
 
-const guardar = (idPaciente, tipo, esUltimo, id) => {
+const guardar = (idPaciente, tipo, tieneTratamiento, idRelacionado) => new Promise((resolve, reject) => {
     for (const item of registroodonto.value) {
-        if (item.esultimo === '2')
-            actualizarEsUltimo(item.id, '1');
-        if (item.esultimo === '1')
-            actualizarEsUltimo(item.id, '0');
+        if (item.tieneTratamiento === 'No')
+            actualizarTratamiento(item.id, 'Si');
     }
     const fila = {
         tipo: tipo,
         especificaciones: '',
         observaciones: '',
         receta: '',
-        fechaRegistro: new Date().toISOString().slice(0, 10),
+        fechaRegistro: new Date(),
         idPaciente,
         userId: miUsuario()?.uid,
-        esultimo: esUltimo,
-        order: registroodonto.value.length + 1
+        tieneTratamiento: tieneTratamiento,
+        order: registroodonto.value.length + 1,
     }
-    if (id != '0') {
-        let _hallazgos = registroodonto.value.find(item => item.id === id)?.hallazgos;
-        fila.especificaciones = registroodonto.value.find(item => item.id === id)?.especificaciones;
-        fila.observaciones = registroodonto.value.find(item => item.id === id)?.observaciones;
-        fila.receta = registroodonto.value.find(item => item.id === id)?.receta;
+
+    if (idRelacionado) {
+        fila.idRelacionado = idRelacionado
+        let _hallazgos = registroodonto.value.find(item => item.id === idRelacionado)?.hallazgos;
+        fila.especificaciones = registroodonto.value.find(item => item.id === idRelacionado)?.especificaciones;
+        fila.observaciones = registroodonto.value.find(item => item.id === idRelacionado)?.observaciones;
+        fila.receta = registroodonto.value.find(item => item.id === idRelacionado)?.receta;
         if (_hallazgos) {
             fila.hallazgos = _hallazgos;
         }
     }
     const referencia = collection(firestore, 'odontograma')
-    return addDoc(referencia, fila)
-}
-export const actualizarEsUltimo = (id, esUltimo) => {
+    return addDoc(referencia, fila).then((docRef) => {
+        item?.value.idRelacionados
+            ? item.value.idRelacionados.push(docRef.id)
+            : item.value.idRelacionados = [docRef.id]
+        return resolve(docRef.id)
+    })
+
+})
+
+//export const actualizarestado = (id, estado) => updateDoc(doc(firestore, 'odontograma', id), {estado})
+
+export const actualizarTratamiento = (id, tieneTratamiento) => {
     var itemUpd = {
         id: id,
-        esultimo: esUltimo
+        tieneTratamiento: tieneTratamiento
     }
-    const referencia = doc(firestore, 'odontograma', itemUpd.id)
+    const referencia = doc(firestore, 'odontograma', id)
     return updateDoc(referencia, itemUpd)
 }
 export const actualizar = (id) => {
-    var itemUpd = {
-        id: id,
-        especificaciones: inputDescription.value,
-        observaciones: inputObservacion.value,
-        receta: inputReceta.value
-    }
-    const referencia = doc(firestore, 'odontograma', itemUpd.id)
-    return updateDoc(referencia, itemUpd)
+    const referencia = doc(firestore, 'odontograma', id)
+    return updateDoc(referencia, item.value)
 }
-function dienteConSiglas(lista,diente){
-   const filtro = lista.filter(item => item.diente == diente && item.sigla !='')
-   return  filtro.length;
+function dienteConSiglas(lista, diente) {
+    const filtro = lista.filter(item => item.diente == diente && item.sigla != '')
+    return filtro.length;
 }
-export function existeDiente(diente,fila){
+export function existeDiente(diente, fila) {
     let result = false;
-    let lista =  (item.value.hallazgos != undefined)? item.value.hallazgos : [];
-    for (let item of lista ){
-        //--verificamos  si existe ausente en la lista
-        if (item.hallazgo==='ausente'){
-            if (item.diente==diente){
-                if (fila.hallazgo === 'ausente'){
+    let lista = (item.value.hallazgos != undefined) ? item.value.hallazgos : [];
+    for (let item of lista) {
+        const hzgoMatriz = listaDeHallazgos.filter((elem) => elem.value == fila.hallazgo);
+        if (hzgoMatriz.length > 0) {
+            if (hzgoMatriz[0]?.esDirecto == "SI") {
+                if (item.diente == diente && item.hallazgo == fila.hallazgo && item.sigla == fila.sigla) {
                     if (isSpeech.value)
-                        speak('pieza '+diente+' ya existe como ausente en el odontograma')
+                        speak('pieza ' + diente + ' ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.hallazgo)
                     else
-                        mensajeExistePieza.value = 'Pieza: '+diente+', ya existe como ausente en el odontograma'
+                        mensajeExistePieza.value = 'Pieza: ' + diente + ', ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.hallazgo
                     result = true;
                     break;
-                } else {
+                }
+                else if (item.diente == diente && item.hallazgo != fila.hallazgo) {
                     if (isSpeech.value)
-                        speak('pieza '+diente+' es ausente en el odontograma, no se puede registrar el hallazgo '+fila.hallazgo+' en una pieza ausente')
+                        speak('pieza ' + diente + ' ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.hallazgo)
                     else
-                        mensajeExistePieza.value = 'Pieza: '+diente+', es ausente en el odontograma, no se puede registrar el Hallazgo: '+fila.hallazgo+', en una pieza ausente'
+                        mensajeExistePieza.value = 'Pieza: ' + diente + ', ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.hallazgo
                     result = true;
                     break;
                 }
             }
-        } else {
-            if (fila.hallazgo == 'caries' || fila.hallazgo == 'restauración' || fila.hallazgo == 'manchablanca'){
-                if(item.diente==diente && item.hallazgo==fila.hallazgo && item.ubicacion==fila.ubicacion ){
+            else {
+                if (item.diente == diente && item.hallazgo == fila.hallazgo && item.ubicacion == fila.ubicacion && item.posicion == fila.posicion) {
                     if (isSpeech.value)
-                        speak('pieza '+diente+' hallazgo '+fila.hallazgo+ ' y ubicación '+fila.ubicacion+' ya existe en el odontograma')
+                        speak('pieza ' + diente + ' hallazgo ' + fila.hallazgo + ' y ubicación ' + fila.ubicacion + ' ya existe en el odontograma')
                     else
-                        mensajeExistePieza.value = 'Pieza: '+diente+', Hallazgo: '+fila.hallazgo+ ', Ubicación: '+fila.ubicacion+', ya existe en el odontograma'
+                        mensajeExistePieza.value = 'Pieza: ' + diente + ', Hallazgo: ' + fila.hallazgo + ', Ubicación: ' + fila.ubicacion + ', ya existe en el odontograma'
                     result = true;
                     break;
                 }
-               if (fila.hallazgo == 'caries' || fila.hallazgo == 'manchablanca') {
-                  if (item.diente==diente && item.ubicacion==fila.ubicacion && item.hallazgo=='restauración' ){
+                else if (item.diente == diente && item.hallazgo != fila.hallazgo) {
                     if (isSpeech.value)
-                        speak('pieza '+diente+' y ubicación '+fila.ubicacion+' ya está registrado como hallazgo restauración')
+                        speak('pieza ' + diente + ' ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.hallazgo)
                     else
-                        mensajeExistePieza.value = 'Pieza: '+diente+', Ubicación: '+fila.ubicacion+', ya está registrado como Hallazgo restauración'
+                        mensajeExistePieza.value = 'Pieza: ' + diente + ', ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.hallazgo
                     result = true;
                     break;
-                  }
-               }
-               if (fila.hallazgo == 'restauración') {
-                if (item.diente==diente && item.ubicacion==fila.ubicacion && (item.hallazgo=='caries' || item.hallazgo=='manchablanca' ) ){
-                    if (isSpeech.value)
-                        speak('pieza '+diente+' y ubicación '+fila.ubicacion+' ya está registrado como hallazgo caries')
-                    else
-                        mensajeExistePieza.value = 'Pieza: '+diente+', Ubicación: '+fila.ubicacion+', ya está registrado como Hallazgo caries'
-                    result = true;
-                    break;
-                }
-             }
-            } else {
-                if (fila.hallazgo == 'hipoplasia' || fila.hallazgo == 'hipomineralizacion'||
-                    fila.hallazgo == 'opacidad' || fila.hallazgo == 'decoloración' || fila.hallazgo == 'fluorosis' ||
-                    fila.hallazgo == 'sellanteazul' || fila.hallazgo == 'sellanterojo'
-                    )
-                {
-                    if(item.diente==diente ){
-                        if(fila.sigla==''){
-                            if(item.diente==diente && item.hallazgo==fila.hallazgo){
-                                if (isSpeech.value)
-                                    speak('pieza '+diente+' y hallazgo '+fila.hallazgo+' ya existe en el odontograma')
-                                else
-                                    mensajeExistePieza.value ='Pieza: '+diente+', Hallazgo: '+fila.hallazgo+', ya existe en el odontograma'
-                                result = true;
-                                break;
-                            }
-                        } else {
-                            if(item.diente==diente && item.hallazgo==fila.hallazgo && item.sigla==fila.sigla ){
-                                if (isSpeech.value)
-                                    speak('pieza '+diente+' y hallazgo '+fila.hallazgo+' ya existe en el odontograma')
-                                else
-                                    mensajeExistePieza.value ='Pieza: '+diente+', Hallazgo: '+fila.hallazgo+', ya existe en el odontograma'
-                                result = true;
-                                break;
-                            } else {
-                                if (dienteConSiglas(lista,diente)>0){
-                                    if (isSpeech.value)
-                                        speak('pieza '+diente+' ya existe en el odontograma con Sigla, no se puede registrar como hallazgo '+fila.hallazgo)
-                                    else
-                                        mensajeExistePieza.value = 'Pieza: '+diente+', ya existe en el odontograma con Sigla, no se puede registrar como Hallazgo: '+fila.hallazgo
-                                    result = true;
-                                    break;
-                                }
-                            }
-                        }
-
-                    }
-                } else {
-                    //verificamos que el hallazgo dictado sea ausente
-                    if(fila.hallazgo == 'ausente'){
-                        if(item.diente==diente){
-                            if(isSpeech.value)
-                                speak('pieza '+diente+' ya existe en el odontograma, no se puede registrar una pieza ausente en una pieza que no es ausente')
-                            else
-                                mensajeExistePieza.value = 'Pieza: '+diente+', ya existe en el odontograma, no se puede registrar una pieza ausente en una pieza que no es ausente'
-                            result = true;
-                            break;
-                        }
-                    } else{
-                        if(item.diente==diente && item.hallazgo==fila.hallazgo){
-                            if(isSpeech.value)
-                                speak('pieza '+diente+' y hallazgo '+fila.hallazgo+' ya existe en el odontograma')
-                            else
-                                mensajeExistePieza.value = 'Pieza: '+diente+', Hallazgo: '+fila.hallazgo+', ya existe en el odontograma'
-                            result = true;
-                            break;
-                        }
-                    }
                 }
             }
         }
@@ -195,66 +128,51 @@ export function agregarLista(id, param) {
     if (param.hallazgos.length > 0) {
         param.hallazgos.forEach(element => {
             const existeHallazgo = listaDeHallazgos.filter((elem) => elem.value == element.hallazgo)[0];
-            const existeSellante = escenarios.EsenariosSellantes.filter((elem) => elem.pieza == param.diente)[0];
-            if (existeSellante != undefined ) {
-                if (existeHallazgo != undefined) {
-                    let fila = {
-                        diente: param.diente,
-                        hallazgo: element.hallazgo,
-                        ubicacion: (element.hallazgo == 'caries' || element.hallazgo == 'manchablanca') ? element.ubicacion : (element.hallazgo == 'restauración') ? element.ubicacion : '',
-                        sigla: element.sigla,
-                        posicion: (element.hallazgo == 'caries' || element.hallazgo == 'manchablanca') ? element.posicion : (element.hallazgo == 'restauración') ? element.posicion : '',
-                        fechaHallazgo:new Date(),
-                    }
-                    if (param.diente != '') {
-                       /*
-                        const index = item.value?.hallazgos.findIndex(i => i.diente == fila.diente && i.ubicacion == fila.ubicacion && i.sigla == fila.sigla && i.posicion == fila.posicion)
-                        const existePieza = item.value?.hallazgos.filter((elem) => elem.diente == fila.diente  && elem.ubicacion == fila.ubicacion && elem.sigla == fila.sigla && elem.posicion == fila.posicion).length;
-                        if (existePieza > 0) {
-                            item.value?.hallazgos.splice(index, 1);
-                        }
-                        */
-                        if (!existeDiente(param.diente, fila)) {
-                            item.value.hallazgos ? item.value.hallazgos.push(fila) : item.value.hallazgos = [fila];
-                        } /*else {
-                            if (fila.hallazgo === 'caries' || fila.hallazgo === 'restauración') {
-                                mensajeExistePieza.value = 'Pieza: ' + param.diente + ', Hallazgo: ' + fila.hallazgo + ' y Ubicación: ' + fila.ubicacion + ', ya existen en el odontograma';
-                            } else {
-                                mensajeExistePieza.value = 'Pieza: ' + param.diente + ' y Hallazgo: ' + fila.hallazgo + ', ya existen en el odontograma';
-                            }
-                        }*/
-                    }
+            if (existeHallazgo != undefined) {
+                let fila = {
+                    diente: element.diente,
+                    hallazgo: element.hallazgo,
+                    ubicacion: element.ubicacion,
+                    sigla: element.sigla,
+                    posicion: element.posicion,
+                    fechaHallazgo: new Date(),
+                    dienteAlterno: element.dienteAlterno,
+                    descripcion: element.descripcion
                 }
-            } else {
-                if (element.hallazgo != 'sellanteazul' && element.hallazgo != 'sellanterojo'){
-                    if (existeHallazgo != undefined) {
-                        let fila = {
-                            diente: param.diente,
-                            hallazgo: element.hallazgo,
-                            ubicacion: (element.hallazgo == 'caries' || element.hallazgo == 'manchablanca') ? element.ubicacion : (element.hallazgo == 'restauración') ? element.ubicacion : '',
-                            sigla: element.sigla,
-                            posicion: (element.hallazgo == 'caries' || element.hallazgo == 'manchablanca') ? element.posicion : (element.hallazgo == 'restauración') ? element.posicion : '',
-                            fechaHallazgo:new Date(),
-                        }
-                        if (param.diente != '') {
-                            if (!existeDiente(param.diente, fila)) {
-                                item.value.hallazgos ? item.value.hallazgos.push(fila) : item.value.hallazgos = [fila];
-                            }
-                        }
-                    }
-                } else {
-                    mensajeExistePieza.value = 'Hallazgo: '+element.hallazgo+', no corresponde a la pieza: ' + param.diente ;
+                if (param.diente != '') {
+                    if (!existeDiente(element.diente, fila)) {
+                        item.value.hallazgos ? item.value.hallazgos.push(fila) : item.value.hallazgos = [fila];
+                    }                    
                 }
             }
         });
         actualizarDetalle(id, item.value.hallazgos)
+
     }
 }
 
+export const validaDoble = (item) => {
+    const hzgoMatriz = listaDeHallazgos.filter((elem) => elem.value == item.hallazgo);
+    if (hzgoMatriz.length > 0) {
+        if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.EsMultiple == "SI" && hzgoMatriz[0]?.DobleD == "DD") {
+            let _dienteSelect1 = listaDeDientesCombo.filter((elem) => elem.value == item.diente);
+            let _dienteSelect2 = listaDeDientesCombo.filter((elem) => elem.value == item.dienteAlterno);
+            if (_dienteSelect1.length > 0 && _dienteSelect2.length > 0) {
+                let indice1 = (_dienteSelect1[0]?.indice > _dienteSelect2[0]?.indice) ? _dienteSelect2[0]?.indice : _dienteSelect1[0]?.indice;
+                let indice2 = (_dienteSelect2[0]?.indice > _dienteSelect1[0]?.indice) ? _dienteSelect2[0]?.indice : _dienteSelect1[0]?.indice;
+                let diferencia = indice2 - indice1
+                if (diferencia > 1) {
+                    return false
+                }
+            }
+        }
+    }
+    return true
+}
 export const actualizarDetalle = (id, Hallazgos) => {
-    let hallazgosOrder= Hallazgos.sort(function(a, b) {
+    let hallazgosOrder = Hallazgos.sort(function (a, b) {
         //console.log(b.fechaHallazgo-a.fechaHallazgo)
-        return b.fechaHallazgo-a.fechaHallazgo
+        return b.fechaHallazgo - a.fechaHallazgo
     })
     var itemUpd = {
         id: id,
@@ -263,30 +181,46 @@ export const actualizarDetalle = (id, Hallazgos) => {
     const referencia = doc(firestore, 'odontograma', itemUpd.id)
     return updateDoc(referencia, itemUpd)
 }
+
+const borrarDeLaColeccion = () => {
+    item.archivos.splice(i, 0)
+}
 const eliminar = (id) => {
-    const ordenUltimo = registroodonto.value.length - 1;
-    if (ordenUltimo > 0) {
-        const idOdontograma = registroodonto.value.find(item => item.order === ordenUltimo)?.id;
-        actualizarEsUltimo(idOdontograma, '2')
-    }
-    const ordenPenuultimo = registroodonto.value.length - 2;
-    if (ordenPenuultimo > 0) {
-        const idOdontograma = registroodonto.value.find(item => item.order === ordenPenuultimo)?.id;
-        actualizarEsUltimo(idOdontograma, '1')
-    }
+    const diagnosticos = registroodonto.value.filter((elem) => elem.tipo == "Diagnóstico" && elem.id != id);
+    let maxValueOfOrder = Math.max(...diagnosticos.map(o => o.order));
+    //for (const item of diagnosticos) {
+    //if (maxValueOfOrder === item.order) {
+    //    actualizarestado(item.id, '2');
+    //}
+    //}
+
     const referencia = doc(firestore, 'odontograma', id)
     return deleteDoc(referencia)
 }
 
 const registroodonto = ref([])
 
+const registro_ = computed(() => registroodonto.value)
 const obtenerTodos = (idPaciente) => {
-    const referencia = collection(firestore, 'odontograma')
-    const busqueda = query(referencia, where("idPaciente", "==", idPaciente))
+    const referencia = query(
+        collection(firestore, 'odontograma'),
+        where("idPaciente", "==", idPaciente),
+        orderBy("fechaRegistro", "desc")
+    )
     return onSnapshot(
-        busqueda,
+        referencia,
         collection => {
-            registroodonto.value = collection.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+            let r = collection.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+            r = r.map((item, index) => {
+                return ({
+                    ...item,
+                    idRelacionados: r.filter(item_ => {
+                        return item_.idRelacionado == item.id
+                    })?.map(_item => _item.id) || [],
+                    estado: index == 0 || (index == 1 && item.tipo == "Diagnóstico" && r[0].tipo == "Tratamiento") ? '2' : '1'
+                })
+            })
+            registroodonto.value = r
         }
     )
 }
@@ -306,6 +240,13 @@ export const leerOdonto = id => {
 const leerEnRegistro = id => {
     return item.value = registroodonto.value.find(item => item.id == id)
 }
+export const getItemEnRegistro = id => registroodonto.value.find(item => item.id == id)
+
+export const obtenerPacienteOdontograma = (idPaciente,idOdontologo) => new Promise(resolve => {
+    const referencia = collection(firestore, 'odontograma')
+    return getDocs(query(referencia, where("idPaciente", "==", idPaciente), where("userId", "==",idOdontologo), where("tipo", "==", "Diagnóstico")))
+        .then(coleccion => resolve(coleccion.docs.map(doc => doc.data())))
+})
 
 const limpiar = () => {
     item.value = {

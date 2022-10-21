@@ -1,5 +1,4 @@
 <script setup>
-
 </script>
 
 <template lang="pug">
@@ -9,7 +8,10 @@
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Bienvenido
   .col-2
 h1 Proximamente ...
+p ----------------------------------------------------------------------------------------------------
+
 </template>
+
 <style>
 ion-icon {
   pointer-events: none;

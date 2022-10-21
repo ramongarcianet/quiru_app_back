@@ -7,7 +7,9 @@ const routeName = computed(()=>route.name)
 const rutas = [
     {name:'Dashboard', icono:'bar-chart-outline', ruta:'resumen'},
     {name:'Pacientes', icono:'person-outline', ruta:'pacientes'},
-    {name:'Configuración', icono:'settings-outline', ruta:'usuario'},
+    {name:'Citas', icono:'calendar-outline', ruta:'citas'},
+    //{name:'Configuración', icono:'settings-outline', ruta:'usuario'},
+
 ]
 </script>
 

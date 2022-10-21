@@ -20,7 +20,7 @@ const mensaje = ref('')
                 button.btn.btn-outline-light(type='submit' ) Iniciar sesión 
                 button.btn.btn-outline-light.text-center.m-1( type='button' @click='push({name: "registro"})' style="border: 0!important;") Registrarme
                 button.btn.btn-outline-light.text-center.m-1( type='button' @click='push({name: "reset-contrasena"})' style="border: 0!important;") Olvidé mi contraseña
-                p(v-if='mensaje') {{mensaje}}
+                p.alert.alert-danger.alert-dismissible(v-if='mensaje') {{mensaje}}
 </template>
 
 <style lang="sass" scoped>

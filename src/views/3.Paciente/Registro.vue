@@ -5,6 +5,7 @@ import { useRouter } from "vue-router";
 import { obtenerTodos, registro, updateEstado } from "../../store/paciente";
 import { previousPage, nextPage, setList, registro_, search, setListDelete, SetPage } from "../../config/Paginator";
 import { registroodonto, obtenerTodos as obtenerOdontograma } from "../../store/formodontograma";
+import { printHistoriaClinicaPaciente } from "../../store/historiaClinica";
 const obtenerRegistro = obtenerTodos();
 const confirmar = ref(false);
 const { push } = useRouter();
@@ -15,6 +16,11 @@ watch(
         setList(registro.value, 1);
     }
 )
+function printHistoriaClinica(idPaciente) {
+    printHistoriaClinicaPaciente(idPaciente);
+
+}
+
 </script>
 
 <template lang="pug">
@@ -28,20 +34,29 @@ watch(
             .col-3.ps-4.d-none.d-md-block Documento
             .col-3.d-none.d-md-block Nombre
             .col-2.d-none.d-md-block Teléfono
-            .col-3.d-none.d-md-block Email
+            .col-2.d-none.d-md-block Email
             .col-1
-    .card.mb-2.p-2(v-for="item of registro_"  :key="item.id"  :item="item" @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })" style="border-radius: 40px")
+            .col-1
+    .card.mb-2.p-2.d-block.d-md-none(v-for="item of registro_"  :key="item.id"  :item="item" @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })" style="border-radius: 40px")
         .row.align-items-center.p-1(style="cursor: pointer")
-            .col-10.d-block.d-md-none {{item.tipoDocumento + ' ' +item.numeroDocumento }}
-            .col-10.d-block.d-md-none {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }}
+            .col-10 {{item.tipoDocumento + ' ' +item.numeroDocumento }}
+            .col-1.dropdown(style="max-height: 24px")
+                button.ms-auto.btn.p-0.m-0(title='Odontograma')
+                    i.fa.fa-solid.fa-tooth
+            .col-10 {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }}
 
-            .col.ps-3.d-none.d-md-block {{item.tipoDocumento}}
-            .col-2.d-none.d-md-block {{ item.numeroDocumento }}
-            .col-3.d-none.d-md-block {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }} 
-            .col-2.d-none.d-md-block {{item.telefono}}
-            .col-3.d-none.d-md-block {{item.email}}
+    .card.mb-2.p-2.d-none.d-md-block(v-for="item of registro_"  :key="item.id"  :item="item" style="border-radius: 40px" )
+        .row.align-items-center.p-1(style="cursor: pointer")
+            .col.ps-3(@click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })") {{item.tipoDocumento}}
+            .col-2(@click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })") {{ item.numeroDocumento }}
+            .col-3(@click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })") {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }} 
+            .col-2(@click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })") {{item.telefono}}
+            .col-2(@click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })") {{item.email}}
             .col-1.dropdown
-                button.ms-auto.btn(title='Odontograma')
+                button.ms-auto.btn(title='Historia Clínica' @click="printHistoriaClinica(item.id)")
+                    i.fa-solid.fa-briefcase-medical            
+            .col-1.dropdown
+                button.ms-auto.btn(title='Odontograma' @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })")
                     i.fa.fa-solid.fa-tooth
     .div(v-if="registro.length > 8",style="text-align: center;")
         nav.d-flex.justify-content-center(aria-label='Page navigation example')

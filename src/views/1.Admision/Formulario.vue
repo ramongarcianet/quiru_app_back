@@ -1,66 +1,100 @@
 <script setup>
-import {ref} from 'vue'
-import {item, guardar, actualizar,limpiar, dialog}  from '../../store/admision'
+import { useRoute, useRouter } from "vue-router";
+import { item, guardar, actualizar, leerEnRegistro, obtenerTodos, registro }  from '../../store/admision.js'
+const route = useRoute()
+const { back } = useRouter()
+const idPaciente = route.params.idPaciente
+const guardarOActualizar = (item, idPaciente) => {
+  if (item.id) return actualizar(item, idPaciente);
+  else return guardar(item, idPaciente);
+};
 
-const guardarOActualizar = () => {
-    if (item.value.id) actualizar(item.value).then(()=>limpiar())
-    else guardar( item.value).then(()=>limpiar())
-}
-
-
+obtenerTodos(route.params.idPaciente) 
 </script>
 
-<template>
+<template lang="pug">
 
-<dialog :open="$attrs.dialog">
-    <form @submit.prevent="e => guardarOActualizar()">
-        <Col>
-        <Row>
-          <!--   <Col>
-                <input placeholder="Código" v-model="item.codigo" required>
-            </Col> -->
-            <Col>
-                <select v-model="item.tipoDocumento"  required>
-                    <option value="DNI"> DNI</option>
-                    <option value="CE"> CARNET DE EXTRAJERIA</option>
-                </select>
-            </Col>
-            <Col>
-                <input placeholder="Número Documento" v-model="item.numeroDocumento" required>
-            </Col>
-        </Row>
-        <Row>
-            <Col>
-                <input placeholder="Nombre" v-model="item.nombre" required>
-            </Col>
-            <Col>
-                <input placeholder="Apellido Paterno" v-model="item.apellidoPaterno"  required>
-            </Col>
-             <Col>
-                <input placeholder="Apellido Materno" v-model="item.apellidoMaterno"  required>
-            </Col>
-        </Row>
-        <Row>
-            <Col>
-                <input placeholder="Fecha Admisión" type="date" v-model="item.fechaAdmisión"  required>
-            </Col>
-        </Row>
-        <Row>
-            <Col>
-                <input placeholder="Comentario" v-model="item.Comentario"  required>
-            </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Button type="button" @click="dialog = false;limpiar()"> Cancelar </Button>
-          </Col>
-          <Col>
-            <Button> Guardar</Button>
-          </Col>
-        </Row>
-    </Col>
-    </form>
-</dialog>
 
+Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => back()')
+  .row
+    .col-md-6
+      label.form-label Ocupación
+      .input.mb-2
+        input.form-control(placeholder="Ocupación", v-model="item.ocupacion")
+      label.form-label Número de emergencia
+      .input.mb-2
+        input.form-control(placeholder="Número de emergencía", v-model="item.numeroEmergencia")
+      label.form-label Antecedentes
+      .input.mb-2
+        h5.form-label Familiares
+        input.form-control(placeholder="Antecedentes familiares", v-model="item.antecedentesFam")
+      .input.mb-2
+        h5.form-label Familiares
+        input.form-control(placeholder="Antecedentes personales", v-model="item.antecedentesPer")
+      label.form-label Sígnos vitales
+      .row.mb-2
+        .col.d-flex
+          span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") Temperatura:
+            input.form-control(placeholder="Temperatura", v-model="item.temperatura")
+        .col.d-flex
+          span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") Pulso:
+            input.form-control(placeholder="Pulso", v-model="item.pulso")
+      .row
+        .col.d-flex
+          span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") P.A:
+            input.form-control(placeholder="P.A.", v-model="item.pa")
+        .col.d-flex
+          span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") F.C:
+            input.form-control(placeholder="F.C.", v-model="item.fc")
+        .col.d-flex
+          span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") F.R:
+            input.form-control(placeholder="F.Resp.", v-model="item.fResp")
+    .col-md-6
+      label.form-label Procedencia
+      .input.mb-2
+        input.form-control(placeholder="Procedencia", v-model="item.procedencia")
+      .col.mb-2
+        label.form-label Motivo de consulta
+        .input-group
+          input.form-control(placeholder="Motivo de consulta", v-model="item.motivoConsulta")
+      .col.mb-2
+        label.form-label Enfermadad actual
+        .input.mb-2
+          input.form-control(placeholder="Enfermadad actual", v-model="item.enfermedadActual")
+        .input.mb-2
+          h6.form-label Tiempo de enfermedad
+          input.form-control(placeholder="Tiempo de enfermedad", v-model="item.tiempoEnfermedad")
+        .input.mb-2
+          h6.form-label Signos y síntomas principales
+          input.form-control(placeholder="Signos y síntomas principales", v-model="item.signosYSintomas")
+        .input.mb-2
+          h6.form-label Relato cronológico
+          input.form-control(placeholder="Relato cronológico", v-model="item.relatoCronologico")
+        .input.mb-2
+          h6.form-label Funciones biológicas
+          input.form-control(placeholder="Funciones biológicas", v-model="item.funcionesBio")
+    .col-6
+      .row
+        .col.mb-2
+          label.form-label Exámen clínico general
+          .input.mb-2
+            input.form-control(placeholder="Exámen clínico general", v-model="item.examClinicoGeneral")
+        .col.mb-2
+          label.form-label Exámen odontoestomatológico
+          .input.mb-2
+            input.form-control(placeholder="Exámen odontoestomatológico", v-model="item.examClinicoOdonto")
+    .col-6
+      label.form-label Viajes de los últimos años
+      .input-group
+        input.form-control(placeholder="Motivo de consulta", v-model="item.viajesUltimos")
+  .col-12.col-md-4.mx-auto.mt-3
+    button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(
+      type='submit', style="border-radius: 50px"
+    )
+      span
+        small
+          strong Guardar
+        p.mb-0 Admisión
+      i.fa-solid.fa-save.fa-lg.ms-5(style=" color: white;")
 </template>
 
