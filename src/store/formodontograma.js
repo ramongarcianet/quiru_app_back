@@ -21,10 +21,10 @@ const item = ref({
 })
 
 
-const guardar = (idPaciente, tipo, papa, idRelacionado) => new Promise((resolve, reject) => {
+const guardar = (idPaciente, tipo, tieneTratamiento, idRelacionado) => new Promise((resolve, reject) => {
     for (const item of registroodonto.value) {
-        if (item.papa === 'No')
-            actualizarPapa(item.id, 'Si');
+        if (item.tieneTratamiento === 'No')
+            actualizarTratamiento(item.id, 'Si');
     }
     const fila = {
         tipo: tipo,
@@ -34,7 +34,7 @@ const guardar = (idPaciente, tipo, papa, idRelacionado) => new Promise((resolve,
         fechaRegistro: new Date(),
         idPaciente,
         userId: miUsuario()?.uid,
-        papa: papa,
+        tieneTratamiento: tieneTratamiento,
         order: registroodonto.value.length + 1,
     }
 
@@ -50,20 +50,20 @@ const guardar = (idPaciente, tipo, papa, idRelacionado) => new Promise((resolve,
     }
     const referencia = collection(firestore, 'odontograma')
     return addDoc(referencia, fila).then((docRef) => {
-        item.value.idRelacionados
+        item?.value.idRelacionados
             ? item.value.idRelacionados.push(docRef.id)
             : item.value.idRelacionados = [docRef.id]
-        return resolve()
+        return resolve(docRef.id)
     })
 
 })
 
 //export const actualizarestado = (id, estado) => updateDoc(doc(firestore, 'odontograma', id), {estado})
 
-export const actualizarPapa = (id, papa) => {
+export const actualizarTratamiento = (id, tieneTratamiento) => {
     var itemUpd = {
         id: id,
-        papa: papa
+        tieneTratamiento: tieneTratamiento
     }
     const referencia = doc(firestore, 'odontograma', id)
     return updateDoc(referencia, itemUpd)
@@ -137,6 +137,7 @@ export function agregarLista(id, param) {
                     posicion: element.posicion,
                     fechaHallazgo: new Date(),
                     dienteAlterno: element.dienteAlterno,
+                    descripcion: element.descripcion
                 }
                 if (param.diente != '') {
                     if (!existeDiente(element.diente, fila)) {
@@ -241,9 +242,9 @@ const leerEnRegistro = id => {
 }
 export const getItemEnRegistro = id => registroodonto.value.find(item => item.id == id)
 
-export const obtenerPacienteOdontograma = (idPaciente) => new Promise(resolve => {
+export const obtenerPacienteOdontograma = (idPaciente,idOdontologo) => new Promise(resolve => {
     const referencia = collection(firestore, 'odontograma')
-    return getDocs(query(referencia, where("idPaciente", "==", idPaciente), where("tipo", "==", "Tratamiento"), where("estado", "==", "2")))
+    return getDocs(query(referencia, where("idPaciente", "==", idPaciente), where("userId", "==",idOdontologo), where("tipo", "==", "Diagnóstico")))
         .then(coleccion => resolve(coleccion.docs.map(doc => doc.data())))
 })
 

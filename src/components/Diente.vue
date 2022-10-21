@@ -12,14 +12,14 @@ const diente = computed(() => (Number(props.item.diente) / 10).toFixed(1) || "00
 
 
 function slelecteditem(ubicacion) {
-    const index = itemModel.value?.hallazgos.findIndex(i => i.hallazgo == Hallazgo.value && i.posicion == ubicacion)
+    const index = itemModel.value?.hallazgos.findIndex(i => i.descripcion == Hallazgo.value && i.posicion == ubicacion)
     let zonaDiente = "";
     if (index > -1) {
         itemModel.value.hallazgos.splice(index, 1)
     }
     else {
-        const registroSiglas = listaDeHallazgos.filter((elem) => elem.value == Hallazgo.value);
-        const sigla = registroSiglas[0]?.sigla;
+        const hzgoMatriz = listaDeHallazgos.filter((elem) => elem.text == Hallazgo.value);
+        const sigla = hzgoMatriz[0]?.sigla;
         const ubicacionnes = escenarios.Esenarios.filter((elem) => elem.pieza == itemModel.value.diente)[0];
         if (ubicacionnes != undefined && comboHallazgo.value != '' && comboPieza.value != '') {
             switch (ubicacion) {
@@ -46,10 +46,11 @@ function slelecteditem(ubicacion) {
                 dienteAlterno: "",
                 fechaHallazgo: new Date(),
                 fila: 0,
-                hallazgo: Hallazgo.value,
+                hallazgo: hzgoMatriz[0]?.value,
                 posicion: ubicacion,
                 sigla: sigla,
-                ubicacion: zonaDiente
+                ubicacion: zonaDiente,
+                descripcion: hzgoMatriz[0]?.value
             })
         }
     }
@@ -60,7 +61,7 @@ function slelecteditem(ubicacion) {
     h1
         span {{ diente }}
     h1
-        span {{ item.hallazgos.map((item) => item.sigla).join(' ') }}
+        span {{item.hallazgos.map((item) => item.sigla).find(x => x != "")}}
     //-#raices
     #button-diente( :class='item.hallazgos?.map(({ hallazgo }) => hallazgo).join(" ")' )
         div(

@@ -35,7 +35,7 @@ const seleccionarHallazgoExtraccionPieza = (pieza) => actualizarItem('extracció
 
 const saludar = () => speak('Hola, soy Quiru, tu nuevo asistente de voz odontológico')
 const queSabesHacer = () => speak('Yo me encargo del registro de tus odontogramas: diagnóstico y tratamiento. Tu encárgate de atender a tus pacientes')
-const agradecer = () => speak('Encantada de ayudarte')
+const agradecer = () => speak('')
 const mellamo = () => speak(`Yo soy Quiru, encantada de conocerte.`)
 const cambiarVista = () => verOdontograma.value = !verOdontograma.value
 
@@ -49,7 +49,15 @@ const seleccionMultiple = (num1, num2, hallazgo) => {
     if (hzgoMatriz.length > 0) {
         let _hallazgo = hzgoMatriz[0]?.value;
         if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.EsMultiple == "SI" && hzgoMatriz[0]?.Replicable_Intermedio != "RE") {
-            item.value.hallazgos.push({ diente: num1_, hallazgo: _hallazgo, ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "", dienteAlterno: num2_ })
+            item.value.hallazgos.push({ 
+                diente: num1_, 
+                hallazgo: hzgoMatriz[0]?.value, 
+                ubicacion: "", 
+                sigla: hzgoMatriz[0]?.sigla, 
+                posicion: "", 
+                dienteAlterno: num2_ ,
+                descripcion: hzgoMatriz[0]?.text
+            })
         };
         if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.EsMultiple == "SI" && hzgoMatriz[0]?.Replicable_Intermedio == "RE") {
             let _dienteSelect1 = listaDeDientesCombo.filter((elem) => elem.value == num1_);
@@ -61,7 +69,15 @@ const seleccionMultiple = (num1, num2, hallazgo) => {
                 let dientesReplicables = listaDeDientesCombo.filter((elem) => elem.grupo == _dienteSelect1[0]?.grupo &&
                     elem.indice >= indice1 && elem.indice <= indice2);
                 dientesReplicables.forEach(element => {
-                    item.value.hallazgos.push({ diente: element.value, hallazgo: _hallazgo, ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "", dienteAlterno: "" })
+                    item.value.hallazgos.push({ 
+                        diente: element.value, 
+                        hallazgo: hzgoMatriz[0]?.value, 
+                        ubicacion: "", 
+                        sigla: hzgoMatriz[0]?.sigla, 
+                        posicion: "", 
+                        dienteAlterno: "" ,
+                        descripcion: hzgoMatriz[0]?.text
+                    })
                 })
             }
         }
@@ -147,9 +163,8 @@ function formatUbicacion(ubicacion) {
 export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
     let mensaje = ''
     const hallazgoCorrecto = hallazgo ? listaDeHallazgos.map(({ value }) => value).indexOf(hallazgo) > -1 : true
-    const piezaCorrecta = ubicacion ? listaDeUbicacion.length > 0 : true
     const ubicacionCorrecta = pieza ? listaDeDientes_.find(item => item == pieza) : true
-    if (!hallazgoCorrecto || !ubicacionCorrecta || !piezaCorrecta) return
+    if (!hallazgoCorrecto || !ubicacionCorrecta) return
     let pieza_ = pieza < 10 ? pieza * 10 : pieza
     if (ubicacion) {
         ubicacion = formatUbicacion(ubicacion)
@@ -165,7 +180,15 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
     const hzgoMatriz = listaDeHallazgos.filter((elem) => elem.value == hallazgo);
     if (hzgoMatriz.length > 0) {
         if (hzgoMatriz[0]?.esDirecto == "SI") {
-            item.value.hallazgos.push({ diente: pieza_, hallazgo: hallazgo, ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "", fechaHallazgo: new Date(), })
+            item.value.hallazgos.push({ 
+                diente: pieza_, 
+                hallazgo: hzgoMatriz[0]?.value, 
+                ubicacion: "", 
+                sigla: hzgoMatriz[0]?.sigla, 
+                posicion: "", 
+                fechaHallazgo: new Date(), 
+                descripcion: hzgoMatriz[0]?.text
+            })
         }
         agregarLista(itemodontograma.value.id, item.value)
     }
