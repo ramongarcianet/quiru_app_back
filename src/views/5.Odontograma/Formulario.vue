@@ -113,22 +113,40 @@ watch(
 )
 function AgregarHallazgo() {
   if (comboHallazgo.value != '' && comboPieza.value != '') {
-    const hzgoMatriz = _Hallazgos.filter((elem) => elem.value == comboHallazgo.value);
+    const hzgoMatriz = _Hallazgos.filter((elem) => elem.text == comboHallazgo.value);
     if (hzgoMatriz.length > 0) {
       if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.Replicable_Intermedio != "RE") {
-        let fila = { diente: comboPieza.value, hallazgo: comboHallazgo.value, ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "", dienteAlterno: comboPiezaAl.value }
+        let fila = {
+          diente: comboPieza.value,
+          hallazgo: hzgoMatriz[0]?.value, ubicacion: "",
+          sigla: hzgoMatriz[0]?.sigla, posicion: "",
+          dienteAlterno: comboPiezaAl.value
+        }
         if (!validaDoble(fila)) {
           mensajeExistePieza.value = 'No se puede registrar este hallazgo para más de 2 dientes'
           return false
         }
-        item.value.hallazgos.push({ diente: comboPieza.value, hallazgo: comboHallazgo.value, ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "", dienteAlterno: comboPiezaAl.value })
+        item.value.hallazgos.push({
+          diente: comboPieza.value,
+          hallazgo: hzgoMatriz[0]?.value,
+          ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "", dienteAlterno: comboPiezaAl.value,
+          descripcion: hzgoMatriz[0]?.text
+        })
       };
       if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.EsMultiple == "SI" && hzgoMatriz[0]?.Replicable_Intermedio == "RE") {
         const _dienteSelect = listaDeDientesCombo.filter((elem) => elem.value == comboPieza.value);
         let dienteAlterno = listaDeDientesCombo.filter((elem) => elem.value == comboPiezaAl.value);
         let dientesReplicables = listaDeDientesCombo.filter((elem) => elem.grupo == _dienteSelect[0]?.grupo && elem.indice >= _dienteSelect[0]?.indice && elem.indice <= dienteAlterno[0]?.indice);
         dientesReplicables.forEach(element => {
-          item.value.hallazgos.push({ diente: element.value, hallazgo: comboHallazgo.value, ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "", dienteAlterno: "" })
+          item.value.hallazgos.push({
+            diente: element.value,
+            hallazgo: hzgoMatriz[0]?.value,
+            ubicacion: "",
+            sigla: hzgoMatriz[0]?.sigla,
+            posicion: "",
+            dienteAlterno: "",
+            descripcion: hzgoMatriz[0]?.text
+          })
         })
       }
     }
@@ -203,12 +221,12 @@ const idRelacionados_ = computed((() => id => getItemEnRegistro(id)?.idRelaciona
           datalist#listaDeDientes
             option(v-for='{ value } of listaDeDientesCombo' :value="value")
           span#spanPiezaAl(style="display: none;") a la pieza :
-          input.form-control#comboPiezaAl(style="display: none;",list='listaDeDientesAl', name='comboPiezaAl', v-model='item.dienteAlterno')
+          input.form-control#comboPiezaAl(style="display: none;",list='listaDeDientesAl', name='comboPieza', v-model='item.dienteAlterno')
           datalist#listaDeDientesAl
         span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;") Hallazgo :
           input.form-control#comboHallazgo(list='listaDeHallazgos', name='comboHallazgo', v-model='Hallazgo', v-on:change="VisibleDiente()")
           datalist#listaDeHallazgos
-            option(v-for='{ value } of listaDeHallazgos' :value="value")
+            option(v-for='{ text } of listaDeHallazgos' :value="text")
 
     .row#VistaDiente(style="display: none;")
       .col.d-flex.justify-content-center
@@ -237,7 +255,7 @@ const idRelacionados_ = computed((() => id => getItemEnRegistro(id)?.idRelaciona
             tr(v-for="item of _hallazgos")
               td {{ item.fila }}
               td {{ item.diente }} {{ item.dienteAlterno !=""? " - " + item.dienteAlterno : ""}}
-              td {{ item.hallazgo }} {{ item.ubicacion }}
+              td {{ item.descripcion }} {{ item.ubicacion }}
               td {{ item.sigla }}
               td
                 BotonSeguro.mt-0( :onSuccess= '() => borrar(item)' :hidden="itemodontograma?.estado === '1' && !itemodontograma.idRelacionado")

@@ -137,6 +137,7 @@ export function agregarLista(id, param) {
                     posicion: element.posicion,
                     fechaHallazgo: new Date(),
                     dienteAlterno: element.dienteAlterno,
+                    descripcion: element.descripcion
                 }
                 if (param.diente != '') {
                     if (!existeDiente(element.diente, fila)) {
