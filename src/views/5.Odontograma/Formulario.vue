@@ -174,7 +174,7 @@ function ListaAlterna(seleccionado) {
   my_list.innerHTML = str;
 }
 function VisibleDiente() {
-  const hzgoMatriz = _Hallazgos.filter((elem) => elem.value == comboHallazgo.value);
+  const hzgoMatriz = _Hallazgos.filter((elem) => elem.text == comboHallazgo.value);
   var VistaDiente = document.getElementById("VistaDiente");
   var PiezaAl = document.getElementById("comboPiezaAl");
   var spanPiezaAl = document.getElementById("spanPiezaAl");
