@@ -120,10 +120,6 @@ export function detenerVozAutomat() {
     annyang.addCommands(comandosDeVoz.conVozApagada)
     isSpeech.value = false;//stop
     textoEscuchado.value = '';
-    item.value = {
-        diente: '',
-        hallazgos: []
-    }
 }
 let synth = window.speechSynthesis;
 

@@ -475,15 +475,6 @@ function FindingText(contexto, inicio_x, inicio_y, sigla, med, color) {
     ctx.lineWidth = 1;
     ctx.fillStyle = 'blue';
 }
-export function clearcanvas(id) {
-    var canvas = document.getElementById(id);
-    var contexto = canvas.getContext("2d");
-    contexto.clearRect(0, 0, canvas.width, canvas.height);
-    document.getElementById("comboHallazgo").value = ""
-    document.getElementById("comboPieza").value = ""
-    var alerta = document.getElementById("VistaDiente");
-    alerta.style.display = "block"
-}
 export function limpiarCaries() {
     var stle = "width: 100%; height:60px;";
     document.getElementById("btntopcar").style = stle + "border-radius: 90% 90% 0% 0%;";
