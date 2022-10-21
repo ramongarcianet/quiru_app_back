@@ -1,6 +1,4 @@
 <script setup>
-import Registro from '../1.Admision/Registro.vue';
-import Formulario from '../1.Admision/Formulario.vue';
 </script>
 
 <template lang="pug">
@@ -10,9 +8,7 @@ import Formulario from '../1.Admision/Formulario.vue';
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Bienvenido
   .col-2
 h1 Proximamente ...
-Formulario
 p ----------------------------------------------------------------------------------------------------
-Registro
 
 </template>
 

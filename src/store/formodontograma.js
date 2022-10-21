@@ -50,10 +50,10 @@ const guardar = (idPaciente, tipo, tieneTratamiento, idRelacionado) => new Promi
     }
     const referencia = collection(firestore, 'odontograma')
     return addDoc(referencia, fila).then((docRef) => {
-        item.value.idRelacionados
+        item?.value.idRelacionados
             ? item.value.idRelacionados.push(docRef.id)
             : item.value.idRelacionados = [docRef.id]
-        return resolve()
+        return resolve(docRef.id)
     })
 
 })

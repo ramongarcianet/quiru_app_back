@@ -6,26 +6,27 @@ import moment from 'moment'
 moment.locale('es-ES');
 
 const dialog = ref(false)
-
-const cita = ref({
-  numeroDocumento: '',
-  tipoDocumento: 'DNI',
-  nombre: '',
-  apellidoPaterno: '',
-  apellidoMaterno: '',
-  email:'',
-  telefono: '',
-  nombreDeCita: '',
-  horaDeCita: '',
-  fechaDeCita: '',
-  fechaDeCreacion: new Date().toISOString().slice(0, 10),
-
+//nombre: '',
+//apellidoPaterno: '',
+//apellidoMaterno: '',
+//email:'',  
+//numeroDocumento: '',
+//tipoDocumento: 'DNI',
+//telefono: '',
+let cita = ref({
+  idPaciente : '',
+  start: '', 
+  end: '', 
+  title: '', 
+  borderColor: "#0dcaf0", 
+  backgroundColor: '#fd7e14' ,
+  fechaDeCreacion: new Date().toISOString().slice(0, 10)
 })
 
 const guardarCita = item => {
   const mesActual = moment().format('MMMM')
   const referencia = collection(firestore, 'citas')
-  return addDoc(referencia, {...item, idOdontologo: usuario.value.uid, estado: true})
+  return addDoc(referencia, {...item, UserId: usuario.value.uid, estado: true})
 }
 
 const actualizar = (item) => {
@@ -54,8 +55,8 @@ const verEliminados = ref(false)
 const obtenerTodos = () => {
     const referencia = collection(firestore, 'citas')
     const referenciaOrden = !verEliminados.value
-        ? query(referencia, where('idOdontologo', '==',usuario.value.uid), where('estado', '==', true))
-        : query(referencia, where('idOdontologo', '==',usuario.value.uid), orderBy("fechaDeCita", "desc"))
+        ? query(referencia, where('UserId', '==',usuario.value.uid), where('estado', '==', true))
+        : query(referencia, where('UserId', '==',usuario.value.uid), orderBy("fechaDeCreacion", "desc"))
     return onSnapshot(
         referenciaOrden,
         collection => {
