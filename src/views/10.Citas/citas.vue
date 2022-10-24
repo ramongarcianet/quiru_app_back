@@ -12,7 +12,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useRoute, useRouter } from 'vue-router';
 import { obtenerTodos, registro, cita, guardarCita, actualizar, _event } from "../../store/citas";
-import { obtenerTodos as obtenerTodosPaciente, leer as LeerPaciente, registro as RegPaciente, item as itemPaciente, leerDniRegistro } from "../../store/paciente";
+import { obtenerTodos as obtenerTodosPaciente, leer as LeerPaciente, registro as RegPaciente, item as itemPaciente, leerDniRegistro, guardar as guardarPaciente } from "../../store/paciente";
 import { item as ItemUsuario, leer as LeerUser, registro as RegistroUsuario, leerEnRegistro } from '../../store/usuario'
 import { miUsuario } from '../../store/sesion'
 const { push, back } = useRouter();
@@ -35,7 +35,7 @@ watch(
 );
 
 const id = ref(10)
-let mostrar = false;
+const mostrar = ref(false);
 function createEvent(item) {
   let horadiotext = ""
   let newTime = item.start.toLocaleTimeString('en-US');
@@ -57,9 +57,10 @@ function createEvent(item) {
   if (parseInt(hour2) < 9) {
     noSeconds2 = "0" + noSeconds2
   }
+  itemPaciente.value = {}
   horadiotext = item.start.toLocaleDateString('es-ES', opciones) + '     ' + noSeconds + " - " + noSeconds2;
   cita.value = {
-    idPaciente: itemPaciente.id,
+    idPaciente: '',
     start: item.start.toISOString(),
     end: item.end.toISOString(),
     title: item.title,
@@ -83,7 +84,6 @@ const options = reactive({
   locale: esLocale,
   nowIndicator: true,
   initialView: 'timeGridWeek',
-  businessHours: true,
   timeFormat: 'h(:mm)t',
   selectable: true,
   dayMaxEvents: true,
@@ -91,7 +91,7 @@ const options = reactive({
   datesAboveResources: true,
   themeSystem: 'bootstrap5',
   slotLabelFormat: { hour: 'numeric', minute: '2-digit', omitZeroMinute: true, hour12: true },
-  slotMinTime: '13:00:00',
+  slotMinTime: '08:00:00',
   slotMaxTime: '22:00:00',
   allDaySlot: false,
   contentHeight: 'auto',
@@ -106,7 +106,7 @@ const options = reactive({
     },
     timeGridWeek: {
       titleFormat: {
-        day: '2-digit'
+        month: 'short'
       }
     },
     timeGridDay: {
@@ -163,7 +163,16 @@ watch(
     }
   }
 );
-const guardarOActualizar = () => {
+const guardarAmbas = () => {
+  if(mostrar == true){
+    guardarPaciente()
+    guardarCitaCompleta()
+  }
+  else{
+    guardarCitaCompleta()
+  }
+}
+const guardarCitaCompleta = () => {
   if (cita.value.id) {
     return actualizar(cita.value);
   }
@@ -176,12 +185,26 @@ const guardarOActualizar = () => {
   }
 };
 function isNewPaciente(val) {
-  mostrar = val.target.checked;
+  mostrar.value = val.target.checked;
 }
 function GetPaciente(val) {
+  if(val.target.value == '') {
+    return
+  }
   leerDniRegistro(val.target.value);
+
+}
+const guardarPacienteNuevo = () => {
+  guardarPaciente().then((id) => {
+    guardarCitaCompleta()
+})
+}
+function closeEvent() {
+let control = document.getElementById("btnsclose");
+    control.click();
 }
 </script>
+
 <template lang="pug">
 .row
   .col-4.col-md-9
@@ -190,60 +213,64 @@ function GetPaciente(val) {
 .row 
   .contenido
     fullcalendar(v-bind:options='options')
-.row 
+.row
 #btnschedule.button.btn.btn-primary.ms-auto(type='button' hidden="hidden" data-bs-toggle='modal' data-bs-target='#schedule-add') 
-#schedule-add.modal.modal-fade(tabindex='-1' aria-hidden='true')
+#schedule-add.modal(tabindex='-1')
   .modal-dialog
-    .modal-content(style="background-color: var(--color-light) !important;")
-      Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
-        // Modal Header
+    .modal-content(style="background-color: var(--color-light) !important")
+      Form( :onPromise='()=>guardarCitaCompleta()' :onSuccess='()=>closeEvent()')
         .modal-header
-          i.fa.fa-calendar-plus-o.fa-2x
-          h4.modal-title Agregar Cita
-          button.close(type='button', data-bs-dismiss='modal') &times;
-        // Modal body
-        .modal-body    
+          i.fa.fa-calendar-plus-o.fa-2x(style="color: var(--color-primary)")
+          h4.modal-title Agendar Cita
+          #btnsclose.button.btn.btn-primary(type='button', data-bs-dismiss='modal') &times;
+        .modal-body
           .input-group.mb-3
             span#basic-addon1.input-group-text 
-              i.fa.fa-text-height(aria-hidden='true')
-            input.form-control(type='text' placeholder="Añade un Título", v-model="cita.title", required)        
+              i.fa.fa-text-height
+            input.form-control(placeholder="Añade un Título", v-model="cita.title", required)        
           .input-group.mb-3
             span#basic-addon1.input-group-text 
-              i.fa.fa-clock-o(aria-hidden='true')
-            input.form-control(type='text', placeholder='Horario', v-model="cita.timedisplay", readonly, style="font-weight:bold")
+              i.fa.fa-clock-o
+            input.form-control(placeholder='Horario', v-model="cita.timedisplay", readonly, style="font-weight:bold")
           .input-group.mb-3
             span#basic-addon1.input-group-text 
-              input#flexRadioDefault1.form-check-input(type='checkbox' value='' @change="isNewPaciente($event)")
-            input.form-control(type='text', placeholder='Nuevo Paciente?', readonly, style="font-weight:bold")
+              input.form-check-input(type='checkbox', id="checkbox", v-model="checked", @change="isNewPaciente($event)")
+            input.form-control(placeholder='Registrar un nuevo paciente', readonly, style="font-weight:bold")
+          .input-group.mb-3(v-if="mostrar == false")
+            span#basic-addon1.input-group-text
+              i.fa-solid.fa-magnifying-glass
+            input.form-control(placeholder='Buscar paciente por DNI', required, v-on:focusout="GetPaciente($event)")
+          .pacienteNuevo(v-if="mostrar == true")
+            .input-group.mb-3
+              span#basic-addon1.input-group-text 
+                i.fa.fa-user-o
+              input.form-control(placeholder='Nombre Paciente', required, v-model="itemPaciente.nombre" )
+              input.form-control(placeholder='Apellido Paciente', required, v-model="itemPaciente.apellidoPaterno" )
+              input.form-control(placeholder='Apellido Paciente', required, v-model="itemPaciente.apellidoMaterno" )
+            .input-group.mb-3
+              span#basic-addon1.input-group-text
+                i.fa.fa-id-card
+              input.form-control(placeholder='DNI Paciente', required , v-model="itemPaciente.numeroDocumento")
+            .input-group.mb-3
+              span#basic-addon1.input-group-text
+                i.fa.fa-at
+              input.form-control(placeholder='Email', required, v-model="itemPaciente.email")
+              input.form-control(placeholder='Celular', required, v-model="itemPaciente.telefono")
           .input-group.mb-3
             span#basic-addon1.input-group-text 
-              i.fa.fa-id-card(aria-hidden='true')
-            input.form-control(type='text', placeholder='DNI Paciente', required , v-model="itemPaciente.numeroDocumento", v-on:focusout="GetPaciente($event)")
-            input.form-control(type='text', placeholder='Email', required, v-model="itemPaciente.email")
-            input.form-control(type='text', placeholder='Celular', required, v-model="itemPaciente.telefono")
+              i.fa.fa-align-left
+            input.form-control(placeholder='Añade una descripción de la cita', v-model="cita.descripcion")
           .input-group.mb-3
             span#basic-addon1.input-group-text 
-              i.fa.fa-user-o(aria-hidden='true')
-            input.form-control(type='text', placeholder='Nombre Paciente', required, v-model="itemPaciente.nombre")
-            input.form-control(type='text', placeholder='Apellido Paciente', required, v-model="itemPaciente.apellidoPaterno")
-            input.form-control(type='text', placeholder='Apellido Paciente', required, v-model="itemPaciente.apellidoMaterno")
+              i.fa.fa-user-md
+            input.form-control(placeholder='Odontólogo', v-model="ItemUsuario.nombre", readonly, style="font-weight:bold")
           .input-group.mb-3
             span#basic-addon1.input-group-text 
-              i.fa.fa-align-left(aria-hidden='true')
-            input.form-control(type='text', placeholder='Añade una descripción de la cita', v-model="cita.descripcion")
-          .input-group.mb-3
-            span#basic-addon1.input-group-text 
-              i.fa.fa-user-md(aria-hidden='true')
-            input.form-control(type='text', placeholder='Odontólogo' , v-model="ItemUsuario.nombre", readonly, style="font-weight:bold")
-          .input-group.mb-3
-            span#basic-addon1.input-group-text 
-              i.fa.fa-paint-brush(aria-hidden='true')
-            input#exampleColorInput.form-control.form-control-color(type='color', title='Choose your color' , v-model="cita.backgroundColor")        
-        // Modal footer
+              i.fa.fa-paint-brush
+            input#exampleColorInput.form-control.form-control-color(type='color', title='Choose your color', v-model="cita.backgroundColor")
         .modal-footer
           button.btn.btn-danger(type='button', data-bs-dismiss='modal') Cancelar
           button.ms-auto.btn.btn-primary(type="submit") Grabar
-      // Edit Modal
 </template>
 
 <style lang="sass">
@@ -268,7 +295,7 @@ function GetPaciente(val) {
 .fc .fc-daygrid-day
   background-color: transparent
 .fc-theme-bootstrap5 a:not([href]) 
-  color: rgb(55, 223, 187)
+  color: rgb(57, 93, 86)
   text-decoration: inherit
 .fc .fc-toolbar-title
   color: rgb(57, 93, 86) !important
@@ -289,8 +316,5 @@ function GetPaciente(val) {
   --bs-btn-disabled-bg:transparent
   --bs-btn-disabled-border-color:rgb(55, 223, 187)
   --bs-gradient:none
-.nav-link
-  color: rgb(55, 223, 187)
-.nav-link:hover, .nav-link:focus
-    hover-color:#fff
+
 </style>
