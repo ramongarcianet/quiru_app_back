@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, watch, onMounted } from 'vue'
 import '@fullcalendar/core/vdom'
 import fullcalendar from '@fullcalendar/vue3'
 import dayGrigPlugin from '@fullcalendar/daygrid'
@@ -8,31 +8,34 @@ import listPlugin from '@fullcalendar/list'
 import interactionPlugin from '@fullcalendar/interaction'
 import esLocale from '@fullcalendar/core/locales/es';
 import bootstrap5Plugin from '@fullcalendar/bootstrap5';
-
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-
 import { useRoute, useRouter } from 'vue-router';
-import { obtenerTodos, registro, cita, guardarCita, actualizar } from "../../store/citas";
-import { previousPage, nextPage, setList, registro_, search, setListDelete, SetPage } from "../../config/Paginator";
-
+import { obtenerTodos, registro, cita, guardarCita, actualizar, _event } from "../../store/citas";
+import { obtenerTodos as obtenerTodosPaciente, leer as LeerPaciente, registro as RegPaciente, item as itemPaciente, leerDniRegistro } from "../../store/paciente";
+import { item as ItemUsuario, leer as LeerUser, registro as RegistroUsuario, leerEnRegistro } from '../../store/usuario'
+import { miUsuario } from '../../store/sesion'
 const { push, back } = useRouter();
 const route = useRoute()
-const obtenerRegistro = obtenerTodos();
-let _event = [
-  { id: '2', dni: "", start: '2022-10-18T09:00:00', end: '2022-10-18T14:00:00', title: 'event 2', borderColor: "#0dcaf0", backgroundColor: '#fd7e14' },
-  { id: '3', dni: "", start: '2022-10-20T12:00:00', end: '2022-10-20T06:00:00', title: 'event 3' },
-  { id: '4', dni: "", start: '2022-10-19T07:30:00', end: '2022-10-19T09:30:00', title: 'event 4' },
-  { id: '4', dni: "", start: '2022-10-19T07:30:00', end: '2022-10-19T09:30:00', title: 'event 4' },
-  { id: '4', dni: "", start: '2022-10-19T07:30:00', end: '2022-10-19T09:30:00', title: 'event 4' },
-  { id: '4', dni: "", start: '2022-10-19T07:30:00', end: '2022-10-19T09:30:00', title: 'event 4' },
-  { id: '4', dni: "", start: '2022-10-19T07:30:00', end: '2022-10-19T09:30:00', title: 'event 4' },
-  { id: '4', dni: "", start: '2022-10-19T07:30:00', end: '2022-10-19T09:30:00', title: 'event 4' },
-  { id: '4', dni: "", start: '2022-10-19T07:30:00', end: '2022-10-19T09:30:00', title: 'event 4' },
-  { id: '5', dni: "", start: '2022-10-19T10:00:00', end: '2022-10-19T15:00:00', title: 'event 5' }
-];
-const id = ref(10)
+const _obtenerRegistro = obtenerTodos();
+const _obtenerTodosPaciente = obtenerTodosPaciente();
+const NombreDoctor = ref("");
+onMounted(() => {
+  LeerUser(miUsuario().uid);
+});
+watch(
+  () => RegistroUsuario.value,
+  () => {
+    let valores = RegistroUsuario.value.find(item => item.idUsuario == miUsuario().uid)
+    if (valores != undefined) {
+      leerEnRegistro(miUsuario().uid);
+      NombreDoctor.value = ItemUsuario.nombre + " " + ItemUsuario.apellidoPaterno
+    }
+  }
+);
 
+const id = ref(10)
+let mostrar = false;
 function createEvent(item) {
   let horadiotext = ""
   let newTime = item.start.toLocaleTimeString('en-US');
@@ -56,15 +59,16 @@ function createEvent(item) {
   }
   horadiotext = item.start.toLocaleDateString('es-ES', opciones) + '     ' + noSeconds + " - " + noSeconds2;
   cita.value = {
-    idPaciente: item.idPaciente,
-    start: item.start,
-    end: item.end,
+    idPaciente: itemPaciente.id,
+    start: item.start.toISOString(),
+    end: item.end.toISOString(),
     title: item.title,
     borderColor: "#0dcaf0",
-    backgroundColor: '#fd7e14',
-    descripcion: '',
+    backgroundColor: "#37dfbb",
+    descripcion: item.descripcion,
     timedisplay: horadiotext,
-    fechaDeCreacion: new Date().toISOString().slice(0, 10)
+    fechaDeCreacion: new Date().toISOString().slice(0, 10),
+    UserId: ItemUsuario.id
   };
   //registro.value.push(cita)
   let control = document.getElementById("btnschedule");
@@ -115,14 +119,15 @@ const options = reactive({
     id.value = id.value + 1
     const cal = arg.view.calendar
     cal.unselect()
-    cal.addEvent({
-      id: `${id.value}`,
-      title: `New event ${id.value}`,
-      start: arg.start,
-      end: arg.end
-    })
+    createEvent(
+      {
+        id: "0",
+        title: "",
+        start: arg.start,
+        end: arg.end
+      })
   },
-  events: registro,
+  events: registro.value,
   eventAdd: (arg) => {
     createEvent(
       {
@@ -148,7 +153,16 @@ const options = reactive({
     //deleteEvent(arg.event.id)
   }
 })
-
+watch(
+  () => registro.value,
+  () => {
+    let valores = registro.value.find(item => item.UserId == miUsuario().uid)
+    if (valores != undefined) {
+      options.events=[];
+      options.events = registro.value;
+    }
+  }
+);
 const guardarOActualizar = () => {
   if (cita.value.id) {
     return actualizar(cita.value);
@@ -156,14 +170,17 @@ const guardarOActualizar = () => {
   else {
     let index = registro.value?.findIndex(i => i.id == cita.value.id);
     if (index == -1 || index == undefined) {
-      cita.value.idPaciente="00005"
-      return guardarCita(cita.value);
-    }
-    else {
-      alert("existe registro")
-    }
+      cita.value.idPaciente = itemPaciente.value.id;
+    };
+    return guardarCita(cita.value);
   }
 };
+function isNewPaciente(val) {
+  mostrar = val.target.checked;
+}
+function GetPaciente(val) {
+  leerDniRegistro(val.target.value);
+}
 </script>
 <template lang="pug">
 .row
@@ -174,63 +191,59 @@ const guardarOActualizar = () => {
   .contenido
     fullcalendar(v-bind:options='options')
 .row 
-#btnschedule.button.btn.btn-primary.ms-auto(type='button' hidden="hidden" data-bs-toggle='modal' data-bs-target='#schedule-add') Ayuda
-#schedule-add.modal.fade(tabindex='-1' aria-hidden='true')
+#btnschedule.button.btn.btn-primary.ms-auto(type='button' hidden="hidden" data-bs-toggle='modal' data-bs-target='#schedule-add') 
+#schedule-add.modal.modal-fade(tabindex='-1' aria-hidden='true')
   .modal-dialog
-    .modal-content
+    .modal-content(style="background-color: var(--color-light) !important;")
       Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
         // Modal Header
         .modal-header
+          i.fa.fa-calendar-plus-o.fa-2x
           h4.modal-title Agregar Cita
-          button.close(type='button', data-dismiss='modal') &times;
+          button.close(type='button', data-bs-dismiss='modal') &times;
         // Modal body
         .modal-body    
           .input-group.mb-3
             span#basic-addon1.input-group-text 
               i.fa.fa-text-height(aria-hidden='true')
-            input.form-control(type='text' placeholder="Añade un Título", v-model="cita.title")        
+            input.form-control(type='text' placeholder="Añade un Título", v-model="cita.title", required)        
           .input-group.mb-3
             span#basic-addon1.input-group-text 
               i.fa.fa-clock-o(aria-hidden='true')
-            input.form-control(type='text', placeholder='Horario', v-model="cita.timedisplay")
+            input.form-control(type='text', placeholder='Horario', v-model="cita.timedisplay", readonly, style="font-weight:bold")
           .input-group.mb-3
             span#basic-addon1.input-group-text 
-              i.fa.fa-user-plus(aria-hidden='true')
-            input.form-control(type='text', placeholder='Añade Paciente')
+              input#flexRadioDefault1.form-check-input(type='checkbox' value='' @change="isNewPaciente($event)")
+            input.form-control(type='text', placeholder='Nuevo Paciente?', readonly, style="font-weight:bold")
+          .input-group.mb-3
+            span#basic-addon1.input-group-text 
+              i.fa.fa-id-card(aria-hidden='true')
+            input.form-control(type='text', placeholder='DNI Paciente', required , v-model="itemPaciente.numeroDocumento", v-on:focusout="GetPaciente($event)")
+            input.form-control(type='text', placeholder='Email', required, v-model="itemPaciente.email")
+            input.form-control(type='text', placeholder='Celular', required, v-model="itemPaciente.telefono")
+          .input-group.mb-3
+            span#basic-addon1.input-group-text 
+              i.fa.fa-user-o(aria-hidden='true')
+            input.form-control(type='text', placeholder='Nombre Paciente', required, v-model="itemPaciente.nombre")
+            input.form-control(type='text', placeholder='Apellido Paciente', required, v-model="itemPaciente.apellidoPaterno")
+            input.form-control(type='text', placeholder='Apellido Paciente', required, v-model="itemPaciente.apellidoMaterno")
           .input-group.mb-3
             span#basic-addon1.input-group-text 
               i.fa.fa-align-left(aria-hidden='true')
-            input.form-control(type='text', placeholder='Añade una Descripción', v-model="cita.descripcion")
+            input.form-control(type='text', placeholder='Añade una descripción de la cita', v-model="cita.descripcion")
           .input-group.mb-3
             span#basic-addon1.input-group-text 
-              i.fa.fa-calendar-o(aria-hidden='true')
-            input.form-control(type='text', placeholder='Odontólogo')
+              i.fa.fa-user-md(aria-hidden='true')
+            input.form-control(type='text', placeholder='Odontólogo' , v-model="ItemUsuario.nombre", readonly, style="font-weight:bold")
           .input-group.mb-3
             span#basic-addon1.input-group-text 
               i.fa.fa-paint-brush(aria-hidden='true')
             input#exampleColorInput.form-control.form-control-color(type='color', title='Choose your color' , v-model="cita.backgroundColor")        
         // Modal footer
         .modal-footer
-          button.btn.btn-danger(type='button', data-dismiss='modal') Cancelar
+          button.btn.btn-danger(type='button', data-bs-dismiss='modal') Cancelar
           button.ms-auto.btn.btn-primary(type="submit") Grabar
       // Edit Modal
-#schedule-edit.modal.fade
-  .modal-dialog
-    .modal-content
-      // Modal Header
-      .modal-header
-        h4.modal-title Edit Your Schedule
-        button.close(type='button', data-dismiss='modal') &times;
-      // Modal body
-      .modal-body
-        form
-          .form-group
-            label Schedule Name:
-            input.form-control(type='text')
-      // Modal footer
-      .modal-footer
-        button.btn.btn-danger(type='button', data-dismiss='modal') Close
-        button.btn.btn-success(type='button') Save Your Schedule
 </template>
 
 <style lang="sass">
