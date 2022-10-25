@@ -14,11 +14,11 @@ const  item = ref({
     estado: true
 })
 
-const guardar = item => {
+const guardar = item => new Promise ( (resolve)=> {
     const referencia = collection(firestore, 'paciente')
     return addDoc(referencia, {...item,idOdontologo:usuario.value.uid,
-        estado: true})
-}
+        estado: true}).then( doc => resolve(doc.id))
+})
 
 const actualizar = (item) => {
     const referencia = doc(firestore, 'paciente', item.id)

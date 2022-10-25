@@ -79,6 +79,9 @@ function createEvent(item) {
     control.click();
   }
 }
+function updateEvent(id, sta, end){
+  actualizar(id, sta, end)
+}
 const options = reactive({
   editable: true,
   selectable: true,
@@ -140,15 +143,12 @@ const options = reactive({
     )
   },
   eventChange: (arg) => {
-    /*updateEvent(
+    updateEvent(
       {
-        id: arg.event.id,
-        title: arg.event.title,
         start: arg.event.start,
         end: arg.event.end,
-        allDay: arg.event.allDay
       }, arg.event.id
-    )*/
+    )
   },
   eventRemove: (arg) => {
     //deleteEvent(arg.event.id)
@@ -165,29 +165,29 @@ watch(
   }
 );
 const guardarAmbas = () => {
-  if (mostrar == true) {
-    guardarPaciente()
-    guardarCitaCompleta()
+  if (mostrar.value == true) {
+    return new Promise ( resolve => guardarPaciente(itemPaciente.value)
+      .then( idPaciente => guardarCitaCompleta(idPaciente)
+        .then(()=>resolve())) )
   }
   else {
-    guardarCitaCompleta()
+    return guardarCitaCompleta()
   }
 }
-const guardarCitaCompleta = () => {
+const guardarCitaCompleta = (idPaciente) => {
+  cita.value.idPaciente = idPaciente || itemPaciente.value.id;
   if (cita.value.id) {
     return actualizar(cita.value);
   }
   else {
     let index = registro.value?.findIndex(i => i.id == cita.value.id);
     if (index == -1 || index == undefined) {
-      cita.value.idPaciente = itemPaciente.value.id;
+      
     };
     return guardarCita(cita.value);
   }
 };
-function isNewPaciente(val) {
-  mostrar.value = val.target.checked;
-}
+
 function GetPaciente(val) {
   if (val.target.value == '') {
     return
@@ -204,6 +204,7 @@ function closeEvent() {
   let control = document.getElementById("btnsclose");
   control.click();
 }
+
 </script>
 
 <template lang="pug">
@@ -219,7 +220,7 @@ function closeEvent() {
 #schedule-add.modal(tabindex='-1')
   .modal-dialog
     .modal-content(style="background-color: var(--color-light) !important")
-      Form( :onPromise='()=>guardarCitaCompleta()' :onSuccess='()=>closeEvent()')
+      Form( :onPromise='()=>guardarAmbas()' :onSuccess='()=>closeEvent()')
         .modal-header
           i.fa.fa-calendar-plus-o.fa-2x(style="color: var(--color-primary)")
           h4.modal-title Agendar Cita
@@ -232,10 +233,10 @@ function closeEvent() {
           .input-group.mb-3
             span#basic-addon1.input-group-text 
               i.fa.fa-clock-o
-            input.form-control(placeholder='Horario', v-model="cita.timedisplay", readonly, style="font-weight:bold")
+            input.form-control(placeholder='Horario' v-model="cita.timedisplay" readonly style="font-weight:bold")
           .input-group.mb-3
             span#basic-addon1.input-group-text 
-              input.form-check-input(type='checkbox', id="checkbox", v-model="checked", @change="isNewPaciente($event)")
+              input.form-check-input( type='checkbox' id="checkbox" v-model="mostrar" )
             input.form-control(placeholder='Registrar un nuevo paciente', readonly, style="font-weight:bold")
           .input-group.mb-3(v-if="mostrar == false")
             span#basic-addon1.input-group-text

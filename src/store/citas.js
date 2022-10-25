@@ -26,9 +26,13 @@ const guardarCita = item => {
   return addDoc(referencia, { ...item, UserId: usuario.value.uid, estado: true })
 }
 
-const actualizar = (item) => {
-  const referencia = doc(firestore, 'citas', item.id)
-  return updateDoc(referencia, item)
+const actualizar = (item, id) => {
+  const referencia = doc(firestore, 'citas', id) 
+  console.log(item.start)
+  return updateDoc(referencia, {
+      start: item.start.toISOString(),
+      end: item.end.toISOString(),
+    })
 }
 
 //Aun falta imprimir
@@ -43,9 +47,6 @@ const eliminar = (id) => {
   const referencia = doc(firestore, 'citas', id)
   return deleteDoc(referencia)
 }
-
-
-
 
 const registro = ref([])
 const verEliminados = ref(false)
