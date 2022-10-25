@@ -319,4 +319,6 @@ function closeEvent() {
   --bs-gradient:none
 thead
     background-color: rgb(55, 223, 187)
+th
+  border-color: white !important
 </style>
