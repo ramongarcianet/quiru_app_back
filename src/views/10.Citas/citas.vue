@@ -80,14 +80,15 @@ function createEvent(item) {
   }
 }
 const options = reactive({
+  editable: true,
+  selectable: true,
+  weekends: true,
   plugins: [dayGrigPlugin, timeGrigPlugin, listPlugin, interactionPlugin, bootstrap5Plugin],
   locale: esLocale,
   nowIndicator: true,
   initialView: 'timeGridWeek',
   timeFormat: 'h(:mm)t',
-  selectable: true,
   dayMaxEvents: true,
-  weekends: true,
   datesAboveResources: true,
   themeSystem: 'bootstrap5',
   slotLabelFormat: { hour: 'numeric', minute: '2-digit', omitZeroMinute: true, hour12: true },
@@ -158,17 +159,17 @@ watch(
   () => {
     let valores = registro.value.find(item => item.UserId == miUsuario().uid)
     if (valores != undefined) {
-      options.events=[];
+      options.events = [];
       options.events = registro.value;
     }
   }
 );
 const guardarAmbas = () => {
-  if(mostrar == true){
+  if (mostrar == true) {
     guardarPaciente()
     guardarCitaCompleta()
   }
-  else{
+  else {
     guardarCitaCompleta()
   }
 }
@@ -188,7 +189,7 @@ function isNewPaciente(val) {
   mostrar.value = val.target.checked;
 }
 function GetPaciente(val) {
-  if(val.target.value == '') {
+  if (val.target.value == '') {
     return
   }
   leerDniRegistro(val.target.value);
@@ -197,11 +198,11 @@ function GetPaciente(val) {
 const guardarPacienteNuevo = () => {
   guardarPaciente().then((id) => {
     guardarCitaCompleta()
-})
+  })
 }
 function closeEvent() {
-let control = document.getElementById("btnsclose");
-    control.click();
+  let control = document.getElementById("btnsclose");
+  control.click();
 }
 </script>
 
@@ -316,5 +317,6 @@ let control = document.getElementById("btnsclose");
   --bs-btn-disabled-bg:transparent
   --bs-btn-disabled-border-color:rgb(55, 223, 187)
   --bs-gradient:none
-
+thead
+    background-color: rgb(55, 223, 187)
 </style>
