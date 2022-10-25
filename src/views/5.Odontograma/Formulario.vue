@@ -18,10 +18,13 @@ const listaHallazgo = obtenerTodoHallazgo();
 const listaCaries = obtenerTodoCaries();
 const { push } = useRouter()
 leerEnRegistro(route.params.idOdontograma);
-const listaDeHallazgos = _Hallazgos.filter(i => i.tipo == route.params.tipoOdonto).map(({ text, value }) => ({ text, value }))
 escucharInicializarVoz();
 let temList = [];
 let wakeLock = null;
+console.log(route.params)
+const listaDeHallazgos = computed ( ()=> {
+  return _Hallazgos.filter(i => i.tipo == route.params.tipoOdonto).map(({ text, value }) => ({ text, value }))
+})
 onMounted(() => {
   paginaOdontograma.value = true;
   if ("wakeLock" in navigator) {

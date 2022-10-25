@@ -106,7 +106,7 @@ const crear_ = () => new Promise( async(resolve, reject) =>   {
       .row.mt-2
         #mensaje.alert.alert-dismissible( v-if='mensaje' :class='hayError? "alert-danger" : "alert-success" ' ) {{mensaje}}
       .d-flex.mt-2
-        button.btn.btn-primary( @click='back()') Volver
+        button.btn.btn-primary( @click="push({name: 'Detalle', params: {idOdontograma:route.params.idOdontograma ,idPaciente: route.params.idPaciente,tipoOdonto: route.params.tipoOdonto} })") Volver
         button.ms-auto.btn.btn-primary(type="submit") Guardar
     .card.card-body.mt-2
       .div(style="background-color: white; border-radius: 2%;")
