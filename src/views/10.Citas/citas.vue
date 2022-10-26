@@ -15,6 +15,8 @@ import { obtenerTodos, registro, cita, guardarCita, actualizar, _event } from ".
 import { obtenerTodos as obtenerTodosPaciente, leer as LeerPaciente, registro as RegPaciente, item as itemPaciente, leerDniRegistro, guardar as guardarPaciente } from "../../store/paciente";
 import { item as ItemUsuario, leer as LeerUser, registro as RegistroUsuario, leerEnRegistro } from '../../store/usuario'
 import { miUsuario } from '../../store/sesion'
+import { isLetter, isNumber } from '../../config/libreria'
+const maxDocumento = ref(9);
 const { push, back } = useRouter();
 const route = useRoute()
 const _obtenerRegistro = obtenerTodos();
@@ -81,6 +83,11 @@ function createEvent(item) {
 }
 function updateEvent(id, sta, end){
   actualizar(id, sta, end)
+}
+
+function deleteEvent(arg){
+  let control = document.getElementById("btnschedule");
+    control.click();
 }
 const options = reactive({
   editable: true,
@@ -151,7 +158,7 @@ const options = reactive({
     )
   },
   eventRemove: (arg) => {
-    //deleteEvent(arg.event.id)
+    deleteEvent(arg.event.id)
   }
 })
 watch(
@@ -241,7 +248,7 @@ function closeEvent() {
           .input-group.mb-3(v-if="mostrar == false")
             span#basic-addon1.input-group-text
               i.fa-solid.fa-magnifying-glass
-            input.form-control(placeholder='Buscar paciente por DNI', required, v-on:focusout="GetPaciente($event)")
+            input.form-control(placeholder='Buscar paciente por documento de identidad' required :maxlength="maxDocumento" @keypress="isNumber($event)" v-on:focusout="GetPaciente($event)")
           .pacienteNuevo(v-if="mostrar == true")
             .input-group.mb-3
               span#basic-addon1.input-group-text 
@@ -252,12 +259,12 @@ function closeEvent() {
             .input-group.mb-3
               span#basic-addon1.input-group-text
                 i.fa.fa-id-card
-              input.form-control(placeholder='DNI Paciente', required , v-model="itemPaciente.numeroDocumento")
+              input.form-control(placeholder='DNI/CE. Paciente', required, :maxlength="maxDocumento", v-model="itemPaciente.numeroDocumento")
             .input-group.mb-3
               span#basic-addon1.input-group-text
                 i.fa.fa-at
-              input.form-control(placeholder='Email', required, v-model="itemPaciente.email")
-              input.form-control(placeholder='Celular', required, v-model="itemPaciente.telefono")
+              input.form-control(placeholder='Email', type="email" required, v-model="itemPaciente.email")
+              input.form-control(placeholder='Celular' required @keypress="isNumber($event)" minlength="9" maxlength="12" v-model="itemPaciente.telefono")
           .input-group.mb-3
             span#basic-addon1.input-group-text 
               i.fa.fa-align-left
@@ -272,6 +279,7 @@ function closeEvent() {
             input#exampleColorInput.form-control.form-control-color(type='color', title='Choose your color', v-model="cita.backgroundColor")
         .modal-footer
           button.btn.btn-danger(type='button', data-bs-dismiss='modal') Cancelar
+          button.ms-auto.btn.btn-danger(v-if="2==2" type='button', data-bs-dismiss='modal') Borrar
           button.ms-auto.btn.btn-primary(type="submit") Grabar
 </template>
 
