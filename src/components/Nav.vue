@@ -7,7 +7,9 @@ const routeName = computed(()=>route.name)
 const rutas = [
     {name:'Dashboard', icono:'bar-chart-outline', ruta:'resumen'},
     {name:'Pacientes', icono:'person-outline', ruta:'pacientes'},
-    {name:'Configuración', icono:'settings-outline', ruta:'usuario'},
+    {name:'Citas', icono:'calendar-outline', ruta:'citas'},
+    //{name:'Configuración', icono:'settings-outline', ruta:'usuario'},
+
 ]
 </script>
 
@@ -26,6 +28,7 @@ const rutas = [
 <style lang="sass" scoped>
 
 .router
+  z-index: 49
   bottom: 1rem
   left: 0
   right: 0
@@ -48,7 +51,7 @@ const rutas = [
       position: relative
       list-style: none
       width: 70px
-      z-index: 1
+      z-index: 50
       cursor: pointer
       a
         position: relative

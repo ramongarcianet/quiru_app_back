@@ -1,6 +1,6 @@
 <script setup>
 import { onUnmounted, ref } from 'vue'
-import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog,verOdontograma} from '../../store/admision'
+import {obtenerTodos, registro, leerEnRegistro, eliminar, dialog} from '../../store/admision'
 const obtenerRegistro = obtenerTodos()
 const confirmar = ref(false)
 const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)

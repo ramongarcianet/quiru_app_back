@@ -1,15 +1,17 @@
 <script setup>
 import Formulario from "./Formulario.vue";
-import {registroodonto, guardar as guardarOdontograma, actualizarestado, getItemEnRegistro} from "../../store/formodontograma";
+import {registroodonto, guardar as guardarOdontograma, getItemEnRegistro} from "../../store/formodontograma";
 import { item as itemPas, leer } from "../../store/paciente";
-import "../../config/html2canvas";
+//import "../../config/html2canvas";
 import { useRoute, useRouter } from "vue-router";
 import Cie10 from '../../config/Cie10.json';
 import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma, eliminar } from '../../store/formodontograma';
 import jsPDF from 'jsPDF'
 import Instrucciones from "./../8.Ayuda/instrucciones.vue";
 import { watch, ref, computed } from "vue";
+
 import { item } from "../../store/usuario";
+import MicroButtonVue from "../../components/MicroButton.vue";
 const myModal = document.getElementById('myModal')
 const myInput = document.getElementById('myInput')
 const route = useRoute()
@@ -31,61 +33,83 @@ watch(
 )
 
 function printOdontograma() {
-
   var pdf = new jsPDF()
   canvas = document.getElementById('myCanvas');
   canvas_image_data = canvas.toDataURL();
-  let posis = 212;
+  let posis = 37;
   let posis1 = 0;
   if (itemodontograma.value?.hallazgos != undefined) {
-    pdf.setFontSize(12);
-    Cie10.CIE10.forEach(element => {
-      let ubicacionnes = itemodontograma.value?.hallazgos.filter((elem) => elem.hallazgo.toUpperCase() == element.HALLAZGO);
-      let Piezas = "";
-      if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
-        ubicacionnes.forEach(dient => {
-          if (!Piezas.includes(dient.diente)) {
-            Piezas = Piezas + dient.diente + '; ';
-          }
-        });
-        pdf.text(10, posis, element.DECRICIE10 + " / Piezas : " + Piezas + " / " + element.CIE10);
-        posis = posis + 7;
-      }
-      
-    });
-    posis1 = posis + 10;
-    pdf.setFontSize(12);
-    Cie10.CIE10.forEach(element => {
-      let ubicacionnes = itemodontograma.value?.hallazgos.filter((elem) => elem.hallazgo.toUpperCase() == element.HALLAZGO);
-      let Piezas = "";
-      if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
-        ubicacionnes.forEach(dient => {
-          if (!Piezas.includes(dient.diente)) {
-            Piezas = Piezas + dient.diente + '; ';
-          }
-        });
-        if (element.TRATAMIENTO != "") {
-          pdf.text(10, posis1, element.TRATAMIENTO + " / Piezas : " + Piezas);
-          posis1 = posis1 + 7;
-        }
-      }
-    });
     pdf.html("", {
       callback: function (pdf) {
         pdf.setFontSize(17);
+        pdf.setFont(undefined, 'bold')
         pdf.text(30, 20, 'FICHA DE IDENTIFICACIÓN SANITARIA/ FICHA DENTAL');
+        pdf.setFont(undefined, 'normal')
         pdf.setFontSize(12);
         pdf.text(10, 30, pad('NOMBRE : ' + itemPas.value.nombre, 80, ' ') + pad('APELLIDOS : ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno, 90, ' '));
         pdf.text(10, 37, pad('FECHA DE NACIMIENTO : ' + itemPas.value.fechaNacimiento, 80, ' ') + pad('TIM/DNI : ' + itemPas.value.numeroDocumento, 90, ' '));
         pdf.text(10, 44, pad('DIRECCIÓN : ' + itemPas.value.Direccion, 180, ' '));
-        pdf.setFontSize(17);
+        pdf.setFontSize(14);
+        pdf.setFont(undefined, 'bold')
         pdf.text(80, 55, 'ODONTOGRAMA');
+        pdf.setFont(undefined, 'normal')
         pdf.setFontSize(12);
         pdf.addImage(canvas_image_data, 'JPEG', 30, 55, 140, 140)
-        pdf.setFontSize(17);
-        pdf.text(10, 205, 'DIAGNOSTICO');
-        pdf.setFontSize(17);
+        pdf.insertPage();
+        pdf.setFontSize(14);
+        pdf.setFont(undefined, 'bold')
+        pdf.text(10, 30, 'DIAGNOSTICO');
+        pdf.setFont(undefined, 'normal')
+        pdf.setFontSize(12);
+        Cie10.CIE10.forEach(element => {
+          let ubicacionnes = itemodontograma.value?.hallazgos.filter((elem) => elem.hallazgo == element.HALLAZGO);
+          let Piezas = "";
+          if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
+            ubicacionnes.forEach(dient => {
+              if (!Piezas.includes(dient.diente)) {
+                Piezas = Piezas + dient.diente + '; ';
+              }
+            });
+            if (element.TRATAMIENTO != "") {
+              pdf.text(10, posis, element.DECRICIE10 + " / Piezas : " + Piezas + " / " + element.CIE10);
+              posis = posis + 7;
+            }
+          }
+          
+        });        
+        pdf.setFontSize(14);
+        pdf.setFont(undefined, 'bold')
         pdf.text(10, posis + 2, 'TRATAMIENTO');
+        pdf.setFont(undefined, 'normal')
+        posis1 = posis + 10;
+        pdf.setFontSize(12);
+        Cie10.CIE10.forEach(element => {
+          let ubicacionnes = itemodontograma.value?.hallazgos.filter((elem) => elem.hallazgo == element.HALLAZGO);
+          let Piezas = "";
+          if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
+            ubicacionnes.forEach(dient => {
+              if (!Piezas.includes(dient.diente)) {
+                Piezas = Piezas + dient.diente + '; ';
+              }
+            });
+            if (element.TRATAMIENTO != "") {
+              pdf.text(10, posis1, element.TRATAMIENTO + " / Piezas : " + Piezas);
+              posis1 = posis1 + 7;
+            }
+          }
+        });   
+        pdf.setFontSize(14);
+        pdf.setFont(undefined, 'bold')
+        pdf.text(10, posis1+2, 'JUSTIFICACIÓN');
+        pdf.setFont(undefined, 'normal')
+        pdf.setFontSize(12);
+        pdf.text(10, posis1+9, pad(itemodontograma.value.especificaciones, 180, ' '));
+        pdf.setFontSize(14);
+        pdf.setFont(undefined, 'bold')
+        pdf.text(10, posis1+16, 'OBSERVACIONES');
+        pdf.setFont(undefined, 'normal')
+        pdf.setFontSize(12);
+        pdf.text(10, posis1+23, pad(itemodontograma.value.observaciones, 180, ' '));             
         var pdfName = itemPas.value.numeroDocumento
         pdf.save(pdfName + '.pdf');
       }
@@ -129,9 +153,15 @@ function Cancelar() {
         modal.style.display = 'none';
         alerta.style.display = "none";
 }
+function guardar_(var1, var2, var3, var4) {
+  guardarOdontograma(var1, var2, var3, var4 ).then( idTratamiento => push({name: 'Detalle', params: {idOdontograma: idTratamiento, idPaciente: route.params.idPaciente, tipoOdonto: 'Tratamiento'} }))
+  var hol = document.getElementById("holo");
+    hol.style.display = "none";
+
+}
+
 const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelacionados))
 const idDiagnostico_ = itemodontograma?.value.id;
-
 
 const visto = ref(0)
 const finalizar = ()=>{
@@ -168,7 +198,6 @@ const moverCarrusel = (adelanteOAtras) => {
     destacar.classList.add('elevar')
   
 }
-
 
 </script>
 
@@ -207,7 +236,7 @@ const moverCarrusel = (adelanteOAtras) => {
         ul.nav.nav-tabs( id="myTab" role="tablist")
           li.nav-item( role="presentation" v-if="itemodontograma?.idRelacionado")
             button.nav-link( 
-              @click="push({name: 'Detalle', params: {idOdontograma: itemodontograma?.idRelacionado, idPaciente: route.params.idPaciente} })"
+              @click="push({name: 'Detalle', params: {idOdontograma: itemodontograma?.idRelacionado, idPaciente: route.params.idPaciente,tipoOdonto: 'Diagnóstico'} })"
             ) 
               strong.h2.fw-bold Diagnóstico
           li.nav-item()
@@ -219,20 +248,17 @@ const moverCarrusel = (adelanteOAtras) => {
           l1.nav-item( role="presentation" )
             button.nav-link( 
               v-for="idTratamientoHermano of idRelacionados_(itemodontograma?.id)"
-              @click="push({name: 'Detalle', params: {idOdontograma: idTratamientoHermano, idPaciente: route.params.idPaciente} })"
+              @click="push({name: 'Detalle', params: {idOdontograma: idTratamientoHermano, idPaciente: route.params.idPaciente,tipoOdonto: 'Tratamiento'} })"
             ) 
               strong.h2.fw-bold Tratamiento
     .row
       .col-2
-        button.mb-2.btn(@click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })')
+        button.mb-2.btn(@click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })')       
           ion-icon(name="return-down-back-outline" style="color: var(--color-primary); font-size: 40px" )
       .col-10
         .left
-          .div(v-if="itemodontograma?.tipo === 'Tratamiento'")
-            .div(v-for="item of registroodonto.filter((elem) => elem.tipo == 'Tratamiento' && elem.idRelacionado ==idDiagnostico_)" :key="item.id" :item="item" )
-              .div(v-if="item?.tipo === 'Tratamiento'")
-                button.btn(title='Borrar'  @click="CallConfirm2(item)")
-                  ion-icon(name="trash-outline" style="color: var(--color-primary); font-size: 26px;")
+          button.btn(v-if="itemodontograma?.tipo === 'Tratamiento'" title='Borrar'  @click="CallConfirm2(itemodontograma)")
+            ion-icon(name="trash-outline" style="color: var(--color-primary); font-size: 26px;")
           button.btn(title='Imprimir' @click="printOdontograma()")
             ion-icon(name="print-outline" style="color: var(--color-primary); font-size: 26px;")#destacarImpresion
           button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
@@ -252,8 +278,8 @@ const moverCarrusel = (adelanteOAtras) => {
           .title Agregar
           .subtitle Datos adicionales
         ion-icon(name="document-outline").icono
-    div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.papa!='Si'")
-      a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardarOdontograma(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id )")
+    div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.tieneTratamiento!='Si'" id="holo")
+      a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardar_(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id)")
         .contenido
           .title.light-quiru Crear
           .subtitle.light-quiru Tratamiento

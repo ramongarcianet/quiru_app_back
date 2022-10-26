@@ -1,0 +1,390 @@
+<script setup>
+import { ref, reactive, watch, onMounted } from 'vue'
+import '@fullcalendar/core/vdom'
+import fullcalendar from '@fullcalendar/vue3'
+import dayGrigPlugin from '@fullcalendar/daygrid'
+import timeGrigPlugin from '@fullcalendar/timegrid'
+import listPlugin from '@fullcalendar/list'
+import interactionPlugin from '@fullcalendar/interaction'
+import esLocale from '@fullcalendar/core/locales/es';
+import bootstrap5Plugin from '@fullcalendar/bootstrap5';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import { useRoute, useRouter } from 'vue-router';
+import { obtenerTodos, registro, cita, guardarCita, actualizar, _event, eliminar } from "../../store/citas";
+import { obtenerTodos as obtenerTodosPaciente, leer as leerPaciente, registro as RegPaciente, item as itemPaciente, leerDniRegistro, guardar as guardarPaciente, leerEnRegistro as leerEnRegistroPac } from "../../store/paciente";
+import { item as ItemUsuario, leer as LeerUser, registro as RegistroUsuario, leerEnRegistro, item } from '../../store/usuario'
+import { miUsuario } from '../../store/sesion'
+import { isLetter, isNumber } from '../../config/libreria'
+const maxDocumento = ref(9);
+const { push, back } = useRouter();
+const route = useRoute()
+const _obtenerRegistro = obtenerTodos();
+const _obtenerTodosPaciente = obtenerTodosPaciente();
+const NombreDoctor = ref("");
+onMounted(() => {
+  LeerUser(miUsuario().uid);
+});
+watch(
+  () => RegistroUsuario.value,
+  () => {
+    let valores = RegistroUsuario.value.find(item => item.idUsuario == miUsuario().uid)
+    if (valores != undefined) {
+      leerEnRegistro(miUsuario().uid);
+      NombreDoctor.value = ItemUsuario.nombre + " " + ItemUsuario.apellidoPaterno
+    }
+  }
+);
+
+const id = ref(10)
+const mostrar = ref(false);
+function createEvent(item) {
+  let horadiotext = ""
+  let newTime = item.start.toLocaleTimeString('en-US');
+  let hour = newTime.split(":")[0];
+  let amPm = newTime.split(" ")[1];
+  let seconds = newTime.split(":")[2].replace(amPm, '');
+  let noSeconds = newTime.replace(":" + seconds, ' ');
+
+  let newTim2 = item.end.toLocaleTimeString('en-US');
+  let hour2 = newTime.split(":")[0];
+  let amPm2 = newTim2.split(" ")[1];
+  let seconds2 = newTim2.split(":")[2].replace(amPm2, '');
+  let noSeconds2 = newTim2.replace(":" + seconds2, ' ');
+
+  const opciones = { weekday: 'long', month: 'long', day: 'numeric' };
+  if (parseInt(hour) < 9) {
+    noSeconds = "0" + noSeconds
+  }
+  if (parseInt(hour2) < 9) {
+    noSeconds2 = "0" + noSeconds2
+  }
+  itemPaciente.value = {}
+  horadiotext = item.start.toLocaleDateString('es-ES', opciones) + '     ' + noSeconds + " - " + noSeconds2;
+  cita.value = {
+    idPaciente: '',
+    start: item.start.toISOString(),
+    end: item.end.toISOString(),
+    title: item.title,
+    borderColor: "#0dcaf0",
+    backgroundColor: "#37dfbb",
+    descripcion: item.descripcion,
+    timedisplay: horadiotext,
+    fechaDeCreacion: new Date().toISOString().slice(0, 10),
+    UserId: ItemUsuario.id
+  };
+  //registro.value.push(cita)
+  let control = document.getElementById("btnschedule");
+  if (item) {
+    control.click();
+  } else {
+    control.click();
+  }
+}
+function updateEvent(arg) {
+  let horadiotext = ""
+  let newTime = arg.start.toLocaleTimeString('en-US');
+  let hour = newTime.split(":")[0];
+  let amPm = newTime.split(" ")[1];
+  let seconds = newTime.split(":")[2].replace(amPm, '');
+  let noSeconds = newTime.replace(":" + seconds, ' ');
+
+  let newTim2 = arg.end.toLocaleTimeString('en-US');
+  let hour2 = newTime.split(":")[0];
+  let amPm2 = newTim2.split(" ")[1];
+  let seconds2 = newTim2.split(":")[2].replace(amPm2, '');
+  let noSeconds2 = newTim2.replace(":" + seconds2, ' ');
+
+  const opciones = { weekday: 'long', month: 'long', day: 'numeric' };
+  if (parseInt(hour) < 9) {
+    noSeconds = "0" + noSeconds
+  }
+  if (parseInt(hour2) < 9) {
+    noSeconds2 = "0" + noSeconds2
+  }
+  itemPaciente.value = {}
+  horadiotext = arg.start.toLocaleDateString('es-ES', opciones) + '     ' + noSeconds + " - " + noSeconds2;
+  let _item = {
+    id: arg.id,
+    start: arg.start.toISOString(),
+    end: arg.end.toISOString(),
+    timedisplay: horadiotext
+  }
+  actualizar(_item)
+}
+function deleteEvent(id) {
+  eliminar(id)
+}
+function viewEvents(_id) {
+  let item_data = registro.value.find(item => item.id == _id)
+  leerEnRegistroPac(item_data.idPaciente);
+  cita.value = {
+    idPaciente: item_data.idPaciente,
+    start: item_data.start,
+    end: item_data.end,
+    title: item_data.title,
+    borderColor: item_data.borderColor,
+    backgroundColor: item_data.backgroundColor,
+    descripcion: item_data.descripcion,
+    timedisplay: item_data.timedisplay,
+    fechaDeCreacion: new Date().toISOString().slice(0, 10),
+    UserId: item_data.UserId,
+    id: item_data.id
+  };
+
+  let control = document.getElementById("btnschedule");
+  control.click();
+}
+const options = reactive({
+  editable: true,
+  selectable: true,
+  weekends: true,
+  plugins: [dayGrigPlugin, timeGrigPlugin, listPlugin, interactionPlugin, bootstrap5Plugin],
+  locale: esLocale,
+  nowIndicator: true,
+  initialView: 'timeGridWeek',
+  timeFormat: 'h(:mm)t',
+  dayMaxEvents: true,
+  datesAboveResources: true,
+  themeSystem: 'bootstrap5',
+  slotLabelFormat: { hour: 'numeric', minute: '2-digit', omitZeroMinute: true, hour12: true },
+  slotMinTime: '08:00:00',
+  slotMaxTime: '22:00:00',
+  allDaySlot: false,
+  contentHeight: 'auto',
+  headerToolbar: {
+    left: 'prev,next',
+    center: 'title',
+    right: 'dayGridMonth,timeGridWeek,timeGridDay,listDay'
+  },
+  views: {
+    dayGridMonth: {
+      titleFormat: { month: 'long' }
+    },
+    timeGridWeek: {
+      titleFormat: {
+        month: 'short'
+      }
+    },
+    timeGridDay: {
+      titleFormat: {
+        day: '2-digit'
+      }
+    }
+  },
+  select: (arg) => {
+    id.value = id.value + 1
+    const cal = arg.view.calendar
+    cal.unselect()
+    createEvent(
+      {
+        id: "0",
+        title: "",
+        start: arg.start,
+        end: arg.end
+      })
+  },
+  events: registro.value,
+  eventAdd: (arg) => {
+    createEvent(
+      {
+        id: arg.event.id,
+        title: arg.event.title,
+        start: arg.event.start,
+        end: arg.event.end
+      }
+    )
+  },
+  eventChange: (arg) => {
+    updateEvent(
+      {
+        id: arg.event.id,
+        start: arg.event.start,
+        end: arg.event.end,
+      }
+    )
+  },
+  eventRemove: (arg) => {
+    deleteEvent(
+      {
+
+      }, arg.event.id
+    )
+  },
+  eventClick: (arg) => {
+    viewEvents(arg.event.id)
+  },
+})
+watch(
+  () => registro.value,
+  () => {
+    let valores = registro.value.find(item => item.UserId == miUsuario().uid)
+    if (valores != undefined) {
+      options.events = [];
+      options.events = registro.value;
+    }
+  }
+);
+const guardarAmbas = () => {
+  if (mostrar.value == true) {
+    return new Promise(resolve => guardarPaciente(itemPaciente.value)
+      .then(idPaciente => guardarCitaCompleta(idPaciente)
+        .then(() => resolve())))
+  }
+  else {
+    return guardarCitaCompleta()
+  }
+}
+const guardarCitaCompleta = (idPaciente) => {
+  cita.value.idPaciente = idPaciente || itemPaciente.value.id;
+  let index = registro.value?.findIndex(i => i.id == cita.value.id);
+  if (index == -1 || index == undefined) {
+    return guardarCita(cita.value);
+  }
+  else {
+    return actualizar(cita.value);
+  }
+};
+
+function GetPaciente(val) {
+  if (val.target.value == '') {
+    return
+  }
+  leerDniRegistro(val.target.value);
+
+}
+const guardarPacienteNuevo = () => {
+  guardarPaciente().then((id) => {
+    guardarCitaCompleta()
+  })
+}
+function closeEvent() {
+  let control = document.getElementById("btnsclose");
+  control.click();
+}
+
+</script>
+
+<template lang="pug">
+.row
+  .col-4.col-md-9
+    h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Lista
+    h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") de citas
+.row 
+  .contenido
+    fullcalendar(v-bind:options='options')
+.row
+#btnschedule.button.btn.btn-primary.ms-auto(type='button' hidden="hidden" data-bs-toggle='modal' data-bs-target='#schedule-add') 
+#schedule-add.modal(tabindex='-1')
+  .modal-dialog
+    .modal-content(style="background-color: var(--color-light) !important")
+      Form( :onPromise='()=>guardarAmbas()' :onSuccess='()=>closeEvent()')
+        .modal-header
+          i.fa.fa-calendar-plus-o.fa-2x(style="color: var(--color-primary)")
+          h4.modal-title Agendar Cita
+          #btnsclose.button.btn.btn-primary(type='button', data-bs-dismiss='modal') &times;
+        .modal-body
+          .input-group.mb-3
+            span#basic-addon1.input-group-text 
+              i.fa.fa-text-height
+            input.form-control(placeholder="Añade un Título", v-model="cita.title", required)        
+          .input-group.mb-3
+            span#basic-addon1.input-group-text 
+              i.fa.fa-clock-o
+            input.form-control(placeholder='Horario' v-model="cita.timedisplay" readonly style="font-weight:bold")
+          .input-group.mb-3
+            span#basic-addon1.input-group-text 
+              input.form-check-input( type='checkbox' id="checkbox" v-model="mostrar" )
+            input.form-control(placeholder='Registrar un nuevo paciente', readonly, style="font-weight:bold")
+          .input-group.mb-3(v-if="mostrar == false")
+            span#basic-addon1.input-group-text
+              i.fa-solid.fa-magnifying-glass
+            input.form-control(placeholder='Buscar paciente por documento de identidad' required :maxlength="maxDocumento" @keypress="isNumber($event)" v-model="itemPaciente.numeroDocumento" v-on:focusout="GetPaciente($event)")
+            input.form-control(placeholder='Nombre Paciente', required, v-model="itemPaciente.nombre" readonly )
+            input.form-control(placeholder='Apellido Paciente', required, v-model="itemPaciente.apellidoPaterno" readonly)
+          .pacienteNuevo(v-if="mostrar == true")
+            .input-group.mb-3
+              span#basic-addon1.input-group-text 
+                i.fa.fa-user-o
+              input.form-control(placeholder='Nombre Paciente', required, v-model="itemPaciente.nombre" )
+              input.form-control(placeholder='Apellido Paciente', required, v-model="itemPaciente.apellidoPaterno" )
+              input.form-control(placeholder='Apellido Paciente', required, v-model="itemPaciente.apellidoMaterno" )
+            .input-group.mb-3
+              span#basic-addon1.input-group-text
+                i.fa.fa-id-card
+              select.form-select(v-model="itemPaciente.tipoDocumento")
+                option(value="DNI" selected) DNI
+                option(value="CE") CARNET DE EXTRANJERIA
+              input.form-control(placeholder='DNI/CE. Paciente', required, :maxlength="maxDocumento" @keypress="isNumber($event)" v-model="itemPaciente.numeroDocumento")
+
+            .input-group.mb-3
+              span#basic-addon1.input-group-text
+                i.fa.fa-at
+              input.form-control(placeholder='Email', type="email" required, v-model="itemPaciente.email")
+              input.form-control(placeholder='Celular' required @keypress="isNumber($event)" minlength="9" maxlength="12" v-model="itemPaciente.telefono")
+          .input-group.mb-3
+            span#basic-addon1.input-group-text 
+              i.fa.fa-align-left
+            input.form-control(placeholder='Añade una descripción de la cita', v-model="cita.descripcion")
+          .input-group.mb-3
+            span#basic-addon1.input-group-text 
+              i.fa.fa-user-md
+            input.form-control(placeholder='Odontólogo', v-model="ItemUsuario.nombre", readonly, style="font-weight:bold")
+          .input-group.mb-3
+            span#basic-addon1.input-group-text 
+              i.fa.fa-paint-brush
+            input#exampleColorInput.form-control.form-control-color(type='color', title='Choose your color', v-model="cita.backgroundColor")
+        .modal-footer
+          button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cancelar
+          button.ms-auto.btn.btn-danger(v-if="2==2" type='button', data-bs-dismiss='modal' @click="deleteEvent(cita.id)") Borrar
+          button.ms-auto.btn.btn-primary(type="submit") Grabar
+</template>
+
+<style lang="sass">
+.btn-primary
+  --bs-btn-color:#fff
+  --bs-btn-bg:rgb(55, 223, 187)
+  --bs-btn-border-color:rgb(55, 223, 187)
+  --bs-btn-hover-color:#fff
+  --bs-btn-hover-bg:rgb(55, 223, 187)
+  --bs-btn-hover-border-color:rgb(55, 223, 187)
+  --bs-btn-focus-shadow-rgb:49, 132, 253
+  --bs-btn-active-color:#fff
+  --bs-btn-active-bg:rgb(55, 223, 187)
+  --bs-btn-active-border-color:rgb(55, 223, 187)
+  --bs-btn-active-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.125)
+  --bs-btn-disabled-color:#fff
+  --bs-btn-disabled-bg:rgb(55, 223, 187)
+  --bs-btn-disabled-border-color:rgb(55, 223, 187)
+.fc-theme-bootstrap5
+  .fc-list, .fc-scrollgrid, td, th
+    border: 1px solid rgb(55, 223, 187)
+.fc .fc-daygrid-day
+  background-color: transparent
+.fc-theme-bootstrap5 a:not([href]) 
+  color: rgb(57, 93, 86)
+  text-decoration: inherit
+.fc .fc-toolbar-title
+  color: rgb(57, 93, 86) !important
+.fc .fc-timegrid-slot-label
+  color: rgb(57, 93, 86) !important
+.btn-outline-primary
+  --bs-btn-color:rgb(55, 223, 187)
+  --bs-btn-border-color:rgb(55, 223, 187)
+  --bs-btn-hover-color:#fff
+  --bs-btn-hover-bg:rgb(55, 223, 187)
+  --bs-btn-hover-border-color:rgb(55, 223, 187)
+  --bs-btn-focus-shadow-rgb:13, 110, 253
+  --bs-btn-active-color:#fff
+  --bs-btn-active-bg:rgb(55, 223, 187)
+  --bs-btn-active-border-color:rgb(55, 223, 187)
+  --bs-btn-active-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.125)
+  --bs-btn-disabled-color:rgb(55, 223, 187)
+  --bs-btn-disabled-bg:transparent
+  --bs-btn-disabled-border-color:rgb(55, 223, 187)
+  --bs-gradient:none
+thead
+    background-color: rgb(55, 223, 187)
+th
+  border-color: white !important
+</style>

@@ -418,7 +418,6 @@ function SetFinding(context, iniciar_x, inicio_y, medida, diente, registro) {
                         if (hzgoMatriz[0]?.Replicable_Intermedio == "NO") {
                             if (dienteAlterno.length > 0) {
                                let cantidadDeDientes = (dienteAlterno[0]?.indice - _dienteSelect[0]?.indice) + 1;
-                               console.log(cantidadDeDientes)
                                 _ancho = (_ancho * (cantidadDeDientes - 1)) + 3 * (cantidadDeDientes) ;
                             }
                             if (_dienteSelect[0]?.grupo == "G1" || _dienteSelect[0]?.grupo == "G2") {
@@ -475,15 +474,6 @@ function FindingText(contexto, inicio_x, inicio_y, sigla, med, color) {
     ctx.stroke();
     ctx.lineWidth = 1;
     ctx.fillStyle = 'blue';
-}
-export function clearcanvas(id) {
-    var canvas = document.getElementById(id);
-    var contexto = canvas.getContext("2d");
-    contexto.clearRect(0, 0, canvas.width, canvas.height);
-    document.getElementById("comboHallazgo").value = ""
-    document.getElementById("comboPieza").value = ""
-    var alerta = document.getElementById("VistaDiente");
-    alerta.style.display = "block"
 }
 export function limpiarCaries() {
     var stle = "width: 100%; height:60px;";

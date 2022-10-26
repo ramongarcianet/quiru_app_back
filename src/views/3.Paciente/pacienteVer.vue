@@ -71,6 +71,12 @@ onUnmounted(()=> {
     a.close(@click="Cancelar()" href='#' data-dismiss='alert' aria-label='close') &times;
 .row
   .col.col-md-4
+    .col-12.mx-auto.my-3
+      button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="push({name: 'Admision', params: { idPaciente: item.id }})")
+        div
+          strong(style="color: white") Registrar
+          p.mb-0(style="color: white") Admisión
+        ion-icon(name="logo-tiktok" style="color: white" size="large")
     Form.mt-md-4
       label.form-label.mt-2 Documento de identidad
       .input-group.pb-md-3
@@ -85,6 +91,7 @@ onUnmounted(()=> {
         input.form-control(v-model="item.numeroDocumento", disabled)
       
     .col-12.mx-auto.my-3
+
       button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','No')")
         div
           strong(style="color: white") Crear

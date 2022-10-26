@@ -12,14 +12,14 @@ const diente = computed(() => (Number(props.item.diente) / 10).toFixed(1) || "00
 
 
 function slelecteditem(ubicacion) {
-    const index = itemModel.value?.hallazgos.findIndex(i => i.hallazgo == Hallazgo.value && i.posicion == ubicacion)
+    const index = itemModel.value?.hallazgos.findIndex(i => i.descripcion == Hallazgo.value && i.posicion == ubicacion)
     let zonaDiente = "";
     if (index > -1) {
         itemModel.value.hallazgos.splice(index, 1)
     }
     else {
-        const registroSiglas = listaDeHallazgos.filter((elem) => elem.value == Hallazgo.value);
-        const sigla = registroSiglas[0]?.sigla;
+        const hzgoMatriz = listaDeHallazgos.filter((elem) => elem.text == Hallazgo.value);
+        const sigla = hzgoMatriz[0]?.sigla;
         const ubicacionnes = escenarios.Esenarios.filter((elem) => elem.pieza == itemModel.value.diente)[0];
         if (ubicacionnes != undefined && comboHallazgo.value != '' && comboPieza.value != '') {
             switch (ubicacion) {
@@ -41,13 +41,17 @@ function slelecteditem(ubicacion) {
             }
         }
         if (comboHallazgo.value != '' && comboPieza.value != '') {
-           /* const index = itemModel.value?.hallazgos.findIndex(elem => elem.diente == comboPieza.value && elem.ubicacion == zonaDiente && elem.sigla == sigla && elem.posicion == ubicacion)
-            const existePieza = item.value?.hallazgos.filter((elem) => elem.diente == comboPieza.value && elem.ubicacion == zonaDiente && elem.sigla == sigla && elem.posicion == ubicacion).length;
-            if (existePieza > 0) {
-                itemModel.value?.hallazgos.splice(index, 1);
-            }
-            */
-            itemModel.value.hallazgos.push({ hallazgo: Hallazgo.value, ubicacion: zonaDiente, sigla: sigla, posicion: ubicacion })
+            itemModel.value.hallazgos.push({
+                diente: comboPieza.value,
+                dienteAlterno: "",
+                fechaHallazgo: new Date(),
+                fila: 0,
+                hallazgo: hzgoMatriz[0]?.value,
+                posicion: ubicacion,
+                sigla: sigla,
+                ubicacion: zonaDiente,
+                descripcion: hzgoMatriz[0]?.value
+            })
         }
     }
 }
@@ -57,7 +61,7 @@ function slelecteditem(ubicacion) {
     h1
         span {{ diente }}
     h1
-        span {{ item.hallazgos.map((item) => item.sigla).join(' ') }}
+        span {{item.hallazgos.map((item) => item.sigla).find(x => x != "")}}
     //-#raices
     #button-diente( :class='item.hallazgos?.map(({ hallazgo }) => hallazgo).join(" ")' )
         div(
