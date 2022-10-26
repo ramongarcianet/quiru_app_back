@@ -27,12 +27,9 @@ const guardarCita = item => {
     estado: true }).then(newdoc=> updateDoc(doc(firestore, 'citas', newdoc.id) ,{id:newdoc.id}))
 }
 
-const actualizar = (item, id) => {
-  const referencia = doc(firestore, 'citas', id)
-  return updateDoc(referencia, {
-      start: item.start.toISOString(),
-      end: item.end.toISOString(),
-    })
+const actualizar = (item) => {
+  const referencia = doc(firestore, 'citas', item.id)
+  return updateDoc(referencia, item)
 }
 
 //Aun falta imprimir

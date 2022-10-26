@@ -81,15 +81,43 @@ function createEvent(item) {
     control.click();
   }
 }
-function updateEvent(id, sta, end) {
-  actualizar(id, sta, end)
+function updateEvent(arg) {
+  let horadiotext = ""
+  let newTime = arg.start.toLocaleTimeString('en-US');
+  let hour = newTime.split(":")[0];
+  let amPm = newTime.split(" ")[1];
+  let seconds = newTime.split(":")[2].replace(amPm, '');
+  let noSeconds = newTime.replace(":" + seconds, ' ');
+
+  let newTim2 = arg.end.toLocaleTimeString('en-US');
+  let hour2 = newTime.split(":")[0];
+  let amPm2 = newTim2.split(" ")[1];
+  let seconds2 = newTim2.split(":")[2].replace(amPm2, '');
+  let noSeconds2 = newTim2.replace(":" + seconds2, ' ');
+
+  const opciones = { weekday: 'long', month: 'long', day: 'numeric' };
+  if (parseInt(hour) < 9) {
+    noSeconds = "0" + noSeconds
+  }
+  if (parseInt(hour2) < 9) {
+    noSeconds2 = "0" + noSeconds2
+  }
+  itemPaciente.value = {}
+  horadiotext = arg.start.toLocaleDateString('es-ES', opciones) + '     ' + noSeconds + " - " + noSeconds2;
+  let _item = {
+    id: arg.id,
+    start: arg.start.toISOString(),
+    end: arg.end.toISOString(),
+    timedisplay: horadiotext
+  }
+  actualizar(_item)
 }
 function deleteEvent(id) {
   eliminar(id)
 }
 function viewEvents(_id) {
   let item_data = registro.value.find(item => item.id == _id)
-  leerPaciente(item_data.idPaciente);
+  leerEnRegistroPac(item_data.idPaciente);
   cita.value = {
     idPaciente: item_data.idPaciente,
     start: item_data.start,
@@ -170,9 +198,10 @@ const options = reactive({
   eventChange: (arg) => {
     updateEvent(
       {
+        id: arg.event.id,
         start: arg.event.start,
         end: arg.event.end,
-      }, arg.event.id
+      }
     )
   },
   eventRemove: (arg) => {
@@ -287,7 +316,7 @@ function closeEvent() {
                 option(value="DNI" selected) DNI
                 option(value="CE") CARNET DE EXTRANJERIA
               input.form-control(placeholder='DNI/CE. Paciente', required, :maxlength="maxDocumento" @keypress="isNumber($event)" v-model="itemPaciente.numeroDocumento")
-              
+
             .input-group.mb-3
               span#basic-addon1.input-group-text
                 i.fa.fa-at
