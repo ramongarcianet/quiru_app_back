@@ -13,7 +13,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useRoute, useRouter } from 'vue-router';
 import { obtenerTodos, registro, cita, guardarCita, actualizar, _event } from "../../store/citas";
 import { obtenerTodos as obtenerTodosPaciente, leer as LeerPaciente, registro as RegPaciente, item as itemPaciente, leerDniRegistro, guardar as guardarPaciente } from "../../store/paciente";
-import { item as ItemUsuario, leer as LeerUser, registro as RegistroUsuario, leerEnRegistro } from '../../store/usuario'
+import { item as ItemUsuario, leer as LeerUser, registro as RegistroUsuario, leerEnRegistro, item } from '../../store/usuario'
 import { miUsuario } from '../../store/sesion'
 import { isLetter, isNumber } from '../../config/libreria'
 const maxDocumento = ref(9);
@@ -81,13 +81,27 @@ function createEvent(item) {
     control.click();
   }
 }
-function updateEvent(id, sta, end){
+function updateEvent(id, sta, end) {
   actualizar(id, sta, end)
 }
 
-function deleteEvent(arg){
+function viewEvents(_id) {
+  let item_data = registro.value.find(item => item.id == _id)
+  cita.value = {
+    idPaciente: item_data.idPaciente,
+    start: item_data.start,
+    end: item_data.end,
+    title: item_data.title,
+    borderColor: item_data.borderColor,
+    backgroundColor: item_data.backgroundColor,
+    descripcion: item_data.descripcion,
+    timedisplay: item_data.timedisplay,
+    fechaDeCreacion: new Date().toISOString().slice(0, 10),
+    UserId: item_data.UserId
+  };
+
   let control = document.getElementById("btnschedule");
-    control.click();
+  control.click();
 }
 const options = reactive({
   editable: true,
@@ -158,8 +172,11 @@ const options = reactive({
     )
   },
   eventRemove: (arg) => {
-    deleteEvent(arg.event.id)
-  }
+    //deleteEvent(arg.event.id)
+  },
+  eventClick: (arg) => {
+    viewEvents(arg.event.id)
+  },
 })
 watch(
   () => registro.value,
@@ -173,9 +190,9 @@ watch(
 );
 const guardarAmbas = () => {
   if (mostrar.value == true) {
-    return new Promise ( resolve => guardarPaciente(itemPaciente.value)
-      .then( idPaciente => guardarCitaCompleta(idPaciente)
-        .then(()=>resolve())) )
+    return new Promise(resolve => guardarPaciente(itemPaciente.value)
+      .then(idPaciente => guardarCitaCompleta(idPaciente)
+        .then(() => resolve())))
   }
   else {
     return guardarCitaCompleta()
@@ -183,15 +200,12 @@ const guardarAmbas = () => {
 }
 const guardarCitaCompleta = (idPaciente) => {
   cita.value.idPaciente = idPaciente || itemPaciente.value.id;
-  if (cita.value.id) {
-    return actualizar(cita.value);
+  let index = registro.value?.findIndex(i => i.id == cita.value.id);
+  if (index == -1 || index == undefined) {
+    return guardarCita(cita.value);
   }
   else {
-    let index = registro.value?.findIndex(i => i.id == cita.value.id);
-    if (index == -1 || index == undefined) {
-      
-    };
-    return guardarCita(cita.value);
+    return actualizar(cita.value);
   }
 };
 
@@ -278,7 +292,7 @@ function closeEvent() {
               i.fa.fa-paint-brush
             input#exampleColorInput.form-control.form-control-color(type='color', title='Choose your color', v-model="cita.backgroundColor")
         .modal-footer
-          button.btn.btn-danger(type='button', data-bs-dismiss='modal') Cancelar
+          button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cancelar
           button.ms-auto.btn.btn-danger(v-if="2==2" type='button', data-bs-dismiss='modal') Borrar
           button.ms-auto.btn.btn-primary(type="submit") Grabar
 </template>
