@@ -142,17 +142,7 @@ const routes = [
                 path: 'citas',
                 name: 'citas',
                 component: ()=>import('../views/10.Citas/citas.vue')
-            },
-            {
-                path: 'citas/:idFecha?',
-                name: 'crearCita',
-                component: ()=>import('../views/10.Citas/crearCita.vue')
-            },
-            {
-                path: 'citas/:idCita?',
-                name: 'verCita',
-                component: ()=>import('../views/10.Citas/verCita.vue')
-            },
+            }
         ]
     }
 ]

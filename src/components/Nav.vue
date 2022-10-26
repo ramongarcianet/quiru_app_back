@@ -28,6 +28,7 @@ const rutas = [
 <style lang="sass" scoped>
 
 .router
+  z-index: 49
   bottom: 1rem
   left: 0
   right: 0
@@ -50,7 +51,7 @@ const rutas = [
       position: relative
       list-style: none
       width: 70px
-      z-index: 1
+      z-index: 50
       cursor: pointer
       a
         position: relative

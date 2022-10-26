@@ -5,7 +5,7 @@ import { usuario } from '../store/sesion'
 
 const dialog = ref(false)
 
-let item = ref({
+const  item = ref({
     tipoDocumento: 'DNI',
     sexo: '',
     fechaNacimiento: new Date().toISOString().slice(0, 10),
@@ -14,11 +14,11 @@ let item = ref({
     estado: true
 })
 
-const guardar = item => {
+const guardar = item => new Promise ( (resolve)=> {
     const referencia = collection(firestore, 'paciente')
     return addDoc(referencia, {...item,idOdontologo:usuario.value.uid,
-        estado: true})
-}
+        estado: true}).then( doc => resolve(doc.id))
+})
 
 const actualizar = (item) => {
     const referencia = doc(firestore, 'paciente', item.id)
@@ -71,7 +71,7 @@ const leerEnRegistro = id => {
     return item.value = registro.value.find(item => item.id == id)
 }
 const leerDniRegistro = dni => {
-    return item = registro.value.find(item => item.dni == dni)
+    return item.value = registro.value.find(item => item.numeroDocumento == dni)
 }
 const limpiar = () => {
     item.value = {
