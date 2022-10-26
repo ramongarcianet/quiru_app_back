@@ -17,18 +17,18 @@ const cita = ref({
   descripcion: '',
   timedisplay: '',
   fechaDeCreacion: new Date().toISOString().slice(0, 10),
-  UserId: ''
+  UserId: '',
 })
 export const _event = ref([])
 const guardarCita = item => {
   const mesActual = moment().format('MMMM')
   const referencia = collection(firestore, 'citas')
-  return addDoc(referencia, { ...item, UserId: usuario.value.uid, estado: true })
+  return addDoc(referencia, { ...item, UserId: usuario.value.uid, 
+    estado: true }).then(newdoc=> updateDoc(doc(firestore, 'citas', newdoc.id) ,{id:newdoc.id}))
 }
 
 const actualizar = (item, id) => {
-  const referencia = doc(firestore, 'citas', id) 
-  console.log(item.start)
+  const referencia = doc(firestore, 'citas', id)
   return updateDoc(referencia, {
       start: item.start.toISOString(),
       end: item.end.toISOString(),
@@ -43,7 +43,7 @@ const updateEstado = (item) => {
   return updateDoc(referencia, { estado: false })
 }
 
-const eliminar = (id) => {
+export const eliminar = (id) => {
   const referencia = doc(firestore, 'citas', id)
   return deleteDoc(referencia)
 }

@@ -11,8 +11,8 @@ import bootstrap5Plugin from '@fullcalendar/bootstrap5';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useRoute, useRouter } from 'vue-router';
-import { obtenerTodos, registro, cita, guardarCita, actualizar, _event } from "../../store/citas";
-import { obtenerTodos as obtenerTodosPaciente, leer as LeerPaciente, registro as RegPaciente, item as itemPaciente, leerDniRegistro, guardar as guardarPaciente } from "../../store/paciente";
+import { obtenerTodos, registro, cita, guardarCita, actualizar, _event, eliminar } from "../../store/citas";
+import { obtenerTodos as obtenerTodosPaciente, leer as leerPaciente, registro as RegPaciente, item as itemPaciente, leerDniRegistro, guardar as guardarPaciente, leerEnRegistro as leerEnRegistroPac } from "../../store/paciente";
 import { item as ItemUsuario, leer as LeerUser, registro as RegistroUsuario, leerEnRegistro, item } from '../../store/usuario'
 import { miUsuario } from '../../store/sesion'
 import { isLetter, isNumber } from '../../config/libreria'
@@ -84,9 +84,12 @@ function createEvent(item) {
 function updateEvent(id, sta, end) {
   actualizar(id, sta, end)
 }
-
+function deleteEvent(id) {
+  eliminar(id)
+}
 function viewEvents(_id) {
   let item_data = registro.value.find(item => item.id == _id)
+  leerPaciente(item_data.idPaciente);
   cita.value = {
     idPaciente: item_data.idPaciente,
     start: item_data.start,
@@ -97,7 +100,8 @@ function viewEvents(_id) {
     descripcion: item_data.descripcion,
     timedisplay: item_data.timedisplay,
     fechaDeCreacion: new Date().toISOString().slice(0, 10),
-    UserId: item_data.UserId
+    UserId: item_data.UserId,
+    id: item_data.id
   };
 
   let control = document.getElementById("btnschedule");
@@ -172,7 +176,11 @@ const options = reactive({
     )
   },
   eventRemove: (arg) => {
-    //deleteEvent(arg.event.id)
+    deleteEvent(
+      {
+
+      }, arg.event.id
+    )
   },
   eventClick: (arg) => {
     viewEvents(arg.event.id)
@@ -262,7 +270,9 @@ function closeEvent() {
           .input-group.mb-3(v-if="mostrar == false")
             span#basic-addon1.input-group-text
               i.fa-solid.fa-magnifying-glass
-            input.form-control(placeholder='Buscar paciente por documento de identidad' required :maxlength="maxDocumento" @keypress="isNumber($event)" v-on:focusout="GetPaciente($event)")
+            input.form-control(placeholder='Buscar paciente por documento de identidad' required :maxlength="maxDocumento" @keypress="isNumber($event)" v-model="itemPaciente.numeroDocumento" v-on:focusout="GetPaciente($event)")
+            input.form-control(placeholder='Nombre Paciente', required, v-model="itemPaciente.nombre" readonly )
+            input.form-control(placeholder='Apellido Paciente', required, v-model="itemPaciente.apellidoPaterno" readonly)
           .pacienteNuevo(v-if="mostrar == true")
             .input-group.mb-3
               span#basic-addon1.input-group-text 
@@ -273,7 +283,11 @@ function closeEvent() {
             .input-group.mb-3
               span#basic-addon1.input-group-text
                 i.fa.fa-id-card
-              input.form-control(placeholder='DNI/CE. Paciente', required, :maxlength="maxDocumento", v-model="itemPaciente.numeroDocumento")
+              select.form-select(v-model="itemPaciente.tipoDocumento")
+                option(value="DNI" selected) DNI
+                option(value="CE") CARNET DE EXTRANJERIA
+              input.form-control(placeholder='DNI/CE. Paciente', required, :maxlength="maxDocumento" @keypress="isNumber($event)" v-model="itemPaciente.numeroDocumento")
+              
             .input-group.mb-3
               span#basic-addon1.input-group-text
                 i.fa.fa-at
@@ -293,7 +307,7 @@ function closeEvent() {
             input#exampleColorInput.form-control.form-control-color(type='color', title='Choose your color', v-model="cita.backgroundColor")
         .modal-footer
           button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cancelar
-          button.ms-auto.btn.btn-danger(v-if="2==2" type='button', data-bs-dismiss='modal') Borrar
+          button.ms-auto.btn.btn-danger(v-if="2==2" type='button', data-bs-dismiss='modal' @click="deleteEvent(cita.id)") Borrar
           button.ms-auto.btn.btn-primary(type="submit") Grabar
 </template>
 
