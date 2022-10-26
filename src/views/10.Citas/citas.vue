@@ -123,7 +123,7 @@ const options = reactive({
   headerToolbar: {
     left: 'prev,next',
     center: 'title',
-    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+    right: 'dayGridMonth,timeGridWeek,timeGridDay,listDay'
   },
   views: {
     dayGridMonth: {
