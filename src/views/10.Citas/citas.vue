@@ -8,7 +8,7 @@ import listPlugin from '@fullcalendar/list'
 import interactionPlugin from '@fullcalendar/interaction'
 import esLocale from '@fullcalendar/core/locales/es';
 import bootstrap5Plugin from '@fullcalendar/bootstrap5';
-import 'bootstrap/dist/css/bootstrap.css';
+//import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useRoute, useRouter } from 'vue-router';
 import { obtenerTodos, registro, cita, guardarCita, actualizar, _event, eliminar } from "../../store/citas";
@@ -339,8 +339,29 @@ function closeEvent() {
           button.ms-auto.btn.btn-danger(v-if="2==2" type='button', data-bs-dismiss='modal' @click="deleteEvent(cita.id)") Borrar
           button.ms-auto.btn.btn-primary(type="submit") Grabar
 </template>
-
 <style lang="sass">
+.btn-primary
+  color:#fff
+thead
+  background-color: rgb(55, 223, 187)
+th
+  border-color: white !important
+.fc-theme-bootstrap5
+  .fc-list, .fc-scrollgrid, td, th
+    border: 1px solid rgb(55, 223, 187)
+.fc .fc-daygrid-day
+  background-color: transparent
+.fc-theme-bootstrap5 a:not([href]) 
+  color: rgb(57, 93, 86)
+  text-decoration: inherit
+.fc .fc-toolbar-title
+  color: rgb(57, 93, 86) !important
+.fc .fc-timegrid-slot-label
+  color: rgb(57, 93, 86) !important
+</style>
+<!--
+<style lang="sass">
+
 .btn-primary
   --bs-btn-color:#fff
   --bs-btn-bg:rgb(55, 223, 187)
@@ -388,3 +409,4 @@ thead
 th
   border-color: white !important
 </style>
+-->
