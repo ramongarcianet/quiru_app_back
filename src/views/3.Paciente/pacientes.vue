@@ -14,9 +14,9 @@ const {push} = useRouter()
   .col-12.col-md-4.pb-2
     button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.py-2.align-items-center(style="border-radius: 50px; " @click="push({name: 'paciente'})")
       div
-        strong(style="color: white") Añadir 
+        strong(style="color: white") Añadir
         p.mb-0(style="color: white") Nuevo Paciente
-      ion-icon(name="person-add-outline" style="color: white" size="large")
+      i.fa-solid.fa-user-plus.fa-xl(style="color: white")
 .col
   Registro
 

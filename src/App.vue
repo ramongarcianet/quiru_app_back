@@ -23,4 +23,8 @@ body
 @media (max-width 575px)
   .container
     padding: 0
+.icon
+  width: 30px
+  height: 30px
+  color: currentcolor
 </style>

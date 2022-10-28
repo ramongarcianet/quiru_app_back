@@ -61,7 +61,7 @@ const crear_ = () => new Promise( async(resolve, reject) =>   {
     h1 Datos Adicionales
   .col-2
     button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
-      ion-icon(name="document-attach" style="color: var(--color-primary); font-size: 26px;" )
+      i.fa-regular.fa-file-pdf.fa-xl( style="color: var(--color-primary); font-size: 35px" )
     #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
       .modal-dialog.modal-lg
         .modal-content
@@ -106,7 +106,7 @@ const crear_ = () => new Promise( async(resolve, reject) =>   {
       .row.mt-2
         #mensaje.alert.alert-dismissible( v-if='mensaje' :class='hayError? "alert-danger" : "alert-success" ' ) {{mensaje}}
       .d-flex.mt-2
-        button.btn.btn-primary( @click='back()') Volver
+        button.btn.btn-primary( @click="push({name: 'Detalle', params: {idOdontograma:route.params.idOdontograma ,idPaciente: route.params.idPaciente,tipoOdonto: route.params.tipoOdonto} })") Volver
         button.ms-auto.btn.btn-primary(type="submit") Guardar
     .card.card-body.mt-2
       .div(style="background-color: white; border-radius: 2%;")

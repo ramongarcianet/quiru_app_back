@@ -5,9 +5,10 @@ const route = useRoute()
 const {push} = useRouter()
 const routeName = computed(()=>route.name)
 const rutas = [
-    {name:'Dashboard', icono:'bar-chart-outline', ruta:'resumen'},
-    {name:'Pacientes', icono:'person-outline', ruta:'pacientes'},
-    {name:'Citas', icono:'calendar-outline', ruta:'citas'},
+    {name:'Citas', icono:'fa-regular fa-calendar-days', ruta:'citas'},
+    {name:'Pacientes', icono:'fa-regular fa-user', ruta:'pacientes'},
+    {name:'Ayuda', icono:'fa-solid fa-question', ruta:'resumen'},
+    
     //{name:'Configuración', icono:'settings-outline', ruta:'usuario'},
 
 ]
@@ -19,15 +20,15 @@ const rutas = [
     li.list(v-for="ruta of rutas"  @click="push({name:ruta.ruta})" :class=" ruta.ruta == routeName ? 'active' : '' ")
       a
         span.icon
-          ion-icon(:name='ruta.icono' )
+          i(:class= 'ruta.icono')
         span.route {{ruta.name}}
-
     .indicador
 </template>
 
 <style lang="sass" scoped>
 
 .router
+  z-index: 49
   bottom: 1rem
   left: 0
   right: 0
@@ -50,7 +51,7 @@ const rutas = [
       position: relative
       list-style: none
       width: 70px
-      z-index: 1
+      z-index: 50
       cursor: pointer
       a
         position: relative

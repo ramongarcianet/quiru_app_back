@@ -18,10 +18,12 @@ const listaHallazgo = obtenerTodoHallazgo();
 const listaCaries = obtenerTodoCaries();
 const { push } = useRouter()
 leerEnRegistro(route.params.idOdontograma);
-const listaDeHallazgos = _Hallazgos.filter(i => i.tipo == route.params.tipoOdonto).map(({ text, value }) => ({ text, value }))
 escucharInicializarVoz();
 let temList = [];
 let wakeLock = null;
+const listaDeHallazgos = computed ( ()=> {
+  return _Hallazgos.filter(i => i.tipo == route.params.tipoOdonto).map(({ text, value }) => ({ text, value }))
+})
 onMounted(() => {
   paginaOdontograma.value = true;
   if ("wakeLock" in navigator) {
@@ -207,8 +209,8 @@ const idRelacionados_ = computed((() => id => getItemEnRegistro(id)?.idRelaciona
   p {{ textoEscuchado }}
 .contenedor(:hidden="itemodontograma?.estado === '1' ")
   .anim(v-if='isSpeech')
-  .microfono( @click="isSpeech ? detenerVoz() : activarVoz()" )
-    ion-icon.icono(name="mic" )
+  .microfono( @click="isSpeech ? detenerVoz() : activarVoz()" )#destacarMicrofono
+    i.icono.fa-solid.fa-microphone.fa-xl
 
 //-Input sin micrófono
 .row.mt-3
@@ -274,6 +276,14 @@ const idRelacionados_ = computed((() => id => getItemEnRegistro(id)?.idRelaciona
 
 </template>
 <style lang="sass" scoped>
+.elevar
+  position: relative
+  z-index: 3 !important
+  background-color: var(--color-white)
+.noElevar
+  position: relative
+  z-index: 0 !important
+  background-color: transparent
 .desplazable
   display: flex
   flex-direction: row
