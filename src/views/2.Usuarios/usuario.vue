@@ -42,10 +42,10 @@ watch(
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Vista de
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Configuración
     button.btn.btn-outline-primary.border-0(@click="back()" )
-      ion-icon(name="return-down-back-outline" size="large")
+      i.fa-solid.fa-arrow-left-long.fa-xl
   .col-2
     button.btn.btn-outline-primary.border-0.pb-md-0(title='Cerrar Sesion' @click="cerrarSesion()")
-      ion-icon(name="power-outline" size="large")
+      i.fa-solid.fa-power-off( style="color: var(--color-primary); font-size: 35px" )
 
 Form( :onPromise="() => guardarOActualizar()" :onSuccess='() => back()')
   .row
@@ -110,9 +110,4 @@ Form( :onPromise="() => guardarOActualizar()" :onSuccess='() => back()')
           p.mb-0 Mis Datos
         i.fa-solid.fa-save.fa-lg.ms-5(style=" color: white;")
 </template>
-<style>
-ion-icon {
-  pointer-events: none;
-}
-</style>
 

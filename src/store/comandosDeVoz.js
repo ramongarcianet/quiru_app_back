@@ -164,11 +164,13 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
     let mensaje = ''
     const hallazgoCorrecto = hallazgo ? listaDeHallazgos.map(({ value }) => value).indexOf(hallazgo) > -1 : true
     const ubicacionCorrecta = pieza ? listaDeDientes_.find(item => item == pieza) : true
+   
     if (!hallazgoCorrecto || !ubicacionCorrecta) return
     let pieza_ = pieza < 10 ? pieza * 10 : pieza
     if (ubicacion) {
         ubicacion = formatUbicacion(ubicacion)
     }
+
     if (pieza) {
 
         if (item.value.diente != pieza_) {
@@ -177,7 +179,17 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
         }
         mensaje += `Pieza ${pieza}`
     }
+    const ubicacionnes = escenarios.Esenarios.filter((elem) => elem.pieza == item.value.diente)[0];
     const hzgoMatriz = listaDeHallazgos.filter((elem) => elem.value == hallazgo);
+    let _posicion="";
+    if (ubicacionnes != undefined) {
+        _posicion = (ubicacionnes.arriba.trim() == ubicacion) ? 'arriba' : _posicion;
+        _posicion = (ubicacionnes.centro.trim() == ubicacion) ? 'centro' : _posicion;
+        _posicion = (ubicacionnes.abajo.trim() == ubicacion) ? 'abajo' : _posicion;
+        _posicion = (ubicacionnes.izquierda.trim() == ubicacion) ? 'izquierda' : _posicion;
+        _posicion = (ubicacionnes.derecha.trim() == ubicacion) ? 'derecha' : _posicion;
+    }
+
     if (hzgoMatriz.length > 0) {
         if (hzgoMatriz[0]?.esDirecto == "SI") {
             item.value.hallazgos.push({ 
@@ -187,8 +199,22 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
                 sigla: hzgoMatriz[0]?.sigla, 
                 posicion: "", 
                 fechaHallazgo: new Date(), 
-                descripcion: hzgoMatriz[0]?.text
+                descripcion: hzgoMatriz[0]?.text,
+                dienteAlterno: "",
             })
+        }
+        else
+        {
+            item.value.hallazgos.push({ 
+                diente: pieza_, 
+                hallazgo: hzgoMatriz[0]?.value, 
+                ubicacion: ubicacion, 
+                sigla: hzgoMatriz[0]?.sigla, 
+                posicion: _posicion, 
+                fechaHallazgo: new Date(), 
+                descripcion: hzgoMatriz[0]?.text,
+                dienteAlterno: "",
+            }) 
         }
         agregarLista(itemodontograma.value.id, item.value)
     }
