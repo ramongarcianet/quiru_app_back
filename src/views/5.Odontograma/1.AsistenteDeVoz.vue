@@ -2,7 +2,6 @@
 import Formulario from "./Formulario.vue";
 import { registroodonto, guardar as guardarOdontograma, getItemEnRegistro } from "../../store/formodontograma";
 import { item as itemPas, leer, actualizar } from "../../store/paciente";
-//import "../../config/html2canvas";
 import { useRoute, useRouter } from "vue-router";
 import Cie10 from '../../config/Cie10.json';
 import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma, eliminar } from '../../store/formodontograma';
@@ -39,6 +38,40 @@ function printOdontograma() {
   let posis = 37;
   let posis1 = 0;
   if (itemodontograma.value?.hallazgos != undefined) {
+/*
+    pdf.setFontSize(12);
+    Cie10.CIE10.forEach(element => {
+      let ubicacionnes = itemodontograma.value?.hallazgos.filter((elem) => elem.hallazgo.toUpperCase() == element.HALLAZGO);
+      let Piezas = "";
+      if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
+        ubicacionnes.forEach(dient => {
+          if (!Piezas.includes(dient.diente)) {
+            Piezas = Piezas + dient.diente + '; ';
+          }
+        });
+        pdf.text(10, posis, element.DECRICIE10 + " / Piezas : " + Piezas + " / " + element.CIE10);
+        posis = posis + 7;
+      }
+
+    });
+    posis1 = posis + 10;
+    pdf.setFontSize(12);
+    Cie10.CIE10.forEach(element => {
+      let ubicacionnes = itemodontograma.value?.hallazgos.filter((elem) => elem.hallazgo.toUpperCase() == element.HALLAZGO);
+      let Piezas = "";
+      if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
+        ubicacionnes.forEach(dient => {
+          if (!Piezas.includes(dient.diente)) {
+            Piezas = Piezas + dient.diente + '; ';
+          }
+        });
+        if (element.TRATAMIENTO != "") {
+          pdf.text(10, posis1, element.TRATAMIENTO + " / Piezas : " + Piezas);
+          posis1 = posis1 + 7;
+        }
+      }
+    });
+*/
     pdf.html("", {
       callback: function (pdf) {
         pdf.setFontSize(17);
