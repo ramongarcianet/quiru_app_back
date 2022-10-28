@@ -42,23 +42,23 @@ export const item = ref({
 if (annyang) {
 
     annyang.setLanguage("es-PE");
+
     annyang.addCallback('result', function (frase) {
         if (isSpeech.value) {
             textoEscuchado.value = frase[0];
-        } else {
-            detenerVozAutomat()
         }
     })
+    /*
     annyang.addCallback('soundstart', function () {
         if (!isSpeech.value) {
             detenerVozAutomat()
         }
     });
+    */
     annyang.addCallback('error', function (e) {
         if (e.error == 'aborted') {
-            //detenerVozAutomat()&& 
-            //alert(e.error)
-            detenerVozAutomat();
+            annyang.abort()
+            annyang.start()
         }
 
     });
@@ -76,7 +76,6 @@ if (annyang) {
         if (resizeWindow.value < 500)
             console.log('Reconectando al micrófono')
     });
-
     flagAnnyang = annyang.start()
 
     annyang.getSpeechRecognizer()?.grammars?.addFromString(comandosDeVoz?.gramatica, 1);

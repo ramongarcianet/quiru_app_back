@@ -65,7 +65,7 @@ function incompleto() {
 h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Nuevo
 h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") paciente
 button.btn.btn-outline-primary.border-0(@click="back()" )
-  ion-icon(name="return-down-back-outline" size="large")
+  i.fa-solid.fa-arrow-left-long.fa-xl
 Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError='incompleto()')
   .row
     .col-md-6
@@ -76,7 +76,7 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
         input.form-control(placeholder="Apellido materno", v-model="item.apellidoMaterno",type="text", required,maxlength="30")
       label.form-label Documento de identidad*
       .input-group.mb-2
-        select.form-select(placeholder="Ubigeo", v-model="item.tipoDocumento",v-on:change="definirMaxLimit(item.tipoDocumento)")
+        select.form-select( v-model="item.tipoDocumento",v-on:change="definirMaxLimit(item.tipoDocumento)")
           option(value="DNI") DNI
           option(value="CE") CARNET DE EXTRANJERIA
         input.form-control(placeholder="Número documento", v-model="item.numeroDocumento", @keypress="isNumber($event)",required,:maxlength="maxDocumento",:minlength="maxDocumento")

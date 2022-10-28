@@ -27,11 +27,18 @@ VerFormato(itemodontograma?.value?.hallazgos);
 
 </script>
 <template lang="pug">
-.row
+.row#destacarOdontograma
   .col#imprimir
     canvas#myCanvas( width="384" height="397" style="border: 0; left:0px; top:0px;")
 </template>
 <style lang="sass" scoped>
+.elevar
+  position: relative
+  z-index: 3 !important
+  background-color: var(--color-white)
+.noElevar
+  position: relative
+  z-index: 0 !important
 #myCanvas
   border: 0px solid #9c9898
   height: 370px

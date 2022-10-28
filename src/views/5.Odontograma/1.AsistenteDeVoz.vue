@@ -1,14 +1,15 @@
 <script setup>
 import Formulario from "./Formulario.vue";
 import { registroodonto, guardar as guardarOdontograma, getItemEnRegistro } from "../../store/formodontograma";
-import { item as itemPas, leer } from "../../store/paciente";
-import "../../config/html2canvas";
+import { item as itemPas, leer, actualizar } from "../../store/paciente";
 import { useRoute, useRouter } from "vue-router";
 import Cie10 from '../../config/Cie10.json';
 import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma, eliminar } from '../../store/formodontograma';
 import jsPDF from 'jsPDF'
 import Instrucciones from "./../8.Ayuda/instrucciones.vue";
 import { watch, ref, computed } from "vue";
+
+import { item } from "../../store/usuario";
 import MicroButtonVue from "../../components/MicroButton.vue";
 const myModal = document.getElementById('myModal')
 const myInput = document.getElementById('myInput')
@@ -27,17 +28,17 @@ if (route.params.idOdontograma) {
 //onwatch
 watch(
   () => route.params.idOdontograma,
-  () => ObtenerOdontograma(route.params.idOdontograma)
+  () => ObtenerOdontograma(route.params.idOdontograma),
 )
 
 function printOdontograma() {
-
   var pdf = new jsPDF()
   canvas = document.getElementById('myCanvas');
   canvas_image_data = canvas.toDataURL();
-  let posis = 212;
+  let posis = 37;
   let posis1 = 0;
   if (itemodontograma.value?.hallazgos != undefined) {
+/*
     pdf.setFontSize(12);
     Cie10.CIE10.forEach(element => {
       let ubicacionnes = itemodontograma.value?.hallazgos.filter((elem) => elem.hallazgo.toUpperCase() == element.HALLAZGO);
@@ -70,23 +71,78 @@ function printOdontograma() {
         }
       }
     });
+*/
     pdf.html("", {
       callback: function (pdf) {
         pdf.setFontSize(17);
+        pdf.setFont(undefined, 'bold')
         pdf.text(30, 20, 'FICHA DE IDENTIFICACIÓN SANITARIA/ FICHA DENTAL');
+        pdf.setFont(undefined, 'normal')
         pdf.setFontSize(12);
         pdf.text(10, 30, pad('NOMBRE : ' + itemPas.value.nombre, 80, ' ') + pad('APELLIDOS : ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno, 90, ' '));
         pdf.text(10, 37, pad('FECHA DE NACIMIENTO : ' + itemPas.value.fechaNacimiento, 80, ' ') + pad('TIM/DNI : ' + itemPas.value.numeroDocumento, 90, ' '));
         pdf.text(10, 44, pad('DIRECCIÓN : ' + itemPas.value.Direccion, 180, ' '));
-        pdf.setFontSize(17);
+        pdf.setFontSize(14);
+        pdf.setFont(undefined, 'bold')
         pdf.text(80, 55, 'ODONTOGRAMA');
+        pdf.setFont(undefined, 'normal')
         pdf.setFontSize(12);
         pdf.addImage(canvas_image_data, 'JPEG', 30, 55, 140, 140)
-        pdf.setFontSize(17);
-        pdf.text(10, 205, 'DIAGNOSTICO');
-        pdf.setFontSize(17);
+        pdf.insertPage();
+        pdf.setFontSize(14);
+        pdf.setFont(undefined, 'bold')
+        pdf.text(10, 30, 'DIAGNOSTICO');
+        pdf.setFont(undefined, 'normal')
+        pdf.setFontSize(12);
+        Cie10.CIE10.forEach(element => {
+          let ubicacionnes = itemodontograma.value?.hallazgos.filter((elem) => elem.hallazgo == element.HALLAZGO);
+          let Piezas = "";
+          if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
+            ubicacionnes.forEach(dient => {
+              if (!Piezas.includes(dient.diente)) {
+                Piezas = Piezas + dient.diente + '; ';
+              }
+            });
+            if (element.TRATAMIENTO != "") {
+              pdf.text(10, posis, element.DECRICIE10 + " / Piezas : " + Piezas + " / " + element.CIE10);
+              posis = posis + 7;
+            }
+          }
+
+        });
+        pdf.setFontSize(14);
+        pdf.setFont(undefined, 'bold')
         pdf.text(10, posis + 2, 'TRATAMIENTO');
-        //pdf.text(10, 245, pad('ESPECIFICACIONES : ' + itemPas.value.especificaciones, ' '));
+        pdf.setFont(undefined, 'normal')
+        posis1 = posis + 10;
+        pdf.setFontSize(12);
+        Cie10.CIE10.forEach(element => {
+          let ubicacionnes = itemodontograma.value?.hallazgos.filter((elem) => elem.hallazgo == element.HALLAZGO);
+          let Piezas = "";
+          if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
+            ubicacionnes.forEach(dient => {
+              if (!Piezas.includes(dient.diente)) {
+                Piezas = Piezas + dient.diente + '; ';
+              }
+            });
+            if (element.TRATAMIENTO != "") {
+              pdf.text(10, posis1, element.TRATAMIENTO + " / Piezas : " + Piezas);
+              posis1 = posis1 + 7;
+            }
+          }
+        });
+        pdf.setFontSize(14);
+        pdf.setFont(undefined, 'bold')
+        pdf.text(10, posis1 + 2, 'JUSTIFICACIÓN');
+        pdf.setFont(undefined, 'normal')
+        pdf.setFontSize(12);
+        pdf.text(10, posis1 + 9, pad(itemodontograma.value.especificaciones, 180, ' '));
+        pdf.setFontSize(14);
+        pdf.setFont(undefined, 'bold')
+        pdf.text(10, posis1 + 16, 'OBSERVACIONES');
+        pdf.setFont(undefined, 'normal')
+        pdf.setFontSize(12);
+        pdf.text(10, posis1 + 23, pad(itemodontograma.value.observaciones, 180, ' '));
         var pdfName = itemPas.value.numeroDocumento
         pdf.save(pdfName + '.pdf');
       }
@@ -131,7 +187,7 @@ function Cancelar() {
   alerta.style.display = "none";
 }
 function guardar_(var1, var2, var3, var4) {
-  guardarOdontograma(var1, var2, var3, var4 ).then( idTratamiento => push({name: 'Detalle', params: {idOdontograma: idTratamiento, idPaciente: route.params.idPaciente} }))
+  guardarOdontograma(var1, var2, var3, var4).then(idTratamiento => push({ name: 'Detalle', params: { idOdontograma: idTratamiento, idPaciente: route.params.idPaciente, tipoOdonto: 'Tratamiento' } }))
   var hol = document.getElementById("holo");
   hol.style.display = "none";
 
@@ -140,9 +196,67 @@ function guardar_(var1, var2, var3, var4) {
 const idRelacionados_ = computed((() => id => getItemEnRegistro(id)?.idRelacionados))
 const idDiagnostico_ = itemodontograma?.value.id;
 
+const visto = ref(1)
+watch(
+  () => itemPas.value,
+  () => {
+    visto.value = itemPas.value?.visto || 0;
+  }
+);
+const finalizar = () => {
+  visto.value = 1
+  itemPas.value.id = route.params.idPaciente
+  itemPas.value.visto = 1
+  actualizar(itemPas.value)
+}
+const visitaGuiada = [
+  { id: '1', topResponsiveCari: '80%', topBurbujaResponsive: '55%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '45%', left: '20px', topBurbuja: '30%', elementoDestacado: 'destacarMicrofono', scroll: '0', data: "Hola, soy Quiru. Puedes activarme diciendo,  “Hola Quiru” o presionando el micrófono" },
+  { id: '2', topResponsiveCari: '80%', topBurbujaResponsive: '25%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '77%', left: '20px', topBurbuja: '62%', elementoDestacado: 'destacarOdontograma', scroll: '500', data: "Este es tu nuevo odontograma, se llena de forma automática luego de cada registro dictado por voz." },
+  { id: '3', topResponsiveCari: '80%', topBurbujaResponsive: '25%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '30%', left: '20px', topBurbuja: '15%', elementoDestacado: 'destacarImpresion', scroll: '0', data: "Este es el botón de impresión, para tener tu odontograma en formato pdf o mandarlo a imprimir de una vez" },
+  { id: "4", topResponsiveCari: '80%', topBurbujaResponsive: '25%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '30%', left: '20px', topBurbuja: '15%', elementoDestacado: 'destacarAyuda', scroll: '0', data: "Aquí puedes ver los distintos comandos de voz de Quiru." },
+  { id: "5", topResponsiveCari: '80%', topBurbujaResponsive: '35%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '45%', left: '20px', topBurbuja: '30%', elementoDestacado: '', scroll: '0', data: "Y eso es todo, experimenta la nueva forma de atender a tus pacientes." },
+]
+const indice = ref(0)
+const item2 = ref({ id: '1', topResponsiveCari: '80%', topBurbujaResponsive: '55%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '45%', left: '20px', topBurbuja: '30%', elementoDestacado: 'destacarMicrofono', scroll: '0', data: "Hola, soy Quiru. Puedes activarme diciendo,  “Hola Quiru” o presionando el micrófono" },
+)
+let position = ref(0)
+const moverCarrusel = (adelanteOAtras) => {
+  indice.value = indice.value + adelanteOAtras
+  let anterior = (indice.value == 0) ? visitaGuiada[0] : visitaGuiada[indice.value - 1]
+  let posterior = (indice.value == 3) ? visitaGuiada[3] : visitaGuiada[indice.value + 1]
+  item2.value = visitaGuiada[indice.value]
+  position.value = window.scrollY
+  window.scrollTo({
+    top: item2.value.scroll,
+    left: 0,
+    behavior: 'smooth',
+  })
+  let noDestacar = document.getElementById(anterior.elementoDestacado)
+  noDestacar.classList.add('noElevar')
+  let noDestacarPosterior = document.getElementById(posterior.elementoDestacado)
+  noDestacarPosterior.classList.add('noElevar')
+  let destacar = document.getElementById(item2.value.elementoDestacado)
+  destacar.classList.remove('noElevar')
+  destacar.classList.add('elevar')
+
+}
+
 </script>
 
 <template lang="pug">
+.visita_guiada(v-if='visto == 0')
+  img.cari(:style="`top: ${item2.top}; left: ${item2.left}; `" src='https://firebasestorage.googleapis.com/v0/b/quiru-b444f.appspot.com/o/Elementos%20ui%2FComponent_60_2_.webp?alt=media&token=603036f4-d6aa-45d4-9990-8d486ca38cdd')
+  .burbuja(:style="`top: ${item2.topBurbuja}`")
+    span {{item2.data}}
+    .accionables
+      button.btn.btn-secondary(type='button', @click='finalizar()') Omitir visita guiada
+      btn.atras(v-if='indice!=0' @click='moverCarrusel(-1)')
+        i.fa-regular.fa-circle-left.fa-xl
+      btn.siguiente(v-if='indice != 4 ' @click="moverCarrusel(1)") 
+        i.fa-regular.fa-circle-right.fa-xl
+      btn.siguiente(v-else @click='finalizar()')
+        i.fa-regular.fa-circle-right.fa-xl
+
 #id02.modal(style="display:none;")
   .modal-content.modal-sm
     .container
@@ -165,7 +279,7 @@ const idDiagnostico_ = itemodontograma?.value.id;
         ul.nav.nav-tabs( id="myTab" role="tablist")
           li.nav-item( role="presentation" v-if="itemodontograma?.idRelacionado")
             button.nav-link( 
-              @click="push({name: 'Detalle', params: {idOdontograma: itemodontograma?.idRelacionado, idPaciente: route.params.idPaciente} })"
+              @click="push({name: 'Detalle', params: {idOdontograma: itemodontograma?.idRelacionado, idPaciente: route.params.idPaciente,tipoOdonto: 'Diagnóstico'} })"
             ) 
               strong.h2.fw-bold Diagnóstico
           li.nav-item()
@@ -177,21 +291,21 @@ const idDiagnostico_ = itemodontograma?.value.id;
           l1.nav-item( role="presentation" )
             button.nav-link( 
               v-for="idTratamientoHermano of idRelacionados_(itemodontograma?.id)"
-              @click="push({name: 'Detalle', params: {idOdontograma: idTratamientoHermano, idPaciente: route.params.idPaciente} })"
+              @click="push({name: 'Detalle', params: {idOdontograma: idTratamientoHermano, idPaciente: route.params.idPaciente,tipoOdonto: 'Tratamiento'} })"
             ) 
               strong.h2.fw-bold Tratamiento
     .row
       .col-2
-        button.mb-2.btn(@click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })')
-          ion-icon(name="return-down-back-outline" style="color: var(--color-primary); font-size: 40px" )
+        button.mb-2.btn(@click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })')       
+          i.fa-solid.fa-arrow-left-long(style="color: var(--color-primary); font-size: 35px" )
       .col-10
         .left
           button.btn(v-if="itemodontograma?.tipo === 'Tratamiento'" title='Borrar'  @click="CallConfirm2(itemodontograma)")
-            ion-icon(name="trash-outline" style="color: var(--color-primary); font-size: 26px;")
+            i.fa-regular.fa-trash-can.fa-xl(style="color: var(--color-primary)")
           button.btn(title='Imprimir' @click="printOdontograma()")
-            ion-icon(name="print-outline" style="color: var(--color-primary); font-size: 26px;")
+            i.fa-solid.fa-print.fa-xl(style="color: var(--color-primary)")#destacarImpresion
           button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
-            ion-icon(name="help-outline" style="color: var(--color-primary); font-size: 26px;" )
+            i.fa-solid.fa-question.fa-xl(style="color: var(--color-primary)")#destacarAyuda
           #exampleModal.modal.fade(tabindex='-1')
             .modal-dialog.modal-lg
               .modal-content
@@ -206,17 +320,77 @@ const idDiagnostico_ = itemodontograma?.value.id;
         .contenido
           .title Agregar
           .subtitle Datos adicionales
-        ion-icon(name="document-outline").icono
+        i.fa-solid.fa-file-circle-plus.icono
     div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.tieneTratamiento!='Si'" id="holo")
       a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardar_(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id)")
         .contenido
           .title.light-quiru Crear
           .subtitle.light-quiru Tratamiento
-        ion-icon(name="medkit-outline").icono.light-quiru
+        i.fa-solid.fa-briefcase-medical.icono.light-quiru
 </template>
 
 <style lang="sass" scoped>
-
+:root
+  --cariTop: 0%
+  --cariLeft: 0%
+  --burbujaTop: 0%
+  --burbujaLeft: 0%
+.elevar
+  position: relative
+  z-index: 3 !important
+.noElevar
+  position: relative
+  z-index: 0 !important
+.visita_guiada
+  margin: 0px
+  padding: 0px
+  display: flex
+  position: absolute
+  width: 100%
+  height: 170%
+  background-color: rgba(2, 55, 44, .8)
+  z-index: 1
+  left: 0 
+  top: 0 
+  .cari
+    height: 140px !important
+    display: flex
+    opacity: 1
+    width: 140px !important
+    position: absolute
+    z-index: 5
+    animation: cari 8s ease-in 0s infinite alternate forwards
+  .burbuja
+    display: flex
+    flex-direction: column
+    padding: 20px
+    top: 40%
+    left: 50%
+    transform: translateX(-50%)
+    width: 300px
+    height: 160px
+    background-color: var(--color-white)
+    position: absolute
+    z-index: 5
+    border-radius: 20px
+    &:before
+      content: ""
+      position: absolute
+      bottom: -49px
+      left: 30px
+      width: 54px
+      height: 50px
+      background-color: var(--color-white)
+      clip-path: polygon(100% 0, 0 0, 50% 100%)
+    .accionables
+      display: flex
+      flex-direction: row
+      justify-content: end
+      position: absolute
+      bottom: 10px
+      right: 20px
+      .atras, .siguiente
+        color: var(--color-primary)
 
 #id02 
   background-color: rgba(0, 0, 0, 0.6)
@@ -315,5 +489,74 @@ const idDiagnostico_ = itemodontograma?.value.id;
     align-items: center
     width: 40%
     height: auto
+  .visita_guiada
+    margin: 0px
+    padding: 0px
+    display: flex
+    position: absolute
+    width: 100%
+    height: 100%
+    background-color: rgba(2, 55, 44, .8)
+    z-index: 1
+    left: 0 
+    top: 0 
+    .cari
+      height: 140px !important
+      display: flex
+      opacity: 1
+      width: 140px !important
+      position: absolute
+      top: 72% !important
+      left: 78% !important
+      z-index: 5
+      animation: cari 8s ease-in 0s infinite alternate forwards
+    .burbuja
+      display: flex
+      flex-direction: column
+      padding: 20px
+      top: 45% !important
+      left: 78% !important
+      width: 300px
+      height: 160px
+      background-color: var(--color-white)
+      position: absolute
+      z-index: 5
+      border-radius: 20px
+      &:before
+        content: ""
+        position: absolute
+        bottom: -49px
+        left: 190px
+        width: 54px
+        height: 50px
+        background-color: var(--color-white)
+        clip-path: polygon(100% 0, 0 0, 50% 100%)
+      .accionables
+        display: flex
+        flex-direction: row
+        justify-content: end
+        position: absolute
+        bottom: 10px
+        right: 20px
+        .atras, .siguiente
+          color: var(--color-primary)
+    
+@keyframes cari
+  0%
+    transform: translate(0)
 
+  20%
+    transform: translate(-4px, 4px)
+
+  40%
+    transform: translate(-4px, -4px)
+
+  60%
+    transform: translate(4px, 4px)
+
+  80%
+    transform: translate(4px, -4px)
+
+  100%
+    transform: translate(0)
 </style>

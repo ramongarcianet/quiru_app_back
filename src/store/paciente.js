@@ -5,20 +5,23 @@ import { usuario } from '../store/sesion'
 
 const dialog = ref(false)
 
-let item = ref({
+const item = ref({
     tipoDocumento: 'DNI',
     sexo: '',
     fechaNacimiento: new Date().toISOString().slice(0, 10),
     fechaIngreso: new Date().toISOString().slice(0, 10),
-    constancia:'N',
-    estado: true
+    constancia: 'N',
+    estado: true,
+    visto: 0
 })
 
-const guardar = item => {
+const guardar = item => new Promise((resolve) => {
     const referencia = collection(firestore, 'paciente')
-    return addDoc(referencia, {...item,idOdontologo:usuario.value.uid,
-        estado: true})
-}
+    return addDoc(referencia, {
+        ...item, idOdontologo: usuario.value.uid,
+        estado: true, visto: 0
+    }).then(doc => resolve(doc.id))
+})
 
 const actualizar = (item) => {
     const referencia = doc(firestore, 'paciente', item.id)
@@ -27,7 +30,7 @@ const actualizar = (item) => {
 
 const updateEstado = (item) => {
     const referencia = doc(firestore, 'paciente', item.id)
-    return updateDoc(referencia, {estado: false})
+    return updateDoc(referencia, { estado: false })
 }
 
 const eliminar = (id) => {
@@ -40,8 +43,8 @@ const verEliminados = ref(false)
 const obtenerTodos = () => {
     const referencia = collection(firestore, 'paciente')
     const referenciaOrden = !verEliminados.value
-        ? query(referencia, where('idOdontologo', '==',usuario.value.uid), where('estado', '==', true))
-        : query(referencia, where('idOdontologo', '==',usuario.value.uid), orderBy("fechaIngreso", "desc"))
+        ? query(referencia, where('idOdontologo', '==', usuario.value.uid), where('estado', '==', true))
+        : query(referencia, where('idOdontologo', '==', usuario.value.uid), orderBy("fechaIngreso", "desc"))
     return onSnapshot(
         referenciaOrden,
         collection => {
@@ -52,8 +55,8 @@ const obtenerTodos = () => {
 const obtenerTodosDni = () => {
     const referencia = collection(firestore, 'paciente')
     const referenciaOrden = !verEliminados.value
-        ? query(referencia, where('idOdontologo', '==',usuario.value.uid), where('estado', '==', true))
-        : query(referencia, where('idOdontologo', '==',usuario.value.uid), orderBy("fechaIngreso", "desc"))
+        ? query(referencia, where('idOdontologo', '==', usuario.value.uid), where('estado', '==', true))
+        : query(referencia, where('idOdontologo', '==', usuario.value.uid), orderBy("fechaIngreso", "desc"))
     return onSnapshot(
         referenciaOrden,
         collection => {
@@ -71,7 +74,7 @@ const leerEnRegistro = id => {
     return item.value = registro.value.find(item => item.id == id)
 }
 const leerDniRegistro = dni => {
-    return item = registro.value.find(item => item.dni == dni)
+    return item.value = registro.value.find(item => item.numeroDocumento == dni)
 }
 const limpiar = () => {
     item.value = {
@@ -79,7 +82,7 @@ const limpiar = () => {
         sexo: '',
         fechaNacimiento: new Date().toISOString().slice(0, 10),
         fechaIngreso: new Date().toISOString().slice(0, 10),
-        constancia:'N'
+        constancia: 'N'
     }
 }
 
