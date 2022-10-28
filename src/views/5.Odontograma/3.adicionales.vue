@@ -61,7 +61,7 @@ const crear_ = () => new Promise( async(resolve, reject) =>   {
     h1 Datos Adicionales
   .col-2
     button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
-      ion-icon(name="document-attach" style="color: var(--color-primary); font-size: 26px;" )
+      i.fa-regular.fa-file-pdf.fa-xl( style="color: var(--color-primary); font-size: 35px" )
     #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
       .modal-dialog.modal-lg
         .modal-content

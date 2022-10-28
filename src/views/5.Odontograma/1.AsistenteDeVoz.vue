@@ -218,11 +218,11 @@ const moverCarrusel = (adelanteOAtras) => {
     .accionables
       button.btn.btn-secondary(type='button', @click='finalizar()') Omitir visita guiada
       btn.atras(v-if='indice!=0' @click='moverCarrusel(-1)')
-        ion-icon(name="chevron-back-circle-outline" size='large')
+        i.fa-regular.fa-circle-left.fa-xl
       btn.siguiente(v-if='indice != 4 ' @click="moverCarrusel(1)") 
-        ion-icon(name="chevron-forward-circle-outline" size='large')
+        i.fa-regular.fa-circle-right.fa-xl
       btn.siguiente(v-else @click='finalizar()')
-        ion-icon(name="chevron-forward-circle-outline" size='large')
+        i.fa-regular.fa-circle-right.fa-xl
 
 #id02.modal(style="display:none;")
   .modal-content.modal-sm
@@ -264,15 +264,15 @@ const moverCarrusel = (adelanteOAtras) => {
     .row
       .col-2
         button.mb-2.btn(@click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })')       
-          ion-icon(name="return-down-back-outline" style="color: var(--color-primary); font-size: 40px" )
+          i.fa-solid.fa-arrow-left-long(style="color: var(--color-primary); font-size: 35px" )
       .col-10
         .left
           button.btn(v-if="itemodontograma?.tipo === 'Tratamiento'" title='Borrar'  @click="CallConfirm2(itemodontograma)")
-            ion-icon(name="trash-outline" style="color: var(--color-primary); font-size: 26px;")
+            i.fa-regular.fa-trash-can.fa-xl(style="color: var(--color-primary)")
           button.btn(title='Imprimir' @click="printOdontograma()")
-            ion-icon(name="print-outline" style="color: var(--color-primary); font-size: 26px;")#destacarImpresion
+            i.fa-solid.fa-print.fa-xl(style="color: var(--color-primary)")#destacarImpresion
           button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
-            ion-icon(name="help-outline" style="color: var(--color-primary); font-size: 26px;" )#destacarAyuda
+            i.fa-solid.fa-question.fa-xl(style="color: var(--color-primary)")#destacarAyuda
           #exampleModal.modal.fade(tabindex='-1')
             .modal-dialog.modal-lg
               .modal-content
@@ -287,13 +287,13 @@ const moverCarrusel = (adelanteOAtras) => {
         .contenido
           .title Agregar
           .subtitle Datos adicionales
-        ion-icon(name="document-outline").icono
+        i.fa-solid.fa-file-circle-plus.icono
     div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.tieneTratamiento!='Si'" id="holo")
       a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardar_(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id)")
         .contenido
           .title.light-quiru Crear
           .subtitle.light-quiru Tratamiento
-        ion-icon(name="medkit-outline").icono.light-quiru
+        i.fa-solid.fa-briefcase-medical.icono.light-quiru
 </template>
 
 <style lang="sass" scoped>

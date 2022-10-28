@@ -58,13 +58,13 @@ onUnmounted(() => {
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Ver
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") paciente
     button.btn.btn-outline-primary.border-0.pb-md-0(title='Volver' @click="push({ name: 'pacientes', params: {} })" )
-      ion-icon(name="return-down-back-outline" size="large")
+      i.fa-solid.fa-arrow-left-long.fa-xl
   .col-8.col-md-3
     .col.ms-5
       button.ms-5.btn(title='Editar' @click="push({ name: 'paciente', params: { idPaciente: item.id } })")
-        ion-icon(name="create-outline" size="large" style="color: var(--color-primary)")
+        i.fa-solid.fa-pen-to-square.fa-xl(style="color: var(--color-primary)")
       button.btn(title='Eliminar' @click="CallConfirm(item)")
-        ion-icon(name="trash-outline" size="large" style="color: var(--color-primary)")
+        i.fa-regular.fa-trash-can.fa-xl(style="color: var(--color-primary)")
 #alerta.alert.alert-danger.alert-dismissible(style='display:none')
   strong Cuidado!
     |  Este paciente no se puede eliminar por que tiene un diagnostico/tratamiento registrado
@@ -76,7 +76,7 @@ onUnmounted(() => {
         div
           strong(style="color: white") Registrar
           p.mb-0(style="color: white") Admisión
-        i.fa-solid.fa-pen-to-square.fa-2x(style="color: white")
+        i.fa-solid.fa-feather.fa-xl(style="color: white")
     Form.mt-md-4
       label.form-label.mt-2 Documento de identidad
       .input-group.pb-md-3
@@ -89,14 +89,12 @@ onUnmounted(() => {
           option(value="DNI") DNI
           option(value="CE") CARNET DE EXTRANJERIA
         input.form-control(v-model="item.numeroDocumento", disabled)
-
     .col-12.mx-auto.my-3
-
       button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','No')")
         div
-          strong(style="color: white") Crear
-          p.mb-0(style="color: white") Nuevo Odontograma
-        ion-icon(name="document-outline" style="color: white" size="large")
+          strong(style="color: white") Crear Nuevo
+          p.mb-0(style="color: white") Odontograma
+        i.fa-solid.fa-teeth-open.fa-xl
   .col.col-md-8
     .d-flex.align-content-start.flex-wrap
       h1(style="color: #37DFBB; font-size: 1em; font-family: var(--font-family)") Lista de
@@ -104,9 +102,6 @@ onUnmounted(() => {
     RegistroOdontograma
 </template>
 <style scoped>
-ion-icon {
-  pointer-events: none;
-}
 
 #id01 {
   background-color: rgba(0, 0, 0, 0.6);

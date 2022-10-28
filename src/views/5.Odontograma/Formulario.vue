@@ -21,7 +21,6 @@ leerEnRegistro(route.params.idOdontograma);
 escucharInicializarVoz();
 let temList = [];
 let wakeLock = null;
-console.log(route.params)
 const listaDeHallazgos = computed ( ()=> {
   return _Hallazgos.filter(i => i.tipo == route.params.tipoOdonto).map(({ text, value }) => ({ text, value }))
 })
@@ -211,7 +210,7 @@ const idRelacionados_ = computed((() => id => getItemEnRegistro(id)?.idRelaciona
 .contenedor(:hidden="itemodontograma?.estado === '1' ")
   .anim(v-if='isSpeech')
   .microfono( @click="isSpeech ? detenerVoz() : activarVoz()" )#destacarMicrofono
-    ion-icon.icono(name="mic" )
+    i.icono.fa-solid.fa-microphone.fa-xl
 
 //-Input sin micrófono
 .row.mt-3
