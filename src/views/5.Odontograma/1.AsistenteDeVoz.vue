@@ -1,7 +1,7 @@
 <script setup>
 import Formulario from "./Formulario.vue";
-import {registroodonto, guardar as guardarOdontograma, getItemEnRegistro} from "../../store/formodontograma";
-import { item as itemPas, leer } from "../../store/paciente";
+import { registroodonto, guardar as guardarOdontograma, getItemEnRegistro } from "../../store/formodontograma";
+import { item as itemPas, leer, actualizar } from "../../store/paciente";
 //import "../../config/html2canvas";
 import { useRoute, useRouter } from "vue-router";
 import Cie10 from '../../config/Cie10.json';
@@ -28,8 +28,8 @@ if (route.params.idOdontograma) {
 }
 //onwatch
 watch(
-  ()=> route.params.idOdontograma,
-  ()=> ObtenerOdontograma(route.params.idOdontograma),
+  () => route.params.idOdontograma,
+  () => ObtenerOdontograma(route.params.idOdontograma),
 )
 
 function printOdontograma() {
@@ -75,8 +75,8 @@ function printOdontograma() {
               posis = posis + 7;
             }
           }
-          
-        });        
+
+        });
         pdf.setFontSize(14);
         pdf.setFont(undefined, 'bold')
         pdf.text(10, posis + 2, 'TRATAMIENTO');
@@ -97,28 +97,28 @@ function printOdontograma() {
               posis1 = posis1 + 7;
             }
           }
-        });   
+        });
         pdf.setFontSize(14);
         pdf.setFont(undefined, 'bold')
-        pdf.text(10, posis1+2, 'JUSTIFICACIÓN');
+        pdf.text(10, posis1 + 2, 'JUSTIFICACIÓN');
         pdf.setFont(undefined, 'normal')
         pdf.setFontSize(12);
-        pdf.text(10, posis1+9, pad(itemodontograma.value.especificaciones, 180, ' '));
+        pdf.text(10, posis1 + 9, pad(itemodontograma.value.especificaciones, 180, ' '));
         pdf.setFontSize(14);
         pdf.setFont(undefined, 'bold')
-        pdf.text(10, posis1+16, 'OBSERVACIONES');
+        pdf.text(10, posis1 + 16, 'OBSERVACIONES');
         pdf.setFont(undefined, 'normal')
         pdf.setFontSize(12);
-        pdf.text(10, posis1+23, pad(itemodontograma.value.observaciones, 180, ' '));             
+        pdf.text(10, posis1 + 23, pad(itemodontograma.value.observaciones, 180, ' '));
         var pdfName = itemPas.value.numeroDocumento
         pdf.save(pdfName + '.pdf');
       }
     });
   }
   else {
-        var alerta = document.getElementById("alerta");
-          alerta.style.display = "block";
-      }
+    var alerta = document.getElementById("alerta");
+    alerta.style.display = "block";
+  }
 }
 function pad(n, width, z) {
   z = z || '0';
@@ -126,56 +126,65 @@ function pad(n, width, z) {
   return n.length >= width ? n : n + new Array(width - n.length + 1).join(z);
 }
 function CallConfirm2(item) {
-    itemSeleccionado.value = item;
-    var modal = document.getElementById('id02');
-    modal.style.display = 'block';
+  itemSeleccionado.value = item;
+  var modal = document.getElementById('id02');
+  modal.style.display = 'block';
 }
 function EliminarOdonto() {
-    var alerto = document.getElementById("alerto");
-    var modal = document.getElementById('id02');
-    if (!itemSeleccionado.value?.hallazgos || itemSeleccionado.value?.hallazgos.length == 0) {
-        alerto.style.display = "none";
-        modal.style.display = 'none';
-        eliminar(itemSeleccionado.value.id)
-        push({ name: 'pacienteVer', params: { idPaciente: route.params.idPaciente } })
-    }
-    else {
-        alerto.style.display = "block";
-        modal.style.display = 'none';
+  var alerto = document.getElementById("alerto");
+  var modal = document.getElementById('id02');
+  if (!itemSeleccionado.value?.hallazgos || itemSeleccionado.value?.hallazgos.length == 0) {
+    alerto.style.display = "none";
+    modal.style.display = 'none';
+    eliminar(itemSeleccionado.value.id)
+    push({ name: 'pacienteVer', params: { idPaciente: route.params.idPaciente } })
+  }
+  else {
+    alerto.style.display = "block";
+    modal.style.display = 'none';
 
-    }
+  }
 }
 function Cancelar() {
-    var alerto = document.getElementById("alerto");
-    var alerta = document.getElementById("alerta");
-    var modal = document.getElementById('id02');
-        alerto.style.display = "none";
-        modal.style.display = 'none';
-        alerta.style.display = "none";
+  var alerto = document.getElementById("alerto");
+  var alerta = document.getElementById("alerta");
+  var modal = document.getElementById('id02');
+  alerto.style.display = "none";
+  modal.style.display = 'none';
+  alerta.style.display = "none";
 }
 function guardar_(var1, var2, var3, var4) {
-  guardarOdontograma(var1, var2, var3, var4 ).then( idTratamiento => push({name: 'Detalle', params: {idOdontograma: idTratamiento, idPaciente: route.params.idPaciente, tipoOdonto: 'Tratamiento'} }))
+  guardarOdontograma(var1, var2, var3, var4).then(idTratamiento => push({ name: 'Detalle', params: { idOdontograma: idTratamiento, idPaciente: route.params.idPaciente, tipoOdonto: 'Tratamiento' } }))
   var hol = document.getElementById("holo");
-    hol.style.display = "none";
+  hol.style.display = "none";
 
 }
 
-const idRelacionados_ = computed((()=> id =>  getItemEnRegistro(id)?.idRelacionados))
+const idRelacionados_ = computed((() => id => getItemEnRegistro(id)?.idRelacionados))
 const idDiagnostico_ = itemodontograma?.value.id;
 
-const visto = ref(0)
-const finalizar = ()=>{
+const visto = ref(1)
+watch(
+  () => itemPas.value,
+  () => {
+    visto.value = itemPas.value?.visto || 0;
+  }
+);
+const finalizar = () => {
   visto.value = 1
-} 
+  itemPas.value.id = route.params.idPaciente
+  itemPas.value.visto = 1
+  actualizar(itemPas.value)
+}
 const visitaGuiada = [
-  {id:'1', topResponsiveCari:'80%', topBurbujaResponsive:'55%', leftResponsiveCari:'20px', leftResponsiveBurbuja:'20%', top:'45%', left:'20px', topBurbuja:'30%', elementoDestacado:'destacarMicrofono' ,scroll:'0', data:"Hola, soy Quiru. Puedes activarme diciendo,  “Hola Quiru” o presionando el micrófono"},
-  {id:'2', topResponsiveCari:'80%', topBurbujaResponsive:'25%', leftResponsiveCari:'20px', leftResponsiveBurbuja:'20%',top:'77%', left:'20px', topBurbuja:'62%', elementoDestacado:'destacarOdontograma' ,scroll:'500', data:"Este es tu nuevo odontograma, se llena de forma automática luego de cada registro dictado por voz."},
-  {id:'3', topResponsiveCari:'80%', topBurbujaResponsive:'25%', leftResponsiveCari:'20px', leftResponsiveBurbuja:'20%',top:'30%', left:'20px', topBurbuja:'15%', elementoDestacado:'destacarImpresion' ,scroll:'0', data:"Este es el botón de impresión, para tener tu odontograma en formato pdf o mandarlo a imprimir de una vez"},
-  {id:"4", topResponsiveCari:'80%', topBurbujaResponsive:'25%', leftResponsiveCari:'20px', leftResponsiveBurbuja:'20%',top:'30%', left:'20px', topBurbuja:'15%', elementoDestacado:'destacarAyuda' ,scroll:'0', data:"Aquí puedes ver los distintos comandos de voz de Quiru."},
-  {id:"5", topResponsiveCari:'80%', topBurbujaResponsive:'35%', leftResponsiveCari:'20px', leftResponsiveBurbuja:'20%',top:'45%', left:'20px', topBurbuja:'30%', elementoDestacado:'' ,scroll:'0', data:"Y eso es todo, experimenta la nueva forma de atender a tus pacientes."},
+  { id: '1', topResponsiveCari: '80%', topBurbujaResponsive: '55%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '45%', left: '20px', topBurbuja: '30%', elementoDestacado: 'destacarMicrofono', scroll: '0', data: "Hola, soy Quiru. Puedes activarme diciendo,  “Hola Quiru” o presionando el micrófono" },
+  { id: '2', topResponsiveCari: '80%', topBurbujaResponsive: '25%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '77%', left: '20px', topBurbuja: '62%', elementoDestacado: 'destacarOdontograma', scroll: '500', data: "Este es tu nuevo odontograma, se llena de forma automática luego de cada registro dictado por voz." },
+  { id: '3', topResponsiveCari: '80%', topBurbujaResponsive: '25%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '30%', left: '20px', topBurbuja: '15%', elementoDestacado: 'destacarImpresion', scroll: '0', data: "Este es el botón de impresión, para tener tu odontograma en formato pdf o mandarlo a imprimir de una vez" },
+  { id: "4", topResponsiveCari: '80%', topBurbujaResponsive: '25%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '30%', left: '20px', topBurbuja: '15%', elementoDestacado: 'destacarAyuda', scroll: '0', data: "Aquí puedes ver los distintos comandos de voz de Quiru." },
+  { id: "5", topResponsiveCari: '80%', topBurbujaResponsive: '35%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '45%', left: '20px', topBurbuja: '30%', elementoDestacado: '', scroll: '0', data: "Y eso es todo, experimenta la nueva forma de atender a tus pacientes." },
 ]
 const indice = ref(0)
-const item2 = ref(  {id:'1', topResponsiveCari:'80%', topBurbujaResponsive:'55%', leftResponsiveCari:'20px', leftResponsiveBurbuja:'20%', top:'45%', left:'20px', topBurbuja:'30%', elementoDestacado:'destacarMicrofono' ,scroll:'0', data:"Hola, soy Quiru. Puedes activarme diciendo,  “Hola Quiru” o presionando el micrófono"},
+const item2 = ref({ id: '1', topResponsiveCari: '80%', topBurbujaResponsive: '55%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '45%', left: '20px', topBurbuja: '30%', elementoDestacado: 'destacarMicrofono', scroll: '0', data: "Hola, soy Quiru. Puedes activarme diciendo,  “Hola Quiru” o presionando el micrófono" },
 )
 let position = ref(0)
 const moverCarrusel = (adelanteOAtras) => {
@@ -184,19 +193,19 @@ const moverCarrusel = (adelanteOAtras) => {
   let posterior = (indice.value == 3) ? visitaGuiada[3] : visitaGuiada[indice.value + 1]
   item2.value = visitaGuiada[indice.value]
   position.value = window.scrollY
-        window.scrollTo({
-          top: item2.value.scroll,
-          left: 0,
-          behavior: 'smooth',
-        })
+  window.scrollTo({
+    top: item2.value.scroll,
+    left: 0,
+    behavior: 'smooth',
+  })
   let noDestacar = document.getElementById(anterior.elementoDestacado)
   noDestacar.classList.add('noElevar')
   let noDestacarPosterior = document.getElementById(posterior.elementoDestacado)
   noDestacarPosterior.classList.add('noElevar')
   let destacar = document.getElementById(item2.value.elementoDestacado)
-    destacar.classList.remove('noElevar')
-    destacar.classList.add('elevar')
-  
+  destacar.classList.remove('noElevar')
+  destacar.classList.add('elevar')
+
 }
 
 </script>
@@ -207,21 +216,22 @@ const moverCarrusel = (adelanteOAtras) => {
   .burbuja(:style="`top: ${item2.topBurbuja}`")
     span {{item2.data}}
     .accionables
+      button.btn.btn-secondary(type='button', @click='finalizar()') Omitir visita guiada
       btn.atras(v-if='indice!=0' @click='moverCarrusel(-1)')
         ion-icon(name="chevron-back-circle-outline" size='large')
       btn.siguiente(v-if='indice != 4 ' @click="moverCarrusel(1)") 
         ion-icon(name="chevron-forward-circle-outline" size='large')
       btn.siguiente(v-else @click='finalizar()')
         ion-icon(name="chevron-forward-circle-outline" size='large')
-        
+
 #id02.modal(style="display:none;")
-    .modal-content.modal-sm
-        .container
-            p(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Eliminar Odontograma
-            p ¿Esta seguro que desea eliminar?
-            .clearfix
-                button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
-                button.btn.btn-danger.deletebtn(@click="EliminarOdonto(), mostrar = false") Aceptar
+  .modal-content.modal-sm
+    .container
+      p(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Eliminar Odontograma
+      p ¿Esta seguro que desea eliminar?
+      .clearfix
+        button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
+        button.btn.btn-danger.deletebtn(@click="EliminarOdonto(), mostrar = false") Aceptar
 .scrollspy-example(data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" tabindex="0")
   h4(id="list-item-1") 
 .row
