@@ -342,8 +342,8 @@ function closeEvent() {
 <style lang="sass">
 .btn-primary
   color:#fff
-.btn-outline-primary
-  color:rgb(55, 223, 187)
+//.btn-outline-primary
+  //color:rgb(55, 223, 187)
 thead
   background-color: rgb(55, 223, 187)
 th
