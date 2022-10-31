@@ -291,7 +291,7 @@ function closeEvent() {
           .input-group.mb-3
             span#basic-addon1.input-group-text 
               i.fa.fa-clock-o
-            input.form-control(placeholder='Horario' v-model="cita.timedisplay" readonly style="font-weight:bold")
+            input.form-control(placeholder='Horario' v-model="cita.timedisplay" style="font-weight:bold")
           .input-group.mb-3
             span#basic-addon1.input-group-text 
               input.form-check-input( type='checkbox' id="checkbox" v-model="mostrar" )
@@ -300,6 +300,9 @@ function closeEvent() {
             span#basic-addon1.input-group-text
               i.fa-solid.fa-magnifying-glass
             input.form-control(placeholder='Buscar paciente por documento de identidad' required :maxlength="maxDocumento" @keypress="isNumber($event)" v-model="itemPaciente.numeroDocumento" v-on:focusout="GetPaciente($event)")
+          .input-group.mb-3(v-if="mostrar == false")
+            span#basic-addon1.input-group-text
+              i.fa.fa-id-card
             input.form-control(placeholder='Nombre Paciente', required, v-model="itemPaciente.nombre" readonly )
             input.form-control(placeholder='Apellido Paciente', required, v-model="itemPaciente.apellidoPaterno" readonly)
           .pacienteNuevo(v-if="mostrar == true")
@@ -316,7 +319,6 @@ function closeEvent() {
                 option(value="DNI" selected) DNI
                 option(value="CE") CARNET DE EXTRANJERIA
               input.form-control(placeholder='DNI/CE. Paciente', required, :maxlength="maxDocumento" @keypress="isNumber($event)" v-model="itemPaciente.numeroDocumento")
-
             .input-group.mb-3
               span#basic-addon1.input-group-text
                 i.fa.fa-at
@@ -330,13 +332,28 @@ function closeEvent() {
             span#basic-addon1.input-group-text 
               i.fa.fa-user-md
             input.form-control(placeholder='Odontólogo', v-model="ItemUsuario.nombre", readonly, style="font-weight:bold")
-          .input-group.mb-3
+          .input-group
             span#basic-addon1.input-group-text 
               i.fa.fa-paint-brush
-            input#exampleColorInput.form-control.form-control-color(type='color', title='Choose your color', v-model="cita.backgroundColor")
+            span#basic-addon1.input-group-text(style="background-color: #37dfbb")
+              input#html(type='radio' name='Quiru' value='#37dfbb' checked v-model="cita.backgroundColor")
+            span#basic-addon1.input-group-text(style="background-color: #33b679")
+              input#html(type='radio' name='Verde' value='#33b679' v-model="cita.backgroundColor")
+            span#basic-addon1.input-group-text(style="background-color: #3f51b5")
+              input#html(type='radio' name='Azul' value='#3f51b5' v-model="cita.backgroundColor")
+            span#basic-addon1.input-group-text(style="background-color: #d50000")
+              input#html(type='radio' name='Rojo' value='#d50000' v-model="cita.backgroundColor")
+            span#basic-addon1.input-group-text(style="background-color: #f6bf26")
+              input#html(type='radio' name='Amarillo' value='#f6bf26' v-model="cita.backgroundColor")
+            span#basic-addon1.input-group-text(style="background-color: #933aab")
+              input#html(type='radio' name='Morado' value='#933aab' v-model="cita.backgroundColor")
+            span#basic-addon1.input-group-text(style="background-color: #e67c73")
+              input#html(type='radio' name='Rosado' value='#e67c73' v-model="cita.backgroundColor")
+            span#basic-addon1.input-group-text(style="background-color: #616161")
+              input#html(type='radio' name='Gris' value='#616161' v-model="cita.backgroundColor")
         .modal-footer
           button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cancelar
-          button.ms-auto.btn.btn-danger(v-if="2==2" type='button', data-bs-dismiss='modal' @click="deleteEvent(cita.id)") Borrar
+          button.ms-auto.btn.btn-danger(v-if="cita.id" type='button', data-bs-dismiss='modal' @click="deleteEvent(cita.id)") Borrar
           button.ms-auto.btn.btn-primary(type="submit") Grabar
 </template>
 <style lang="sass">
