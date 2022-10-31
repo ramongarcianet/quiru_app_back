@@ -287,11 +287,15 @@ function closeEvent() {
           .input-group.mb-3
             span#basic-addon1.input-group-text 
               i.fa.fa-text-height
-            input.form-control(placeholder="Añade un Título", v-model="cita.title", required)        
+            input.form-control(placeholder="Añade un Título", v-model="cita.title", required)       
           .input-group.mb-3
             span#basic-addon1.input-group-text 
               i.fa.fa-clock-o
-            input.form-control(placeholder='Horario' v-model="cita.timedisplay" style="font-weight:bold")
+            input.form-control(placeholder='Horario' v-model="cita.timedisplay" style="font-weight:bold")   
+          .input-group.mb-3
+            span#basic-addon1.input-group-text 
+              i.fa.fa-clock-o
+            input#appt.form-control(type='time' placeholder='Hora Inicio' required step='00:30' )
           .input-group.mb-3
             span#basic-addon1.input-group-text 
               input.form-check-input( type='checkbox' id="checkbox" v-model="mostrar" )
@@ -378,54 +382,3 @@ th
 .fc .fc-timegrid-slot-label
   color: rgb(57, 93, 86) !important
 </style>
-<!--
-<style lang="sass">
-
-.btn-primary
-  --bs-btn-color:#fff
-  --bs-btn-bg:rgb(55, 223, 187)
-  --bs-btn-border-color:rgb(55, 223, 187)
-  --bs-btn-hover-color:#fff
-  --bs-btn-hover-bg:rgb(55, 223, 187)
-  --bs-btn-hover-border-color:rgb(55, 223, 187)
-  --bs-btn-focus-shadow-rgb:49, 132, 253
-  --bs-btn-active-color:#fff
-  --bs-btn-active-bg:rgb(55, 223, 187)
-  --bs-btn-active-border-color:rgb(55, 223, 187)
-  --bs-btn-active-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.125)
-  --bs-btn-disabled-color:#fff
-  --bs-btn-disabled-bg:rgb(55, 223, 187)
-  --bs-btn-disabled-border-color:rgb(55, 223, 187)
-.fc-theme-bootstrap5
-  .fc-list, .fc-scrollgrid, td, th
-    border: 1px solid rgb(55, 223, 187)
-.fc .fc-daygrid-day
-  background-color: transparent
-.fc-theme-bootstrap5 a:not([href]) 
-  color: rgb(57, 93, 86)
-  text-decoration: inherit
-.fc .fc-toolbar-title
-  color: rgb(57, 93, 86) !important
-.fc .fc-timegrid-slot-label
-  color: rgb(57, 93, 86) !important
-.btn-outline-primary
-  --bs-btn-color:rgb(55, 223, 187)
-  --bs-btn-border-color:rgb(55, 223, 187)
-  --bs-btn-hover-color:#fff
-  --bs-btn-hover-bg:rgb(55, 223, 187)
-  --bs-btn-hover-border-color:rgb(55, 223, 187)
-  --bs-btn-focus-shadow-rgb:13, 110, 253
-  --bs-btn-active-color:#fff
-  --bs-btn-active-bg:rgb(55, 223, 187)
-  --bs-btn-active-border-color:rgb(55, 223, 187)
-  --bs-btn-active-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.125)
-  --bs-btn-disabled-color:rgb(55, 223, 187)
-  --bs-btn-disabled-bg:transparent
-  --bs-btn-disabled-border-color:rgb(55, 223, 187)
-  --bs-gradient:none
-thead
-    background-color: rgb(55, 223, 187)
-th
-  border-color: white !important
-</style>
--->
