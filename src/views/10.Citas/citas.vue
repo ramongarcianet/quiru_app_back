@@ -295,7 +295,7 @@ function closeEvent() {
           .input-group.mb-3
             span#basic-addon1.input-group-text 
               i.fa.fa-clock-o
-            input#appt.form-control(type='time' placeholder='Hora Inicio' required step='00:30' )
+            input#appt.form-control(type='time' placeholder='Hora Inicio' step='00:30' )
           .input-group.mb-3
             span#basic-addon1.input-group-text 
               input.form-check-input( type='checkbox' id="checkbox" v-model="mostrar" )
