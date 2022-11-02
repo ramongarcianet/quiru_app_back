@@ -40,38 +40,29 @@ const id = ref(10)
 const mostrar = ref(false);
 function createEvent(item) {
   let horadiotext = ""
-  let newTime = item.start.toLocaleTimeString('en-US');
-  let hour = newTime.split(":")[0];
-  let amPm = newTime.split(" ")[1];
-  let seconds = newTime.split(":")[2].replace(amPm, '');
-  let noSeconds = newTime.replace(":" + seconds, ' ');
+  console.log(horadiotext)
+  let newTimeStart = item.start.toLocaleTimeString('es-PE');
+  let startStr = newTimeStart.substr(0,5)
 
-  let newTim2 = item.end.toLocaleTimeString('en-US');
-  let hour2 = newTime.split(":")[0];
-  let amPm2 = newTim2.split(" ")[1];
-  let seconds2 = newTim2.split(":")[2].replace(amPm2, '');
-  let noSeconds2 = newTim2.replace(":" + seconds2, ' ');
+  let newTimeEnd = item.end.toLocaleTimeString('es-PE');
+  let endStr = newTimeEnd.substr(0,5)
 
   const opciones = { weekday: 'long', month: 'long', day: 'numeric' };
-  if (parseInt(hour) < 9) {
-    noSeconds = "0" + noSeconds
-  }
-  if (parseInt(hour2) < 9) {
-    noSeconds2 = "0" + noSeconds2
-  }
   itemPaciente.value = {}
-  horadiotext = item.start.toLocaleDateString('es-ES', opciones) + '     ' + noSeconds + " - " + noSeconds2;
+  horadiotext = item.start.toLocaleDateString('es-ES', opciones) //+ '     ' + noSeconds + " - " + noSeconds2;
   cita.value = {
     idPaciente: '',
-    start: item.start.toISOString(),
-    end: item.end.toISOString(),
+    start: item.start.toISOString() ,
+    end: item.end.toISOString().substr(0,11) + endStr + ':00.000Z',
     title: item.title,
     borderColor: "#0dcaf0",
     backgroundColor: "#37dfbb",
     descripcion: item.descripcion,
     timedisplay: horadiotext,
     fechaDeCreacion: new Date().toISOString().slice(0, 10),
-    UserId: ItemUsuario.id
+    UserId: ItemUsuario.id,
+    timeStart: startStr,
+    timeEnd: endStr
   };
   //registro.value.push(cita)
   let control = document.getElementById("btnschedule");
@@ -295,7 +286,10 @@ function closeEvent() {
           .input-group.mb-3
             span#basic-addon1.input-group-text 
               i.fa.fa-clock-o
-            input#appt.form-control(type='time' placeholder='Hora Inicio' step='00:30' )
+            input#appt.form-control(type='time' placeholder='Hora Inicio' v-model="cita.timeStart")
+            span#basic-addon1.input-group-text 
+              i.fa.fa-clock-o
+            input#appt.form-control(type='time' placeholder='Hora Inicio' v-model="cita.timeEnd")
           .input-group.mb-3
             span#basic-addon1.input-group-text 
               input.form-check-input( type='checkbox' id="checkbox" v-model="mostrar" )
