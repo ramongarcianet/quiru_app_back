@@ -42,18 +42,18 @@ function createEvent(item) {
   let horadiotext = ""
   console.log(horadiotext)
   let newTimeStart = item.start.toLocaleTimeString('es-PE');
-  let startStr = newTimeStart.substr(0,5)
+  let startStr = newTimeStart.substr(0, 5)
 
   let newTimeEnd = item.end.toLocaleTimeString('es-PE');
-  let endStr = newTimeEnd.substr(0,5)
+  let endStr = newTimeEnd.substr(0, 5)
 
   const opciones = { weekday: 'long', month: 'long', day: 'numeric' };
   itemPaciente.value = {}
   horadiotext = item.start.toLocaleDateString('es-ES', opciones) //+ '     ' + noSeconds + " - " + noSeconds2;
   cita.value = {
     idPaciente: '',
-    start: item.start.toISOString() ,
-    end: item.end.toISOString().substr(0,11) + endStr + ':00.000Z',
+    start: item.start.toISOString(),
+    end: item.end.toISOString().substr(0, 11) + endStr + ':00.000Z',
     title: item.title,
     borderColor: "#0dcaf0",
     backgroundColor: "#37dfbb",
@@ -64,7 +64,7 @@ function createEvent(item) {
     timeStart: startStr,
     timeEnd: endStr
   };
-  //registro.value.push(cita)
+  console.log(addHoursToDate(new Date(cita.value.start),5))
   let control = document.getElementById("btnschedule");
   if (item) {
     control.click();
@@ -103,6 +103,10 @@ function updateEvent(arg) {
   }
   actualizar(_item)
 }
+function addHoursToDate(date, hours) {
+  return new Date(new Date(date).setHours(date.getHours() + hours));
+}
+
 function deleteEvent(id) {
   eliminar(id)
 }
@@ -138,7 +142,7 @@ const options = reactive({
   dayMaxEvents: true,
   datesAboveResources: true,
   themeSystem: 'bootstrap5',
-  slotLabelFormat: { hour: 'numeric', minute: '2-digit', omitZeroMinute: true, hour12: true },
+  slotLabelFormat: { hour: 'numeric', minute: '2-digit', omitZeroMinute: true, hour12: false },
   slotMinTime: '08:00:00',
   slotMaxTime: '22:00:00',
   allDaySlot: false,
