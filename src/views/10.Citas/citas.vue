@@ -40,16 +40,13 @@ const id = ref(10)
 const mostrar = ref(false);
 function createEvent(item) {
   let horadiotext = ""
-  console.log(horadiotext)
   let newTimeStart = item.start.toLocaleTimeString('es-PE');
   let startStr = newTimeStart.substr(0, 5)
-
   let newTimeEnd = item.end.toLocaleTimeString('es-PE');
   let endStr = newTimeEnd.substr(0, 5)
-
   const opciones = { weekday: 'long', month: 'long', day: 'numeric' };
   itemPaciente.value = {}
-  horadiotext = item.start.toLocaleDateString('es-ES', opciones) //+ '     ' + noSeconds + " - " + noSeconds2;
+  horadiotext = item.start.toLocaleDateString('es-ES', opciones)
   cita.value = {
     idPaciente: '',
     start: item.start.toISOString(),
@@ -57,14 +54,12 @@ function createEvent(item) {
     title: item.title,
     borderColor: "#0dcaf0",
     backgroundColor: "#37dfbb",
-    descripcion: item.descripcion,
     timedisplay: horadiotext,
     fechaDeCreacion: new Date().toISOString().slice(0, 10),
     UserId: ItemUsuario.id,
     timeStart: startStr,
     timeEnd: endStr
   };
-  console.log(addHoursToDate(new Date(cita.value.start),5))
   let control = document.getElementById("btnschedule");
   if (item) {
     control.click();
@@ -120,7 +115,6 @@ function viewEvents(_id) {
     title: item_data.title,
     borderColor: item_data.borderColor,
     backgroundColor: item_data.backgroundColor,
-    descripcion: item_data.descripcion,
     timedisplay: item_data.timedisplay,
     fechaDeCreacion: new Date().toISOString().slice(0, 10),
     UserId: item_data.UserId,
@@ -280,22 +274,22 @@ function closeEvent() {
           #btnsclose.button.btn.btn-primary(type='button', data-bs-dismiss='modal') &times;
         .modal-body
           .input-group.mb-3
-            span#basic-addon1.input-group-text 
+            span#basic-addon1.input-group-text
               i.fa.fa-text-height
             input.form-control(placeholder="Añade un Título", v-model="cita.title", required)       
           .input-group.mb-3
-            span#basic-addon1.input-group-text 
+            span#basic-addon1.input-group-text
               i.fa.fa-clock-o
-            input.form-control(placeholder='Horario' v-model="cita.timedisplay" style="font-weight:bold")   
+            input.form-control(v-model="cita.timedisplay" style="font-weight:bold")   
           .input-group.mb-3
-            span#basic-addon1.input-group-text 
+            span#basic-addon1.input-group-text
               i.fa.fa-clock-o
-            input#appt.form-control(type='time' placeholder='Hora Inicio' v-model="cita.timeStart")
-            span#basic-addon1.input-group-text 
+            input#appt.form-control(type='time' v-model="cita.timeStart")
+            span#basic-addon1.input-group-text
               i.fa.fa-clock-o
-            input#appt.form-control(type='time' placeholder='Hora Inicio' v-model="cita.timeEnd")
+            input#appt.form-control(type='time' v-model="cita.timeEnd")
           .input-group.mb-3
-            span#basic-addon1.input-group-text 
+            span#basic-addon1.input-group-text
               input.form-check-input( type='checkbox' id="checkbox" v-model="mostrar" )
             input.form-control(placeholder='Registrar un nuevo paciente', readonly, style="font-weight:bold")
           .input-group.mb-3(v-if="mostrar == false")
@@ -326,14 +320,10 @@ function closeEvent() {
                 i.fa.fa-at
               input.form-control(placeholder='Email', type="email" required, v-model="itemPaciente.email")
               input.form-control(placeholder='Celular' required @keypress="isNumber($event)" minlength="9" maxlength="12" v-model="itemPaciente.telefono")
-          .input-group.mb-3
-            span#basic-addon1.input-group-text 
-              i.fa.fa-align-left
-            input.form-control(placeholder='Añade una descripción de la cita', v-model="cita.descripcion")
-          .input-group.mb-3
-            span#basic-addon1.input-group-text 
+          .input-group.mb-3(hidden="true")
+            span#basic-addon1.input-group-text
               i.fa.fa-user-md
-            input.form-control(placeholder='Odontólogo', v-model="ItemUsuario.nombre", readonly, style="font-weight:bold")
+            input.form-control(v-model="ItemUsuario.nombre", readonly, style="font-weight:bold")
           .input-group
             span#basic-addon1.input-group-text 
               i.fa.fa-paint-brush
