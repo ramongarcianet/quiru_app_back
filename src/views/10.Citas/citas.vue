@@ -125,6 +125,7 @@ function viewEvents(_id) {
   control.click();
 }
 const options = reactive({
+  longPressDelay: 10,
   editable: true,
   selectable: true,
   weekends: true,
