@@ -143,9 +143,9 @@ const options = reactive({
   allDaySlot: false,
   contentHeight: 'auto',
   headerToolbar: {
-    left: 'prev,next',
-    center: 'title',
-    right: 'dayGridMonth,timeGridWeek,timeGridDay,listDay'
+    left: 'prev',
+    center: 'dayGridMonth,timeGridWeek,timeGridDay,listDay',
+    right: 'next'
   },
   views: {
     dayGridMonth: {
@@ -260,6 +260,7 @@ function closeEvent() {
   .col-4.col-md-9
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Lista
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") de citas
+    h2 {{}}
 .row 
   .contenido
     fullcalendar(v-bind:options='options')
