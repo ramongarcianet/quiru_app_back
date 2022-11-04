@@ -76,7 +76,7 @@ onUnmounted(() => {
         div
           strong(style="color: white") Registrar
           p.mb-0(style="color: white") Admisión
-        i.fa-solid.fa-feather.fa-xl(style="color: white")
+        i.fa-solid.fa-file-circle-plus.fa-xl(style="color: white")
     Form.mt-md-4
       label.form-label.mt-2 Documento de identidad
       .input-group.pb-md-3

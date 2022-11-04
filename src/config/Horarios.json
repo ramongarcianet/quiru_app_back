@@ -1,0 +1,33 @@
+{
+  "HORAS": [
+    {"hora":"8:00 a.m.", "code":"8:00 A.M."},
+    {"hora":"8:30 a.m.", "code":"8:30 A.M."},
+    {"hora":"9:00 a.m.", "code":"9:00 A.M."},
+    {"hora":"9:30 a.m.", "code":"9:30 A.M."},
+    {"hora":"10:00 a.m.", "code":"10:00 A.M."},
+    {"hora":"10:30 a.m.", "code":"10:30 A.M."},
+    {"hora":"11:00 a.m.", "code":"11:00 A.M."},
+    {"hora":"11:30 a.m.", "code":"11:30 A.M."},
+    {"hora":"12:00 p.m.", "code":"12:00 P.M."},
+    {"hora":"12:30 p.m.", "code":"12:30 P.M."},
+    {"hora":"1:00 p.m.", "code":"1:00 P.M."},
+    {"hora":"1:30 p.m.", "code":"1:30 P.M."},
+    {"hora":"2:00 p.m.", "code":"2:00 P.M."},
+    {"hora":"2:30 p.m.", "code":"2:30 P.M."},
+    {"hora":"3:00 p.m.", "code":"3:00 P.M."},
+    {"hora":"3:30 p.m.", "code":"3:30 P.M."},
+    {"hora":"4:00 p.m.", "code":"4:00 P.M."},
+    {"hora":"4:30 p.m.", "code":"4:30 P.M."},
+    {"hora":"5:00 p.m.", "code":"5:00 P.M."},
+    {"hora":"5:30 p.m.", "code":"5:30 P.M."},
+    {"hora":"6:00 p.m.", "code":"6:00 P.M."},
+    {"hora":"6:30 p.m.", "code":"6:30 P.M."},
+    {"hora":"7:00 p.m.", "code":"7:00 P.M."},
+    {"hora":"7:30 p.m.", "code":"7:30 P.M."},
+    {"hora":"8:00 p.m.", "code":"8:00 P.M."},
+    {"hora":"8:30 p.m.", "code":"8:30 P.M."},
+    {"hora":"9:00 p.m.", "code":"9:00 P.M."},
+    {"hora":"9:30 p.m.", "code":"9:30 P.M."},
+    {"hora":"10:00 p.m.", "code":"10:00 P.M."}
+  ]
+}
