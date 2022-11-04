@@ -2,6 +2,7 @@
 import { ref, reactive, watch, onMounted } from 'vue'
 import '@fullcalendar/core/vdom'
 import fullcalendar from '@fullcalendar/vue3'
+import { Calendar } from '@fullcalendar/core';
 import dayGrigPlugin from '@fullcalendar/daygrid'
 import timeGrigPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
@@ -143,6 +144,7 @@ const options = reactive({
   allDaySlot: false,
   contentHeight: 'auto',
   headerToolbar: {
+    top: 'title',
     left: 'prev',
     center: 'dayGridMonth,timeGridWeek,timeGridDay,listDay',
     right: 'next'
@@ -252,6 +254,10 @@ function closeEvent() {
   let control = document.getElementById("btnsclose");
   control.click();
 }
+function mes() {
+  var month = calendar.getMonth()
+  console.log( month)
+}
 
 </script>
 
@@ -260,7 +266,7 @@ function closeEvent() {
   .col-4.col-md-9
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Lista
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") de citas
-    h2 {{}}
+    button(@click="mes()") mes
 .row 
   .contenido
     fullcalendar(v-bind:options='options')
