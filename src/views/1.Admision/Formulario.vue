@@ -86,7 +86,7 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
     .col-6
       label.form-label Viajes de los últimos años
       .input-group
-        input.form-control(placeholder="Motivo de consulta", v-model="item.viajesUltimos")
+        input.form-control(placeholder="Viajes de los últimos años", v-model="item.viajesUltimos")
   .col-12.col-md-4.mx-auto.mt-3
     button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(
       type='submit', style="border-radius: 50px"

@@ -11,10 +11,11 @@ const cita = ref({
   idPaciente: '',
   start: '',
   end: '',
+  timeStart: '',
+  timeEnd: '',
   title: '',
   borderColor: "#0dcaf0",
   backgroundColor: '#fd7e14',
-  descripcion: '',
   timedisplay: '',
   fechaDeCreacion: new Date().toISOString().slice(0, 10),
   UserId: '',
@@ -31,9 +32,6 @@ const actualizar = (item) => {
   const referencia = doc(firestore, 'citas', item.id)
   return updateDoc(referencia, item)
 }
-
-//Aun falta imprimir
-
 
 const updateEstado = (item) => {
   const referencia = doc(firestore, 'citas', item.id)
@@ -76,7 +74,6 @@ const limpiar = () => {
     title: '',
     borderColor: "#0dcaf0",
     backgroundColor: '',
-    descripcion: '',
     timedisplay: '',
     fechaDeCreacion: new Date().toISOString().slice(0, 10),
     UserId: ''
