@@ -41,17 +41,17 @@ const id = ref(10)
 const mostrar = ref(false);
 function createEvent(item) {
   let horadiotext = ""
-  let newTimeStart = item.start.toLocaleTimeString('es-PE');
+  let newTimeStart = item.start.toLocaleTimeString('es-ES');
   let startStr = newTimeStart.substr(0, 5)
-  let newTimeEnd = item.end.toLocaleTimeString('es-PE');
+  let newTimeEnd = item.end.toLocaleTimeString('es-ES');
   let endStr = newTimeEnd.substr(0, 5)
   const opciones = { weekday: 'long', month: 'long', day: 'numeric' };
   itemPaciente.value = {}
-  horadiotext = item.start.toLocaleDateString('es-ES', opciones)
+  horadiotext = item.start.toLocaleDateString('es-ES', opciones) + '     ' + startStr + " - " + endStr;
   cita.value = {
     idPaciente: '',
     start: item.start.toISOString(),
-    end: item.end.toISOString().substr(0, 11) + endStr + ':00.000Z',
+    end: item.end.toISOString(),
     title: item.title,
     borderColor: "#0dcaf0",
     backgroundColor: "#37dfbb",
@@ -70,27 +70,14 @@ function createEvent(item) {
 }
 function updateEvent(arg) {
   let horadiotext = ""
-  let newTime = arg.start.toLocaleTimeString('en-US');
-  let hour = newTime.split(":")[0];
-  let amPm = newTime.split(" ")[1];
-  let seconds = newTime.split(":")[2].replace(amPm, '');
-  let noSeconds = newTime.replace(":" + seconds, ' ');
-
-  let newTim2 = arg.end.toLocaleTimeString('en-US');
-  let hour2 = newTime.split(":")[0];
-  let amPm2 = newTim2.split(" ")[1];
-  let seconds2 = newTim2.split(":")[2].replace(amPm2, '');
-  let noSeconds2 = newTim2.replace(":" + seconds2, ' ');
+  let newTimeStart = arg.start.toLocaleTimeString('es-ES');
+  let startStr = newTimeStart.substr(0, 5)
+  let newTimeEnd = arg.end.toLocaleTimeString('es-ES');
+  let endStr = newTimeEnd.substr(0, 5)
 
   const opciones = { weekday: 'long', month: 'long', day: 'numeric' };
-  if (parseInt(hour) < 9) {
-    noSeconds = "0" + noSeconds
-  }
-  if (parseInt(hour2) < 9) {
-    noSeconds2 = "0" + noSeconds2
-  }
   itemPaciente.value = {}
-  horadiotext = arg.start.toLocaleDateString('es-ES', opciones) + '     ' + noSeconds + " - " + noSeconds2;
+  horadiotext = arg.start.toLocaleDateString('es-ES', opciones) + '     ' + startStr + " - " + endStr;
   let _item = {
     id: arg.id,
     start: arg.start.toISOString(),
@@ -145,7 +132,7 @@ const options = reactive({
   contentHeight: 'auto',
   headerToolbar: {
     left: 'prev',
-    center: 'title,dayGridMonth,timeGridWeek,timeGridDay,listDay',
+    center: 'title,dayGridMonth,timeGridWeek,listDay,today',
     right: 'next'
   },
   views: {
@@ -157,9 +144,9 @@ const options = reactive({
         month: 'long'
       }
     },
-    timeGridDay: {
+    listDay: {
       titleFormat: {
-        day: '2-digit'
+        year: 'numeric', month: 'short', day: 'numeric'
       }
     }
   },
