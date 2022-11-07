@@ -357,4 +357,7 @@ th
   color: rgb(57, 93, 86) !important
 .fc .fc-timegrid-slot-label
   color: rgb(57, 93, 86) !important
+.fc .fc-toolbar-chunk
+  button
+    margin:0px 3px
 </style>
