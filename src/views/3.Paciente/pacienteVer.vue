@@ -71,12 +71,7 @@ onUnmounted(() => {
   a.close(@click="Cancelar()" href='#' data-dismiss='alert' aria-label='close') &times;
 .row
   .col.col-md-4
-    .col-12.mx-auto.my-3
-      button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="push({name: 'Admision', params: { idPaciente: item.id }})")
-        div
-          strong(style="color: white") Registrar
-          p.mb-0(style="color: white") Admisión
-        i.fa-solid.fa-file-circle-plus.fa-xl(style="color: white")
+    
     Form.mt-md-4
       label.form-label.mt-2 Documento de identidad
       .input-group.pb-md-3
@@ -89,6 +84,12 @@ onUnmounted(() => {
           option(value="DNI") DNI
           option(value="CE") CARNET DE EXTRANJERIA
         input.form-control(v-model="item.numeroDocumento", disabled)
+    .col-12.mx-auto.my-3
+      button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="push({name: 'Admision', params: { idPaciente: item.id }})")
+        div
+          strong(style="color: white") Registrar
+          p.mb-0(style="color: white") Admisión
+        i.fa-solid.fa-file-circle-plus.fa-xl(style="color: white")
     .col-12.mx-auto.my-3
       button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','No')")
         div

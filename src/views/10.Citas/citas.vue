@@ -144,9 +144,8 @@ const options = reactive({
   allDaySlot: false,
   contentHeight: 'auto',
   headerToolbar: {
-    top: 'title',
     left: 'prev',
-    center: 'dayGridMonth,timeGridWeek,timeGridDay,listDay',
+    center: 'title,dayGridMonth,timeGridWeek,timeGridDay,listDay',
     right: 'next'
   },
   views: {
@@ -155,7 +154,7 @@ const options = reactive({
     },
     timeGridWeek: {
       titleFormat: {
-        month: 'short'
+        month: 'long'
       }
     },
     timeGridDay: {
@@ -282,8 +281,8 @@ function closeEvent() {
           .input-group.mb-3
             span#basic-addon1.input-group-text
               i.fa.fa-clock-o
-            input.form-control(v-model="cita.timedisplay" style="font-weight:bold")   
-          .input-group.mb-3
+            input.form-control(v-model="cita.timedisplay"  style="font-weight:bold")
+          //.input-group.mb-3
             span#basic-addon1.input-group-text
               i.fa.fa-clock-o
             input#appt.form-control(type='time' v-model="cita.timeStart")
