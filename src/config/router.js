@@ -2,11 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { obtenerEstadoDeAutentificacion } from '../store/sesion'
 const routes = [
     {
-      path: '/sesion',
+      path: '/',
       component: ()=>import('../views/6. Sesion/index.vue'),
       children: [
         {
-            path: '/',
+            path: '/sesion',
             component: ()=>import('../views/6. Sesion/1. Sesion.vue'),
             children: [
                 {
