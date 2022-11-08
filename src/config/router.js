@@ -6,7 +6,29 @@ const routes = [
       component: ()=>import('../views/6. Sesion/index.vue'),
       children: [
         {
-            path: '/sesion',
+            path:'',
+            name: 'landing',
+            component: ()=>import('../views/6. Sesion/3. Landing.vue'),
+
+        },
+        {
+            path:':codigo?',
+            name: 'landingConCodigo',
+            component: ()=>import('../views/6. Sesion/3. Landing.vue'),
+
+        },
+        {
+            path:'demo/:codigo?',
+            name: 'demo',
+            component: ()=>import('../views/6. Sesion/2. Demo.vue'),
+        },
+        {
+            path:'inscripcion/:codigo?',
+            name: 'inscripcion',
+            component: ()=>import('../views/6. Sesion/4. Inscripcion.vue'),
+        },
+        {
+            path: 'sesion',
             component: ()=>import('../views/6. Sesion/1. Sesion.vue'),
             children: [
                 {
