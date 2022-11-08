@@ -13,6 +13,9 @@
         ],
         "dev": [
           "dev-quiru"
+        ],
+        "app-quiru": [
+          "app-quiru"
         ]
       }
     }
