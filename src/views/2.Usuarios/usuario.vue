@@ -35,7 +35,7 @@ watch(
     }
 );
 const adios = ()=> {
-    location.replace('https://quiru-landing.web.app/')
+    location.replace('quiru.app')
   }
 </script>
 
