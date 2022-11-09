@@ -57,17 +57,20 @@ const crear_ = () => new Promise( async(resolve, reject) =>   {
 </script>
 <template lang="pug">
 .row
-  .col-10
+  .col-8
     h1 Datos Adicionales
-  .col-2
-    button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
-      i.fa-regular.fa-file-pdf.fa-xl( style="color: var(--color-primary); font-size: 35px" )
-    #exampleModal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+  .col-4
+    div.opciones
+      button.outline-quiru(title='Consentimientos' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
+        .contenido
+          .title Consentimientos
+        i.fa-regular.fa-file-pdf.fa-xl.icono
+    #exampleModal.modal.fade(tabindex='-1')
       .modal-dialog.modal-lg
         .modal-content
           .modal-header
             h2 Lista de consentimientos en PDF
-            button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+            button.btn-close(type='button' data-bs-dismiss='modal')
           .modal-body
             .row
               a(href="https://firebasestorage.googleapis.com/v0/b/quiru-b444f.appspot.com/o/concentimientos%2FApicectom%C3%ADa-corregida.pdf?alt=media&token=3b7d4f97-eb1b-47c6-96d4-d8f5c41d6fd4" target="_blank") Apicectomía corregida
@@ -86,12 +89,11 @@ const crear_ = () => new Promise( async(resolve, reject) =>   {
               a(href="https://firebasestorage.googleapis.com/v0/b/quiru-b444f.appspot.com/o/concentimientos%2FTercer-Molar.pdf?alt=media&token=832f4e65-bdcb-4bd5-9d0b-17f725fd687f" target="_blank") Tercer-Molar
               a(href="https://firebasestorage.googleapis.com/v0/b/quiru-b444f.appspot.com/o/concentimientos%2FTratamiento-General.pdf?alt=media&token=c515bc94-32fe-44ad-b7f9-bdcbf7fe1be8" target="_blank") Tratamiento-General
 
-
 .row
   .col.m-2
     Form( :onPromise="() => crear_(item)" :onSuccess='()=>mensaje= "Actualizado con éxito"' :onCatch='(e) => mensaje = e') 
       .row
-        label.form-label.mb-1 Especficaciones
+        label.form-label.mb-1 Especificaciones
         textarea.form-control( rows="4" v-model="item.especificaciones")
       .row.mt-2
         label.form-label.mb-1 Observaciones
@@ -128,6 +130,54 @@ const crear_ = () => new Promise( async(resolve, reject) =>   {
 </template>
 
 <style lang="sass" scoped>
+.opciones
+  margin-left: auto
+  margin-right: auto
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  width: 100%
+  height: auto
+  .outline-quiru
+    width: 100%
+    height: 75px
+    border-radius: 50px
+    border: 1px solid var(--color-primary)
+    background-color: transparent
+    display: flex
+    flex-direction: row
+    justify-content: space-around
+    align-items: center
+    &.solid
+      background-color: var(--color-primary)
+    &.disabled
+      border: none
+      background-color: gray
+      
+    .contenido
+      display: flex
+      flex-direction: column
+      align-items: start
+      justify-content: start
+      width: 150px
+      .title
+        font-weight: 700
+        color: var(--color-primary)
+
+        &.light-quiru
+          color: var(--color-white)
+          background: transparent
+      .subtitle
+        font-weight: 400
+        color: var(--color-primary)
+        &.light-quiru
+          color: var(--color-white)
+    .icono
+      font-size: 26px
+      color: var(--color-primary)
+      &.light-quiru
+        color: var(--color-white)
 
 #myCanvas
   border: 1px solid #9c9898
