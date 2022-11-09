@@ -11,16 +11,10 @@ const {back, push} = useRouter()
   .col-10
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Admisión
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") del paciente
-    button.btn.btn-outline-primary.border-0.pb-md-0(title='Volver' @click="back()" )
-      ion-icon(name="return-down-back-outline" size="large")
+    button.btn.btn-outline-primary.border-0(@click="back()" )
+      i.fa-solid.fa-arrow-left-long.fa-xl
   .col-2
 
 Formulario
 
 </template>
-
-<style>
-ion-icon {
-  pointer-events: none;
-}
-</style>

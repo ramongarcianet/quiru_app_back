@@ -61,7 +61,9 @@ onUnmounted(() => {
       i.fa-solid.fa-arrow-left-long.fa-xl
   .col-8.col-md-3
     .col.ms-5
-      button.ms-5.btn(title='Editar' @click="push({ name: 'paciente', params: { idPaciente: item.id } })")
+      button.ms-5.btn(title='Admision' @click="push({name: 'Admision', params: { idPaciente: item.id }})")
+        i.fa-solid.fa-file-circle-plus.fa-xl(style="color: var(--color-primary)")
+      button.btn(title='Editar' @click="push({ name: 'paciente', params: { idPaciente: item.id } })")
         i.fa-solid.fa-pen-to-square.fa-xl(style="color: var(--color-primary)")
       button.btn(title='Eliminar' @click="CallConfirm(item)")
         i.fa-regular.fa-trash-can.fa-xl(style="color: var(--color-primary)")
@@ -85,11 +87,11 @@ onUnmounted(() => {
           option(value="CE") CARNET DE EXTRANJERIA
         input.form-control(v-model="item.numeroDocumento", disabled)
     .col-12.mx-auto.my-3
-      button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="push({name: 'Admision', params: { idPaciente: item.id }})")
+      button.w-100.text-start.btn.btn-light.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="push({name: 'Admision', params: { idPaciente: item.id }})")
         div
-          strong(style="color: white") Registrar
-          p.mb-0(style="color: white") Admisión
-        i.fa-solid.fa-file-circle-plus.fa-xl(style="color: white")
+          strong(style="color: var(--color-primary)") Registrar
+          p.mb-0(style="color:var(--color-primary)") Admisión
+        i.fa-solid.fa-file-circle-plus.fa-xl(style="color:var(--color-primary)")
     .col-12.mx-auto.my-3
       button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','No')")
         div
