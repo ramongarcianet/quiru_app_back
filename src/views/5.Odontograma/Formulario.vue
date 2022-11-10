@@ -202,6 +202,29 @@ function VisibleDiente() {
   }
 }
 const idRelacionados_ = computed((() => id => getItemEnRegistro(id)?.idRelacionados))
+
+function onKeyDownSoloNumeros(event) {
+    var regex = new RegExp('[0-9]+');
+    const e = event;
+    var key = String.fromCharCode(!e.keyCode ? e.keyCode : e.which);
+    if (!regex.test(key)) {
+      event.preventDefault()
+      return false;
+    }
+    return true;
+  }
+
+  function onKeyDownSoloLetras(event) {
+    var regex = new RegExp('^[a-zA-Z]+$');
+    const e = event;
+    var key = String.fromCharCode(!e.keyCode ? e.keyCode : e.which);
+    if (!regex.test(key)) {
+      event.preventDefault()
+      return false;
+    }
+    return true;
+  }
+
 </script>
 
 <template lang="pug">
@@ -218,14 +241,14 @@ const idRelacionados_ = computed((() => id => getItemEnRegistro(id)?.idRelaciona
     .row
       .col.d-flex(v-if="!isSpeech").inputs-manual
         input#tipoReg(type="hidden", value="0")
-        span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;") Pieza :
+        span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;" v-on:keypress='onKeyDownSoloNumeros($event)') Pieza :
           input.form-control#comboPieza(list='listaDeDientes', name='comboPieza', v-model='item.diente', v-on:change="ListaAlterna(item.diente)")
           datalist#listaDeDientes
             option(v-for='{ value } of listaDeDientesCombo' :value="value")
           span#spanPiezaAl(style="display: none;") a la pieza :
           input.form-control#comboPiezaAl(style="display: none;",list='listaDeDientesAl', name='comboPieza', v-model='item.dienteAlterno')
           datalist#listaDeDientesAl
-        span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;") Hallazgo :
+        span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;", v-on:keypress='onKeyDownSoloLetras($event)') Hallazgo :
           input.form-control#comboHallazgo(list='listaDeHallazgos', name='comboHallazgo', v-model='Hallazgo', v-on:change="VisibleDiente()")
           datalist#listaDeHallazgos
             option(v-for='{ text } of listaDeHallazgos' :value="text")
