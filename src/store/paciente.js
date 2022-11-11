@@ -23,6 +23,10 @@ const guardar = item => new Promise((resolve) => {
     }).then(doc => resolve(doc.id))
 })
 
+const revisarDNI = (item) => new Promise((resolve) => {
+    const referencia = collection(firestore, 'paciente')
+})
+
 const actualizar = (item) => {
     const referencia = doc(firestore, 'paciente', item.id)
     return updateDoc(referencia, item)
@@ -61,7 +65,7 @@ const obtenerTodosDni = () => {
         referenciaOrden,
         collection => {
             registro.value = collection.docs.map(doc => ({ ...doc.data(), dni: doc.dni }))
-        }
+        }   
     )
 }
 
