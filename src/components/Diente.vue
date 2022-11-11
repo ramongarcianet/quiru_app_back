@@ -50,7 +50,7 @@ function slelecteditem(ubicacion) {
                 posicion: ubicacion,
                 sigla: sigla,
                 ubicacion: zonaDiente,
-                descripcion: hzgoMatriz[0]?.value
+                descripcion: hzgoMatriz[0]?.text
             })
         }
     }
