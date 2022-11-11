@@ -18,7 +18,7 @@ export function VerFormato(registro) {
     arr.forEach(function (entry) {
         inicio_y = 75;
         context.fillText(entry, iniciar_x + 10, 45);
-        dibuja_contorno(context, iniciar_x, inicio_y, medida, entry, registro);
+        dibuja_contorno(context, iniciar_x, inicio_y, medida, entry);
         dibuja_ControlTop(context, iniciar_x - 12, inicio_y - 75, medida, registro, entry);
         if (entry == "18" || entry == "17" || entry == "16" || entry == "28" || entry == "27" || entry == "26") {
             dibuja_raiz(context, iniciar_x, medida, inicio_y, colo_cab, "top_tri");
@@ -42,7 +42,7 @@ export function VerFormato(registro) {
         if (entry != "1") {
             inicio_y = 180;
             context.fillText(entry, iniciar_x + 10, 150);
-            dibuja_contorno(context, iniciar_x, inicio_y, medida, entry, registro);
+            dibuja_contorno(context, iniciar_x, inicio_y, medida, entry);
             if (entry == "55" || entry == "54" || entry == "28" || entry == "64" || entry == "65") {
                 dibuja_raiz(context, iniciar_x, medida, inicio_y, colo_cab, "top_tri");
             }
@@ -62,7 +62,7 @@ export function VerFormato(registro) {
         if (entry != "1") {
             inicio_y = 213;
             context.fillText(entry, iniciar_x + 10, 270);
-            dibuja_contorno(context, iniciar_x, inicio_y, medida, entry, registro);
+            dibuja_contorno(context, iniciar_x, inicio_y, medida, entry);
 
             if (entry == "85" || entry == "84" || entry == "74" || entry == "75") {
                 dibuja_raiz(context, iniciar_x, medida, inicio_y + 47, colo_cab, "bot_duo");
@@ -83,7 +83,7 @@ export function VerFormato(registro) {
         if (entry != "1") {
             inicio_y = 315;
             context.fillText(entry, iniciar_x + 10, 372);
-            dibuja_contorno(context, iniciar_x, inicio_y, medida, entry, registro);
+            dibuja_contorno(context, iniciar_x, inicio_y, medida, entry);
             if (entry == "48" || entry == "47" || entry == "46" || entry == "36" || entry == "37" || entry == "38") {
                 dibuja_raiz(context, iniciar_x, medida, inicio_y + 47, colo_cab, "bot_duo");
             }
@@ -147,11 +147,12 @@ export function CallFindinf(context, registro) {
         iniciar_x = iniciar_x + 24;
     }, this);
 }
-function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro) {
+function dibuja_contorno(context, inicio_x, inicio_y, med, pieza) {
     var ctx = context;
     var cua = med / 4;
     var ter = cua * 3;
     var color_line = 'black';
+
     if (ctx) {
         ctx.strokeStyle = color_line;
         ctx.beginPath();
@@ -192,6 +193,7 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza, registro) {
         ctx.closePath();
         ctx.stroke();
     }
+
     dibuja_seccion(ctx, pieza, 1, "#37DFBB", med, inicio_x, inicio_y)
     dibuja_seccion(ctx, pieza, 2, "#37DFBB", med, inicio_x, inicio_y)
     dibuja_seccion(ctx, pieza, 3, "#37DFBB", med, inicio_x, inicio_y)
@@ -248,6 +250,7 @@ function dibuja_raiz(contexto, inicio_x, medida, inicio_y, color, tipo) {
         ctx.lineTo(inicio_x + 15, inicio_y - 10);
         ctx.moveTo(inicio_x + 10, inicio_y - 22);
         ctx.lineTo(inicio_x + 7, inicio_y - 10);
+
     }
     else if (tipo == "bot_duo") {
         ctx.moveTo(inicio_x, inicio_y - 25);
@@ -276,26 +279,39 @@ function dibuja_seccion(contexto, num_diente, seccion, color_pas, medida, inicio
     var ter = cua * 3;
     var color_line = color_pas;
     var color_line2 = 'white';
+    const Diente_seccionOclusal = listaDeDientesCombo.filter((elem) => elem.value == num_diente);
+    //Arriba
     if (seccion == 1) {
         if (ctx) {
             ctx.fillStyle = color_line;
             ctx.beginPath();
             ctx.moveTo(inicio_x, inicio_y);
             ctx.lineTo(med + inicio_x, inicio_y);
-            ctx.lineTo(ter + inicio_x, cua + inicio_y);
-            ctx.lineTo(cua + inicio_x, cua + inicio_y);
+            if (Diente_seccionOclusal[0]?.seccionOclusal == "0") {
+                ctx.lineTo(ter + inicio_x, cua + inicio_y + 6);
+                ctx.lineTo(cua + inicio_x, cua + inicio_y + 6);
+            }
+            else {
+                ctx.lineTo(ter + inicio_x, cua + inicio_y);
+                ctx.lineTo(cua + inicio_x, cua + inicio_y);
+            }
             ctx.closePath();
             ctx.fill();
             ctx.strokeStyle = color_line2;
             ctx.stroke();
         }
     }
-    /* 2da zona */
+    /* derecha */
     if (seccion == 2) {
         if (ctx) {
             ctx.fillStyle = color_line;
             ctx.beginPath();
-            ctx.moveTo(ter + inicio_x, cua + inicio_y);
+            if (Diente_seccionOclusal[0]?.seccionOclusal == "0") {
+                ctx.moveTo(ter + inicio_x, cua + inicio_y + 4);
+            }
+            else {
+                ctx.moveTo(ter + inicio_x, cua + inicio_y);
+            }
             ctx.lineTo(med + inicio_x, inicio_y);
             ctx.lineTo(med + inicio_x, med + inicio_y);
             ctx.lineTo(ter + inicio_x, ter + inicio_y);
@@ -305,13 +321,19 @@ function dibuja_seccion(contexto, num_diente, seccion, color_pas, medida, inicio
             ctx.stroke();
         }
     }
-    /* 3ra zona */
+    /* bajo */
     if (seccion == 3) {
         if (ctx) {
             ctx.fillStyle = color_line;
             ctx.beginPath();
-            ctx.moveTo(cua + inicio_x, ter + inicio_y);
-            ctx.lineTo(ter + inicio_x, ter + inicio_y);
+            if (Diente_seccionOclusal[0]?.seccionOclusal == "0") {
+                ctx.moveTo(cua + inicio_x, ter + inicio_y - 3);
+                ctx.lineTo(ter + inicio_x, ter + inicio_y - 3);
+            }
+            else {
+                ctx.moveTo(cua + inicio_x, ter + inicio_y);
+                ctx.lineTo(ter + inicio_x, ter + inicio_y);
+            }
             ctx.lineTo(med + inicio_x, med + inicio_y);
             ctx.lineTo(inicio_x, med + inicio_y);
             ctx.closePath();
@@ -320,14 +342,20 @@ function dibuja_seccion(contexto, num_diente, seccion, color_pas, medida, inicio
             ctx.stroke();
         }
     }
-    /* 4ta zona */
+    /* izquierda */
     if (seccion == 4) {
         if (ctx) {
             ctx.fillStyle = color_line;
             ctx.beginPath();
             ctx.moveTo(inicio_x, inicio_y);
-            ctx.lineTo(cua + inicio_x, cua + inicio_y);
-            ctx.lineTo(cua + inicio_x, ter + inicio_y);
+            if (Diente_seccionOclusal[0]?.seccionOclusal == "0") {
+                ctx.lineTo(cua + inicio_x, cua + inicio_y + 5);
+                ctx.lineTo(cua + inicio_x, ter + inicio_y - 5);
+            }
+            else {
+                ctx.lineTo(cua + inicio_x, cua + inicio_y);
+                ctx.lineTo(cua + inicio_x, ter + inicio_y);
+            }
             ctx.lineTo(inicio_x, med + inicio_y);
             ctx.closePath();
             ctx.fill();
@@ -335,15 +363,37 @@ function dibuja_seccion(contexto, num_diente, seccion, color_pas, medida, inicio
             ctx.stroke();
         }
     }
-    /* 5ta zona(medio) */
+    /* centro */
     if (seccion == 5) {
         if (ctx) {
             ctx.fillStyle = color_line;
             ctx.beginPath();
-            ctx.moveTo(cua + inicio_x, cua + inicio_y);
-            ctx.lineTo(ter + inicio_x, cua + inicio_y);
-            ctx.lineTo(ter + inicio_x, ter + inicio_y);
-            ctx.lineTo(cua + inicio_x, ter + inicio_y);
+            if (Diente_seccionOclusal[0]?.seccionOclusal == "4") {
+                ctx.moveTo(cua + inicio_x, cua + inicio_y);
+                ctx.lineTo(ter + inicio_x, cua + inicio_y);
+                ctx.lineTo(ter + inicio_x, ter + inicio_y);
+                ctx.lineTo(cua + inicio_x, ter + inicio_y);
+
+                ctx.moveTo(inicio_x + 6, inicio_y + 10);
+                ctx.lineTo(inicio_x + 15, inicio_y + 10);
+                ctx.moveTo(inicio_x + 11, inicio_y + 6);
+                ctx.lineTo(inicio_x + 11, inicio_y + 15);
+                ctx.moveTo(inicio_x + 6, inicio_y + 6);
+                ctx.lineTo(inicio_x + 6, inicio_y + 15);
+            }
+            if (Diente_seccionOclusal[0]?.seccionOclusal == "2") {
+                ctx.moveTo(cua + inicio_x, cua + inicio_y);
+                ctx.lineTo(ter + inicio_x, cua + inicio_y);
+                ctx.lineTo(ter + inicio_x, ter + inicio_y);
+                ctx.lineTo(cua + inicio_x, ter + inicio_y);
+                ctx.moveTo(inicio_x + 6, inicio_y + 10);
+                ctx.lineTo(inicio_x + 15, inicio_y + 10);
+                ctx.moveTo(inicio_x + 6, inicio_y + 6);
+                ctx.lineTo(inicio_x + 6, inicio_y + 15);
+            }
+            if (Diente_seccionOclusal[0]?.seccionOclusal == "0") {
+
+            }
             ctx.closePath();
             ctx.fill();
             ctx.strokeStyle = color_line2;
@@ -417,8 +467,8 @@ function SetFinding(context, iniciar_x, inicio_y, medida, diente, registro) {
                         let _ancho = hzgoMatriz[0]?.ancho;
                         if (hzgoMatriz[0]?.Replicable_Intermedio == "NO") {
                             if (dienteAlterno.length > 0) {
-                               let cantidadDeDientes = (dienteAlterno[0]?.indice - _dienteSelect[0]?.indice) + 1;
-                                _ancho = (_ancho * (cantidadDeDientes - 1)) + 3 * (cantidadDeDientes) ;
+                                let cantidadDeDientes = (dienteAlterno[0]?.indice - _dienteSelect[0]?.indice) + 1;
+                                _ancho = (_ancho * (cantidadDeDientes - 1)) + 3 * (cantidadDeDientes);
                             }
                             if (_dienteSelect[0]?.grupo == "G1" || _dienteSelect[0]?.grupo == "G2") {
 
