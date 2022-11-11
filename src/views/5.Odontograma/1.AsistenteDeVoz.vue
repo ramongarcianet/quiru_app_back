@@ -249,13 +249,13 @@ const moverCarrusel = (adelanteOAtras) => {
   .burbuja(:style="`top: ${item2.topBurbuja}`")
     span {{item2.data}}
     .accionables
-      button.btn.btn-secondary(type='button', @click='finalizar()') Omitir visita guiada
       btn.atras(v-if='indice!=0' @click='moverCarrusel(-1)')
-        i.fa-regular.fa-circle-left.fa-xl
+        i.fa-solid.fa-circle-chevron-left.fa-xl
       btn.siguiente(v-if='indice != 4 ' @click="moverCarrusel(1)") 
-        i.fa-regular.fa-circle-right.fa-xl
+        i.fa-solid.fa-circle-chevron-right.fa-xl
       btn.siguiente(v-else @click='finalizar()')
-        i.fa-regular.fa-circle-right.fa-xl
+        i.fa-solid.fa-circle-chevron-right.fa-xl
+    a.btn.align-self-start.light(@click='finalizar()') omitir
 
 #id02.modal(style="display:none;")
   .modal-content.modal-sm
@@ -306,10 +306,10 @@ const moverCarrusel = (adelanteOAtras) => {
             i.fa-solid.fa-print.fa-xl(style="color: var(--color-primary)")#destacarImpresion
           button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
             i.fa-solid.fa-question.fa-xl(style="color: var(--color-primary)")#destacarAyuda
-          #exampleModal.modal.fade(tabindex='-1')
-            .modal-dialog.modal-lg
-              .modal-content
-                .modal-header
+          #exampleModal.modal.fade(tabindex='-1' style="width:100vw")
+            .modal-dialog.modal-lg(style="width:100vw")
+              .modal-content(style="width:100vw")
+                .modal-header(style="width:100vw")
                   button.btn-close(type='button' data-bs-dismiss='modal')
                 .modal-body
                   Instrucciones
@@ -358,7 +358,7 @@ const moverCarrusel = (adelanteOAtras) => {
     opacity: 1
     width: 140px !important
     position: absolute
-    z-index: 5
+    z-index:6
     animation: cari 8s ease-in 0s infinite alternate forwards
   .burbuja
     display: flex
@@ -371,7 +371,7 @@ const moverCarrusel = (adelanteOAtras) => {
     height: 160px
     background-color: var(--color-white)
     position: absolute
-    z-index: 5
+    z-index: 6
     border-radius: 20px
     &:before
       content: ""
@@ -508,7 +508,7 @@ const moverCarrusel = (adelanteOAtras) => {
       position: absolute
       top: 72% !important
       left: 78% !important
-      z-index: 5
+      z-index: 6
       animation: cari 8s ease-in 0s infinite alternate forwards
     .burbuja
       display: flex
@@ -520,7 +520,7 @@ const moverCarrusel = (adelanteOAtras) => {
       height: 160px
       background-color: var(--color-white)
       position: absolute
-      z-index: 5
+      z-index: 6
       border-radius: 20px
       &:before
         content: ""
