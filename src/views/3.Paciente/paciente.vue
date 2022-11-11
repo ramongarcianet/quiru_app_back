@@ -7,6 +7,10 @@ const maxDocumento = ref(8);
 const guardarOActualizar = () => {
   var alerta = document.getElementById("alerta");
   alerta.style.display = "none"
+  //if(item.value.nombre.trim() == '') {
+    //return false
+
+  //}
   if (item.value.id) return actualizar(item.value);
   else return guardar(item.value);
 };

@@ -75,12 +75,12 @@ onUnmounted(() => {
   .col.col-md-4
     
     Form.mt-md-4
-      label.form-label.mt-2 Documento de identidad
+      label.form-label.mt-2 Nombre del paciente
       .input-group.pb-md-3
         input.form-control(v-model="item.nombre", disabled)
         input.form-control(v-model="item.apellidoPaterno", disabled)
         input.form-control(v-model="item.apellidoMaterno", disabled)
-      label.form-label Nombre del paciente  
+      label.form-label Documento de identidad
       .input-group.mb-md-3
         select.form-select(v-model="item.tipoDocumento", disabled)
           option(value="DNI") DNI
