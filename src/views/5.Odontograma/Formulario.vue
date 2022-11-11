@@ -152,7 +152,7 @@ function AgregarHallazgo() {
       if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.EsMultiple == "SI" && hzgoMatriz[0]?.Replicable_Intermedio == "RE") {
         const indexAlt = listaDeDientesCombo?.findIndex(i => i.value == comboPiezaAl.value)
         if (indexAlt < 0) {
-          mensajeExistePieza.value = 'La pieza seleccionada no existe'
+          mensajeExistePieza.value = 'La segunda pieza seleccionada no existe'
           comboPiezaAl.value = ""
           return false
         }
