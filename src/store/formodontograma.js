@@ -85,17 +85,17 @@ export function existeDiente(diente, fila) {
             if (hzgoMatriz[0]?.esDirecto == "SI") {
                 if (item.diente == diente && item.hallazgo == fila.hallazgo && item.sigla == fila.sigla) {
                     if (isSpeech.value)
-                        speak('pieza ' + diente + ' ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.hallazgo)
+                        speak('pieza ' + diente + ' ya existe en el odontograma, no se puede registrar como Hallazgo: ' + hzgoMatriz[0]?.text)
                     else
-                        mensajeExistePieza.value = 'Pieza: ' + diente + ', ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.hallazgo
+                        mensajeExistePieza.value = 'Pieza: ' + diente + ', ya existe en el odontograma, no se puede registrar como Hallazgo: ' + hzgoMatriz[0]?.text
                     result = true;
                     break;
                 }
                 else if (item.diente == diente && item.hallazgo != fila.hallazgo) {
                     if (isSpeech.value)
-                        speak('pieza ' + diente + ' ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.hallazgo)
+                        speak('pieza ' + diente + ' ya existe en el odontograma, no se puede registrar como Hallazgo: ' + hzgoMatriz[0]?.text)
                     else
-                        mensajeExistePieza.value = 'Pieza: ' + diente + ', ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.hallazgo
+                        mensajeExistePieza.value = 'Pieza: ' + diente + ', ya existe en el odontograma, no se puede registrar como Hallazgo: ' + hzgoMatriz[0]?.text
                     result = true;
                     break;
                 }
@@ -103,17 +103,17 @@ export function existeDiente(diente, fila) {
             else {
                 if (item.diente == diente && item.hallazgo == fila.hallazgo && item.ubicacion == fila.ubicacion && item.posicion == fila.posicion) {
                     if (isSpeech.value)
-                        speak('pieza ' + diente + ' hallazgo ' + fila.hallazgo + ' y ubicación ' + fila.ubicacion + ' ya existe en el odontograma')
+                        speak('pieza ' + diente + ' hallazgo ' + hzgoMatriz[0]?.text + ' y ubicación ' + fila.ubicacion + ' ya existe en el odontograma')
                     else
-                        mensajeExistePieza.value = 'Pieza: ' + diente + ', Hallazgo: ' + fila.hallazgo + ', Ubicación: ' + fila.ubicacion + ', ya existe en el odontograma'
+                        mensajeExistePieza.value = 'Pieza: ' + diente + ', Hallazgo: ' + hzgoMatriz[0]?.text + ', Ubicación: ' + fila.ubicacion + ', ya existe en el odontograma'
                     result = true;
                     break;
                 }
                 else if (item.diente == diente && item.hallazgo != fila.hallazgo) {
                     if (isSpeech.value)
-                        speak('pieza ' + diente + ' ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.hallazgo)
+                        speak('pieza ' + diente + ' ya existe en el odontograma, no se puede registrar como Hallazgo: ' + hzgoMatriz[0]?.text)
                     else
-                        mensajeExistePieza.value = 'Pieza: ' + diente + ', ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.hallazgo
+                        mensajeExistePieza.value = 'Pieza: ' + diente + ', ya existe en el odontograma, no se puede registrar como Hallazgo: ' + hzgoMatriz[0]?.text
                     result = true;
                     break;
                 }
@@ -142,7 +142,7 @@ export function agregarLista(id, param) {
                 if (param.diente != '') {
                     if (!existeDiente(element.diente, fila)) {
                         item.value.hallazgos ? item.value.hallazgos.push(fila) : item.value.hallazgos = [fila];
-                    }                    
+                    }
                 }
             }
         });
@@ -242,9 +242,9 @@ const leerEnRegistro = id => {
 }
 export const getItemEnRegistro = id => registroodonto.value.find(item => item.id == id)
 
-export const obtenerPacienteOdontograma = (idPaciente,idOdontologo) => new Promise(resolve => {
+export const obtenerPacienteOdontograma = (idPaciente, idOdontologo) => new Promise(resolve => {
     const referencia = collection(firestore, 'odontograma')
-    return getDocs(query(referencia, where("idPaciente", "==", idPaciente), where("userId", "==",idOdontologo), where("tipo", "==", "Diagnóstico")))
+    return getDocs(query(referencia, where("idPaciente", "==", idPaciente), where("userId", "==", idOdontologo), where("tipo", "==", "Diagnóstico")))
         .then(coleccion => resolve(coleccion.docs.map(doc => doc.data())))
 })
 

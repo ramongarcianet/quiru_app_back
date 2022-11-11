@@ -7,11 +7,8 @@ const {push} = useRouter()
 </script>
 <template lang="pug">
 
-//.d-flex.align-content-start.flex-wrap
-    i.fa-solid.fa-circle-info.me-2(style="color: #37DFBB; font-weight:bold; font-size: 1.5em;")
-    h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Ayuda
-.container.mt-3
-    .div(style="background-color: white; border-radius: 2%;").mt-1
+.container
+    div.overflow-x(style="background-color: white; border-radius: 2%;")
         table.table.table-hover
             thead
                 tr

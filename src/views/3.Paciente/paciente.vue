@@ -7,6 +7,10 @@ const maxDocumento = ref(8);
 const guardarOActualizar = () => {
   var alerta = document.getElementById("alerta");
   alerta.style.display = "none"
+  //if(item.value.nombre.trim() == '') {
+    //return false
+
+  //}
   if (item.value.id) return actualizar(item.value);
   else return guardar(item.value);
 };
@@ -41,8 +45,8 @@ watch(
 );
 function incompleto() {
   var conErrores = '';
-  conErrores = conErrores + ((item.value.numeroDocumento?.length < 8) ? ' Número documento incompleto,' : '');
-  conErrores = conErrores + ((item.value.telefono?.length < 9) ? ' Telefono mínimo de 9 dígitos,' : '');
+  conErrores = conErrores + ((item.value.numeroDocumento?.length < 8) ? ' Número de documento incompleto,' : '');
+  conErrores = conErrores + ((item.value.telefono?.length < 9) ? ' el número telefónico debe ser de al menos 9 dígitos,' : '');
   var alerta = document.getElementById("alerta");
   if (alerta != null) {
     if (conErrores.length > 0) {

@@ -21,7 +21,7 @@ leerEnRegistro(route.params.idOdontograma);
 escucharInicializarVoz();
 let temList = [];
 let wakeLock = null;
-const listaDeHallazgos = computed ( ()=> {
+const listaDeHallazgos = computed(() => {
   return _Hallazgos.filter(i => i.tipo == route.params.tipoOdonto).map(({ text, value }) => ({ text, value }))
 })
 onMounted(() => {
@@ -114,7 +114,21 @@ watch(
   }
 )
 function AgregarHallazgo() {
+
+  mensajeExistePieza.value = '';
   if (comboHallazgo.value != '' && comboPieza.value != '') {
+    const index = listaDeDientesCombo?.findIndex(i => i.value == comboPieza.value)
+    if (index < 0) {
+      mensajeExistePieza.value = 'La pieza seleccionada no existe'
+      comboPieza.value = ""
+      return false
+    }
+    const indexHgo = _Hallazgos?.findIndex(i => i.text == comboHallazgo.value)
+    if (indexHgo < 0) {
+      mensajeExistePieza.value = 'El Hallazgo seleccionada no existe'
+      comboHallazgo.value = ""
+      return false
+    }
     const hzgoMatriz = _Hallazgos.filter((elem) => elem.text == comboHallazgo.value);
     if (hzgoMatriz.length > 0) {
       if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.Replicable_Intermedio != "RE") {
@@ -136,6 +150,13 @@ function AgregarHallazgo() {
         })
       };
       if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.EsMultiple == "SI" && hzgoMatriz[0]?.Replicable_Intermedio == "RE") {
+        const indexAlt = listaDeDientesCombo?.findIndex(i => i.value == comboPiezaAl.value)
+        if (indexAlt < 0) {
+          mensajeExistePieza.value = 'La segunda pieza seleccionada no existe'
+          comboPiezaAl.value = ""
+          return false
+        }
+
         const _dienteSelect = listaDeDientesCombo.filter((elem) => elem.value == comboPieza.value);
         let dienteAlterno = listaDeDientesCombo.filter((elem) => elem.value == comboPiezaAl.value);
         let dientesReplicables = listaDeDientesCombo.filter((elem) => elem.grupo == _dienteSelect[0]?.grupo && elem.indice >= _dienteSelect[0]?.indice && elem.indice <= dienteAlterno[0]?.indice);
@@ -152,7 +173,7 @@ function AgregarHallazgo() {
         })
       }
     }
-  }
+  };
   var VistaDiente = document.getElementById("VistaDiente");
   var PiezaAl = document.getElementById("comboPiezaAl");
   var spanPiezaAl = document.getElementById("spanPiezaAl");
@@ -202,6 +223,29 @@ function VisibleDiente() {
   }
 }
 const idRelacionados_ = computed((() => id => getItemEnRegistro(id)?.idRelacionados))
+
+function onKeyDownSoloNumeros(event) {
+  var regex = new RegExp('[0-9]+');
+  const e = event;
+  var key = String.fromCharCode(!e.keyCode ? e.keyCode : e.which);
+  if (!regex.test(key)) {
+    event.preventDefault()
+    return false;
+  }
+  return true;
+}
+
+function onKeyDownSoloLetras(event) {
+  var regex = new RegExp('^[a-zA-Z]+$');
+  const e = event;
+  var key = String.fromCharCode(!e.keyCode ? e.keyCode : e.which);
+  if (!regex.test(key)) {
+    event.preventDefault()
+    return false;
+  }
+  return true;
+}
+
 </script>
 
 <template lang="pug">
@@ -218,15 +262,15 @@ const idRelacionados_ = computed((() => id => getItemEnRegistro(id)?.idRelaciona
     .row
       .col.d-flex(v-if="!isSpeech").inputs-manual
         input#tipoReg(type="hidden", value="0")
-        span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;") Pieza :
-          input.form-control#comboPieza(list='listaDeDientes', name='comboPieza', v-model='item.diente', v-on:change="ListaAlterna(item.diente)")
+        span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;" v-on:keypress='onKeyDownSoloNumeros($event)') Pieza :
+          input.form-control#comboPieza(list='listaDeDientes', placeholder="::Seleccione::", name='comboPieza', v-model='item.diente', v-on:change="ListaAlterna(item.diente)",  :maxlength='2')
           datalist#listaDeDientes
             option(v-for='{ value } of listaDeDientesCombo' :value="value")
           span#spanPiezaAl(style="display: none;") a la pieza :
-          input.form-control#comboPiezaAl(style="display: none;",list='listaDeDientesAl', name='comboPieza', v-model='item.dienteAlterno')
+          input.form-control#comboPiezaAl(style="display: none;",list='listaDeDientesAl', placeholder="::Seleccione::", name='comboPieza', v-model='item.dienteAlterno',  :maxlength='2')
           datalist#listaDeDientesAl
-        span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;") Hallazgo :
-          input.form-control#comboHallazgo(list='listaDeHallazgos', name='comboHallazgo', v-model='Hallazgo', v-on:change="VisibleDiente()")
+        span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;", v-on:keypress='onKeyDownSoloLetras($event)') Hallazgo :
+          input.form-control#comboHallazgo(list='listaDeHallazgos', placeholder="::Seleccione::", name='comboHallazgo', v-model='Hallazgo', v-on:change="VisibleDiente()")
           datalist#listaDeHallazgos
             option(v-for='{ text } of listaDeHallazgos' :value="text")
 
@@ -257,7 +301,7 @@ const idRelacionados_ = computed((() => id => getItemEnRegistro(id)?.idRelaciona
             tr(v-for="item of _hallazgos")
               td {{ item.fila }}
               td {{ item.diente }} {{ item.dienteAlterno !=""? " - " + item.dienteAlterno : ""}}
-              td {{ item.descripcion }} {{ item.ubicacion }}
+              td {{ item.descripcion }} {{ item.ubicacion!='' ? ' - '+ item.ubicacion : item.ubicacion }}
               td {{ item.sigla }}
               td
                 BotonSeguro.mt-0( :onSuccess= '() => borrar(item)' :hidden="itemodontograma?.estado === '1' && !itemodontograma.idRelacionado")
