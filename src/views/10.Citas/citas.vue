@@ -113,7 +113,7 @@ function viewEvents(_id) {
   control.click();
 }
 const options = reactive({
-  longPressDelay: 10,
+  longPressDelay: 200,
   editable: true,
   selectable: true,
   weekends: true,
@@ -132,7 +132,7 @@ const options = reactive({
   contentHeight: 'auto',
   headerToolbar: {
     left: 'prev',
-    center: 'title,dayGridMonth,timeGridWeek,listDay,today',
+    center: 'title,dayGridMonth,timeGridWeek,today',
     right: 'next'
   },
   views: {
@@ -247,8 +247,8 @@ function closeEvent() {
   .col-4.col-md-9
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Lista
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") de citas
-.row 
-  .contenido(style="overflow: auto; width: 95vw")
+.row.desplazable
+  .contenido
     fullcalendar(v-bind:options='options')
 .row
 #btnschedule.button.btn.btn-primary.ms-auto(type='button' hidden="hidden" data-bs-toggle='modal' data-bs-target='#schedule-add') 
@@ -269,13 +269,6 @@ function closeEvent() {
             span#basic-addon1.input-group-text
               i.fa.fa-clock-o
             input.form-control(v-model="cita.timedisplay"  style="font-weight:bold")
-          //.input-group.mb-3
-            span#basic-addon1.input-group-text
-              i.fa.fa-clock-o
-            input#appt.form-control(type='time' v-model="cita.timeStart")
-            span#basic-addon1.input-group-text
-              i.fa.fa-clock-o
-            input#appt.form-control(type='time' v-model="cita.timeEnd")
           .input-group.mb-3
             span#basic-addon1.input-group-text
               input.form-check-input( type='checkbox' id="checkbox" v-model="mostrar" )
@@ -337,10 +330,10 @@ function closeEvent() {
           button.ms-auto.btn.btn-primary(type="submit") Grabar
 </template>
 <style lang="sass">
+
+
 .btn-primary
   color:#fff
-//.btn-outline-primary
-  //color:rgb(55, 223, 187)
 thead
   background-color: rgb(55, 223, 187)
 th
@@ -360,4 +353,46 @@ th
 .fc .fc-toolbar-chunk
   button
     margin:0px 3px
+
+.desplazable
+  display: flex
+  flex-direction: row
+  height: 80vh
+  width: auto
+  overflow: auto
+  
+  scroll-snap-type: x mandatory
+  padding: 10px
+  gap: 12px
+  scroll-padding: 10px
+
+
+  justify-content: start
+  align-items: center
+  padding-bottom: 40px
+  &::-webkit-scrollbar-track 
+    border-radius: 50px 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1) 
+  &::-webkit-scrollbar-thumb 
+    background-color: var(--color-primary) 
+    outline: 1px solid var(--color-primary)
+    border-radius: 50px 
+  &::-webkit-scrollbar 
+    width: 1em
+    height: 10px
+@media (min-width: 800px)
+  .desplazable
+    display: flex
+    flex-direction: row
+    height: auto
+    width: 100%
+    overflow: hidden
+    .item
+      flex: 0 0 50%
+      scroll-snap-align: start
+      scroll-snap-stop: always
+  .inputs-manual
+    display: flex
+    justify-content: center
+    align-items: center
 </style>

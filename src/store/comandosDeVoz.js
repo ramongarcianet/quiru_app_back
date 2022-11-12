@@ -46,16 +46,32 @@ const seleccionMultiple = (num1, num2, hallazgo) => {
     const hzgoMatriz = listaDeHallazgos.filter((elem) =>
         elem.value.toLowerCase().includes(hallazgo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")),
     );
+    const index = listaDeDientesCombo?.findIndex(i => i.value == num1_)
+    if (index < 0) {
+        speak('La pieza seleccionada no existe')
+        return false
+    }
+    const indexHgo = listaDeHallazgos?.findIndex(i => i.value == hzgoMatriz[0]?.value)
+    if (indexHgo < 0) {
+        speak('El Hallazgo seleccionada no existe')
+        return false
+    }
+    const indexAlt = listaDeDientesCombo?.findIndex(i => i.value == num2_)
+    if (indexAlt < 0) {
+        speak('La segunda pieza seleccionada no existe')
+        return false
+    }
+
     if (hzgoMatriz.length > 0) {
         let _hallazgo = hzgoMatriz[0]?.value;
         if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.EsMultiple == "SI" && hzgoMatriz[0]?.Replicable_Intermedio != "RE") {
-            item.value.hallazgos.push({ 
-                diente: num1_, 
-                hallazgo: hzgoMatriz[0]?.value, 
-                ubicacion: "", 
-                sigla: hzgoMatriz[0]?.sigla, 
-                posicion: "", 
-                dienteAlterno: num2_ ,
+            item.value.hallazgos.push({
+                diente: num1_,
+                hallazgo: hzgoMatriz[0]?.value,
+                ubicacion: "",
+                sigla: hzgoMatriz[0]?.sigla,
+                posicion: "",
+                dienteAlterno: num2_,
                 descripcion: hzgoMatriz[0]?.text
             })
         };
@@ -69,13 +85,13 @@ const seleccionMultiple = (num1, num2, hallazgo) => {
                 let dientesReplicables = listaDeDientesCombo.filter((elem) => elem.grupo == _dienteSelect1[0]?.grupo &&
                     elem.indice >= indice1 && elem.indice <= indice2);
                 dientesReplicables.forEach(element => {
-                    item.value.hallazgos.push({ 
-                        diente: element.value, 
-                        hallazgo: hzgoMatriz[0]?.value, 
-                        ubicacion: "", 
-                        sigla: hzgoMatriz[0]?.sigla, 
-                        posicion: "", 
-                        dienteAlterno: "" ,
+                    item.value.hallazgos.push({
+                        diente: element.value,
+                        hallazgo: hzgoMatriz[0]?.value,
+                        ubicacion: "",
+                        sigla: hzgoMatriz[0]?.sigla,
+                        posicion: "",
+                        dienteAlterno: "",
                         descripcion: hzgoMatriz[0]?.text
                     })
                 })
@@ -164,7 +180,7 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
     let mensaje = ''
     const hallazgoCorrecto = hallazgo ? listaDeHallazgos.map(({ value }) => value).indexOf(hallazgo) > -1 : true
     const ubicacionCorrecta = pieza ? listaDeDientes_.find(item => item == pieza) : true
-   
+
     if (!hallazgoCorrecto || !ubicacionCorrecta) return
     let pieza_ = pieza < 10 ? pieza * 10 : pieza
     if (ubicacion) {
@@ -181,7 +197,7 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
     }
     const ubicacionnes = escenarios.Esenarios.filter((elem) => elem.pieza == item.value.diente)[0];
     const hzgoMatriz = listaDeHallazgos.filter((elem) => elem.value == hallazgo);
-    let _posicion="";
+    let _posicion = "";
     if (ubicacionnes != undefined) {
         _posicion = (ubicacionnes.arriba.trim() == ubicacion) ? 'arriba' : _posicion;
         _posicion = (ubicacionnes.centro.trim() == ubicacion) ? 'centro' : _posicion;
@@ -189,32 +205,45 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
         _posicion = (ubicacionnes.izquierda.trim() == ubicacion) ? 'izquierda' : _posicion;
         _posicion = (ubicacionnes.derecha.trim() == ubicacion) ? 'derecha' : _posicion;
     }
-
+    const index = listaDeDientesCombo?.findIndex(i => i.value == pieza_)
+    if (index < 0) {
+        speak('La pieza seleccionada no existe')
+        return false
+    }
+    const indexHgo = listaDeHallazgos?.findIndex(i => i.value == hzgoMatriz[0]?.value)
+    if (indexHgo < 0) {
+        speak('El Hallazgo seleccionada no existe')
+        return false
+    }
     if (hzgoMatriz.length > 0) {
+
         if (hzgoMatriz[0]?.esDirecto == "SI") {
-            item.value.hallazgos.push({ 
-                diente: pieza_, 
-                hallazgo: hzgoMatriz[0]?.value, 
-                ubicacion: "", 
-                sigla: hzgoMatriz[0]?.sigla, 
-                posicion: "", 
-                fechaHallazgo: new Date(), 
+            item.value.hallazgos.push({
+                diente: pieza_,
+                hallazgo: hzgoMatriz[0]?.value,
+                ubicacion: "",
+                sigla: hzgoMatriz[0]?.sigla,
+                posicion: "",
+                fechaHallazgo: new Date(),
                 descripcion: hzgoMatriz[0]?.text,
                 dienteAlterno: "",
             })
         }
-        else
-        {
-            item.value.hallazgos.push({ 
-                diente: pieza_, 
-                hallazgo: hzgoMatriz[0]?.value, 
-                ubicacion: ubicacion, 
-                sigla: hzgoMatriz[0]?.sigla, 
-                posicion: _posicion, 
-                fechaHallazgo: new Date(), 
+        else {
+            if(ubicacion==""){
+                speak('El hallazgo ' + hzgoMatriz[0]?.text +', requiere de la zona o superficie del diente, vuelve a intentarlo')
+                return false
+            }
+            item.value.hallazgos.push({
+                diente: pieza_,
+                hallazgo: hzgoMatriz[0]?.value,
+                ubicacion: ubicacion,
+                sigla: hzgoMatriz[0]?.sigla,
+                posicion: _posicion,
+                fechaHallazgo: new Date(),
                 descripcion: hzgoMatriz[0]?.text,
                 dienteAlterno: "",
-            }) 
+            })
         }
         agregarLista(itemodontograma.value.id, item.value)
     }
@@ -256,7 +285,7 @@ const listaDeFuncionesPorDiente = {}
 const listaDeComandosDeDientes = {}
 
 listaDeDientes_?.map(num => {
-    
+
     listaDeComandosDeDientes[`${num} Corona metálica en buen estado`] = () => actualizarItem('Corona_metalica_good', false, String(num))
     listaDeComandosDeDientes[`${num} metálica en buen estado`] = () => actualizarItem('Corona_metalica_good', false, String(num))
     listaDeComandosDeDientes[`${num} metalica en buen estado`] = () => actualizarItem('Corona_metalica_good', false, String(num))
