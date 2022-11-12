@@ -230,6 +230,10 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
             })
         }
         else {
+            if(ubicacion==""){
+                speak('El hallazgo ' + hzgoMatriz[0]?.text +', requiere de la zona o superficie del diente, vuelve a intentarlo')
+                return false
+            }
             item.value.hallazgos.push({
                 diente: pieza_,
                 hallazgo: hzgoMatriz[0]?.value,
