@@ -105,8 +105,8 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
             label.form-label Correo electrónico*
             input.form-control(placeholder="Correo Electrónico", v-model="item.email", type="email", required,maxlength="30")
           .col.mb-2
-            label.form-label Celular*
-            input.form-control(type="tel", placeholder="Teléfono", v-model="item.telefono",@keypress="isNumber($event)" ,required,minlength="9",maxlength="12")
+            label.form-label Teléfono*
+            input.form-control(type="tel", placeholder="Num. celular", v-model="item.telefono",@keypress="isNumber($event)" ,required,minlength="9",maxlength="12")
       .row
         .col.mb-2
           label.form-label Constancia de informado*

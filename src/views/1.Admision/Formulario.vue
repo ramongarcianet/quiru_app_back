@@ -29,9 +29,9 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
         h5.form-label Familiares
         input.form-control(placeholder="Antecedentes familiares", v-model="item.antecedentesFam")
       .input.mb-2
-        h5.form-label Familiares
+        h5.form-label Personales
         input.form-control(placeholder="Antecedentes personales", v-model="item.antecedentesPer")
-      label.form-label Sígnos vitales
+      label.form-label Signos vitales
       .row.mb-2
         .col.d-flex
           span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") Temperatura:
@@ -58,9 +58,9 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
         .input-group
           input.form-control(placeholder="Motivo de consulta", v-model="item.motivoConsulta")
       .col.mb-2
-        label.form-label Enfermadad actual
+        label.form-label Enfermedad actual
         .input.mb-2
-          input.form-control(placeholder="Enfermadad actual", v-model="item.enfermedadActual")
+          input.form-control(placeholder="Enfermedad actual", v-model="item.enfermedadActual")
         .input.mb-2
           h6.form-label Tiempo de enfermedad
           input.form-control(placeholder="Tiempo de enfermedad", v-model="item.tiempoEnfermedad")
@@ -76,13 +76,13 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
     .col-6
       .row
         .col.mb-2
-          label.form-label Exámen clínico general
+          label.form-label Examen clínico general
           .input.mb-2
-            input.form-control(placeholder="Exámen clínico general", v-model="item.examClinicoGeneral")
+            input.form-control(placeholder="Examen clínico general", v-model="item.examClinicoGeneral")
         .col.mb-2
-          label.form-label Exámen odontoestomatológico
+          label.form-label Examen odontoestomatológico
           .input.mb-2
-            input.form-control(placeholder="Exámen odontoestomatológico", v-model="item.examClinicoOdonto")
+            input.form-control(placeholder="Examen odontoestomatológico", v-model="item.examClinicoOdonto")
     .col-6
       label.form-label Viajes de los últimos años
       .input-group
