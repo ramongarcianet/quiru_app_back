@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { addDoc, collection, onSnapshot, getDoc, doc, updateDoc, deleteDoc, orderBy, query, where } from 'firebase/firestore'
+import { addDoc, collection, onSnapshot, getDoc, doc, updateDoc, deleteDoc, orderBy, query, where, getDocs } from 'firebase/firestore'
 import { firestore } from '../config/firebase'
 import { usuario } from '../store/sesion'
 
@@ -14,17 +14,22 @@ const item = ref({
     estado: true,
     visto: 0
 })
+const revisarDNI = (item) => new Promise((resolve) => {
+    console.log('bb')
+    return getDocs(query(collection(firestore, "paciente"),where("numeroDocumento", "==", item.numeroDocumento))).then(resultado=>{
+            console.log(resultado)
+            if(resultado.empty)resolve(true)
+            else resolve(false)
+            })
+})
 
 const guardar = item => new Promise((resolve) => {
     const referencia = collection(firestore, 'paciente')
+
     return addDoc(referencia, {
         ...item, idOdontologo: usuario.value.uid,
         estado: true, visto: 0
     }).then(doc => resolve(doc.id))
-})
-
-const revisarDNI = (item) => new Promise((resolve) => {
-    const referencia = collection(firestore, 'paciente')
 })
 
 const actualizar = (item) => {
@@ -105,4 +110,5 @@ export {
     updateEstado,
     dialog,
     verEliminados,
+    revisarDNI,
 }

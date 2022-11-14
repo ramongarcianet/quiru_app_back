@@ -7,6 +7,15 @@ import { guardar as guardarOdontograma, registroodonto, obtenerTodos as obtenerO
 const obtenerRegistro = obtenerTodos();
 const confirmar = ref(false);
 let itemseleccionado = {};
+function avisoHistorico() {
+  var modal = document.getElementById('id03');
+  modal.style.display = 'block';
+}
+function cerrarAvisoHistorico() {
+  var modal = document.getElementById('id03');
+  modal.style.display = 'none';
+  guardarOdontograma(route.params.idPaciente, 'Diagnóstico','No')
+}
 function CallConfirm(item) {
   itemseleccionado = item;
   obtenerOdontograma(item.id);
@@ -29,6 +38,8 @@ function EliminarPaciente() {
 function Cancelar() {
   var alerta = document.getElementById("alerta");
   var modal = document.getElementById('id01');
+  var modal3 = document.getElementById('id03');
+  modal3.style.display = "none";
   alerta.style.display = "none";
   modal.style.display = 'none';
 }
@@ -53,16 +64,25 @@ onUnmounted(() => {
       .clearfix
         button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
         button.btn.btn-danger.deletebtn(@click="EliminarPaciente(), mostrar = false") Aceptar
+#id03.modal(style="display:none;")
+  .modal-content.modal-sm
+    .container
+      p(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") ¿Estás seguro? 
+      p Si crea un nuevo diagnóstico, todos los anteriores se considerarán históricos.
+      .clearfix
+        button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
+        button.btn.btn-danger.deletebtn(@click="cerrarAvisoHistorico()") Aceptar
 .row
-  .col-4.col-md-9
+  .col-4.col-md-8
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Ver
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") paciente
     button.btn.btn-outline-primary.border-0.pb-md-0(title='Volver' @click="push({ name: 'pacientes', params: {} })" )
       i.fa-solid.fa-arrow-left-long.fa-xl
-  .col-8.col-md-3
-    .col.ms-5
-      button.ms-5.btn(title='Admision' @click="push({name: 'Admision', params: { idPaciente: item.id }})")
-        i.fa-solid.fa-file-circle-plus.fa-xl(style="color: var(--color-primary)")
+  .col-8.col-md-4
+    .col
+      button.ms-5.btn(title='Admision' @click="push({name: 'Admision', params: { idPaciente: item.id }})") 
+        p.m-0(style="color: #37DFBB; font-family: var(--font-family)") Admisión
+          i.px-1.fa-solid.fa-file-circle-plus.fa-xl(style="color: var(--color-primary)")
       button.btn(title='Editar' @click="push({ name: 'paciente', params: { idPaciente: item.id } })")
         i.fa-solid.fa-pen-to-square.fa-xl(style="color: var(--color-primary)")
       button.btn(title='Eliminar' @click="CallConfirm(item)")
@@ -86,14 +106,14 @@ onUnmounted(() => {
           option(value="DNI") DNI
           option(value="CE") CARNET DE EXTRANJERIA
         input.form-control(v-model="item.numeroDocumento", disabled)
-    .col-12.mx-auto.my-3
-      button.w-100.text-start.btn.btn-light.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="push({name: 'Admision', params: { idPaciente: item.id }})")
-        div
-          strong(style="color: var(--color-primary)") Registrar
-          p.mb-0(style="color:var(--color-primary)") Admisión
-        i.fa-solid.fa-file-circle-plus.fa-xl(style="color:var(--color-primary)")
-    .col-12.mx-auto.my-3
+    .col-12.mx-auto.my-3(v-if="item.visto == 0")
       button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','No')")
+        div
+          strong(style="color: white") Crear Nuevo
+          p.mb-0(style="color: white") Odontograma
+        i.fa-solid.fa-teeth-open.fa-xl
+    .col-12.mx-auto.my-3(v-if="item.visto == 1")
+      button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="avisoHistorico()")
         div
           strong(style="color: white") Crear Nuevo
           p.mb-0(style="color: white") Odontograma
@@ -110,6 +130,9 @@ onUnmounted(() => {
   background-color: rgba(0, 0, 0, 0.6);
 }
 
+#id03 {
+  background-color: rgba(0, 0, 0, 0.6);
+}
 .cancelbtn,
 .deletebtn {
   float: left;

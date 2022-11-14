@@ -2,7 +2,7 @@
 import { onUnmounted, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { item, guardar, actualizar, limpiar, leer, registro, leerEnRegistro } from '../../store/usuario'
-import { isLetter, isNumber } from '../../config/libreria'
+import { esLetra, esNumero } from '../../config/libreria'
 import { cerrarSesion, miUsuario } from '../../store/sesion'
 const maxDocumento = ref(8);
 const route = useRoute()
@@ -67,7 +67,7 @@ Form( :onPromise="() => guardarOActualizar()" :onSuccess='() => back()')
         input.form-control(placeholder="Apellido Materno", v-model="item.apellidoMaterno" ,required,maxlength="30")
   .row
     .col-12.col-md-6
-      label.form-label() Documento*
+      label.form-label() Documento de identidad*
       .input-group
         select.form-select(placeholder="Tipo Documento" v-model="item.tipoDocumento" required,v-on:change="definirMaxLimit(item.tipoDocumento)")
           option(:value="undefined" disabled) SELECCIONE
@@ -98,7 +98,7 @@ Form( :onPromise="() => guardarOActualizar()" :onSuccess='() => back()')
       input.form-control(placeholder="Número Celular" v-model="item.numeroTlf" ,required,:maxlength="9",:minlength="9")
   .row
     .col-12.col-md-6
-      label.form-label() Establecimiento*
+      label.form-label() Tipo de organización*
       .input-group
         select.form-select(placeholder="Tipo", v-model="item.tipoConsultorio", required)
               option(:value="undefined" disabled) SELECCIONAR 

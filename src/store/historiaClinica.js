@@ -88,7 +88,7 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         pdf.text(10, 123, pad(motivoConsulta2, 120, ' '));
                         pdf.setFontSize(14);
                         pdf.setFont(undefined, 'bold')
-                        pdf.text(10, 133, 'ENFERMDAD ACTUAL');
+                        pdf.text(10, 133, 'ENFERMEDAD ACTUAL');
                         pdf.setFont(undefined, 'normal')
                         pdf.setFontSize(12);
                         pdf.text(10, 140, pad(enfermedadActual1, 120, ' '));

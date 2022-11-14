@@ -2,7 +2,7 @@
 import { onUnmounted, ref, watch, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { item, guardar, actualizar, limpiar, leerEnRegistro, obtenerTodos, registro, eliminar } from "../../store/cotizacion";
-import { isLetter, isNumber } from '../../config/libreria'
+import { esLetra, esNumero } from '../../config/libreria'
 import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma } from '../../store/formodontograma';
 import { obtenerTodos as obtenerPrecios, registro as ListPrecios } from "../../store/precios";
 import Cie10 from '../../config/Cie10.json';
