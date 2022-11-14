@@ -2,15 +2,11 @@
 import { onMounted, onUnmounted, watch, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { item, guardar, actualizar, limpiar, leerEnRegistro } from "../../store/paciente";
-import { isLetter, isNumber } from '../../config/libreria'
+import { esLetra, esNumero } from '../../config/libreria'
 const maxDocumento = ref(8);
 const guardarOActualizar = () => {
   var alerta = document.getElementById("alerta");
   alerta.style.display = "none"
-  //if(item.value.nombre.trim() == '') {
-    //return false
-
-  //}
   if (item.value.id) return actualizar(item.value);
   else return guardar(item.value);
 };
@@ -75,15 +71,15 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
     .col-md-6
       label.form-label Nombre del paciente*
       .input-group.mb-2
-        input.form-control(placeholder="Nombre", v-model="item.nombre" ,required,maxlength="30")
-        input.form-control(placeholder="Apellido paterno", v-model="item.apellidoPaterno",type="text" ,required,maxlength="30")
-        input.form-control(placeholder="Apellido materno", v-model="item.apellidoMaterno",type="text", required,maxlength="30")
+        input.form-control(placeholder="Nombre", v-model.trim="item.nombre" @keypress="esLetra($event)" required,maxlength="30")
+        input.form-control(placeholder="Apellido paterno", v-model.trim="item.apellidoPaterno",type="text" ,required,maxlength="30")
+        input.form-control(placeholder="Apellido materno", v-model.trim="item.apellidoMaterno",type="text", required,maxlength="30")
       label.form-label Documento de identidad*
       .input-group.mb-2
         select.form-select( v-model="item.tipoDocumento",v-on:change="definirMaxLimit(item.tipoDocumento)")
           option(value="DNI") DNI
           option(value="CE") CARNET DE EXTRANJERIA
-        input.form-control(placeholder="Número documento", v-model="item.numeroDocumento", @keypress="isNumber($event)",required,:maxlength="maxDocumento",:minlength="maxDocumento")
+        input.form-control(placeholder="Número documento", v-model="item.numeroDocumento", @keypress="esNumero($event)",required,:maxlength="maxDocumento",:minlength="maxDocumento")
       .row.mb-2
         .col
           label.form-label Fecha de nacimiento*
@@ -106,7 +102,7 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
             input.form-control(placeholder="Correo Electrónico", v-model="item.email", type="email", required,maxlength="30")
           .col.mb-2
             label.form-label Teléfono*
-            input.form-control(type="tel", placeholder="Num. celular", v-model="item.telefono",@keypress="isNumber($event)" ,required,minlength="9",maxlength="12")
+            input.form-control(type="tel", placeholder="Num. celular", v-model="item.telefono",@keypress="esNumero($event)" ,required,minlength="9",maxlength="12")
       .row
         .col.mb-2
           label.form-label Constancia de informado*

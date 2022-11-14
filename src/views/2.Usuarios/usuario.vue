@@ -2,7 +2,7 @@
 import { onUnmounted, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { item, guardar, actualizar, limpiar, leer, registro, leerEnRegistro } from '../../store/usuario'
-import { isLetter, isNumber } from '../../config/libreria'
+import { esLetra, esNumero } from '../../config/libreria'
 import { cerrarSesion, miUsuario } from '../../store/sesion'
 const maxDocumento = ref(8);
 const route = useRoute()
