@@ -1,12 +1,14 @@
 <script setup>
 import { onMounted, onUnmounted, watch, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { item, guardar, actualizar, limpiar, leerEnRegistro } from "../../store/paciente";
+import { item, guardar, actualizar, limpiar, leerEnRegistro, revisarDNI } from "../../store/paciente";
 import { esLetra, esNumero } from '../../config/libreria'
 const maxDocumento = ref(8);
 const guardarOActualizar = () => {
   var alerta = document.getElementById("alerta");
   alerta.style.display = "none"
+  //console.log('aa')
+  //revisarDNI()
   if (item.value.id) return actualizar(item.value);
   else return guardar(item.value);
 };
@@ -19,7 +21,6 @@ if (route.params.idPaciente) {
   limpiar()
 }
 onUnmounted(() => {
-  //limpiar()
   if (obtener) obtener();
 })
 onMounted(() => {
@@ -79,7 +80,9 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
         select.form-select( v-model="item.tipoDocumento",v-on:change="definirMaxLimit(item.tipoDocumento)")
           option(value="DNI") DNI
           option(value="CE") CARNET DE EXTRANJERIA
-        input.form-control(placeholder="Número documento", v-model="item.numeroDocumento", @keypress="esNumero($event)",required,:maxlength="maxDocumento",:minlength="maxDocumento")
+        //input.form-control(placeholder="Número documento", v-model="item.numeroDocumento" @keypress="esNumero($event)",required,:maxlength="maxDocumento",:minlength="maxDocumento")
+        input.form-control(v-if='item.id' readonly v-model="item.numeroDocumento" required :maxlength="maxDocumento" :minlength="maxDocumento")
+        input.form-control(v-if='!item.id' placeholder="Número documento", v-model="item.numeroDocumento" @keypress="esNumero($event)",required,:maxlength="maxDocumento",:minlength="maxDocumento")
       .row.mb-2
         .col
           label.form-label Fecha de nacimiento*
