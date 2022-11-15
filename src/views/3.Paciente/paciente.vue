@@ -3,15 +3,21 @@ import { onMounted, onUnmounted, watch, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { item, guardar, actualizar, limpiar, leerEnRegistro, revisarDNI } from "../../store/paciente";
 import { esLetra, esNumero } from '../../config/libreria'
+import { connectStorageEmulator } from "@firebase/storage";
 const maxDocumento = ref(8);
 const guardarOActualizar = () => {
   var alerta = document.getElementById("alerta");
   alerta.style.display = "none"
-  //console.log('aa')
-  //revisarDNI()
-  if (item.value.id) return actualizar(item.value);
-  else return guardar(item.value);
-};
+  return revisarDNI(item.value).then( r => {
+    if(r){
+      if (item.value.id) return actualizar(item.value)
+      else return guardar(item.value)
+    }
+    else{
+      console.log('repetido')
+    }
+  })
+}
 const route = useRoute()
 const { back, push } = useRouter()
 let obtener
