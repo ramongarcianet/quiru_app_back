@@ -48,7 +48,7 @@ watch(
             .col-2(@click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })") {{item.email}}          
             .col-1.dropdown
                 button.ms-auto.btn(title='Odontograma' @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })")
-                    i.fa.fa-solid.fa-tooth
+                    i.fa.fa-solid.fa-user
     .div(v-if="registro.length > 8",style="text-align: center;")
         nav.d-flex.justify-content-center(aria-label='Page navigation example')
             ul.pagination

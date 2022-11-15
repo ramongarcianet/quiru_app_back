@@ -8,6 +8,15 @@ import { printHistoriaClinicaPaciente } from "../../store/historiaClinica";
 const obtenerRegistro = obtenerTodos();
 const confirmar = ref(false);
 let itemseleccionado = {};
+function avisoHistorico() {
+  var modal = document.getElementById('id03');
+  modal.style.display = 'block';
+}
+function cerrarAvisoHistorico() {
+  var modal = document.getElementById('id03');
+  modal.style.display = 'none';
+  guardarOdontograma(route.params.idPaciente, 'Diagnóstico','No')
+}
 function CallConfirm(item) {
   itemseleccionado = item;
   obtenerOdontograma(item.id);
@@ -30,6 +39,8 @@ function EliminarPaciente() {
 function Cancelar() {
   var alerta = document.getElementById("alerta");
   var modal = document.getElementById('id01');
+  var modal3 = document.getElementById('id03');
+  modal3.style.display = "none";
   alerta.style.display = "none";
   modal.style.display = 'none';
 }
@@ -61,8 +72,16 @@ function printHistoriaClinica(idPaciente) {
       .clearfix
         button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
         button.btn.btn-danger.deletebtn(@click="EliminarPaciente(), mostrar = false") Aceptar
+#id03.modal(style="display:none;")
+  .modal-content.modal-sm
+    .container
+      p(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") ¿Estás seguro? 
+      p Si crea un nuevo diagnóstico, todos los anteriores se considerarán históricos.
+      .clearfix
+        button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
+        button.btn.btn-danger.deletebtn(@click="cerrarAvisoHistorico()") Aceptar
 .row
-  .col-4.col-md-9
+  .col-4.col-md-8
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Ver
     button.btn.btn-outline-primary.border-0.pb-md-0(title='Volver' @click="push({ name: 'pacientes', params: {} })" )
       i.fa-solid.fa-arrow-left-long.fa-xl
@@ -138,6 +157,9 @@ function printHistoriaClinica(idPaciente) {
   background-color: rgba(0, 0, 0, 0.6);
 }
 
+#id03 {
+  background-color: rgba(0, 0, 0, 0.6);
+}
 .cancelbtn,
 .deletebtn {
   float: left;

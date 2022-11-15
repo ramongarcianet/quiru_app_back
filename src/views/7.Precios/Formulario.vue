@@ -2,7 +2,7 @@
 import { onUnmounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { item, guardar, actualizar, limpiar, leerEnRegistro, obtenerTodos, registro } from "../../store/precios";
-import {isLetter,isNumber} from '../../config/libreria'
+import {esLetra,esNumero} from '../../config/libreria'
 import tratamientos from '../../config/Cie10.json';
 const maxDinero = ref(5);
 obtenerTodos();
@@ -50,7 +50,7 @@ Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')
           option(v-for="tratamiento of tratamientos.CIE10" :value='tratamiento.HALLAZGO') {{tratamiento.HALLAZGO}}
     label.form-label Precio 
       .col-3
-        input.form-control.mt-3.mb-3(placeholder="precio", v-model="item.precio", @keypress="isNumber($event)",required,:maxlength="maxDinero",)
+        input.form-control.mt-3.mb-3(placeholder="precio", v-model="item.precio", @keypress="esNumero($event)",required,:maxlength="maxDinero",)
 
   .d-flex
     button.btn.btn-primary(@click="push({ name: 'precios', params: {} })") Volver

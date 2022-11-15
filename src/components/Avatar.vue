@@ -2,7 +2,8 @@
 import { onUnmounted, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { item, leer, registro, leerEnRegistro } from '../store/usuario'
-import { miUsuario } from '../store/sesion'
+import { cerrarSesion, miUsuario } from '../store/sesion'
+
 const route = useRoute()
 const { push } = useRouter()
 onMounted(() => {
@@ -17,13 +18,30 @@ watch(
         }
     }
 );
+const adios = ()=> {
+  location.replace('https://quiru.app/')
+  }
 </script>
 
 <template lang="pug">
-.row.perfil
-  .cuadro
-    .avatar(@click="push({name:'usuario'})" style="cursor: pointer")
-      .text {{item.nombre.substr(0,1) + item.apellidoPaterno.substr(0,1)}}
+.dropdown
+  .row.perfil
+    .cuadro
+      .avatar.dropdown-toggle(type='button' data-bs-toggle='dropdown')
+        .text {{item.nombre.substr(0,1) + item.apellidoPaterno.substr(0,1)}}
+      .col.dropdown-menu.dropdown-menu-end.dropdown-menu-lg-start
+        li.d-flex(@click="push({name:'usuario'})" style="cursor: pointer")
+          .row.px-1
+            .col
+              i.fa-solid.fa-gear
+            .col.p-0.m-0
+              p Configuración
+        li.d-flex(@click="cerrarSesion(), adios()" style="cursor: pointer")
+          .row.px-1
+            .col
+              i.fa-solid.fa-right-from-bracket
+            .col.p-0.m-0
+              p Salir
 </template>
 <style lang="sass" scoped>
 .perfil
