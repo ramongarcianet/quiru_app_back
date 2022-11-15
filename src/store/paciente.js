@@ -16,11 +16,22 @@ const item = ref({
 })
 const revisarDNI = (item) => new Promise((resolve) => {
     console.log('bb')
-    return getDocs(query(collection(firestore, "paciente"),where("numeroDocumento", "==", item.numeroDocumento))).then(resultado=>{
+    try{
+        return getDocs(
+        query(
+            collection(firestore, "paciente"),
+            where("numeroDocumento", "==", item.numeroDocumento)
+        )
+    )
+    .then(resultado=>{
             console.log(resultado)
             if(resultado.empty)resolve(true)
             else resolve(false)
-            })
+        })
+    }
+    catch (e) {
+        console.log(e)
+    }
 })
 
 const guardar = item => new Promise((resolve) => {

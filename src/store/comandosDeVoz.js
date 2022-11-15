@@ -445,7 +445,9 @@ listaDeDientes_?.map(num => {
 
     listaDeComandosDeDientes[`${num} Amalgama dental en buen estado`] = () => actualizarItem('amalgama_dental_good', false, String(num))
     listaDeComandosDeDientes[`${num} Amalgama en buen estado`] = () => actualizarItem('amalgama_dental_good', false, String(num))
-    listaDeComandosDeDientes[`${num} Amalgama`] = () => actualizarItem('amalgama_dental_good', false, String(num))
+    //listaDeComandosDeDientes[`${num} Amalgama`] = () => actualizarItem('amalgama_dental_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Amalgama ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('amalgama_dental_good', ubicacion, String(num))
+    
 
     listaDeComandosDeDientes[`${num} Amalgama dental en mal estado`] = () => actualizarItem('amalgama_dental_bad', false, String(num))
     listaDeComandosDeDientes[`${num} Amalgama en mal estado`] = () => actualizarItem('amalgama_dental_bad', false, String(num))
