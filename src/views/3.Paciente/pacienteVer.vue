@@ -99,7 +99,7 @@ function printHistoriaClinica(idPaciente) {
           #navbarScroll.collapse.navbar-collapse
           #navbarDropdownMenuAvatar.d-flex.align-items-center.hidden-arrow
             ul.navbar-nav.me-auto.my-2.my-lg-0.navbar-nav-scroll(style='--bs-scroll-height: 100px;')          
-              li.nav-item.dropdown
+              li.nav-item.dropdown(style="cursor: pointer")
                 a.nav-link(href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false')
                   i.fa.fa-ellipsis-v.fa-xl(aria-hidden='true')
                 ul.dropdown-menu
@@ -136,13 +136,18 @@ function printHistoriaClinica(idPaciente) {
               option(value="DNI") DNI
               option(value="CE") CARNET DE EXTRANJERIA
             input.form-control(v-model="item.numeroDocumento", disabled)
-
-        .col-12.mx-auto.my-3
-          button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','No')")
-            div
-              strong(style="color: white") Crear Nuevo
-              p.mb-0(style="color: white") Odontograma
-            i.fa-solid.fa-teeth-open.fa-xl
+    .col-12.mx-auto.my-3(v-if="item.visto == 0")
+      button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','No')")
+        div
+          strong(style="color: white") Crear Nuevo
+          p.mb-0(style="color: white") Odontograma
+        i.fa-solid.fa-teeth-open.fa-xl
+    .col-12.mx-auto.my-3(v-if="item.visto == 1")
+      button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="avisoHistorico()")
+        div
+          strong(style="color: white") Crear Nuevo
+          p.mb-0(style="color: white") Odontograma
+        i.fa-solid.fa-teeth-open.fa-xl
   .col.col-md-8
     .card
       .card-header
