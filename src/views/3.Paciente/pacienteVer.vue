@@ -4,6 +4,7 @@ import { useRoute, useRouter } from "vue-router";
 import { item, guardar, actualizar, limpiar, leerEnRegistro, obtenerTodos, registro, updateEstado } from "../../store/paciente";
 import RegistroOdontograma from "../5.Odontograma/RegistroOdontograma.vue";
 import { guardar as guardarOdontograma, registroodonto, obtenerTodos as obtenerOdontograma } from "../../store/formodontograma";
+import { printHistoriaClinicaPaciente } from "../../store/historiaClinica";
 const obtenerRegistro = obtenerTodos();
 const confirmar = ref(false);
 let itemseleccionado = {};
@@ -42,9 +43,16 @@ onUnmounted(() => {
   //limpiar()
   if (obtener) obtener();
 })
+const visible = ref(false) 
+
+function printHistoriaClinica(idPaciente) {
+    printHistoriaClinicaPaciente(idPaciente);
+
+}
 </script>
 
 <template lang="pug">
+
 #id01.modal(style="display:none;")
   .modal-content.modal-sm
     .container
@@ -56,56 +64,76 @@ onUnmounted(() => {
 .row
   .col-4.col-md-9
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Ver
-    h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") paciente
     button.btn.btn-outline-primary.border-0.pb-md-0(title='Volver' @click="push({ name: 'pacientes', params: {} })" )
       i.fa-solid.fa-arrow-left-long.fa-xl
   .col-8.col-md-3
-    .col.ms-5
-      button.ms-5.btn(title='Admision' @click="push({name: 'Admision', params: { idPaciente: item.id }})")
-        i.fa-solid.fa-file-circle-plus.fa-xl(style="color: var(--color-primary)")
-      button.btn(title='Editar' @click="push({ name: 'paciente', params: { idPaciente: item.id } })")
-        i.fa-solid.fa-pen-to-square.fa-xl(style="color: var(--color-primary)")
-      button.btn(title='Eliminar' @click="CallConfirm(item)")
-        i.fa-regular.fa-trash-can.fa-xl(style="color: var(--color-primary)")
 #alerta.alert.alert-danger.alert-dismissible(style='display:none')
   strong Cuidado!
     |  Este paciente no se puede eliminar por que tiene un diagnostico/tratamiento registrado
   a.close(@click="Cancelar()" href='#' data-dismiss='alert' aria-label='close') &times;
 .row
   .col.col-md-4
-    
-    Form.mt-md-4
-      label.form-label.mt-2 Nombre del paciente
-      .input-group.pb-md-3
-        input.form-control(v-model="item.nombre", disabled)
-        input.form-control(v-model="item.apellidoPaterno", disabled)
-        input.form-control(v-model="item.apellidoMaterno", disabled)
-      label.form-label Documento de identidad
-      .input-group.mb-md-3
-        select.form-select(v-model="item.tipoDocumento", disabled)
-          option(value="DNI") DNI
-          option(value="CE") CARNET DE EXTRANJERIA
-        input.form-control(v-model="item.numeroDocumento", disabled)
-    .col-12.mx-auto.my-3
-      button.w-100.text-start.btn.btn-light.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="push({name: 'Admision', params: { idPaciente: item.id }})")
-        div
-          strong(style="color: var(--color-primary)") Registrar
-          p.mb-0(style="color:var(--color-primary)") Admisión
-        i.fa-solid.fa-file-circle-plus.fa-xl(style="color:var(--color-primary)")
-    .col-12.mx-auto.my-3
-      button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','No')")
-        div
-          strong(style="color: white") Crear Nuevo
-          p.mb-0(style="color: white") Odontograma
-        i.fa-solid.fa-teeth-open.fa-xl
+    .card
+      .card-header 
+        nav.navbar.navbar-expand-lg.bg-light(style='background-color:transparent !important;')
+          h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Paciente
+          #navbarScroll.collapse.navbar-collapse
+          #navbarDropdownMenuAvatar.d-flex.align-items-center.hidden-arrow
+            ul.navbar-nav.me-auto.my-2.my-lg-0.navbar-nav-scroll(style='--bs-scroll-height: 100px;')          
+              li.nav-item.dropdown
+                a.nav-link(href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false')
+                  i.fa.fa-ellipsis-v.fa-xl(aria-hidden='true')
+                ul.dropdown-menu
+                  li                    
+                    a.dropdown-item(@click="push({name: 'Admision', params: { idPaciente: item.id }})") 
+                      i.fa-solid.fa-file-circle-plus.fa-sm(style="color: var(--color-primary)")
+                      |     Admisión
+                  li
+                  li                    
+                    a.dropdown-item(@click="printHistoriaClinica(item.id)") 
+                      i.fa-solid.fa-briefcase-medical.fa-sm(style="color: var(--color-primary)")
+                      |     Historia clínica
+                  li
+                  li
+                    a.dropdown-item(@click="push({ name: 'paciente', params: { idPaciente: item.id } })") 
+                      i.fa-solid.fa-pen-to-square.fa-sm(style="color: var(--color-primary)")
+                      |     Editar paciente
+                  li
+                  li
+                    a.dropdown-item(@click="CallConfirm(item)") 
+                      i.fa-regular.fa-trash-can.fa-sm(style="color: var(--color-primary)")
+                      |     Eliminar paciente
+
+      .card-body
+        Form.mt-md-4
+          label.form-label.mt-2 Nombre del paciente
+          .input-group.pb-md-3
+            input.form-control(v-model="item.nombre", disabled)
+            input.form-control(v-model="item.apellidoPaterno", disabled)
+            input.form-control(v-model="item.apellidoMaterno", disabled)
+          label.form-label Documento de identidad
+          .input-group.mb-md-3
+            select.form-select(v-model="item.tipoDocumento", disabled)
+              option(value="DNI") DNI
+              option(value="CE") CARNET DE EXTRANJERIA
+            input.form-control(v-model="item.numeroDocumento", disabled)
+
+        .col-12.mx-auto.my-3
+          button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','No')")
+            div
+              strong(style="color: white") Crear Nuevo
+              p.mb-0(style="color: white") Odontograma
+            i.fa-solid.fa-teeth-open.fa-xl
   .col.col-md-8
-    .d-flex.align-content-start.flex-wrap
-      h1(style="color: #37DFBB; font-size: 1em; font-family: var(--font-family)") Lista de
-        h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") odontogramas
-    RegistroOdontograma
+    .card
+      .card-header
+        .d-flex.align-content-start.flex-wrap
+          h1(style="color: #37DFBB; font-size: 1em; font-family: var(--font-family)") Lista de
+            h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") odontogramas
+      .card-body
+        RegistroOdontograma
 </template>
 <style scoped>
-
 #id01 {
   background-color: rgba(0, 0, 0, 0.6);
 }
