@@ -31,7 +31,7 @@ function printHistoriaClinica(idPaciente) {
 .div.mb-5
     .card.mb-1.d-none.d-md-block(style="border-radius: 30px; background-color:#f5f5f5;")
         .row.align-items-center.p-1
-            .col-3.ps-4.d-none.d-md-block Documento
+            .col-3.ps-4.d-none.d-md-block Doc. Identidad
             .col-3.d-none.d-md-block Nombre
             .col-2.d-none.d-md-block Teléfono
             .col-2.d-none.d-md-block Email
