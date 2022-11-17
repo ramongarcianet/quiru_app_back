@@ -3,8 +3,8 @@ import { ref } from "vue"
 const props = defineProps(['onPromise', 'onSuccess', 'onCatch', 'onFunction'])
 const loading = ref(false)
 const submit = ()=> {
-    loading.value = true
     if(loading.value) return
+    loading.value = true
     if( props.onPromise ) props.onPromise()
         .then((e)=>{
             if(props.onSuccess) props.onSuccess()
