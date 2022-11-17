@@ -140,8 +140,13 @@ export function agregarLista(id, param) {
                     descripcion: element.descripcion
                 }
                 if (param.diente != '') {
-                    if (!existeDiente(element.diente, fila)) {
+                    if (existeHallazgo?.Combinado == "SI") {
                         item.value.hallazgos ? item.value.hallazgos.push(fila) : item.value.hallazgos = [fila];
+                    }
+                    else {
+                        if (!existeDiente(element.diente, fila)) {
+                            item.value.hallazgos ? item.value.hallazgos.push(fila) : item.value.hallazgos = [fila];
+                        }
                     }
                 }
             }

@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onUnmounted, watch, computed } from "vue";
+import { onMounted, onUnmounted, watch, computed, ref } from "vue";
 import OdonOficial from "./2.impresion.vue";
 import { limpiarSinVoz } from "../../store/comandosDeVoz";
 import { obtenerTodoDiccionario, obtenerTodoPieza, obtenerTodoHallazgo, obtenerTodoCaries, } from "../../store/odonto";
@@ -7,7 +7,7 @@ import { detenerVoz, activarVoz, isSpeech, escucharInicializarVoz, Hallazgo, ite
 import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarLista, mensajeExistePieza, getItemEnRegistro, validaDoble } from '../../store/formodontograma';
 import { VerFormato } from "../../store/Canvas";
 import { useRoute, useRouter } from "vue-router";
-import { previousPage, nextPage, setList, registro_ as _hallazgos, setListDelete, SetPage } from "../../config/Paginator";
+import { previousPage, nextPage, setList, registro_ as _hallazgosPag, setListDelete, SetPage } from "../../config/Paginator";
 import { listaDeDientesCombo, listaDeHallazgos as _Hallazgos } from '../../config/Parametros';
 import '../../assets/annyang.min'
 
@@ -21,8 +21,9 @@ leerEnRegistro(route.params.idOdontograma);
 escucharInicializarVoz();
 let temList = [];
 let wakeLock = null;
-const listaDeHallazgos = computed(() => {
-  return _Hallazgos.filter(i => i.tipo == route.params.tipoOdonto).map(({ text, value }) => ({ text, value }))
+const _tipoOdonto = ref(route.params.tipoOdonto)
+const _listaDeHallazgos = computed(() => {
+  return _Hallazgos.filter(i => i.tipo == _tipoOdonto.value).map(({ text, value }) => ({ text, value }))
 })
 onMounted(() => {
   paginaOdontograma.value = true;
@@ -43,6 +44,7 @@ onUnmounted(() => {
   paginaOdontograma.value = false;
 
 })
+
 watch(
   () => item.value.diente,
   () => {
@@ -63,10 +65,15 @@ watch(
 )
 watch(
   () => {
+    let mensaje = document.getElementById('mensaje');
     if (mensajeExistePieza.value != '') {
-      let mensaje = document.getElementById('mensaje');
-      mensaje.innerText = mensajeExistePieza.value;
       mensaje.style.display = "block"
+      mensaje.innerHTML = [
+        `<div class="alert alert-danger alert-dismissible fade show" role="alert">`,
+        `   <div>${mensajeExistePieza.value}</div>`,
+        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+        '</div>'
+      ].join('')
     }
   }
 )
@@ -78,15 +85,13 @@ const borrar = ({ diente, hallazgo, ubicacion }) => {
     setListDelete((itemodontograma.value?.hallazgos.length > 0) ? itemodontograma?.value?.hallazgos : []);
   }
 }
-function changeHallazgoDiente() {
+function LimpiarMensaje() {
   let mensaje = document.getElementById('mensaje');
-  mensaje.innerText = '';
   mensaje.style.display = "none"
+  mensaje.innerHTML = [''].join('')
 }
 function limpiarHallazgoDiente() {
-  let mensaje = document.getElementById('mensaje');
-  mensaje.innerText = '';
-  mensaje.style.display = "none"
+  LimpiarMensaje();
   limpiarSinVoz();
 }
 function ordenarAsc(listado, p_key) {
@@ -114,7 +119,7 @@ watch(
   }
 )
 function AgregarHallazgo() {
-
+  LimpiarMensaje();
   mensajeExistePieza.value = '';
   if (comboHallazgo.value != '' && comboPieza.value != '') {
     const index = listaDeDientesCombo?.findIndex(i => i.value == comboPieza.value)
@@ -125,7 +130,7 @@ function AgregarHallazgo() {
     }
     const indexHgo = _Hallazgos?.findIndex(i => i.text == comboHallazgo.value)
     if (indexHgo < 0) {
-      mensajeExistePieza.value = 'El Hallazgo seleccionada no existe'
+      mensajeExistePieza.value = 'El Hallazgo seleccionado no existe'
       comboHallazgo.value = ""
       return false
     }
@@ -139,7 +144,7 @@ function AgregarHallazgo() {
           dienteAlterno: comboPiezaAl.value
         }
         if (!validaDoble(fila)) {
-          mensajeExistePieza.value = 'No se puede registrar este hallazgo para más de 2 dientes'
+          mensajeExistePieza.value = 'Solo puede seleccionar una pieza adyacente para este hallazgo'
           return false
         }
         item.value.hallazgos.push({
@@ -149,6 +154,14 @@ function AgregarHallazgo() {
           descripcion: hzgoMatriz[0]?.text
         })
       };
+      if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.EsMultiple == "SI") {
+        const indexAlt = listaDeDientesCombo?.findIndex(i => i.value == comboPiezaAl.value)
+        if (indexAlt < 0) {
+          mensajeExistePieza.value = 'Debe seleccionar una segunda pieza'
+          comboPiezaAl.value = ""
+          return false
+        }
+      }
       if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.EsMultiple == "SI" && hzgoMatriz[0]?.Replicable_Intermedio == "RE") {
         const indexAlt = listaDeDientesCombo?.findIndex(i => i.value == comboPiezaAl.value)
         if (indexAlt < 0) {
@@ -270,9 +283,9 @@ function onKeyDownSoloLetras(event) {
           input.form-control#comboPiezaAl(style="display: none;",list='listaDeDientesAl', placeholder="::Seleccione::", name='comboPieza', v-model='item.dienteAlterno',  :maxlength='2')
           datalist#listaDeDientesAl
         span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;", v-on:keypress='onKeyDownSoloLetras($event)') Hallazgo :
-          input.form-control#comboHallazgo(list='listaDeHallazgos', placeholder="::Seleccione::", name='comboHallazgo', v-model='Hallazgo', v-on:change="VisibleDiente()")
-          datalist#listaDeHallazgos
-            option(v-for='{ text } of listaDeHallazgos' :value="text")
+          input.form-control#comboHallazgo(list='_listaDeHallazgos', placeholder="::Seleccione::", name='comboHallazgo', v-model='Hallazgo', v-on:change="VisibleDiente()")
+          datalist#_listaDeHallazgos
+            option(v-for='{ text } of _listaDeHallazgos' :value="text")
 
     .row#VistaDiente(style="display: none;")
       .col.d-flex.justify-content-center
@@ -282,7 +295,7 @@ function onKeyDownSoloLetras(event) {
         button.btn.btn-primary.m-1(type="submit", @click="AgregarHallazgo" style="width: 7rem;") Agregar
         button.btn.btn-primary.m-1(type="submit", @click="limpiarHallazgoDiente()" style="width: 7rem;") Limpiar
     .row.mt-2(v-if="!isSpeech")
-    #mensaje.alert.alert-danger(style='display:none')
+    #mensaje
 .col.mt-2.d-flex.justify-content.desplazable
   .col.d-flex.justify-content-center.item
     OdonOficial
@@ -298,7 +311,7 @@ function onKeyDownSoloLetras(event) {
               th Sigla
               th
           tbody
-            tr(v-for="item of _hallazgos")
+            tr(v-for="item of _hallazgosPag")
               td {{ item.fila }}
               td {{ item.diente }} {{ item.dienteAlterno !=""? " - " + item.dienteAlterno : ""}}
               td {{ item.descripcion }} {{ item.ubicacion!='' ? ' - '+ item.ubicacion : item.ubicacion }}

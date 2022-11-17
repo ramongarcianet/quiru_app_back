@@ -433,6 +433,8 @@ function SetFinding(context, iniciar_x, inicio_y, medida, diente, registro) {
     if (registro != undefined) {
         const _dienteSelect = listaDeDientesCombo.filter((elem) => elem.value == diente);
         const Hallazgos = registro.filter((elem) => elem.diente == diente);
+        let SiglaMultiple = ""
+        let Color = ""
         if (Hallazgos.length > 0) {
             Hallazgos.forEach(hzgo => {
                 var seccion = 0;
@@ -457,7 +459,10 @@ function SetFinding(context, iniciar_x, inicio_y, medida, diente, registro) {
                         break;
                 }
                 const hzgoMatriz = listaDeHallazgos.filter((elem) => elem.value == hzgo?.hallazgo);
+
                 if (hzgoMatriz.length > 0) {
+                    SiglaMultiple = hzgoMatriz[0]?.sigla + " " + SiglaMultiple;
+                    Color = hzgoMatriz[0]?.Color
                     if (hzgoMatriz[0]?.esDirecto == "NO") {
                         dibuja_seccion(context, diente, seccion, hzgoMatriz[0]?.Color, medida, iniciar_x, inicio_y)
                     }
@@ -491,14 +496,15 @@ function SetFinding(context, iniciar_x, inicio_y, medida, diente, registro) {
                             }
                         }
                     }
-                    if (_dienteSelect[0]?.grupo == "G1" || _dienteSelect[0]?.grupo == "G2") {
-                        FindingText(context, iniciar_x - 12, inicio_y - 71, hzgoMatriz[0]?.sigla, medida, hzgoMatriz[0]?.Color)
-                    }
-                    if (_dienteSelect[0]?.grupo == "G3" || _dienteSelect[0]?.grupo == "G4") {
-                        FindingText(context, iniciar_x - 12, inicio_y + 55, hzgoMatriz[0]?.sigla, medida, hzgoMatriz[0]?.Color)
-                    }
+
                 }
             });
+        }
+        if (_dienteSelect[0]?.grupo == "G1" || _dienteSelect[0]?.grupo == "G2") {
+            FindingText(context, iniciar_x - 12, inicio_y - 71, SiglaMultiple, medida, Color)
+        }
+        if (_dienteSelect[0]?.grupo == "G3" || _dienteSelect[0]?.grupo == "G4") {
+            FindingText(context, iniciar_x - 12, inicio_y + 55, SiglaMultiple, medida, Color)
         }
     }
 }
