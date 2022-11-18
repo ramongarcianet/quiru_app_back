@@ -53,7 +53,7 @@ const seleccionMultiple = (num1, num2, hallazgo) => {
     }
     const indexHgo = listaDeHallazgos?.findIndex(i => i.value == hzgoMatriz[0]?.value)
     if (indexHgo < 0) {
-        speak('El Hallazgo seleccionada no existe')
+        speak('El Hallazgo seleccionado no existe')
         return false
     }
     const indexAlt = listaDeDientesCombo?.findIndex(i => i.value == num2_)
@@ -212,7 +212,7 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
     }
     const indexHgo = listaDeHallazgos?.findIndex(i => i.value == hzgoMatriz[0]?.value)
     if (indexHgo < 0) {
-        speak('El Hallazgo seleccionada no existe')
+        speak('El Hallazgo seleccionado no existe')
         return false
     }
     if (hzgoMatriz.length > 0) {

@@ -140,13 +140,13 @@ function printHistoriaClinica(idPaciente) {
       button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="guardarOdontograma(route.params.idPaciente, 'Diagnóstico','No')")
         div
           strong(style="color: white") Crear Nuevo
-          p.mb-0(style="color: white") Odontograma
+          p.mb-0(style="color: white") Diagnóstico
         i.fa-solid.fa-teeth-open.fa-xl
     .col-12.mx-auto.my-3(v-if="item.visto == 1")
       button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="avisoHistorico()")
         div
           strong(style="color: white") Crear Nuevo
-          p.mb-0(style="color: white") Odontograma
+          p.mb-0(style="color: white") Diagnóstico
         i.fa-solid.fa-teeth-open.fa-xl
   .col.col-md-8
     .card
