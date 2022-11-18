@@ -461,7 +461,7 @@ function SetFinding(context, iniciar_x, inicio_y, medida, diente, registro) {
                 const hzgoMatriz = listaDeHallazgos.filter((elem) => elem.value == hzgo?.hallazgo);
 
                 if (hzgoMatriz.length > 0) {
-                    SiglaMultiple = hzgoMatriz[0]?.sigla + " " + SiglaMultiple;
+                    SiglaMultiple = hzgoMatriz[0]?.sigla + ((hzgoMatriz[0]?.Combinado== "SI")? " " + SiglaMultiple :"");
                     Color = hzgoMatriz[0]?.Color
                     if (hzgoMatriz[0]?.esDirecto == "NO") {
                         dibuja_seccion(context, diente, seccion, hzgoMatriz[0]?.Color, medida, iniciar_x, inicio_y)
@@ -525,6 +525,7 @@ function FindingText(contexto, inicio_x, inicio_y, sigla, med, color) {
     var ctx = contexto;
     var cua = med / 2;
     ctx.fillStyle = color;
+    ctx.font = 'bold 8pt Calibri';
     ctx.fillText(sigla, cua * 2 + inicio_x, cua * 2 + inicio_y);
     ctx.beginPath();
     ctx.stroke();
