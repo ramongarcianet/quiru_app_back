@@ -185,6 +185,12 @@ function AgregarHallazgo() {
           })
         })
       }
+      if (hzgoMatriz[0]?.esDirecto == "NO") {
+        if (item.value.hallazgos.length==0) {
+          mensajeExistePieza.value = 'El hallazgo ' + hzgoMatriz[0]?.text + ', requiere seleccionar la zona o superficie del diente, vuelve a intentarlo'
+          return false
+        }
+      }
     }
   };
   var VistaDiente = document.getElementById("VistaDiente");
