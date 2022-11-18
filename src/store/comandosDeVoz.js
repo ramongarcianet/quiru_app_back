@@ -53,7 +53,7 @@ const seleccionMultiple = (num1, num2, hallazgo) => {
     }
     const indexHgo = listaDeHallazgos?.findIndex(i => i.value == hzgoMatriz[0]?.value)
     if (indexHgo < 0) {
-        speak('El Hallazgo seleccionada no existe')
+        speak('El Hallazgo seleccionado no existe')
         return false
     }
     const indexAlt = listaDeDientesCombo?.findIndex(i => i.value == num2_)
@@ -212,7 +212,7 @@ export const actualizarItem = (hallazgo, ubicacion, pieza, hablar = true) => {
     }
     const indexHgo = listaDeHallazgos?.findIndex(i => i.value == hzgoMatriz[0]?.value)
     if (indexHgo < 0) {
-        speak('El Hallazgo seleccionada no existe')
+        speak('El Hallazgo seleccionado no existe')
         return false
     }
     if (hzgoMatriz.length > 0) {
@@ -445,7 +445,9 @@ listaDeDientes_?.map(num => {
 
     listaDeComandosDeDientes[`${num} Amalgama dental en buen estado`] = () => actualizarItem('amalgama_dental_good', false, String(num))
     listaDeComandosDeDientes[`${num} Amalgama en buen estado`] = () => actualizarItem('amalgama_dental_good', false, String(num))
-    listaDeComandosDeDientes[`${num} Amalgama`] = () => actualizarItem('amalgama_dental_good', false, String(num))
+    //listaDeComandosDeDientes[`${num} Amalgama`] = () => actualizarItem('amalgama_dental_good', false, String(num))
+    listaDeComandosDeDientes[`${num} Amalgama ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('amalgama_dental_good', ubicacion, String(num))
+    
 
     listaDeComandosDeDientes[`${num} Amalgama dental en mal estado`] = () => actualizarItem('amalgama_dental_bad', false, String(num))
     listaDeComandosDeDientes[`${num} Amalgama en mal estado`] = () => actualizarItem('amalgama_dental_bad', false, String(num))

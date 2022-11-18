@@ -16,7 +16,7 @@ import { obtenerTodos, registro, cita, guardarCita, actualizar, _event, eliminar
 import { obtenerTodos as obtenerTodosPaciente, leer as leerPaciente, registro as RegPaciente, item as itemPaciente, leerDniRegistro, guardar as guardarPaciente, leerEnRegistro as leerEnRegistroPac } from "../../store/paciente";
 import { item as ItemUsuario, leer as LeerUser, registro as RegistroUsuario, leerEnRegistro, item } from '../../store/usuario'
 import { miUsuario } from '../../store/sesion'
-import { isLetter, isNumber } from '../../config/libreria'
+import { esLetra, esNumero } from '../../config/libreria'
 const maxDocumento = ref(9);
 const { push, back } = useRouter();
 const route = useRoute()
@@ -276,7 +276,7 @@ function closeEvent() {
           .input-group.mb-3(v-if="mostrar == false")
             span#basic-addon1.input-group-text
               i.fa-solid.fa-magnifying-glass
-            input.form-control(placeholder='Buscar paciente por documento de identidad' required :maxlength="maxDocumento" @keypress="isNumber($event)" v-model="itemPaciente.numeroDocumento" v-on:focusout="GetPaciente($event)")
+            input.form-control(placeholder='Buscar paciente por documento de identidad' required :maxlength="maxDocumento" @keypress="esNumero($event)" v-model="itemPaciente.numeroDocumento" v-on:focusout="GetPaciente($event)")
           .input-group.mb-3(v-if="mostrar == false")
             span#basic-addon1.input-group-text
               i.fa.fa-id-card
@@ -295,12 +295,12 @@ function closeEvent() {
               select.form-select(v-model="itemPaciente.tipoDocumento")
                 option(value="DNI" selected) DNI
                 option(value="CE") CARNET DE EXTRANJERIA
-              input.form-control(placeholder='DNI/CE. Paciente', required, :maxlength="maxDocumento" @keypress="isNumber($event)" v-model="itemPaciente.numeroDocumento")
+              input.form-control(placeholder='DNI/CE. Paciente', required, :maxlength="maxDocumento" @keypress="esNumero($event)" v-model="itemPaciente.numeroDocumento")
             .input-group.mb-3
               span#basic-addon1.input-group-text
                 i.fa.fa-at
               input.form-control(placeholder='Email', type="email" required, v-model="itemPaciente.email")
-              input.form-control(placeholder='Celular' required @keypress="isNumber($event)" minlength="9" maxlength="12" v-model="itemPaciente.telefono")
+              input.form-control(placeholder='Celular' required @keypress="esNumero($event)" minlength="9" maxlength="12" v-model="itemPaciente.telefono")
           .input-group.mb-3(hidden="true")
             span#basic-addon1.input-group-text
               i.fa.fa-user-md
@@ -325,7 +325,7 @@ function closeEvent() {
             span#basic-addon1.input-group-text(style="background-color: #616161")
               input#html(type='radio' name='Gris' value='#616161' v-model="cita.backgroundColor")
         .modal-footer
-          button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cancelar
+          button.btn.btn-info(v-if="cita.id" type='button' data-bs-dismiss='modal' @click="push({ name: 'pacienteVer', params: { idPaciente: itemPaciente.id } })") Atender
           button.ms-auto.btn.btn-danger(v-if="cita.id" type='button', data-bs-dismiss='modal' @click="deleteEvent(cita.id)") Borrar
           button.ms-auto.btn.btn-primary(type="submit") Grabar
 </template>

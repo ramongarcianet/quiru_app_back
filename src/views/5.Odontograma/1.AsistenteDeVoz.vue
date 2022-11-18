@@ -80,7 +80,7 @@ function printOdontograma() {
         pdf.setFont(undefined, 'normal')
         pdf.setFontSize(12);
         pdf.text(10, 30, pad('NOMBRE : ' + itemPas.value.nombre, 80, ' ') + pad('APELLIDOS : ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno, 90, ' '));
-        pdf.text(10, 37, pad('FECHA DE NACIMIENTO : ' + itemPas.value.fechaNacimiento, 80, ' ') + pad('TIM/DNI : ' + itemPas.value.numeroDocumento, 90, ' '));
+        pdf.text(10, 37, pad('FECH. NAC: ' + itemPas.value.fechaNacimiento, 80, ' ') + pad('TIM/DNI : ' + itemPas.value.numeroDocumento, 90, ' '));
         pdf.text(10, 44, pad('DIRECCIÓN : ' + itemPas.value.Direccion, 180, ' '));
         pdf.setFontSize(14);
         pdf.setFont(undefined, 'bold')
@@ -91,7 +91,7 @@ function printOdontograma() {
         pdf.insertPage();
         pdf.setFontSize(14);
         pdf.setFont(undefined, 'bold')
-        pdf.text(10, 30, 'DIAGNOSTICO');
+        pdf.text(10, 30, 'DIAGNÓSTICO');
         pdf.setFont(undefined, 'normal')
         pdf.setFontSize(12);
         Cie10.CIE10.forEach(element => {
@@ -110,7 +110,7 @@ function printOdontograma() {
           }
 
         });
-        pdf.setFontSize(14);
+        /*pdf.setFontSize(14);
         pdf.setFont(undefined, 'bold')
         pdf.text(10, posis + 2, 'TRATAMIENTO');
         pdf.setFont(undefined, 'normal')
@@ -142,7 +142,7 @@ function printOdontograma() {
         pdf.text(10, posis1 + 16, 'OBSERVACIONES');
         pdf.setFont(undefined, 'normal')
         pdf.setFontSize(12);
-        pdf.text(10, posis1 + 23, pad(itemodontograma.value.observaciones, 180, ' '));
+        pdf.text(10, posis1 + 23, pad(itemodontograma.value.observaciones, 180, ' '));*/
         var pdfName = itemPas.value.numeroDocumento
         pdf.save(pdfName + '.pdf');
       }

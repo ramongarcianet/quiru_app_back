@@ -18,7 +18,7 @@ const getFile = e => e.target.files.length > 0
 
 </script>
 <template lang="pug">
-input.form-control( v-if="!file || file.length != 0" type='file' @change='getFile'  multiple v-bind='$attrs')
+input.form-control( v-if="!file || file.length != 0" type='file' accept="image/*,.pdf" @change='getFile'  multiple v-bind='$attrs')
 template(v-else)
     Img.m-1( :src='filePreview' style='width: 90%; ' )
         ion-icon( name="close-outline" size='large' @click='emit("update:modelValue")' )
