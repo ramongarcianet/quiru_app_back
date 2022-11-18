@@ -325,7 +325,7 @@ function closeEvent() {
             span#basic-addon1.input-group-text(style="background-color: #616161")
               input#html(type='radio' name='Gris' value='#616161' v-model="cita.backgroundColor")
         .modal-footer
-          button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cancelar
+          button.btn.btn-info(v-if="cita.id" type='button' data-bs-dismiss='modal' @click="push({ name: 'pacienteVer', params: { idPaciente: itemPaciente.id } })") Atender
           button.ms-auto.btn.btn-danger(v-if="cita.id" type='button', data-bs-dismiss='modal' @click="deleteEvent(cita.id)") Borrar
           button.ms-auto.btn.btn-primary(type="submit") Grabar
 </template>
