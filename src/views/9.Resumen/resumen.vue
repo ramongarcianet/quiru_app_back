@@ -5,8 +5,8 @@ import instrucciones from '../8.Ayuda/instrucciones.vue';
 <template lang="pug">
 .row
   .col-10
-    h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Prueba
-    h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Diciendo esto
+    h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Nuestros
+    h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Comandos de voz
   .col-2
 instrucciones
 
