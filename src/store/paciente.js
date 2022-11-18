@@ -15,7 +15,6 @@ const item = ref({
     visto: 0
 })
 const revisarDNI = (item) => new Promise((resolve) => {
-    console.log('bb')
     try{
         return getDocs(
         query(
@@ -24,7 +23,6 @@ const revisarDNI = (item) => new Promise((resolve) => {
         )
     )
     .then(resultado=>{
-            console.log(resultado)
             if(resultado.empty)resolve(true)
             else resolve(false)
         })
