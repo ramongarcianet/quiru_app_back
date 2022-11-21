@@ -21,6 +21,9 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
       label.form-label Ocupación
       .input.mb-2
         input.form-control(placeholder="Ocupación", v-model="item.ocupacion")
+      label.form-label Procedencia
+      .input.mb-2
+        input.form-control(placeholder="Procedencia", v-model="item.procedencia")
       label.form-label Número de emergencia
       .input.mb-2
         input.form-control(placeholder="Número de emergencía", v-model="item.numeroEmergencia")
@@ -32,27 +35,24 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
         h5.form-label Personales
         input.form-control(placeholder="Antecedentes personales", v-model="item.antecedentesPer")
       label.form-label Signos vitales
-      .row.mb-2
-        .col.d-flex
+      .input.mb-2
+        .col.mb-1
           span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") Temperatura:
             input.form-control(placeholder="Temperatura", v-model="item.temperatura" maxlength="2")
-        .col.d-flex
+        .col.mb-1
           span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") Pulso:
             input.form-control(placeholder="Pulso", v-model="item.pulso" maxlength="3")
-      .row
-        .col.d-flex
+        .col.mb-1
           span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") P.A:
             input.form-control(placeholder="P.A.", v-model="item.pa" maxlength="3")
-        .col.d-flex
+        .col.mb-1
           span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") F.C:
             input.form-control(placeholder="F.C.", v-model="item.fc" maxlength="3")
-        .col.d-flex
+        .col.mb-1
           span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") F.R:
             input.form-control(placeholder="F.Resp.", v-model="item.fResp" maxlength="2")
     .col-md-6
-      label.form-label Procedencia
-      .input.mb-2
-        input.form-control(placeholder="Procedencia", v-model="item.procedencia")
+      
       .col.mb-2
         label.form-label Motivo de consulta
         .input-group
@@ -73,17 +73,14 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
         .input.mb-2
           h6.form-label Funciones biológicas
           input.form-control(placeholder="Funciones biológicas", v-model="item.funcionesBio")
-    .col-6
-      .row
-        .col.mb-2
-          label.form-label Examen clínico general
-          .input.mb-2
-            input.form-control(placeholder="Examen clínico general", v-model="item.examClinicoGeneral")
-        .col.mb-2
-          label.form-label Examen odontoestomatológico
-          .input.mb-2
-            input.form-control(placeholder="Examen odontoestomatológico", v-model="item.examClinicoOdonto")
-    .col-6
+      .col.mb-2
+        label.form-label Examen clínico general
+        .input.mb-2
+          input.form-control(placeholder="Examen clínico general", v-model="item.examClinicoGeneral")
+      .col.mb-2
+        label.form-label Examen odontoestomatológico
+        .input.mb-2
+          input.form-control(placeholder="Examen odontoestomatológico", v-model="item.examClinicoOdonto")
       label.form-label Viajes de los últimos años
       .input-group
         input.form-control(placeholder="Viajes de los últimos años", v-model="item.viajesUltimos")

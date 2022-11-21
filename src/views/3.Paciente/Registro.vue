@@ -20,8 +20,10 @@ watch(
 
 <template lang="pug">
 .row
-    .col-5
-    .col-7
+    .col-5.d-none.d-md-block
+    .col-7.d-none.d-md-block
+        input#SearchInput.form-control.mb-2.ms-auto(v-on:keyup='search(registro)', placeholder="Buscar")
+    .d-block.d-md-none
         input#SearchInput.form-control.mb-2.ms-auto(v-on:keyup='search(registro)', placeholder="Buscar")
 .div.mb-5
     .card.mb-1.d-none.d-md-block(style="border-radius: 30px; background-color:#f5f5f5;")

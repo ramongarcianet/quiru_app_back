@@ -81,9 +81,7 @@ template(v-for="item of registroodonto" :key="item.id" :item="item" )
       //--------------------------------------------------------------------------------------------------------------------------------------------- Alternativa
       .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: obtenerIdTratamiento(item.id),idPaciente: item.idPaciente, tipoOdonto: obtenerTipo(item.id)} })") {{(obtenerTipo(item.id) == "Diagnóstico" )? "" : "Tratamiento"}} 
       //------------------------------------------------------------------------------------------------------------------------------------ Muela
-      .col-2.col-md-1(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") 
-        button.ms-auto.btn
-          i.fa.fa-solid.fa-tooth
+      .col-2.col-md-1
       .col-2.col-md-1(v-if="item.estado==='2'")
         button.btn(title='Eliminar' @click="CallConfirm2(item)")
           i.fa.fa-trash-o
