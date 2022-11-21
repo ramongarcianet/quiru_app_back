@@ -71,7 +71,7 @@ else
     a.close(@click="Cancelar()" href='#' data-dismiss='alert') &times;
 
 template(v-for="item of registroodonto" :key="item.id" :item="item" )
-  .card.mb-2.p-3(v-if="item.tipo === 'Diagnóstico'" style="border-radius: 40px" :style='item.estado=== "2" ? "border-color: var(--color-primary)":"border-color: #8c8c8c"' )
+  .card.mb-2.p-3(v-if="item.tipo === 'Diagnóstico'" style="border-radius: 40px; border-width: 2px" :style='item.estado=== "2" ? "border-color: var(--color-primary)":"border-color: #c2c3c4"' )
     .row(style="cursor: pointer" )
       .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") {{item.fechaRegistro.toDate().toISOString().slice(0, 10)}}
       //--------------------------------------------------------------------------------------------------------------------------------------------- Pc

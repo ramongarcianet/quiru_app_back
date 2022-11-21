@@ -137,11 +137,11 @@ const options = reactive({
   },
   views: {
     dayGridMonth: {
-      titleFormat: { month: 'long' }
+      titleFormat: { month: 'short' }
     },
     timeGridWeek: {
       titleFormat: {
-        month: 'long'
+        month: 'short'
       }
     },
     listDay: {
