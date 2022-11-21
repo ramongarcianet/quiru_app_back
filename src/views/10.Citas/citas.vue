@@ -248,7 +248,7 @@ function closeEvent() {
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Lista
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") de citas
 .row.desplazable
-  .contenido
+  .contenido( style="background-color: #fff")
     fullcalendar(v-bind:options='options')
 .row
 #btnschedule.button.btn.btn-primary.ms-auto(type='button' hidden="hidden" data-bs-toggle='modal' data-bs-target='#schedule-add') 
