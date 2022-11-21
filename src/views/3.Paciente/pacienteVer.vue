@@ -82,7 +82,6 @@ function printHistoriaClinica(idPaciente) {
         button.btn.btn-danger.deletebtn(@click="cerrarAvisoHistorico()") Aceptar
 .row
   .col-4.col-md-8
-    h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Ver
     button.btn.btn-outline-primary.border-0.pb-md-0(title='Volver' @click="push({ name: 'pacientes', params: {} })" )
       i.fa-solid.fa-arrow-left-long.fa-xl
   .col-8.col-md-3
@@ -93,36 +92,35 @@ function printHistoriaClinica(idPaciente) {
 .row
   .col.col-md-4
     .card
-      .card-header 
-        nav.navbar.navbar-expand-lg.bg-light(style='background-color:transparent !important;')
-          h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Paciente
-          #navbarScroll.collapse.navbar-collapse
-          #navbarDropdownMenuAvatar.d-flex.align-items-center.hidden-arrow
-            ul.navbar-nav.me-auto.my-2.my-lg-0.navbar-nav-scroll(style='--bs-scroll-height: 100px;')          
-              li.nav-item.dropdown(style="cursor: pointer")
-                a.nav-link(href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false')
-                  i.fa.fa-ellipsis-v.fa-xl(aria-hidden='true')
-                ul.dropdown-menu
-                  li                    
-                    a.dropdown-item(@click="push({name: 'Admision', params: { idPaciente: item.id }})") 
-                      i.fa-solid.fa-file-circle-plus.fa-sm(style="color: var(--color-primary)")
-                      |     Admisión
-                  li
-                  li                    
-                    a.dropdown-item(@click="printHistoriaClinica(item.id)") 
-                      i.fa-solid.fa-briefcase-medical.fa-sm(style="color: var(--color-primary)")
-                      |     Historia clínica
-                  li
-                  li
-                    a.dropdown-item(@click="push({ name: 'paciente', params: { idPaciente: item.id } })") 
-                      i.fa-solid.fa-pen-to-square.fa-sm(style="color: var(--color-primary)")
-                      |     Editar paciente
-                  li
-                  li
-                    a.dropdown-item(@click="CallConfirm(item)") 
-                      i.fa-regular.fa-trash-can.fa-sm(style="color: var(--color-primary)")
-                      |     Eliminar paciente
-
+      .card-header
+        .row
+          .col-6
+            nav.navbar.navbar-expand-lg.bg-light(style='background-color:transparent !important;')
+              h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Paciente
+          .col-6
+            .dropdown.d-flex.justify-content-end.mt-1
+              a.btn.btn-primary(href='#' role='button' data-bs-toggle='dropdown' style="background-color: #00000008")
+                i.fa.fa-ellipsis-v.fa-xl(style="color: var(--color-primary)")
+              ul.dropdown-menu(style="cursor: pointer")
+                li                    
+                  a.dropdown-item(@click="push({name: 'Admision', params: { idPaciente: item.id }})") 
+                    i.fa-solid.fa-file-circle-plus.fa-sm(style="color: var(--color-primary)")
+                    |     Admisión
+                li
+                li                    
+                  a.dropdown-item(@click="printHistoriaClinica(item.id)") 
+                    i.fa-solid.fa-briefcase-medical.fa-sm(style="color: var(--color-primary)")
+                    |     Imprimir historia
+                li
+                li
+                  a.dropdown-item(@click="push({ name: 'paciente', params: { idPaciente: item.id } })") 
+                    i.fa-solid.fa-pen-to-square.fa-sm(style="color: var(--color-primary)")
+                    |     Editar paciente
+                li
+                li
+                  a.dropdown-item(@click="CallConfirm(item)") 
+                    i.fa-regular.fa-trash-can.fa-sm(style="color: var(--color-primary)")
+                    |     Eliminar paciente  
       .card-body
         Form.mt-md-4
           label.form-label.mt-2 Nombre del paciente
