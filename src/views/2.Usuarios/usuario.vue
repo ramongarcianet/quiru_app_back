@@ -54,7 +54,7 @@ const mayoriaEdad = () => {
     button.btn.btn-outline-primary.border-0(@click="back()" )
       i.fa-solid.fa-arrow-left-long.fa-xl
   .col-2
-    button.btn.btn-outline-primary.border-0.pb-md-0(title='Cerrar Sesion' @click="cerrarSesion(), adios()")
+    //button.btn.btn-outline-primary.border-0.pb-md-0(title='Cerrar Sesion' @click="cerrarSesion(), adios()")
       i.fa-solid.fa-power-off( style="color: var(--color-primary); font-size: 35px" )
 
 Form( :onPromise="() => guardarOActualizar()" :onSuccess='() => back()')

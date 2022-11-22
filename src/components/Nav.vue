@@ -7,7 +7,7 @@ const routeName = computed(()=>route.name)
 const rutas = [
     {name:'Citas', icono:'fa-regular fa-calendar-days', ruta:'citas'},
     {name:'Pacientes', icono:'fa-regular fa-user', ruta:'pacientes'},
-    {name:'Ayuda', icono:'fa-solid fa-question', ruta:'resumen'},
+    //{name:'Ayuda', icono:'fa-solid fa-question', ruta:'resumen'},
     
     //{name:'Configuración', icono:'settings-outline', ruta:'usuario'},
 
@@ -33,7 +33,7 @@ const rutas = [
   left: 0
   right: 0
   margin: auto
-  width: 280px
+  width: 240px
   height: 70px
   background: #ffffff
   position: fixed
@@ -44,7 +44,7 @@ const rutas = [
   box-shadow: 3px 3px 20px 0 rgba(0,0,0,0.025)
   ul
     display: flex
-    width: 210px
+    width: 140px
     padding: 0
     margin: 0
     li

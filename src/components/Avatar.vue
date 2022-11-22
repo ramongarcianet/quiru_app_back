@@ -27,21 +27,19 @@ const adios = ()=> {
 .dropdown
   .row.perfil
     .cuadro
-      .avatar.dropdown-toggle(type='button' data-bs-toggle='dropdown')
+      .avatar(type='button' data-bs-toggle='dropdown')
         .text {{item.nombre.substr(0,1) + item.apellidoPaterno.substr(0,1)}}
       .col.dropdown-menu.dropdown-menu-end.dropdown-menu-lg-start
         li.d-flex(@click="push({name:'usuario'})" style="cursor: pointer")
-          .row.px-1
-            .col
-              i.fa-solid.fa-gear
-            .col.p-0.m-0
-              p Configuración
-        li.d-flex(@click="cerrarSesion(), adios()" style="cursor: pointer")
-          .row.px-1
-            .col
-              i.fa-solid.fa-right-from-bracket
-            .col.p-0.m-0
-              p Salir
+        li                    
+          a.dropdown-item(@click="push({name:'usuario'})" style="cursor: pointer") 
+            i.fa-solid.fa-gear.fa-sm(style="color: var(--color-primary)")
+            |     Configuración
+        li
+        li                    
+          a.dropdown-item(@click="cerrarSesion(), adios()" style="cursor: pointer") 
+            i.fa-solid.fa-right-from-bracket.fa-sm(style="color: var(--color-primary)")
+            |     Salir
 </template>
 <style lang="sass" scoped>
 .perfil
