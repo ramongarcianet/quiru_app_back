@@ -37,6 +37,9 @@ watch(
 const adios = ()=> {
   location.replace('https://quiru.app/')
   }
+const refresh = ()=> {
+  location.reload()
+}
 
 const mayoriaEdad = () => {
   let currentDay = new Date().getTime()
@@ -51,7 +54,7 @@ const mayoriaEdad = () => {
   .col-10
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Vista de
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Configuración
-    button.btn.btn-outline-primary.border-0(@click="back()" )
+    button.btn.btn-outline-primary.border-0(@click="refresh()" )
       i.fa-solid.fa-arrow-left-long.fa-xl
   .col-2
     //button.btn.btn-outline-primary.border-0.pb-md-0(title='Cerrar Sesion' @click="cerrarSesion(), adios()")
