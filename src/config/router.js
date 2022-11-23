@@ -5,12 +5,12 @@ const routes = [
       path: '/',
       component: ()=>import('../views/6. Sesion/index.vue'),
       children: [
-        {
-            path:'',
+        /*{
+            path:'la',
             name: 'landing',
             component: ()=>import('../views/6. Sesion/3. Landing.vue'),
 
-        },
+        },*/
         {
             path:':codigo?',
             name: 'landingConCodigo',
@@ -28,7 +28,7 @@ const routes = [
             component: ()=>import('../views/6. Sesion/4. Inscripcion.vue'),
         },
         {
-            path: 'sesion',
+            path: '',
             component: ()=>import('../views/6. Sesion/1. Sesion.vue'),
             children: [
                 {

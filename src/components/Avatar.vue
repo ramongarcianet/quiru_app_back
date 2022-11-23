@@ -1,5 +1,5 @@
 <script setup>
-import { onUnmounted, onMounted, ref, watch } from 'vue'
+import { onUnmounted, onMounted, ref, watch, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { item, leer, registro, leerEnRegistro } from '../store/usuario'
 import { cerrarSesion, miUsuario } from '../store/sesion'
@@ -18,6 +18,7 @@ watch(
         }
     }
 );
+const siglas = computed ( ()=> item.nombre.charAt(0) + item.apellido.charAt(0)||"")
 const adios = ()=> {
   location.replace('https://quiru.app/')
   }

@@ -137,11 +137,11 @@ const options = reactive({
   },
   views: {
     dayGridMonth: {
-      titleFormat: { month: 'long' }
+      titleFormat: { month: 'short' }
     },
     timeGridWeek: {
       titleFormat: {
-        month: 'long'
+        month: 'short'
       }
     },
     listDay: {
@@ -268,7 +268,7 @@ function closeEvent() {
           .input-group.mb-3
             span#basic-addon1.input-group-text
               i.fa.fa-clock-o
-            input.form-control(v-model="cita.timedisplay"  style="font-weight:bold")
+            input.form-control(v-model="cita.timedisplay" readonly style="font-weight:bold")
           .input-group.mb-3
             span#basic-addon1.input-group-text
               input.form-check-input( type='checkbox' id="checkbox" v-model="mostrar" )
@@ -318,12 +318,6 @@ function closeEvent() {
               input#html(type='radio' name='Rojo' value='#d50000' v-model="cita.backgroundColor")
             span#basic-addon1.input-group-text(style="background-color: #f6bf26")
               input#html(type='radio' name='Amarillo' value='#f6bf26' v-model="cita.backgroundColor")
-            span#basic-addon1.input-group-text(style="background-color: #933aab")
-              input#html(type='radio' name='Morado' value='#933aab' v-model="cita.backgroundColor")
-            span#basic-addon1.input-group-text(style="background-color: #e67c73")
-              input#html(type='radio' name='Rosado' value='#e67c73' v-model="cita.backgroundColor")
-            span#basic-addon1.input-group-text(style="background-color: #616161")
-              input#html(type='radio' name='Gris' value='#616161' v-model="cita.backgroundColor")
         .modal-footer
           button.btn.btn-info(v-if="cita.id" type='button' data-bs-dismiss='modal' @click="push({ name: 'pacienteVer', params: { idPaciente: itemPaciente.id } })") Atender
           button.ms-auto.btn.btn-danger(v-if="cita.id" type='button', data-bs-dismiss='modal' @click="deleteEvent(cita.id)") Borrar

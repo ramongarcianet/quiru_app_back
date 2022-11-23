@@ -153,6 +153,7 @@ function formatUbicacion(ubicacion) {
 
                 case 'cristal': { respuesta = 'distal'; break }
                 case 'Messi': { respuesta = 'mesial'; break }
+                case 'Messi al': { respuesta = 'mesial'; break }
                 case 'inicial': { respuesta = 'incisal'; break }
             }
         }
@@ -322,8 +323,8 @@ listaDeDientes_?.map(num => {
     listaDeComandosDeDientes[`${num} Opacidad del esmalte`] = () => actualizarItem('opacidad', false, String(num))
     listaDeComandosDeDientes[`${num} opacidad`] = () => actualizarItem('opacidad', false, String(num))
 
-    listaDeComandosDeDientes[`${num} Decoloración del esmalte`] = () => actualizarItem('decoloración', false, String(num))
-    listaDeComandosDeDientes[`${num} decoloración`] = () => actualizarItem('decoloración', false, String(num))
+    //listaDeComandosDeDientes[`${num} Decoloración del esmalte`] = () => actualizarItem('decoloración', false, String(num))
+    //listaDeComandosDeDientes[`${num} decoloración`] = () => actualizarItem('decoloración', false, String(num))
 
     listaDeComandosDeDientes[`${num} Fluorosis`] = () => actualizarItem('fluorosis', false, String(num))
     listaDeComandosDeDientes[`${num} flurosis`] = () => actualizarItem('fluorosis', false, String(num))
@@ -372,8 +373,8 @@ listaDeDientes_?.map(num => {
     listaDeComandosDeDientes[`${num} lesión esmalte ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('lesionesmalte', ubicacion, String(num))
     listaDeComandosDeDientes[`${num} lesión dentina ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('lesiondentina', ubicacion, String(num))
     listaDeComandosDeDientes[`${num} lesión pulpa ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('lesionpulpa', ubicacion, String(num))
-    listaDeComandosDeDientes[`${num} restauración ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('restauración', ubicacion, String(num))
-    listaDeComandosDeDientes[`${num} restauración temporal ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('restauracion_temporal', ubicacion, String(num))
+    //listaDeComandosDeDientes[`${num} restauración ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('restauración', ubicacion, String(num))
+    //listaDeComandosDeDientes[`${num} restauración temporal ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('restauracion_temporal', ubicacion, String(num))
 
     listaDeComandosDeDientes[`${num} Macrodoncia`] = () => actualizarItem('macrodoncia', false, String(num))
     listaDeComandosDeDientes[`${num} Microdoncia`] = () => actualizarItem('microdoncia', false, String(num))
@@ -393,7 +394,7 @@ listaDeDientes_?.map(num => {
     listaDeComandosDeDientes[`${num} Diente ausente por otras razones`] = () => actualizarItem('ausente_otras_razones', false, String(num))
     listaDeComandosDeDientes[`${num} Ausente por otras razones`] = () => actualizarItem('ausente_otras_razones', false, String(num))
 
-    listaDeComandosDeDientes[`${num} ausente`] = () => actualizarItem('ausente', false, String(num))
+    //listaDeComandosDeDientes[`${num} ausente`] = () => actualizarItem('ausente', false, String(num))
 
     listaDeComandosDeDientes[`${num} Pieza dentaria en clavija`] = () => actualizarItem('clavija', false, String(num))
     listaDeComandosDeDientes[`${num} Dentaria en clavija`] = () => actualizarItem('clavija', false, String(num))
@@ -440,9 +441,7 @@ listaDeDientes_?.map(num => {
 
     listaDeComandosDeDientes[`${num} Lingualizado`] = () => actualizarItem('lingualizado', false, String(num))
 
-    listaDeComandosDeDientes[`${num} Remanente radicular en buen estado`] = () => actualizarItem('remanente_radicular_good', false, String(num))
-    listaDeComandosDeDientes[`${num} Remanente radicular`] = () => actualizarItem('remanente_radicular_good', false, String(num))
-    listaDeComandosDeDientes[`${num} Remanente radicular en mal estado`] = () => actualizarItem('remanente_radicular_bad', false, String(num))
+   listaDeComandosDeDientes[`${num} Remanente radicular`] = () => actualizarItem('remanente_radicular_bad', false, String(num))
 
 
     listaDeComandosDeDientes[`${num} Amalgama dental en buen estado`] = () => actualizarItem('amalgama_dental_good', false, String(num))
@@ -493,7 +492,7 @@ listaDeDientes_?.map(num => {
     listaDeComandosDeDientes[`${num} tratamiento de conducto en mal estado`] = () => actualizarItem('tratamiento_conducto_bad', false, String(num))
     listaDeComandosDeDientes[`${num} tratamiento de conducto`] = () => actualizarItem('tratamiento_conducto_bad', false, String(num))
 
-    listaDeComandosDeDientes[`${num} extracción`] = () => actualizarItem('extracción', false, String(num))
+    //listaDeComandosDeDientes[`${num} extracción`] = () => actualizarItem('extracción', false, String(num))
 
     listaDeComandosDeDientes[`${num} (a) (la) (ala) (al) :num2 :ortodóntico fijo en buen estado`] = (num2, hallazgo) => seleccionMultiple(num, num2, 'Ortodontico_Fijo_good')
     listaDeComandosDeDientes[`${num} (a) (la) (ala) (al) :num2 :ortodóntico fijo en mal estado`] = (num2, hallazgo) => seleccionMultiple(num, num2, 'Ortodontico_Fijo_bad')
