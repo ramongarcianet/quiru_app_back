@@ -1,6 +1,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { item, crearCuenta } from "../../store/sesion";
+import {ref} from 'vue'
 const { push } = useRouter();
 const verificacion = (item) => {
     if(item.password == item.contraseña){
@@ -12,6 +13,7 @@ const verificacion = (item) => {
         malaContraseña.style.display = 'block';
     }
 }
+const mensaje = ref('')
 </script>
 
 <template lang="pug">
@@ -19,22 +21,24 @@ const verificacion = (item) => {
     .centrar
         h2.text-center.mt-4(style="color:#395D56") Bienvenido
         h1.text-center.light-text Registro
-        Form( :onPromise='()=>verificacion(item)' ) 
+        Form( :onPromise='()=>verificacion(item)' :onCatch='error => mensaje = error') 
             label.form-label Nombre*
-            input.form-control(placeholder="Nombre(s)" v-model='item.nombre' maxlength="40" required)
+            input.form-control(placeholder="Nombre(s)" v-model.trim='item.nombre' maxlength="40" required)
             label.form-label Apellidos*
             .input-group
-                input.form-control(placeholder="Paterno" v-model='item.apellidoPaterno' maxlength="20" required)
-                input.form-control(placeholder="Materno" v-model='item.apellidoMaterno' maxlength="20" required)
+                input.form-control(placeholder="Paterno" v-model.trim='item.apellidoPaterno' maxlength="20" required)
+                input.form-control(placeholder="Materno" v-model.trim='item.apellidoMaterno' maxlength="20" required)
             label.form-label Correo electrónico*
             input.form-control(placeholder="Ejemplo@gmail.com" v-model='item.email' type='email' required)
             label.form-label Contraseña*
-            input.form-control(placeholder="mín. 6 dígitos" v-model='item.password' type='password' minlength="8" required)
+            input.form-control(placeholder="mín. 8 dígitos" v-model='item.password' type='password' minlength="8" required)
             label.form-label Vuelve a escribir tu contraseña*
-            input.form-control.mb-4(placeholder="mín. 6 dígitos" v-model='item.contraseña' type='password' minlength="8" required)
+            input.form-control.mb-4(placeholder="mín. 8 dígitos" v-model='item.contraseña' type='password' minlength="8" required)
             label.ms-3(id="malaContraseña" style="display: none") La contraseña no coincide 
             button.btn.btn-outline-light.m-1( type='submit') Registrarme
             button.btn.btn-outline-light.m-2( type='button' @click='push({name: "iniciar-sesion"})' style="border: 0!important;") Iniciar sesión
+            p.alert.alert-danger.alert-dismissible(v-if='mensaje') {{mensaje}}
+
 </template>
 <style lang="sass" scoped>
 
