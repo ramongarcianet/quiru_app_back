@@ -48,7 +48,7 @@ watch(
             .col-3(@click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })") {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }} 
             .col-2(@click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })") {{item.telefono}}
             .col-2(@click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })") {{item.email}}
-            .col-1    
+            .col-1
             .col-1.dropdown
                 button.ms-auto.btn(title='Odontograma' @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })")
                     i.fa.fa-solid.fa-user
