@@ -54,6 +54,7 @@ if(diagnosticos.length > 0){
 else 
   return "Diagnóstico"
 }
+// awa
 </script>
 
 <template lang="pug"> 
