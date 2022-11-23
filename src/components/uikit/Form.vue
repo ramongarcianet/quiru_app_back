@@ -3,7 +3,7 @@ import { ref } from "vue"
 const props = defineProps(['onPromise', 'onSuccess', 'onCatch', 'onFunction'])
 const loading = ref(false)
 const submit = ()=> {
-    if(loading.value) return
+    //if(loading.value) return
     loading.value = true
     if( props.onPromise ) props.onPromise()
         .then((e)=>{
@@ -32,6 +32,6 @@ form
     &.loading
         button[type='submit']
             &::after
-                content: '⌛'
+                content: ''
 
 </style>

@@ -20,8 +20,10 @@ watch(
 
 <template lang="pug">
 .row
-    .col-5
-    .col-7
+    .col-5.d-none.d-md-block
+    .col-7.d-none.d-md-block
+        input#SearchInput.form-control.mb-2.ms-auto(v-on:keyup='search(registro)', placeholder="Buscar")
+    .d-block.d-md-none
         input#SearchInput.form-control.mb-2.ms-auto(v-on:keyup='search(registro)', placeholder="Buscar")
 .div.mb-5
     .card.mb-1.d-none.d-md-block(style="border-radius: 30px; background-color:#f5f5f5;")
@@ -38,9 +40,6 @@ watch(
                 button.ms-auto.btn.p-0.m-0(title='Odontograma')
                     i.fa.fa-solid.fa-tooth
             .col-10 {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }}
-            .col-1.dropdown(style="max-height: 24px")
-                button.ms-auto.btn.p-0.m-0(title='Historia Clínica' @click="printHistoriaClinica(item.id)")
-                    i.fa-solid.fa-briefcase-medical
 
     .card.mb-2.p-2.d-none.d-md-block(v-for="item of registro_"  :key="item.id"  :item="item" style="border-radius: 40px" )
         .row.align-items-center.p-1(style="cursor: pointer")
