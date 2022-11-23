@@ -3,31 +3,25 @@ import { onUnmounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import comandos from '../../config/Ejemplos.json';
 
-const {push} = useRouter()
+const { push } = useRouter()
 </script>
 <template lang="pug">
 
 .container
-    div.overflow-x(style="background-color: white; border-radius: 2%;")
-        table.table.table-hover
-            thead
-                tr
-                    th Comando de voz
-                    th.d-none.d-md-table-cell Acción en odontrograma
-                    th Ejemplos
-                    th.d-none.d-md-table-cell Norma técnica
+  div.overflow-x(style="background-color: white; border-radius: 2%;")
+    table.table.table-hover
+      thead
+        tr 
+          th Definiciones Operativas
+          th Hallazgo
+          th.d-none.d-md-table-cell Ejemplo
 
-            tbody
-                tr(v-for="comando of comandos.EJEMP")
-                    td {{comando.orden}}
-                    td.d-none.d-md-table-cell {{comando.descripcion}}
-                    td {{comando.ejemplo}}
-                    td.d-none.d-md-table-cell 
-                        .thumbwrap
-                            button.thumb(href='#')
-                                i.fa-solid.fa-eye
-                                span
-                                    img(:src='comando.ima' alt='')
+      tbody
+        tr(v-for="comando of comandos.EJEMP")
+          td {{comando.ejemplo}}  
+          td.d-none.d-md-table-cell {{comando.descripcion}}
+          td {{comando.orden}}
+                  
 </template>
 <style lang="sass" scoped>
 .thumbwrap
