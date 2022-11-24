@@ -24,18 +24,11 @@ let wakeLock = null;
 const _tipoOdonto = ref(route.params.tipoOdonto)
 const _listaDeHallazgos = computed(() => {
   return _Hallazgos.filter(i => i.tipo == _tipoOdonto.value).map(({ text, value }) => ({ text, value }))
-})
+});
+
 onMounted(() => {
   paginaOdontograma.value = true;
-  if ("wakeLock" in navigator) {
-    try {
-      wakeLock = navigator?.wakeLock.request("screen");
-    } catch (err) {
-
-    }
-  } else {
-
-  }
+  _tipoOdonto.value = route.params.tipoOdonto;
   setList(itemodontograma.value.hallazgos, 1);
 })
 
@@ -44,7 +37,13 @@ onUnmounted(() => {
   paginaOdontograma.value = false;
 
 })
-
+watch(
+  () => route.params.tipoOdonto,
+  () => {
+    if (route.params.tipoOdonto != undefined)
+      _tipoOdonto.value = route.params.tipoOdonto;
+  }
+)
 watch(
   () => item.value.diente,
   () => {
@@ -186,7 +185,7 @@ function AgregarHallazgo() {
         })
       }
       if (hzgoMatriz[0]?.esDirecto == "NO") {
-        if (item.value.hallazgos.length==0) {
+        if (item.value.hallazgos.length == 0) {
           mensajeExistePieza.value = 'El hallazgo ' + hzgoMatriz[0]?.text + ', requiere seleccionar la zona o superficie del diente, vuelve a intentarlo'
           return false
         }
