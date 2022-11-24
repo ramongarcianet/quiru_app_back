@@ -8,6 +8,10 @@ const maxDocumento = ref(8);
 const guardarOActualizar = () => {
   var alerta = document.getElementById("alerta");
   alerta.style.display = "none"
+  if(item.value.id){
+    actualizar(item.value)
+  }
+
   return revisarDNI(item.value).then( r => {
     if(r){
       if (item.value.id) return actualizar(item.value)
@@ -126,8 +130,10 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
     )
       span
         small
-          strong Guardar
-        p.mb-0 Nuevo Paciente
+          strong(v-if="!item.id") Guardar
+          strong(v-if="item.id") Actualizar
+        p.mb-0(v-if="!item.id") Nuevo Paciente
+        p.mb-0(v-if="item.id") Paciente
       i.fa-solid.fa-save.fa-lg.ms-5(style=" color: white;")
   .row.mt-2
     #alerta.alert.alert-danger.alert-dismissible(style='display:none')   

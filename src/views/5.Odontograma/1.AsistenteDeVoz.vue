@@ -306,10 +306,10 @@ const moverCarrusel = (adelanteOAtras) => {
             i.fa-solid.fa-print.fa-xl(style="color: var(--color-primary)")#destacarImpresion
           button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
             i.fa-solid.fa-question.fa-xl(style="color: var(--color-primary)")#destacarAyuda
-          #exampleModal.modal.fade(tabindex='-1' style="width:100vw")
-            .modal-dialog.modal-lg(style="width:100vw")
-              .modal-content(style="width:100vw")
-                .modal-header(style="width:100vw")
+          #exampleModal.modal.fade(tabindex='-1')
+            .modal-dialog.modal-lg
+              .modal-content
+                .modal-header
                   button.btn-close(type='button' data-bs-dismiss='modal')
                 .modal-body
                   Instrucciones

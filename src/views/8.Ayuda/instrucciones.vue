@@ -1,69 +1,35 @@
 <script setup>
 import { onUnmounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import comandos from '../../config/Ejemplos.json';
+import ejemDiag from '../../config/EjemDiagnostico.json';
+import ejemTrata from '../../config/EjemTratamiento.json';
+import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma, eliminar } from '../../store/formodontograma';
 
 const { push } = useRouter()
 </script>
 <template lang="pug">
 
 .container
-  div.overflow-x(style="background-color: white; border-radius: 2%;")
+  div(style="background-color: white; border-radius: 2%;")
     table.table.table-hover
       thead
         tr 
-          th Definiciones Operativas
-          th Hallazgo
-          th.d-none.d-md-table-cell Ejemplo
+          th Ejemplos de voz
+          th Hallazgo clínico
+          th.d-none.d-md-table-cell Norma técnica
 
-      tbody
-        tr(v-for="comando of comandos.EJEMP")
-          td {{comando.ejemplo}}  
-          td.d-none.d-md-table-cell {{comando.descripcion}}
-          td {{comando.orden}}
+      tbody(v-if="itemodontograma?.tipo === 'Diagnóstico'")
+        tr(v-for="comandoD of ejemDiag.EJEMP")
+          td {{comandoD.orden}} 
+          td {{comandoD.descripcion}}
+          td.d-none.d-md-table-cell {{comandoD.ejemplo}}
+      
+      tbody(v-if="itemodontograma?.tipo === 'Tratamiento'")
+        tr(v-for="comandoT of ejemTrata.EJEMP")
+          td {{comandoT.orden}}
+          td {{comandoT.descripcion}}
+          td.d-none.d-md-table-cell {{comandoT.ejemplo}}
                   
 </template>
 <style lang="sass" scoped>
-.thumbwrap
-  position: relative
-.thumb
-  span
-    position: absolute
-    visibility: hidden
-  &:hover
-    visibility: visible
-    top: 0
-    z-index: 1
-    span
-      visibility: visible
-      top: 0
-      left: -520px
-      z-index: 1
-button
-  border: none
-  background: none
-table
-  border: 1px
-
-@media (max-width: 540px)
-    .thumbwrap
-        position: relative
-        width: 100px
-    .thumb
-        span
-            position: absolute
-            visibility: hidden
-        &:hover
-            visibility: visible
-            z-index: 1
-            span
-                visibility: visible
-                left: -300px
-                z-index: 1
-    button
-        border: none
-        background: none
-    table
-        border: 1px
-
 </style>

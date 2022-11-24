@@ -33,7 +33,7 @@ const seleccionarHallazgoAusentePieza = (pieza) => actualizarItem('ausente', fal
 const seleccionarHallazgoExtraccion = () => actualizarItem('extracción', false, false)
 const seleccionarHallazgoExtraccionPieza = (pieza) => actualizarItem('extracción', false, pieza)
 
-const saludar = () => speak('Hola, soy Quiru, tu nuevo asistente de voz odontológico')
+const saludar = () => speak('Hola, soy Quiru')
 const queSabesHacer = () => speak('Yo me encargo del registro de tus odontogramas: diagnóstico y tratamiento. Tu encárgate de atender a tus pacientes')
 const agradecer = () => speak('')
 const mellamo = () => speak(`Yo soy Quiru, encantada de conocerte.`)

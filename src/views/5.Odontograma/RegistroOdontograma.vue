@@ -72,13 +72,13 @@ else
     a.close(@click="Cancelar()" href='#' data-dismiss='alert') &times;
 
 template(v-for="item of registroodonto" :key="item.id" :item="item" )
-  .card.mb-2.p-3(v-if="item.tipo === 'Diagnóstico'" style="border-radius: 40px; border-width: 3px" :style='item.estado=== "2" ? "border-color: var(--color-primary)":"border-color: #8c8c8c"' )
+  .card.mb-2.p-3(v-if="item.tipo === 'Diagnóstico'" style="border-radius: 40px; border-width: 3px" :style='item.estado=== "2" ? "border-color: var(--color-primary)":"border-color: #d7d8d8"' )
     .row(style="cursor: pointer" )
       .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") {{item.fechaRegistro.toDate().toISOString().slice(0, 10)}}
       //--------------------------------------------------------------------------------------------------------------------------------------------- Pc
-      .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")  {{item.tipo}} 
+      .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")  Ver {{item.tipo}} 
       //--------------------------------------------------------------------------------------------------------------------------------------------- Móvil
-      .col-6.d-block.d-md-none(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")  {{item.fechaRegistro.toDate().toISOString().slice(0, 10)}} {{item.tipo}}
+      .col-6.d-block.d-md-none(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })")  Ver {{item.tipo}} {{item.fechaRegistro.toDate().toISOString().slice(0, 10)}} 
       //--------------------------------------------------------------------------------------------------------------------------------------------- Alternativa
       .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: obtenerIdTratamiento(item.id),idPaciente: item.idPaciente, tipoOdonto: obtenerTipo(item.id)} })") {{(obtenerTipo(item.id) == "Diagnóstico" )? "" : "Tratamiento"}} 
       //------------------------------------------------------------------------------------------------------------------------------------ Muela
