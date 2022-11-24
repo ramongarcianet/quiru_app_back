@@ -4,11 +4,16 @@ import { item, iniciarSesion } from "../../store/sesion";
 import {ref} from 'vue'
 const { push } = useRouter();
 const mensaje = ref('')
+const adios = ()=> {
+  location.replace('https://quiru.app/')
+  }
 </script>
 
 <template lang="pug">
 .derecha
     .centrar
+        button.btn.border-0(@click="adios()" style="color: white")
+            i.fa-solid.fa-arrow-left-long.fa-xl
         h2.text-center.mt-4(style="color:#395D56") Bienvenido
         h1.text-center.light-text Inicia sesión
         Form( :onPromise='()=>iniciarSesion(item)' :onCatch='error => mensaje = error') 
