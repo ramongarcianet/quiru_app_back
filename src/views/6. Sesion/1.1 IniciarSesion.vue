@@ -11,12 +11,13 @@ const adios = ()=> {
 
 <template lang="pug">
 .derecha
+    .ladito
+        button.btn.border-0(@click="adios()" style="color: white")
+            i.fa-solid.fa-arrow-left-long.fa-xl
     .centrar
         h1.text-center.light-text Bienvenido a QUIRU
         h5.text-center.mt-3(style="color:#395D56") si ya tienes una cuenta puedes iniciar sesión, si eres un nuevo usuario haz click en registrarme
-        button.btn.border-0(@click="adios()" style="color: white")
-            i.fa-solid.fa-arrow-left-long.fa-xl
-        h1.text-center.light-text Inicia sesión
+        h1.text-center(style="color:#395D56") Inicia sesión
         Form( :onPromise='()=>iniciarSesion(item)' :onCatch='error => mensaje = error') 
             label.form-label Correo electrónico
             input.form-control.mb-2(placeholder="Ejemplo@gmail.com" v-model='item.email' type='email' required)
