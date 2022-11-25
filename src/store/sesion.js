@@ -29,8 +29,11 @@ export const iniciarSesion = ({email, password}) =>new Promise ((resolve, reject
         case 'auth/user-not-found':
           mensajeDeError = 'No existe ninguna cuenta asociada a este correo'
           break
+        case 'auth/too-many-requests':
+          mensajeDeError = 'Demasiadas solicitudes, vuelve a intentarlo en 15 min.'
+          break
         case 'auth/invalid-email':
-          mensajeDeError = 'hola'
+          mensajeDeError = 'Email inválido'
           break
         default:
           mensajeDeError = e.code

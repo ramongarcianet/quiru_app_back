@@ -9,9 +9,9 @@ const mensaje = ref('')
 <template lang="pug">
 .derecha
     .centrar
-        h2.text-center.mt-4(style="color:#395D56") Bienvenido
+        h2.text-center.mt-4(style="color:#395D56") Bienvenido a QUIRU
         h1.text-center.light-text Recupera tu contraseña
-        Form( :onPromise='()=>resetContraseña(item)'  :onSuccess='()=>mensaje = "Correo enviado"' :onCatch='()=>mensaje = "Este correo no ha sido registrado"') 
+        Form( :onPromise='()=>resetContraseña(item)'  :onSuccess='()=>mensaje = "Correo enviado"' :onCatch='()=>mensaje = "Este correo no tiene una cuenta asociada a QUIRU"') 
             label.form-label Correo electrónico
             input.form-control.mb-2(placeholder="Ejemplo@gmail.com" v-model='item.email' type='email' required)
             .row
