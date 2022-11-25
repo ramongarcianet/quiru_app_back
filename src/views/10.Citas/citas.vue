@@ -337,7 +337,8 @@ th
     border: 1px solid rgb(55, 223, 187)
 .fc .fc-daygrid-day
   background-color: transparent
-.fc-theme-bootstrap5 a:not([href]) 
+.fc-theme-bootstrap5 a:not([href])
+  font-size: 13px
   color: rgb(57, 93, 86)
   text-decoration: inherit
 .fc .fc-toolbar-title

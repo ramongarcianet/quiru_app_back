@@ -20,8 +20,8 @@ const mensaje = ref('')
 .derecha
     .centrar
         h2.text-center.mt-4(style="color:#395D56") Bienvenido
-        h1.text-center.light-text Registro
-        Form( :onPromise='()=>verificacion(item)' :onCatch='error => mensaje = error') 
+        h2.text-center.light-text Registro de nuevo usuario
+        Form( :onPromise='()=>verificacion(item)' :onCatch='()=>mensaje = "Mal"') 
             label.form-label Nombre*
             input.form-control(placeholder="Nombre(s)" v-model.trim='item.nombre' maxlength="40" required)
             label.form-label Apellidos*
@@ -61,7 +61,7 @@ form
         height: 100vh
         width: 100%
     .centrar
-        padding: 10% 10%
+        padding: 5% 10%
         form
             padding: 0px 60px
             .row
