@@ -4,16 +4,17 @@ import { item, crearCuenta } from "../../store/sesion";
 import {ref} from 'vue'
 const { push } = useRouter();
 const verificacion = (item) => {
-    if(item.password == item.contraseña){
+    if(item.password == item.contrasena){
         crearCuenta(item)
-        var malaContraseña = document.getElementById('malaContraseña');
-        malaContraseña.style.display = 'none';
+        var malaContrasena = document.getElementById('malaContraseña');
+        malaContrasena.style.display = 'none';
     }else{
-        var malaContraseña = document.getElementById('malaContraseña');
-        malaContraseña.style.display = 'block';
+        var malaContrasena = document.getElementById('malaContraseña');
+        malaContrasena.style.display = 'block';
     }
 }
 const mensaje = ref('')
+
 </script>
 
 <template lang="pug">
@@ -31,9 +32,10 @@ const mensaje = ref('')
             label.form-label Correo electrónico*
             input.form-control(placeholder="Ejemplo@gmail.com" v-model='item.email' type='email' required)
             label.form-label Contraseña*
-            input.form-control(placeholder="mín. 8 dígitos" v-model='item.password' type='password' minlength="8" required)
+            h6.mt-0 Ingrese min. 8 caracteres en combinación de números, minúsculas y mayúsculas
+            input.form-control(pattern="(?=.*)(?=.*[a-z])(?=.*[A-Z]).{8,}" title='Ingrese min. 8 caracteres en combinación de números, minúsculas y mayúsculas' v-model='item.password' type='password' placeholder="********")
             label.form-label Vuelve a escribir tu contraseña*
-            input.form-control.mb-4(placeholder="mín. 8 dígitos" v-model='item.contraseña' type='password' minlength="8" required)
+            input.form-control(pattern="(?=.*)(?=.*[a-z])(?=.*[A-Z]).{8,}" title='Ingrese min. 8 caracteres en combinación de números, minúsculas y mayúsculas' v-model='item.contrasena' type='password' placeholder="********")
             label.ms-3(id="malaContraseña" style="display: none") La contraseña no coincide 
             button.btn.btn-outline-light.m-1( type='submit') Registrarme
             button.btn.btn-outline-light.m-2( type='button' @click='push({name: "iniciar-sesion"})' style="border: 0!important;") Iniciar sesión
