@@ -12,9 +12,10 @@ const adios = ()=> {
 <template lang="pug">
 .derecha
     .centrar
+        h1.text-center.light-text Bienvenido a QUIRU
+        h5.text-center.mt-3(style="color:#395D56") si ya tienes una cuenta puedes iniciar sesión, si eres un nuevo usuario haz click en registrarme
         button.btn.border-0(@click="adios()" style="color: white")
             i.fa-solid.fa-arrow-left-long.fa-xl
-        h2.text-center.mt-4(style="color:#395D56") Bienvenido
         h1.text-center.light-text Inicia sesión
         Form( :onPromise='()=>iniciarSesion(item)' :onCatch='error => mensaje = error') 
             label.form-label Correo electrónico
@@ -47,7 +48,7 @@ const adios = ()=> {
         width: 100%
         height: 100vh
     .centrar
-        padding: 22% 10%
+        padding: 10% 10%
         form
             padding: 0px 60px
             .row
