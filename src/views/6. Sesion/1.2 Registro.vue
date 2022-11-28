@@ -5,16 +5,14 @@ import {ref} from 'vue'
 const { push } = useRouter();
 const verificacion = (item) => {
     if(item.password == item.contrasena){
-        crearCuenta(item)
-        var malaContrasena = document.getElementById('malaContraseña');
-        malaContrasena.style.display = 'none';
+        return crearCuenta(item)
     }else{
         var malaContrasena = document.getElementById('malaContraseña');
         malaContrasena.style.display = 'block';
+        return new Promise(resolve => resolve())
     }
 }
 const mensaje = ref('')
-
 </script>
 
 <template lang="pug">
@@ -22,7 +20,7 @@ const mensaje = ref('')
     .centrar
         h2.text-center.mt-4(style="color:#395D56") Bienvenido
         h2.text-center.light-text Registro de nuevo usuario
-        Form( :onPromise='()=>verificacion(item)' :onCatch='()=>mensaje = "Mal"') 
+        Form( :onPromise='()=>verificacion(item)' :onCatch='(e)=>mensaje = e') 
             label.form-label Nombre*
             input.form-control(placeholder="Nombre(s)" v-model.trim='item.nombre' maxlength="40" required)
             label.form-label Apellidos*
