@@ -470,10 +470,10 @@ listaDeDientes_?.map(num => {
     listaDeComandosDeDientes[`${num} Resina en buen estado ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('resina_good', ubicacion, String(num))
     listaDeComandosDeDientes[`${num} Resina en mal estado ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('resina_bad', ubicacion, String(num))
 
-    listaDeComandosDeDientes[`${num} Ionómero de vidrio en buen estado ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('ionometro_good', ubicacion, String(num))
-    listaDeComandosDeDientes[`${num} Ionómero de vidrio en mal estado ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('ionometro_bad', ubicacion, String(num))
-    listaDeComandosDeDientes[`${num} Ionómero en buen estado ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('ionometro_good', ubicacion, String(num))
-    listaDeComandosDeDientes[`${num} Ionómero en mal estado ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('ionometro_bad', ubicacion, String(num))
+    listaDeComandosDeDientes[`${num} Ionómero de vidrio en buen estado ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('ionomero_good', ubicacion, String(num))
+    listaDeComandosDeDientes[`${num} Ionómero de vidrio en mal estado ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('ionomero_bad', ubicacion, String(num))
+    listaDeComandosDeDientes[`${num} Ionómero en buen estado ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('ionomero_good', ubicacion, String(num))
+    listaDeComandosDeDientes[`${num} Ionómero en mal estado ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('ionomero_bad', ubicacion, String(num))
 
     listaDeComandosDeDientes[`${num} Incrustación metálica en buen estado ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('incrustacion_metalica_good', ubicacion, String(num))
     listaDeComandosDeDientes[`${num} Incrustación metálica en mal estado ${prefijosParaUbicacion} *ubicacion`] = (ubicacion) => actualizarItem('incrustacion_metalica_bad', ubicacion, String(num))
