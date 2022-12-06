@@ -3,6 +3,7 @@ import Formulario from "./Formulario.vue";
 import { registroodonto, guardar as guardarOdontograma, getItemEnRegistro } from "../../store/formodontograma";
 import { item as itemPas, leer, actualizar } from "../../store/paciente";
 import { useRoute, useRouter } from "vue-router";
+import { isSpeech} from "../../store/odontograma";
 import Cie10 from '../../config/Cie10.json';
 import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma, eliminar } from '../../store/formodontograma';
 import jsPDF from 'jsPDF'
@@ -304,6 +305,7 @@ const moverCarrusel = (adelanteOAtras) => {
             i.fa-regular.fa-trash-can.fa-xl(style="color: var(--color-primary)")
           button.btn(title='Imprimir' @click="printOdontograma()")
             i.fa-solid.fa-print.fa-xl(style="color: var(--color-primary)")#destacarImpresion
+          //button.btn(v-if="isSpeech" title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
           button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
             i.fa-solid.fa-question.fa-xl(style="color: var(--color-primary)")#destacarAyuda
           #exampleModal.modal.fade(tabindex='-1')
