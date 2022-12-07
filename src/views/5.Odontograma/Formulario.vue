@@ -23,7 +23,8 @@ let temList = [];
 let wakeLock = null;
 const _tipoOdonto = ref(route.params.tipoOdonto)
 const _listaDeHallazgos = computed(() => {
-  return _Hallazgos.filter(i => i.tipo == _tipoOdonto.value).map(({ text, value }) => ({ text, value }))
+  return _Hallazgos.map(({ text, value }) => ({ text, value }))
+  //return _Hallazgos.filter(i => i.tipo == _tipoOdonto.value).map(({ text, value }) => ({ text, value }))
 });
 
 onMounted(() => {
