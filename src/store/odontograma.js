@@ -92,13 +92,13 @@ export function detenerInicializarVoz() {
 }
 
 export function activarVoz() {
-    if (paginaOdontograma.value) {
-        annyang.removeCommands();
-        annyang.addCommands(comandosDeVoz.conVozEncendida)
-        isSpeech.value = true;
-        comandosDeVoz.saludar()
-        //console.log(annyang.getSpeechRecognizer());
-    }
+    //if (paginaOdontograma.value) {
+    annyang.removeCommands();
+    annyang.addCommands(comandosDeVoz.conVozEncendida)
+    isSpeech.value = true;
+    comandosDeVoz.saludar()
+    //console.log(annyang.getSpeechRecognizer());
+    // }
 }
 export function reactivarVoz() {
     if (paginaOdontograma.value) {
