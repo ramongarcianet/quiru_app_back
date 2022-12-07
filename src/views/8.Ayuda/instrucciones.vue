@@ -4,7 +4,8 @@ import { useRoute, useRouter } from "vue-router";
 import ejemDiag from '../../config/EjemDiagnostico.json';
 import ejemTrata from '../../config/EjemTratamiento.json';
 import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma, eliminar } from '../../store/formodontograma';
-
+import comandosDeVoz from '../../store/comandosDeVoz';
+const saludar = () => speak('Hola, soy Quiru')
 const { push } = useRouter()
 </script>
 <template lang="pug">
@@ -33,8 +34,8 @@ const { push } = useRouter()
           td {{comandoT.descripcion}}
           td.d-none.d-md-table-cell {{comandoT.norma}}
           td(style="cursor:pointer")
-            i.fa-solid.fa-volume-high
-                  
+            i.fa-solid.fa-volume-high(@click="saludar()")
+
 </template>
 <style lang="sass" scoped>
 </style>
