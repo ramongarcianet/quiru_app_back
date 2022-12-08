@@ -4,7 +4,7 @@ import { useRoute, useRouter } from "vue-router";
 import ejemDiag from '../../config/EjemDiagnostico.json';
 import ejemTrata from '../../config/EjemTratamiento.json';
 import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma, eliminar } from '../../store/formodontograma';
-import {ejecutarVoz} from '../../store/comandosDeVoz';
+import { ejecutarVoz } from '../../store/comandosDeVoz';
 const { push } = useRouter()
 </script>
 <template lang="pug">
@@ -25,7 +25,7 @@ const { push } = useRouter()
           td {{comandoD.descripcion}}
           td.d-none.d-md-table-cell {{comandoD.norma}}
           td(style="cursor:pointer")
-            i.fa-solid.fa-volume-high
+            i.fa-solid.fa-volume-high(@click="ejecutarVoz(comandoD.orden)")
       
       tbody(v-if="itemodontograma?.tipo === 'Tratamiento'")
         tr(v-for="comandoT of ejemTrata.EJEMP")
