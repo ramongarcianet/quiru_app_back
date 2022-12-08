@@ -126,6 +126,9 @@ export const limpiar = () => {
     flagLimpiar.value = !flagLimpiar.value
     speak('Limpiando')
 }
+export const ejecutarVoz = (texto) => {
+    speak(texto)
+}
 export const limpiarSinVoz = () => {
     item.value = {
         diente: '',

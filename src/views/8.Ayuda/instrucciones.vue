@@ -4,7 +4,7 @@ import { useRoute, useRouter } from "vue-router";
 import ejemDiag from '../../config/EjemDiagnostico.json';
 import ejemTrata from '../../config/EjemTratamiento.json';
 import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma, eliminar } from '../../store/formodontograma';
-
+import { ejecutarVoz } from '../../store/comandosDeVoz';
 const { push } = useRouter()
 </script>
 <template lang="pug">
@@ -17,19 +17,24 @@ const { push } = useRouter()
           th Ejemplos de voz
           th Hallazgo clínico
           th.d-none.d-md-table-cell Norma técnica
+          th
 
       tbody(v-if="itemodontograma?.tipo === 'Diagnóstico'")
         tr(v-for="comandoD of ejemDiag.EJEMP")
           td {{comandoD.orden}} 
           td {{comandoD.descripcion}}
-          td.d-none.d-md-table-cell {{comandoD.ejemplo}}
+          td.d-none.d-md-table-cell {{comandoD.norma}}
+          td(style="cursor:pointer")
+            i.fa-solid.fa-volume-high(@click="ejecutarVoz(comandoD.orden)")
       
       tbody(v-if="itemodontograma?.tipo === 'Tratamiento'")
         tr(v-for="comandoT of ejemTrata.EJEMP")
           td {{comandoT.orden}}
           td {{comandoT.descripcion}}
-          td.d-none.d-md-table-cell {{comandoT.ejemplo}}
-                  
+          td.d-none.d-md-table-cell {{comandoT.norma}}
+          td(style="cursor:pointer")
+            i.fa-solid.fa-volume-high(@click="ejecutarVoz(comandoT.orden)")
+
 </template>
 <style lang="sass" scoped>
 </style>
