@@ -1,11 +1,12 @@
 import { ref, computed } from 'vue';
-
+import route from './../config/router'
 import { addDoc, collection, onSnapshot, getDoc, getDocs, doc, updateDoc, deleteDoc, query, where, arrayUnion, orderBy } from 'firebase/firestore'
 import { firestore } from '../config/firebase'
 import { miUsuario } from './sesion';
 import { listaDeHallazgos, listaDeDientesCombo } from '../config/Parametros'
 import { isSpeech, speak } from './odontograma'
 import escenarios from '../config/Escenarios.json';
+import {item as itemUsuario} from '../store/usuario'
 const dialog = ref(false)
 const regpasciente = ref([])
 export const mensajeExistePieza = ref('')
@@ -57,6 +58,19 @@ const guardar = (idPaciente, tipo, tieneTratamiento, idRelacionado) => new Promi
     })
 
 })
+
+export const guardarEnDiccionario = (e) => {
+    console.log('anotado')
+    var palabras = {
+        e,
+        fecha: new Date().toISOString().slice(0, 10),
+        userId: miUsuario()?.uid,
+        odontograma: route.currentRoute.value.params.idOdontograma,
+        nombre: itemUsuario.value.nombre + ' ' + itemUsuario.value.apellidoPaterno + ' ' + itemUsuario.value.apellidoMaterno
+    }
+    const referencia = collection(firestore, 'diccionario')
+    return addDoc(referencia, palabras)
+}
 
 //export const actualizarestado = (id, estado) => updateDoc(doc(firestore, 'odontograma', id), {estado})
 
