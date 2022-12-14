@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue';
-
+import route from './../config/router'
 import { addDoc, collection, onSnapshot, getDoc, getDocs, doc, updateDoc, deleteDoc, query, where, arrayUnion, orderBy } from 'firebase/firestore'
 import { firestore } from '../config/firebase'
 import { miUsuario } from './sesion';
@@ -57,6 +57,19 @@ const guardar = (idPaciente, tipo, tieneTratamiento, idRelacionado) => new Promi
     })
 
 })
+
+export const guardarEnDiccionario = (e) => {
+    console.log(miUsuario())
+    var palabras = {
+        e,
+        fecha: new Date().toISOString().slice(0, 10),
+        userId: miUsuario()?.uid,
+        odontograma: route.currentRoute.value.params.idOdontograma,
+
+    }
+    const referencia = collection(firestore, 'diccionario')
+    return addDoc(referencia, palabras)
+}
 
 //export const actualizarestado = (id, estado) => updateDoc(doc(firestore, 'odontograma', id), {estado})
 

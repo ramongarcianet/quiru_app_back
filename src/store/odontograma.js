@@ -4,7 +4,10 @@ import { convertToText } from "./numeroLetras.js"
 import router from '../config/router'
 import comandosDeVoz from './comandosDeVoz';
 import { item as itemodontograma } from './formodontograma';
+import { useRoute } from "vue-router";
+import { guardarEnDiccionario } from './formodontograma';
 import '../assets/annyang.min'
+const route = useRoute()
 const { push } = router;
 export const isSpeech = ref(false);
 let flagAnnyang;
@@ -55,6 +58,20 @@ if (annyang) {
         }
     });
     */
+    annyang.addCallback('resultMatch', function (e) {
+        if (isSpeech.value) {
+            console.log('Empieza con número')
+            console.log(e)//comando
+            guardarEnDiccionario(e)
+        }
+    });
+    annyang.addCallback('resultNoMatch', function (e) {
+        if (isSpeech.value) {
+            console.log('No hay número')
+            console.log(e)//array
+            //guardarEnDiccionario(e);
+        }
+    });
     annyang.addCallback('error', function (e) {
         if (e.error == 'aborted') {
             annyang.abort()
@@ -76,7 +93,7 @@ if (annyang) {
         if (resizeWindow.value < 500)
             console.log('Reconectando al micrófono')
     });
-    flagAnnyang = annyang.start()
+    flagAnnyang = annyang.start({ autoRestart: true, continuous: true })
 
     annyang.getSpeechRecognizer()?.grammars?.addFromString(comandosDeVoz?.gramatica, 1);
     annyang.addCommands(comandosDeVoz.conVozApagada)
