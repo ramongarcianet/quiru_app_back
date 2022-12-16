@@ -60,7 +60,7 @@ const mayoriaEdad = () => {
     //button.btn.btn-outline-primary.border-0.pb-md-0(title='Cerrar Sesion' @click="cerrarSesion(), adios()")
       i.fa-solid.fa-power-off( style="color: var(--color-primary); font-size: 35px" )
 
-Form( :onPromise="() => guardarOActualizar()" :onSuccess='() => back()')
+Form( :onPromise="() => guardarOActualizar()" :onSuccess='() => refresh()')
   .row
     .col-12
       label.form-label() Nombre(s) y Apellidos*

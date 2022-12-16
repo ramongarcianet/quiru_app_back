@@ -99,8 +99,7 @@ function printHistoriaClinica(idPaciente) {
               h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Paciente
           .col-6
             .dropdown.d-flex.justify-content-end.mt-1
-              a.btn.btn-primary(href='#' role='button' data-bs-toggle='dropdown' style="background-color: #00000008")
-                i.fa.fa-ellipsis-v.fa-xl(style="color: var(--color-primary)")
+              i.fa.fa-ellipsis-v.fa-xl.p-3(href='#' role='button' data-bs-toggle='dropdown' style="color: var(--color-primary)")
               ul.dropdown-menu(style="cursor: pointer")
                 li                    
                   a.dropdown-item(@click="push({name: 'Admision', params: { idPaciente: item.id }})") 
