@@ -3,7 +3,7 @@ import { useRoute, useRouter } from "vue-router";
 import Logo from "../../../assets/logoQuiru.vue";
 import marketing from "../../../store/marketing";
 const { push } = useRouter();
-const {registrarEvento} = marketing
+//const {registrarEvento} = marketing
 const route = useRoute()
 const rutas = [
   { title: "Beneficios", ruta: "#beneficios" },
@@ -29,7 +29,7 @@ nav.navbar.navbar-expand-lg.bg-light
             li.nav-item( v-for='{title, ruta} of router')
                 a.nav-link( @click='()=>ruta()' href='#')   {{title}}
     
-    button.btn.btn-primary( @click='push({ name: "iniciar-sesion" }), registrarEvento("activacion_btn_alpha")' ) Únete al alpha
+    button.btn.btn-primary( @click='push({ name: "iniciar-sesion" })' ) Únete al alpha
         
 
 </template>
