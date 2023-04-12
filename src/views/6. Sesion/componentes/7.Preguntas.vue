@@ -3,7 +3,7 @@ import { useRouter } from "vue-router";
 import marketing from '../../../store/marketing';
 
 const { push } = useRouter();
-const {registrarEvento} = marketing
+//const {registrarEvento} = marketing
 </script>
 <template lang="pug">
                 
@@ -17,7 +17,7 @@ const {registrarEvento} = marketing
                             span.dark-text dudas?  
                         Img.ms-3( width='60' src="https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/quiru%2Fevitar-perdida-de-informacion.webp?alt=media&token=b3c6d1ca-7b90-4d94-9f9d-7f55d4125e6b")
                 span Agenda una breve reunión con nosotros para resolver todas tus dudas,  con confianza. Atendemos todas las consultas que tengas.
-                a( href='https://calendly.com/informacionquiru/info' target='_blank' @click='registrarEvento("act_btn_question")')
+                a( href='https://calendly.com/informacionquiru/info' target='_blank')
                   button.btn.btn-primary.mt-5 Conversemos
             .col-12.col-md-4.h-100.d-flex.align-items-end.mt-5
                 .row.justify-content-center.align-items-center
