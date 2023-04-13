@@ -46,6 +46,11 @@ const routes = [
                     name: 'reset-contrasena',
                     component: ()=>import('../views/6. Sesion/1.3 ResetContraseña.vue')
                 },
+                {
+                    path: 'politica-privacidad',
+                    name: 'politica-privacidad',
+                    component: ()=>import('../views/6. Sesion/0. Politica.vue')
+                },
             ]
         },
       ]

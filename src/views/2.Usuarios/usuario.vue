@@ -1,7 +1,7 @@
 <script setup>
 import { onUnmounted, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { item, guardar, actualizar, limpiar, leer, registro, leerEnRegistro } from '../../store/usuario'
+import { item, actualizar, limpiar, leer, registro, leerEnRegistro } from '../../store/usuario'
 import { esLetra, esNumero } from '../../config/libreria'
 import { cerrarSesion, miUsuario } from '../../store/sesion'
 const maxDocumento = ref(8);
@@ -9,7 +9,7 @@ const route = useRoute()
 const { back } = useRouter()
 const guardarOActualizar = () => {
   if (item.value.id) return actualizar(item.value)
-  else return guardar(item.value)
+  else return actualizar(item.value)
 }
 onMounted(() => {
   leer(miUsuario().uid);

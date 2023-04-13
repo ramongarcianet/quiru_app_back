@@ -1,8 +1,47 @@
 import { auth } from '../config/firebase'
 import { ref } from 'vue'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, getAuth } from 'firebase/auth'
-import { crearUsuarioConId } from './usuario'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, getAuth, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider, signInAnonymously   } from 'firebase/auth'
+import { crearUsuarioConId, crearUsuarioConGoogle, crearUsuarioConFacebook } from './usuario'
 import router from '../config/router'
+export const providerG = new GoogleAuthProvider();
+export const logGoogle = () => signInWithPopup(auth, providerG)
+  .then((result) => {
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    const user = result.user;
+    console.log(result.user)
+    crearUsuarioConGoogle( {
+      nombre: result.user.displayName,
+      email: result.user.email,
+      id: result.user.uid
+    })
+  }).catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    const credential = GoogleAuthProvider.credentialFromError(error);
+  });
+export const providerF = new FacebookAuthProvider();
+export const logFacebook = () => {
+  const auth = getAuth();
+  signInWithPopup(auth, providerF)
+    .then((result) => {
+      const user = result.user;
+      const credential = FacebookAuthProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
+      console.log(result.user)
+      crearUsuarioConGoogle( {
+        nombre: result.user.displayName,
+        email: result.user.email,
+        id: result.user.uid
+      })
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      const email = error.customData.email;
+      const credential = FacebookAuthProvider.credentialFromError(error);
+    });
+}
 export const usuario = ref({});
 export const item = ref({})
 const devolverError = e => {
@@ -63,8 +102,10 @@ export const cerrarSesion = () => signOut(auth)
 export const sesion = () => onAuthStateChanged(
     auth,
     ( user ) => {
-        if( user ) router.push({name:'pacientes'})
-        else if( router.currentRoute.value.meta.requiereAuth && !user ) router.push({name:'landing'})
+        if( user ) 
+          router.push({name: 'pacientes'})
+        else if( router.currentRoute.value.meta.requiereAuth && !user ) 
+          router.push({name:'landing'})
         else return
     }
 )

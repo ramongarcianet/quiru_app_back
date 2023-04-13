@@ -16,7 +16,8 @@ const item = ref({
     fechaIngreso: new Date().toISOString().slice(0, 10),
     tipoConsultorio: '',
     nombreconsultorio: '',
-    direccion: ''
+    direccion: '',
+    interesado: ''
 })
 const item1 = ref({
     nombre: '',
@@ -31,21 +32,22 @@ const item1 = ref({
     fechaIngreso: new Date().toISOString().slice(0, 10),
     tipoConsultorio: '',
     nombreconsultorio: '',
-    direccion: ''
+    direccion: '',
+    interesado: ''
 })
 export const crearUsuarioConId = item => {
     const referencia = doc(firestore, 'usuario', item.id)
-    //const referencia = collection(firestore, 'usuario')
-    //return addDoc(referencia, item)
     return setDoc(referencia, item)
 }
 
-const guardar = item => {
-    const referencia = collection(firestore, 'usuario')
-    return addDoc(referencia, {
-        ...item, idUsuario: usuario.value.uid,
-        estado: true
-    })
+export const crearUsuarioConGoogle = item => {
+    const referencia = doc(firestore, 'usuario', item.id)
+    return setDoc(referencia, item, { merge: true })
+}
+
+export const crearUsuarioConFacebook = item => {
+    const referencia = doc(firestore, 'usuario', item.id)
+    return setDoc(referencia, item, { merge: true })
 }
 
 const actualizar = (item) => {
@@ -58,7 +60,10 @@ const eliminar = (id) => {
     return deleteDoc(referencia)
 }
 
-
+export const interesarUsuario = (i) => {
+    const referencia = doc(firestore, 'usuario', i)
+    return updateDoc(referencia, {interesado: true})
+}
 
 const obtenerTodos = () => {
     const referencia = collection(firestore, 'usuario')
@@ -96,7 +101,6 @@ const limpiar = () => {
 export {
     registro,
     item,
-    guardar,
     obtenerTodos,
     leer,
     leerEnRegistro,
