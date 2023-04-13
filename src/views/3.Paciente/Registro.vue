@@ -38,7 +38,7 @@ watch(
             .col-10 {{item.tipoDocumento + ' ' +item.numeroDocumento }}
             .col-1.dropdown(style="max-height: 24px")
                 button.ms-auto.btn.p-0.m-0(title='Odontograma')
-                    i.fa.fa-solid.fa-tooth
+                    i.fa.fa-solid.fa-user
             .col-10 {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }}
 
     .card.mb-2.p-2.d-none.d-md-block(v-for="item of registro_"  :key="item.id"  :item="item" style="border-radius: 40px" )

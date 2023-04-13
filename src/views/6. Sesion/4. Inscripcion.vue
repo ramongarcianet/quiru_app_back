@@ -2,13 +2,13 @@
 import {ref, computed, onMounted} from 'vue'
 import marketing from "../../store/marketing";
 import { useRouter, useRoute } from 'vue-router';
-const { item, agregar, registrarEvento } = marketing;
+const { item, agregar } = marketing;
 const mensajeDeRegistro = ref(false)
 const {push} = useRouter()
 const route = useRoute()
-registrarEvento("view_inscripcion")
+//registrarEvento("view_inscripcion")
 const registroExitoso = ()=> {
-    registrarEvento("act_btn_price")
+    //registrarEvento("act_btn_price")
     mensajeDeRegistro.value = true
 }
 

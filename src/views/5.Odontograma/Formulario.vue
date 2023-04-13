@@ -23,7 +23,8 @@ let temList = [];
 let wakeLock = null;
 const _tipoOdonto = ref(route.params.tipoOdonto)
 const _listaDeHallazgos = computed(() => {
-  return _Hallazgos.filter(i => i.tipo == _tipoOdonto.value).map(({ text, value }) => ({ text, value }))
+  return _Hallazgos.map(({ text, value }) => ({ text, value }))
+  //return _Hallazgos.filter(i => i.tipo == _tipoOdonto.value).map(({ text, value }) => ({ text, value }))
 });
 
 onMounted(() => {
@@ -277,9 +278,9 @@ function onKeyDownSoloLetras(event) {
 //-Input sin micrófono
 .row.mt-3
   .col(:hidden="itemodontograma?.estado === '1'")
-    .row
-      .col.d-flex(v-if="!isSpeech").inputs-manual
-        input#tipoReg(type="hidden", value="0")
+    .row(v-if="!isSpeech").inputs-manual
+      input#tipoReg(type="hidden", value="0")
+      .col-12.col-md-6
         span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;" v-on:keypress='onKeyDownSoloNumeros($event)') Pieza :
           input.form-control#comboPieza(list='listaDeDientes', placeholder="::Seleccione::", name='comboPieza', v-model='item.diente', v-on:change="ListaAlterna(item.diente)",  :maxlength='2')
           datalist#listaDeDientes
@@ -287,6 +288,7 @@ function onKeyDownSoloLetras(event) {
           span#spanPiezaAl(style="display: none;") a la pieza :
           input.form-control#comboPiezaAl(style="display: none;",list='listaDeDientesAl', placeholder="::Seleccione::", name='comboPieza', v-model='item.dienteAlterno',  :maxlength='2')
           datalist#listaDeDientesAl
+      .col-12.col-md-6
         span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;", v-on:keypress='onKeyDownSoloLetras($event)') Hallazgo :
           input.form-control#comboHallazgo(list='_listaDeHallazgos', placeholder="::Seleccione::", name='comboHallazgo', v-model='Hallazgo', v-on:change="VisibleDiente()")
           datalist#_listaDeHallazgos

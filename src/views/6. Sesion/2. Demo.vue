@@ -14,7 +14,7 @@ import {
 import marketing from "../../store/marketing";
 import { onUnmounted, onMounted, computed, watch, ref} from "vue";
 import { useRoute, useRouter } from "vue-router";
-const { registrarEvento } = marketing;
+//const { registrarEvento } = marketing;
 const route = useRoute()
 const {back, push} = useRouter()
 escucharInicializarVoz();
@@ -53,7 +53,7 @@ const numeroDeInstruccion = ref(0)
 watch(
   ()=> item.value.diente,
   ()=> {
-    registrarEvento("usoDemo")
+    //registrarEvento("usoDemo")
     if ( numeroDeInstruccion.value < listaDeInstrucciones.value.length -1 )  numeroDeInstruccion.value ++
   }
 )

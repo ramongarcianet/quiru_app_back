@@ -1,7 +1,7 @@
 import { doc, updateDoc, arrayUnion } from 'firebase/firestore'
-import { firestore, analytics } from '../config/firebase'
+import { firestore } from '../config/firebase'
 import { ref } from 'vue'
-import { logEvent } from 'firebase/analytics'
+//import { logEvent } from 'firebase/analytics'
 
 export default {
     item: ref({}),
@@ -14,5 +14,5 @@ export default {
             })
         })
     },
-    registrarEvento: (eventName) => logEvent(analytics, eventName)
+    //registrarEvento: (eventName) => logEvent(analytics, eventName)
 }

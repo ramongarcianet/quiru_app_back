@@ -1,0 +1,14 @@
+{
+    "EJEMP": [
+
+    ],
+    "COMENTADOS": [
+        {"orden": "1.8 a 2.3 Protesis parcial removible en mal estado","descripcion": "Protesis dental parcial removible en mal estado", "norma":"6.1.31 Protesis dental parcial removible", "voz":" "},
+        {"orden": "1.6 Ionómero de vidrio en mal estado distal","descripcion": "Ionómero de vidrio en mal estado", "norma":"6.1.33 Restauración definitiva", "voz":" "},
+        {"orden": "Edéntulo total","descripcion": "Edéntulo total", "norma":"6.1.7 Edéntulo total superior/inferior"},
+        {"orden": "1.8 Lesión dentina palatino","descripcion": "Lesión dentina", "norma":"6.1.16 Lesión de caries dental"},
+        {"orden": "1.3 Lesión pulpar","descripcion": "Lesión pulpa", "norma":"6.1.16 Lesión de caries dental"},
+        {"orden": "1.8 Carilla en buen estado distal","descripcion": "Carilla en buen estado", "norma":"6.1.33 Restauración definitiva", "voz":" "},
+        {"orden": "1.8 Carilla en mal estado distal","descripcion": "Carilla en mal estado", "norma":"6.1.33 Restauración definitiva", "voz":" "}
+    ]
+}
