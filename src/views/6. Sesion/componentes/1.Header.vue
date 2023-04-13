@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 import marketing from "../../../store/marketing";
-const {registrarEvento} = marketing
+//const {registrarEvento} = marketing
 const { push } = useRouter();
 </script>
 <template lang="pug">
@@ -13,7 +13,7 @@ const { push } = useRouter();
                 h1.primary-text Enfócate en tu atención 
                     span.dark-text Quiru toma nota
                 span Olvídate de quitarte los guantes para hacer tus diagnósticos. Quiru es tu nuevo asistente de voz para que te enfóques en brindar el mejor servicio a tus pacientes.
-                button.btn.btn-primary.me-auto.mt-3( @click='push({ name: "demo" }), registrarEvento("activacion_btn_header")' ) Sé el primero
+                button.btn.btn-primary.me-auto.mt-3( @click='push({ name: "demo" })' ) Sé el primero
             .col-12.col-md-7.d-flex.align-items-end
                 Img.w-100(src="https://firebasestorage.googleapis.com/v0/b/quiru-b444f.appspot.com/o/landing%2FPortada-_1_-_1_.webp?alt=media&token=255bdaec-632b-4a46-a72c-8d4a4f4c1ca5")
 

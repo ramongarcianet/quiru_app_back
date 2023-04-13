@@ -133,7 +133,7 @@ export function detenerVoz() {
         diente: '',
         hallazgos: []
     }
-    comandosDeVoz.agradecer()
+    speak("Gracias")
 }
 export function detenerVozAutomat() {
     annyang.removeCommands();
