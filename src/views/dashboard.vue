@@ -131,6 +131,5 @@ Dialog( v-model='verDialog' )
     height: 100%
     width: 100%
     overflow-y: auto
-    background-color: #ffffff
 
 </style>
