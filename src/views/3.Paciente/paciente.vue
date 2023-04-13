@@ -79,51 +79,54 @@ button.btn.btn-outline-primary.border-0(@click="back()" )
   i.fa-solid.fa-arrow-left-long.fa-xl
 Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError='incompleto()')
   .row
-    .col-md-6
-      label.form-label Nombre del paciente*
-      .input-group.mb-2
+    .col-md-6 
+      label.form-label Nombres y Apellidos*     
+      .input-group.mb-12
         input.form-control(placeholder="Nombre", v-model.trim="item.nombre" @keypress="esLetra($event)" required,maxlength="30")
         input.form-control(placeholder="Apellido paterno", v-model.trim="item.apellidoPaterno",type="text" ,required,maxlength="30")
         input.form-control(placeholder="Apellido materno", v-model.trim="item.apellidoMaterno",type="text", required,maxlength="30")
+      
       label.form-label Documento de identidad*
-      .input-group.mb-2
+      .input-group.mb-12        
         select.form-select( v-model="item.tipoDocumento",v-on:change="definirMaxLimit(item.tipoDocumento)")
           option(value="DNI") DNI
           option(value="CE") CARNET DE EXTRANJERIA
-        //input.form-control(placeholder="Número documento", v-model="item.numeroDocumento" @keypress="esNumero($event)",required,:maxlength="maxDocumento",:minlength="maxDocumento")
         input.form-control(v-if='item.id' readonly v-model="item.numeroDocumento" required :maxlength="maxDocumento" :minlength="maxDocumento")
         input.form-control(v-if='!item.id' placeholder="Número documento", v-model="item.numeroDocumento" @keypress="esNumero($event)",required,:maxlength="maxDocumento",:minlength="maxDocumento")
-      .row.mb-2
-        .col
+      .row.mb-12
+        .col.mb-6
           label.form-label Fecha de nacimiento*
           input.form-control(type="date", v-model="item.fechaNacimiento", max="3000-01-01" onfocus="this.max=new Date().toISOString().split('T')[0]")
-        .col
+        .col.mb-6
           label.form-label Sexo*
           select.form-select(v-model="item.sexo",required)
             option(value="") SELECCIONE
             option(value="M") MASCULINO
             option(value="F") FEMENINO
-      .col.mb-2
-        label.form-label Dirección*
-        .input-group
-          input.form-control(placeholder="Departamento", v-model="item.departamento",type="text" ,required,maxlength="30")
-          input.form-control(placeholder="Dirección", v-model="item.Direccion",required,maxlength="40")
     .col-md-6
-      .col.mb-2
-        label.form-label Correo electrónico*
-        input.form-control(placeholder="Correo Electrónico", v-model="item.email", type="email", required,maxlength="30")
-      .col.mb-2
-        label.form-label Teléfono*
-        input.form-control(type="tel", placeholder="Num. celular", v-model="item.telefono",@keypress="esNumero($event)" ,required,minlength="9",maxlength="12")
-      .col.mb-3
-        label.form-label Constancia de informado*
-        select.form-select(placeholder="Constancia informado", v-model="item.constancia")
-          option(value="S") SI
-          option(value="N") NO
-      .col
-        .form-floating
-          textarea#floatingTextarea.form-control(placeholder='Leave a comment here')
-          label(for='floatingTextarea') Comentarios
+      .col.mb-12
+        label.form-label Correo*
+        .input-group.mb-12
+          input.form-control(placeholder="Correo Electrónico", v-model="item.email", type="email", required,maxlength="30")
+      .col.mb-12
+        label.form-label Celular*
+        .input-group.mb-12
+          input.form-control(type="tel", placeholder="Num. celular", v-model="item.telefono",@keypress="esNumero($event)" ,required,minlength="9",maxlength="12")
+      .col.mb-12
+        label.form-label Consentimiento informado*
+        .input-group.mb-12
+          select.form-select(placeholder="Constancia informado", v-model="item.constancia")
+            option(value="S") SI
+            option(value="N") NO    
+  .col.md-12
+    label.form-label Dirección*
+    .input-group
+      input.form-control(placeholder="Departamento", v-model="item.departamento",type="text" ,required,maxlength="30")
+      input.form-control(placeholder="Dirección", v-model="item.Direccion",required,maxlength="40")
+  .col.md-12
+    label.form-label Comentarios*
+    .input-group
+      textarea#floatingTextarea.form-control(placeholder='Deja un comentario aquí')
   .col-12.col-md-4.mx-auto.mt-3
     button#btguardar.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(
       type='submit', disabled style="border-radius: 50px"
