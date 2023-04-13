@@ -9,7 +9,7 @@ import { VerFormato } from "../../store/Canvas";
 import { useRoute, useRouter } from "vue-router";
 import { previousPage, nextPage, setList, registro_ as _hallazgosPag, setListDelete, SetPage } from "../../config/Paginator";
 import { listaDeDientesCombo, listaDeHallazgos as _Hallazgos } from '../../config/Parametros';
-import '../../assets/annyang.min'
+//import '../../assets/annyang.min'
 
 const route = useRoute();
 const listaDiccionario = obtenerTodoDiccionario();

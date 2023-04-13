@@ -122,7 +122,7 @@ function printHistoriaClinica(idPaciente) {
                     |     Eliminar paciente  
       .card-body
         Form.mt-md-4
-          label.form-label.mt-2 Nombre del paciente
+          label.form-label.mt-2 Nombres y apellidos
           .input-group.pb-md-3
             input.form-control(v-model="item.nombre", disabled)
             input.form-control(v-model="item.apellidoPaterno", disabled)
