@@ -17,7 +17,7 @@ import { useRoute, useRouter } from "vue-router";
 //const { registrarEvento } = marketing;
 const route = useRoute()
 const {back, push} = useRouter()
-escucharInicializarVoz();
+//escucharInicializarVoz();
 activarMicro();
 let wakeLock = null;
 onMounted(()=> {

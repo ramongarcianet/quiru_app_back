@@ -90,16 +90,12 @@ if (annyang) {
         }
     });
     annyang.addCallback('errorPermissionDenied', function () {
-        if (resizeWindow.value < 500)
-            console.log('Reconectando al micrófono')
+       /* if (resizeWindow.value < 500)
+            console.log('Reconectando al micrófono')*/
     });
-    flagAnnyang = annyang.start({ autoRestart: true, continuous: true })
-
     annyang.getSpeechRecognizer()?.grammars?.addFromString(comandosDeVoz?.gramatica, 1);
     annyang.addCommands(comandosDeVoz.conVozApagada)
-} else {
-
-}
+} 
 //--fin speech recognition
 export function escucharInicializarVoz() {
     annyang.resume();
