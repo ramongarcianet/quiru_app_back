@@ -3,13 +3,12 @@ import { onMounted, onUnmounted, watch, computed, ref } from "vue";
 import OdonOficial from "./2.impresion.vue";
 import { limpiarSinVoz } from "../../store/comandosDeVoz";
 import { obtenerTodoDiccionario, obtenerTodoPieza, obtenerTodoHallazgo, obtenerTodoCaries, } from "../../store/odonto";
-import { detenerVoz, activarVoz, isSpeech, escucharInicializarVoz, Hallazgo, item, paginaOdontograma, textoEscuchado, resizeWindow, } from "../../store/odontograma";
+import { detenerVoz, activarVoz, isSpeech, Hallazgo, item, paginaOdontograma, textoEscuchado, resizeWindow, } from "../../store/odontograma";
 import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarLista, mensajeExistePieza, getItemEnRegistro, validaDoble } from '../../store/formodontograma';
 import { VerFormato } from "../../store/Canvas";
 import { useRoute, useRouter } from "vue-router";
 import { previousPage, nextPage, setList, registro_ as _hallazgosPag, setListDelete, SetPage } from "../../config/Paginator";
 import { listaDeDientesCombo, listaDeHallazgos as _Hallazgos } from '../../config/Parametros';
-//import '../../assets/annyang.min'
 
 const route = useRoute();
 const listaDiccionario = obtenerTodoDiccionario();
@@ -18,7 +17,6 @@ const listaHallazgo = obtenerTodoHallazgo();
 const listaCaries = obtenerTodoCaries();
 const { push } = useRouter()
 leerEnRegistro(route.params.idOdontograma);
-escucharInicializarVoz();
 let temList = [];
 let wakeLock = null;
 const _tipoOdonto = ref(route.params.tipoOdonto)
@@ -33,11 +31,6 @@ onMounted(() => {
   setList(itemodontograma.value.hallazgos, 1);
 })
 
-onUnmounted(() => {
-  detenerVoz();
-  paginaOdontograma.value = false;
-
-})
 watch(
   () => route.params.tipoOdonto,
   () => {
