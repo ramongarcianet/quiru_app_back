@@ -20,7 +20,7 @@ watch(
 );
 const siglas = computed ( ()=> item.nombre.charAt(0) + item.apellido.charAt(0)||"")
 const adios = ()=> {
-  location.replace('https://quiru.app/')
+  location.replace('https://app.quiru.app/')
   }
 </script>
 
