@@ -299,7 +299,7 @@ const moverCarrusel = (adelanteOAtras) => {
               .title.light-quiru Crear
               .subtitle.light-quiru Tratamiento
             i.fa-solid.fa-briefcase-medical.icono.light-quiru
-      .col-md-4.col-12      
+      //.col-md-4.col-12      
         div.opciones(v-if="itemodontograma?.hallazgos ")
           button.outline-quiru( @click='push({ name: "planDeTratamiento", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
             .contenido
