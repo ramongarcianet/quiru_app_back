@@ -6,23 +6,17 @@ import {useRouter} from 'vue-router'
 export const dialog = ref( false )
 export const registro = ref([])
 export const item = ref({
-    planTratamiento: '',
-    planFecha: '',
-    planHora: '',
-    planPresupuesto: '',
-    planAdelanto: '',
-    planSaldo: '',
+    descripDiagnostico: '',
+    descripPlan: '',
+    idDiagnostico: '',
+    idTratamiento: '',
+    detallePlan: [],
     id: '',
 })
 
-export const guardar = (item, idPaciente) => {
+export const guardar = (item) => {
     const referencia = collection(firestore, 'planes')
-    console.log(item);
-    return addDoc(referencia, {
-        ...item,
-        idPaciente: idPaciente,
-        odontologoId: miUsuario()?.uid,
-    })
+    return addDoc(referencia, item)
 }
 
 export const actualizar = (item) => {
@@ -43,7 +37,7 @@ export const eliminar = (id) => {
         console.log(item.value)
     } )
 }*/
-const verEliminados = ref(false)
+
 export const obtenerTodos = () => {
     const referencia = collection(firestore, 'planes')
     return onSnapshot(
@@ -60,12 +54,10 @@ export const leerEnRegistro = computed( ()=> idPaciente => {
 
 export const limpiar = () => {
     item.value = {
-        planTratamiento: '',
-        planFecha: '',
-        planHora: '',
-        planPresupuesto: '',
-        planAdelanto: '',
-        planSaldo: '',
+        descripDiagnostico: '',
+        descripPlan: '',
+        idDiagnostico: '',
+        idTratamiento: '',
         id: '',
     }
 }
