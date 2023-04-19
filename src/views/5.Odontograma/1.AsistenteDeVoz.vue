@@ -296,6 +296,12 @@ const moverCarrusel = (adelanteOAtras) => {
           .title.light-quiru Crear
           .subtitle.light-quiru Tratamiento
         i.fa-solid.fa-briefcase-medical.icono.light-quiru
+    div.opciones
+      button.outline-quiru( @click='push({ name: "planDeTratamiento", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
+        .contenido
+          .title Plan
+          .subtitle de tratamiento
+        i.fa-solid.fa-file-pen.icono
 </template>
 
 <style lang="sass" scoped>
