@@ -79,7 +79,10 @@ function addEvent(_cita) {
       'timeZone': userTimeZone
     },
     'reminders': {
-      'useDefault': true
+      'useDefault': false,
+      'overrides': [
+        { 'method': 'popup', 'minutes': 30 }
+      ]
     },
     'attendees': [
       {
