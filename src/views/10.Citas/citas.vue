@@ -28,6 +28,7 @@ const NombreDoctor = ref("");
 let itemSelect = {};
 let EventSelect = {};
 let gcalendar = {};
+let _calendarId = "";
 onMounted(() => {
   LeerUser(miUsuario().uid);
   gapi.load('client:auth2', () => {
@@ -37,9 +38,16 @@ onMounted(() => {
       discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
       scope: 'https://www.googleapis.com/auth/calendar'
     }).then(() => {
-      console.log('Google API client loaded');
-      console.log(miUsuario())
-      getEvents()
+      gapi.client.calendar.calendarList.list().then(function (response) {
+        var calendars = response.result.items;
+        for (var i = 0; i < calendars.length; i++) {
+          var calendar = calendars[i];
+          _calendarId = calendar.id
+        }
+      }
+        , (error) => {
+          signIn()
+        });
     }, (error) => {
       console.log('Error loading Google API client:', error);
     });
@@ -47,7 +55,7 @@ onMounted(() => {
 });
 function getEvents() {
   var request = gapi.client.calendar.events.list({
-    'calendarId': '249f7e5f6197cd2ab9911a8752af35309ab0259585b044f736213b50986161d1@group.calendar.google.com',
+    'calendarId': _calendarId,
     'timeMin': (new Date(2023, 3, 1)).toISOString(),
     'showDeleted': false,
     'singleEvents': true,
@@ -59,6 +67,23 @@ function getEvents() {
     var events = response.items;
     console.log(events);
   });
+}
+function signIn() {
+  gapi.auth2.getAuthInstance().signIn().then(function (googleUser) {
+    gapi.client.calendar.calendarList.list().then(function (response) {
+      var calendars = response.result.items;
+      for (var i = 0; i < calendars.length; i++) {
+        var calendar = calendars[i];
+        _calendarId = calendar.id
+        console.log('Calendar ID:', calendar.id);
+        console.log('Calendar Summary:', calendar.summary);
+        console.log('Calendar Time Zone:', calendar.timeZone);
+      }
+    });
+  }
+    , (error) => {
+      console.log('Error signing in user:');
+    });
 }
 
 function addEvent(_cita) {
@@ -98,7 +123,7 @@ function addEvent(_cita) {
   };
 
   const request = gapi.client.calendar.events.insert({
-    'calendarId': '249f7e5f6197cd2ab9911a8752af35309ab0259585b044f736213b50986161d1@group.calendar.google.com',
+    'calendarId': _calendarId,
     'resource': event
   });
 
@@ -117,7 +142,7 @@ function updateEventGCal(arg, sumary) {
   endDate.setTime(endDate.getTime() + (5 * 60 * 60 * 1000));
 
   const request = gapi.client.calendar.events.get({
-    'calendarId': '249f7e5f6197cd2ab9911a8752af35309ab0259585b044f736213b50986161d1@group.calendar.google.com',
+    'calendarId': _calendarId,
     'eventId': eventId
   });
 
@@ -129,7 +154,7 @@ function updateEventGCal(arg, sumary) {
     event.end.timeZone = userTimeZone;
     event.timeZone = userTimeZone;
     const updateRequest = gapi.client.calendar.events.update({
-      'calendarId': '249f7e5f6197cd2ab9911a8752af35309ab0259585b044f736213b50986161d1@group.calendar.google.com',
+      'calendarId': _calendarId,
       'eventId': eventId,
       'resource': event
     });
@@ -144,7 +169,7 @@ function deleteEventGCal(id) {
   const eventId = item_data.gcalendar.id;
 
   gapi.client.calendar.events.delete({
-    'calendarId': '249f7e5f6197cd2ab9911a8752af35309ab0259585b044f736213b50986161d1@group.calendar.google.com',
+    'calendarId': _calendarId,
     'eventId': eventId
   }).then(function (response) {
     console.log('Evento eliminado:');
