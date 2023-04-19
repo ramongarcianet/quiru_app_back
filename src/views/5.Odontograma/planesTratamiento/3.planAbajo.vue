@@ -1,19 +1,44 @@
 <script setup>
 import { onUnmounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { item, guardar, actualizar, leerEnRegistro, obtenerTodos, registro, limpiar }  from '../../store/planTratamiento.js'
+import { guardar, actualizar, leerEnRegistro, obtenerTodos, registro }  from '../../../store/planTratamiento.js'
+import { leerOdonto, registroodonto } from "../../../store/formodontograma.js";
+
 const route = useRoute()
 const { back } = useRouter()
+const idPaciente = route.params.idPaciente
 const idOdontograma = route.params.idOdontograma
 const tipoOdontograma = route.params.tipoOdonto
+/*var idSolucionDiag = ''
+var idSolucionTrat = ''
+if(tipoOdontograma === 'Diagnóstico') {
+  idSolucionDiag = idOdontograma
+  }else{
+    idSolucionTrat = idOdontograma
+  }*/
+const item = ref({
+    descripDiagnostico: '',
+    descripPlan: '',
+    idPac: idPaciente,
+    detallePlan: [],
+    id: '',
+})
+console.log(item)
+//leerOdonto(idOdontograma)
+//console.log(registroodonto.value)
+
+const limpiar = () => {
+    item.value = {
+      descripDiagnostico: '',
+      descripPlan: '',
+      idPac: idPaciente,
+      detallePlan: [],
+      id: '',
+    }
+}
 const agregarAlPlan = (item) => {
   return guardar(item)
 };
-if(tipoOdontograma === 'Diagnóstico') {
-  console.log('estamos en un diag')
-  }else{
-    console.log('estamos en un trata')
-  }
 obtenerTodos()
 </script>
 <template lang="pug">
@@ -24,7 +49,7 @@ obtenerTodos()
       i.fa-solid.fa-arrow-left-long.fa-xl
 .row
   .col.m-2
-    Form( :onPromise="() => agregarAlPlan(item)" :onSuccess= '() => limpiar()' )
+    Form( :onPromise="() => agregarAlPlan(item)" )
       .row
         .col-6
           label.form-label.mb-1 Diagónsticos
@@ -32,6 +57,9 @@ obtenerTodos()
         .col-6
           label.form-label.mb-1 Comentario del plan de trabajo y presupuesto total
           textarea.form-control( rows="6" v-model="item.descripPlan")
+        .d-flex.mt-2
+          button.ms-auto.btn.btn-primary(type="submit") Guardar
+    Form( :onPromise="() => agregarAlPlan(item)" :onSuccess= '() => limpiar()' )
       .row.mt-2
         .col-6.col-md-4
           label.form-label() Tratamiento
