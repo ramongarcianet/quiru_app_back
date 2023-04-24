@@ -121,7 +121,7 @@ const routes = [
             {
                 path: 'planDeTratamiento/:idOdontograma?/:idPaciente?',
                 name: 'planDeTratamiento',
-                component: ()=>import('../views/5.Odontograma/5.planDeTratamiento.vue')
+                component: ()=>import('../views/5.Odontograma/planesTratamiento/0.planTotal.vue')
             },
             {
                 path: 'precios',
