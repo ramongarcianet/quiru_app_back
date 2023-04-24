@@ -272,7 +272,6 @@ const moverCarrusel = (adelanteOAtras) => {
             i.fa-regular.fa-trash-can.fa-xl(style="color: var(--color-primary)")
           button.btn(title='Imprimir' @click="printOdontograma()")
             i.fa-solid.fa-print.fa-xl(style="color: var(--color-primary)")#destacarImpresion
-          //button.btn(v-if="isSpeech" title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
           button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
             i.fa-solid.fa-question.fa-xl(style="color: var(--color-primary)")#destacarAyuda
           #exampleModal.modal.fade(tabindex='-1')
