@@ -42,12 +42,17 @@ onMounted(() => {
         var calendars = response.result.items;
         for (var i = 0; i < calendars.length; i++) {
           var calendar = calendars[i];
-          _calendarId = calendar.id
+          if (calendar.id == calendar.summary) {
+            _calendarId = calendar.id
+          }
+          var x = document.getElementById("IsVisibleLoginCalendar");
+          x.style.display = "none"
         }
-      }
-        , (error) => {
-          signIn()
-        });
+      }, (error) => {
+        var x = document.getElementById("IsVisibleLoginCalendar");
+        x.style.display = "block"
+        console.log('Error login Google calendar:', error);
+      });
     }, (error) => {
       console.log('Error loading Google API client:', error);
     });
@@ -65,20 +70,25 @@ function getEvents() {
 
   request.execute(function (response) {
     var events = response.items;
-    console.log(events);
   });
 }
+
 function signIn() {
   gapi.auth2.getAuthInstance().signIn().then(function (googleUser) {
     gapi.client.calendar.calendarList.list().then(function (response) {
       var calendars = response.result.items;
       for (var i = 0; i < calendars.length; i++) {
         var calendar = calendars[i];
-        _calendarId = calendar.id
-        console.log('Calendar ID:', calendar.id);
-        console.log('Calendar Summary:', calendar.summary);
-        console.log('Calendar Time Zone:', calendar.timeZone);
+        if (calendar.id == calendar.summary) {
+          _calendarId = calendar.id
+        }
+        var x = document.getElementById("IsVisibleLoginCalendar");
+        x.style.display = "none"
       }
+    }, (error) => {
+      var x = document.getElementById("IsVisibleLoginCalendar");
+      x.style.display = "block"
+      console.log('Error login Google calendar:', error);
     });
   }
     , (error) => {
@@ -128,7 +138,7 @@ function addEvent(_cita) {
   });
 
   request.execute((event) => {
-    _cita.gcalendar = event.result
+    _cita.gcalendar = {} || event.result
     guardarCita(_cita)
   });
 }
@@ -382,7 +392,12 @@ const guardarCitaCompleta = (idPaciente) => new Promise((resolve, reject) => {
   cita.value.location = "" || ItemUsuario.value.nombreconsultorio + " - " + ItemUsuario.value.direccion;
   let index = registro.value?.findIndex(i => i.id == cita.value.id);
   if (index == -1 || index == undefined) {
-    addEvent(cita.value)
+    if (_calendarId == "") {
+      guardarCita(cita.value)
+    }
+    else {
+      addEvent(cita.value)
+    }
     resolve()
     return
   }
@@ -419,9 +434,13 @@ function closeEvent() {
 
 <template lang="pug">
 .row
-  .col-4.col-md-9
+  .col-6.col-md-12
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Lista
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") de citas
+  .col-6.col-md-12
+    button.ms-auto.btn.btn-warning(id="IsVisibleLoginCalendar" type='button', @click="signIn()") 
+      Img(style="opacity: 1; justify-content: start !important;height: 25px; align-items: start!important;" src="https://ssl.gstatic.com/calendar/images/dynamiclogo_2020q4/calendar_21_2x.png")
+        span(style="justify-content: center!important; align-items: center!important;") Enlazar calendario con Google Calendar
 .row.desplazable
   .contenido( style="background-color: #fff")
     fullcalendar(v-bind:options='options')

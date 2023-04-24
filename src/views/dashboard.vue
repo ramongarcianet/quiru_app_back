@@ -113,8 +113,9 @@ Dialog( v-model='verDialog' )
     button.btn.btn-primary(type='button' data-bs-dismiss='modal') Aceptar
 
 .container-fluid.vh-100.d-flex.px-0.pb-4.light
-  #body.py-5
+  #body.py-1
     .container.mb-3
+      Img(style="position: initial ; opacity: 1; justify-content: start !important; align-items: start!important;" src="https://firebasestorage.googleapis.com/v0/b/quiru-b444f.appspot.com/o/landing%2FGroup-73.webp?alt=media&token=e2d6eb8c-a303-4119-b361-5a16e8c84f9c")
       Avatar
       router-view
   Nav
@@ -131,5 +132,6 @@ Dialog( v-model='verDialog' )
     height: 100%
     width: 100%
     overflow-y: auto
+    background-color: #fff
 
 </style>
