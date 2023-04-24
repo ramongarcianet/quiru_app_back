@@ -285,6 +285,7 @@ const moverCarrusel = (adelanteOAtras) => {
     Formulario
 
     .row.mt-3
+      .d-none.d-md-block.col-md-1
       .col-md-4.col-12
         div.opciones
           button.outline-quiru( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
@@ -292,11 +293,12 @@ const moverCarrusel = (adelanteOAtras) => {
               .title Agregar
               .subtitle Datos adicionales
             i.fa-solid.fa-file-circle-plus.icono
+      .d-none.d-md-block.col-md-1
       .col-md-4.col-12
         div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.tieneTratamiento!='Si'" id="holo")
           a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardar_(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id)")
             .contenido
-              .title.light-quiru Crear
+              .title.light-quiru Generar
               .subtitle.light-quiru Tratamiento
             i.fa-solid.fa-briefcase-medical.icono.light-quiru
       //.col-md-4.col-12      
