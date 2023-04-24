@@ -19,7 +19,7 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
   .row
     .col-md-6
       .col.mb-1
-        span.input-group-text.mb-1(style="background-color: var(--color-light);") Datos Generales del Paciente
+        span.input-group-text.mb-1(style="background-color: var(--color-light); font-weight: bold; color:rgb(57, 93, 86);") Datos Generales del Paciente
       .col.mb-1
         span(style="padding: .01rem .01rem .01rem .6rem;") Ocupación :
         input.form-control(placeholder="", v-model="item.ocupacion")
@@ -33,7 +33,7 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
         span(style="padding: .01rem .01rem .01rem .6rem;") Viajes de los últimos años :
         input.form-control(placeholder="", v-model="item.viajesUltimos")
       .col.mb-1
-        span.input-group-text.mb-1(style="background-color: var(--color-light);") Temperatura Antecedentes
+        span.input-group-text.mb-1(style="background-color: var(--color-light); font-weight: bold; color:rgb(57, 93, 86);") Temperatura Antecedentes
       .col.mb-1
         span(style="padding: .01rem .01rem .01rem .6rem;") Familiares :
         input.form-control(placeholder="", v-model="item.antecedentesFam")
@@ -41,7 +41,7 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
         span(style="padding: .01rem .01rem .01rem .6rem;") Personales :
         input.form-control(placeholder="", v-model="item.antecedentesPer")
       .col.mb-1
-        span.input-group-text.mb-1(style="background-color: var(--color-light);") Signos vitales
+        span.input-group-text.mb-1(style="background-color: var(--color-light); font-weight: bold; color:rgb(57, 93, 86);") Signos vitales
       .col.mb-1
         span(style="padding: .01rem .01rem .01rem .6rem;") Temperatura :     
         input.form-control(placeholder="", v-model="item.temperatura" maxlength="2")
@@ -59,7 +59,7 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
         input.form-control(placeholder="", v-model="item.fResp" maxlength="2")
     .col-md-6
       .col.mb-1
-        span.input-group-text.mb-1(style="background-color: var(--color-light);") Datos de la consulta  
+        span.input-group-text.mb-1(style="background-color: var(--color-light); font-weight: bold; color:rgb(57, 93, 86);") Datos de la consulta  
       .col.mb-1
         span(style="padding: .01rem .01rem .01rem .6rem;") Motivo :
         input.form-control(placeholder="", v-model="item.motivoConsulta")
