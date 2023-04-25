@@ -287,7 +287,7 @@ const moverCarrusel = (adelanteOAtras) => {
 
     #ayudaON.mt-4
       Instrucciones
-    .row
+    .row.mb-5
       .col-md-3.col-12
         div.opciones
           button.outline-quiru(style="margin-bottom: 1.8rem;" @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
@@ -303,7 +303,7 @@ const moverCarrusel = (adelanteOAtras) => {
               .title.light-quiru Crear
               .subtitle.light-quiru Odontograma de tratamiento
             i.fa-solid.fa-briefcase-medical.icono.light-quiru
-      .col-md-3.col-12      
+      //.col-md-3.col-12      
         div.opciones(v-if="itemodontograma?.hallazgos ")
           button.outline-quiru(style="margin-bottom: 1.8rem;"  @click='push({ name: "planDeTratamiento", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
             .contenido(style="width: 60%;")
