@@ -418,7 +418,12 @@ function GetPaciente(val) {
   if (val.target.value == '') {
     return
   }
-  leerDniRegistro(val.target.value);
+  try {
+    leerDniRegistro(val.target.value);
+  }
+  catch (e) {
+    return
+  }
 
 }
 const guardarPacienteNuevo = () => {

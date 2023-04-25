@@ -15,17 +15,17 @@ const item = ref({
     visto: 0
 })
 const revisarDNI = (item) => new Promise((resolve) => {
-    try{
+    try {
         return getDocs(
-        query(
-            collection(firestore, "paciente"),
-            where("numeroDocumento", "==", item.numeroDocumento)
+            query(
+                collection(firestore, "paciente"),
+                where("numeroDocumento", "==", item.numeroDocumento)
+            )
         )
-    )
-    .then(resultado=>{
-            if(resultado.empty)resolve(true)
-            else resolve(false)
-        })
+            .then(resultado => {
+                if (resultado.empty) resolve(true)
+                else resolve(false)
+            })
     }
     catch (e) {
         console.log(e)
@@ -79,7 +79,7 @@ const obtenerTodosDni = () => {
         referenciaOrden,
         collection => {
             registro.value = collection.docs.map(doc => ({ ...doc.data(), dni: doc.dni }))
-        }   
+        }
     )
 }
 
@@ -92,7 +92,35 @@ const leerEnRegistro = id => {
     return item.value = registro.value.find(item => item.id == id)
 }
 const leerDniRegistro = dni => {
-    return item.value = registro.value.find(item => item.numeroDocumento == dni)
+    try {
+        item.value = registro.value.find(item => item.numeroDocumento == dni)
+    }
+    catch (e) {
+        item.value = {
+            tipoDocumento: 'DNI',
+            sexo: '',
+            fechaNacimiento: new Date().toISOString().slice(0, 10),
+            fechaIngreso: new Date().toISOString().slice(0, 10),
+            constancia: 'N',
+            estado: true,
+            visto: 0,
+            numeroDocumento: dni
+        }
+    }
+    if(item.value==undefined){
+        item.value = {
+            tipoDocumento: 'DNI',
+            sexo: '',
+            fechaNacimiento: new Date().toISOString().slice(0, 10),
+            fechaIngreso: new Date().toISOString().slice(0, 10),
+            constancia: 'N',
+            estado: true,
+            visto: 0,
+            numeroDocumento: dni
+        }
+        alert("El DNI ingresado no existe, seleccione el check para registrar un nuevo paciente")
+    }
+    return
 }
 const limpiar = () => {
     item.value = {
