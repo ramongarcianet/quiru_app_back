@@ -282,7 +282,6 @@ const moverCarrusel = (adelanteOAtras) => {
                 .modal-body
                   Instrucciones
     Formulario
-
     .row
       .col-md-3.col-12
         div.opciones
@@ -291,6 +290,7 @@ const moverCarrusel = (adelanteOAtras) => {
               .title Agregar
               .subtitle Datos adicionales
             i.fa-solid.fa-file-circle-plus.icono
+      .d-none.d-md-block.col-md-1
       .col-md-4.col-12
         div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.tieneTratamiento!='Si'" id="holo")
           a.outline-quiru.solid(style="margin-bottom: 1.8rem;"  class="list-group-item list-group-item-action" href="#list-item-1" @click="guardar_(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id)")
