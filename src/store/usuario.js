@@ -35,8 +35,6 @@ const item1 = ref({
 })
 export const crearUsuarioConId = item => {
     const referencia = doc(firestore, 'usuario', item.id)
-    //const referencia = collection(firestore, 'usuario')
-    //return addDoc(referencia, item)
     return setDoc(referencia, item)
 }
 
@@ -57,8 +55,6 @@ const eliminar = (id) => {
     const referencia = doc(firestore, 'usuario', id)
     return deleteDoc(referencia)
 }
-
-
 
 const obtenerTodos = () => {
     const referencia = collection(firestore, 'usuario')
