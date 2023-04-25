@@ -303,7 +303,7 @@ function onKeyDownSoloLetras(event) {
     .card.card-body
       .div(style="background-color: white; border-radius: 2%;")
         table.table.table-hover
-          thead
+          thead(style='position: sticky;top: 0; background-color: var(--color-light)!important; font-weight: bold; color:rgb(57, 93, 86);')
             tr
               th N°
               th Pieza

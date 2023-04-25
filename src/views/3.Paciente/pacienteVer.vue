@@ -92,11 +92,12 @@ function printHistoriaClinica(idPaciente) {
 .row
   .col.col-md-4
     .card
-      .card-header
+      .card-header(style='background-color:var(--color-light) !important;')
         .row
           .col-6
-            nav.navbar.navbar-expand-lg.bg-light(style='background-color:transparent !important;')
-              h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Paciente
+            nav.navbar.navbar-expand-lg.bg-light(style='background-color:var(--color-light) !important;')
+              h1.my-0(style="color: #395D56; font-size: 1.25em; font-family: var(--font-family)") Información           
+                h1(style="color: #37DFBB; font-weight:bold; font-size: 1.25em; font-family: var(--font-family)") de Paciente
           .col-6
             .dropdown.d-flex.justify-content-end.mt-1
               i.fa.fa-ellipsis-v.fa-xl.p-3(href='#' role='button' data-bs-toggle='dropdown' style="color: var(--color-primary)")
@@ -147,10 +148,10 @@ function printHistoriaClinica(idPaciente) {
         i.fa-solid.fa-teeth-open.fa-xl
   .col.col-md-8
     .card
-      .card-header
+      .card-header(style='background-color:var(--color-light) !important;')
         .d-flex.align-content-start.flex-wrap
-          h1(style="color: #37DFBB; font-size: 1em; font-family: var(--font-family)") Lista de
-            h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") odontogramas
+          h1.my-0(style="color: #395D56; font-size: 1.25em; font-family: var(--font-family)") Lista de          
+            h1(style="color: #37DFBB; font-weight:bold; font-size: 1.25em; font-family: var(--font-family)") odontogramas
       .card-body
         RegistroOdontograma
 </template>

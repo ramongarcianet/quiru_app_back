@@ -1,26 +1,27 @@
 <script setup>
 import { onMounted, onUnmounted, watch, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { item, guardar, actualizar, limpiar, leerEnRegistro, revisarDNI } from "../../store/paciente";
+import { item, guardar, actualizar, limpiar, leerEnRegistro, revisarDNI, registro, obtenerTodos } from "../../store/paciente";
 import { esLetra, esNumero } from '../../config/libreria'
 import { connectStorageEmulator } from "@firebase/storage";
 const maxDocumento = ref(8);
+const obtenerRegistro = obtenerTodos();
 const guardarOActualizar = () => {
   var alerta = document.getElementById("alerta");
   alerta.style.display = "none"
-  if(item.value.id){
-    actualizar(item.value)
+  const index = registro.value?.findIndex(i => i.numeroDocumento == item.value.numeroDocumento)
+  if (index < 0) {
+    return guardar(item.value)
   }
-
-  return revisarDNI(item.value).then( r => {
-    if(r){
-      if (item.value.id) return actualizar(item.value)
-      else return guardar(item.value)
+  else {
+    if (item.value.id) {
+      return actualizar(item.value)
     }
-    else{
-      console.log('repetido')
+    else {
+      alerta.innerHTML = "El N° de DNI ya existe para otro paciente";
+      alerta.style.display = "block"
     }
-  })
+  }
 }
 const route = useRoute()
 const { back, push } = useRouter()
@@ -85,7 +86,7 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
         input.form-control(placeholder="Nombre", v-model.trim="item.nombre" @keypress="esLetra($event)" required,maxlength="30")
         input.form-control(placeholder="Apellido paterno", v-model.trim="item.apellidoPaterno",type="text" ,required,maxlength="30")
         input.form-control(placeholder="Apellido materno", v-model.trim="item.apellidoMaterno",type="text", required,maxlength="30")
-      
+
       label.form-label Documento de identidad*
       .input-group.mb-12        
         select.form-select( v-model="item.tipoDocumento",v-on:change="definirMaxLimit(item.tipoDocumento)")
@@ -127,7 +128,7 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
     label.form-label Comentarios*
     .input-group
       textarea#floatingTextarea.form-control(placeholder='Deja un comentario aquí')
-  .col-12.col-md-4.mx-auto.mt-3
+  .col-12.col-md-4.mx-auto.mt-3.mb-5
     button#btguardar.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(
       type='submit', disabled style="border-radius: 50px"
     )

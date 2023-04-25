@@ -272,30 +272,44 @@ const moverCarrusel = (adelanteOAtras) => {
             i.fa-regular.fa-trash-can.fa-xl(style="color: var(--color-primary)")
           button.btn(title='Imprimir' @click="printOdontograma()")
             i.fa-solid.fa-print.fa-xl(style="color: var(--color-primary)")#destacarImpresion
-          //button.btn(v-if="isSpeech" title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
-          button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
+          //button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
             i.fa-solid.fa-question.fa-xl(style="color: var(--color-primary)")#destacarAyuda
-          #exampleModal.modal.fade(tabindex='-1')
+          //#exampleModal.modal.fade(tabindex='-1')
             .modal-dialog.modal-lg
               .modal-content
                 .modal-header
                   button.btn-close(type='button' data-bs-dismiss='modal')
                 .modal-body
                   Instrucciones
+          a.btn(title='Ayuda' href="#ayudaON")
+            i.fa-solid.fa-question.fa-xl(style="color: var(--color-primary)")#destacarAyuda
     Formulario
 
-    div.mt-5.opciones
-      button.outline-quiru( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
-        .contenido
-          .title Agregar
-          .subtitle Datos adicionales
-        i.fa-solid.fa-file-circle-plus.icono
-    div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.tieneTratamiento!='Si'" id="holo")
-      a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardar_(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id)")
-        .contenido
-          .title.light-quiru Crear
-          .subtitle.light-quiru Tratamiento
-        i.fa-solid.fa-briefcase-medical.icono.light-quiru
+    #ayudaON.mt-4
+      Instrucciones
+    .row.mb-5
+      .col-md-3.col-12
+        div.opciones
+          button.outline-quiru(style="margin-bottom: 1.8rem;" @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
+            .contenido(style="width: 60%;")
+              .title Agregar
+              .subtitle Datos adicionales
+            i.fa-solid.fa-file-circle-plus.icono
+      .d-none.d-md-block.col-md-1
+      .col-md-4.col-12
+        div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.tieneTratamiento!='Si'" id="holo")
+          a.outline-quiru.solid(style="margin-bottom: 1.8rem;"  class="list-group-item list-group-item-action" href="#list-item-1" @click="guardar_(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id)")
+            .contenido(style="width: 60%;")
+              .title.light-quiru Crear
+              .subtitle.light-quiru Odontograma de tratamiento
+            i.fa-solid.fa-briefcase-medical.icono.light-quiru
+      //.col-md-3.col-12      
+        div.opciones(v-if="itemodontograma?.hallazgos ")
+          button.outline-quiru(style="margin-bottom: 1.8rem;"  @click='push({ name: "planDeTratamiento", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
+            .contenido(style="width: 60%;")
+              .title Plan
+              .subtitle de tratamiento
+            i.fa-solid.fa-file-pen.icono
 </template>
 
 <style lang="sass" scoped>
@@ -456,7 +470,7 @@ const moverCarrusel = (adelanteOAtras) => {
     flex-direction: column
     justify-content: center
     align-items: center
-    width: 40%
+    width: 100%
     height: auto
   .visita_guiada
     margin: 0px
