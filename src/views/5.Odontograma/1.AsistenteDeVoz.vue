@@ -282,28 +282,26 @@ const moverCarrusel = (adelanteOAtras) => {
                 .modal-body
                   Instrucciones
     Formulario
-
-    .row.mt-3
-      .d-none.d-md-block.col-md-1
-      .col-md-4.col-12
+    .row
+      .col-md-3.col-12
         div.opciones
-          button.outline-quiru( @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
-            .contenido
+          button.outline-quiru(style="margin-bottom: 1.8rem;" @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
+            .contenido(style="width: 60%;")
               .title Agregar
               .subtitle Datos adicionales
             i.fa-solid.fa-file-circle-plus.icono
       .d-none.d-md-block.col-md-1
       .col-md-4.col-12
         div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.tieneTratamiento!='Si'" id="holo")
-          a.outline-quiru.solid(class="list-group-item list-group-item-action" href="#list-item-1" @click="guardar_(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id)")
-            .contenido
-              .title.light-quiru Generar
-              .subtitle.light-quiru Tratamiento
+          a.outline-quiru.solid(style="margin-bottom: 1.8rem;"  class="list-group-item list-group-item-action" href="#list-item-1" @click="guardar_(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id)")
+            .contenido(style="width: 60%;")
+              .title.light-quiru Crear
+              .subtitle.light-quiru Odontograma de tratamiento
             i.fa-solid.fa-briefcase-medical.icono.light-quiru
-      //.col-md-4.col-12      
+      .col-md-3.col-12      
         div.opciones(v-if="itemodontograma?.hallazgos ")
-          button.outline-quiru( @click='push({ name: "planDeTratamiento", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
-            .contenido
+          button.outline-quiru(style="margin-bottom: 1.8rem;"  @click='push({ name: "planDeTratamiento", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
+            .contenido(style="width: 60%;")
               .title Plan
               .subtitle de tratamiento
             i.fa-solid.fa-file-pen.icono

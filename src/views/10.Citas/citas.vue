@@ -418,7 +418,12 @@ function GetPaciente(val) {
   if (val.target.value == '') {
     return
   }
-  leerDniRegistro(val.target.value);
+  try {
+    leerDniRegistro(val.target.value);
+  }
+  catch (e) {
+    return
+  }
 
 }
 const guardarPacienteNuevo = () => {
@@ -434,13 +439,13 @@ function closeEvent() {
 
 <template lang="pug">
 .row
-  .col-6.col-md-12
+  .col-6.col-md-6
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Lista
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") de citas
-  .col-6.col-md-12
-    button.ms-auto.btn.btn-warning(id="IsVisibleLoginCalendar" type='button', @click="signIn()") 
+  .col-6.col-md-6
+    button.ms-auto.btn.btn-warning(id="IsVisibleLoginCalendar" type='button', @click="signIn()" style="float: right;padding-right: 3%;") 
       Img(style="opacity: 1; justify-content: start !important;height: 25px; align-items: start!important;" src="https://ssl.gstatic.com/calendar/images/dynamiclogo_2020q4/calendar_21_2x.png")
-        span(style="justify-content: center!important; align-items: center!important;") Enlazar calendario con Google Calendar
+        span(style="justify-content: center!important; align-items: center!important;") Enlazar
 .row.desplazable
   .contenido( style="background-color: #fff")
     fullcalendar(v-bind:options='options')
