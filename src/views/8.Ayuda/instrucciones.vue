@@ -1,32 +1,104 @@
 <script setup>
-import { onUnmounted, ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import ejemDiag from '../../config/EjemDiagnostico.json';
-import ejemTrata from '../../config/EjemTratamiento.json';
-import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma, eliminar } from '../../store/formodontograma';
-import { ejecutarVoz } from '../../store/comandosDeVoz';
-const { push } = useRouter()
+import ejemplos from '../../config/ejemplos.json';
+$(document).ready(function () {
+  $("#myInput").on("keyup", function () {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function () {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+
+function ocultarAyuda() {
+  var verAyuda = document.getElementById("AyudaCard");
+  verAyuda.style.display = "none"
+
+}
 </script>
+
 <template lang="pug">
-
-.container
-  div(style="background-color: white; border-radius: 2%;")
-    table.table.table-hover
-      thead
-        tr 
-          th Ejemplos de voz
-          th.d-none.d-md-table-cell Norma técnica
-
-      tbody(v-if="itemodontograma?.tipo === 'Diagnóstico'")
-        tr(v-for="comandoD of ejemDiag.EJEMP")
-          td {{comandoD.orden}} 
-          td.d-none.d-md-table-cell {{comandoD.norma}}
-      
-      tbody(v-if="itemodontograma?.tipo === 'Tratamiento'")
-        tr(v-for="comandoT of ejemTrata.EJEMP")
-          td {{comandoT.orden}}
-          td.d-none.d-md-table-cell {{comandoT.norma}}
+.row
+  .col-11
+    input#myInput.form-control.parpadea(style='border-color: rgb(57, 93, 86);' type='text' placeholder='Escriba una palabra para buscar en la lista el hallazgos')
+  .col-1.p-0
+span.m-1(style='font-weight: bold; font-size: 12px; color:rgb(57, 93, 86)') Pruebe diciendo un ejemplo, Quiru está escuchando
+.Contenido  
+  table.table.table-bordered.table-striped
+    thead(style='position: sticky;top: 0; background-color: var(--color-light)!important; font-weight: bold; color:rgb(57, 93, 86);')
+      tr
+        th.Cabecera Ejemplos de voz
+        th.d-none.d-md-table-cell.Cabecera Norma técnica
+    tbody#myTable.table-body
+      tr(v-for='item of ejemplos.EJEMP' :key='item.orden' :item='item')
+        td {{ item.orden }}
+        td.d-none.d-md-table-cell {{ item.norma }}
 
 </template>
-<style lang="sass" scoped>
+
+<style>
+.parpadea {
+
+  animation-name: parpadeo;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+  -webkit-animation-name: parpadeo;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+}
+
+@-moz-keyframes parpadeo {
+  0% {
+    opacity: 1.0;
+  }
+
+  50% {
+    opacity: 0.0;
+  }
+
+  100% {
+    opacity: 1.0;
+  }
+}
+
+@-webkit-keyframes parpadeo {
+  0% {
+    opacity: 1.0;
+  }
+
+  50% {
+    opacity: 0.0;
+  }
+
+  100% {
+    opacity: 1.0;
+  }
+}
+
+@keyframes parpadeo {
+  0% {
+    opacity: 1.0;
+  }
+
+  50% {
+    opacity: 0.0;
+  }
+
+  100% {
+    opacity: 1.0;
+  }
+}
+
+.Cabecera {
+  position: sticky;
+  top: 0;
+}
+
+.Contenido {
+  width: 100%;
+  height: 300px;
+  overflow: auto;
+}
 </style>

@@ -26,8 +26,8 @@ watch(
     .d-block.d-md-none
         input#SearchInput.form-control.mb-2.ms-auto(v-on:keyup='search(registro)', placeholder="Buscar")
 .div.mb-5
-    .card.mb-1.d-none.d-md-block(style="border-radius: 30px; background-color:#f5f5f5;")
-        .row.align-items-center.p-1
+    .card.mb-1.d-none.d-md-block(style="border-radius: 30px; background-color:var(--color-light) !important;")
+        .row.align-items-center.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
             .col-3.ps-4.d-none.d-md-block Doc. Identidad
             .col-3.d-none.d-md-block Nombre
             .col-2.d-none.d-md-block Teléfono

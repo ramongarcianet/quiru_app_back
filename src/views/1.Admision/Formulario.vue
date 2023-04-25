@@ -18,72 +18,73 @@ obtenerTodos(route.params.idPaciente)
 Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => back()')
   .row
     .col-md-6
-      label.form-label Ocupación
-      .input.mb-2
-        input.form-control(placeholder="Ocupación", v-model="item.ocupacion")
-      label.form-label Procedencia
-      .input.mb-2
-        input.form-control(placeholder="Procedencia", v-model="item.procedencia")
-      label.form-label Número de emergencia
-      .input.mb-2
-        input.form-control(placeholder="Número de emergencía", v-model="item.numeroEmergencia")
-      label.form-label Antecedentes
-      .input.mb-2
-        h5.form-label Familiares
-        input.form-control(placeholder="Antecedentes familiares", v-model="item.antecedentesFam")
-      .input.mb-2
-        h5.form-label Personales
-        input.form-control(placeholder="Antecedentes personales", v-model="item.antecedentesPer")
-      label.form-label Signos vitales
-      .input.mb-2
-        .col.mb-1
-          span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") Temperatura:
-            input.form-control(placeholder="Temperatura", v-model="item.temperatura" maxlength="2")
-        .col.mb-1
-          span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") Pulso:
-            input.form-control(placeholder="Pulso", v-model="item.pulso" maxlength="3")
-        .col.mb-1
-          span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") P.A:
-            input.form-control(placeholder="P.A.", v-model="item.pa" maxlength="3")
-        .col.mb-1
-          span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") F.C:
-            input.form-control(placeholder="F.C.", v-model="item.fc" maxlength="3")
-        .col.mb-1
-          span.input-group-text.mb-1(style="padding: .01rem .01rem .01rem .6rem;") F.R:
-            input.form-control(placeholder="F.Resp.", v-model="item.fResp" maxlength="2")
+      .col.mb-1
+        span.input-group-text.mb-1(style="background-color: var(--color-light); font-weight: bold; color:rgb(57, 93, 86);") Datos Generales del Paciente
+      .col.mb-1
+        span(style="padding: .01rem .01rem .01rem .6rem;") Ocupación :
+        input.form-control(placeholder="", v-model="item.ocupacion")
+      .col.mb-1
+        span(style="padding: .01rem .01rem .01rem .6rem;") Procedencia :
+        input.form-control(placeholder="", v-model="item.procedencia")
+      .col.mb-1
+        span(style="padding: .01rem .01rem .01rem .6rem;") Número de emergencia :
+        input.form-control(placeholder="", v-model="item.numeroEmergencia")
+      .col.mb-1
+        span(style="padding: .01rem .01rem .01rem .6rem;") Viajes de los últimos años :
+        input.form-control(placeholder="", v-model="item.viajesUltimos")
+      .col.mb-1
+        span.input-group-text.mb-1(style="background-color: var(--color-light); font-weight: bold; color:rgb(57, 93, 86);") Temperatura Antecedentes
+      .col.mb-1
+        span(style="padding: .01rem .01rem .01rem .6rem;") Familiares :
+        input.form-control(placeholder="", v-model="item.antecedentesFam")
+      .col.mb-1
+        span(style="padding: .01rem .01rem .01rem .6rem;") Personales :
+        input.form-control(placeholder="", v-model="item.antecedentesPer")
+      .col.mb-1
+        span.input-group-text.mb-1(style="background-color: var(--color-light); font-weight: bold; color:rgb(57, 93, 86);") Signos vitales
+      .col.mb-1
+        span(style="padding: .01rem .01rem .01rem .6rem;") Temperatura :     
+        input.form-control(placeholder="", v-model="item.temperatura" maxlength="2")
+      .col.mb-1
+        span(style="padding: .01rem .01rem .01rem .6rem;") Pulso :
+        input.form-control(placeholder="", v-model="item.pulso" maxlength="3")
+      .col.mb-1
+        span(style="padding: .01rem .01rem .01rem .6rem;") P.A :
+        input.form-control(placeholder="", v-model="item.pa" maxlength="3")
+      .col.mb-1
+        span(style="padding: .01rem .01rem .01rem .6rem;") F.C :
+        input.form-control(placeholder="", v-model="item.fc" maxlength="3")
+      .col.mb-1
+        span(style="padding: .01rem .01rem .01rem .6rem;") F.R :
+        input.form-control(placeholder="", v-model="item.fResp" maxlength="2")
     .col-md-6
-      
-      .col.mb-2
-        label.form-label Motivo de consulta
-        .input-group
-          input.form-control(placeholder="Motivo de consulta", v-model="item.motivoConsulta")
-      .col.mb-2
-        label.form-label Enfermedad actual
-        .input.mb-2
-          input.form-control(placeholder="Enfermedad actual", v-model="item.enfermedadActual")
-        .input.mb-2
-          h6.form-label Tiempo de enfermedad
-          input.form-control(placeholder="Tiempo de enfermedad", v-model="item.tiempoEnfermedad")
-        .input.mb-2
-          h6.form-label Signos y síntomas principales
-          input.form-control(placeholder="Signos y síntomas principales", v-model="item.signosYSintomas")
-        .input.mb-2
-          h6.form-label Relato cronológico
-          input.form-control(placeholder="Relato cronológico", v-model="item.relatoCronologico")
-        .input.mb-2
-          h6.form-label Funciones biológicas
-          input.form-control(placeholder="Funciones biológicas", v-model="item.funcionesBio")
-      .col.mb-2
-        label.form-label Examen clínico general
-        .input.mb-2
-          input.form-control(placeholder="Examen clínico general", v-model="item.examClinicoGeneral")
-      .col.mb-2
-        label.form-label Examen odontoestomatológico
-        .input.mb-2
-          input.form-control(placeholder="Examen odontoestomatológico", v-model="item.examClinicoOdonto")
-      label.form-label Viajes de los últimos años
-      .input-group
-        input.form-control(placeholder="Viajes de los últimos años", v-model="item.viajesUltimos")
+      .col.mb-1
+        span.input-group-text.mb-1(style="background-color: var(--color-light); font-weight: bold; color:rgb(57, 93, 86);") Datos de la consulta  
+      .col.mb-1
+        span(style="padding: .01rem .01rem .01rem .6rem;") Motivo :
+        input.form-control(placeholder="", v-model="item.motivoConsulta")
+      .col.mb-1
+        span(style="padding: .01rem .01rem .01rem .6rem;") Enfermedad actual :
+        input.form-control(placeholder="", v-model="item.enfermedadActual")
+      .col.mb-1
+        span(style="padding: .01rem .01rem .01rem .6rem;") Tiempo de enfermedad :
+        input.form-control(placeholder="", v-model="item.tiempoEnfermedad")
+      .col.mb-1
+        span(style="padding: .01rem .01rem .01rem .6rem;") Signos y síntomas principales :
+        input.form-control(placeholder="", v-model="item.signosYSintomas")
+      .col.mb-1
+        span(style="padding: .01rem .01rem .01rem .6rem;") Relato cronológico :
+        input.form-control(placeholder="", v-model="item.relatoCronologico")
+      .col.mb-1
+        span(style="padding: .01rem .01rem .01rem .6rem;") Funciones biológicas :
+        input.form-control(placeholder="", v-model="item.funcionesBio")
+      .col.mb-1
+        span(style="padding: .01rem .01rem .01rem .6rem;") Examen clínico general :
+        input.form-control(placeholder="", v-model="item.examClinicoGeneral")
+      .col.mb-1
+        span(style="padding: .01rem .01rem .01rem .6rem;") Examen odontoestomatológico
+        input.form-control(placeholder="", v-model="item.examClinicoOdonto")
+ 
   .col-12.col-md-4.mx-auto.mt-3
     button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(
       type='submit', style="border-radius: 50px"

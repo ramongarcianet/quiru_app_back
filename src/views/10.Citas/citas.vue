@@ -14,18 +14,181 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useRoute, useRouter } from 'vue-router';
 import { obtenerTodos, registro, cita, guardarCita, actualizar, _event, eliminar } from "../../store/citas";
 import { obtenerTodos as obtenerTodosPaciente, leer as leerPaciente, registro as RegPaciente, item as itemPaciente, leerDniRegistro, guardar as guardarPaciente, leerEnRegistro as leerEnRegistroPac } from "../../store/paciente";
-import { item as ItemUsuario, leer as LeerUser, registro as RegistroUsuario, leerEnRegistro, item } from '../../store/usuario'
-import { miUsuario } from '../../store/sesion'
+import { item as ItemUsuario, leer as LeerUser, registro as RegistroUsuario, leerEnRegistro } from '../../store/usuario'
+import { miUsuario, item as itemUser } from '../../store/sesion'
 import { esLetra, esNumero } from '../../config/libreria'
+import { gapi } from 'gapi-script';
+const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const maxDocumento = ref(9);
 const { push, back } = useRouter();
 const route = useRoute()
 const _obtenerRegistro = obtenerTodos();
 const _obtenerTodosPaciente = obtenerTodosPaciente();
 const NombreDoctor = ref("");
+let itemSelect = {};
+let EventSelect = {};
+let gcalendar = {};
+let _calendarId = "";
 onMounted(() => {
   LeerUser(miUsuario().uid);
+  gapi.load('client:auth2', () => {
+    gapi.client.init({
+      apiKey: 'AIzaSyCjAPoUZWjo_-xUEsgpiLn9-2TLcAcpJZ0',
+      clientId: '226083957898-5bq5sd9ha906pq41oiha6bsb6ae82jp7.apps.googleusercontent.com',
+      discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
+      scope: 'https://www.googleapis.com/auth/calendar'
+    }).then(() => {
+      gapi.client.calendar.calendarList.list().then(function (response) {
+        var calendars = response.result.items;
+        for (var i = 0; i < calendars.length; i++) {
+          var calendar = calendars[i];
+          if (calendar.id == calendar.summary) {
+            _calendarId = calendar.id
+          }
+          var x = document.getElementById("IsVisibleLoginCalendar");
+          x.style.display = "none"
+        }
+      }, (error) => {
+        var x = document.getElementById("IsVisibleLoginCalendar");
+        x.style.display = "block"
+        console.log('Error login Google calendar:', error);
+      });
+    }, (error) => {
+      console.log('Error loading Google API client:', error);
+    });
+  });
 });
+function getEvents() {
+  var request = gapi.client.calendar.events.list({
+    'calendarId': _calendarId,
+    'timeMin': (new Date(2023, 3, 1)).toISOString(),
+    'showDeleted': false,
+    'singleEvents': true,
+    'maxResults': 10,
+    'orderBy': 'startTime'
+  });
+
+  request.execute(function (response) {
+    var events = response.items;
+  });
+}
+
+function signIn() {
+  gapi.auth2.getAuthInstance().signIn().then(function (googleUser) {
+    gapi.client.calendar.calendarList.list().then(function (response) {
+      var calendars = response.result.items;
+      for (var i = 0; i < calendars.length; i++) {
+        var calendar = calendars[i];
+        if (calendar.id == calendar.summary) {
+          _calendarId = calendar.id
+        }
+        var x = document.getElementById("IsVisibleLoginCalendar");
+        x.style.display = "none"
+      }
+    }, (error) => {
+      var x = document.getElementById("IsVisibleLoginCalendar");
+      x.style.display = "block"
+      console.log('Error login Google calendar:', error);
+    });
+  }
+    , (error) => {
+      console.log('Error signing in user:');
+    });
+}
+
+function addEvent(_cita) {
+  const startDate = new Date(itemSelect.start);
+  const endDate = new Date(itemSelect.end);
+  startDate.setTime(startDate.getTime() + (5 * 60 * 60 * 1000));
+  endDate.setTime(endDate.getTime() + (5 * 60 * 60 * 1000));
+  const event = {
+    'summary': _cita.title,
+    'location': _cita.location,
+    'description': 'Cita Odontológica',
+    'start': {
+      'dateTime': startDate.toISOString(),
+      'timeZone': userTimeZone
+    },
+    'end': {
+      'dateTime': endDate.toISOString(),
+      'timeZone': userTimeZone
+    },
+    'reminders': {
+      'useDefault': false,
+      'overrides': [
+        { 'method': 'popup', 'minutes': 30 }
+      ]
+    },
+    'attendees': [
+      {
+        "email": miUsuario().email,
+        "responseStatus": "needsAction"
+      },
+      {
+        "email": _cita.email,
+        "responseStatus": "needsAction"
+      }
+    ],
+    'timeZone': userTimeZone
+  };
+
+  const request = gapi.client.calendar.events.insert({
+    'calendarId': _calendarId,
+    'resource': event
+  });
+
+  request.execute((event) => {
+    _cita.gcalendar = {} || event.result
+    guardarCita(_cita)
+  });
+}
+
+function updateEventGCal(arg, sumary) {
+  let item_data = registro.value.find(item => item.id == arg.id)
+  const eventId = item_data.gcalendar.id;
+  const startDate = new Date(arg.start);
+  const endDate = new Date(arg.end);
+  startDate.setTime(startDate.getTime() + (5 * 60 * 60 * 1000));
+  endDate.setTime(endDate.getTime() + (5 * 60 * 60 * 1000));
+
+  const request = gapi.client.calendar.events.get({
+    'calendarId': _calendarId,
+    'eventId': eventId
+  });
+
+  request.execute((event) => {
+    event.summary = (sumary == "") ? item_data.title : sumary;;
+    event.start.dateTime = startDate.toISOString();
+    event.start.timeZone = userTimeZone;
+    event.end.dateTime = endDate.toISOString();
+    event.end.timeZone = userTimeZone;
+    event.timeZone = userTimeZone;
+    const updateRequest = gapi.client.calendar.events.update({
+      'calendarId': _calendarId,
+      'eventId': eventId,
+      'resource': event
+    });
+
+    updateRequest.execute((event) => {
+      console.log('Evento actualizado: ');
+    });
+  });
+}
+function deleteEventGCal(id) {
+  let item_data = registro.value.find(item => item.id == id)
+  const eventId = item_data.gcalendar.id;
+
+  gapi.client.calendar.events.delete({
+    'calendarId': _calendarId,
+    'eventId': eventId
+  }).then(function (response) {
+    console.log('Evento eliminado:');
+  }, function (error) {
+    console.error('Error al eliminar evento:', error);
+  });
+
+}
+
 watch(
   () => RegistroUsuario.value,
   () => {
@@ -40,14 +203,20 @@ watch(
 const id = ref(10)
 const mostrar = ref(false);
 function createEvent(item) {
+  itemSelect = item
   let horadiotext = ""
-  let newTimeStart = item.start.toLocaleTimeString('es-ES');
+  const startDate = new Date(item.start);
+  const endDate = new Date(item.end);
+  startDate.setTime(startDate.getTime() + (5 * 60 * 60 * 1000));
+  endDate.setTime(endDate.getTime() + (5 * 60 * 60 * 1000));
+
+  let newTimeStart = startDate.toLocaleTimeString('es-ES');
   let startStr = newTimeStart.substr(0, 5)
-  let newTimeEnd = item.end.toLocaleTimeString('es-ES');
+  let newTimeEnd = endDate.toLocaleTimeString('es-ES');
   let endStr = newTimeEnd.substr(0, 5)
   const opciones = { weekday: 'long', month: 'long', day: 'numeric' };
   itemPaciente.value = {}
-  horadiotext = item.start.toLocaleDateString('es-ES', opciones) + '     ' + startStr + " - " + endStr;
+  horadiotext = startDate.toLocaleDateString('es-ES', opciones) + '     ' + startStr + " - " + endStr;
   cita.value = {
     idPaciente: '',
     start: item.start.toISOString(),
@@ -85,6 +254,7 @@ function updateEvent(arg) {
     timedisplay: horadiotext
   }
   actualizar(_item)
+  updateEventGCal(_item, "")
 }
 function addHoursToDate(date, hours) {
   return new Date(new Date(date).setHours(date.getHours() + hours));
@@ -92,6 +262,7 @@ function addHoursToDate(date, hours) {
 
 function deleteEvent(id) {
   eliminar(id)
+  deleteEventGCal(id)
 }
 function viewEvents(_id) {
   let item_data = registro.value.find(item => item.id == _id)
@@ -113,6 +284,7 @@ function viewEvents(_id) {
   control.click();
 }
 const options = reactive({
+  timeZone: userTimeZone,
   longPressDelay: 200,
   editable: true,
   selectable: true,
@@ -125,28 +297,29 @@ const options = reactive({
   dayMaxEvents: true,
   datesAboveResources: true,
   themeSystem: 'bootstrap5',
-  slotLabelFormat: { hour: 'numeric', minute: '2-digit', omitZeroMinute: true, hour12: false },
+  slotLabelFormat: { hour: 'numeric', minute: '2-digit', omitZeroMinute: true, hour12: true },
   slotMinTime: '08:00:00',
   slotMaxTime: '22:00:00',
   allDaySlot: false,
+  height: '100%',
   contentHeight: 'auto',
   headerToolbar: {
-    left: 'prev',
-    center: 'title,dayGridMonth,timeGridWeek,today',
-    right: 'next'
+    left: 'prev,next today',
+    center: 'title',
+    right: 'dayGridMonth,timeGridWeek,timeGridDay'
   },
   views: {
     dayGridMonth: {
-      titleFormat: { month: 'short' }
+      titleFormat: { month: 'long' }
     },
     timeGridWeek: {
       titleFormat: {
-        month: 'short'
+        month: 'long'
       }
     },
     listDay: {
       titleFormat: {
-        year: 'numeric', month: 'short', day: 'numeric'
+        month: 'short', day: 'numeric'
       }
     }
   },
@@ -213,22 +386,44 @@ const guardarAmbas = () => {
     return guardarCitaCompleta()
   }
 }
-const guardarCitaCompleta = (idPaciente) => {
+const guardarCitaCompleta = (idPaciente) => new Promise((resolve, reject) => {
   cita.value.idPaciente = idPaciente || itemPaciente.value.id;
+  cita.value.email = "" || itemPaciente.value.email;
+  cita.value.location = "" || ItemUsuario.value.nombreconsultorio + " - " + ItemUsuario.value.direccion;
   let index = registro.value?.findIndex(i => i.id == cita.value.id);
   if (index == -1 || index == undefined) {
-    return guardarCita(cita.value);
+    if (_calendarId == "") {
+      guardarCita(cita.value)
+    }
+    else {
+      addEvent(cita.value)
+    }
+    resolve()
+    return
   }
   else {
-    return actualizar(cita.value);
+    let _item = {
+      id: cita.value.id,
+      start: cita.value.start,
+      end: cita.value.end,
+    }
+    actualizar(cita.value);
+    updateEventGCal(_item, cita.value.title)
+    resolve()
+    return
   }
-};
+});
 
 function GetPaciente(val) {
   if (val.target.value == '') {
     return
   }
-  leerDniRegistro(val.target.value);
+  try {
+    leerDniRegistro(val.target.value);
+  }
+  catch (e) {
+    return
+  }
 
 }
 const guardarPacienteNuevo = () => {
@@ -244,9 +439,13 @@ function closeEvent() {
 
 <template lang="pug">
 .row
-  .col-4.col-md-9
+  .col-6.col-md-6
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Lista
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") de citas
+  .col-6.col-md-6
+    button.ms-auto.btn.btn-warning(id="IsVisibleLoginCalendar" type='button', @click="signIn()" style="float: right;padding-right: 3%;") 
+      Img(style="opacity: 1; justify-content: start !important;height: 25px; align-items: start!important;" src="https://ssl.gstatic.com/calendar/images/dynamiclogo_2020q4/calendar_21_2x.png")
+        span(style="justify-content: center!important; align-items: center!important;") Enlazar
 .row.desplazable
   .contenido( style="background-color: #fff")
     fullcalendar(v-bind:options='options')

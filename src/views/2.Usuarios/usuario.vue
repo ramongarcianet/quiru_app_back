@@ -94,7 +94,7 @@ Form( :onPromise="() => guardarOActualizar()" :onSuccess='() => refresh()')
     .col
       label.form-label() Email*
       .input-group
-        input.form-control(placeholder="Correo Electrónico", v-model="item.email", type="email", required,maxlength="30")
+        input.form-control(placeholder="Correo Electrónico", v-model="item.email", type="email", required,maxlength="30" disabled)
     .col
       label.form-label() Teléfono*
       .input-group

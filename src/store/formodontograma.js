@@ -18,9 +18,17 @@ const item = ref({
     fechaRegistro: new Date().toISOString().slice(0, 10),
     userId: miUsuario()?.uid,
     hallazgos: [],
+    planDeTratamiento: [],
     idRelacionado: '',
 })
-
+export const funcionPlan = (item, id) => {
+    const referencia = doc(firestore, 'odontograma', id);
+    return updateDoc(referencia, {
+        planDeTratamiento: arrayUnion({
+            ...item
+        })
+    });
+}
 
 const guardar = (idPaciente, tipo, tieneTratamiento, idRelacionado) => new Promise((resolve, reject) => {
     for (const item of registroodonto.value) {
