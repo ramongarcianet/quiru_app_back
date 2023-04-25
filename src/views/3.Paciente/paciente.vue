@@ -127,7 +127,7 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
     label.form-label Comentarios*
     .input-group
       textarea#floatingTextarea.form-control(placeholder='Deja un comentario aquí')
-  .col-12.col-md-4.mx-auto.mt-3
+  .col-12.col-md-4.mx-auto.mt-3.mb-5
     button#btguardar.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(
       type='submit', disabled style="border-radius: 50px"
     )

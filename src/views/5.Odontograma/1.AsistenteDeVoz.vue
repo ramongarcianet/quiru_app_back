@@ -272,16 +272,21 @@ const moverCarrusel = (adelanteOAtras) => {
             i.fa-regular.fa-trash-can.fa-xl(style="color: var(--color-primary)")
           button.btn(title='Imprimir' @click="printOdontograma()")
             i.fa-solid.fa-print.fa-xl(style="color: var(--color-primary)")#destacarImpresion
-          button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
+          //button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
             i.fa-solid.fa-question.fa-xl(style="color: var(--color-primary)")#destacarAyuda
-          #exampleModal.modal.fade(tabindex='-1')
+          //#exampleModal.modal.fade(tabindex='-1')
             .modal-dialog.modal-lg
               .modal-content
                 .modal-header
                   button.btn-close(type='button' data-bs-dismiss='modal')
                 .modal-body
                   Instrucciones
+          a.btn(title='Ayuda' href="#ayudaON")
+            i.fa-solid.fa-question.fa-xl(style="color: var(--color-primary)")#destacarAyuda
     Formulario
+
+    #ayudaON.mt-4
+      Instrucciones
     .row
       .col-md-3.col-12
         div.opciones
