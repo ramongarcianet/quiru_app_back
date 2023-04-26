@@ -261,12 +261,13 @@ function onKeyDownSoloLetras(event) {
 </script>
 
 <template lang="pug">
-.row(:hidden="itemodontograma?.estado === '1'")
-  p {{ textoEscuchado }}
-.contenedor(:hidden="itemodontograma?.estado === '1' " style="margin-left: 15%;    margin-top: -13.5%;")
+
+.contenedor(:hidden="itemodontograma?.estado === '1' ")
   .anim(v-if='isSpeech')
   .microfono( @click="isSpeech ? detenerVoz() : activarVoz()" )#destacarMicrofono
     i.icono.fa-solid.fa-microphone.fa-xl
+.row(:hidden="itemodontograma?.estado === '1'")
+  p(style="background-color: var(--color-light)!important; margin: 0px !important;") {{ textoEscuchado }}
 .row
   .col(:hidden="itemodontograma?.estado === '1'")
     .row(v-if="!isSpeech").inputs-manual
@@ -330,12 +331,12 @@ function onKeyDownSoloLetras(event) {
 
 </template>
 <style scoped>
-  .table > :not(caption) > * > * {
-      padding: 0.01rem 0.01rem;
-      background-color: var(--bs-table-bg);
-      border-bottom-width: 1px;
-      box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
-  }
+.table> :not(caption)>*>* {
+  padding: 0.01rem 0.01rem;
+  background-color: var(--bs-table-bg);
+  border-bottom-width: 1px;
+  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+}
 </style>
 <style lang="sass" scoped>
 .elevar
@@ -381,12 +382,12 @@ function onKeyDownSoloLetras(event) {
   flex-direction: row
   justify-content: center
   align-items: center
-  margin-top: 40px
-  margin-bottom: 40px
+  margin-top: 4px
+  margin-bottom: 4px
   position: relative
   .microfono
-    height: 99px
-    width: 99px
+    height: 90px
+    width: 90px
     background-color: var(--color-primary)
     border-radius: 100%
     display: flex
@@ -399,8 +400,8 @@ function onKeyDownSoloLetras(event) {
       color: var(--color-white)
   .anim
     content: ""
-    height: 130px
-    width: 130px
+    height: 100px
+    width: 100px
     background-color: var(--color-primary)
     opacity: .3
     position: absolute
