@@ -44,10 +44,7 @@ const adios = ()=> {
           a.dropdown-item(@click="cerrarSesion(), adios()" style="cursor: pointer") 
             i.fa-solid.fa-right-from-bracket.fa-sm(style="color: var(--color-primary)")
             |     Salir
-.puerta(v-else)
-  a(@click="cerrarSesion(), landing()" style="cursor: pointer") 
-    i.fa-solid.fa-right-from-bracket.fa-sm(style="color: var(--color-primary)")
-    |     Salir
+
 </template>
 <style lang="sass" scoped>
 .puerta
