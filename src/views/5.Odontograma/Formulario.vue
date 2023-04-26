@@ -263,17 +263,15 @@ function onKeyDownSoloLetras(event) {
 <template lang="pug">
 .row(:hidden="itemodontograma?.estado === '1'")
   p {{ textoEscuchado }}
-.contenedor(:hidden="itemodontograma?.estado === '1' ")
+.contenedor(:hidden="itemodontograma?.estado === '1' " style="margin-left: 15%;    margin-top: -13.5%;")
   .anim(v-if='isSpeech')
   .microfono( @click="isSpeech ? detenerVoz() : activarVoz()" )#destacarMicrofono
     i.icono.fa-solid.fa-microphone.fa-xl
-
-//-Input sin micrófono
-.row.mt-3
+.row
   .col(:hidden="itemodontograma?.estado === '1'")
     .row(v-if="!isSpeech").inputs-manual
       input#tipoReg(type="hidden", value="0")
-      .col-12.col-md-6
+      .col-12.col-md-4
         span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;" v-on:keypress='onKeyDownSoloNumeros($event)') Pieza :
           input.form-control#comboPieza(list='listaDeDientes', placeholder="::Seleccione::", name='comboPieza', v-model='item.diente', v-on:change="ListaAlterna(item.diente)",  :maxlength='2')
           datalist#listaDeDientes
@@ -281,7 +279,7 @@ function onKeyDownSoloLetras(event) {
           span#spanPiezaAl(style="display: none;") a la pieza :
           input.form-control#comboPiezaAl(style="display: none;",list='listaDeDientesAl', placeholder="::Seleccione::", name='comboPieza', v-model='item.dienteAlterno',  :maxlength='2')
           datalist#listaDeDientesAl
-      .col-12.col-md-6
+      .col-12.col-md-8
         span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;", v-on:keypress='onKeyDownSoloLetras($event)') Hallazgo :
           input.form-control#comboHallazgo(list='_listaDeHallazgos', placeholder="::Seleccione::", name='comboHallazgo', v-model='Hallazgo', v-on:change="VisibleDiente()")
           datalist#_listaDeHallazgos
@@ -300,38 +298,45 @@ function onKeyDownSoloLetras(event) {
   .col.d-flex.justify-content-center.item
     OdonOficial
   .col.item
-    .card.card-body
-      .div(style="background-color: white; border-radius: 2%;")
-        table.table.table-hover
-          thead(style='position: sticky;top: 0; background-color: var(--color-light)!important; font-weight: bold; color:rgb(57, 93, 86);')
-            tr
-              th N°
-              th Pieza
-              th Hallazgo
-              th Sigla
-              th
-          tbody
-            tr(v-for="item of _hallazgosPag")
-              td {{ item.fila }}
-              td {{ item.diente }} {{ item.dienteAlterno !=""? " - " + item.dienteAlterno : ""}}
-              td {{ item.descripcion }} {{ item.ubicacion!='' ? ' - '+ item.ubicacion : item.ubicacion }}
-              td {{ item.sigla }}
-              td
-                BotonSeguro.mt-0( :onSuccess= '() => borrar(item)' :hidden="itemodontograma?.estado === '1' && !itemodontograma.idRelacionado")
-                  i.fa.fa-trash-o(aria-hidden='true')
-        .div(v-if="itemodontograma?.hallazgos?.length > 8",style="text-align: center;")
-          nav.d-flex.justify-content-center(aria-label='Page navigation example')
-            ul.pagination
-              li.page-item
-                a.page-link(href='#', aria-label='Previous', @click="previousPage(itemodontograma.hallazgos)")
-                  span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
-              li.page-item(v-for="n in (Math.trunc(itemodontograma?.hallazgos?.length / 8) + (((itemodontograma?.hallazgos?.length % 8) > 0) ? 1 : 0))")
-                a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}
-              li.page-item
-                a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma?.hallazgos)")
-                  span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
+    .div(style="background-color: white; border-radius: 2%;")
+      table.table.table-hover
+        thead(style='position: sticky;top: 0; background-color: var(--color-light)!important; font-weight: bold; color:rgb(57, 93, 86);')
+          tr
+            th N°
+            th Pieza
+            th Hallazgo
+            th Sigla
+            th
+        tbody
+          tr(v-for="item of _hallazgosPag")
+            td {{ item.fila }}
+            td {{ item.diente }} {{ item.dienteAlterno !=""? " - " + item.dienteAlterno : ""}}
+            td {{ item.descripcion }} {{ item.ubicacion!='' ? ' - '+ item.ubicacion : item.ubicacion }}
+            td {{ item.sigla }}
+            td
+              BotonSeguro.mt-0( :onSuccess= '() => borrar(item)' :hidden="itemodontograma?.estado === '1' && !itemodontograma.idRelacionado")
+                i.fa.fa-trash-o(aria-hidden='true')
+      .div(v-if="itemodontograma?.hallazgos?.length > 8",style="text-align: center;")
+        nav.d-flex.justify-content-center(aria-label='Page navigation example')
+          ul.pagination
+            li.page-item
+              a.page-link(href='#', aria-label='Previous', @click="previousPage(itemodontograma.hallazgos)")
+                span(aria-hidden='true',style="font-size: 1rem; font-weight: bold;") &laquo;
+            li.page-item(v-for="n in (Math.trunc(itemodontograma?.hallazgos?.length / 8) + (((itemodontograma?.hallazgos?.length % 8) > 0) ? 1 : 0))")
+              a.page-link(href='#', @click='SetPage(itemodontograma.hallazgos, n)') {{ n }}
+            li.page-item
+              a.page-link(href='#', aria-label='Next', @click="nextPage(itemodontograma?.hallazgos)")
+                span(aria-hidden='true', style="font-size: 1rem; font-weight: bold;") &raquo;
 
 </template>
+<style scoped>
+  .table > :not(caption) > * > * {
+      padding: 0.01rem 0.01rem;
+      background-color: var(--bs-table-bg);
+      border-bottom-width: 1px;
+      box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+  }
+</style>
 <style lang="sass" scoped>
 .elevar
   position: relative
@@ -380,8 +385,8 @@ function onKeyDownSoloLetras(event) {
   margin-bottom: 40px
   position: relative
   .microfono
-    height: 110px
-    width: 110px
+    height: 99px
+    width: 99px
     background-color: var(--color-primary)
     border-radius: 100%
     display: flex
@@ -394,8 +399,8 @@ function onKeyDownSoloLetras(event) {
       color: var(--color-white)
   .anim
     content: ""
-    height: 140px
-    width: 140px
+    height: 130px
+    width: 130px
     background-color: var(--color-primary)
     opacity: .3
     position: absolute
@@ -426,4 +431,5 @@ function onKeyDownSoloLetras(event) {
     display: flex
     justify-content: center
     align-items: center
-</style>
+
+  </style>

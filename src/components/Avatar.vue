@@ -25,7 +25,7 @@ const adios = ()=> {
 </script>
 
 <template lang="pug">
-.dropdown(v-if="item.nombre")
+.dropdown(style="height: 3.7rem;")
   .row.perfil
     .cuadro
       .avatar(type='button' data-bs-toggle='dropdown')
@@ -68,6 +68,7 @@ const adios = ()=> {
     flex-direction: row
     justify-content: end
     align-items: center
+    height: 3rem
     .avatar
       display: flex
       flex-direction: column
