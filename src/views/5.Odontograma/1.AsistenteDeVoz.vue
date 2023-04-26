@@ -209,6 +209,13 @@ const moverCarrusel = (adelanteOAtras) => {
 
 }
 
+function activarAyuda() {
+  var verAyuda = document.getElementById("AyudaCard");
+  verAyuda.style.display = "flex"
+  if (isSpeech.value == false) {
+    activarVoz()
+  }
+}
 </script>
 
 <template lang="pug">
@@ -272,13 +279,25 @@ const moverCarrusel = (adelanteOAtras) => {
             i.fa-regular.fa-trash-can.fa-xl(style="color: var(--color-primary)")
           button.btn(title='Imprimir' @click="printOdontograma()")
             i.fa-solid.fa-print.fa-xl(style="color: var(--color-primary)")#destacarImpresion
-          a.btn(title='Ayuda' href="#ayudaON")
+          //button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
             i.fa-solid.fa-question.fa-xl(style="color: var(--color-primary)")#destacarAyuda
-    Formulario
+          //#exampleModal.modal.fade(tabindex='-1')
+            .modal-dialog.modal-lg
+              .modal-content
+                .modal-header
+                  button.btn-close(type='button' data-bs-dismiss='modal')
+                .modal-body
+                  Instrucciones
+          a.btn(title='Ejemplos' href="#SeccionAyuda" @click='activarAyuda()')
+            i.fa-solid.fa-question.fa-xl(style="color: var(--color-primary)")#destacarAyuda
 
-    #ayudaON.mt-4
-      Instrucciones
-    .row
+    Formulario
+    .col.mt-1.justify-content.desplazable(style="display: none" id="AyudaCard")
+      .col.item
+        .card.card-body#SeccionAyuda
+          Instrucciones
+
+    .row.mb-5
       .col-md-3.col-12
         div.opciones
           button.outline-quiru(style="margin-bottom: 1.8rem;" @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
@@ -294,7 +313,7 @@ const moverCarrusel = (adelanteOAtras) => {
               .title.light-quiru Crear
               .subtitle.light-quiru Odontograma de tratamiento
             i.fa-solid.fa-briefcase-medical.icono.light-quiru
-      .col-md-3.col-12      
+      //.col-md-3.col-12      
         div.opciones(v-if="itemodontograma?.hallazgos ")
           button.outline-quiru(style="margin-bottom: 1.8rem;"  @click='push({ name: "planDeTratamiento", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
             .contenido(style="width: 60%;")
