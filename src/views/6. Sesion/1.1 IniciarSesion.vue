@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from "vue-router";
-import { item, iniciarSesion } from "../../store/sesion";
-import {ref} from 'vue'
+import { item, iniciarSesion, logGoogle, logFacebook } from "../../store/sesion";
+import { ref } from 'vue'
 const { push } = useRouter();
 const mensaje = ref('')
 const adios = ()=> {
@@ -28,9 +28,28 @@ const adios = ()=> {
                 button.btn.btn-outline-light.text-center.m-1( type='button' @click='push({name: "registro"})' style="border: 0!important;") Registrarme
                 button.btn.btn-outline-light.text-center.m-1( type='button' @click='push({name: "reset-contrasena"})' style="border: 0!important;") Olvidé mi contraseña
                 p.alert.alert-danger.alert-dismissible(v-if='mensaje') {{mensaje}}
+                button.btn.btn-outline-light.text-center.m-1( type='button' @click='push({name: "politica-privacidad"})' style="border: 0!important;") Política de privacidad
+
+        .loginRedes.text-center
+            button(style="background-color: #3b5998" @click="logFacebook()")
+                i.fa.fa-facebook
+                span Iniciar con Facebook
+            button(style="background-color: #B03A2E" @click="logGoogle()")
+                i.fa.fa-google-plus
+                span Iniciar con Google
+
 </template>
 
 <style lang="sass" scoped>
+.loginRedes
+    button
+        border-radius: 10px
+        padding: 0.7rem
+        margin: 15px
+        color: white
+        border: none
+        i
+            margin: 10px
 .derecha
     padding:5px 25px
     background: #37DFBB

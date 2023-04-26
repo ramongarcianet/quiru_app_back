@@ -20,16 +20,19 @@ watch(
 );
 const siglas = computed ( ()=> item.nombre.charAt(0) + item.apellido.charAt(0)||"")
 const adios = ()=> {
-  location.replace('https://quiru.app/')
+  location.replace('https://app.quiru.app/')
   }
 </script>
 
 <template lang="pug">
-.dropdown
+.dropdown(style="height: 3.7rem;")
   .row.perfil
     .cuadro
       .avatar(type='button' data-bs-toggle='dropdown')
-        .text {{item.nombre.substr(0,1) + item.apellidoPaterno.substr(0,1)}}
+        .text(v-if="item.nombre") {{item.nombre.substr(0,1) + item.nombre.substr(1,1)}}
+        .tuerca(v-else)
+          i.fa-solid.fa-user.fa-sm(style="color: var(--color-light)")
+          
       .col.dropdown-menu.dropdown-menu-end.dropdown-menu-lg-start
         li.d-flex(@click="push({name:'usuario'})" style="cursor: pointer")
         li                    
@@ -41,8 +44,14 @@ const adios = ()=> {
           a.dropdown-item(@click="cerrarSesion(), adios()" style="cursor: pointer") 
             i.fa-solid.fa-right-from-bracket.fa-sm(style="color: var(--color-primary)")
             |     Salir
+
 </template>
 <style lang="sass" scoped>
+.puerta
+  display: flex
+  flex-direction: row
+  justify-content: end
+  padding: 10px 20px
 .perfil
   width: 100%
   height: 90px
@@ -56,6 +65,7 @@ const adios = ()=> {
     flex-direction: row
     justify-content: end
     align-items: center
+    height: 3rem
     .avatar
       display: flex
       flex-direction: column
