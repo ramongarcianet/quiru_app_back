@@ -80,7 +80,7 @@ function printHistoriaClinica(idPaciente) {
       .clearfix
         button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
         button.btn.btn-danger.deletebtn(@click="cerrarAvisoHistorico()") Aceptar
-.row
+.row.mt-4
   .col-4.col-md-8
     button.btn.btn-outline-primary.border-0.pb-md-0(title='Volver' @click="push({ name: 'pacientes', params: {} })" )
       i.fa-solid.fa-arrow-left-long.fa-xl
