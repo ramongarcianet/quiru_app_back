@@ -7,8 +7,7 @@ const props = defineProps(['item'])
 const emit = defineEmits(['update:ubicacion', 'update:hallazgo', 'update:diente'])
 
 const posiciones = ['arriba', 'izquierda', 'centro', 'derecha', 'abajo']
-
-const diente = computed(() => (Number(props.item.diente) / 10).toFixed(1) || "00")
+const diente = computed(() => (Number(((props.item.diente.value != undefined) ? props.item.diente.value : "00")) / 10).toFixed(1) || "00")
 
 
 function slelecteditem(ubicacion) {
@@ -18,10 +17,10 @@ function slelecteditem(ubicacion) {
         itemModel.value.hallazgos.splice(index, 1)
     }
     else {
-        const hzgoMatriz = listaDeHallazgos.filter((elem) => elem.text == Hallazgo.value);
+        const hzgoMatriz = listaDeHallazgos.filter((elem) => elem.value == Hallazgo.value.value);
         const sigla = hzgoMatriz[0]?.sigla;
-        const ubicacionnes = escenarios.Esenarios.filter((elem) => elem.pieza == itemModel.value.diente)[0];
-        if (ubicacionnes != undefined && comboHallazgo.value != '' && comboPieza.value != '') {
+        const ubicacionnes = escenarios.Esenarios.filter((elem) => elem.pieza == itemModel.value.diente.value)[0];
+        if (ubicacionnes != undefined && Hallazgo != undefined && itemModel != undefined) {
             switch (ubicacion) {
                 case "arriba":
                     zonaDiente = ubicacionnes.arriba;
@@ -40,9 +39,9 @@ function slelecteditem(ubicacion) {
                     break;
             }
         }
-        if (comboHallazgo.value != '' && comboPieza.value != '') {
+        if (Hallazgo != undefined && itemModel != undefined) {
             itemModel.value.hallazgos.push({
-                diente: comboPieza.value,
+                diente: itemModel.value.diente.value,
                 dienteAlterno: "",
                 fechaHallazgo: new Date(),
                 fila: 0,

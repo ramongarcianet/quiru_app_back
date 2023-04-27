@@ -9,6 +9,7 @@ import { VerFormato } from "../../store/Canvas";
 import { useRoute, useRouter } from "vue-router";
 import { previousPage, nextPage, setList, registro_ as _hallazgosPag, setListDelete, SetPage } from "../../config/Paginator";
 import { listaDeDientesCombo, listaDeHallazgos as _Hallazgos } from '../../config/Parametros';
+import vSelect from "vue-select"
 
 const route = useRoute();
 const listaDiccionario = obtenerTodoDiccionario();
@@ -21,10 +22,8 @@ let temList = [];
 let wakeLock = null;
 const _tipoOdonto = ref(route.params.tipoOdonto)
 const _listaDeHallazgos = computed(() => {
-  return _Hallazgos.map(({ text, value }) => ({ text, value }))
-  //return _Hallazgos.filter(i => i.tipo == _tipoOdonto.value).map(({ text, value }) => ({ text, value }))
+  return _Hallazgos.filter((elem) => elem.label != "").map(({ label, value }) => ({ label, value }))
 });
-
 onMounted(() => {
   paginaOdontograma.value = true;
   _tipoOdonto.value = route.params.tipoOdonto;
@@ -42,9 +41,15 @@ watch(
   () => item.value.diente,
   () => {
     item.value.hallazgos = [];
-    Hallazgo.value = "";
+    VisibleDiente();
   }
 
+)
+watch(
+  () => Hallazgo.value?.value,
+  () => {
+    VisibleDiente();
+  }
 )
 watch(
   () => itemodontograma.value?.hallazgos,
@@ -86,6 +91,7 @@ function LimpiarMensaje() {
 function limpiarHallazgoDiente() {
   LimpiarMensaje();
   limpiarSinVoz();
+  VisibleDiente();
 }
 function ordenarAsc(listado, p_key) {
   listado.sort(function (a, b) {
@@ -114,57 +120,66 @@ watch(
 function AgregarHallazgo() {
   LimpiarMensaje();
   mensajeExistePieza.value = '';
-  if (comboHallazgo.value != '' && comboPieza.value != '') {
-    const index = listaDeDientesCombo?.findIndex(i => i.value == comboPieza.value)
+  if (Hallazgo.value == '') {
+    mensajeExistePieza.value = 'Seleccione un Hallazgo'
+    return false
+
+  }
+  if (item.value?.diente == '') {
+    mensajeExistePieza.value = 'Seleccione una pieza'
+    return false
+  }
+  if (Hallazgo.value != '' && item.value?.diente != '') {
+    const index = listaDeDientesCombo?.findIndex(i => i.value == item.value.diente.value)
     if (index < 0) {
       mensajeExistePieza.value = 'La pieza seleccionada no existe'
-      comboPieza.value = ""
       return false
     }
-    const indexHgo = _Hallazgos?.findIndex(i => i.text == comboHallazgo.value)
+    const indexHgo = _Hallazgos?.findIndex(i => i.value == Hallazgo.value.value)
     if (indexHgo < 0) {
       mensajeExistePieza.value = 'El Hallazgo seleccionado no existe'
-      comboHallazgo.value = ""
       return false
     }
-    const hzgoMatriz = _Hallazgos.filter((elem) => elem.text == comboHallazgo.value);
+    const hzgoMatriz = _Hallazgos.filter((elem) => elem.text == Hallazgo.value.label);
     if (hzgoMatriz.length > 0) {
       if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.Replicable_Intermedio != "RE") {
         let fila = {
-          diente: comboPieza.value,
+          diente: item.value.diente.value,
           hallazgo: hzgoMatriz[0]?.value, ubicacion: "",
           sigla: hzgoMatriz[0]?.sigla, posicion: "",
-          dienteAlterno: comboPiezaAl.value
+          dienteAlterno: (item.value.dienteAlterno == undefined) ? "" : item.value.dienteAlterno.value
         }
         if (!validaDoble(fila)) {
           mensajeExistePieza.value = 'Solo puede seleccionar una pieza adyacente para este hallazgo'
           return false
         }
         item.value.hallazgos.push({
-          diente: comboPieza.value,
+          diente: item.value.diente.value,
           hallazgo: hzgoMatriz[0]?.value,
-          ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "", dienteAlterno: comboPiezaAl.value,
+          ubicacion: "", sigla: hzgoMatriz[0]?.sigla, posicion: "", dienteAlterno: (item.value.dienteAlterno == undefined) ? "" : item.value.dienteAlterno.value,
           descripcion: hzgoMatriz[0]?.text
         })
       };
       if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.EsMultiple == "SI") {
-        const indexAlt = listaDeDientesCombo?.findIndex(i => i.value == comboPiezaAl.value)
+        if (item.value.dienteAlterno == undefined) {
+          mensajeExistePieza.value = 'Debe seleccionar una segunda pieza'
+          return false
+        }
+        const indexAlt = listaDeDientesCombo?.findIndex(i => i.value == item.value.dienteAlterno.value)
         if (indexAlt < 0) {
           mensajeExistePieza.value = 'Debe seleccionar una segunda pieza'
-          comboPiezaAl.value = ""
           return false
         }
       }
       if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.EsMultiple == "SI" && hzgoMatriz[0]?.Replicable_Intermedio == "RE") {
-        const indexAlt = listaDeDientesCombo?.findIndex(i => i.value == comboPiezaAl.value)
+        const indexAlt = listaDeDientesCombo?.findIndex(i => i.value == item.value.dienteAlterno.value)
         if (indexAlt < 0) {
           mensajeExistePieza.value = 'La segunda pieza seleccionada no existe'
-          comboPiezaAl.value = ""
           return false
         }
 
-        const _dienteSelect = listaDeDientesCombo.filter((elem) => elem.value == comboPieza.value);
-        let dienteAlterno = listaDeDientesCombo.filter((elem) => elem.value == comboPiezaAl.value);
+        const _dienteSelect = listaDeDientesCombo.filter((elem) => elem.value == item.value.diente.value);
+        let dienteAlterno = listaDeDientesCombo.filter((elem) => elem.value == item.value.dienteAlterno.value);
         let dientesReplicables = listaDeDientesCombo.filter((elem) => elem.grupo == _dienteSelect[0]?.grupo && elem.indice >= _dienteSelect[0]?.indice && elem.indice <= dienteAlterno[0]?.indice);
         dientesReplicables.forEach(element => {
           item.value.hallazgos.push({
@@ -187,12 +202,10 @@ function AgregarHallazgo() {
     }
   };
   var VistaDiente = document.getElementById("VistaDiente");
-  var PiezaAl = document.getElementById("comboPiezaAl");
   var spanPiezaAl = document.getElementById("spanPiezaAl");
   VistaDiente.style.display = "none"
-  PiezaAl.style.display = "none"
   spanPiezaAl.style.display = "none"
-
+  Hallazgo.value = ""
   agregarLista(route.params.idOdontograma, item.value);
 }
 function ListaAlterna(seleccionado) {
@@ -209,19 +222,16 @@ function ListaAlterna(seleccionado) {
   my_list.innerHTML = str;
 }
 function VisibleDiente() {
-  const hzgoMatriz = _Hallazgos.filter((elem) => elem.text == comboHallazgo.value);
+  const hzgoMatriz = _Hallazgos.filter((elem) => elem.value == Hallazgo.value?.value);
   var VistaDiente = document.getElementById("VistaDiente");
-  var PiezaAl = document.getElementById("comboPiezaAl");
   var spanPiezaAl = document.getElementById("spanPiezaAl");
   if (hzgoMatriz.length > 0) {
     if (hzgoMatriz[0]?.esDirecto == "SI") {
       VistaDiente.style.display = "none"
       if (hzgoMatriz[0]?.EsMultiple == "SI") {
-        PiezaAl.style.display = "block";
         spanPiezaAl.style.display = "block"
       }
       else {
-        PiezaAl.style.display = "none";
         spanPiezaAl.style.display = "none"
       }
     }
@@ -230,7 +240,6 @@ function VisibleDiente() {
     }
   }
   else {
-    PiezaAl.style.display = "none";
     spanPiezaAl.style.display = "none"
   }
 }
@@ -272,20 +281,16 @@ function onKeyDownSoloLetras(event) {
   .col(:hidden="itemodontograma?.estado === '1'")
     .row(v-if="!isSpeech").inputs-manual
       input#tipoReg(type="hidden", value="0")
+      .col-12.col-md-5
+        span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;background-color: transparent; border-width:0px") Hallazgo :
+          v-select(style ='width: 100%' v-model='Hallazgo' :options='_listaDeHallazgos' placeholder='Selecciona un Hallazgo' )
+      .col-12.col-md-3
+        span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;background-color: transparent; border-width:0px" v-on:keypress='onKeyDownSoloNumeros($event)') Pieza :
+          v-select(style ='width: 100%' v-model='item.diente' :options='listaDeDientesCombo' placeholder='Selecciona una pieza')
       .col-12.col-md-4
-        span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;" v-on:keypress='onKeyDownSoloNumeros($event)') Pieza :
-          input.form-control#comboPieza(list='listaDeDientes', placeholder="::Seleccione::", name='comboPieza', v-model='item.diente', v-on:change="ListaAlterna(item.diente)",  :maxlength='2')
-          datalist#listaDeDientes
-            option(v-for='{ value } of listaDeDientesCombo' :value="value")
-          span#spanPiezaAl(style="display: none;") a la pieza :
-          input.form-control#comboPiezaAl(style="display: none;",list='listaDeDientesAl', placeholder="::Seleccione::", name='comboPieza', v-model='item.dienteAlterno',  :maxlength='2')
-          datalist#listaDeDientesAl
-      .col-12.col-md-8
-        span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;", v-on:keypress='onKeyDownSoloLetras($event)') Hallazgo :
-          input.form-control#comboHallazgo(list='_listaDeHallazgos', placeholder="::Seleccione::", name='comboHallazgo', v-model='Hallazgo', v-on:change="VisibleDiente()")
-          datalist#_listaDeHallazgos
-            option(v-for='{ text } of _listaDeHallazgos' :value="text")
-
+        span#spanPiezaAl(style="display: none;")
+          span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;background-color: transparent; border-width:0px;") a la pieza :
+            v-select(style ='width: 100%' v-model='item.dienteAlterno' :options='listaDeDientesCombo' placeholder='Selecciona una pieza')
     .row#VistaDiente(style="display: none;")
       .col.d-flex.justify-content-center
         Diente(:item='item' style='--size: 12rem;').raiz-0
