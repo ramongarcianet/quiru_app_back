@@ -1,5 +1,5 @@
 <script setup>
-import ejemplos from '../../config/ejemplos.json';
+import { listaDeHallazgos } from '../../config/Parametros';
 $(document).ready(function () {
   $("#myInput").on("keyup", function () {
     var value = $(this).val().toLowerCase();
@@ -31,9 +31,9 @@ span.m-1(style='font-weight: bold; font-size: 12px; color:rgb(57, 93, 86)') Prue
         th.Cabecera Ejemplos de voz
         th.d-none.d-md-table-cell.Cabecera Norma técnica
     tbody#myTable.table-body
-      tr(v-for='item of ejemplos.EJEMP' :key='item.orden' :item='item')
-        td {{ item.orden }}
-        td.d-none.d-md-table-cell {{ item.norma }}
+      tr(v-for='item of listaDeHallazgos' :key='item.text' :item='item')
+        td {{ item.orden +' '+ item.text }}
+        td.d-none.d-md-table-cell {{ item.Especificacion }}
 
 </template>
 
