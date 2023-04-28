@@ -103,7 +103,7 @@ const seleccionMultiple = (num1_, num2_, hallazgo) => {
     let mensaje = ''
     let hablar = true
     const hzgoMatriz = listaDeHallazgos.filter((elem) =>
-        elem.value.toLowerCase().includes(hallazgo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")),
+        elem.value.toLowerCase().includes(hallazgo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") && elem.label != ""),
     );
     const index = listaDeDientesCombo?.findIndex(i => i.value == num1_)
     if (index < 0) {
@@ -220,7 +220,7 @@ export const actualizarItem = (pieza, hallazgo, ubicacion) => {
         mensaje += `Pieza ${pieza}`
     }
     const ubicacionnes = escenarios.Esenarios.filter((elem) => elem.pieza == item.value.diente)[0];
-    const hzgoMatriz = listaDeHallazgos.filter((elem) => elem.value == hallazgo);
+    const hzgoMatriz = listaDeHallazgos.filter((elem) => elem.value == hallazgo && elem.label != "");
     let _posicion = "";
     if (ubicacionnes != undefined) {
         _posicion = (ubicacionnes.arriba.trim() == ubicacion) ? 'arriba' : _posicion;
@@ -309,7 +309,9 @@ listaDeDientes_?.map(num => {
 
 export default {
 
-    conVozEncendida: { ...listaDeComandosDeDientes },
+    conVozEncendida: { ...listaDeComandosDeDientes,
+        'borrar (fila) :fila': eliminarFila,
+        'eliminar (fila) :fila': eliminarFila },
     /*     'gracias': detenerVoz,
          'limpiar': limpiar,
          'gracias *any': detenerVoz,
