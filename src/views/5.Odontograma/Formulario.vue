@@ -91,6 +91,7 @@ function LimpiarMensaje() {
 function limpiarHallazgoDiente() {
   LimpiarMensaje();
   limpiarSinVoz();
+  Hallazgo.value = ""
   VisibleDiente();
 }
 function ordenarAsc(listado, p_key) {
@@ -291,14 +292,14 @@ function onKeyDownSoloLetras(event) {
       input#tipoReg(type="hidden", value="0")
       .col-12.col-md-5
         span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;background-color: transparent; border-width:0px") Hallazgo :
-          v-select(style ='width: 100%' v-model='Hallazgo' :options='_listaDeHallazgos' placeholder='Selecciona un Hallazgo' )
+          v-select(style ='width: 100%; padding-left: 0.4rem' v-model='Hallazgo' :options='_listaDeHallazgos' placeholder='Selecciona un Hallazgo' )
       .col-12.col-md-3
         span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;background-color: transparent; border-width:0px" v-on:keypress='onKeyDownSoloNumeros($event)') Pieza :
-          v-select(style ='width: 100%' v-model='item.diente' :options='listaDeDientesCombo' placeholder='Selecciona una pieza')
+          v-select(style ='width: 100%; padding-left: 2.2rem' v-model='item.diente' :options='listaDeDientesCombo' placeholder='Selecciona una pieza')
       .col-12.col-md-4
         span#spanPiezaAl(style="display: none;")
-          span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;background-color: transparent; border-width:0px;") a la pieza :
-            v-select(style ='width: 100%' v-model='item.dienteAlterno' :options='listaDeDientesCombo' placeholder='Selecciona una pieza')
+          span.input-group-text.m-1(style="padding: .01rem .01rem .01rem .6rem;background-color: transparent; border-width:0px;") a la :
+            v-select(style ='width: 100%; padding-left: 2.9rem' v-model='item.dienteAlterno' :options='listaDeDientesCombo' placeholder='Selecciona una pieza')
     .row#VistaDiente(style="display: none;")
       .col.d-flex.justify-content-center
         Diente(:item='item' style='--size: 12rem;').raiz-0
