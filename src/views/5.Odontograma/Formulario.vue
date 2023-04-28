@@ -229,18 +229,26 @@ function VisibleDiente() {
     if (hzgoMatriz[0]?.esDirecto == "SI") {
       VistaDiente.style.display = "none"
       if (hzgoMatriz[0]?.EsMultiple == "SI") {
-        spanPiezaAl.style.display = "block"
+        if (spanPiezaAl != null) {
+          spanPiezaAl.style.display = "block"
+        }
       }
       else {
-        spanPiezaAl.style.display = "none"
+        if (spanPiezaAl != null) {
+          spanPiezaAl.style.display = "none"
+        }
       }
     }
     else {
-      VistaDiente.style.display = "block"
+      if (spanPiezaAl != null) {
+        VistaDiente.style.display = "block"
+      }
     }
   }
   else {
-    spanPiezaAl.style.display = "none"
+    if (spanPiezaAl != null) {
+      spanPiezaAl.style.display = "none"
+    }
   }
 }
 const idRelacionados_ = computed((() => id => getItemEnRegistro(id)?.idRelacionados))
