@@ -130,7 +130,7 @@ function AgregarHallazgo() {
     return false
   }
   if (Hallazgo.value != '' && item.value?.diente != '') {
-    const index = listaDeDientesCombo?.findIndex(i => i.value == item.value.diente.value)
+    const index = listaDeDientesCombo?.findIndex(i => i.value == item.value.diente?.value)
     if (index < 0) {
       mensajeExistePieza.value = 'La pieza seleccionada no existe'
       return false
@@ -140,7 +140,7 @@ function AgregarHallazgo() {
       mensajeExistePieza.value = 'El Hallazgo seleccionado no existe'
       return false
     }
-    const hzgoMatriz = _Hallazgos.filter((elem) => elem.text == Hallazgo.value.label);
+    const hzgoMatriz = _Hallazgos.filter((elem) => elem.value == Hallazgo.value?.value);
     if (hzgoMatriz.length > 0) {
       if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.Replicable_Intermedio != "RE") {
         let fila = {
