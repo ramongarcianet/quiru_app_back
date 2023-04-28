@@ -209,6 +209,13 @@ const moverCarrusel = (adelanteOAtras) => {
 
 }
 
+function activarAyuda() {
+  var verAyuda = document.getElementById("AyudaCard");
+  verAyuda.style.display = "flex"
+  if (isSpeech.value == false) {
+    activarVoz()
+  }
+}
 </script>
 
 <template lang="pug">
@@ -243,7 +250,7 @@ const moverCarrusel = (adelanteOAtras) => {
       #alerto.alert.alert-danger.alert-dismissible(style='display:none') Cuidado! Este Odontograma tiene hallazgos registrados
         a.close(@click="Cancelar()" href='#' data-dismiss='alert') &times;
       .col
-        h2.my-0.mx-3 Panel de
+        h2.my-0.mx-3#SeccionPrincipal Panel de
         ul.nav.nav-tabs( id="myTab" role="tablist")
           li.nav-item( role="presentation" v-if="itemodontograma?.idRelacionado")
             button.nav-link( 
@@ -281,12 +288,15 @@ const moverCarrusel = (adelanteOAtras) => {
                   button.btn-close(type='button' data-bs-dismiss='modal')
                 .modal-body
                   Instrucciones
-          a.btn(title='Ayuda' href="#ayudaON")
+          a.btn(title='Ejemplos' href="#SeccionAyuda" @click='activarAyuda()')
             i.fa-solid.fa-question.fa-xl(style="color: var(--color-primary)")#destacarAyuda
-    Formulario
 
-    #ayudaON.mt-4
-      Instrucciones
+    Formulario
+    .col.mt-1.justify-content.desplazable(style="display: none" id="AyudaCard")
+      .col.item
+        .card.card-body#SeccionAyuda
+          Instrucciones
+
     .row.mb-5
       .col-md-3.col-12
         div.opciones

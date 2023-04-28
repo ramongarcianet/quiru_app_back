@@ -1,5 +1,5 @@
 <script setup>
-import ejemplos from '../../config/ejemplos.json';
+import { listaDeHallazgos } from '../../config/Parametros';
 $(document).ready(function () {
   $("#myInput").on("keyup", function () {
     var value = $(this).val().toLowerCase();
@@ -21,17 +21,19 @@ function ocultarAyuda() {
   .col-11
     input#myInput.form-control.parpadea(style='border-color: rgb(57, 93, 86);' type='text' placeholder='Escriba una palabra para buscar en la lista el hallazgos')
   .col-1.p-0
+    a(href='#SeccionPrincipal' style="color: black; cursor: default" id="act1" @click="ocultarAyuda()")
+      i.fa-solid.fa-xmark.fa-xl(style="margin-top: 5px; margin-left: 10px")
 span.m-1(style='font-weight: bold; font-size: 12px; color:rgb(57, 93, 86)') Pruebe diciendo un ejemplo, Quiru está escuchando
 .Contenido  
   table.table.table-bordered.table-striped
-    thead(style='position: sticky;top: 0; background-color: var(--color-light)!important; font-weight: bold; color:rgb(57, 93, 86);')
-      tr
+    thead(style='position: sticky;top: 0')
+      tr(style='background-color: white;')
         th.Cabecera Ejemplos de voz
         th.d-none.d-md-table-cell.Cabecera Norma técnica
     tbody#myTable.table-body
-      tr(v-for='item of ejemplos.EJEMP' :key='item.orden' :item='item')
-        td {{ item.orden }}
-        td.d-none.d-md-table-cell {{ item.norma }}
+      tr(v-for='item of listaDeHallazgos.filter((elem) => elem.label != "")' :key='item.text' :item='item')
+        td {{ item.orden +' '+ item.text }}
+        td.d-none.d-md-table-cell {{ item.Especificacion }}
 
 </template>
 
