@@ -14,7 +14,6 @@ const {back, push} = useRouter()
     button.btn.btn-outline-primary.border-0(@click="back()" )
       i.fa-solid.fa-arrow-left-long.fa-xl
   .col-2
-
-Formulario
+  Formulario
 
 </template>
