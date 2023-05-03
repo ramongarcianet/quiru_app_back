@@ -15,7 +15,7 @@ const rutas = [
 </script>
 
 <template lang="pug">
-.router
+.router(v-if=" route.name !== 'Detalle' ")
   ul
     li.list(v-for="ruta of rutas"  @click="push({name:ruta.ruta})" :class=" ruta.ruta == routeName ? 'active' : '' ")
       a

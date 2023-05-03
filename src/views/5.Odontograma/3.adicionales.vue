@@ -57,13 +57,14 @@ const crear_ = () => new Promise( async(resolve, reject) =>   {
 </script>
 <template lang="pug">
 .row
-  .col-8
-    h1 Datos Adicionales
+  .col-7.col-md-9
+    h1 Datos 
+    h1 Adicionales
     button.btn.btn-outline-primary.border-0(@click="back()" )
       i.fa-solid.fa-arrow-left-long.fa-xl
-  .col-4
+  .col-5.col-md-3
     div.opciones
-      button.outline-quiru(title='Consentimientos' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
+      button.outline-quiru.border-0(title='Consentimientos' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
         .contenido
           .title Consentimientos
         i.fa-regular.fa-file-pdf.fa-xl.icono
