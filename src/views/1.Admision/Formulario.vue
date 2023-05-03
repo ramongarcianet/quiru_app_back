@@ -85,7 +85,7 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
         span(style="padding: .01rem .01rem .01rem .6rem;") Examen odontoestomatológico
         input.form-control(placeholder="", v-model="item.examClinicoOdonto")
  
-  .col-12.col-md-4.mx-auto.mt-3
+  .col-12.col-md-4.mx-auto.mt-3.mb-5
     button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(
       type='submit', style="border-radius: 50px"
     )
