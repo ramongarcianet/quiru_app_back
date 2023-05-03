@@ -33,7 +33,7 @@ span.m-1(style='font-weight: bold; font-size: 12px; color:rgb(57, 93, 86)') Prue
     tbody#myTable.table-body
       tr(v-for='item of listaDeHallazgos.filter((elem) => elem.label != "")' :key='item.text' :item='item')
         td(v-if=' item.esDirecto === "SI" ') {{ item.orden +' '+ item.text }}
-        td.d-none.d-md-table-cell(v-else) {{ item.orden +' '+ item.text + ' '+ 'oclusal' }}
+        td(v-else) {{ item.orden +' '+ item.text + ' '+ 'oclusal' }}
         td.d-none.d-md-table-cell {{ item.Especificacion }}
 
 </template>
