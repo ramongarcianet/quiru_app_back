@@ -103,7 +103,7 @@ const seleccionMultiple = (num1_, num2_, hallazgo) => {
     let mensaje = ''
     let hablar = true
     const hzgoMatriz = listaDeHallazgos.filter((elem) =>
-        elem.value.toLowerCase().includes(hallazgo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") && elem.label != ""),
+        elem.value.toLowerCase().includes(hallazgo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")) && elem.label != "",
     );
     const index = listaDeDientesCombo?.findIndex(i => i.value == num1_)
     if (index < 0) {
