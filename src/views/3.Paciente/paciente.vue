@@ -116,9 +116,9 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
       .col.mb-12
         label.form-label Consentimiento informado*
         .input-group.mb-12
-          select.form-select(placeholder="Constancia informado", v-model="item.constancia")
+          select.form-select( v-model="item.constancia")
             option(value="S") SI
-            option(value="N") NO    
+            option(value="N") NO
   .col.md-12
     label.form-label Dirección*
     .input-group
@@ -138,19 +138,64 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
         .accordion-body
           h2 Centro laboral
           h2 Ocupación
-          p ¿Está en la actualidad bajo tratamiento médico?
-          p ¿Tiene reacciones alérgicas o es alérgico a algún farmaco o medicamento?
-          p ¿Ha presentado alguna vez una reacción a la anestesia dental o general?
-          p ¿Se le ha intervenido alguna vez?
-          p ¿Ha estado alguna vez hospitalizado?
-          p Cuando sube las escaleras o pases ¿ha tenido que pararse por dolor torácico o cansancio?
-          p ¿Ha perdido o ganado involuntariamente más de 4.5Kg en el último año?
-          p ¿Esta siguiendo alguna dieta especial?
-          p ¿Tiene contacto, por su trabajo, con sangre, derivados sanguíneos o agujas?
-          p ¿Está embarazada? V-IF
-          p Estatura y Peso
-          p Doy fe que las respuestas anteriores son verdaderas y correctas. Si se produce algún cambio en mi estado actual de salud, tengo algún resultado de laboratorio anormal o cambia mi medicación, informaré sin falla a mi odontólogo en la próxima visita.
-
+          .row
+            .col-6
+              label.form-label ¿Está en la actualidad bajo tratamiento médico?
+              select.form-select(v-model="item.askHCG1")
+                option(value="N") NO
+                option(value="S") SI
+            .col-6
+              label.form-label ¿Tiene reacciones alérgicas o es alérgico a algún farmaco o medicamento?
+              select.form-select(v-model="item.askHCG2")
+                option(value="N") NO
+                option(value="S") SI
+            .col-6
+              label.form-label ¿Ha presentado alguna vez una reacción a la anestesia dental o general?
+              select.form-select(v-model="item.askHCG3")
+                option(value="N") NO
+                option(value="S") SI
+            .col-6
+              label.form-label ¿Se le ha intervenido alguna vez?
+              select.form-select(v-model="item.askHCG4")
+                option(value="N") NO
+                option(value="S") SI
+            .col-6
+              label.form-label ¿Ha estado alguna vez hospitalizado?
+              select.form-select(v-model="item.askHCG5")
+                option(value="N") NO
+                option(value="S") SI
+            .col-6
+              label.form-label Cuando sube las escaleras o pases ¿ha tenido que pararse por dolor torácico o cansancio?
+              select.form-select(v-model="item.askHCG6")
+                option(value="N") NO
+                option(value="S") SI
+            .col-6
+              label.form-label ¿Ha perdido o ganado involuntariamente más de 4.5Kg en el último año?
+              select.form-select(v-model="item.askHCG7")
+                option(value="N") NO
+                option(value="S") SI
+            .col-6
+              label.form-label ¿Esta siguiendo alguna dieta especial?
+              select.form-select(v-model="item.askHCG8")
+                option(value="N") NO
+                option(value="S") SI
+            .col-6
+              label.form-label ¿Tiene contacto, por su trabajo, con sangre, derivados sanguíneos o agujas?
+              select.form-select(v-model="item.askHCG9")
+                option(value="N") NO
+                option(value="S") SI
+            .col-6(v-if="item.sexo === 'F'")
+              label.form-label ¿Está embarazada?
+              select.form-select(v-model="item.embarazada")
+                option(value="N") NO
+                option(value="S") SI
+          .row
+            .col-6
+              label.form-label Peso   
+              input.form-control(placeholder="Peso Kg.", v-model="item.peso" @keypress="esNumero($event)" maxlength="4")
+            .col-6
+              label.form-label Estatura
+              input.form-control(placeholder="Altura cm.", v-model="item.estatura" @keypress="esNumero($event)" maxlength="5")
 
   .col-12.col-md-4.mx-auto.mt-3.mb-5
     button#btguardar.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(
