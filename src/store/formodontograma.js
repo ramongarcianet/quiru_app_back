@@ -113,7 +113,7 @@ export function existeDiente(diente, fila) {
                     result = true;
                     break;
                 }
-                else if (item.diente == diente && item.hallazgo != fila.hallazgo) {
+                else if (item.diente == diente && item.hallazgo == fila.hallazgo) {
                     if (isSpeech.value)
                         speak('pieza ' + diente + ' ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.descripcion)
                     else
@@ -131,7 +131,7 @@ export function existeDiente(diente, fila) {
                     result = true;
                     break;
                 }
-                else if (item.diente == diente && item.hallazgo != fila.hallazgo) {
+                else if (item.diente == diente && item.hallazgo == fila.hallazgo && item.ubicacion == fila.ubicacion) {
                     if (isSpeech.value)
                         speak('pieza ' + diente + ' ya existe en el odontograma, no se puede registrar como Hallazgo: ' + fila.descripcion)
                     else
