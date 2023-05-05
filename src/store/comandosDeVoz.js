@@ -32,19 +32,23 @@ const seleccionHallazgo = (par1, par2) => {
             .then(result => {
                 let _hazgoUbi = obtnerDatos(result.toLowerCase())
                 if (_hazgoUbi.hallazgo == "") {
-                    let _similitud = 0.75
-                    listaDeHallazgos.forEach(element => {
-                        let _conjunto1 = new Set(element.text.toLowerCase().split(""));
-                        let _conjunto2 = new Set(result.replace(hazgoUbi.ubicacion, "").trim().toLowerCase().split(""));
-                        let interseccion = new Set([..._conjunto1].filter(caracter => _conjunto2.has(caracter)));
-                        let similitud = interseccion.size / (_conjunto1.size + _conjunto2.size - interseccion.size);
-                        if (similitud > _similitud) {
-                            _hazgoUbi.hallazgo = element.value.toLowerCase();
-                            _similitud = similitud;
-                        }
-                    });
+                    speak('El Hallazgo' + result.toLowerCase() + ' seleccionado no existe')
+                    return false
+                    /* let _similitud = 0.75
+                     listaDeHallazgos.forEach(element => {
+                         let _conjunto1 = new Set(element.text.toLowerCase().split(""));
+                         let _conjunto2 = new Set(result.replace(hazgoUbi.ubicacion, "").trim().toLowerCase().split(""));
+                         let interseccion = new Set([..._conjunto1].filter(caracter => _conjunto2.has(caracter)));
+                         let similitud = interseccion.size / (_conjunto1.size + _conjunto2.size - interseccion.size);
+                         if (similitud > _similitud) {
+                             _hazgoUbi.hallazgo = element.value.toLowerCase();
+                             _similitud = similitud;
+                         }
+                     });*/
+                } else {
+                    GrabarHallazgo(num1_, num2_, _hazgoUbi.hallazgo, _hazgoUbi.ubicacion);
                 }
-                GrabarHallazgo(num1_, num2_, _hazgoUbi.hallazgo, _hazgoUbi.ubicacion);
+
             })
             .catch(error => {
                 speak('por favor vuelve a intentarlo')
@@ -89,6 +93,12 @@ const obtnerDatos = (frase) => {
             break;
         case 'lingualizado':
             ubicacion = "";
+            break;
+        case 'plural':
+            ubicacion = "oclusal";
+            break;
+        case 'plusal':
+            ubicacion = "oclusal";
             break;
     }
 
