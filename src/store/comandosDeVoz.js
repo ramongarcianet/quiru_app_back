@@ -74,6 +74,24 @@ const obtnerDatos = (frase) => {
             _similitud = similitud;
         }
     });
+    switch (_ubic) {
+        case 'mesializado':
+            ubicacion = "";
+            break;
+        case 'distalizado':
+            ubicacion = "";
+            break;
+        case 'vestibularizado':
+            ubicacion = "";
+            break;
+        case 'palatinizado':
+            ubicacion = "";
+            break;
+        case 'lingualizado':
+            ubicacion = "";
+            break;
+    }
+
     let hallazagoFil = listaDeHallazgos.filter(coincidencias => coincidencias.text.toLowerCase().includes(frase.replace(ubicacion, "").trim().toLowerCase()));
     if (hallazagoFil.length > 0) {
         let _similitud = 0.65
@@ -309,9 +327,11 @@ listaDeDientes_?.map(num => {
 
 export default {
 
-    conVozEncendida: { ...listaDeComandosDeDientes,
+    conVozEncendida: {
+        ...listaDeComandosDeDientes,
         'borrar (fila) :fila': eliminarFila,
-        'eliminar (fila) :fila': eliminarFila },
+        'eliminar (fila) :fila': eliminarFila
+    },
     /*     'gracias': detenerVoz,
          'limpiar': limpiar,
          'gracias *any': detenerVoz,
