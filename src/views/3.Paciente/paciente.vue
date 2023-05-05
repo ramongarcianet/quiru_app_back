@@ -128,19 +128,30 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
     label.form-label Comentarios*
     .input-group
       textarea#floatingTextarea.form-control(placeholder='Deja un comentario aquí')
-  .col-12
+  .col-12.mt-3
     #accordionExample.accordion
     .accordion-item
       h2#headingOne.accordion-header
         button.accordion-button(type='button' data-bs-toggle='collapse' data-bs-target='#HCGeneral')
-          | Accordion Item #1
+          | Historia clínica general
       #HCGeneral.accordion-collapse.collapse(data-bs-parent='#accordionExample')
         .accordion-body
-          strong This is the first item&apos;s accordion body.
-          |  It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It&apos;s also worth noting that just about any HTML can go within the 
-          code .accordion-body
-          | , though the transition does limit overflow.
-  
+          h2 Centro laboral
+          h2 Ocupación
+          p ¿Está en la actualidad bajo tratamiento médico?
+          p ¿Tiene reacciones alérgicas o es alérgico a algún farmaco o medicamento?
+          p ¿Ha presentado alguna vez una reacción a la anestesia dental o general?
+          p ¿Se le ha intervenido alguna vez?
+          p ¿Ha estado alguna vez hospitalizado?
+          p Cuando sube las escaleras o pases ¿ha tenido que pararse por dolor torácico o cansancio?
+          p ¿Ha perdido o ganado involuntariamente más de 4.5Kg en el último año?
+          p ¿Esta siguiendo alguna dieta especial?
+          p ¿Tiene contacto, por su trabajo, con sangre, derivados sanguíneos o agujas?
+          p ¿Está embarazada? V-IF
+          p Estatura y Peso
+          p Doy fe que las respuestas anteriores son verdaderas y correctas. Si se produce algún cambio en mi estado actual de salud, tengo algún resultado de laboratorio anormal o cambia mi medicación, informaré sin falla a mi odontólogo en la próxima visita.
+
+
   .col-12.col-md-4.mx-auto.mt-3.mb-5
     button#btguardar.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(
       type='submit', disabled style="border-radius: 50px"
