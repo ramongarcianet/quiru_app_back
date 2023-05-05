@@ -32,19 +32,22 @@ const seleccionHallazgo = (par1, par2) => {
             .then(result => {
                 let _hazgoUbi = obtnerDatos(result.toLowerCase())
                 if (_hazgoUbi.hallazgo == "") {
-                    let _similitud = 0.75
-                    listaDeHallazgos.forEach(element => {
-                        let _conjunto1 = new Set(element.text.toLowerCase().split(""));
-                        let _conjunto2 = new Set(result.replace(hazgoUbi.ubicacion, "").trim().toLowerCase().split(""));
-                        let interseccion = new Set([..._conjunto1].filter(caracter => _conjunto2.has(caracter)));
-                        let similitud = interseccion.size / (_conjunto1.size + _conjunto2.size - interseccion.size);
-                        if (similitud > _similitud) {
-                            _hazgoUbi.hallazgo = element.value.toLowerCase();
-                            _similitud = similitud;
-                        }
-                    });
+                    speak('El Hallazgo' + result.toLowerCase() + ' seleccionado no existe')
+                    /* let _similitud = 0.75
+                     listaDeHallazgos.forEach(element => {
+                         let _conjunto1 = new Set(element.text.toLowerCase().split(""));
+                         let _conjunto2 = new Set(result.replace(hazgoUbi.ubicacion, "").trim().toLowerCase().split(""));
+                         let interseccion = new Set([..._conjunto1].filter(caracter => _conjunto2.has(caracter)));
+                         let similitud = interseccion.size / (_conjunto1.size + _conjunto2.size - interseccion.size);
+                         if (similitud > _similitud) {
+                             _hazgoUbi.hallazgo = element.value.toLowerCase();
+                             _similitud = similitud;
+                         }
+                     });*/
+                } else {
+                    GrabarHallazgo(num1_, num2_, _hazgoUbi.hallazgo, _hazgoUbi.ubicacion);
                 }
-                GrabarHallazgo(num1_, num2_, _hazgoUbi.hallazgo, _hazgoUbi.ubicacion);
+
             })
             .catch(error => {
                 speak('por favor vuelve a intentarlo')
@@ -74,6 +77,30 @@ const obtnerDatos = (frase) => {
             _similitud = similitud;
         }
     });
+    switch (_ubic) {
+        case 'mesializado':
+            ubicacion = "";
+            break;
+        case 'distalizado':
+            ubicacion = "";
+            break;
+        case 'vestibularizado':
+            ubicacion = "";
+            break;
+        case 'palatinizado':
+            ubicacion = "";
+            break;
+        case 'lingualizado':
+            ubicacion = "";
+            break;
+        case 'plural':
+            ubicacion = "oclusal";
+            break;
+        case 'plusal':
+            ubicacion = "oclusal";
+            break;
+    }
+
     let hallazagoFil = listaDeHallazgos.filter(coincidencias => coincidencias.text.toLowerCase().includes(frase.replace(ubicacion, "").trim().toLowerCase()));
     if (hallazagoFil.length > 0) {
         let _similitud = 0.65
@@ -103,7 +130,7 @@ const seleccionMultiple = (num1_, num2_, hallazgo) => {
     let mensaje = ''
     let hablar = true
     const hzgoMatriz = listaDeHallazgos.filter((elem) =>
-        elem.value.toLowerCase().includes(hallazgo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") && elem.label != ""),
+        elem.value.toLowerCase().includes(hallazgo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")) && elem.label != "",
     );
     const index = listaDeDientesCombo?.findIndex(i => i.value == num1_)
     if (index < 0) {
@@ -309,9 +336,11 @@ listaDeDientes_?.map(num => {
 
 export default {
 
-    conVozEncendida: { ...listaDeComandosDeDientes,
+    conVozEncendida: {
+        ...listaDeComandosDeDientes,
         'borrar (fila) :fila': eliminarFila,
-        'eliminar (fila) :fila': eliminarFila },
+        'eliminar (fila) :fila': eliminarFila
+    },
     /*     'gracias': detenerVoz,
          'limpiar': limpiar,
          'gracias *any': detenerVoz,
