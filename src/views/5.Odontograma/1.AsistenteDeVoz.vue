@@ -279,15 +279,6 @@ function activarAyuda() {
             i.fa-regular.fa-trash-can.fa-xl(style="color: var(--color-primary)")
           button.btn(title='Imprimir' @click="printOdontograma()")
             i.fa-solid.fa-print.fa-xl(style="color: var(--color-primary)")#destacarImpresion
-          //button.btn(title='Ayuda' type='button' data-bs-toggle='modal' data-bs-target='#exampleModal')
-            i.fa-solid.fa-question.fa-xl(style="color: var(--color-primary)")#destacarAyuda
-          //#exampleModal.modal.fade(tabindex='-1')
-            .modal-dialog.modal-lg
-              .modal-content
-                .modal-header
-                  button.btn-close(type='button' data-bs-dismiss='modal')
-                .modal-body
-                  Instrucciones
           a.btn(title='Ejemplos' href="#SeccionAyuda" @click='activarAyuda()')
             i.fa-solid.fa-question.fa-xl(style="color: var(--color-primary)")#destacarAyuda
 
@@ -298,18 +289,18 @@ function activarAyuda() {
           Instrucciones
 
     .row.mb-5
-      .col-md-6.col-12
+      .col-lg-4.col-md-6.col-sm-6.col-xs-12
         div.opciones
           button.outline-quiru(style="margin-bottom: 1.8rem;" @click='push({ name: "adicionales", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
             .contenido(style="width: 60%;")
               .title Agregar
               .subtitle Datos adicionales
             i.fa-solid.fa-file-circle-plus.icono
-      .col-md-6.col-12
+      .col-lg-4.col-md-6.col-sm-6.col-xs-12
         div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.tieneTratamiento!='Si'" id="holo")
           a.outline-quiru.solid(style="margin-bottom: 1.8rem;"  class="list-group-item list-group-item-action" href="#list-item-1" @click="guardar_(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id)")
-            .contenido(style="width: 60%;")
-              .title.light-quiru Crear
+            .contenido(style="width: 70%;")
+              .title.light-quiru Generar
               .subtitle.light-quiru Odontograma de tratamiento
             i.fa-solid.fa-briefcase-medical.icono.light-quiru
 </template>
