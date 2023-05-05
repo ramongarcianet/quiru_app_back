@@ -33,7 +33,6 @@ const seleccionHallazgo = (par1, par2) => {
                 let _hazgoUbi = obtnerDatos(result.toLowerCase())
                 if (_hazgoUbi.hallazgo == "") {
                     speak('El Hallazgo' + result.toLowerCase() + ' seleccionado no existe')
-                    return false
                     /* let _similitud = 0.75
                      listaDeHallazgos.forEach(element => {
                          let _conjunto1 = new Set(element.text.toLowerCase().split(""));
