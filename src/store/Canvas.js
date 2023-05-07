@@ -327,8 +327,8 @@ function dibuja_seccion(contexto, num_diente, seccion, color_pas, medida, inicio
             ctx.fillStyle = color_line;
             ctx.beginPath();
             if (Diente_seccionOclusal[0]?.seccionOclusal == "0") {
-                ctx.moveTo(cua + inicio_x, ter + inicio_y - 3);
-                ctx.lineTo(ter + inicio_x, ter + inicio_y - 3);
+                ctx.moveTo(cua + inicio_x, ter + inicio_y - 5);
+                ctx.lineTo(ter + inicio_x, ter + inicio_y - 5);
             }
             else {
                 ctx.moveTo(cua + inicio_x, ter + inicio_y);
@@ -392,7 +392,12 @@ function dibuja_seccion(contexto, num_diente, seccion, color_pas, medida, inicio
                 ctx.lineTo(inicio_x + 6, inicio_y + 15);
             }
             if (Diente_seccionOclusal[0]?.seccionOclusal == "0") {
-
+                //ctx.fillStyle = "red";
+                ctx.moveTo(cua + inicio_x, cua + inicio_y + 4);
+                ctx.lineTo(ter + inicio_x, cua + inicio_y + 4);
+                ctx.lineTo(ter + inicio_x, ter + inicio_y - 4);
+                ctx.lineTo(cua + inicio_x, ter + inicio_y - 4);
+                //ctx.fillStyle = color_line;
             }
             ctx.closePath();
             ctx.fill();
@@ -461,7 +466,7 @@ function SetFinding(context, iniciar_x, inicio_y, medida, diente, registro) {
                 const hzgoMatriz = listaDeHallazgos.filter((elem) => elem.value == hzgo?.hallazgo);
 
                 if (hzgoMatriz.length > 0) {
-                    SiglaMultiple = hzgoMatriz[0]?.sigla + ((hzgoMatriz[0]?.Combinado== "SI")? " " + SiglaMultiple :"");
+                    SiglaMultiple = hzgoMatriz[0]?.sigla + ((hzgoMatriz[0]?.Combinado == "SI") ? " " + SiglaMultiple : "");
                     Color = hzgoMatriz[0]?.Color
                     if (hzgoMatriz[0]?.esDirecto == "NO") {
                         dibuja_seccion(context, diente, seccion, hzgoMatriz[0]?.Color, medida, iniciar_x, inicio_y)
