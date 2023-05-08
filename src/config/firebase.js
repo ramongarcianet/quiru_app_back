@@ -20,6 +20,17 @@ const firebaseConfig = {
   appId: "1:953856024887:web:9fcc77f3fd4e46e90efab2",
   measurementId: "G-F756MY0VB1"
 };
+//RESERVA
+/*
+const firebaseConfig = {
+  apiKey: "AIzaSyCiacGoBAcHTTFLG9LMBfpNOf9kawx9I1s",
+  authDomain: "quiru-dev.firebaseapp.com",
+  projectId: "quiru-dev",
+  storageBucket: "quiru-dev.appspot.com",
+  messagingSenderId: "411985985166",
+  appId: "1:411985985166:web:caa1000f35f92e82fd93df"
+};
+*/
 /*
 //PRODUCIÓN
 
