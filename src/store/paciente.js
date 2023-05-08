@@ -12,6 +12,18 @@ const item = ref({
     fechaIngreso: new Date().toISOString().slice(0, 10),
     constancia: 'N',
     estado: true,
+    centroLaboral: '',
+    ocupacion: '',
+    askHCG1: '',
+    askHCG2: '',
+    askHCG3: '',
+    askHCG4: '',
+    askHCG5: '',
+    askHCG6: '',
+    askHCG7: '',
+    askHCG8: '',
+    askHCG9: '',
+    askHCG0: 'No',
     visto: 0
 })
 const revisarDNI = (item) => new Promise((resolve) => {
@@ -128,7 +140,19 @@ const limpiar = () => {
         sexo: '',
         fechaNacimiento: new Date().toISOString().slice(0, 10),
         fechaIngreso: new Date().toISOString().slice(0, 10),
-        constancia: 'N'
+        constancia: 'N',
+        centroLaboral: '',
+        ocupacion: '',
+        askHCG1: '',
+        askHCG2: '',
+        askHCG3: '',
+        askHCG4: '',
+        askHCG5: '',
+        askHCG6: '',
+        askHCG7: '',
+        askHCG8: '',
+        askHCG9: '',
+        askHCG0: 'No',
     }
 }
 

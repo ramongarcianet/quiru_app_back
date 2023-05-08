@@ -33,7 +33,7 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
         span(style="padding: .01rem .01rem .01rem .6rem;") Viajes de los últimos años :
         input.form-control(placeholder="", v-model="item.viajesUltimos")
       .col.mb-1
-        span.input-group-text.mb-1(style="background-color: var(--color-light); font-weight: bold; color:rgb(57, 93, 86);") Temperatura Antecedentes
+        span.input-group-text.mb-1(style="background-color: var(--color-light); font-weight: bold; color:rgb(57, 93, 86);") Antecedentes
       .col.mb-1
         span(style="padding: .01rem .01rem .01rem .6rem;") Familiares :
         input.form-control(placeholder="", v-model="item.antecedentesFam")

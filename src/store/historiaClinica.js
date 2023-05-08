@@ -192,6 +192,81 @@ export function printHistoriaClinicaPaciente(idPaciente) {
             console.error(error);
         })
 }
+
+export function printHistoriaMedicaPaciente(idPaciente) {
+    var pdf = new jsPDF()
+    const today = new Date();
+    const fechaFormato = padLeadingZeros(today.getDate(), 2) + '/' + padLeadingZeros((today.getMonth() + 1)) + '/' + today.getFullYear();
+    const horaFormato = padLeadingZeros(today.getHours(), 2) + ":" + padLeadingZeros(today.getMinutes(), 2);
+    const idOdontologo = miUsuario()?.uid;
+    obtenerPacienteOdontograma(idPaciente,idOdontologo).then((odontograma) => {
+        const lastDiagnostico= Math.max(...odontograma.map(o => o.order));
+        const pacienteOdontograma = odontograma.filter(o=> o.order==lastDiagnostico)
+        obtenerPacienteAdmision(idPaciente,idOdontologo).then((admision) => {
+            const pacienteAdmision =  (admision.length>0)? admision[0]:{};
+            leerEnRegistro(idPaciente);
+            obtenerOdontologo(itemPas.value.idOdontologo).then((odonto) => {
+                const odontologo = odonto[0];
+                pdf.html("", {
+                    callback: function (pdf) {
+                        pdf.setFontSize(17);
+                        pdf.setFont(undefined, 'bold')
+                        pdf.text(60, 20, 'HISTORIA MÉDICA GENERAL');
+                        pdf.setFont(undefined, 'normal')
+                        pdf.setFontSize(14);
+                        pdf.text(10, 38, pad('Paciente : ' + itemPas.value.nombre + ' ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno, 70, ' ') + pad('Sexo : ' + itemPas.value.sexo, 35, ' '));
+                        pdf.text(10, 46, pad('Fecha de nacimiento : ' + itemPas.value.fechaNacimiento, 80, ' '));
+                        pdf.text(10, 54, pad('Dirección : ' + itemPas.value.Direccion, 100, ' '));
+                        pdf.text(10, 62, pad('Email : ' + itemPas.value.email, 60, ' ') + pad('Ocupación : ' + itemPas.value.ocupacion, 60, ' '));
+                        pdf.text(10, 70, pad('Teléfono : ' + itemPas.value.telefono, 50, ' '));
+                        pdf.text(10, 78, pad('Centro de trabajo ' + itemPas.value.centroLaboral, 90, ' '));
+                        pdf.setFont(undefined, 'normal')
+                        pdf.setFontSize(12);
+                        pdf.text(10, 90, '1. ¿Está en la actualidad bajo tratamiento médico?');
+                        pdf.text(200, 97, pad(itemPas.value.askHCG1, 120, ' '));
+                        pdf.text(10, 104, '2. ¿Tiene reacciones alérgicas o es alérgico a algún farmaco o medicamento?');
+                        pdf.text(200, 111, pad(itemPas.value.askHCG2, 120, ' '));
+                        pdf.text(10, 118, '3. ¿Ha presentado alguna vez una reacción a la anestesia dental o general?');
+                        pdf.text(200, 125, pad(itemPas.value.askHCG3, 120, ' '));
+                        pdf.text(10, 132, '4. ¿Se le ha intervenido alguna vez?');
+                        pdf.text(200, 139, pad(itemPas.value.askHCG4, 120, ' '));
+                        pdf.text(10, 146, '5. ¿Ha estado alguna vez hospitalizado?');
+                        pdf.text(200, 153, pad(itemPas.value.askHCG5, 120, ' '));
+                        pdf.text(10, 160, '6. Cuando sube las escaleras o pases ¿ha tenido que pararse por dolor torácico o cansancio?');
+                        pdf.text(200, 167, pad(itemPas.value.askHCG6, 120, ' '));
+                        pdf.text(10, 174, '7. ¿Ha perdido o ganado involuntariamente más de 4.5Kg en el último año?');
+                        pdf.text(200, 181, pad(itemPas.value.askHCG7, 120, ' '));
+                        pdf.text(10, 188, '8. ¿Esta siguiendo alguna dieta especial?');
+                        pdf.text(200, 195, pad(itemPas.value.askHCG8, 120, ' '));
+                        pdf.text(10, 202, '9. ¿Tiene contacto, por su trabajo, con sangre, derivados sanguíneos o agujas?');
+                        pdf.text(200, 209, pad(itemPas.value.askHCG9, 120, ' '));
+                        if(itemPas.value.askHCG0) {
+                            pdf.text(10, 216, '10. ¿Está embarazada?');
+                            pdf.text(200, 223, pad(itemPas.value.askHCG0, 120, ' '));
+                        }
+                        pdf.text(10, 230, pad('Estatura : ' + itemPas.value.estatura + ' m. ', 60, ' ') + pad('Peso : ' + itemPas.value.peso + ' kg. ', 60, ' '));
+                        pdf.text(10, 240, 'Doy fe que las respuestas anteriores son verdaderas y correctas. Si se produce algún cambio en mi ');
+                        pdf.text(10, 246, 'estado de salud actual, tengo algún resultado de laboratorio anormal o cambia mi mediación, ');
+                        pdf.text(10, 252, 'informaré a mi Odontólogo en mi próxima visita.');
+                        pdf.text(10, 260, pad('Fecha : ' + fechaFormato, 50, ' '));
+                        var pdfName = 'Historia Médica de ' + itemPas.value.numeroDocumento
+                        pdf.save(pdfName + '.pdf');
+                    }
+                });
+            })
+                .catch(error => {
+                    console.error(error);
+                })
+        })
+            .catch(error => {
+                console.error(error);
+            })
+    })
+        .catch(error => {
+            console.error(error);
+        })
+}
+
 function pad(n, width, z) {
     z = z || '0';
     n = n + '';
