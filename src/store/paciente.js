@@ -23,6 +23,7 @@ const item = ref({
     askHCG7: '',
     askHCG8: '',
     askHCG9: '',
+    askHCG0: 'No',
     visto: 0
 })
 const revisarDNI = (item) => new Promise((resolve) => {
@@ -150,7 +151,8 @@ const limpiar = () => {
         askHCG6: '',
         askHCG7: '',
         askHCG8: '',
-        askHCG9: ''
+        askHCG9: '',
+        askHCG0: 'No',
     }
 }
 
