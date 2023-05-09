@@ -112,7 +112,7 @@ function printHistoriaMedica(idPaciente) {
                 li                    
                   a.dropdown-item(@click="printHistoriaClinica(item.id)") 
                     i.fa-solid.fa-briefcase-medical.fa-sm(style="color: var(--color-primary)")
-                    |     Imprimir historia clínica general
+                    |     Imprimir historia clínica
                 li
                 li                    
                   a.dropdown-item(@click="printHistoriaMedica(item.id)") 
