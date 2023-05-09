@@ -130,7 +130,7 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
       textarea#floatingTextarea.form-control(placeholder='Deja un comentario aquí')
   .col-12.mt-3
     #accordionExample.accordion
-    .accordion-item.border.border-dark
+    .accordion-item.border.border-dark.rounded-0
       h2#headingOne.accordion-header
         button.accordion-button.collapsed(type='button' data-bs-toggle='collapse' data-bs-target='#HCGeneral')
           | Historia médica general
