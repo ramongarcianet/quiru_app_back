@@ -20,7 +20,6 @@ const firebaseConfig = {
   appId: "1:953856024887:web:9fcc77f3fd4e46e90efab2",
   measurementId: "G-F756MY0VB1"
 };
-
 //RESERVA
 /*
 const firebaseConfig = {
