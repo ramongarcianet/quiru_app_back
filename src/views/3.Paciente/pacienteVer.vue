@@ -4,7 +4,7 @@ import { useRoute, useRouter } from "vue-router";
 import { item, guardar, actualizar, limpiar, leerEnRegistro, obtenerTodos, registro, updateEstado } from "../../store/paciente";
 import RegistroOdontograma from "../5.Odontograma/RegistroOdontograma.vue";
 import { guardar as guardarOdontograma, registroodonto, obtenerTodos as obtenerOdontograma } from "../../store/formodontograma";
-import { printHistoriaClinicaPaciente } from "../../store/historiaClinica";
+import { printHistoriaClinicaPaciente, printHistoriaMedicaPaciente } from "../../store/historiaClinica";
 const obtenerRegistro = obtenerTodos();
 const confirmar = ref(false);
 let itemseleccionado = {};
@@ -57,8 +57,10 @@ onUnmounted(() => {
 const visible = ref(false) 
 
 function printHistoriaClinica(idPaciente) {
-    printHistoriaClinicaPaciente(idPaciente);
-
+  printHistoriaClinicaPaciente(idPaciente)
+}
+function printHistoriaMedica(idPaciente) {
+  printHistoriaMedicaPaciente(idPaciente)
 }
 </script>
 
@@ -110,7 +112,12 @@ function printHistoriaClinica(idPaciente) {
                 li                    
                   a.dropdown-item(@click="printHistoriaClinica(item.id)") 
                     i.fa-solid.fa-briefcase-medical.fa-sm(style="color: var(--color-primary)")
-                    |     Imprimir historia
+                    |     Imprimir historia clínica
+                li
+                li                    
+                  a.dropdown-item(@click="printHistoriaMedica(item.id)") 
+                    i.fa-solid.fa-briefcase-medical.fa-sm(style="color: var(--color-primary)")
+                    |     Imprimir historia médica general
                 li
                 li
                   a.dropdown-item(@click="push({ name: 'paciente', params: { idPaciente: item.id } })") 

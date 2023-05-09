@@ -116,9 +116,9 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
       .col.mb-12
         label.form-label Consentimiento informado*
         .input-group.mb-12
-          select.form-select(placeholder="Constancia informado", v-model="item.constancia")
+          select.form-select( v-model="item.constancia")
             option(value="S") SI
-            option(value="N") NO    
+            option(value="N") NO
   .col.md-12
     label.form-label Dirección*
     .input-group
@@ -128,6 +128,111 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
     label.form-label Comentarios*
     .input-group
       textarea#floatingTextarea.form-control(placeholder='Deja un comentario aquí')
+  .col-12.mt-3
+    #accordionExample.accordion
+    .accordion-item.border.border-dark.rounded-0
+      h2#headingOne.accordion-header
+        button.accordion-button.collapsed(type='button' data-bs-toggle='collapse' data-bs-target='#HCGeneral')
+          | Historia médica general
+      #HCGeneral.accordion-collapse.collapse(data-bs-parent='#accordionExample')
+        .accordion-body
+          .row
+            .col-12.col-md-6
+              label.form-label Centro laboral
+              .input-group.mb-2
+                input.form-control(placeholder="Centro laboral", v-model="item.centroLaboral" maxlength="25")
+            .col-12.col-md-6
+              label.form-label Ocupación
+              .input-group.mb-2
+                input.form-control( placeholder="Ocupación", v-model="item.ocupacion" maxlength="25")
+            .col-6
+              label.form-label.col-12 1. ¿Está en la actualidad bajo tratamiento médico?
+              .form-check.form-check-inline
+                input#inlineRadio11.form-check-input(type='radio' name='inlineRadioOptions' v-model="item.askHCG1" value='Si')
+                label.form-check-label(for='inlineRadio11') Si
+              .form-check.form-check-inline
+                input#inlineRadio12.form-check-input(type='radio' name='inlineRadioOptions' v-model="item.askHCG1" value='No')
+                label.form-check-label(for='inlineRadio12') No
+            .col-6
+              label.form-label.col-12 2. ¿Tiene reacciones alérgicas o es alérgico a algún farmaco o medicamento?
+              .form-check.form-check-inline
+                input#inlineRadio21.form-check-input(type='radio' name='inlineRadioOptions2' v-model="item.askHCG2" value='Si')
+                label.form-check-label(for='inlineRadio21') Si
+              .form-check.form-check-inline
+                input#inlineRadio22.form-check-input(type='radio' name='inlineRadioOptions2' v-model="item.askHCG2" value='No')
+                label.form-check-label(for='inlineRadio22') No
+            .col-6
+              label.form-label.col-12 3. ¿Ha presentado alguna vez una reacción a la anestesia dental o general?
+              .form-check.form-check-inline
+                input#inlineRadio31.form-check-input(type='radio' name='inlineRadioOptions3' v-model="item.askHCG3" value='Si')
+                label.form-check-label(for='inlineRadio31') Si
+              .form-check.form-check-inline
+                input#inlineRadio32.form-check-input(type='radio' name='inlineRadioOptions3' v-model="item.askHCG3" value='No')
+                label.form-check-label(for='inlineRadio32') No
+            .col-6
+              label.form-label.col-12 4. ¿Se le ha intervenido alguna vez?
+              .form-check.form-check-inline
+                input#inlineRadio41.form-check-input(type='radio' name='inlineRadioOptions4' v-model="item.askHCG4" value='Si')
+                label.form-check-label(for='inlineRadio41') Si
+              .form-check.form-check-inline
+                input#inlineRadio42.form-check-input(type='radio' name='inlineRadioOptions4' v-model="item.askHCG4" value='No')
+                label.form-check-label(for='inlineRadio42') No
+            .col-6
+              label.form-label.col-12 5. ¿Ha estado alguna vez hospitalizado?
+              .form-check.form-check-inline
+                input#inlineRadio51.form-check-input(type='radio' name='inlineRadioOptions5' v-model="item.askHCG5" value='Si')
+                label.form-check-label(for='inlineRadio51') Si
+              .form-check.form-check-inline
+                input#inlineRadio52.form-check-input(type='radio' name='inlineRadioOptions5' v-model="item.askHCG5" value='No')
+                label.form-check-label(for='inlineRadio52') No
+            .col-6
+              label.form-label.col-12 6. Cuando sube las escaleras o pases ¿ha tenido que pararse por dolor torácico o cansancio?
+              .form-check.form-check-inline
+                input#inlineRadio61.form-check-input(type='radio' name='inlineRadioOptions6' v-model="item.askHCG6" value='Si')
+                label.form-check-label(for='inlineRadio61') Si
+              .form-check.form-check-inline
+                input#inlineRadio62.form-check-input(type='radio' name='inlineRadioOptions6' v-model="item.askHCG6" value='No')
+                label.form-check-label(for='inlineRadio62') No
+            .col-6
+              label.form-label.col-12 7. ¿Ha perdido o ganado involuntariamente más de 4.5Kg en el último año?
+              .form-check.form-check-inline
+                input#inlineRadio71.form-check-input(type='radio' name='inlineRadioOptions7' v-model="item.askHCG7" value='Si')
+                label.form-check-label(for='inlineRadio71') Si
+              .form-check.form-check-inline
+                input#inlineRadio72.form-check-input(type='radio' name='inlineRadioOptions7' v-model="item.askHCG7" value='No')
+                label.form-check-label(for='inlineRadio72') No
+            .col-6
+              label.form-label.col-12 8. ¿Esta siguiendo alguna dieta especial?
+              .form-check.form-check-inline
+                input#inlineRadio81.form-check-input(type='radio' name='inlineRadioOptions8' v-model="item.askHCG8" value='Si')
+                label.form-check-label(for='inlineRadio81') Si
+              .form-check.form-check-inline
+                input#inlineRadio82.form-check-input(type='radio' name='inlineRadioOptions8' v-model="item.askHCG8" value='No')
+                label.form-check-label(for='inlineRadio82') No
+            .col-6
+              label.form-label.col-12 9. ¿Tiene contacto, por su trabajo, con sangre, derivados sanguíneos o agujas?
+              .form-check.form-check-inline
+                input#inlineRadio91.form-check-input(type='radio' name='inlineRadioOptions9' v-model="item.askHCG9" value='Si')
+                label.form-check-label(for='inlineRadio91') Si
+              .form-check.form-check-inline
+                input#inlineRadio92.form-check-input(type='radio' name='inlineRadioOptions9' v-model="item.askHCG9" value='No')
+                label.form-check-label(for='inlineRadio92') No
+            .col-6(v-if="item.sexo === 'F'")
+              label.form-label.col-12 10. ¿Está embarazada?
+              .form-check.form-check-inline
+                input#inlineRadio01.form-check-input(type='radio' name='inlineRadioOptions0' v-model="item.askHCG0" value='Si')
+                label.form-check-label(for='inlineRadio01') Si
+              .form-check.form-check-inline
+                input#inlineRadio02.form-check-input(type='radio' name='inlineRadioOptions0' v-model="item.askHCG0" value='No')
+                label.form-check-label(for='inlineRadio02') No
+          .row
+            .col-6
+              label.form-label Peso   
+              input.form-control(placeholder="Peso g.", v-model="item.peso" @keypress="esNumero($event)" maxlength="4")
+            .col-6
+              label.form-label Estatura
+              input.form-control(placeholder="Altura cm.", v-model="item.estatura" @keypress="esNumero($event)" maxlength="5")
+
   .col-12.col-md-4.mx-auto.mt-3.mb-5
     button#btguardar.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(
       type='submit', disabled style="border-radius: 50px"
