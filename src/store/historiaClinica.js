@@ -200,6 +200,9 @@ export function printHistoriaMedicaPaciente(idPaciente) {
                 let peso = (itemPas.value.peso != undefined)? itemPas.value.peso:'          '
                 let centroLaboral = (itemPas.value.centroLaboral != undefined)? itemPas.value.centroLaboral:'          '
                 let ocupacion = (itemPas.value.ocupacion != undefined)? itemPas.value.ocupacion:'          '
+                let departamento = (itemPas.value.departamento != undefined)? itemPas.value.departamento:'          '
+                let Direccion = (itemPas.value.Direccion != undefined)? itemPas.value.Direccion:'          '
+                let sexoPaciente = (itemPas.value.sexo=='F')? 'Femenino':'Masculino'
                 let askHCG1 = (itemPas.value.askHCG1 != undefined)? itemPas.value.askHCG1:'Si  No'
                 let askHCG2 = (itemPas.value.askHCG2 != undefined)? itemPas.value.askHCG2:'Si  No'
                 let askHCG3 = (itemPas.value.askHCG3 != undefined)? itemPas.value.askHCG3:'Si  No'
@@ -209,7 +212,6 @@ export function printHistoriaMedicaPaciente(idPaciente) {
                 let askHCG7 = (itemPas.value.askHCG7 != undefined)? itemPas.value.askHCG7:'Si  No'
                 let askHCG8 = (itemPas.value.askHCG8 != undefined)? itemPas.value.askHCG8:'Si  No'
                 let askHCG9 = (itemPas.value.askHCG9 != undefined)? itemPas.value.askHCG9:'Si  No'
-
                 pdf.html("", {
                     callback: function (pdf) {
                         pdf.setFontSize(17);
@@ -217,9 +219,9 @@ export function printHistoriaMedicaPaciente(idPaciente) {
                         pdf.text(60, 20, 'HISTORIA MÉDICA GENERAL');
                         pdf.setFont(undefined, 'normal')
                         pdf.setFontSize(14);
-                        pdf.text(10, 38, pad('Paciente : ' + itemPas.value.nombre + ' ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno, 70, ' ') + pad('Sexo : ' + itemPas.value.sexo, 35, ' '));
+                        pdf.text(10, 38, pad('Paciente : ' + itemPas.value.nombre + ' ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno, 70, ' '));
                         pdf.text(10, 46, pad('Fecha de nacimiento : ' + itemPas.value.fechaNacimiento, 80, ' '));
-                        pdf.text(10, 54, pad('Dirección : ' + itemPas.value.Direccion, 100, ' '));
+                        pdf.text(10, 54, pad('Dirección : ' + departamento, 40, ' ') + pad( Direccion, 60, ' '));
                         pdf.text(10, 62, pad('Email : ' + itemPas.value.email, 60, ' ') + pad('Ocupación : ' + ocupacion, 60, ' '));
                         pdf.text(10, 70, pad('Teléfono : ' + itemPas.value.telefono, 50, ' '));
                         pdf.text(10, 78, pad('Centro de trabajo :' + centroLaboral, 90, ' '));

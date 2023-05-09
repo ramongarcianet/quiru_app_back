@@ -132,8 +132,8 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
     #accordionExample.accordion
     .accordion-item
       h2#headingOne.accordion-header
-        button.accordion-button(type='button' data-bs-toggle='collapse' data-bs-target='#HCGeneral')
-          | Historia clínica general
+        button.accordion-button.collapsed(type='button' data-bs-toggle='collapse' data-bs-target='#HCGeneral')
+          | Historia médica general
       #HCGeneral.accordion-collapse.collapse(data-bs-parent='#accordionExample')
         .accordion-body
           .row
