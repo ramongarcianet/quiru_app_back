@@ -24,6 +24,8 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                 const odontologo = odonto[0];
                 //datos admision
                 let fechaNacimiento = (itemPas.value.fechaNacimiento != undefined)? itemPas.value.fechaNacimiento:'          '
+                let departamento = (itemPas.value.departamento != undefined)? itemPas.value.departamento:'          '
+                let Direccion = (itemPas.value.Direccion != undefined)? itemPas.value.Direccion:'          '
                 let motivoConsulta = (pacienteAdmision.motivoConsulta != undefined)? pacienteAdmision.motivoConsulta:''
                 let motivoConsulta1 = motivoConsulta.substring(0, 99)
                 let motivoConsulta2 = motivoConsulta.substring(99, motivoConsulta.length)
@@ -67,7 +69,7 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         pdf.setFontSize(12);
                         pdf.text(10, 57, pad('Nombres del paciente : ' + itemPas.value.nombre + ' ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno, 70, ' ') + pad('Edad : ' + getEdad(itemPas.value.fechaNacimiento), 15, ' ') + pad('Sexo : ' + sexoPaciente, 35, ' '));
                         pdf.text(10, 64, pad('Fecha de nacimiento : ' + fechaNacimiento, 80, ' '));
-                        pdf.text(10, 71, pad('Dirección : ' + itemPas.value.Direccion, 100, ' '));
+                        pdf.text(10, 71, pad('Dirección : ' + departamento, 100, ' ') + pad(' ' + Direccion, 60, ' '));
                         pdf.text(10, 78, pad('Procedencia : ' + procedencia, 60, ' ') + pad('Ocupación : ' + ocupacion, 60, ' '));
                         pdf.text(10, 85, pad('Viajes en el último año : ' + viajesUltimos, 100, ' '));
                         pdf.text(10, 92, pad('Teléfono : ' + itemPas.value.telefono, 50, ' '));
@@ -205,15 +207,15 @@ export function printHistoriaMedicaPaciente(idPaciente) {
                 let departamento = (itemPas.value.departamento != undefined)? itemPas.value.departamento:'          '
                 let Direccion = (itemPas.value.Direccion != undefined)? itemPas.value.Direccion:'          '
                 let sexoPaciente = (itemPas.value.sexo=='F')? 'Femenino':'Masculino'
-                let askHCG1 = (itemPas.value.askHCG1 != undefined)? itemPas.value.askHCG1:'Si - No'
-                let askHCG2 = (itemPas.value.askHCG2 != undefined)? itemPas.value.askHCG2:'Si - No'
-                let askHCG3 = (itemPas.value.askHCG3 != undefined)? itemPas.value.askHCG3:'Si - No'
-                let askHCG4 = (itemPas.value.askHCG4 != undefined)? itemPas.value.askHCG4:'Si - No'
-                let askHCG5 = (itemPas.value.askHCG5 != undefined)? itemPas.value.askHCG5:'Si - No'
-                let askHCG6 = (itemPas.value.askHCG6 != undefined)? itemPas.value.askHCG6:'Si - No'
-                let askHCG7 = (itemPas.value.askHCG7 != undefined)? itemPas.value.askHCG7:'Si - No'
-                let askHCG8 = (itemPas.value.askHCG8 != undefined)? itemPas.value.askHCG8:'Si - No'
-                let askHCG9 = (itemPas.value.askHCG9 != undefined)? itemPas.value.askHCG9:'Si - No'
+                let askHCG1 = (itemPas.value.askHCG1 != undefined)? itemPas.value.askHCG1:'       '
+                let askHCG2 = (itemPas.value.askHCG2 != undefined)? itemPas.value.askHCG2:'       '
+                let askHCG3 = (itemPas.value.askHCG3 != undefined)? itemPas.value.askHCG3:'       '
+                let askHCG4 = (itemPas.value.askHCG4 != undefined)? itemPas.value.askHCG4:'       '
+                let askHCG5 = (itemPas.value.askHCG5 != undefined)? itemPas.value.askHCG5:'       '
+                let askHCG6 = (itemPas.value.askHCG6 != undefined)? itemPas.value.askHCG6:'       '
+                let askHCG7 = (itemPas.value.askHCG7 != undefined)? itemPas.value.askHCG7:'       '
+                let askHCG8 = (itemPas.value.askHCG8 != undefined)? itemPas.value.askHCG8:'       '
+                let askHCG9 = (itemPas.value.askHCG9 != undefined)? itemPas.value.askHCG9:'       '
                 let askHCG0 = (itemPas.value.askHCG0 != undefined)? itemPas.value.askHCG0:'       '
                 pdf.html("", {
                     callback: function (pdf) {
