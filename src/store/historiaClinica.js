@@ -23,6 +23,7 @@ export function printHistoriaClinicaPaciente(idPaciente) {
             obtenerOdontologo(itemPas.value.idOdontologo).then((odonto) => {
                 const odontologo = odonto[0];
                 //datos admision
+                let fechaNacimiento = (itemPas.value.fechaNacimiento != undefined)? itemPas.value.fechaNacimiento:'          '
                 let motivoConsulta = (pacienteAdmision.motivoConsulta != undefined)? pacienteAdmision.motivoConsulta:''
                 let motivoConsulta1 = motivoConsulta.substring(0, 99)
                 let motivoConsulta2 = motivoConsulta.substring(99, motivoConsulta.length)
@@ -65,7 +66,7 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         pdf.setFont(undefined, 'normal')
                         pdf.setFontSize(12);
                         pdf.text(10, 57, pad('Nombres del paciente : ' + itemPas.value.nombre + ' ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno, 70, ' ') + pad('Edad : ' + getEdad(itemPas.value.fechaNacimiento), 15, ' ') + pad('Sexo : ' + sexoPaciente, 35, ' '));
-                        pdf.text(10, 64, pad('Fecha de nacimiento : ' + itemPas.value.fechaNacimiento, 80, ' '));
+                        pdf.text(10, 64, pad('Fecha de nacimiento : ' + fechaNacimiento, 80, ' '));
                         pdf.text(10, 71, pad('Dirección : ' + itemPas.value.Direccion, 100, ' '));
                         pdf.text(10, 78, pad('Procedencia : ' + procedencia, 60, ' ') + pad('Ocupación : ' + ocupacion, 60, ' '));
                         pdf.text(10, 85, pad('Viajes en el último año : ' + viajesUltimos, 100, ' '));
@@ -196,6 +197,7 @@ export function printHistoriaMedicaPaciente(idPaciente) {
             leerEnRegistro(idPaciente);
             obtenerOdontologo(itemPas.value.idOdontologo).then((odonto) => {
                 const odontologo = odonto[0];
+                let fechaNacimiento = (itemPas.value.fechaNacimiento != undefined)? itemPas.value.fechaNacimiento:'          '
                 let estatura = (itemPas.value.estatura != undefined)? itemPas.value.estatura:'          '
                 let peso = (itemPas.value.peso != undefined)? itemPas.value.peso:'          '
                 let centroLaboral = (itemPas.value.centroLaboral != undefined)? itemPas.value.centroLaboral:'          '
@@ -203,15 +205,16 @@ export function printHistoriaMedicaPaciente(idPaciente) {
                 let departamento = (itemPas.value.departamento != undefined)? itemPas.value.departamento:'          '
                 let Direccion = (itemPas.value.Direccion != undefined)? itemPas.value.Direccion:'          '
                 let sexoPaciente = (itemPas.value.sexo=='F')? 'Femenino':'Masculino'
-                let askHCG1 = (itemPas.value.askHCG1 != undefined)? itemPas.value.askHCG1:'Si  No'
-                let askHCG2 = (itemPas.value.askHCG2 != undefined)? itemPas.value.askHCG2:'Si  No'
-                let askHCG3 = (itemPas.value.askHCG3 != undefined)? itemPas.value.askHCG3:'Si  No'
-                let askHCG4 = (itemPas.value.askHCG4 != undefined)? itemPas.value.askHCG4:'Si  No'
-                let askHCG5 = (itemPas.value.askHCG5 != undefined)? itemPas.value.askHCG5:'Si  No'
-                let askHCG6 = (itemPas.value.askHCG6 != undefined)? itemPas.value.askHCG6:'Si  No'
-                let askHCG7 = (itemPas.value.askHCG7 != undefined)? itemPas.value.askHCG7:'Si  No'
-                let askHCG8 = (itemPas.value.askHCG8 != undefined)? itemPas.value.askHCG8:'Si  No'
-                let askHCG9 = (itemPas.value.askHCG9 != undefined)? itemPas.value.askHCG9:'Si  No'
+                let askHCG1 = (itemPas.value.askHCG1 != undefined)? itemPas.value.askHCG1:'Si - No'
+                let askHCG2 = (itemPas.value.askHCG2 != undefined)? itemPas.value.askHCG2:'Si - No'
+                let askHCG3 = (itemPas.value.askHCG3 != undefined)? itemPas.value.askHCG3:'Si - No'
+                let askHCG4 = (itemPas.value.askHCG4 != undefined)? itemPas.value.askHCG4:'Si - No'
+                let askHCG5 = (itemPas.value.askHCG5 != undefined)? itemPas.value.askHCG5:'Si - No'
+                let askHCG6 = (itemPas.value.askHCG6 != undefined)? itemPas.value.askHCG6:'Si - No'
+                let askHCG7 = (itemPas.value.askHCG7 != undefined)? itemPas.value.askHCG7:'Si - No'
+                let askHCG8 = (itemPas.value.askHCG8 != undefined)? itemPas.value.askHCG8:'Si - No'
+                let askHCG9 = (itemPas.value.askHCG9 != undefined)? itemPas.value.askHCG9:'Si - No'
+                let askHCG0 = (itemPas.value.askHCG0 != undefined)? itemPas.value.askHCG0:'       '
                 pdf.html("", {
                     callback: function (pdf) {
                         pdf.setFontSize(17);
@@ -220,7 +223,7 @@ export function printHistoriaMedicaPaciente(idPaciente) {
                         pdf.setFont(undefined, 'normal')
                         pdf.setFontSize(14);
                         pdf.text(10, 38, pad('Paciente : ' + itemPas.value.nombre + ' ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno, 70, ' '));
-                        pdf.text(10, 46, pad('Fecha de nacimiento : ' + itemPas.value.fechaNacimiento, 80, ' '));
+                        pdf.text(10, 46, pad('Fecha de nacimiento : ' + fechaNacimiento, 80, ' '));
                         pdf.text(10, 54, pad('Dirección : ' + departamento, 40, ' ') + pad( Direccion, 60, ' '));
                         pdf.text(10, 62, pad('Email : ' + itemPas.value.email, 60, ' ') + pad('Ocupación : ' + ocupacion, 60, ' '));
                         pdf.text(10, 70, pad('Teléfono : ' + itemPas.value.telefono, 50, ' '));
@@ -245,10 +248,10 @@ export function printHistoriaMedicaPaciente(idPaciente) {
                         pdf.text(192, 195, pad(askHCG8, 120, ' '));
                         pdf.text(10, 202, '9. ¿Tiene contacto, por su trabajo, con sangre, derivados sanguíneos o agujas?');
                         pdf.text(192, 209, pad(askHCG9, 120, ' '));
-                        if(itemPas.value.askHCG0) {
-                            pdf.text(10, 216, '10. ¿Está embarazada?');
-                            pdf.text(192, 223, pad(itemPas.value.askHCG0, 120, ' '));
-                        }
+                        //if(itemPas.value.askHCG0) {
+                        pdf.text(10, 216, '10. Si es mujer, ¿Está embarazada?');
+                        pdf.text(192, 223, pad(askHCG0, 120, ' '));
+                        //}
                         pdf.text(10, 230, pad('Estatura : ' + estatura + ' cm. ', 60, ' ') + pad('Peso : ' + peso + ' g. ', 60, ' '));
                         pdf.text(10, 240, 'Doy fe que las respuestas anteriores son verdaderas y correctas. Si se produce algún cambio en mi ');
                         pdf.text(10, 246, 'estado de salud actual, tengo algún resultado de laboratorio anormal o cambia mi mediación, ');
