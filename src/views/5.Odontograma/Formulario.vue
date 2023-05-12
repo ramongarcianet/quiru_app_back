@@ -141,7 +141,7 @@ function AgregarHallazgo() {
       mensajeExistePieza.value = 'El Hallazgo seleccionado no existe'
       return false
     }
-    const hzgoMatriz = _Hallazgos.filter((elem) => elem.value == Hallazgo.value?.value);
+    const hzgoMatriz = _Hallazgos.filter((elem) => elem.value == Hallazgo.value?.value && elem.label != "");
     if (hzgoMatriz.length > 0) {
       if (hzgoMatriz[0]?.esDirecto == "SI" && hzgoMatriz[0]?.Replicable_Intermedio != "RE") {
         let fila = {
