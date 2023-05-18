@@ -244,7 +244,7 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
         p.mb-0(v-if="!item.id") Nuevo Paciente
         p.mb-0(v-if="item.id") Paciente
       i.fa-solid.fa-save.fa-lg.ms-5(style=" color: white;")
-  .row.mt-2
+  .row.mb-5
     #alerta.alert.alert-danger.alert-dismissible(style='display:none')   
       strong Cuidado! te falta completar campos
 </template>
