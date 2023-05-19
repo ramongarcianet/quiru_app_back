@@ -82,7 +82,7 @@ const crear_ = () => new Promise(async (resolve, reject) => {
   .col.m-2
     Form( :onPromise="() => crear_(item)" :onSuccess='()=>mensaje= "Actualizado con éxito"' :onCatch='(e) => mensaje = e') 
       .row
-        .div(style="background-color: white; border-radius: 2%;")
+        //.div(style="background-color: white; border-radius: 2%;")
           table.table.table-hover
             thead(style='position: sticky;top: 0; background-color: var(--color-light)!important; font-weight: bold; color:rgb(57, 93, 86);')
               tr
@@ -93,14 +93,44 @@ const crear_ = () => new Promise(async (resolve, reject) => {
                 th Observación 
             tbody
               tr(v-for="item of registro")
-                td {{ item.Pieza }} 
-                td {{ item.Diagnostico }} 
+                td {{ item.Pieza }}
+                td {{ item.Diagnostico }}
                 td    
-                  v-select(style ='width: 100%; padding-left: 0.4rem' v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )      
+                  v-select(style ='width: 100%; padding-left: 0.4rem' v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )
                 td 
-                  input#party(type='datetime-local', v-model="item.Cita")             
+                  input#party(type='datetime-local', v-model="item.Cita")
                 td 
                   textarea.form-control( rows="1" v-model="item.Observación")
+
+        .card.mb-1.d-md-block.d-none(style="border-radius: 30px; background-color:var(--color-light) !important;")
+          .row.align-items-center.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
+            .col-1 Pieza
+            .col-3 Diagónstico
+            .col-3 Tratamiento
+            .col-2 Cita
+            .col-3 Observación
+
+        .card.mb-2.p-2.d-block.d-md-none(v-for="item of registro" style="border-radius: 40px")
+          .row.align-items-center.p-1
+            .col-6.py-1 {{ item.Pieza  }} {{ item.Diagnostico }}
+            .col-6.py-1
+              input#party(type='date', v-model="item.Cita")
+            .col-12.py-1
+              v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )
+            .col-12.py-1
+              textarea.form-control( rows="1" v-model="item.Observación")
+
+        .card.mb-2.p-2.d-none.d-md-block(v-for="item of registro" style="border-radius: 40px")
+          .row.align-items-center.p-1
+            .col-1 {{ item.Pieza  }}
+            .col-3 {{ item.Diagnostico }}
+            .col-3
+              v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )
+            .col-2
+              input#party(type='date', v-model="item.Cita")
+            .col-3
+              textarea.form-control( rows="1" v-model="item.Observación")
+
       .row.mt-2
         #mensaje.alert.alert-dismissible( v-if='mensaje' :class='hayError? "alert-danger" : "alert-success" ' ) {{mensaje}}
       .d-flex.mt-2
