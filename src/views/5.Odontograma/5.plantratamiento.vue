@@ -21,7 +21,6 @@ watch(
   () => {
     let planTrata = (item.value?.planTrata != undefined) ? item.value?.planTrata.length : 0;
     if (item.value?.hallazgos.length > 0 && planTrata == 0) {
-      //item.value.planTrata = []
       item.value?.hallazgos.forEach(element => {
         let pz = element.dienteAlterno != "" ? " - " + element.dienteAlterno : "";
         let dg = element.ubicacion != '' ? ' - ' + element.ubicacion : element.ubicacion
@@ -30,13 +29,14 @@ watch(
           Pieza: element.diente + pz,
           Diagnostico: element.descripcion + dg + sg,
           Tratamiento: "",
-          Cita: "",
-          Observación: ""
+          Observación: "",
+          Atendido: element.Atendido !== undefined ? element.Atendido : false
+        }
+        if (fila.Atendido === undefined) {
+          fila.Atendido = false;
         }
         registro.value.push(fila)
       });
-      //item.value.planTrata=registro.value
-      //console.log(item.value.planTrata)
     }
     else if (planTrata > 0) {
       item.value?.planTrata.forEach(element => {
@@ -44,8 +44,8 @@ watch(
           Pieza: element.Pieza,
           Diagnostico: element.Diagnostico,
           Tratamiento: element.Tratamiento,
-          Cita: element.Cita,
-          Observación: element.Observación
+          Observación: element.Observación,
+          Atendido: element.Atendido
         }
         registro.value.push(fila)
       });
@@ -57,6 +57,11 @@ const mensaje = ref('')
 const hayError = ref(false)
 const crear_ = () => new Promise(async (resolve, reject) => {
   try {
+    registro.value.forEach(item => {
+      if (item.Atendido === undefined) {
+        item.Atendido = false;
+      }
+    });
     item.value.planTrata = registro.value
     await actualizar(route.params.idOdontograma)
     progressFile.value = 0
@@ -68,7 +73,6 @@ const crear_ = () => new Promise(async (resolve, reject) => {
     reject(e)
   }
 })
-//const test = (item) => console.log(item)
 </script>
 <template lang="pug">
 .row
@@ -82,60 +86,57 @@ const crear_ = () => new Promise(async (resolve, reject) => {
   .col.m-2
     Form( :onPromise="() => crear_(item)" :onSuccess='()=>mensaje= "Actualizado con éxito"' :onCatch='(e) => mensaje = e') 
       .row
-        //.div(style="background-color: white; border-radius: 2%;")
-          table.table.table-hover
-            thead(style='position: sticky;top: 0; background-color: var(--color-light)!important; font-weight: bold; color:rgb(57, 93, 86);')
-              tr
-                th Pieza
-                th Diagnóstico
-                th Tratamiento 
-                th Cita 
-                th Observación 
-            tbody
-              tr(v-for="item of registro")
-                td {{ item.Pieza }}
-                td {{ item.Diagnostico }}
-                td    
-                  v-select(style ='width: 100%; padding-left: 0.4rem' v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )
-                td 
-                  input#party(type='datetime-local', v-model="item.Cita")
-                td 
-                  textarea.form-control( rows="1" v-model="item.Observación")
-
+        //.card.mb-2.p-2.d-block.d-md-none
+          .row.align-items-center.p-1
+            .input(type='date')
         .card.mb-1.d-md-block.d-none(style="border-radius: 30px; background-color:var(--color-light) !important;")
           .row.align-items-center.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
             .col-1 Pieza
             .col-3 Diagónstico
             .col-3 Tratamiento
-            .col-2 Cita
             .col-3 Observación
-
+            .col-2 Atendido
+        //vista móvil
         .card.mb-2.p-2.d-block.d-md-none(v-for="item of registro" style="border-radius: 40px")
           .row.align-items-center.p-1
-            .col-6.py-1 {{ item.Pieza  }} {{ item.Diagnostico }}
-            .col-6.py-1
-              input#party(type='date', v-model="item.Cita")
+            .col-12.py-1 {{ item.Pieza  }} {{ item.Diagnostico }}
             .col-12.py-1
               v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )
             .col-12.py-1
               textarea.form-control( rows="1" v-model="item.Observación")
-
+            .col-8.pt-3
+              p Tratamiento realizado
+            .col-4
+              .row
+                .col-2
+                  label.form-check-label No
+                .col-4
+                  .form-switch
+                    input.form-check-input(type='checkbox' role='switch' v-model="item.Atendido")
+                .col-2
+                  label.form-check-label Si
+        //vista pc
         .card.mb-2.p-2.d-none.d-md-block(v-for="item of registro" style="border-radius: 40px")
           .row.align-items-center.p-1
             .col-1 {{ item.Pieza  }}
             .col-3 {{ item.Diagnostico }}
             .col-3
               v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )
-            .col-2
-              input#party(type='date', v-model="item.Cita")
             .col-3
               textarea.form-control( rows="1" v-model="item.Observación")
-
+            .col-2
+              .row
+                .col-2
+                  label.form-check-label No
+                .col-4
+                  .form-switch
+                    input.form-check-input(type='checkbox' role='switch' v-model="item.Atendido" :disabled="item.Tratamiento === ''")
+                .col-2
+                  label.form-check-label Si
       .row.mt-2
         #mensaje.alert.alert-dismissible( v-if='mensaje' :class='hayError? "alert-danger" : "alert-success" ' ) {{mensaje}}
-      .d-flex.mt-2
+      .d-flex.mt-2.mb-5
         button.ms-auto.btn.btn-primary(type="submit") Guardar
-
 
 </template>
 
