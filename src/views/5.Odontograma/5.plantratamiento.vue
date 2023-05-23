@@ -2,8 +2,7 @@
 import { ref, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { leerEnRegistro, actualizar, leerOdonto, item } from "../../store/formodontograma";
-import { onMounted } from "@vue/runtime-core";
-import { progressFile, setFile, borrarFile } from '../../store/storage.js';
+import { progressFile } from '../../store/storage.js';
 import { listaDeTratamientos as _Hallazgos } from '../../config/Parametros';
 import vSelect from "vue-select"
 const { push, back } = useRouter();
@@ -53,6 +52,13 @@ watch(
   },
   { deep: true }
 )
+const borrar = (item) => {
+  const index = registro.value.indexOf(item)
+  if (index !== -1) {
+    registro.value.splice(index, 1)
+    return actualizar(route.params.idOdontograma)
+  }
+}
 const mensaje = ref('')
 const hayError = ref(false)
 const crear_ = () => new Promise(async (resolve, reject) => {
@@ -86,9 +92,6 @@ const crear_ = () => new Promise(async (resolve, reject) => {
   .col.m-2
     Form( :onPromise="() => crear_(item)" :onSuccess='()=>mensaje= "Actualizado con éxito"' :onCatch='(e) => mensaje = e') 
       .row
-        //.card.mb-2.p-2.d-block.d-md-none
-          .row.align-items-center.p-1
-            .input(type='date')
         .card.mb-1.d-md-block.d-none(style="border-radius: 30px; background-color:var(--color-light) !important;")
           .row.align-items-center.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
             .col-1 Pieza
@@ -97,24 +100,17 @@ const crear_ = () => new Promise(async (resolve, reject) => {
             .col-3 Observación
             .col-2 Atendido
         //vista móvil
-        .card.mb-2.p-2.d-block.d-md-none(v-for="item of registro" style="border-radius: 40px")
+        .card.mb-2.p-2.d-block.d-md-none(v-for="item of registro" style="border-radius: 40px; border-color: #839192")
           .row.align-items-center.p-1
-            .col-12.py-1 {{ item.Pieza  }} {{ item.Diagnostico }}
+            .col-12.ps-3
+              .form-check
+                input.form-check-input(type='checkbox' v-model="item.Atendido" :disabled="item.Tratamiento === ''")
+                label.form-check-label Tratamiento realizado
+            .col-12.py-1.fw-bold {{ item.Pieza  }} {{ item.Diagnostico }}
             .col-12.py-1
               v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )
             .col-12.py-1
               textarea.form-control( rows="1" v-model="item.Observación")
-            .col-8.pt-3
-              p Tratamiento realizado
-            .col-4
-              .row
-                .col-2
-                  label.form-check-label No
-                .col-4
-                  .form-switch
-                    input.form-check-input(type='checkbox' role='switch' v-model="item.Atendido")
-                .col-2
-                  label.form-check-label Si
         //vista pc
         .card.mb-2.p-2.d-none.d-md-block(v-for="item of registro" style="border-radius: 40px")
           .row.align-items-center.p-1
@@ -124,15 +120,11 @@ const crear_ = () => new Promise(async (resolve, reject) => {
               v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )
             .col-3
               textarea.form-control( rows="1" v-model="item.Observación")
-            .col-2
-              .row
-                .col-2
-                  label.form-check-label No
-                .col-4
-                  .form-switch
-                    input.form-check-input(type='checkbox' role='switch' v-model="item.Atendido" :disabled="item.Tratamiento === ''")
-                .col-2
-                  label.form-check-label Si
+            .col-1.text-center
+              input.form-check-input(type='checkbox' v-model="item.Atendido" :disabled="item.Tratamiento === ''")
+            .col-1.text-center
+              BotonSeguro.mt-0( :onSuccess= '() => borrar(item)' )
+                i.fa.fa-trash-o
       .row.mt-2
         #mensaje.alert.alert-dismissible( v-if='mensaje' :class='hayError? "alert-danger" : "alert-success" ' ) {{mensaje}}
       .d-flex.mt-2.mb-5
