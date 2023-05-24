@@ -8,6 +8,7 @@ import vSelect from "vue-select"
 const { push, back } = useRouter();
 const registro = ref([])
 const route = useRoute()
+
 if (route.params.idOdontograma) {
   leerOdonto(route.params.idOdontograma)
 }
@@ -92,6 +93,19 @@ const crear_ = () => new Promise(async (resolve, reject) => {
   .col.m-2
     Form( :onPromise="() => crear_(item)" :onSuccess='()=>mensaje= "Actualizado con éxito"' :onCatch='(e) => mensaje = e') 
       .row
+        .card.mb-2.p-2.d-none.d-md-block(style="border-radius: 40px")
+          .row.align-items-center.p-1
+            .col-1
+              input.form-control(placeholder="" v-model="item.Pieza" type="text" maxlength="5")
+            .col-3 Genérico
+            .col-3
+              v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )
+            .col-3
+              textarea.form-control( rows="1" v-model="item.Observación")
+            .col-1.text-center
+            .col-1.text-center
+              button.ms-auto.btn.p-0.m-0
+                i.fa.fa-solid.fa-circle-plus
         .card.mb-1.d-md-block.d-none(style="border-radius: 30px; background-color:var(--color-light) !important;")
           .row.align-items-center.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
             .col-1 Pieza
