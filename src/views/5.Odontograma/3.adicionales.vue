@@ -53,7 +53,6 @@ const crear_ = () => new Promise( async(resolve, reject) =>   {
     reject(e)
   }
 })
-//const test = (item) => console.log(item)
 </script>
 <template lang="pug">
 .row
