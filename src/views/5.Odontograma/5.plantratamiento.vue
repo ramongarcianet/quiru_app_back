@@ -8,6 +8,16 @@ import vSelect from "vue-select"
 const { push, back } = useRouter();
 const registro = ref([])
 const route = useRoute()
+const itemP = ref({
+  Pieza: '',
+  Observacion: '',
+  Atendido: false,
+  Tratamiento: []
+})
+const guardarTratamiento = (itemP) => {
+  const experimento = registro.value.concat(itemP)
+  return experimento
+}
 
 if (route.params.idOdontograma) {
   leerOdonto(route.params.idOdontograma)
@@ -64,6 +74,8 @@ const mensaje = ref('')
 const hayError = ref(false)
 const crear_ = () => new Promise(async (resolve, reject) => {
   try {
+    const sumado = registro.value.concat(itemP.value)
+    console.log(sumado)
     registro.value.forEach(item => {
       if (item.Atendido === undefined) {
         item.Atendido = false;
@@ -96,15 +108,15 @@ const crear_ = () => new Promise(async (resolve, reject) => {
         .card.mb-2.p-2.d-none.d-md-block(style="border-radius: 40px")
           .row.align-items-center.p-1
             .col-1
-              input.form-control(placeholder="" v-model="item.Pieza" type="text" maxlength="5")
+              input.form-control(placeholder="" v-model="itemP.Pieza" type="text" maxlength="5")
             .col-3 Genérico
             .col-3
-              v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )
+              v-select(v-model='itemP.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )
             .col-3
-              textarea.form-control( rows="1" v-model="item.Observación")
+              textarea.form-control( rows="1" v-model="itemP.Observacion")
             .col-1.text-center
             .col-1.text-center
-              button.ms-auto.btn.p-0.m-0
+              button.ms-auto.btn(@click="guardarTratamiento(itemP)")
                 i.fa.fa-solid.fa-circle-plus
         .card.mb-1.d-md-block.d-none(style="border-radius: 30px; background-color:var(--color-light) !important;")
           .row.align-items-center.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
@@ -140,7 +152,9 @@ const crear_ = () => new Promise(async (resolve, reject) => {
               BotonSeguro.mt-0( :onSuccess= '() => borrar(item)' )
                 i.fa.fa-trash-o
       .row.mt-2
-        #mensaje.alert.alert-dismissible( v-if='mensaje' :class='hayError? "alert-danger" : "alert-success" ' ) {{mensaje}}
+        .alert.alert-dismissible( v-if='mensaje' role='alert' :class='hayError? "alert-danger" : "alert-success" ' ) 
+          strong {{mensaje}}
+          button.btn-close(type='button' data-bs-dismiss='alert')
       .d-flex.mt-2.mb-5
         button.ms-auto.btn.btn-primary(type="submit") Guardar
 
