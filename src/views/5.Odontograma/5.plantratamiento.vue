@@ -4,51 +4,22 @@ import { useRoute, useRouter } from "vue-router";
 import { leerEnRegistro, actualizar, leerOdonto, item } from "../../store/formodontograma";
 import { progressFile } from '../../store/storage.js';
 import { listaDeTratamientos as _Hallazgos } from '../../config/Parametros';
+import { esLetra, esNumero } from '../../config/libreria'
 import vSelect from "vue-select"
 const { push, back } = useRouter();
 const registro = ref([])
 const registroActualizado = ref([]);
 const registroRevertido = computed(() => registro.value.slice().reverse());
 const route = useRoute()
-const itemP = ref({
-  Pieza: '',
-  Observacion: '',
-  Atendido: false,
-  Tratamiento: []
-})
-const guardarTratamiento = () => new Promise(async (resolve, reject) => {
-  try {
-    const sumado = registro.value.concat(itemP.value)
-    console.log(sumado)
-    sumado.forEach(item => {
-      if (item.Atendido === undefined) {
-        item.Atendido = false;
-      }
-      if (item.Diagnostico === undefined) {
-        item.Diagnostico = "Genérico";
-      }
-      if (item.Observación === undefined) {
-        item.Observación = "";
-      }
-    });
-    item.value.planTrata = sumado
-    await actualizar(route.params.idOdontograma)
-    progressFile.value = 0
-    hayError.value = false
-    registroActualizado.value = sumado
-    itemP.value = {
-        Pieza: '',
-        Observacion: '',
-        Atendido: false,
-        Tratamiento: []
-      };
-    resolve()
-  }
-  catch (e) {
-    hayError.value = true
-    reject(e)
-  }
-})
+const guardarTratamiento = () =>  {
+  registro.value.push({
+    Pieza: '',
+    Observacion: '',
+    Atendido: false,
+    Diagonstico: 'Sin diagnóstico',
+    Tratamiento: []
+  })
+}
 watch(registroActualizado, (newValue) => {
   registro.value = newValue
 }, { deep: true })
@@ -109,7 +80,7 @@ const crear_ = () => new Promise(async (resolve, reject) => {
         item.Atendido = false;
       }
       if (item.Diagnostico === undefined) {
-        item.Diagnostico = "Genérico";
+        item.Diagnostico = "Sin diagnóstico";
       }
       if (item.Observación === undefined) {
         item.Observación = "";
@@ -126,6 +97,14 @@ const crear_ = () => new Promise(async (resolve, reject) => {
     reject(e)
   }
 })
+function esNumeroGuion($event) {
+  var patron = /^[0-9\s-]+$/;
+  if (patron.test($event.key)) {
+    return true;
+  } else {
+    $event.preventDefault();
+  }
+}
 </script>
 <template lang="pug">
 .row
@@ -137,20 +116,14 @@ const crear_ = () => new Promise(async (resolve, reject) => {
   .col-5.col-md-3
 .row
   .col.m-2
-    .row
-      .card.mb-2.p-2.d-none.d-md-block(style="border-radius: 40px")
-        .row.align-items-center.p-1
-          .col-1
-            input.form-control(placeholder="" v-model="itemP.Pieza" type="text" maxlength="5")
-          .col-3 Genérico
-          .col-3
-            v-select(v-model='itemP.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )
-          .col-3
-            textarea.form-control( rows="1" v-model="itemP.Observacion")
-          .col-1.text-center
-          .col-1.text-center
-            button.ms-auto.btn(@click="guardarTratamiento()")
+    .row.align-items-center.p-1
+      .text-end
+        button.ms-auto.btn.btn-primary(@click="guardarTratamiento()")
+          .row
+            .col-2
               i.fa.fa-solid.fa-circle-plus
+            .col-9
+              h4 Agregar
     Form( :onPromise="() => crear_(item)" :onSuccess='()=>mensaje= "Actualizado con éxito"' :onCatch='(e) => mensaje = e') 
       .row
         .card.mb-1.d-md-block.d-none(style="border-radius: 30px; background-color:var(--color-light) !important;")
@@ -163,11 +136,16 @@ const crear_ = () => new Promise(async (resolve, reject) => {
         //vista móvil
         .card.mb-2.p-2.d-block.d-md-none(v-for="item of registroRevertido" style="border-radius: 40px; border-color: #839192")
           .row.align-items-center.p-1
-            .col-12.ps-3
+            .col-8.ps-3
               .form-check
                 input.form-check-input(type='checkbox' v-model="item.Atendido" :disabled="item.Tratamiento === ''")
                 label.form-check-label Tratamiento realizado
-            .col-12.py-1.fw-bold {{ item.Pieza  }} {{ item.Diagnostico }}
+            .col-4.text-end
+              BotonSeguro.mt-0( :onSuccess= '() => borrar(item)' )
+                i.fa.fa-trash-o
+            .col-12.py-1.fw-bold(v-if="item.Pieza.length >= 0 && item.Diagonstico == 'Sin diagnóstico'")
+              input.form-control(v-model="item.Pieza" @keypress="esNumeroGuion($event)" type="text" maxlength="7")
+            .col-12.py-1.fw-bold(v-else) {{ item.Pieza  }} {{ item.Diagnostico }}
             .col-12.py-1
               v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )
             .col-12.py-1
@@ -175,8 +153,11 @@ const crear_ = () => new Promise(async (resolve, reject) => {
         //vista pc
         .card.mb-2.p-2.d-none.d-md-block(v-for="item of registroRevertido" style="border-radius: 40px")
           .row.align-items-center.p-1
-            .col-1 {{ item.Pieza  }}
-            .col-3 {{ item.Diagnostico }}
+            .col-1(v-if="item.Pieza.length >= 0 && item.Diagonstico == 'Sin diagnóstico'")
+              input.form-control(v-model="item.Pieza" @keypress="esNumeroGuion($event)" type="text" maxlength="7")
+            .col-1(v-else) {{ item.Pieza }}
+            .col-3(v-if="item.Diagnostico") {{ item.Diagnostico }}
+            .col-3(v-else) Sin Diagnóstico
             .col-3
               v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )
             .col-3
