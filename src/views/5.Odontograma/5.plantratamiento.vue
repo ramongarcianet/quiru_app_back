@@ -7,7 +7,51 @@ import { listaDeTratamientos as _Hallazgos } from '../../config/Parametros';
 import vSelect from "vue-select"
 const { push, back } = useRouter();
 const registro = ref([])
+const registroActualizado = ref([]);
+const registroRevertido = computed(() => registro.value.slice().reverse());
 const route = useRoute()
+const itemP = ref({
+  Pieza: '',
+  Observacion: '',
+  Atendido: false,
+  Tratamiento: []
+})
+const guardarTratamiento = () => new Promise(async (resolve, reject) => {
+  try {
+    const sumado = registro.value.concat(itemP.value)
+    console.log(sumado)
+    sumado.forEach(item => {
+      if (item.Atendido === undefined) {
+        item.Atendido = false;
+      }
+      if (item.Diagnostico === undefined) {
+        item.Diagnostico = "Genérico";
+      }
+      if (item.Observación === undefined) {
+        item.Observación = "";
+      }
+    });
+    item.value.planTrata = sumado
+    await actualizar(route.params.idOdontograma)
+    progressFile.value = 0
+    hayError.value = false
+    registroActualizado.value = sumado
+    itemP.value = {
+        Pieza: '',
+        Observacion: '',
+        Atendido: false,
+        Tratamiento: []
+      };
+    resolve()
+  }
+  catch (e) {
+    hayError.value = true
+    reject(e)
+  }
+})
+watch(registroActualizado, (newValue) => {
+  registro.value = newValue
+}, { deep: true })
 if (route.params.idOdontograma) {
   leerOdonto(route.params.idOdontograma)
 }
@@ -30,9 +74,6 @@ watch(
           Tratamiento: "",
           Observación: "",
           Atendido: element.Atendido !== undefined ? element.Atendido : false
-        }
-        if (fila.Atendido === undefined) {
-          fila.Atendido = false;
         }
         registro.value.push(fila)
       });
@@ -67,6 +108,12 @@ const crear_ = () => new Promise(async (resolve, reject) => {
       if (item.Atendido === undefined) {
         item.Atendido = false;
       }
+      if (item.Diagnostico === undefined) {
+        item.Diagnostico = "Genérico";
+      }
+      if (item.Observación === undefined) {
+        item.Observación = "";
+      }
     });
     item.value.planTrata = registro.value
     await actualizar(route.params.idOdontograma)
@@ -90,6 +137,20 @@ const crear_ = () => new Promise(async (resolve, reject) => {
   .col-5.col-md-3
 .row
   .col.m-2
+    .row
+      .card.mb-2.p-2.d-none.d-md-block(style="border-radius: 40px")
+        .row.align-items-center.p-1
+          .col-1
+            input.form-control(placeholder="" v-model="itemP.Pieza" type="text" maxlength="5")
+          .col-3 Genérico
+          .col-3
+            v-select(v-model='itemP.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )
+          .col-3
+            textarea.form-control( rows="1" v-model="itemP.Observacion")
+          .col-1.text-center
+          .col-1.text-center
+            button.ms-auto.btn(@click="guardarTratamiento()")
+              i.fa.fa-solid.fa-circle-plus
     Form( :onPromise="() => crear_(item)" :onSuccess='()=>mensaje= "Actualizado con éxito"' :onCatch='(e) => mensaje = e') 
       .row
         .card.mb-1.d-md-block.d-none(style="border-radius: 30px; background-color:var(--color-light) !important;")
@@ -100,7 +161,7 @@ const crear_ = () => new Promise(async (resolve, reject) => {
             .col-3 Observación
             .col-2 Atendido
         //vista móvil
-        .card.mb-2.p-2.d-block.d-md-none(v-for="item of registro" style="border-radius: 40px; border-color: #839192")
+        .card.mb-2.p-2.d-block.d-md-none(v-for="item of registroRevertido" style="border-radius: 40px; border-color: #839192")
           .row.align-items-center.p-1
             .col-12.ps-3
               .form-check
@@ -112,7 +173,7 @@ const crear_ = () => new Promise(async (resolve, reject) => {
             .col-12.py-1
               textarea.form-control( rows="1" v-model="item.Observación")
         //vista pc
-        .card.mb-2.p-2.d-none.d-md-block(v-for="item of registro" style="border-radius: 40px")
+        .card.mb-2.p-2.d-none.d-md-block(v-for="item of registroRevertido" style="border-radius: 40px")
           .row.align-items-center.p-1
             .col-1 {{ item.Pieza  }}
             .col-3 {{ item.Diagnostico }}
@@ -126,7 +187,9 @@ const crear_ = () => new Promise(async (resolve, reject) => {
               BotonSeguro.mt-0( :onSuccess= '() => borrar(item)' )
                 i.fa.fa-trash-o
       .row.mt-2
-        #mensaje.alert.alert-dismissible( v-if='mensaje' :class='hayError? "alert-danger" : "alert-success" ' ) {{mensaje}}
+        .alert.alert-dismissible( v-if='mensaje' role='alert' :class='hayError? "alert-danger" : "alert-success" ' ) 
+          strong {{mensaje}}
+          button.btn-close(type='button' data-bs-dismiss='alert')
       .d-flex.mt-2.mb-5
         button.ms-auto.btn.btn-primary(type="submit") Guardar
 
