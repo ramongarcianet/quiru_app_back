@@ -11,13 +11,6 @@ const registro = ref([])
 const registroActualizado = ref([]);
 const registroRevertido = computed(() => registro.value.slice().reverse());
 const route = useRoute()
-const itemP = ref({
-  Pieza: '',
-  Observacion: '',
-  Diagonstico: 'Sin diagnóstico',
-  Atendido: false,
-  Tratamiento: []
-})
 const guardarTratamiento = () =>  {
   registro.value.push({
     Pieza: '',
@@ -104,6 +97,14 @@ const crear_ = () => new Promise(async (resolve, reject) => {
     reject(e)
   }
 })
+function esNumeroGuion($event) {
+  var patron = /^[0-9\s-]+$/;
+  if (patron.test($event.key)) {
+    return true;
+  } else {
+    $event.preventDefault();
+  }
+}
 </script>
 <template lang="pug">
 .row
@@ -116,10 +117,13 @@ const crear_ = () => new Promise(async (resolve, reject) => {
 .row
   .col.m-2
     .row.align-items-center.p-1
-      .col-11
-      .col-1.text-center
-        button.ms-auto.btn.btn-primary(@click="guardarTratamiento()") Agregar
-          i.fa.fa-solid.fa-circle-plus
+      .text-end
+        button.ms-auto.btn.btn-primary(@click="guardarTratamiento()")
+          .row
+            .col-2
+              i.fa.fa-solid.fa-circle-plus
+            .col-9
+              h4 Agregar
     Form( :onPromise="() => crear_(item)" :onSuccess='()=>mensaje= "Actualizado con éxito"' :onCatch='(e) => mensaje = e') 
       .row
         .card.mb-1.d-md-block.d-none(style="border-radius: 30px; background-color:var(--color-light) !important;")
@@ -136,16 +140,18 @@ const crear_ = () => new Promise(async (resolve, reject) => {
               .form-check
                 input.form-check-input(type='checkbox' v-model="item.Atendido" :disabled="item.Tratamiento === ''")
                 label.form-check-label Tratamiento realizado
-            .col-12.py-1.fw-bold {{ item.Pieza  }} {{ item.Diagnostico }}
+            .col-12.py-1.fw-bold(v-if="item.Pieza.length >= 0 && item.Diagonstico == 'Sin diagnóstico'")
+              input.form-control(v-model="item.Pieza" type="text" maxlength="30")
+            .col-12.py-1.fw-bold(v-else) {{ item.Pieza  }} {{ item.Diagnostico }}
             .col-12.py-1
-              v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )
+              v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' editable placeholder='Seleccione un tratamiento' )
             .col-12.py-1
               textarea.form-control( rows="1" v-model="item.Observación")
         //vista pc
         .card.mb-2.p-2.d-none.d-md-block(v-for="item of registroRevertido" style="border-radius: 40px")
           .row.align-items-center.p-1
             .col-1(v-if="item.Pieza.length >= 0 && item.Diagonstico == 'Sin diagnóstico'")
-              input.form-control(v-model="item.Pieza" @keypress="esNumero($event)" type="text" maxlength="7")
+              input.form-control(v-model="item.Pieza" @keypress="esNumeroGuion($event)" type="text" maxlength="7")
             .col-1(v-else) {{ item.Pieza }}
             .col-3(v-if="item.Diagnostico") {{ item.Diagnostico }}
             .col-3(v-else) Sin Diagnóstico
