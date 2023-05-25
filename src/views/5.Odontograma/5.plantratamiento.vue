@@ -136,15 +136,18 @@ function esNumeroGuion($event) {
         //vista móvil
         .card.mb-2.p-2.d-block.d-md-none(v-for="item of registroRevertido" style="border-radius: 40px; border-color: #839192")
           .row.align-items-center.p-1
-            .col-12.ps-3
+            .col-8.ps-3
               .form-check
                 input.form-check-input(type='checkbox' v-model="item.Atendido" :disabled="item.Tratamiento === ''")
                 label.form-check-label Tratamiento realizado
+            .col-4.text-end
+              BotonSeguro.mt-0( :onSuccess= '() => borrar(item)' )
+                i.fa.fa-trash-o
             .col-12.py-1.fw-bold(v-if="item.Pieza.length >= 0 && item.Diagonstico == 'Sin diagnóstico'")
-              input.form-control(v-model="item.Pieza" type="text" maxlength="30")
+              input.form-control(v-model="item.Pieza" @keypress="esNumeroGuion($event)" type="text" maxlength="7")
             .col-12.py-1.fw-bold(v-else) {{ item.Pieza  }} {{ item.Diagnostico }}
             .col-12.py-1
-              v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' editable placeholder='Seleccione un tratamiento' )
+              v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )
             .col-12.py-1
               textarea.form-control( rows="1" v-model="item.Observación")
         //vista pc
