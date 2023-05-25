@@ -174,7 +174,8 @@ export const listaDeHallazgos = [
     { orden: "1.8", tipo: "Diagnóstico", label: "Caries a fracciones", text: "Caries a fracciones", value: "caries_cervical", sigla: "", Especificacion: "6.1.39 Superfice desgastada", Estado: "", Simbolo: "6.1.39 Superfice desgastada", Color: "red", masX: 0, masY: -3, ancho: 21, alto: 3, esDirecto: "SI", EsMultiple: "NO", Replicable_Intermedio: "NO", SimboloAlterno: "", DobleD: "NO", PosicionAlt: -15 },
     { orden: "1.7", tipo: "Diagnóstico", label: "En retracción", text: "En retracción", value: "retraccion", sigla: "", Especificacion: "6.1.40 Superfice desgastada", Estado: "", Simbolo: "6.1.40 Superfice desgastada", Color: "red", masX: 0, masY: -10, ancho: 21, alto: 10, esDirecto: "SI", EsMultiple: "NO", Replicable_Intermedio: "NO", SimboloAlterno: "", DobleD: "NO", PosicionAlt: -11 },
     { orden: "1.6", tipo: "Diagnóstico", label: "Periodontitis", text: "Periodontitis", value: "periodontitis", sigla: "", Especificacion: "6.1.41 Superfice desgastada", Estado: "", Simbolo: "6.1.41 Superfice desgastada", Color: "red", masX: 0, masY: -24, ancho: 21, alto: 24, esDirecto: "SI", EsMultiple: "NO", Replicable_Intermedio: "NO", SimboloAlterno: "", DobleD: "NO", PosicionAlt: 4 },
-
+    
+    { orden: "1.6", tipo: "Diagnóstico", label: "", text: "Sin diagnóstico", value: "sin_diagnostico", sigla: "", Especificacion: "", Estado: "", Simbolo: "", Color: "", masX: 0, masY: -24, ancho: 21, alto: 24, esDirecto: "", EsMultiple: "", Replicable_Intermedio: "", SimboloAlterno: "", DobleD: "", PosicionAlt: 4},
     //{ tipo: "Tratamiento", text: "Restauración temporal", value: "restauracion_temporal", sigla: "", Especificacion: "6.1.34 Restauración temporal", Estado: "", Simbolo: "", Color: "red", masX: 0, masY: 0, ancho: 0, alto: 0, esDirecto: "NO", EsMultiple: "NO", Replicable_Intermedio: "NO", SimboloAlterno: "", DobleD: "NO", PosicionAlt: 0 },
 
 ];
