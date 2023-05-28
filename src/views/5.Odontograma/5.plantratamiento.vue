@@ -1,22 +1,24 @@
 <script setup>
-import { ref, watch, computed } from "vue";
+import { ref, watch, computed, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { leerEnRegistro, actualizar, leerOdonto, item } from "../../store/formodontograma";
 import { progressFile } from '../../store/storage.js';
 import { listaDeTratamientos as _Hallazgos } from '../../config/Parametros';
 import { esLetra, esNumero } from '../../config/libreria'
 import vSelect from "vue-select"
+import { item as itemusuario, actualizar as actualizarUser, leer } from '../../store/usuario'
+import { miUsuario } from '../../store/sesion'
 const { push, back } = useRouter();
 const registro = ref([])
 const registroActualizado = ref([]);
 const registroRevertido = computed(() => registro.value.slice().reverse());
 const route = useRoute()
-const guardarTratamiento = () =>  {
+const guardarTratamiento = () => {
   registro.value.push({
     Pieza: '',
     Observacion: '',
     Atendido: false,
-    Diagonstico: 'Sin diagnóstico',
+    Diagnostico: 'Sin diagnóstico',
     Tratamiento: []
   })
 }
@@ -30,6 +32,13 @@ leerEnRegistro(route.params.idOdontograma);
 const _listaDeHallazgos = computed(() => {
   return _Hallazgos.filter((elem) => elem.label != "").map(({ label, value }) => ({ label, value }))
 });
+const _listaDeHallazgosManuales = ref([]);
+watch(
+  () => itemusuario.value?.Diagnosticos,
+  () => {
+    _listaDeHallazgosManuales.value = itemusuario.value?.Diagnosticos
+  }
+);
 watch(
   () => item.value?.hallazgos,
   () => {
@@ -87,6 +96,24 @@ const crear_ = () => new Promise(async (resolve, reject) => {
       }
     });
     item.value.planTrata = registro.value
+    if (itemusuario.value != undefined && itemusuario.value?.Diagnosticos == undefined) {
+      itemusuario.value.Diagnosticos = []
+    }
+    if (itemusuario.value != undefined && itemusuario.value?.Diagnosticos != undefined) {
+      registro.value.forEach(_item => {
+        if (_item.Diagnostico === "Sin diagnóstico") {
+          let _Diagnosticos = itemusuario.value?.Diagnosticos.filter((elem) => elem.value == _item.Tratamiento?.label);
+          if (_Diagnosticos.length == 0) {
+            itemusuario.value.Diagnosticos.push({
+              label: _item.Tratamiento?.label,
+              value: _item.Tratamiento?.label
+            })
+          }
+        }
+      })
+    }
+    // itemusuario.value.Diagnosticos = []
+    guardarOActualizar()
     await actualizar(route.params.idOdontograma)
     progressFile.value = 0
     hayError.value = false
@@ -105,6 +132,13 @@ function esNumeroGuion($event) {
     $event.preventDefault();
   }
 }
+const guardarOActualizar = () => {
+  return actualizarUser(itemusuario.value)
+}
+onMounted(() => {
+  leer(miUsuario().uid);
+});
+
 </script>
 <template lang="pug">
 .row
@@ -143,23 +177,26 @@ function esNumeroGuion($event) {
             .col-4.text-end
               BotonSeguro.mt-0( :onSuccess= '() => borrar(item)' )
                 i.fa.fa-trash-o
-            .col-12.py-1.fw-bold(v-if="item.Pieza.length >= 0 && item.Diagonstico == 'Sin diagnóstico'")
+            .col-12.py-1.fw-bold(v-if="item.Pieza.length >= 0 && item.Diagnostico == 'Sin diagnóstico'")
               input.form-control(v-model="item.Pieza" @keypress="esNumeroGuion($event)" type="text" maxlength="7")
             .col-12.py-1.fw-bold(v-else) {{ item.Pieza  }} {{ item.Diagnostico }}
-            .col-12.py-1
-              v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )
+            .col-12.py-1(v-if="item.Diagnostico == 'Sin diagnóstico'") 
+              v-select(v-model='item.Tratamiento' :options='_listaDeHallazgosManuales' placeholder='Seleccione un tratamiento manual' taggable)     
+            .col-12.py-1(v-else) 
+              v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento')
             .col-12.py-1
               textarea.form-control( rows="1" v-model="item.Observación")
         //vista pc
         .card.mb-2.p-2.d-none.d-md-block(v-for="item of registroRevertido" style="border-radius: 40px")
           .row.align-items-center.p-1
-            .col-1(v-if="item.Pieza.length >= 0 && item.Diagonstico == 'Sin diagnóstico'")
+            .col-1(v-if="item.Pieza.length <= 5 && item.Diagnostico == 'Sin diagnóstico' && !item.Tratamiento.label")
               input.form-control(v-model="item.Pieza" @keypress="esNumeroGuion($event)" type="text" maxlength="7")
             .col-1(v-else) {{ item.Pieza }}
-            .col-3(v-if="item.Diagnostico") {{ item.Diagnostico }}
-            .col-3(v-else) Sin Diagnóstico
-            .col-3
-              v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento' )
+            .col-3 {{ item.Diagnostico }}
+            .col-3(v-if="item.Diagnostico == 'Sin diagnóstico'") 
+              v-select(v-model='item.Tratamiento' :options='_listaDeHallazgosManuales' placeholder='Seleccione un tratamiento manual' taggable)     
+            .col-3(v-else) 
+              v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento')
             .col-3
               textarea.form-control( rows="1" v-model="item.Observación")
             .col-1.text-center
