@@ -23,12 +23,12 @@ const firebaseConfig = {
 //RESERVA
 /*
 const firebaseConfig = {
-  apiKey: "AIzaSyCiacGoBAcHTTFLG9LMBfpNOf9kawx9I1s",
-  authDomain: "quiru-dev.firebaseapp.com",
-  projectId: "quiru-dev",
-  storageBucket: "quiru-dev.appspot.com",
-  messagingSenderId: "411985985166",
-  appId: "1:411985985166:web:caa1000f35f92e82fd93df"
+  apiKey: "AIzaSyDoRrybGbm1je4kmznbbbyCcqNBu7pZkZI",
+  authDomain: "quiru-reserva.firebaseapp.com",
+  projectId: "quiru-reserva",
+  storageBucket: "quiru-reserva.appspot.com",
+  messagingSenderId: "653678486808",
+  appId: "1:653678486808:web:83dc647c2763b886dbea6d"
 };
 */
 //PRODUCIÓN

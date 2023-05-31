@@ -301,8 +301,15 @@ function activarAyuda() {
           a.outline-quiru.solid(style="margin-bottom: 1.8rem;"  class="list-group-item list-group-item-action" href="#list-item-1" @click="guardar_(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id)")
             .contenido(style="width: 70%;")
               .title.light-quiru Generar
-              .subtitle.light-quiru Odontograma de tratamiento
+              .subtitle.light-quiru Odontograma de evolución
             i.fa-solid.fa-briefcase-medical.icono.light-quiru
+      .col-lg-4.col-md-6.col-sm-6.col-xs-12 
+        div.opciones
+          button.outline-quiru(style="margin-bottom: 1.8rem;" @click='push({ name: "plantratamiento", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
+            .contenido(style="width: 60%;")
+              .title Generar
+              .subtitle Plan de Tratamiento
+            i.fa-solid.fa-file-circle-plus.icono   
 </template>
 
 <style lang="sass" scoped>

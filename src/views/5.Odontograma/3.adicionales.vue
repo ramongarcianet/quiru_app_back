@@ -53,7 +53,6 @@ const crear_ = () => new Promise( async(resolve, reject) =>   {
     reject(e)
   }
 })
-//const test = (item) => console.log(item)
 </script>
 <template lang="pug">
 .row
@@ -111,7 +110,7 @@ const crear_ = () => new Promise( async(resolve, reject) =>   {
         #mensaje.alert.alert-dismissible( v-if='mensaje' :class='hayError? "alert-danger" : "alert-success" ' ) {{mensaje}}
       .d-flex.mt-2
         button.ms-auto.btn.btn-primary(type="submit") Guardar
-    .card.card-body.mt-2
+    .card.card-body.mt-2(style="margin-bottom: 50px")
       .div(style="background-color: white; border-radius: 2%;")
         table.table.table-hover
           thead
