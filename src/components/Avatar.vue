@@ -37,10 +37,10 @@ const cerrar = ()=> {
     .modal-content
       Form( :onPromise='() => dejaOpinion()' :onSuccess='() => cerrar()')
         .modal-header
+          h2.primary-text Déjanos tu opinión
           #btnsclose.button.btn-close(type='button' data-bs-dismiss='modal')
         .modal-body
-          h2 Déjanos tu opinión
-          h4 ¿Qué tan probable es que recomiendes Quiru a un amigo o colega?*
+          p ¿Qué tan probable es que recomiendes Quiru a un amigo o colega?*
           .btn-group(role='group')
             input#btnradio0.btn-check(type='radio' name='btnradio' autocomplete='off' value='0' v-model="item.recomendacion")
             label.btn.btn-outline-primary(for='btnradio0') 0
@@ -64,14 +64,18 @@ const cerrar = ()=> {
             label.btn.btn-outline-primary(for='btnradio9') 9
             input#btnradio10.btn-check(type='radio' name='btnradio' autocomplete='off' value='10' v-model="item.recomendacion")
             label.btn.btn-outline-primary(for='btnradio10') 10
-          p ¿Tuviste algún problema con tu visita en la aplicación?
+          p.mt-3 ¿Tuviste algún problema en el uso de la aplicación?
             .form-check.form-check-inline
               input#inlineRadio1.form-check-input(type='radio' name='inlineRadioOptions' value='SiError'  v-model="item.tuvoError")
               label.form-check-label(for='inlineRadio1') Si
             .form-check.form-check-inline
               input#inlineRadio2.form-check-input(type='radio' name='inlineRadioOptions' value='NoError' v-model="item.tuvoError")
               label.form-check-label(for='inlineRadio2' ) No
-          label.form-label Por favor cuentanos el por qué de tu calificación
+          .siHayError(v-if="item.tuvoError == 'SiError' ")
+            label.form-label Cuentanos cual fue el error
+            .input-group
+              textarea.form-control(v-model="item.comentario")
+          label.form-label Déjanos un comentario sobre que podriamos mejorar
           .input-group
             textarea.form-control(v-model="item.comentario")
           .modal-footer
@@ -81,7 +85,7 @@ const cerrar = ()=> {
   .row.perfil
     .cuadro
       .comentario.mx-2
-        button.btn.btn-primary.white-text(data-bs-toggle="modal" data-bs-target="#exampleModal")
+        button.btn.btn-warning.white-text(data-bs-toggle="modal" data-bs-target="#exampleModal" style="background-color: #E67E22")
             i.fa-regular.fa-face-smile.me-1
             | Déjanos tu opinión
       .avatar(type='button' data-bs-toggle='dropdown')
