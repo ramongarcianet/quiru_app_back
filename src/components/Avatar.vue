@@ -1,7 +1,7 @@
 <script setup>
 import { onUnmounted, onMounted, ref, watch, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { item, leer, registro, leerEnRegistro } from '../store/usuario'
+import { item, leer, registro, leerEnRegistro, actualizar  } from '../store/usuario'
 import { cerrarSesion, miUsuario } from '../store/sesion'
 
 const route = useRoute()
@@ -21,13 +21,73 @@ watch(
 const siglas = computed ( ()=> item.nombre.charAt(0) + item.apellido.charAt(0)||"")
 const adios = ()=> {
   location.replace('https://app.quiru.app/')
-  }
+}
+const dejaOpinion = () => {
+  return actualizar(item.value)
+}
+const cerrar = ()=> {
+  let control = document.getElementById("btnsclose");
+  control.click();
+}
 </script>
 
 <template lang="pug">
+#exampleModal.modal.fade(tabindex='-1')
+  .modal-dialog
+    .modal-content
+      Form( :onPromise='() => dejaOpinion()' :onSuccess='() => cerrar()')
+        .modal-header
+          h2.primary-text Déjanos tu opinión
+          #btnsclose.button.btn-close(type='button' data-bs-dismiss='modal')
+        .modal-body
+          p ¿Qué tan probable es que recomiendes Quiru a un amigo o colega?*
+          .btn-group(role='group')
+            input#btnradio0.btn-check(type='radio' name='btnradio' autocomplete='off' value='0' v-model="item.recomendacion")
+            label.btn.btn-outline-primary(for='btnradio0') 0
+            input#btnradio1.btn-check(type='radio' name='btnradio' autocomplete='off' value='1' v-model="item.recomendacion")
+            label.btn.btn-outline-primary(for='btnradio1') 1
+            input#btnradio2.btn-check(type='radio' name='btnradio' autocomplete='off' value='2' v-model="item.recomendacion")
+            label.btn.btn-outline-primary(for='btnradio2') 2
+            input#btnradio3.btn-check(type='radio' name='btnradio' autocomplete='off' value='3' v-model="item.recomendacion")
+            label.btn.btn-outline-primary(for='btnradio3') 3
+            input#btnradio4.btn-check(type='radio' name='btnradio' autocomplete='off' value='4' v-model="item.recomendacion")
+            label.btn.btn-outline-primary(for='btnradio4') 4
+            input#btnradio5.btn-check(type='radio' name='btnradio' autocomplete='off' value='5' v-model="item.recomendacion")
+            label.btn.btn-outline-primary(for='btnradio5') 5
+            input#btnradio6.btn-check(type='radio' name='btnradio' autocomplete='off' value='6' v-model="item.recomendacion")
+            label.btn.btn-outline-primary(for='btnradio6') 6
+            input#btnradio7.btn-check(type='radio' name='btnradio' autocomplete='off' value='7' v-model="item.recomendacion")
+            label.btn.btn-outline-primary(for='btnradio7') 7
+            input#btnradio8.btn-check(type='radio' name='btnradio' autocomplete='off' value='8' v-model="item.recomendacion")
+            label.btn.btn-outline-primary(for='btnradio8') 8
+            input#btnradio9.btn-check(type='radio' name='btnradio' autocomplete='off' value='9' v-model="item.recomendacion")
+            label.btn.btn-outline-primary(for='btnradio9') 9
+            input#btnradio10.btn-check(type='radio' name='btnradio' autocomplete='off' value='10' v-model="item.recomendacion")
+            label.btn.btn-outline-primary(for='btnradio10') 10
+          p.mt-3 ¿Tuviste algún problema en el uso de la aplicación?
+            .form-check.form-check-inline
+              input#inlineRadio1.form-check-input(type='radio' name='inlineRadioOptions' value='SiError'  v-model="item.tuvoError")
+              label.form-check-label(for='inlineRadio1') Si
+            .form-check.form-check-inline
+              input#inlineRadio2.form-check-input(type='radio' name='inlineRadioOptions' value='NoError' v-model="item.tuvoError")
+              label.form-check-label(for='inlineRadio2' ) No
+          .siHayError(v-if="item.tuvoError == 'SiError' ")
+            label.form-label Cuentanos cual fue el error
+            .input-group
+              textarea.form-control(v-model="item.comentario")
+          label.form-label Déjanos un comentario sobre que podriamos mejorar
+          .input-group
+            textarea.form-control(v-model="item.comentario")
+          .modal-footer
+            button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Cerrar
+            button.btn.btn-primary(type='submit') Enviar
 .dropdown(style="height: 3.7rem;")
   .row.perfil
     .cuadro
+      .comentario.mx-2
+        button.btn.btn-warning.white-text(data-bs-toggle="modal" data-bs-target="#exampleModal" style="background-color: #E67E22")
+            i.fa-regular.fa-face-smile.me-1
+            | Déjanos tu opinión
       .avatar(type='button' data-bs-toggle='dropdown')
         .text(v-if="item.nombre") {{item.nombre.substr(0,1) + item.nombre.substr(1,1)}}
         .tuerca(v-else)
