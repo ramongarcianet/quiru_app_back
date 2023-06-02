@@ -105,14 +105,15 @@ const crear_ = () => new Promise(async (resolve, reject) => {
           let _Diagnosticos = itemusuario.value?.Diagnosticos.filter((elem) => elem.value == _item.Tratamiento?.label);
           if (_Diagnosticos.length == 0) {
             itemusuario.value.Diagnosticos.push({
-              label: _item.Tratamiento?.label,
-              value: _item.Tratamiento?.label
+              label: _item.Tratamiento || _item.Tratamiento?.label,
+              value: _item.Tratamiento || _item.Tratamiento?.label
             })
           }
         }
       })
     }
-    // itemusuario.value.Diagnosticos = []
+    //item.value.planTrata = []
+    //itemusuario.value.Diagnosticos = []
     guardarOActualizar()
     await actualizar(route.params.idOdontograma)
     progressFile.value = 0
@@ -189,7 +190,7 @@ onMounted(() => {
         //vista pc
         .card.mb-2.p-2.d-none.d-md-block(v-for="item of registroRevertido" style="border-radius: 40px")
           .row.align-items-center.p-1
-            .col-1(v-if="item.Pieza.length <= 5 && item.Diagnostico == 'Sin diagnóstico' && !item.Tratamiento.label")
+            .col-1(v-if="item.Pieza.length <= 5 && item.Diagnostico == 'Sin diagnóstico' && !item.Tratamiento?.label")
               input.form-control(v-model="item.Pieza" @keypress="esNumeroGuion($event)" type="text" maxlength="7")
             .col-1(v-else) {{ item.Pieza }}
             .col-3 {{ item.Diagnostico }}
