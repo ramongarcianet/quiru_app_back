@@ -296,7 +296,7 @@ function activarAyuda() {
               .title Agregar
               .subtitle Datos adicionales
             i.fa-solid.fa-file-circle-plus.icono
-      .col-lg-4.col-md-6.col-sm-6.col-xs-12
+      //.col-lg-4.col-md-6.col-sm-6.col-xs-12
         div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.tieneTratamiento!='Si'" id="holo")
           a.outline-quiru.solid(style="margin-bottom: 1.8rem;"  class="list-group-item list-group-item-action" href="#list-item-1" @click="guardar_(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id)")
             .contenido(style="width: 70%;")
