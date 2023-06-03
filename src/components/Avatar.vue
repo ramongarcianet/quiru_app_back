@@ -85,7 +85,7 @@ const cerrar = ()=> {
   .row.perfil
     .cuadro
       .comentario.mx-2
-        button.btn.btn-warning.white-text.d-none.d-md-block(data-bs-toggle="modal" data-bs-target="#exampleModal" style="background-color: #E67E22")
+        button.btn.btn-outline-warning.d-none.d-md-block(data-bs-toggle="modal" data-bs-target="#exampleModal" )
           i.fa-regular.fa-face-smile.me-1
           | Déjanos tu opinión
         button.btn.btn-outline-warning.d-block.d-md-none(data-bs-toggle="modal" data-bs-target="#exampleModal" )
