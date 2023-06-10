@@ -8,18 +8,31 @@ import { esLetra, esNumero } from '../../config/libreria'
 import vSelect from "vue-select"
 import { item as itemusuario, actualizar as actualizarUser, leer } from '../../store/usuario'
 import { miUsuario } from '../../store/sesion'
+import { registroParametro, guardar as GuardarParametro, obtenerTodos } from "../../store/parametros";
 const { push, back } = useRouter();
 const registro = ref([])
+const registroTratamiento = ref([])
 const registroActualizado = ref([]);
+const registroSeleccionado = ref({})
 const registroRevertido = computed(() => registro.value.slice().reverse());
 const route = useRoute()
 const guardarTratamiento = () => {
   registro.value.push({
     Pieza: '',
-    Observacion: '',
     Atendido: false,
     Diagnostico: 'Sin diagnóstico',
     Tratamiento: []
+  })
+}
+const AgregarTratamiento = () => {
+  registroTratamiento.value.push({
+    Tratamiento: '',
+    Fecha: '',
+    Precio: 0.0,
+    Acuenta: 0.0,
+    Resto: 0,
+    Observacion: "",
+    Receta: ""
   })
 }
 watch(registroActualizado, (newValue) => {
@@ -39,6 +52,8 @@ watch(
     _listaDeHallazgosManuales.value = itemusuario.value?.Diagnosticos
   }
 );
+const _listaTratamientos = ref([]);
+
 watch(
   () => item.value?.hallazgos,
   () => {
@@ -138,8 +153,22 @@ const guardarOActualizar = () => {
 }
 onMounted(() => {
   leer(miUsuario().uid);
+  obtenerTodos();
 });
-
+function verDiagnostico(fila) {
+  registroSeleccionado.value = fila
+}
+watch(
+  () => registroParametro.value,
+  () => {
+    registroParametro.value[0].Tratamientos.forEach(item => {
+      _listaTratamientos.value.push(item);
+    })
+  }
+);
+const _listaTratamientos1 = computed(() => {
+  return _listaTratamientos.value.filter((elem) => elem.label != "").map(({ label, value }) => ({ label, value }))
+});
 </script>
 <template lang="pug">
 .row
@@ -194,9 +223,14 @@ onMounted(() => {
               input.form-control(v-model="item.Pieza" @keypress="esNumeroGuion($event)" type="text" maxlength="7")
             .col-1(v-else) {{ item.Pieza }}
             .col-3 {{ item.Diagnostico }}
-            .col-3(v-if="item.Diagnostico == 'Sin diagnóstico'") 
+            .col-3
+              button.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-3.align-items-center(@click="verDiagnostico(item)" type='button' style="width: 9.5rem;", data-bs-toggle='modal', data-bs-target='#tratamientosModal') 
+                div
+                  p.mb-0(style="color: white") Tratamiento                
+                i.fa-solid.fa-regular.fa-list.fa-sm(style="color: white")
+            //.col-3(v-if="item.Diagnostico == 'Sin diagnóstico'") 
               v-select(v-model='item.Tratamiento' :options='_listaDeHallazgosManuales' placeholder='Seleccione un tratamiento manual' taggable)     
-            .col-3(v-else) 
+            //.col-3(v-else) 
               v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento')
             .col-3
               textarea.form-control( rows="1" v-model="item.Observación")
@@ -211,6 +245,52 @@ onMounted(() => {
           button.btn-close(type='button' data-bs-dismiss='alert')
       .d-flex.mt-2.mb-5
         button.ms-auto.btn.btn-primary(type="submit") Guardar
+
+
+  #tratamientosModal.modal.fade(tabindex='-1', aria-labelledby='exampleModalLabel', aria-hidden='true')
+    .modal-dialog.modal-fullscreen
+      .modal-content
+        .modal-header
+          h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Plan de Tratamiento
+          button.btn-close(type='button', data-bs-dismiss='modal', aria-label='Close')
+        .modal-body
+          form
+            .mb-3
+              .row
+                .col-xs-12.col-sm-4.col-md-4.col-lg-5
+                  h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Diagónstico:  {{registroSeleccionado.Diagnostico}}                 
+                .col-xs-12.col-sm-4.col-md-4.col-lg-3
+                  h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Pieza: {{registroSeleccionado.Pieza}}
+                .col-xs-12.col-sm-4.col-md-4.col-lg-2
+                  button.btn.btn-primary(type='button' @click="AgregarTratamiento()") Agregar tratamiento
+            .mb-3
+              .row
+                .card(style="border-radius: 30px; background-color:var(--color-light) !important;")
+                  .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
+                    .col-xs-12.col-sm-4.col-md-3.col-lg-4 Tratamiento
+                    .col-xs-12.col-sm-2.col-md-3.col-lg-2 Fecha
+                    .col-xs-12.col-sm-2.col-md-2.col-lg-1 Precio
+                    .col-xs-12.col-sm-2.col-md-2.col-lg-1 A cuenta
+                    .col-xs-12.col-sm-2.col-md-1.col-lg-1 Resto
+                    .col-xs-12.col-sm-1.col-md-1.col-lg-1
+                .card(v-for="item of registroTratamiento" style="border-radius: 40px; border-color: #839192")
+                  .row.p-1
+                    .col-xs-12.col-sm-4.col-md-3.col-lg-4
+                      v-select(v-model='item.Tratamiento' :options='_listaTratamientos1' placeholder='Seleccione/Agregue' taggable)     
+                    .col-xs-12.col-sm-2.col-md-3.col-lg-2
+                      input.form-control#party(v-model='item.Fecha' type='datetime-local', name='partydate')
+                    .col-xs-12.col-sm-2.col-md-2.col-lg-1
+                      input.form-control(v-model='item.Precio' maxlength="7" type="number" min="0.00" max="10000.00" step="0.01")
+                    .col-xs-12.col-sm-2.col-md-2.col-lg-1
+                      input.form-control(v-model='item.Acuenta' maxlength="7" type="number" min="0.00" max="10000.00" step="0.01")
+                    .col-xs-12.col-sm-2.col-md-1.col-lg-1 {{ item.Precio - item.Acuenta }}
+                    .col-xs-12.col-sm-1.col-md-1.col-lg-1.text-center
+                      BotonSeguro.mt-0( :onSuccess= '() => borrar(item)' )
+                        i.fa.fa-trash-o
+
+        .modal-footer
+          button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cancelar
+          button.btn.btn-primary(type='button') Grabar
 
 </template>
 
