@@ -4,6 +4,7 @@ import '@fullcalendar/core/vdom'
 import fullcalendar from '@fullcalendar/vue3'
 import { Calendar } from '@fullcalendar/core';
 import dayGrigPlugin from '@fullcalendar/daygrid'
+import { speak } from "../../store/odontograma";
 import timeGrigPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -22,6 +23,7 @@ const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const maxDocumento = ref(9);
 const { push, back } = useRouter();
 const route = useRoute()
+obtenerTodos()
 const _obtenerRegistro = obtenerTodos();
 const _obtenerTodosPaciente = obtenerTodosPaciente();
 const NombreDoctor = ref("");
@@ -51,7 +53,7 @@ onMounted(() => {
       }, (error) => {
         var x = document.getElementById("IsVisibleLoginCalendar");
         x.style.display = "block"
-        console.log('Error login Google calendar:', error);
+        //console.log('Error login Google calendar:', error);
       });
     }, (error) => {
       console.log('Error loading Google API client:', error);
@@ -88,7 +90,7 @@ function signIn() {
     }, (error) => {
       var x = document.getElementById("IsVisibleLoginCalendar");
       x.style.display = "block"
-      console.log('Error login Google calendar:', error);
+      //console.log('Error login Google calendar:', error);
     });
   }
     , (error) => {
@@ -435,6 +437,13 @@ function closeEvent() {
   let control = document.getElementById("btnsclose");
   control.click();
 }
+function aver() {
+  registro.value.forEach(citaV => {
+    speak('a las' + citaV.timeStart + citaV.title)
+  })
+}
+setTimeout(aver, 2000)
+//speak('Buen día doctor ' + ItemUsuario.value.nombre + ', sus citas pendientes para el día de hoy son')
 </script>
 
 <template lang="pug">
