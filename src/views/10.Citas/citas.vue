@@ -438,12 +438,40 @@ function closeEvent() {
   control.click();
 }
 function aver() {
+ var lang = window.navigator.languages ? window.navigator.languages[0] : null;
+  lang = lang || window.navigator.language || window.navigator.browserLanguage || window.navigator.userLanguage;
+  if (lang.indexOf('-') !== -1)
+    lang = lang.split('-')[0];
+  if (lang.indexOf('_') !== -1)
+    lang = lang.split('_')[0];
+  console.log(lang);
+  var voice = 'UK English Female';
+  switch (lang) {
+    case 'en':
+      voice = "UK English Female";
+      break;
+    case 'es':
+      voice = "Spanish Female";
+      break;
+    case 'fr':
+      voice = "French Female";
+      break;
+    default:
+      voice = "UK English Female";
+      break;
+  }
+  setTimeout(responsiveVoice.speak('Buen día doctor ' + ItemUsuario.value.nombre + ', sus citas pendientes para el día de hoy son', voice), 15000);
   registro.value.forEach(citaV => {
-    speak('a las' + citaV.timeStart + citaV.title)
+    //speak('a las' + citaV.timeStart + citaV.title)
+    //responsiveVoice.speak('a las' + citaV.timeStart + citaV.title);
+    setTimeout(responsiveVoice.speak('a las' + citaV.timeStart + citaV.title, voice), 15000);
   })
+
+ /**/
 }
-setTimeout(aver, 2000)
-//speak('Buen día doctor ' + ItemUsuario.value.nombre + ', sus citas pendientes para el día de hoy son')
+
+aver()
+
 </script>
 
 <template lang="pug">
