@@ -31,6 +31,7 @@ let itemSelect = {};
 let EventSelect = {};
 let gcalendar = {};
 let _calendarId = "";
+let registroCargado = 0;
 onMounted(() => {
   LeerUser(miUsuario().uid);
   gapi.load('client:auth2', () => {
@@ -59,6 +60,7 @@ onMounted(() => {
       console.log('Error loading Google API client:', error);
     });
   });
+  registroCargado = 1;
 });
 function getEvents() {
   var request = gapi.client.calendar.events.list({
@@ -376,6 +378,10 @@ watch(
       options.events = [];
       options.events = registro.value;
     }
+    if (registroCargado == 1) {
+      saludoCita();
+      registroCargado = 2;
+    }
   }
 );
 const guardarAmbas = () => {
@@ -459,19 +465,22 @@ function saludoCita() {
       voice = "UK English Female";
       break;
   }
-
   let str = new Date()
-  //const f1 = new Date(str.toISOString());
-
-
   let solopendientes = registro.value.filter((elem) => {
     let f3 = new Date(elem.start)
     var f1 = new Date(str.getFullYear(), str.getMonth(), str.getDate());
     var f2 = new Date(f3.getFullYear(), f3.getMonth(), f3.getDate());
     f1.setHours(0, 0, 0, 0);
     f2.setHours(0, 0, 0, 0);
+
     if (f1.getTime() == f2.getTime()) {
-      return elem;
+      let Horacita = parseInt(elem.timeStart.split(':')[0]) + (parseInt(elem.timeStart.split(':')[1]) / 60)
+      let Horaactual = str.getHours() + (str.getMinutes() / 60)
+      let diferencia = Horacita - Horaactual;
+      if (diferencia >= 0) {
+        elem.diferencia = diferencia
+        return elem;
+      }
     }
   }
   );
@@ -481,15 +490,13 @@ function saludoCita() {
   else {
     setTimeout(responsiveVoice.speak('Buen día doctor ' + ItemUsuario.value.nombre + ', sus citas pendientes para el día de hoy son', voice), 2000);
   }
+  solopendientes=solopendientes.sort(function (a) { return a.diferencia }).reverse()
   solopendientes.forEach(citaV => {
-    setTimeout(responsiveVoice.speak('a las ' + citaV.timeStart +' '+ citaV.title, voice), 15000);
+    setTimeout(responsiveVoice.speak('a las ' + citaV.timeStart + ' ' + citaV.title, voice), 15000);
   })
 
   /**/
 }
-
-saludoCita()
-
 </script>
 
 <template lang="pug">
