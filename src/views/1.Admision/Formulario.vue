@@ -1,6 +1,10 @@
 <script setup>
+import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { item, guardar, actualizar, leerEnRegistro, obtenerTodos, registro }  from '../../store/admision.js'
+import {progressFile, setFile, borrarFile } from '../../store/storage.js';
+import InputFile from "../../components/FileInput.vue";
+
 const route = useRoute()
 const { back } = useRouter()
 const idPaciente = route.params.idPaciente
@@ -9,7 +13,44 @@ const guardarOActualizar = (item, idPaciente) => {
   else return guardar(item, idPaciente);
 };
 
-obtenerTodos(route.params.idPaciente) 
+obtenerTodos(route.params.idPaciente)
+const mensaje = ref('')
+const hayError = ref(false)
+const crear_ = () => new Promise( async(resolve, reject) =>   { 
+  try {
+    mensaje.value = ''
+
+    const keys = Object.keys(item.value)
+    for ( let key of keys ){
+      const isFileList = item.value[key] instanceof FileList
+      //console.log(!isFileList || (isFileList && item.value[key].length == 0))
+      if( isFileList && item.value[key].length > 0){
+      const listaDeUrl = []
+      const length = item.value[key].length
+      const listaDeImagenes = []
+      for ( let i = 0; i<length; i++){
+        listaDeImagenes.push(item.value[key][i])
+      }
+      for await( let item of listaDeImagenes ) {
+        const url = await setFile(item, route.params.idOdontograma) 
+        listaDeUrl.push(url)
+      }
+      item.value[key] = null
+      item.value.archivos = item.value.archivos
+                              ? [...item.value.archivos, ...listaDeUrl] 
+                              : [...listaDeUrl]
+    }
+    }
+    await actualizar(route.params.idOdontograma)
+    progressFile.value = 0
+    hayError.value=false
+    resolve()
+  }
+  catch (e ){ 
+    hayError.value=true
+    reject(e)
+  }
+})
 </script>
 
 <template lang="pug">
@@ -84,7 +125,10 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
       .col.mb-1
         span(style="padding: .01rem .01rem .01rem .6rem;") Examen odontoestomatológico
         input.form-control(placeholder="", v-model="item.examClinicoOdonto")
- 
+      .row.mt-2
+        InputFile(v-model='item.files')
+        .progress( v-if='progressFile')
+          .progress-bar(role="progressbar" :style="`width: ${progressFile}%;`" ) {{progressFile.toFixed(0)}} %
   .col-12.col-md-4.mx-auto.mt-3.mb-5
     button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(
       type='submit', style="border-radius: 50px"
@@ -94,5 +138,6 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
           strong Guardar
         p.mb-0 Admisión
       i.fa-solid.fa-save.fa-lg.ms-5(style=" color: white;")
+
 </template>
 

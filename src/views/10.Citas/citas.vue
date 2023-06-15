@@ -4,6 +4,7 @@ import '@fullcalendar/core/vdom'
 import fullcalendar from '@fullcalendar/vue3'
 import { Calendar } from '@fullcalendar/core';
 import dayGrigPlugin from '@fullcalendar/daygrid'
+import { speak } from "../../store/odontograma";
 import timeGrigPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -22,6 +23,7 @@ const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const maxDocumento = ref(9);
 const { push, back } = useRouter();
 const route = useRoute()
+obtenerTodos()
 const _obtenerRegistro = obtenerTodos();
 const _obtenerTodosPaciente = obtenerTodosPaciente();
 const NombreDoctor = ref("");
@@ -51,7 +53,7 @@ onMounted(() => {
       }, (error) => {
         var x = document.getElementById("IsVisibleLoginCalendar");
         x.style.display = "block"
-        console.log('Error login Google calendar:', error);
+        //console.log('Error login Google calendar:', error);
       });
     }, (error) => {
       console.log('Error loading Google API client:', error);
@@ -88,7 +90,7 @@ function signIn() {
     }, (error) => {
       var x = document.getElementById("IsVisibleLoginCalendar");
       x.style.display = "block"
-      console.log('Error login Google calendar:', error);
+      //console.log('Error login Google calendar:', error);
     });
   }
     , (error) => {
@@ -435,6 +437,59 @@ function closeEvent() {
   let control = document.getElementById("btnsclose");
   control.click();
 }
+function saludoCita() {
+  var lang = window.navigator.languages ? window.navigator.languages[0] : null;
+  lang = lang || window.navigator.language || window.navigator.browserLanguage || window.navigator.userLanguage;
+  if (lang.indexOf('-') !== -1)
+    lang = lang.split('-')[0];
+  if (lang.indexOf('_') !== -1)
+    lang = lang.split('_')[0];
+  var voice = 'UK English Female';
+  switch (lang) {
+    case 'en':
+      voice = "UK English Female";
+      break;
+    case 'es':
+      voice = "Spanish Female";
+      break;
+    case 'fr':
+      voice = "French Female";
+      break;
+    default:
+      voice = "UK English Female";
+      break;
+  }
+
+  let str = new Date()
+  //const f1 = new Date(str.toISOString());
+
+
+  let solopendientes = registro.value.filter((elem) => {
+    let f3 = new Date(elem.start)
+    var f1 = new Date(str.getFullYear(), str.getMonth(), str.getDate());
+    var f2 = new Date(f3.getFullYear(), f3.getMonth(), f3.getDate());
+    f1.setHours(0, 0, 0, 0);
+    f2.setHours(0, 0, 0, 0);
+    if (f1.getTime() == f2.getTime()) {
+      return elem;
+    }
+  }
+  );
+  if (solopendientes.length == 0) {
+    setTimeout(responsiveVoice.speak('Buen día doctor ' + ItemUsuario.value.nombre + ' Usted no cuenta con citas pendientes para hoy', voice), 2000);
+  }
+  else {
+    setTimeout(responsiveVoice.speak('Buen día doctor ' + ItemUsuario.value.nombre + ', sus citas pendientes para el día de hoy son', voice), 2000);
+  }
+  solopendientes.forEach(citaV => {
+    setTimeout(responsiveVoice.speak('a las ' + citaV.timeStart +' '+ citaV.title, voice), 15000);
+  })
+
+  /**/
+}
+
+saludoCita()
+
 </script>
 
 <template lang="pug">
