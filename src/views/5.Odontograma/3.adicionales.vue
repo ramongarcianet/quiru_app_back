@@ -102,15 +102,15 @@ const crear_ = () => new Promise( async(resolve, reject) =>   {
       .row.mt-2
         label.form-label.mb-1 Receta
         textarea.form-control( rows="4" v-model="item.receta")
-      .row.mt-2
+      //.row.mt-2
         InputFile(v-model='item.files')
         .progress( v-if='progressFile')
           .progress-bar(role="progressbar" :style="`width: ${progressFile}%;`" ) {{progressFile.toFixed(0)}} %
-      .row.mt-2
+      //.row.mt-2
         #mensaje.alert.alert-dismissible( v-if='mensaje' :class='hayError? "alert-danger" : "alert-success" ' ) {{mensaje}}
       .d-flex.mt-2
         button.ms-auto.btn.btn-primary(type="submit") Guardar
-    .card.card-body.mt-2(style="margin-bottom: 50px")
+    //.card.card-body.mt-2(style="margin-bottom: 50px")
       .div(style="background-color: white; border-radius: 2%;")
         table.table.table-hover
           thead

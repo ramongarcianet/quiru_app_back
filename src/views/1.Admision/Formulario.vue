@@ -12,6 +12,11 @@ const guardarOActualizar = (item, idPaciente) => {
   if (item.id) return actualizarDOC(item);
   else return guardar(item, idPaciente);
 };
+const eliminarDelDocumento = (file, i) => {
+  item.value.archivos.splice(i, 1)
+  borrarFile(file)
+  actualizar(item.id)
+}
 obtenerTodos(route.params.idPaciente)
 const mensaje = ref('')
 const hayError = ref(false)
@@ -122,12 +127,12 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
       .col.mb-1
         span(style="padding: .01rem .01rem .01rem .6rem;") Examen odontoestomatológico
         input.form-control(placeholder="", v-model="item.examClinicoOdonto")
-      .row.mt-2
-        InputFile(v-model='item.files')
-        .progress( v-if='progressFile')
-          .progress-bar(role="progressbar" :style="`width: ${progressFile}%;`" ) {{progressFile.toFixed(0)}} %
-      .row.mt-2
-        #mensaje.alert.alert-dismissible( v-if='mensaje' :class='hayError? "alert-danger" : "alert-success" ' ) {{mensaje}}
+    .row.mt-2
+      InputFile(v-model='item.files')
+      .progress( v-if='progressFile')
+        .progress-bar(role="progressbar" :style="`width: ${progressFile}%;`" ) {{progressFile.toFixed(0)}} %
+    .row.mt-2
+      #mensaje.alert.alert-dismissible( v-if='mensaje' :class='hayError? "alert-danger" : "alert-success" ' ) {{mensaje}}
   .col-12.col-md-4.mx-auto.mt-3.mb-5
     button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(
       type='submit', style="border-radius: 50px"
@@ -137,6 +142,19 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
           strong Guardar
         p.mb-0 Admisión
       i.fa-solid.fa-save.fa-lg.ms-5(style=" color: white;")
-
+.card.card-body.mt-2(style="margin-bottom: 50px")
+  .div(style="background-color: white; border-radius: 2%;")
+    table.table.table-hover
+      thead
+        tr
+          th Adjuntos
+          th Tipo
+          th
+      tbody(style="cursor: pointer;")
+        tr( v-for='file, i of item.archivos' :key='`item-${i}`')
+          StorageItem( :storageRef='file')
+          td.ms-3
+            BotonSeguro( :onSuccess= '() => eliminarDelDocumento(file, i)' )
+              i.fa.fa-trash-o
 </template>
 
