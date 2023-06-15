@@ -438,7 +438,7 @@ function closeEvent() {
   control.click();
 }
 function saludoCita() {
- var lang = window.navigator.languages ? window.navigator.languages[0] : null;
+  var lang = window.navigator.languages ? window.navigator.languages[0] : null;
   lang = lang || window.navigator.language || window.navigator.browserLanguage || window.navigator.userLanguage;
   if (lang.indexOf('-') !== -1)
     lang = lang.split('-')[0];
@@ -459,14 +459,33 @@ function saludoCita() {
       voice = "UK English Female";
       break;
   }
-  setTimeout(responsiveVoice.speak('Buen día doctor ' + ItemUsuario.value.nombre + ', sus citas pendientes para el día de hoy son', voice), 2000);
-  registro.value.forEach(citaV => {
-    //speak('a las' + citaV.timeStart + citaV.title)
-    //responsiveVoice.speak('a las' + citaV.timeStart + citaV.title);
-    setTimeout(responsiveVoice.speak('a las' + citaV.timeStart + citaV.title, voice), 15000);
+
+  let str = new Date()
+  //const f1 = new Date(str.toISOString());
+
+
+  let solopendientes = registro.value.filter((elem) => {
+    let f3 = new Date(elem.start)
+    var f1 = new Date(str.getFullYear(), str.getMonth(), str.getDate());
+    var f2 = new Date(f3.getFullYear(), f3.getMonth(), f3.getDate());
+    f1.setHours(0, 0, 0, 0);
+    f2.setHours(0, 0, 0, 0);
+    if (f1.getTime() == f2.getTime()) {
+      return elem;
+    }
+  }
+  );
+  if (solopendientes.length == 0) {
+    setTimeout(responsiveVoice.speak('Buen día doctor ' + ItemUsuario.value.nombre + ' Usted no cuenta con citas pendientes para hoy', voice), 2000);
+  }
+  else {
+    setTimeout(responsiveVoice.speak('Buen día doctor ' + ItemUsuario.value.nombre + ', sus citas pendientes para el día de hoy son', voice), 2000);
+  }
+  solopendientes.forEach(citaV => {
+    setTimeout(responsiveVoice.speak('a las ' + citaV.timeStart +' '+ citaV.title, voice), 15000);
   })
 
- /**/
+  /**/
 }
 
 saludoCita()
