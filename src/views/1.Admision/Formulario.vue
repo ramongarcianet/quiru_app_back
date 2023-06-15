@@ -9,21 +9,18 @@ const route = useRoute()
 const { back } = useRouter()
 const idPaciente = route.params.idPaciente
 const guardarOActualizar = (item, idPaciente) => {
-  if (item.id) return actualizar(item, idPaciente);
+  if (item.id) return actualizarDOC(item);
   else return guardar(item, idPaciente);
 };
-
 obtenerTodos(route.params.idPaciente)
 const mensaje = ref('')
 const hayError = ref(false)
-const crear_ = () => new Promise( async(resolve, reject) =>   { 
+const actualizarDOC = () => new Promise( async(resolve, reject) =>   { 
   try {
     mensaje.value = ''
-
     const keys = Object.keys(item.value)
     for ( let key of keys ){
       const isFileList = item.value[key] instanceof FileList
-      //console.log(!isFileList || (isFileList && item.value[key].length == 0))
       if( isFileList && item.value[key].length > 0){
       const listaDeUrl = []
       const length = item.value[key].length
@@ -32,7 +29,7 @@ const crear_ = () => new Promise( async(resolve, reject) =>   {
         listaDeImagenes.push(item.value[key][i])
       }
       for await( let item of listaDeImagenes ) {
-        const url = await setFile(item, route.params.idOdontograma) 
+        const url = await setFile(item, idPaciente) 
         listaDeUrl.push(url)
       }
       item.value[key] = null
@@ -41,7 +38,7 @@ const crear_ = () => new Promise( async(resolve, reject) =>   {
                               : [...listaDeUrl]
     }
     }
-    await actualizar(route.params.idOdontograma)
+    await actualizar(item.value)
     progressFile.value = 0
     hayError.value=false
     resolve()
@@ -129,6 +126,8 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
         InputFile(v-model='item.files')
         .progress( v-if='progressFile')
           .progress-bar(role="progressbar" :style="`width: ${progressFile}%;`" ) {{progressFile.toFixed(0)}} %
+      .row.mt-2
+        #mensaje.alert.alert-dismissible( v-if='mensaje' :class='hayError? "alert-danger" : "alert-success" ' ) {{mensaje}}
   .col-12.col-md-4.mx-auto.mt-3.mb-5
     button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(
       type='submit', style="border-radius: 50px"
