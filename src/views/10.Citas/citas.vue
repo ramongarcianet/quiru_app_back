@@ -490,7 +490,8 @@ function saludoCita() {
   else {
     setTimeout(responsiveVoice.speak('Buen día doctor ' + ItemUsuario.value.nombre + ', sus citas pendientes para el día de hoy son', voice), 2000);
   }
-  solopendientes.sort(function (a) { return a.diferencia }).reverse().forEach(citaV => {
+  solopendientes=solopendientes.sort(function (a) { return a.diferencia }).reverse()
+  solopendientes.forEach(citaV => {
     setTimeout(responsiveVoice.speak('a las ' + citaV.timeStart + ' ' + citaV.title, voice), 15000);
   })
 
