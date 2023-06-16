@@ -4,6 +4,7 @@ import '@fullcalendar/core/vdom'
 import fullcalendar from '@fullcalendar/vue3'
 import { Calendar } from '@fullcalendar/core';
 import dayGrigPlugin from '@fullcalendar/daygrid'
+import { speak } from "../../store/odontograma";
 import timeGrigPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -22,6 +23,7 @@ const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const maxDocumento = ref(9);
 const { push, back } = useRouter();
 const route = useRoute()
+obtenerTodos()
 const _obtenerRegistro = obtenerTodos();
 const _obtenerTodosPaciente = obtenerTodosPaciente();
 const NombreDoctor = ref("");
@@ -29,6 +31,7 @@ let itemSelect = {};
 let EventSelect = {};
 let gcalendar = {};
 let _calendarId = "";
+let registroCargado = 0;
 onMounted(() => {
   LeerUser(miUsuario().uid);
   gapi.load('client:auth2', () => {
@@ -51,12 +54,13 @@ onMounted(() => {
       }, (error) => {
         var x = document.getElementById("IsVisibleLoginCalendar");
         x.style.display = "block"
-        console.log('Error login Google calendar:', error);
+        //console.log('Error login Google calendar:', error);
       });
     }, (error) => {
       console.log('Error loading Google API client:', error);
     });
   });
+  registroCargado = 1;
 });
 function getEvents() {
   var request = gapi.client.calendar.events.list({
@@ -88,7 +92,7 @@ function signIn() {
     }, (error) => {
       var x = document.getElementById("IsVisibleLoginCalendar");
       x.style.display = "block"
-      console.log('Error login Google calendar:', error);
+      //console.log('Error login Google calendar:', error);
     });
   }
     , (error) => {
@@ -374,6 +378,10 @@ watch(
       options.events = [];
       options.events = registro.value;
     }
+    if (registroCargado == 1) {
+      saludoCita();
+      registroCargado = 2;
+    }
   }
 );
 const guardarAmbas = () => {
@@ -434,6 +442,60 @@ const guardarPacienteNuevo = () => {
 function closeEvent() {
   let control = document.getElementById("btnsclose");
   control.click();
+}
+function saludoCita() {
+  var lang = window.navigator.languages ? window.navigator.languages[0] : null;
+  lang = lang || window.navigator.language || window.navigator.browserLanguage || window.navigator.userLanguage;
+  if (lang.indexOf('-') !== -1)
+    lang = lang.split('-')[0];
+  if (lang.indexOf('_') !== -1)
+    lang = lang.split('_')[0];
+  var voice = 'UK English Female';
+  switch (lang) {
+    case 'en':
+      voice = "UK English Female";
+      break;
+    case 'es':
+      voice = "Spanish Female";
+      break;
+    case 'fr':
+      voice = "French Female";
+      break;
+    default:
+      voice = "UK English Female";
+      break;
+  }
+  let str = new Date()
+  let solopendientes = registro.value.filter((elem) => {
+    let f3 = new Date(elem.start)
+    var f1 = new Date(str.getFullYear(), str.getMonth(), str.getDate());
+    var f2 = new Date(f3.getFullYear(), f3.getMonth(), f3.getDate());
+    f1.setHours(0, 0, 0, 0);
+    f2.setHours(0, 0, 0, 0);
+
+    if (f1.getTime() == f2.getTime()) {
+      let Horacita = parseInt(elem.timeStart.split(':')[0]) + (parseInt(elem.timeStart.split(':')[1]) / 60)
+      let Horaactual = str.getHours() + (str.getMinutes() / 60)
+      let diferencia = Horacita - Horaactual;
+      if (diferencia >= 0) {
+        elem.diferencia = diferencia
+        return elem;
+      }
+    }
+  }
+  );
+  if (solopendientes.length == 0) {
+    setTimeout(responsiveVoice.speak('Buen día doctor ' + ItemUsuario.value.nombre + ' Usted no cuenta con citas pendientes para hoy', voice), 2000);
+  }
+  else {
+    setTimeout(responsiveVoice.speak('Buen día doctor ' + ItemUsuario.value.nombre + ', sus citas pendientes para el día de hoy son', voice), 2000);
+  }
+  solopendientes=solopendientes.sort(function (a) { return a.diferencia }).reverse()
+  solopendientes.forEach(citaV => {
+    setTimeout(responsiveVoice.speak('a las ' + citaV.timeStart + ' ' + citaV.title, voice), 15000);
+  })
+
+  /**/
 }
 </script>
 
