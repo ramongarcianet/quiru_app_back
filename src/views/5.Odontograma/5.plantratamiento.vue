@@ -6,9 +6,9 @@ import { progressFile } from '../../store/storage.js';
 import { listaDeTratamientos as _Hallazgos } from '../../config/Parametros';
 import { esLetra, esNumero } from '../../config/libreria'
 import vSelect from "vue-select"
-import { item as itemusuario, actualizar as actualizarUser, leer } from '../../store/usuario'
+//import { item as itemusuario, actualizar as actualizarUser, leer } from '../../store/usuario'
 import { miUsuario } from '../../store/sesion'
-import { registroParametro, guardar as GuardarParametro, obtenerTodos } from "../../store/parametros";
+import { registroParametro, actualizar as actualizarParametro, guardar as GuardarParametro, obtenerTodos, itemParam } from "../../store/parametros";
 const { push, back } = useRouter();
 const registro = ref([])
 const registroTratamiento = ref([])
@@ -45,13 +45,13 @@ leerEnRegistro(route.params.idOdontograma);
 const _listaDeHallazgos = computed(() => {
   return _Hallazgos.filter((elem) => elem.label != "").map(({ label, value }) => ({ label, value }))
 });
-const _listaDeHallazgosManuales = ref([]);
+/*const _listaDeHallazgosManuales = ref([]);
 watch(
   () => itemusuario.value?.Diagnosticos,
   () => {
     _listaDeHallazgosManuales.value = itemusuario.value?.Diagnosticos
   }
-);
+);*/
 const _listaTratamientos = ref([]);
 
 watch(
@@ -66,7 +66,7 @@ watch(
         let fila = {
           Pieza: element.diente + pz,
           Diagnostico: element.descripcion + dg + sg,
-          Tratamiento: "",
+          Tratamiento: [],
           Observación: "",
           Atendido: element.Atendido !== undefined ? element.Atendido : false
         }
@@ -111,25 +111,7 @@ const crear_ = () => new Promise(async (resolve, reject) => {
       }
     });
     item.value.planTrata = registro.value
-    if (itemusuario.value != undefined && itemusuario.value?.Diagnosticos == undefined) {
-      itemusuario.value.Diagnosticos = []
-    }
-    if (itemusuario.value != undefined && itemusuario.value?.Diagnosticos != undefined) {
-      registro.value.forEach(_item => {
-        if (_item.Diagnostico === "Sin diagnóstico") {
-          let _Diagnosticos = itemusuario.value?.Diagnosticos.filter((elem) => elem.value == _item.Tratamiento?.label);
-          if (_Diagnosticos.length == 0) {
-            itemusuario.value.Diagnosticos.push({
-              label: _item.Tratamiento || _item.Tratamiento?.label,
-              value: _item.Tratamiento || _item.Tratamiento?.label
-            })
-          }
-        }
-      })
-    }
-    //item.value.planTrata = []
-    //itemusuario.value.Diagnosticos = []
-    guardarOActualizar()
+
     await actualizar(route.params.idOdontograma)
     progressFile.value = 0
     hayError.value = false
@@ -148,27 +130,124 @@ function esNumeroGuion($event) {
     $event.preventDefault();
   }
 }
-const guardarOActualizar = () => {
+/*const guardarOActualizar = () => {
   return actualizarUser(itemusuario.value)
-}
+}*/
 onMounted(() => {
-  leer(miUsuario().uid);
+  //leer(miUsuario().uid);
   obtenerTodos();
 });
 function verDiagnostico(fila) {
   registroSeleccionado.value = fila
+  registroTratamiento.value = registroSeleccionado.value.Tratamiento;
 }
 watch(
   () => registroParametro.value,
   () => {
-    registroParametro.value[0].Tratamientos.forEach(item => {
-      _listaTratamientos.value.push(item);
-    })
+    if (registroParametro.value[0]?.Tratamientos != undefined) {
+      registroParametro.value[0]?.Tratamientos.forEach(item => {
+        _listaTratamientos.value.push(item);
+      })
+    }
   }
 );
 const _listaTratamientos1 = computed(() => {
-  return _listaTratamientos.value.filter((elem) => elem.label != "").map(({ label, value }) => ({ label, value }))
+  itemParam.value = registroParametro.value[0] || [];
+  return itemParam.value?.Tratamientos?.filter((elem) => elem.label != "").map(({ label, value }) => ({ label, value }))
 });
+function crearPT() {
+  try {
+    registro.value.forEach(_item => {
+      if (registroSeleccionado.value.Pieza == _item.Pieza && registroSeleccionado.value.Diagnostico == _item.Diagnostico) {
+        registroSeleccionado.value.Tratamiento = registroTratamiento.value;
+        _item.Tratamiento = registroSeleccionado.value.Tratamiento;
+      }
+    });
+    item.value.planTrata = registro.value
+    //Guardar parametros
+    if (registroParametro.value != undefined && registroParametro.value?.Tratamientos == undefined) {
+      itemParam.value = registroParametro.value[0];
+    }
+    if (itemParam.value != undefined && itemParam.value?.Tratamientos == undefined) {
+      itemParam.value.Tratamientos = []
+    }
+    if (itemParam.value != undefined && itemParam.value?.Tratamientos != undefined) {
+      registroTratamiento.value.forEach(_item => {
+        let filt = _item.Tratamiento?.label || _item.Tratamiento;
+        let _Tratamientos = itemParam.value?.Tratamientos.filter((elem) => elem.label == filt);
+        if (_Tratamientos.length == 0) {
+          itemParam.value?.Tratamientos.push({
+            label: filt,
+            value: filt
+          })
+        }
+      })
+      actualizarParametro(itemParam.value)
+    }
+    else {
+      itemParam.value = {
+        UserId: miUsuario().uid,
+        Tratamientos: []
+      }
+      registroTratamiento.value.forEach(_item => {
+        let filt = _item.Tratamiento?.label || _item.Tratamiento;
+        itemParam.value?.Tratamientos.push({
+          label: filt,
+          value: filt
+        })
+      })
+      GuardarParametro(itemParam.value)
+    }
+    registroParametro.value[0] = itemParam.value
+    actualizar(route.params.idOdontograma)
+    progressFile.value = 0
+    hayError.value = false
+  }
+  catch (e) {
+    hayError.value = true
+  }
+}
+const borrarPP = (item) => {
+  const index = registroTratamiento.value.indexOf(item)
+
+  if (index !== -1) {
+    registroTratamiento.value.splice(index, 1)
+    registro.value.forEach(_item => {
+      if (registroSeleccionado.value.Pieza == _item.Pieza && registroSeleccionado.value.Diagnostico == _item.Diagnostico) {
+        registroSeleccionado.value.Tratamiento = registroTratamiento.value;
+        _item.Tratamiento = registroSeleccionado.value.Tratamiento;
+      }
+    });
+    item.value.planTrata = registro.value
+    actualizar(route.params.idOdontograma)
+  }
+}
+
+function crearPT2() {
+  try {
+    registro.value.forEach(_item => {
+      if (registroSeleccionado.value.Pieza == _item.Pieza && registroSeleccionado.value.Diagnostico == _item.Diagnostico) {
+        registroSeleccionado.value.Tratamiento = registroTratamiento.value;
+        _item.Tratamiento = registroSeleccionado.value.Tratamiento;
+      }
+    });
+    item.value.planTrata = registro.value
+    //Guardar parametros
+    if (registroParametro.value != undefined && registroParametro.value?.Tratamientos == undefined) {
+      itemParam.value = registroParametro.value[0];
+    }
+  
+    registroParametro.value[0] = itemParam.value
+    actualizar(route.params.idOdontograma)
+    progressFile.value = 0
+    hayError.value = false
+  }
+  catch (e) {
+    hayError.value = true
+  }
+}
+
+
 </script>
 <template lang="pug">
 .row
@@ -190,52 +269,27 @@ const _listaTratamientos1 = computed(() => {
               h4 Agregar
     Form( :onPromise="() => crear_(item)" :onSuccess='()=>mensaje= "Actualizado con éxito"' :onCatch='(e) => mensaje = e') 
       .row
-        .card.mb-1.d-md-block.d-none(style="border-radius: 30px; background-color:var(--color-light) !important;")
+        .card(style="border-radius: 30px; background-color:var(--color-light) !important;")
           .row.align-items-center.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
-            .col-1 Pieza
-            .col-3 Diagónstico
-            .col-3 Tratamiento
-            .col-3 Observación
-            .col-2 Atendido
+            .col-2 Pieza
+            .col-4 Diagónstico
+            .col-2 Planinicar
+            .col-2 Atender
+            .col-1 
         //vista móvil
-        .card.mb-2.p-2.d-block.d-md-none(v-for="item of registroRevertido" style="border-radius: 40px; border-color: #839192")
-          .row.align-items-center.p-1
-            .col-8.ps-3
-              .form-check
-                input.form-check-input(type='checkbox' v-model="item.Atendido" :disabled="item.Tratamiento === ''")
-                label.form-check-label Tratamiento realizado
-            .col-4.text-end
-              BotonSeguro.mt-0( :onSuccess= '() => borrar(item)' )
-                i.fa.fa-trash-o
-            .col-12.py-1.fw-bold(v-if="item.Pieza.length >= 0 && item.Diagnostico == 'Sin diagnóstico'")
-              input.form-control(v-model="item.Pieza" @keypress="esNumeroGuion($event)" type="text" maxlength="7")
-            .col-12.py-1.fw-bold(v-else) {{ item.Pieza  }} {{ item.Diagnostico }}
-            .col-12.py-1(v-if="item.Diagnostico == 'Sin diagnóstico'") 
-              v-select(v-model='item.Tratamiento' :options='_listaDeHallazgosManuales' placeholder='Seleccione un tratamiento manual' taggable)     
-            .col-12.py-1(v-else) 
-              v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento')
-            .col-12.py-1
-              textarea.form-control( rows="1" v-model="item.Observación")
         //vista pc
-        .card.mb-2.p-2.d-none.d-md-block(v-for="item of registroRevertido" style="border-radius: 40px")
+        .card(v-for="item of registroRevertido" style="border-radius: 40px")
           .row.align-items-center.p-1
-            .col-1(v-if="item.Pieza.length <= 5 && item.Diagnostico == 'Sin diagnóstico' && !item.Tratamiento?.label")
+            .col-2(v-if="item.Pieza.length <= 5 && item.Diagnostico == 'Sin diagnóstico' && !item.Tratamiento?.label")
               input.form-control(v-model="item.Pieza" @keypress="esNumeroGuion($event)" type="text" maxlength="7")
-            .col-1(v-else) {{ item.Pieza }}
-            .col-3 {{ item.Diagnostico }}
+            .col-2(v-else) {{ item.Pieza }}
+            .col-4 {{ item.Diagnostico }}
+            .col-2
+              button.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-3.align-items-center(@click="verDiagnostico(item)" type='button' style="width: 3rem;", data-bs-toggle='modal', data-bs-target='#tratamientosModal')               
+                i.fa-solid.fa-list(style="color: white")
             .col-3
-              button.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-3.align-items-center(@click="verDiagnostico(item)" type='button' style="width: 9.5rem;", data-bs-toggle='modal', data-bs-target='#tratamientosModal') 
-                div
-                  p.mb-0(style="color: white") Tratamiento                
-                i.fa-solid.fa-regular.fa-list.fa-sm(style="color: white")
-            //.col-3(v-if="item.Diagnostico == 'Sin diagnóstico'") 
-              v-select(v-model='item.Tratamiento' :options='_listaDeHallazgosManuales' placeholder='Seleccione un tratamiento manual' taggable)     
-            //.col-3(v-else) 
-              v-select(v-model='item.Tratamiento' :options='_listaDeHallazgos' placeholder='Seleccione un tratamiento')
-            .col-3
-              textarea.form-control( rows="1" v-model="item.Observación")
-            .col-1.text-center
-              input.form-check-input(type='checkbox' v-model="item.Atendido" :disabled="item.Tratamiento === ''")
+              button.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-3.align-items-center(@click="verDiagnostico(item)" type='button' style="width: 3rem;", data-bs-toggle='modal', data-bs-target='#tratamientosAtModal')               
+                i.fa-solid.fa-notes-medical(style="color: white")
             .col-1.text-center
               BotonSeguro.mt-0( :onSuccess= '() => borrar(item)' )
                 i.fa.fa-trash-o
@@ -251,7 +305,7 @@ const _listaTratamientos1 = computed(() => {
     .modal-dialog.modal-fullscreen
       .modal-content
         .modal-header
-          h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Plan de Tratamiento
+          h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Generar plan de Tratamiento
           button.btn-close(type='button', data-bs-dismiss='modal', aria-label='Close')
         .modal-body
           form
@@ -285,12 +339,47 @@ const _listaTratamientos1 = computed(() => {
                       input.form-control(v-model='item.Acuenta' maxlength="7" type="number" min="0.00" max="10000.00" step="0.01")
                     .col-xs-12.col-sm-2.col-md-1.col-lg-1 {{ item.Precio - item.Acuenta }}
                     .col-xs-12.col-sm-1.col-md-1.col-lg-1.text-center
-                      BotonSeguro.mt-0( :onSuccess= '() => borrar(item)' )
+                      BotonSeguro.mt-0(  @click="borrarPP(item)" )
                         i.fa.fa-trash-o
 
         .modal-footer
           button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cancelar
-          button.btn.btn-primary(type='button') Grabar
+          button.btn.btn-primary(type='button'  @click="crearPT()") Grabar
+
+
+  #tratamientosAtModal.modal.fade(tabindex='-1', aria-labelledby='exampleModalLabel', aria-hidden='true')
+    .modal-dialog.modal-fullscreen
+      .modal-content
+        .modal-header
+          h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Atender
+          button.btn-close(type='button', data-bs-dismiss='modal', aria-label='Close')
+        .modal-body
+          form
+            .mb-3
+              .row
+                .col-xs-12.col-sm-4.col-md-4.col-lg-5
+                  h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Diagónstico:  {{registroSeleccionado.Diagnostico}}                 
+                .col-xs-12.col-sm-4.col-md-4.col-lg-3
+                  h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Pieza: {{registroSeleccionado.Pieza}}
+             
+            .mb-3
+              .row
+                .card(style="border-radius: 30px; background-color:var(--color-light) !important;")
+                  .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
+                    .col-xs-12.col-sm-4.col-md-3.col-lg-4 Tratamiento
+                    .col-xs-12.col-sm-2.col-md-3.col-lg-4 Comentarios
+                    .col-xs-12.col-sm-2.col-md-2.col-lg-4 Receta
+                .card(v-for="item of registroTratamiento" style="border-radius: 40px; border-color: #839192")
+                  .row.p-1
+                    .col-xs-12.col-sm-2.col-md-3.col-lg-4 {{item.Tratamiento.label}}
+                    .col-xs-12.col-sm-2.col-md-3.col-lg-4
+                      textarea.form-control( rows="1" v-model="item.Observación" placeholder='Comentarios')
+                    .col-xs-12.col-sm-2.col-md-2.col-lg-4
+                      textarea.form-control( rows="1" v-model="item.Receta" placeholder='Receta')                    
+
+        .modal-footer
+          button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cancelar
+          button.btn.btn-primary(type='button'  @click="crearPT2()") Grabar
 
 </template>
 
