@@ -5,7 +5,7 @@ import {usuario} from './sesion'
 const dialog = ref( false )
 const itemParam = ref ({})
 
-const guardar = itemParam => {
+const guardar = (itemParam) => {
     const referencia = collection(firestore, 'parametros')
     return addDoc(referencia, { ...itemParam, UserId: usuario.value.uid, 
         estado: true }).then(newdoc=> updateDoc(doc(firestore, 'parametros', newdoc.id) ,{id:newdoc.id}))
