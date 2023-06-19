@@ -315,26 +315,32 @@ function crearPT2() {
               .col-12.col-md-4
                 button.btn.btn-primary(type='button' @click="AgregarTratamiento()") Agregar tratamiento
             .row.mb-3
-              .card(style="border-radius: 30px; background-color:var(--color-light) !important;")
-                .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
-                  .col-xs-12.col-sm-4.col-md-3.col-lg-4 Tratamiento
-                  .col-xs-12.col-sm-2.col-md-3.col-lg-2 Fecha
-                  .col-xs-12.col-sm-2.col-md-2.col-lg-1 Precio
-                  .col-xs-12.col-sm-2.col-md-2.col-lg-1 A cuenta
-                  .col-xs-12.col-sm-2.col-md-1.col-lg-1 Resto
-                  .col-xs-12.col-sm-1.col-md-1.col-lg-1
-              .card(v-for="item of registroTratamiento" style="border-radius: 40px; border-color: #839192")
-                .row.p-1
-                  .col-xs-12.col-sm-4.col-md-3.col-lg-4
+              .card.d-none.d-md-block.mx-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
+                .row.p-1.m-1(style="color:rgb(57, 93, 86);font-weight: bold")
+                  .col-md-3.col-lg-3 Tratamiento
+                  .col-md-3.col-lg-3 Fecha
+                  .col-md-2.col-lg-2 Precio
+                  .col-md-2.col-lg-2 A cuenta
+                  .col-md-2.col-lg-2 Resto
+              .card.mt-1(v-for="item of registroTratamiento" style="border-radius: 40px; border-color: #839192")
+                .row.p-1.m-1
+                  .col-12.col-md-3.mb-2
                     v-select(v-model='item.Tratamiento' :options='_listaTratamientos1' placeholder='Seleccione/Agregue' taggable)     
-                  .col-xs-12.col-sm-2.col-md-3.col-lg-2
+                  .col-3.d-md-none.mt-2
+                    p Fecha:
+                  .col-9.col-md-3
                     input.form-control#party(v-model='item.Fecha' type='datetime-local', name='partydate')
-                  .col-xs-12.col-sm-2.col-md-2.col-lg-1
+                  .col-3.d-md-none.mt-2 Precio:
+                  .col-9.col-md-2
                     input.form-control(v-model='item.Precio' maxlength="7" type="number" min="0.00" max="10000.00" step="0.01")
-                  .col-xs-12.col-sm-2.col-md-2.col-lg-1
+                  .col-3.d-md-none.mt-2 A cuenta:
+                  .col-9.col-md-2
                     input.form-control(v-model='item.Acuenta' maxlength="7" type="number" min="0.00" max="10000.00" step="0.01")
-                  .col-xs-12.col-sm-2.col-md-1.col-lg-1 {{ item.Precio - item.Acuenta }}
-                  .col-xs-12.col-sm-1.col-md-1.col-lg-1.text-center
+                  .col-3.d-md-none.mt-2 Resto:
+                  .col-8.col-md-1.mt-1.d-none.d-md-block {{ item.Precio - item.Acuenta }}
+                  .col-8.col-md-1.mt-2.ms-3.d-block.d-md-none {{ item.Precio - item.Acuenta }}
+                  .col-10.d-md-none.mt-2
+                  .col-2.col-md-1
                     BotonSeguro.mt-0(  @click="borrarPP(item)" )
                       i.fa.fa-trash-o
         .modal-footer
@@ -350,22 +356,22 @@ function crearPT2() {
         .modal-body
           form
             .row.mb-3
-              .col-12.col-md-4
+              .col-12.col-md-6
                 h2.dark-text Diagónstico:  {{registroSeleccionado.Diagnostico}}
-              .col-12.col-md-4
+              .col-12.col-md-6
                 h2.dark-text Pieza: {{registroSeleccionado.Pieza}}
             .row.mb-3
-              .card(style="border-radius: 30px; background-color:var(--color-light) !important;")
+              .card.d-none.d-md-block.mx-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
                 .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
-                  .col-xs-12.col-sm-4.col-md-3.col-lg-4 Tratamiento
-                  .col-xs-12.col-sm-2.col-md-3.col-lg-4 Comentarios
-                  .col-xs-12.col-sm-2.col-md-2.col-lg-4 Receta
-              .card(v-for="item of registroTratamiento" style="border-radius: 40px; border-color: #839192")
-                .row.p-1
-                  .col-xs-12.col-sm-2.col-md-3.col-lg-4 {{item.Tratamiento.label}}
-                  .col-xs-12.col-sm-2.col-md-3.col-lg-4
+                  .col-md-3.col-lg-3 Tratamiento
+                  .col-md-4.col-lg-4 Comentarios
+                  .col-md-4.col-lg-4 Receta
+              .card.mt-1(v-for="item of registroTratamiento" style="border-radius: 40px; border-color: #839192")
+                .row.p-1.m-1
+                  .col-md-3.col-lg-3 {{item.Tratamiento.label}}
+                  .col-md-4.col-lg-4
                     textarea.form-control( rows="1" v-model="item.Observación" placeholder='Comentarios')
-                  .col-xs-12.col-sm-2.col-md-2.col-lg-4
+                  .col-md-4.col-lg-4
                     textarea.form-control( rows="1" v-model="item.Receta" placeholder='Receta')                    
         .modal-footer
           button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cancelar
