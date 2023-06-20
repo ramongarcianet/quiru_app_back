@@ -104,8 +104,8 @@ const cerrar = ()=> {
             i.fa-solid.fa-right-from-bracket.fa-sm(style="color: var(--color-primary)")
             |     Salir
   .row.sugerenciaMovil
-    .col-7
-    .col-5
+    .col-6
+    .col-6.d-flex.justify-content-end
       button.btn.btn-outline-primary.d-block.d-md-none(data-bs-toggle="modal" data-bs-target="#exampleModal" )
         i.fa-regular.fa-face-smile.me-1
         | Sugerencias
