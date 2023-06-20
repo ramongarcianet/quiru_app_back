@@ -10,7 +10,7 @@ import { getStorage } from "firebase/storage";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 //DESARROLLO
-/**/
+/*
 const firebaseConfig = {
   apiKey: "AIzaSyDYLN9obcWpHCL0KLdQFhdB4mHD5gsFOt8",
   authDomain: "quiru-b444f.firebaseapp.com",
@@ -19,9 +19,9 @@ const firebaseConfig = {
   messagingSenderId: "953856024887",
   appId: "1:953856024887:web:9fcc77f3fd4e46e90efab2",
   measurementId: "G-F756MY0VB1"
-};
+};*/
 //RESERVA
-/*
+
 const firebaseConfig = {
   apiKey: "AIzaSyDoRrybGbm1je4kmznbbbyCcqNBu7pZkZI",
   authDomain: "quiru-reserva.firebaseapp.com",
@@ -30,7 +30,7 @@ const firebaseConfig = {
   messagingSenderId: "653678486808",
   appId: "1:653678486808:web:83dc647c2763b886dbea6d"
 };
-*/
+/**/
 //PRODUCIÓN
 /*
 const firebaseConfig = {
