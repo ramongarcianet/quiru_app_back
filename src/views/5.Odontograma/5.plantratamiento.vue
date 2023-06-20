@@ -343,14 +343,14 @@ function crearPT2() {
                   .col-2.col-md-1
                     BotonSeguro.mt-0(  @click="borrarPP(item)" )
                       i.fa.fa-trash-o
-                .card(style="border-radius: 30px; background-color:var(--color-light) !important;")
-                  .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
-                    .col-xs-12.col-sm-4.col-md-3.col-lg-4 
-                    .col-xs-12.col-sm-2.col-md-3.col-lg-2 Total
-                    .col-xs-12.col-sm-2.col-md-2.col-lg-1(style="text-align: right;") {{ registroTratamiento.reduce((acc, array) => acc + array.Precio, 0) }}
-                    .col-xs-12.col-sm-2.col-md-2.col-lg-1(style="text-align: right;") {{ registroTratamiento.reduce((acc, array) => acc + array.Acuenta, 0) }}
-                    .col-xs-12.col-sm-2.col-md-1.col-lg-1.text-center {{registroTratamiento.reduce((acc, array) => acc + array.Precio, 0) - registroTratamiento.reduce((acc, array) => acc + array.Acuenta, 0)}}
-                    .col-xs-12.col-sm-1.col-md-1.col-lg-1
+              .card(style="border-radius: 30px; background-color:var(--color-light) !important;")
+                .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
+                  .col-xs-12.col-sm-4.col-md-3.col-lg-4 
+                  .col-xs-12.col-sm-2.col-md-3.col-lg-2 Total
+                  .col-xs-12.col-sm-2.col-md-2.col-lg-1(style="text-align: right;") {{ registroTratamiento.reduce((acc, array) => acc + array.Precio, 0) }}
+                  .col-xs-12.col-sm-2.col-md-2.col-lg-1(style="text-align: right;") {{ registroTratamiento.reduce((acc, array) => acc + array.Acuenta, 0) }}
+                  .col-xs-12.col-sm-2.col-md-1.col-lg-1.text-center {{registroTratamiento.reduce((acc, array) => acc + array.Precio, 0) - registroTratamiento.reduce((acc, array) => acc + array.Acuenta, 0)}}
+                  .col-xs-12.col-sm-1.col-md-1.col-lg-1
         .modal-footer
           button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cancelar
           button.btn.btn-primary(type='button'  @click="crearPT()") Grabar
@@ -378,9 +378,9 @@ function crearPT2() {
                 .row.p-1.m-1
                   .col-md-3.col-lg-3 {{item.Tratamiento.label}}
                   .col-md-4.col-lg-4
-                    textarea.form-control( rows="1" v-model="item.Observación" placeholder='Comentarios')
+                    textarea.form-control( rows="2" v-model="item.Observación" placeholder='Comentarios')
                   .col-md-4.col-lg-4
-                    textarea.form-control( rows="1" v-model="item.Receta" placeholder='Receta')                    
+                    textarea.form-control( rows="2" v-model="item.Receta" placeholder='Receta')                    
         .modal-footer
           button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cancelar
           button.btn.btn-primary(type='button'  @click="crearPT2()") Grabar
