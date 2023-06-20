@@ -344,13 +344,14 @@ function crearPT2() {
                     BotonSeguro.mt-0(  @click="borrarPP(item)" )
                       i.fa.fa-trash-o
               .card.mt-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
-                .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
-                  .col-xs-12.col-sm-4.col-md-3.col-lg-4 
-                  .col-xs-12.col-sm-2.col-md-3.col-lg-2 Total
-                  .col-xs-12.col-sm-2.col-md-2.col-lg-1(style="text-align: right;") {{ registroTratamiento.reduce((acc, array) => acc + array.Precio, 0) }}
-                  .col-xs-12.col-sm-2.col-md-2.col-lg-1(style="text-align: right;") {{ registroTratamiento.reduce((acc, array) => acc + array.Acuenta, 0) }}
-                  .col-xs-12.col-sm-2.col-md-1.col-lg-1.text-center {{registroTratamiento.reduce((acc, array) => acc + array.Precio, 0) - registroTratamiento.reduce((acc, array) => acc + array.Acuenta, 0)}}
-                  .col-xs-12.col-sm-1.col-md-1.col-lg-1
+                .row.p-2(style="color:rgb(57, 93, 86);font-weight: bold;")
+                  .col-md-3.d-none.d-md-block
+                  .col-md-3.col-6 Total:
+                  .col-md-2.col-6 {{ registroTratamiento.reduce((acc, array) => acc + array.Precio, 0) }}
+                  .col-6.d-block.d-md-none A cuenta:
+                  .col-md-2.col-3 {{ registroTratamiento.reduce((acc, array) => acc + array.Acuenta, 0) }}
+                  .col-6.d-block.d-md-none Resta:
+                  .col-md-2.col-3 {{registroTratamiento.reduce((acc, array) => acc + array.Precio, 0) - registroTratamiento.reduce((acc, array) => acc + array.Acuenta, 0)}}
         .modal-footer
           button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cancelar
           button.btn.btn-primary(type='button'  @click="crearPT()") Grabar
