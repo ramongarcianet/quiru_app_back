@@ -85,14 +85,13 @@ const cerrar = ()=> {
   .row.perfil
     .cuadro
       .comentario.mx-2
-        button.btn.btn-outline-warning.d-none.d-md-block(data-bs-toggle="modal" data-bs-target="#exampleModal" )
+        button.btn.btn-outline-primary.d-none.d-md-block(data-bs-toggle="modal" data-bs-target="#exampleModal" )
           i.fa-regular.fa-face-smile.me-1
           | Déjanos tu opinión
       .avatar(type='button' data-bs-toggle='dropdown')
         .text(v-if="item.nombre") {{item.nombre.substr(0,1) + item.nombre.substr(1,1)}}
         .tuerca(v-else)
           i.fa-solid.fa-user.fa-sm(style="color: var(--color-light)")
-          
       .col.dropdown-menu.dropdown-menu-end.dropdown-menu-lg-start
         li.d-flex(@click="push({name:'usuario'})" style="cursor: pointer")
         li                    
@@ -107,7 +106,7 @@ const cerrar = ()=> {
   .row.sugerenciaMovil
     .col-7
     .col-5
-      button.btn.btn-outline-warning.d-block.d-md-none(data-bs-toggle="modal" data-bs-target="#exampleModal" )
+      button.btn.btn-outline-primary.d-block.d-md-none(data-bs-toggle="modal" data-bs-target="#exampleModal" )
         i.fa-regular.fa-face-smile.me-1
         | Sugerencias
 </template>
