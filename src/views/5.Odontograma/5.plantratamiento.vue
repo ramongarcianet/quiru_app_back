@@ -256,9 +256,7 @@ function crearPT2() {
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Tratamiento
     button.btn.btn-outline-primary.border-0(@click="back()" )
       i.fa-solid.fa-arrow-left-long.fa-xl
-  .col-5.col-md-3
-.row
-  .col.m-2
+  .col-5.col-md-3.mt-5
     .row.align-items-center.p-1
       .text-end
         button.ms-auto.btn.btn-primary(@click="guardarTratamiento()")
@@ -267,29 +265,30 @@ function crearPT2() {
               i.fa.fa-solid.fa-circle-plus
             .col-9
               h4 Agregar
+.row
+  .col.m-2
     Form( :onPromise="() => crear_(item)" :onSuccess='()=>mensaje= "Actualizado con éxito"' :onCatch='(e) => mensaje = e') 
       .row
         .card(style="border-radius: 30px; background-color:var(--color-light) !important;")
           .row.align-items-center.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
             .col-2 Pieza
             .col-4 Diagónstico
-            .col-2 Planinicar
-            .col-2 Atender
-            .col-1 
-        //vista móvil
-        //vista pc
+            .col-2.d-md-none.d-block Plan
+            .col-md-2.d-none.d-md-block Planinicar
+            .col-3.d-md-none.d-block Atender
+            .col-md-2.d-none.d-md-block Atender
         .card(v-for="item of registroRevertido" style="border-radius: 40px")
           .row.align-items-center.p-1
-            .col-2(v-if="item.Pieza.length <= 5 && item.Diagnostico == 'Sin diagnóstico' && !item.Tratamiento?.label")
+            .col-2.ps-1(v-if="item.Pieza.length <= 5 && item.Diagnostico == 'Sin diagnóstico' && !item.Tratamiento?.label")
               input.form-control(v-model="item.Pieza" @keypress="esNumeroGuion($event)" type="text" maxlength="7")
             .col-2(v-else) {{ item.Pieza }}
             .col-4 {{ item.Diagnostico }}
             .col-2
-              button.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-3.align-items-center(@click="verDiagnostico(item)" type='button' style="width: 3rem;", data-bs-toggle='modal', data-bs-target='#tratamientosModal')               
-                i.fa-solid.fa-list(style="color: white")
-            .col-3
-              button.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-3.align-items-center(@click="verDiagnostico(item)" type='button' style="width: 3rem;", data-bs-toggle='modal', data-bs-target='#tratamientosAtModal')               
-                i.fa-solid.fa-notes-medical(style="color: white")
+              button.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-3.align-items-center(@click="verDiagnostico(item)" type='button' data-bs-toggle='modal', data-bs-target='#tratamientosModal')
+                i.fa-solid.fa-list
+            .col-2
+              button.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-3.align-items-center(@click="verDiagnostico(item)" type='button' data-bs-toggle='modal', data-bs-target='#tratamientosAtModal')
+                i.fa-solid.fa-notes-medical
             .col-1.text-center
               BotonSeguro.mt-0( :onSuccess= '() => borrar(item)' )
                 i.fa.fa-trash-o
@@ -300,90 +299,88 @@ function crearPT2() {
       .d-flex.mt-2.mb-5
         button.ms-auto.btn.btn-primary(type="submit") Guardar
 
-
-  #tratamientosModal.modal.fade(tabindex='-1', aria-labelledby='exampleModalLabel', aria-hidden='true')
+  #tratamientosModal.modal.fade(tabindex='-1')
     .modal-dialog.modal-fullscreen
       .modal-content
         .modal-header
-          h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Generar plan de Tratamiento
-          button.btn-close(type='button', data-bs-dismiss='modal', aria-label='Close')
+          h2.primary-text.fw-bold Generar plan de Tratamiento
+          button.btn-close(type='button' data-bs-dismiss='modal')
         .modal-body
           form
-            .mb-3
-              .row
-                .col-xs-12.col-sm-4.col-md-4.col-lg-5
-                  h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Diagónstico:  {{registroSeleccionado.Diagnostico}}                 
-                .col-xs-12.col-sm-4.col-md-4.col-lg-3
-                  h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Pieza: {{registroSeleccionado.Pieza}}
-                .col-xs-12.col-sm-4.col-md-4.col-lg-2
-                  button.btn.btn-primary(type='button' @click="AgregarTratamiento()") Agregar tratamiento
-            .mb-3
-              .row
-                .card(style="border-radius: 30px; background-color:var(--color-light) !important;")
-                  .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
-                    .col-xs-12.col-sm-4.col-md-3.col-lg-4 Tratamiento
-                    .col-xs-12.col-sm-2.col-md-3.col-lg-2 Fecha
-                    .col-xs-12.col-sm-2.col-md-2.col-lg-1.text-center Precio
-                    .col-xs-12.col-sm-2.col-md-2.col-lg-1.text-center A cuenta
-                    .col-xs-12.col-sm-2.col-md-1.col-lg-1.text-center Resto
-                    .col-xs-12.col-sm-1.col-md-1.col-lg-1
-                .card(v-for="item of registroTratamiento" style="border-radius: 40px; border-color: #839192")
-                  .row.p-1
-                    .col-xs-12.col-sm-4.col-md-3.col-lg-4
-                      v-select(v-model='item.Tratamiento' :options='_listaTratamientos1' placeholder='Seleccione/Agregue' taggable)     
-                    .col-xs-12.col-sm-2.col-md-3.col-lg-2
-                      input.form-control#party(v-model='item.Fecha' type='datetime-local', name='partydate')
-                    .col-xs-12.col-sm-2.col-md-2.col-lg-1
-                      input.form-control(v-model='item.Precio' maxlength="7" style="text-align: right;" type="number" min="0.00" max="10000.00" step="0.01")
-                    .col-xs-12.col-sm-2.col-md-2.col-lg-1
-                      input.form-control(v-model='item.Acuenta' maxlength="7" style="text-align: right;"  type="number" min="0.00" max="10000.00" step="0.01")
-                    .col-xs-12.col-sm-2.col-md-1.col-lg-1.text-center {{ item.Precio - item.Acuenta }}
-                    .col-xs-12.col-sm-1.col-md-1.col-lg-1.text-center
-                      BotonSeguro.mt-0(  @click="borrarPP(item)" )
-                        i.fa.fa-trash-o
-                .card(style="border-radius: 30px; background-color:var(--color-light) !important;")
-                  .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
-                    .col-xs-12.col-sm-4.col-md-3.col-lg-4 
-                    .col-xs-12.col-sm-2.col-md-3.col-lg-2 Total
-                    .col-xs-12.col-sm-2.col-md-2.col-lg-1(style="text-align: right;") {{ registroTratamiento.reduce((acc, array) => acc + array.Precio, 0) }}
-                    .col-xs-12.col-sm-2.col-md-2.col-lg-1(style="text-align: right;") {{ registroTratamiento.reduce((acc, array) => acc + array.Acuenta, 0) }}
-                    .col-xs-12.col-sm-2.col-md-1.col-lg-1.text-center {{registroTratamiento.reduce((acc, array) => acc + array.Precio, 0) - registroTratamiento.reduce((acc, array) => acc + array.Acuenta, 0)}}
-                    .col-xs-12.col-sm-1.col-md-1.col-lg-1
+            .row.mb-3
+              .col-12.col-md-4
+                h2.dark-text Diagónstico:  {{registroSeleccionado.Diagnostico}}                 
+              .col-12.col-md-4
+                h2.dark-text Pieza: {{registroSeleccionado.Pieza}}
+              .col-12.col-md-4
+                button.btn.btn-primary(type='button' @click="AgregarTratamiento()") Agregar tratamiento
+            .row.mb-3
+              .card.d-none.d-md-block.mx-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
+                .row.p-1.m-1(style="color:rgb(57, 93, 86);font-weight: bold")
+                  .col-md-3.col-lg-3 Tratamiento
+                  .col-md-3.col-lg-3 Fecha
+                  .col-md-2.col-lg-2 Precio
+                  .col-md-2.col-lg-2 A cuenta
+                  .col-md-2.col-lg-2 Resto
+              .card.mt-1(v-for="item of registroTratamiento" style="border-radius: 40px; border-color: #839192")
+                .row.p-1.m-1
+                  .col-12.col-md-3.mb-2
+                    v-select(v-model='item.Tratamiento' :options='_listaTratamientos1' placeholder='Seleccione/Agregue' taggable)     
+                  .col-3.d-md-none.mt-2
+                    p Fecha:
+                  .col-9.col-md-3
+                    input.form-control#party(v-model='item.Fecha' type='datetime-local', name='partydate')
+                  .col-3.d-md-none.mt-2 Precio:
+                  .col-9.col-md-2
+                    input.form-control(v-model='item.Precio' maxlength="7" type="number" min="0.00" max="10000.00" step="0.01")
+                  .col-3.d-md-none.mt-2 A cuenta:
+                  .col-9.col-md-2
+                    input.form-control(v-model='item.Acuenta' maxlength="7" type="number" min="0.00" max="10000.00" step="0.01")
+                  .col-3.d-md-none.mt-2 Resto:
+                  .col-8.col-md-1.mt-1.d-none.d-md-block {{ item.Precio - item.Acuenta }}
+                  .col-8.col-md-1.mt-2.ms-3.d-block.d-md-none {{ item.Precio - item.Acuenta }}
+                  .col-10.d-md-none.mt-2
+                  .col-2.col-md-1
+                    BotonSeguro.mt-0(  @click="borrarPP(item)" )
+                      i.fa.fa-trash-o
+              .card.mt-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
+                .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
+                  .col-xs-12.col-sm-4.col-md-3.col-lg-4 
+                  .col-xs-12.col-sm-2.col-md-3.col-lg-2 Total
+                  .col-xs-12.col-sm-2.col-md-2.col-lg-1(style="text-align: right;") {{ registroTratamiento.reduce((acc, array) => acc + array.Precio, 0) }}
+                  .col-xs-12.col-sm-2.col-md-2.col-lg-1(style="text-align: right;") {{ registroTratamiento.reduce((acc, array) => acc + array.Acuenta, 0) }}
+                  .col-xs-12.col-sm-2.col-md-1.col-lg-1.text-center {{registroTratamiento.reduce((acc, array) => acc + array.Precio, 0) - registroTratamiento.reduce((acc, array) => acc + array.Acuenta, 0)}}
+                  .col-xs-12.col-sm-1.col-md-1.col-lg-1
         .modal-footer
           button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cancelar
           button.btn.btn-primary(type='button'  @click="crearPT()") Grabar
 
-
-  #tratamientosAtModal.modal.fade(tabindex='-1', aria-labelledby='exampleModalLabel', aria-hidden='true')
+  #tratamientosAtModal.modal.fade(tabindex='-1')
     .modal-dialog.modal-fullscreen
       .modal-content
         .modal-header
-          h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Atender
-          button.btn-close(type='button', data-bs-dismiss='modal', aria-label='Close')
+          h2.primary-text.fw-bold Atender
+          button.btn-close(type='button' data-bs-dismiss='modal')
         .modal-body
           form
-            .mb-3
-              .row
-                .col-xs-12.col-sm-4.col-md-4.col-lg-5
-                  h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Diagónstico:  {{registroSeleccionado.Diagnostico}}                 
-                .col-xs-12.col-sm-4.col-md-4.col-lg-3
-                  h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Pieza: {{registroSeleccionado.Pieza}}
-             
-            .mb-3
-              .row
-                .card(style="border-radius: 30px; background-color:var(--color-light) !important;")
-                  .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
-                    .col-xs-12.col-sm-4.col-md-3.col-lg-4 Tratamiento
-                    .col-xs-12.col-sm-2.col-md-3.col-lg-4 Comentarios
-                    .col-xs-12.col-sm-2.col-md-2.col-lg-4 Receta
-                .card(v-for="item of registroTratamiento" style="border-radius: 40px; border-color: #839192")
-                  .row.p-1
-                    .col-xs-12.col-sm-2.col-md-3.col-lg-4 {{item.Tratamiento.label}}
-                    .col-xs-12.col-sm-2.col-md-3.col-lg-4
-                      textarea.form-control( rows="1" v-model="item.Observación" placeholder='Comentarios')
-                    .col-xs-12.col-sm-2.col-md-2.col-lg-4
-                      textarea.form-control( rows="1" v-model="item.Receta" placeholder='Receta')                    
-
+            .row.mb-3
+              .col-12.col-md-6
+                h2.dark-text Diagónstico:  {{registroSeleccionado.Diagnostico}}
+              .col-12.col-md-6
+                h2.dark-text Pieza: {{registroSeleccionado.Pieza}}
+            .row.mb-3
+              .card.d-none.d-md-block.mx-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
+                .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
+                  .col-md-3.col-lg-3 Tratamiento
+                  .col-md-4.col-lg-4 Comentarios
+                  .col-md-4.col-lg-4 Receta
+              .card.mt-1(v-for="item of registroTratamiento" style="border-radius: 40px; border-color: #839192")
+                .row.p-1.m-1
+                  .col-md-3.col-lg-3 {{item.Tratamiento.label}}
+                  .col-md-4.col-lg-4
+                    textarea.form-control( rows="2" v-model="item.Observación" placeholder='Comentarios')
+                  .col-md-4.col-lg-4
+                    textarea.form-control( rows="2" v-model="item.Receta" placeholder='Receta')                    
         .modal-footer
           button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Cancelar
           button.btn.btn-primary(type='button'  @click="crearPT2()") Grabar
