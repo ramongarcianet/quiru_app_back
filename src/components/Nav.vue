@@ -7,13 +7,8 @@ const routeName = computed(()=>route.name)
 const rutas = [
     {name:'Citas', icono:'fa-regular fa-calendar-days', ruta:'citas'},
     {name:'Pacientes', icono:'fa-regular fa-user', ruta:'pacientes'},
-    //{name:'Ayuda', icono:'fa-solid fa-question', ruta:'resumen'},
-    
-    //{name:'Configuración', icono:'settings-outline', ruta:'usuario'},
-
 ]
 </script>
-
 <template lang="pug">
 .router(v-if=" route.name !== 'Detalle' ")
   ul
@@ -24,9 +19,7 @@ const rutas = [
         span.route {{ruta.name}}
     .indicador
 </template>
-
 <style lang="sass" scoped>
-
 .router
   z-index: 2
   bottom: 1rem

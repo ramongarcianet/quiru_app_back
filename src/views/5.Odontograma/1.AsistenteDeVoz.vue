@@ -250,7 +250,7 @@ function activarAyuda() {
       #alerto.alert.alert-danger.alert-dismissible(style='display:none') Cuidado! Este Odontograma tiene hallazgos registrados
         a.close(@click="Cancelar()" href='#' data-dismiss='alert') &times;
       .col
-        h2.my-0.mx-3#SeccionPrincipal Panel de
+        #SeccionPrincipal
         ul.nav.nav-tabs( id="myTab" role="tablist")
           li.nav-item( role="presentation" v-if="itemodontograma?.idRelacionado")
             button.nav-link( 
