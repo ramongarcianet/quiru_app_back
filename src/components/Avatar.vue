@@ -117,7 +117,7 @@ const cerrar = ()=> {
   justify-content: end
   padding: 10px 20px
 .sugerenciaMovil
-  margin-top: -20px
+  margin-top: -30px
   padding: 0px
 .perfil
   width: 100%
