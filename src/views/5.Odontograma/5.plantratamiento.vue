@@ -343,7 +343,7 @@ function crearPT2() {
                   .col-2.col-md-1
                     BotonSeguro.mt-0(  @click="borrarPP(item)" )
                       i.fa.fa-trash-o
-              .card(style="border-radius: 30px; background-color:var(--color-light) !important;")
+              .card.mt-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
                 .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
                   .col-xs-12.col-sm-4.col-md-3.col-lg-4 
                   .col-xs-12.col-sm-2.col-md-3.col-lg-2 Total
