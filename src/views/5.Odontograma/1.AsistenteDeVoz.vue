@@ -39,7 +39,6 @@ function printOdontograma() {
   let posis = 37;
   let posis1 = 0;
   if (itemodontograma.value?.hallazgos != undefined) {
-
     pdf.html("", {
       callback: function (pdf) {
         pdf.setFontSize(17);
@@ -59,58 +58,25 @@ function printOdontograma() {
         pdf.insertPage();
         pdf.setFontSize(14);
         pdf.setFont(undefined, 'bold')
-        pdf.text(10, 30, 'DIAGNÓSTICO');
+        pdf.text(10, 20, 'DIAGNÓSTICO');
         pdf.setFont(undefined, 'normal')
         pdf.setFontSize(12);
-        Cie10.CIE10.forEach(element => {
-          let ubicacionnes = itemodontograma.value?.hallazgos.filter((elem) => elem.hallazgo == element.HALLAZGO);
-          let Piezas = "";
-          if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
-            ubicacionnes.forEach(dient => {
-              if (!Piezas.includes(dient.diente)) {
-                Piezas = Piezas + dient.diente + '; ';
-              }
-            });
-            if (element.TRATAMIENTO != "") {
-              pdf.text(10, posis, element.DECRICIE10 + " / Piezas : " + Piezas + " / " + element.CIE10);
-              posis = posis + 7;
-            }
-          }
-
-        });
-        /*pdf.setFontSize(14);
-        pdf.setFont(undefined, 'bold')
-        pdf.text(10, posis + 2, 'TRATAMIENTO');
-        pdf.setFont(undefined, 'normal')
-        posis1 = posis + 10;
-        pdf.setFontSize(12);
-        Cie10.CIE10.forEach(element => {
-          let ubicacionnes = itemodontograma.value?.hallazgos.filter((elem) => elem.hallazgo == element.HALLAZGO);
-          let Piezas = "";
-          if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
-            ubicacionnes.forEach(dient => {
-              if (!Piezas.includes(dient.diente)) {
-                Piezas = Piezas + dient.diente + '; ';
-              }
-            });
-            if (element.TRATAMIENTO != "") {
-              pdf.text(10, posis1, element.TRATAMIENTO + " / Piezas : " + Piezas);
-              posis1 = posis1 + 7;
-            }
-          }
-        });
-        pdf.setFontSize(14);
-        pdf.setFont(undefined, 'bold')
-        pdf.text(10, posis1 + 2, 'JUSTIFICACIÓN');
-        pdf.setFont(undefined, 'normal')
-        pdf.setFontSize(12);
-        pdf.text(10, posis1 + 9, pad(itemodontograma.value.especificaciones, 180, ' '));
-        pdf.setFontSize(14);
-        pdf.setFont(undefined, 'bold')
-        pdf.text(10, posis1 + 16, 'OBSERVACIONES');
-        pdf.setFont(undefined, 'normal')
-        pdf.setFontSize(12);
-        pdf.text(10, posis1 + 23, pad(itemodontograma.value.observaciones, 180, ' '));*/
+        var hallazgos = itemodontograma.value.hallazgos;
+        for (var i = 0; i < hallazgos.length; i++) {
+          var hallazgo = hallazgos[i];
+          console.log(hallazgo)
+          var descripcion = hallazgo.descripcion
+          var diente = hallazgo.diente
+          var alterno = hallazgo.dienteAlterno
+          var fila = hallazgo.fila
+          var sigla = hallazgo.sigla
+          pdf.setFontSize(12)
+          pdf.text(10, 30 + i * 8, fila.toString() + '. ')
+          pdf.text(15, 30 + i * 8, diente.toString())
+          if(alterno) pdf.text(20, 30 + i * 8, ' - ' + alterno.toString())
+          if(sigla) pdf.text(80, 30 + i * 8, ' (' + sigla + ')')
+          pdf.text(32, 30 + i * 8, descripcion)
+        }
         var pdfName = itemPas.value.numeroDocumento
         pdf.save(pdfName + '.pdf');
       }
