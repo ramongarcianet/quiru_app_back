@@ -80,7 +80,7 @@ function printOdontograma() {
         var startX = 10;
         var startY = 25;
         autoTable(pdf, {
-          head: [['N°', 'Pieza', 'Diagnóstico']],
+          head: [['N°', 'Pieza(s)', 'Diagnóstico']],
           body: _body,
           startX: startX,
           startY: startY,
@@ -115,7 +115,7 @@ function printOdontograma() {
         pdf.setFontSize(12);
         startY = startY + 5;
         autoTable(pdf, {
-          head: [['Pieza', 'Diagnóstico', 'Tratamiento']],
+          head: [['Pieza(s)', 'Diagnóstico', 'Tratamiento']],
           body: _bodyPlant,
           startX: startX,
           startY: startY,
