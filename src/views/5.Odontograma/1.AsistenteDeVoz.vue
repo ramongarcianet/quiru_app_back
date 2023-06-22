@@ -73,14 +73,23 @@ function printOdontograma() {
         pdf.text(10, 20, 'DIAGNÓSTICO');
         pdf.setFont(undefined, 'normal')
         pdf.setFontSize(12);
-
+        var headerOptions = {
+          fillColor: '#e8fffa',
+          textColor: '#395d56'
+        };
         var startX = 10;
-        var startY = 30;
+        var startY = 25;
         autoTable(pdf, {
           head: [['N°', 'Pieza', 'Diagnóstico']],
           body: _body,
           startX: startX,
-          startY: startY
+          startY: startY,
+          didParseCell: function (data) {
+            if (data.section === 'head') {
+              data.cell.styles.fillColor = headerOptions.fillColor;
+              data.cell.styles.textColor = headerOptions.textColor;
+            }
+          }
         })
 
         /*var hallazgos = itemodontograma.value.hallazgos;
