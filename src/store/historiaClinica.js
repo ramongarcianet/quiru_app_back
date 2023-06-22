@@ -115,7 +115,7 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         pdf.setFont(undefined, 'bold')
                         pdf.text(10, 30, 'DIAGNÓSTICO(CIE 10)');
                         pdf.setFont(undefined, 'normal')
-                        if (pacienteOdontograma.length > 0) {
+                       /* if (pacienteOdontograma.length > 0) {
                             pdf.setFontSize(12);
                             Cie10.CIE10.forEach(element => {
                                 let ubicacionnes = pacienteOdontograma[0].hallazgos.filter((elem) => elem.hallazgo == element.HALLAZGO);
@@ -132,12 +132,12 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                                     }
                                 }
                             });
-                        }
+                        }*/
                         pdf.setFontSize(14);
                         pdf.setFont(undefined, 'bold')
                         pdf.text(10, posis + 4, 'PLAN DE TRATAMIENTO');
                         pdf.setFont(undefined, 'normal')
-                        if (pacienteOdontograma.length > 0) {
+                        /*if (pacienteOdontograma.length > 0) {
                             posis1 = posis + 12;
                             pdf.setFontSize(12);
                             Cie10.CIE10.forEach(element => {
@@ -157,7 +157,7 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                             });
                         } else {
                             posis1 = 54;
-                        }
+                        }*/
                         pdf.setFontSize(14);
                         pdf.setFont(undefined, 'bold')
                         pdf.text(10, posis1 + 3, 'PRONÓSTICO');
