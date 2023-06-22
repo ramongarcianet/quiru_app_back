@@ -3,15 +3,15 @@ import Formulario from "./Formulario.vue";
 import { registroodonto, guardar as guardarOdontograma, getItemEnRegistro } from "../../store/formodontograma";
 import { item as itemPas, leer, actualizar } from "../../store/paciente";
 import { useRoute, useRouter } from "vue-router";
-import { activarVoz, isSpeech} from "../../store/odontograma";
+import { activarVoz, isSpeech } from "../../store/odontograma";
 import Cie10 from '../../config/Cie10.json';
 import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma, eliminar } from '../../store/formodontograma';
 import jsPDF from 'jsPDF'
 import Instrucciones from "./../8.Ayuda/instrucciones.vue";
 import { watch, ref, computed } from "vue";
-
 import { item } from "../../store/usuario";
 import MicroButtonVue from "../../components/MicroButton.vue";
+import autoTable from 'jspdf-autotable'
 const myModal = document.getElementById('myModal')
 const myInput = document.getElementById('myInput')
 const route = useRoute()
@@ -39,6 +39,18 @@ function printOdontograma() {
   let posis = 37;
   let posis1 = 0;
   if (itemodontograma.value?.hallazgos != undefined) {
+    let _body = [];
+
+    itemodontograma.value.hallazgos.forEach(_item => {
+      let alterno = _item.dienteAlterno
+      let sigla = _item.sigla
+      let ubicacion = _item.ubicacion
+      if (alterno) alterno = ' - ' + alterno.toString()
+      if (ubicacion) ubicacion = ' - ' + ubicacion;
+      if (sigla) sigla = ' (' + sigla + ')';
+      _body.push([_item.fila, _item.diente + alterno, _item.descripcion + ubicacion + sigla])
+    })
+
     pdf.html("", {
       callback: function (pdf) {
         pdf.setFontSize(17);
@@ -61,7 +73,17 @@ function printOdontograma() {
         pdf.text(10, 20, 'DIAGNÓSTICO');
         pdf.setFont(undefined, 'normal')
         pdf.setFontSize(12);
-        var hallazgos = itemodontograma.value.hallazgos;
+
+        var startX = 10;
+        var startY = 30;
+        autoTable(pdf, {
+          head: [['N°', 'Pieza', 'Diagnóstico']],
+          body: _body,
+          startX: startX,
+          startY: startY
+        })
+
+        /*var hallazgos = itemodontograma.value.hallazgos;
         for (var i = 0; i < hallazgos.length; i++) {
           var hallazgo = hallazgos[i];
           var descripcion = hallazgo.descripcion
@@ -91,7 +113,7 @@ function printOdontograma() {
             var planLabel = planTrata2.Tratamiento.label
             pdf.text(120, 30 + i * 8, planLabel)
           }
-        }
+        }*/
         var pdfName = itemPas.value.numeroDocumento
         pdf.save(pdfName + '.pdf');
       }
