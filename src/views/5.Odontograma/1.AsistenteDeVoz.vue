@@ -64,18 +64,33 @@ function printOdontograma() {
         var hallazgos = itemodontograma.value.hallazgos;
         for (var i = 0; i < hallazgos.length; i++) {
           var hallazgo = hallazgos[i];
-          console.log(hallazgo)
           var descripcion = hallazgo.descripcion
           var diente = hallazgo.diente
           var alterno = hallazgo.dienteAlterno
           var fila = hallazgo.fila
           var sigla = hallazgo.sigla
-          pdf.setFontSize(12)
+          var ubicacion = hallazgo.ubicacion
           pdf.text(10, 30 + i * 8, fila.toString() + '. ')
           pdf.text(15, 30 + i * 8, diente.toString())
           if(alterno) pdf.text(20, 30 + i * 8, ' - ' + alterno.toString())
+          if(ubicacion) pdf.text(60, 30 + i * 8, ' - ' + ubicacion)
           if(sigla) pdf.text(80, 30 + i * 8, ' (' + sigla + ')')
           pdf.text(32, 30 + i * 8, descripcion)
+        }
+        pdf.setFontSize(14);
+        pdf.setFont(undefined, 'bold')
+        pdf.text(120, 20, 'TRATAMIENTO');
+        pdf.setFont(undefined, 'normal')
+        pdf.setFontSize(12);
+        var planesTrata = itemodontograma.value.planTrata;
+        for (var i = 0; i < planesTrata.length; i++) {
+          var planTrata = planesTrata[i];
+          var planes1 = planTrata.Tratamiento
+          for (var e = 0; e < planes1.length; e++) {
+            var planTrata2 = planes1[e]
+            var planLabel = planTrata2.Tratamiento.label
+            pdf.text(120, 30 + i * 8, planLabel)
+          }
         }
         var pdfName = itemPas.value.numeroDocumento
         pdf.save(pdfName + '.pdf');
