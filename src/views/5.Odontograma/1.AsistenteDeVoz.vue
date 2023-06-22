@@ -107,7 +107,7 @@ function printOdontograma() {
           _bodyPlant.push([_item.Pieza, _item.Diagnostico, _tratamien])
         })
         startX = 10;
-        startY = 25 + (itemodontograma.value.hallazgos.length * 13);
+        startY = 25 + (itemodontograma.value.hallazgos.length * 25);
         pdf.setFontSize(14);
         pdf.setFont(undefined, 'bold')
         pdf.text(10, startY, 'PLAN DE TRATAMIENTO');
