@@ -3,15 +3,15 @@ import Formulario from "./Formulario.vue";
 import { registroodonto, guardar as guardarOdontograma, getItemEnRegistro } from "../../store/formodontograma";
 import { item as itemPas, leer, actualizar } from "../../store/paciente";
 import { useRoute, useRouter } from "vue-router";
-import { activarVoz, isSpeech} from "../../store/odontograma";
+import { activarVoz, isSpeech } from "../../store/odontograma";
 import Cie10 from '../../config/Cie10.json';
 import { leerEnRegistro as ObtenerOdontograma, item as itemodontograma, eliminar } from '../../store/formodontograma';
 import jsPDF from 'jsPDF'
 import Instrucciones from "./../8.Ayuda/instrucciones.vue";
 import { watch, ref, computed } from "vue";
-
 import { item } from "../../store/usuario";
 import MicroButtonVue from "../../components/MicroButton.vue";
+import autoTable from 'jspdf-autotable'
 const myModal = document.getElementById('myModal')
 const myInput = document.getElementById('myInput')
 const route = useRoute()
@@ -39,6 +39,8 @@ function printOdontograma() {
   let posis = 37;
   let posis1 = 0;
   if (itemodontograma.value?.hallazgos != undefined) {
+
+
     pdf.html("", {
       callback: function (pdf) {
         pdf.setFontSize(17);
@@ -61,37 +63,70 @@ function printOdontograma() {
         pdf.text(10, 20, 'DIAGNÓSTICO');
         pdf.setFont(undefined, 'normal')
         pdf.setFontSize(12);
-        var hallazgos = itemodontograma.value.hallazgos;
-        for (var i = 0; i < hallazgos.length; i++) {
-          var hallazgo = hallazgos[i];
-          var descripcion = hallazgo.descripcion
-          var diente = hallazgo.diente
-          var alterno = hallazgo.dienteAlterno
-          var fila = hallazgo.fila
-          var sigla = hallazgo.sigla
-          var ubicacion = hallazgo.ubicacion
-          pdf.text(10, 30 + i * 8, fila.toString() + '. ')
-          pdf.text(15, 30 + i * 8, diente.toString())
-          if(alterno) pdf.text(20, 30 + i * 8, ' - ' + alterno.toString())
-          if(ubicacion) pdf.text(60, 30 + i * 8, ' - ' + ubicacion)
-          if(sigla) pdf.text(80, 30 + i * 8, ' (' + sigla + ')')
-          pdf.text(32, 30 + i * 8, descripcion)
-        }
+        let _body = [];
+        itemodontograma.value.hallazgos.forEach(_item => {
+          let alterno = _item.dienteAlterno
+          let sigla = _item.sigla
+          let ubicacion = _item.ubicacion
+          if (alterno) alterno = ' - ' + alterno.toString()
+          if (ubicacion) ubicacion = ' - ' + ubicacion;
+          if (sigla) sigla = ' (' + sigla + ')';
+          _body.push([_item.fila, _item.diente + alterno, _item.descripcion + ubicacion + sigla])
+        })
+        var headerOptions = {
+          fillColor: '#e8fffa',
+          textColor: '#395d56'
+        };
+        var startX = 10;
+        var startY = 25;
+        autoTable(pdf, {
+          head: [['N°', 'Pieza(s)', 'Diagnóstico']],
+          body: _body,
+          startX: startX,
+          startY: startY,
+          didParseCell: function (data) {
+            if (data.section === 'head') {
+              data.cell.styles.fillColor = headerOptions.fillColor;
+              data.cell.styles.textColor = headerOptions.textColor;
+            }
+          }
+        })
+        let _bodyPlant = [];
+
+        itemodontograma.value.planTrata.forEach(_item => {
+          let _tratamien = "";
+          let fila = 1;
+          let filas = _item.Tratamiento.length;
+          _item.Tratamiento.forEach(subitem => {
+            _tratamien = _tratamien + fila + '.- ' + subitem.Tratamiento.label + ' (' + subitem.Fecha + ')';
+            if (fila < filas) {
+              _tratamien = _tratamien + '),\n'
+            }
+            fila = fila + 1;
+          })
+          _bodyPlant.push([_item.Pieza, _item.Diagnostico, _tratamien])
+        })
+        startX = 10;
+        startY = 25 + (itemodontograma.value.hallazgos.length * 13);
         pdf.setFontSize(14);
         pdf.setFont(undefined, 'bold')
-        pdf.text(120, 20, 'TRATAMIENTO');
+        pdf.text(10, startY, 'PLAN DE TRATAMIENTO');
         pdf.setFont(undefined, 'normal')
         pdf.setFontSize(12);
-        var planesTrata = itemodontograma.value.planTrata;
-        for (var i = 0; i < planesTrata.length; i++) {
-          var planTrata = planesTrata[i];
-          var planes1 = planTrata.Tratamiento
-          for (var e = 0; e < planes1.length; e++) {
-            var planTrata2 = planes1[e]
-            var planLabel = planTrata2.Tratamiento.label
-            pdf.text(120, 30 + i * 8, planLabel)
+        startY = startY + 5;
+        autoTable(pdf, {
+          head: [['Pieza(s)', 'Diagnóstico', 'Tratamiento']],
+          body: _bodyPlant,
+          startX: startX,
+          startY: startY,
+          didParseCell: function (data) {
+            if (data.section === 'head') {
+              data.cell.styles.fillColor = headerOptions.fillColor;
+              data.cell.styles.textColor = headerOptions.textColor;
+            }
           }
-        }
+        })
+
         var pdfName = itemPas.value.numeroDocumento
         pdf.save(pdfName + '.pdf');
       }
