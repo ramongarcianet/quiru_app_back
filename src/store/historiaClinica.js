@@ -111,62 +111,27 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         pdf.text(10, 251, pad(examenClinicoEstoma1, 120, ' '));
                         pdf.text(10, 258, pad(examenClinicoEstoma2, 120, ' '));
                         pdf.insertPage();
+                        for (var i = 0; i < odontograma.length; i++) {
+                            var odonto1 = odontograma[i]
+                            console.log(odonto1.fechaRegistro.toDate().toISOString().slice(0, 10))
+                            console.log(odonto1.hallazgos)
+                        }
                         pdf.setFontSize(14);
                         pdf.setFont(undefined, 'bold')
                         pdf.text(10, 30, 'DIAGNÓSTICO(CIE 10)');
                         pdf.setFont(undefined, 'normal')
-                       /* if (pacienteOdontograma.length > 0) {
-                            pdf.setFontSize(12);
-                            Cie10.CIE10.forEach(element => {
-                                let ubicacionnes = pacienteOdontograma[0].hallazgos.filter((elem) => elem.hallazgo == element.HALLAZGO);
-                                let Piezas = "";
-                                if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
-                                    ubicacionnes.forEach(dient => {
-                                        if (!Piezas.includes(dient.diente)) {
-                                            Piezas = Piezas + dient.diente + '; ';
-                                        }
-                                    });
-                                    if (element.TRATAMIENTO != "") {
-                                        pdf.text(10, posis, element.DECRICIE10 + " / Piezas : " + Piezas + " / " + element.CIE10);
-                                        posis = posis + 7;
-                                    }
-                                }
-                            });
-                        }*/
                         pdf.setFontSize(14);
                         pdf.setFont(undefined, 'bold')
                         pdf.text(10, posis + 4, 'PLAN DE TRATAMIENTO');
                         pdf.setFont(undefined, 'normal')
-                        /*if (pacienteOdontograma.length > 0) {
-                            posis1 = posis + 12;
-                            pdf.setFontSize(12);
-                            Cie10.CIE10.forEach(element => {
-                                let ubicacionnes = pacienteOdontograma[0].hallazgos.filter((elem) => elem.hallazgo == element.HALLAZGO);
-                                let Piezas = "";
-                                if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
-                                    ubicacionnes.forEach(dient => {
-                                        if (!Piezas.includes(dient.diente)) {
-                                            Piezas = Piezas + dient.diente + '; ';
-                                        }
-                                    });
-                                    if (element.TRATAMIENTO != "") {
-                                        pdf.text(10, posis1, element.TRATAMIENTO + " / Piezas : " + Piezas);
-                                        posis1 = posis1 + 7;
-                                    }
-                                }
-                            });
-                        } else {
-                            posis1 = 54;
-                        }*/
                         pdf.setFontSize(14);
                         pdf.setFont(undefined, 'bold')
-                        pdf.text(10, posis1 + 3, 'PRONÓSTICO');
                         pdf.setFont(undefined, 'normal')
                         pdf.setFontSize(12);
                         pdf.text(10, posis1 + 10, pad(' ', 100, ' '));//pacienteOdontograma.pronostico
                         pdf.text(10, posis1 + 25, pad('Nombres y apellidos del profesional : ' + odontologo.nombre + ' ' + odontologo.apellidoPaterno + ' ' + odontologo.apellidoMaterno, 90, ' '));
                         pdf.setFont(undefined, 'bold')
-                        pdf.text(10, posis1 + 45, 'Sello y firma');
+                        pdf.text(10, 145, 'Sello y firma');
                         var pdfName = 'historiaClinica' + itemPas.value.numeroDocumento
                         pdf.save(pdfName + '.pdf');
                     }
