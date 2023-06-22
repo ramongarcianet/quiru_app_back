@@ -145,7 +145,7 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
 .card.card-body.mt-2(style="margin-bottom: 50px")
   .div(style="background-color: white; border-radius: 2%;")
     table.table.table-hover
-      thead
+      thead(style="border-radius: 30px; background-color:var(--color-light) !important;")
         tr
           th Adjuntos
           th Tipo
