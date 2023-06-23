@@ -119,25 +119,25 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         let resultSorted = odontograma.sort((a, b) => a.order - b.order);
                         var startY = 28;
                         var startX = 10;
-                        let _fila = 1;
+                        var headerOptions = {
+                            fillColor: '#e8fffa',
+                            textColor: '#395d56'
+                        };
                         resultSorted.forEach(item => {
+                            let _fila = 1;
                             pdf.text(15, startY, item.fechaRegistro.toDate().toISOString().slice(0, 10) + ' :');
                             let _body = [];
-                            item.hallazgos.forEach(_item => {
+                            item?.hallazgos.forEach(_item => {
                                 let alterno = item.dienteAlterno
                                 let sigla = _item.sigla
                                 let ubicacion = _item.ubicacion
                                 if (alterno) alterno = ' - ' + alterno.toString()
                                 if (ubicacion) ubicacion = ' - ' + ubicacion;
                                 if (sigla) sigla = ' (' + sigla + ')';
-                                _body.push([_item.diente + alterno, _item.descripcion + ubicacion + sigla])
+                                _body.push([_item.diente + (alterno == undefined ? '' : alterno), _item.descripcion + ubicacion + sigla])
                                 _fila = 1 + _fila;
                             })
-                            var headerOptions = {
-                                fillColor: '#e8fffa',
-                                textColor: '#395d56'
-                            };
-                            startY = (startY * fila) + ((_fila + fila)* 8);
+                            startY = startY + 2;
                             autoTable(pdf, {
                                 head: [['Pieza(s)', 'Diagnóstico']],
                                 body: _body,
@@ -150,21 +150,56 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                                     }
                                 }
                             })
-
+                            startY = startY + 8 * (_fila) + 4;
                             fila = fila + 1;
                         })
                         pdf.setFontSize(14);
-                        /*pdf.setFont(undefined, 'bold')
-                        pdf.text(10, posis + 4, 'PLAN DE TRATAMIENTO');
-                        pdf.setFont(undefined, 'normal')
-                        pdf.setFontSize(14);
                         pdf.setFont(undefined, 'bold')
+                        startY = startY + 4;
+                        pdf.text(10, startY, 'PLAN DE TRATAMIENTO');
+                        startY = startY + 8;
+                        resultSorted.forEach(item => {
+                            let _bodyPlant = [];
+                            let _fila = 1;
+                            pdf.text(15, startY, item.fechaRegistro.toDate().toISOString().slice(0, 10) + ' :');
+                            item?.planTrata?.forEach(_item => {
+                                let _tratamien = "";
+                                let fila = 1;
+                                let filas = _item.Tratamiento.length;
+                                _item.Tratamiento?.forEach(subitem => {
+                                    _tratamien = _tratamien + fila + '.- ' + subitem.Tratamiento.label + ' (' + subitem.Fecha + ')';
+                                    if (fila < filas) {
+                                        _tratamien = _tratamien + '),\n'
+                                    }
+                                    fila = fila + 1;
+                                })
+                                _bodyPlant.push([_item.Pieza, _item.Diagnostico, _tratamien])
+                                _fila = 1 + _fila;
+                            })
+                            startY = startY + 2;
+                            autoTable(pdf, {
+                                head: [['Pieza(s)', 'Diagnóstico', 'Tratamiento(s)']],
+                                body: _bodyPlant,
+                                startX: startX,
+                                startY: startY,
+                                didParseCell: function (data) {
+                                    if (data.section === 'head') {
+                                        data.cell.styles.fillColor = headerOptions.fillColor;
+                                        data.cell.styles.textColor = headerOptions.textColor;
+                                    }
+                                }
+                            })
+                            startY = startY + 8 * (_fila) + 6;
+                            fila = fila + 1;
+                        })
+                        pdf.insertPage();
                         pdf.setFont(undefined, 'normal')
                         pdf.setFontSize(12);
-                        pdf.text(10, posis1 + 10, pad(' ', 100, ' '));//pacienteOdontograma.pronostico
-                        pdf.text(10, posis1 + 25, pad('Nombres y apellidos del profesional : ' + odontologo.nombre + ' ' + odontologo.apellidoPaterno + ' ' + odontologo.apellidoMaterno, 90, ' '));
+                        pdf.text(10, 25, pad(' ', 100, ' '));
+                        pdf.text(10, 35, pad('Nombres y apellidos del profesional : ' + odontologo.nombre + ' ' + odontologo.apellidoPaterno + ' ' + odontologo.apellidoMaterno, 90, ' '));
                         pdf.setFont(undefined, 'bold')
-                        pdf.text(10, 145, 'Sello y firma');*/
+                        pdf.text(10, 200, 'Sello y firma');
+
                         var pdfName = 'historiaClinica' + itemPas.value.numeroDocumento
 
                         pdf.save(pdfName + '.pdf');
