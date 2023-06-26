@@ -5,7 +5,7 @@ import { obtenerOdontologo } from "../store/usuario";
 import { miUsuario } from '../store/sesion';
 import Cie10 from '../config/Cie10.json';
 import jsPDF from 'jsPDF'
-
+import autoTable from 'jspdf-autotable'
 export function printHistoriaClinicaPaciente(idPaciente) {
     var pdf = new jsPDF()
     let posis = 39;
@@ -14,45 +14,45 @@ export function printHistoriaClinicaPaciente(idPaciente) {
     const fechaFormato = padLeadingZeros(today.getDate(), 2) + '/' + padLeadingZeros((today.getMonth() + 1)) + '/' + today.getFullYear();
     const horaFormato = padLeadingZeros(today.getHours(), 2) + ":" + padLeadingZeros(today.getMinutes(), 2);
     const idOdontologo = miUsuario()?.uid;
-    obtenerPacienteOdontograma(idPaciente,idOdontologo).then((odontograma) => {
-        const lastDiagnostico= Math.max(...odontograma.map(o => o.order));
-        const pacienteOdontograma = odontograma.filter(o=> o.order==lastDiagnostico)
-        obtenerPacienteAdmision(idPaciente,idOdontologo).then((admision) => {
-            const pacienteAdmision =  (admision.length>0)? admision[0]:{};
+    obtenerPacienteOdontograma(idPaciente, idOdontologo).then((odontograma) => {
+        const lastDiagnostico = Math.max(...odontograma.map(o => o.order));
+        const pacienteOdontograma = odontograma.filter(o => o.order == lastDiagnostico)
+        obtenerPacienteAdmision(idPaciente, idOdontologo).then((admision) => {
+            const pacienteAdmision = (admision.length > 0) ? admision[0] : {};
             leerEnRegistro(idPaciente);
             obtenerOdontologo(itemPas.value.idOdontologo).then((odonto) => {
                 const odontologo = odonto[0];
                 //datos admision
-                let fechaNacimiento = (itemPas.value.fechaNacimiento != undefined)? itemPas.value.fechaNacimiento:'          '
-                let departamento = (itemPas.value.departamento != undefined)? itemPas.value.departamento:'          '
-                let Direccion = (itemPas.value.Direccion != undefined)? itemPas.value.Direccion:'          '
-                let motivoConsulta = (pacienteAdmision.motivoConsulta != undefined)? pacienteAdmision.motivoConsulta:''
+                let fechaNacimiento = (itemPas.value.fechaNacimiento != undefined) ? itemPas.value.fechaNacimiento : '          '
+                let departamento = (itemPas.value.departamento != undefined) ? itemPas.value.departamento : '          '
+                let Direccion = (itemPas.value.Direccion != undefined) ? itemPas.value.Direccion : '          '
+                let motivoConsulta = (pacienteAdmision.motivoConsulta != undefined) ? pacienteAdmision.motivoConsulta : ''
                 let motivoConsulta1 = motivoConsulta.substring(0, 99)
                 let motivoConsulta2 = motivoConsulta.substring(99, motivoConsulta.length)
-                let enfermedadActual = (pacienteAdmision.enfermedadActual != undefined)? pacienteAdmision.enfermedadActual:''
+                let enfermedadActual = (pacienteAdmision.enfermedadActual != undefined) ? pacienteAdmision.enfermedadActual : ''
                 let enfermedadActual1 = enfermedadActual.substring(0, 99)
                 let enfermedadActual2 = enfermedadActual.substring(99, enfermedadActual.length)
-                let examenClinicoGene = (pacienteAdmision.examClinicoGeneral != undefined)? pacienteAdmision.examClinicoGeneral:''
+                let examenClinicoGene = (pacienteAdmision.examClinicoGeneral != undefined) ? pacienteAdmision.examClinicoGeneral : ''
                 let examenClinicoGene1 = examenClinicoGene.substring(0, 99)
                 let examenClinicoGene2 = examenClinicoGene.substring(99, examenClinicoGene.length)
-                let examenClinicoEstoma = (pacienteAdmision.examClinicoOdonto != undefined)? pacienteAdmision.examClinicoOdonto:''
+                let examenClinicoEstoma = (pacienteAdmision.examClinicoOdonto != undefined) ? pacienteAdmision.examClinicoOdonto : ''
                 let examenClinicoEstoma1 = examenClinicoEstoma.substring(0, 99)
                 let examenClinicoEstoma2 = examenClinicoEstoma.substring(99, examenClinicoEstoma.length)
-                let sexoPaciente = (itemPas.value.sexo=='F')? 'Femenino':'Masculino'
-                let procedencia = (pacienteAdmision.procedencia != undefined)?pacienteAdmision.procedencia:'';
-                let ocupacion = (pacienteAdmision.ocupacion != undefined)?pacienteAdmision.ocupacion:'';
-                let viajesUltimos = (pacienteAdmision.viajesUltimos != undefined)?pacienteAdmision.viajesUltimos:'';
-                let numeroEmergencia = (pacienteAdmision.numeroEmergencia != undefined)?pacienteAdmision.numeroEmergencia:'';
-                let tiempoEnfermedad = (pacienteAdmision.tiempoEnfermedad != undefined)?pacienteAdmision.tiempoEnfermedad:'';
-                let signosYSintomas = (pacienteAdmision.signosYSintomas != undefined)?pacienteAdmision.signosYSintomas:'';
-                let relatoCronologico = (pacienteAdmision.relatoCronologico != undefined)?pacienteAdmision.relatoCronologico:'';
-                let antecedentesFam = (pacienteAdmision.antecedentesFam != undefined)?pacienteAdmision.antecedentesFam:'';
-                let antecedentesPer = (pacienteAdmision.antecedentesPer != undefined)?pacienteAdmision.antecedentesPer:'';
-                let pa = (pacienteAdmision.pa != undefined)?pacienteAdmision.pa:'';
-                let pulso = (pacienteAdmision.pulso != undefined)?pacienteAdmision.pulso:'';
-                let temperatura = (pacienteAdmision.temperatura != undefined)?pacienteAdmision.temperatura:'';
-                let fc = (pacienteAdmision.fc != undefined)?pacienteAdmision.fc:'';
-                let fResp = (pacienteAdmision.fResp != undefined)?pacienteAdmision.fResp:'';
+                let sexoPaciente = (itemPas.value.sexo == 'F') ? 'Femenino' : 'Masculino'
+                let procedencia = (pacienteAdmision.procedencia != undefined) ? pacienteAdmision.procedencia : '';
+                let ocupacion = (pacienteAdmision.ocupacion != undefined) ? pacienteAdmision.ocupacion : '';
+                let viajesUltimos = (pacienteAdmision.viajesUltimos != undefined) ? pacienteAdmision.viajesUltimos : '';
+                let numeroEmergencia = (pacienteAdmision.numeroEmergencia != undefined) ? pacienteAdmision.numeroEmergencia : '';
+                let tiempoEnfermedad = (pacienteAdmision.tiempoEnfermedad != undefined) ? pacienteAdmision.tiempoEnfermedad : '';
+                let signosYSintomas = (pacienteAdmision.signosYSintomas != undefined) ? pacienteAdmision.signosYSintomas : '';
+                let relatoCronologico = (pacienteAdmision.relatoCronologico != undefined) ? pacienteAdmision.relatoCronologico : '';
+                let antecedentesFam = (pacienteAdmision.antecedentesFam != undefined) ? pacienteAdmision.antecedentesFam : '';
+                let antecedentesPer = (pacienteAdmision.antecedentesPer != undefined) ? pacienteAdmision.antecedentesPer : '';
+                let pa = (pacienteAdmision.pa != undefined) ? pacienteAdmision.pa : '';
+                let pulso = (pacienteAdmision.pulso != undefined) ? pacienteAdmision.pulso : '';
+                let temperatura = (pacienteAdmision.temperatura != undefined) ? pacienteAdmision.temperatura : '';
+                let fc = (pacienteAdmision.fc != undefined) ? pacienteAdmision.fc : '';
+                let fResp = (pacienteAdmision.fResp != undefined) ? pacienteAdmision.fResp : '';
                 pdf.html("", {
                     callback: function (pdf) {
                         pdf.setFontSize(17);
@@ -60,7 +60,7 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         pdf.text(45, 20, 'HISTORIA CLÍNICA ODONTOLÓGICA');
                         pdf.setFont(undefined, 'normal')
                         pdf.setFontSize(12);
-                        pdf.text(10, 30, pad('HC : ' + itemPas.value.numeroDocumento, 50, ' ')+pad('Fecha : ' + fechaFormato, 50, ' ') + pad('Hora : ' + horaFormato, 50, ' '));
+                        pdf.text(10, 30, pad('HC : ' + itemPas.value.numeroDocumento, 50, ' ') + pad('Fecha : ' + fechaFormato, 50, ' ') + pad('Hora : ' + horaFormato, 50, ' '));
                         pdf.setFontSize(14);
                         pdf.setFont(undefined, 'bold')
                         pdf.text(10, 40, 'ANAMNESIS');
@@ -111,63 +111,97 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         pdf.text(10, 251, pad(examenClinicoEstoma1, 120, ' '));
                         pdf.text(10, 258, pad(examenClinicoEstoma2, 120, ' '));
                         pdf.insertPage();
+
                         pdf.setFontSize(14);
                         pdf.setFont(undefined, 'bold')
-                        pdf.text(10, 30, 'DIAGNÓSTICO(CIE 10)');
-                        pdf.setFont(undefined, 'normal')
-                        if (pacienteOdontograma.length > 0) {
-                            pdf.setFontSize(12);
-                            Cie10.CIE10.forEach(element => {
-                                let ubicacionnes = pacienteOdontograma[0].hallazgos.filter((elem) => elem.hallazgo == element.HALLAZGO);
-                                let Piezas = "";
-                                if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
-                                    ubicacionnes.forEach(dient => {
-                                        if (!Piezas.includes(dient.diente)) {
-                                            Piezas = Piezas + dient.diente + '; ';
-                                        }
-                                    });
-                                    if (element.TRATAMIENTO != "") {
-                                        pdf.text(10, posis, element.DECRICIE10 + " / Piezas : " + Piezas + " / " + element.CIE10);
-                                        posis = posis + 7;
+                        pdf.text(10, 20, 'DIAGNÓSTICO(S)');
+                        let fila = 1;
+                        let resultSorted = odontograma.sort((a, b) => a.order - b.order);
+                        var startY = 28;
+                        var startX = 10;
+                        var headerOptions = {
+                            fillColor: '#e8fffa',
+                            textColor: '#395d56'
+                        };
+                        resultSorted.forEach(item => {
+                            let _fila = 1;
+                            pdf.text(15, startY, item.fechaRegistro.toDate().toISOString().slice(0, 10) + ' :');
+                            let _body = [];
+                            item?.hallazgos.forEach(_item => {
+                                let alterno = item.dienteAlterno
+                                let sigla = _item.sigla
+                                let ubicacion = _item.ubicacion
+                                if (alterno) alterno = ' - ' + alterno.toString()
+                                if (ubicacion) ubicacion = ' - ' + ubicacion;
+                                if (sigla) sigla = ' (' + sigla + ')';
+                                _body.push([_item.diente + (alterno == undefined ? '' : alterno), _item.descripcion + ubicacion + sigla])
+                                _fila = 1 + _fila;
+                            })
+                            startY = startY + 2;
+                            autoTable(pdf, {
+                                head: [['Pieza(s)', 'Diagnóstico']],
+                                body: _body,
+                                startX: startX,
+                                startY: startY,
+                                didParseCell: function (data) {
+                                    if (data.section === 'head') {
+                                        data.cell.styles.fillColor = headerOptions.fillColor;
+                                        data.cell.styles.textColor = headerOptions.textColor;
                                     }
                                 }
-                            });
-                        }
+                            })
+                            startY = startY + 8 * (_fila) + 4;
+                            fila = fila + 1;
+                        })
                         pdf.setFontSize(14);
                         pdf.setFont(undefined, 'bold')
-                        pdf.text(10, posis + 4, 'PLAN DE TRATAMIENTO');
-                        pdf.setFont(undefined, 'normal')
-                        if (pacienteOdontograma.length > 0) {
-                            posis1 = posis + 12;
-                            pdf.setFontSize(12);
-                            Cie10.CIE10.forEach(element => {
-                                let ubicacionnes = pacienteOdontograma[0].hallazgos.filter((elem) => elem.hallazgo == element.HALLAZGO);
-                                let Piezas = "";
-                                if (ubicacionnes != undefined && ubicacionnes?.length > 0) {
-                                    ubicacionnes.forEach(dient => {
-                                        if (!Piezas.includes(dient.diente)) {
-                                            Piezas = Piezas + dient.diente + '; ';
-                                        }
-                                    });
-                                    if (element.TRATAMIENTO != "") {
-                                        pdf.text(10, posis1, element.TRATAMIENTO + " / Piezas : " + Piezas);
-                                        posis1 = posis1 + 7;
+                        startY = startY + 4;
+                        pdf.text(10, startY, 'PLAN DE TRATAMIENTO');
+                        startY = startY + 8;
+                        resultSorted.forEach(item => {
+                            let _bodyPlant = [];
+                            let _fila = 1;
+                            pdf.text(15, startY, item.fechaRegistro.toDate().toISOString().slice(0, 10) + ' :');
+                            item?.planTrata?.forEach(_item => {
+                                let _tratamien = "";
+                                let fila = 1;
+                                let filas = _item.Tratamiento.length;
+                                _item.Tratamiento?.forEach(subitem => {
+                                    _tratamien = _tratamien + fila + '.- ' + subitem.Tratamiento.label + ' (' + subitem.Fecha + ')';
+                                    if (fila < filas) {
+                                        _tratamien = _tratamien + '),\n'
+                                    }
+                                    fila = fila + 1;
+                                })
+                                _bodyPlant.push([_item.Pieza, _item.Diagnostico, _tratamien])
+                                _fila = 1 + _fila;
+                            })
+                            startY = startY + 2;
+                            autoTable(pdf, {
+                                head: [['Pieza(s)', 'Diagnóstico', 'Tratamiento(s)']],
+                                body: _bodyPlant,
+                                startX: startX,
+                                startY: startY,
+                                didParseCell: function (data) {
+                                    if (data.section === 'head') {
+                                        data.cell.styles.fillColor = headerOptions.fillColor;
+                                        data.cell.styles.textColor = headerOptions.textColor;
                                     }
                                 }
-                            });
-                        } else {
-                            posis1 = 54;
-                        }
-                        pdf.setFontSize(14);
-                        pdf.setFont(undefined, 'bold')
-                        pdf.text(10, posis1 + 3, 'PRONÓSTICO');
+                            })
+                            startY = startY + 8 * (_fila) + 6;
+                            fila = fila + 1;
+                        })
+                        pdf.insertPage();
                         pdf.setFont(undefined, 'normal')
                         pdf.setFontSize(12);
-                        pdf.text(10, posis1 + 10, pad(' ', 100, ' '));//pacienteOdontograma.pronostico
-                        pdf.text(10, posis1 + 25, pad('Nombres y apellidos del profesional : ' + odontologo.nombre + ' ' + odontologo.apellidoPaterno + ' ' + odontologo.apellidoMaterno, 90, ' '));
+                        pdf.text(10, 25, pad(' ', 100, ' '));
+                        pdf.text(10, 35, pad('Nombres y apellidos del profesional : ' + odontologo.nombre + ' ' + odontologo.apellidoPaterno + ' ' + odontologo.apellidoMaterno, 90, ' '));
                         pdf.setFont(undefined, 'bold')
-                        pdf.text(10, posis1 + 45, 'Sello y firma');
+                        pdf.text(10, 200, 'Sello y firma');
+
                         var pdfName = 'historiaClinica' + itemPas.value.numeroDocumento
+
                         pdf.save(pdfName + '.pdf');
                     }
                 });
@@ -191,32 +225,32 @@ export function printHistoriaMedicaPaciente(idPaciente) {
     const fechaFormato = padLeadingZeros(today.getDate(), 2) + '/' + padLeadingZeros((today.getMonth() + 1)) + '/' + today.getFullYear();
     const horaFormato = padLeadingZeros(today.getHours(), 2) + ":" + padLeadingZeros(today.getMinutes(), 2);
     const idOdontologo = miUsuario()?.uid;
-    obtenerPacienteOdontograma(idPaciente,idOdontologo).then((odontograma) => {
-        const lastDiagnostico= Math.max(...odontograma.map(o => o.order));
-        const pacienteOdontograma = odontograma.filter(o=> o.order==lastDiagnostico)
-        obtenerPacienteAdmision(idPaciente,idOdontologo).then((admision) => {
-            const pacienteAdmision =  (admision.length>0)? admision[0]:{};
+    obtenerPacienteOdontograma(idPaciente, idOdontologo).then((odontograma) => {
+        const lastDiagnostico = Math.max(...odontograma.map(o => o.order));
+        const pacienteOdontograma = odontograma.filter(o => o.order == lastDiagnostico)
+        obtenerPacienteAdmision(idPaciente, idOdontologo).then((admision) => {
+            const pacienteAdmision = (admision.length > 0) ? admision[0] : {};
             leerEnRegistro(idPaciente);
             obtenerOdontologo(itemPas.value.idOdontologo).then((odonto) => {
                 const odontologo = odonto[0];
-                let fechaNacimiento = (itemPas.value.fechaNacimiento != undefined)? itemPas.value.fechaNacimiento:'          '
-                let estatura = (itemPas.value.estatura != undefined)? itemPas.value.estatura:'          '
-                let peso = (itemPas.value.peso != undefined)? itemPas.value.peso:'          '
-                let centroLaboral = (itemPas.value.centroLaboral != undefined)? itemPas.value.centroLaboral:'          '
-                let ocupacion = (itemPas.value.ocupacion != undefined)? itemPas.value.ocupacion:'          '
-                let departamento = (itemPas.value.departamento != undefined)? itemPas.value.departamento:'          '
-                let Direccion = (itemPas.value.Direccion != undefined)? itemPas.value.Direccion:'          '
-                let sexoPaciente = (itemPas.value.sexo=='F')? 'Femenino':'Masculino'
-                let askHCG1 = (itemPas.value.askHCG1 != undefined)? itemPas.value.askHCG1:'       '
-                let askHCG2 = (itemPas.value.askHCG2 != undefined)? itemPas.value.askHCG2:'       '
-                let askHCG3 = (itemPas.value.askHCG3 != undefined)? itemPas.value.askHCG3:'       '
-                let askHCG4 = (itemPas.value.askHCG4 != undefined)? itemPas.value.askHCG4:'       '
-                let askHCG5 = (itemPas.value.askHCG5 != undefined)? itemPas.value.askHCG5:'       '
-                let askHCG6 = (itemPas.value.askHCG6 != undefined)? itemPas.value.askHCG6:'       '
-                let askHCG7 = (itemPas.value.askHCG7 != undefined)? itemPas.value.askHCG7:'       '
-                let askHCG8 = (itemPas.value.askHCG8 != undefined)? itemPas.value.askHCG8:'       '
-                let askHCG9 = (itemPas.value.askHCG9 != undefined)? itemPas.value.askHCG9:'       '
-                let askHCG0 = (itemPas.value.askHCG0 != undefined)? itemPas.value.askHCG0:'       '
+                let fechaNacimiento = (itemPas.value.fechaNacimiento != undefined) ? itemPas.value.fechaNacimiento : '          '
+                let estatura = (itemPas.value.estatura != undefined) ? itemPas.value.estatura : '          '
+                let peso = (itemPas.value.peso != undefined) ? itemPas.value.peso : '          '
+                let centroLaboral = (itemPas.value.centroLaboral != undefined) ? itemPas.value.centroLaboral : '          '
+                let ocupacion = (itemPas.value.ocupacion != undefined) ? itemPas.value.ocupacion : '          '
+                let departamento = (itemPas.value.departamento != undefined) ? itemPas.value.departamento : '          '
+                let Direccion = (itemPas.value.Direccion != undefined) ? itemPas.value.Direccion : '          '
+                let sexoPaciente = (itemPas.value.sexo == 'F') ? 'Femenino' : 'Masculino'
+                let askHCG1 = (itemPas.value.askHCG1 != undefined) ? itemPas.value.askHCG1 : '       '
+                let askHCG2 = (itemPas.value.askHCG2 != undefined) ? itemPas.value.askHCG2 : '       '
+                let askHCG3 = (itemPas.value.askHCG3 != undefined) ? itemPas.value.askHCG3 : '       '
+                let askHCG4 = (itemPas.value.askHCG4 != undefined) ? itemPas.value.askHCG4 : '       '
+                let askHCG5 = (itemPas.value.askHCG5 != undefined) ? itemPas.value.askHCG5 : '       '
+                let askHCG6 = (itemPas.value.askHCG6 != undefined) ? itemPas.value.askHCG6 : '       '
+                let askHCG7 = (itemPas.value.askHCG7 != undefined) ? itemPas.value.askHCG7 : '       '
+                let askHCG8 = (itemPas.value.askHCG8 != undefined) ? itemPas.value.askHCG8 : '       '
+                let askHCG9 = (itemPas.value.askHCG9 != undefined) ? itemPas.value.askHCG9 : '       '
+                let askHCG0 = (itemPas.value.askHCG0 != undefined) ? itemPas.value.askHCG0 : '       '
                 pdf.html("", {
                     callback: function (pdf) {
                         pdf.setFontSize(17);
@@ -226,7 +260,7 @@ export function printHistoriaMedicaPaciente(idPaciente) {
                         pdf.setFontSize(14);
                         pdf.text(10, 38, pad('Paciente : ' + itemPas.value.nombre + ' ' + itemPas.value.apellidoPaterno + ' ' + itemPas.value.apellidoMaterno, 70, ' '));
                         pdf.text(10, 46, pad('Fecha de nacimiento : ' + fechaNacimiento, 80, ' '));
-                        pdf.text(10, 54, pad('Dirección : ' + departamento, 40, ' ') + pad( Direccion, 60, ' '));
+                        pdf.text(10, 54, pad('Dirección : ' + departamento, 40, ' ') + pad(Direccion, 60, ' '));
                         pdf.text(10, 62, pad('Email : ' + itemPas.value.email, 60, ' ') + pad('Ocupación : ' + ocupacion, 60, ' '));
                         pdf.text(10, 70, pad('Teléfono : ' + itemPas.value.telefono, 50, ' '));
                         pdf.text(10, 78, pad('Centro de trabajo :' + centroLaboral, 90, ' '));
@@ -295,7 +329,7 @@ function getEdad(dateString) {
     let edad = hoy.getFullYear() - fechaNacimiento.getFullYear()
     let diferenciaMeses = hoy.getMonth() - fechaNacimiento.getMonth()
     if (diferenciaMeses < 0 || (diferenciaMeses === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
-      edad--
+        edad--
     }
     return edad
-  }
+}
