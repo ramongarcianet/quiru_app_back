@@ -71,7 +71,7 @@ function printOdontograma() {
           if (alterno) alterno = ' - ' + alterno.toString()
           if (ubicacion) ubicacion = ' - ' + ubicacion;
           if (sigla) sigla = ' (' + sigla + ')';
-          _body.push([_item.fila, _item.diente + alterno, _item.descripcion + ubicacion + sigla])
+          _body.push([ _item.diente + alterno, _item.descripcion + ubicacion + sigla])
         })
         var headerOptions = {
           fillColor: '#e8fffa',
@@ -80,7 +80,7 @@ function printOdontograma() {
         var startX = 10;
         var startY = 25;
         autoTable(pdf, {
-          head: [['N°', 'Pieza(s)', 'Diagnóstico']],
+          head: [['Pieza(s)', 'Diagnóstico']],
           body: _body,
           startX: startX,
           startY: startY,
@@ -107,7 +107,7 @@ function printOdontograma() {
           _bodyPlant.push([_item.Pieza, _item.Diagnostico, _tratamien])
         })
         startX = 10;
-        startY = 25 + (itemodontograma.value.hallazgos.length * 25);
+        startY = 40 + (itemodontograma.value.hallazgos.length * 8);
         pdf.setFontSize(14);
         pdf.setFont(undefined, 'bold')
         pdf.text(10, startY, 'PLAN DE TRATAMIENTO');
@@ -115,7 +115,7 @@ function printOdontograma() {
         pdf.setFontSize(12);
         startY = startY + 5;
         autoTable(pdf, {
-          head: [['Pieza(s)', 'Diagnóstico', 'Tratamiento']],
+          head: [['Pieza(s)', 'Diagnóstico', 'Tratamiento(s)']],
           body: _bodyPlant,
           startX: startX,
           startY: startY,
