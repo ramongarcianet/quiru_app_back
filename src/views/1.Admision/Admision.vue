@@ -13,7 +13,7 @@ const {back, push} = useRouter()
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") del paciente
     button.btn.btn-outline-primary.border-0(@click="back()" )
       i.fa-solid.fa-arrow-left-long.fa-xl
-  .col-5.col-md-3
+  .col-5.col-md-3.mt-5.mb-3
     div.opciones
       button.btn.btn-primary.white-text(title='Consentimientos' type='button' data-bs-toggle='modal' data-bs-target='#consentimientosModal')
         .contenido
