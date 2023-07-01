@@ -6,6 +6,34 @@ import { miUsuario } from '../store/sesion';
 import Cie10 from '../config/Cie10.json';
 import jsPDF from 'jsPDF'
 import autoTable from 'jspdf-autotable'
+import { getDownloadURL, ref as storageRef, getStorage} from 'firebase/storage';
+const storage = getStorage();
+async function getDocumentImageUrls(documentLinks) {
+  const imageUrls = [];
+  for (const link of documentLinks) {
+    try {
+      const storageReference = storageRef(storage, link);
+      const downloadUrl = await getDownloadURL(storageReference);
+      imageUrls.push(downloadUrl);
+    } catch (error) {
+      console.error('Error al obtener la URL de imagen:', error);
+    }
+  }
+  return imageUrls;
+}
+
+function getImageType(imageUrl) {
+    var extension = imageUrl.substr(imageUrl.lastIndexOf('.') + 1).toLowerCase();
+    if (extension === 'pdf') {
+      return 'PDF';
+    } else if (extension === 'png') {
+      return 'PNG';
+    } else if (extension === 'jpg' || extension === 'jpeg') {
+      return 'JPEG';
+    }
+    return 'PNG';
+  }
+
 export function printHistoriaClinicaPaciente(idPaciente) {
     var pdf = new jsPDF()
     let posis = 39;
@@ -53,6 +81,14 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                 let temperatura = (pacienteAdmision.temperatura != undefined) ? pacienteAdmision.temperatura : '';
                 let fc = (pacienteAdmision.fc != undefined) ? pacienteAdmision.fc : '';
                 let fResp = (pacienteAdmision.fResp != undefined) ? pacienteAdmision.fResp : '';
+                let fotoPDF = (pacienteAdmision.archivos!= undefined) ? pacienteAdmision.archivos : '';
+                getDocumentImageUrls(fotoPDF)
+                    .then((imageUrls) => {
+                        return imageUrls
+                    })
+                    .catch((error) => {
+                        console.error(error)
+                    })
                 pdf.html("", {
                     callback: function (pdf) {
                         pdf.setFontSize(17);
@@ -197,12 +233,24 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         pdf.setFontSize(12);
                         pdf.text(10, 25, pad(' ', 100, ' '));
                         pdf.text(10, 35, pad('Nombres y apellidos del profesional : ' + odontologo.nombre + ' ' + odontologo.apellidoPaterno + ' ' + odontologo.apellidoMaterno, 90, ' '));
-                        pdf.setFont(undefined, 'bold')
-                        pdf.text(10, 200, 'Sello y firma');
-
-                        var pdfName = 'historiaClinica' + itemPas.value.numeroDocumento
-
-                        pdf.save(pdfName + '.pdf');
+                        let fotoPDF = (pacienteAdmision.archivos != undefined) ? pacienteAdmision.archivos : '';
+                        getDocumentImageUrls(fotoPDF)
+                            .then((imageUrls) => {
+                                console.log(imageUrls);
+                                imageUrls.forEach((imageUrl) => {
+                                var imageType = getImageType(imageUrl); // Obtener el tipo de imagen (PDF, PNG o JPEG)
+                                // Verificar si la URL de la imagen es un archivo PDF válido
+                                if (imageType === 'PDF') {
+                                    // Añadir el archivo PDF al PDF generado
+                                    pdf.addPage();
+                                    pdf.addImage(imageUrl, 'PDF', 0, 0, pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
+                                }
+                                });
+                                pdf.setFont(undefined, 'bold');
+                                pdf.text(10, 200, 'Sello y firma');
+                                var pdfName = 'historiaClinica' + itemPas.value.numeroDocumento;
+                                pdf.save(pdfName + '.pdf');
+                            });
                     }
                 });
             })
