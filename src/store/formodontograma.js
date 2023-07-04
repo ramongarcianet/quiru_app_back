@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue';
+import { ref, computed, onUnmounted } from 'vue';
 import route from './../config/router'
 import { addDoc, collection, onSnapshot, getDoc, getDocs, doc, updateDoc, deleteDoc, query, where, arrayUnion, orderBy } from 'firebase/firestore'
 import { firestore } from '../config/firebase'
@@ -251,6 +251,25 @@ const obtenerTodos = (idPaciente) => {
         }
     )
 }
+export const registroodontoTodo = ref([]);
+
+export const obtenerTodosOdo = (userId) => {
+    const referencia = query(
+      collection(firestore, "odontograma"),
+      where("userId", "==", userId)
+    );
+    return new Promise((resolve, reject) => {
+      const unsubscribe = onSnapshot(referencia, (snapshot) => {
+        const odontogramas = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }))
+        registroodontoTodo.value = odontogramas
+        resolve(registroodontoTodo.value)
+      }, reject)
+      onUnmounted(unsubscribe)
+    });
+};  
 
 const leer = id => {
     const referencia = doc(firestore, 'odontograma', id)

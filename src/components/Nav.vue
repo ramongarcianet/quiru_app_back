@@ -7,6 +7,7 @@ const routeName = computed(()=>route.name)
 const rutas = [
     {name:'Citas', icono:'fa-regular fa-calendar-days', ruta:'citas'},
     {name:'Pacientes', icono:'fa-regular fa-user', ruta:'pacientes'},
+    {name:'Estadisticas', icono:'fa-solid fa-signal', ruta:'estadisticas'},
 ]
 </script>
 <template lang="pug">
@@ -37,7 +38,7 @@ const rutas = [
   box-shadow: 3px 3px 20px 0 rgba(0,0,0,0.025)
   ul
     display: flex
-    width: 140px
+    width: 210px
     padding: 0
     margin: 0
     li
@@ -95,6 +96,9 @@ const rutas = [
   transform: translateX(calc(70px * 2)) scale(1)
   opacity: 1
 
+.router ul li:nth-child(3).active ~ .indicador
+  transform: translateX(calc(70px * 2)) scale(1)
+  opacity: 1
 
 .indicador
   position: absolute
