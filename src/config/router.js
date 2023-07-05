@@ -129,19 +129,9 @@ const routes = [
                 component: ()=>import('../views/5.Odontograma/5.plantratamiento.vue')
             },
             {
-                path: 'precios',
-                name: 'precios',
-                component: ()=>import('../views/7.Precios/precios.vue')
-            },
-            {
-                path: 'formulario',
-                name: 'formulario',
-                component: ()=>import('../views/7.Precios/formulario.vue')
-            },
-            {
-                path: 'resumen',
-                name: 'resumen',
-                component: ()=>import('../views/9.Resumen/resumen.vue')
+                path: 'estadisticas',
+                name: 'estadisticas',
+                component: ()=>import('../views/7.Estadisticas/Estadistica.vue')
             },
             {
                 path: 'cotizacion/:idOdontograma?/:idPaciente?',
