@@ -70,6 +70,8 @@ const eliminar = (id) => {
 
 const registro = ref([])
 const verEliminados = ref(false)
+export const registroPacienteTodo = ref([])
+
 const obtenerTodos = () => {
     const referencia = collection(firestore, 'paciente')
     const referenciaOrden = !verEliminados.value
