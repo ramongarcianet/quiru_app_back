@@ -6,12 +6,25 @@ import InputFile from "../../components/FileInput.vue";
 import {progressFile, setFile, borrarFile } from '../../store/storage.js';
 import { esLetra, esNumero } from '../../config/libreria'
 import { cerrarSesion, miUsuario } from '../../store/sesion'
+import { ref as refSt, getDownloadURL, getStorage } from "firebase/storage";
 const maxDocumento = ref(8);
 const route = useRoute()
 const { back } = useRouter()
 const usuarioaqui = miUsuario().uid
 const mensaje = ref('')
 const hayError = ref(false)
+const storage = getStorage()
+const obtenerURLDescarga = async (rutaArchivo) => {
+  try {
+    const storageRef = refSt(storage, rutaArchivo);
+    const downloadURL = await getDownloadURL(storageRef);
+    console.log("Enlace de descarga:", downloadURL);
+    return downloadURL;
+  } catch (error) {
+    console.error("Error al obtener el enlace de descarga:", error);
+    throw error;
+  }
+}
 const guardarOActualizar = async () => {
   try {
     mensaje.value = '';
@@ -28,6 +41,8 @@ const guardarOActualizar = async () => {
         for await (let item of listaDeImagenes) {
           const url = await setFile(item, usuarioaqui);
           listaDeUrl.push(url);
+          console.log(url)
+          console.log(listaDeUrl)
         }
         item.value[key] = null;
         if (key === 'fotoPerfil') {
@@ -72,7 +87,7 @@ const adios = ()=> {
   location.replace('https://quiru.app/')
   }
 const refresh = ()=> {
-  location.reload()
+  //location.reload()
 }
 
 const mayoriaEdad = () => {
