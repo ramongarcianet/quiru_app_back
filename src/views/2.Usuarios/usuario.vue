@@ -9,47 +9,42 @@ import { cerrarSesion, miUsuario } from '../../store/sesion'
 const maxDocumento = ref(8);
 const route = useRoute()
 const { back } = useRouter()
-const guardarOActualizar = (item) => {
-  return actualizarDOC(item)
-}
 const usuarioaqui = miUsuario().uid
 const mensaje = ref('')
 const hayError = ref(false)
-const actualizarDOC = () => new Promise( async(resolve, reject) =>   { 
+const guardarOActualizar = async () => {
   try {
-    mensaje.value = ''
-    const keys = Object.keys(item.value)
-    for ( let key of keys ){
-      const isFileList = item.value[key] instanceof FileList
-      if( isFileList && item.value[key].length > 0){
-      const listaDeUrl = []
-      const length = item.value[key].length
-      const listaDeImagenes = []
-      for ( let i = 0; i<length; i++){
-        listaDeImagenes.push(item.value[key][i])
-      }
-      for await( let item of listaDeImagenes ) {
-        const url = await setFile(item, usuarioaqui) 
-        listaDeUrl.push(url)
-      }
-      item.value[key] = null
-      if (key === 'filesPerfil') {
-          item.value.filesPerfil = listaDeUrl;
-        } else if (key === 'filesMarca') {
-          item.value.filesMarca = listaDeUrl;
+    mensaje.value = '';
+    const keys = Object.keys(item.value);
+    for (let key of keys) {
+      const isFileList = item.value[key] instanceof FileList;
+      if (isFileList && item.value[key].length > 0) {
+        const listaDeUrl = [];
+        const length = item.value[key].length;
+        const listaDeImagenes = [];
+        for (let i = 0; i < length; i++) {
+          listaDeImagenes.push(item.value[key][i]);
         }
+        for await (let item of listaDeImagenes) {
+          const url = await setFile(item, usuarioaqui);
+          listaDeUrl.push(url);
+        }
+        item.value[key] = null;
+        if (key === 'fotoPerfil') {
+          item.value.fotoPerfil = listaDeUrl[0]
+        } else if (key === 'fotoMarca') {
+          item.value.fotoMarca = listaDeUrl[0]
+        }
+      }
     }
-    }
-    await actualizar(item.value)
-    progressFile.value = 0
-    hayError.value=false
-    resolve()
+    await actualizar(item.value);
+    progressFile.value = 0;
+    hayError.value = false;
+  } catch (e) {
+    hayError.value = true;
+    console.error(e);
   }
-  catch (e ){ 
-    hayError.value=true
-    reject(e)
-  }
-})
+}
 onMounted(() => {
   leer(miUsuario().uid);
 });
@@ -96,8 +91,6 @@ const mayoriaEdad = () => {
     button.btn.btn-outline-primary.border-0(@click="refresh()" )
       i.fa-solid.fa-arrow-left-long.fa-xl
   .col-2
-    //button.btn.btn-outline-primary.border-0.pb-md-0(title='Cerrar Sesion' @click="cerrarSesion(), adios()")
-      i.fa-solid.fa-power-off( style="color: var(--color-primary); font-size: 35px" )
 
 Form( :onPromise="() => guardarOActualizar(item)" :onSuccess='() => refresh()')
   .row
@@ -155,16 +148,12 @@ Form( :onPromise="() => guardarOActualizar(item)" :onSuccess='() => refresh()')
   .row.mt-2
     .col-6
       label.form-label Foto de perfil
-      InputFile(v-model='item.filesPerfil')
-      .progress( v-if='progressFile')
-        .progress-bar(role="progressbar" :style="`width: ${progressFile}%;`" ) {{progressFile.toFixed(0)}} %
+      InputFile(v-if="!item.fotoPerfil" v-model='item.fotoPerfil')
+      p(v-else) Foto de perfil subida con éxito
     .col-6
       label.form-label Foto de la marca
-      InputFile(v-model='item.filesMarca')
-      .progress( v-if='progressFile')
-        .progress-bar(role="progressbar" :style="`width: ${progressFile}%;`" ) {{progressFile.toFixed(0)}} %
-  .row.mt-2
-    #mensaje.alert.alert-dismissible( v-if='mensaje' :class='hayError? "alert-danger" : "alert-success" ' ) {{mensaje}}
+      InputFile(v-if="!item.fotoMarca" v-model='item.fotoMarca')
+      p(v-else) Foto de la marca subida con éxito
   .row
     .col-12.col-md-4.mx-auto.mt-4
       button#btguardar.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center( 
