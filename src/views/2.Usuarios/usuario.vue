@@ -4,21 +4,17 @@ import { useRoute, useRouter } from 'vue-router'
 import { item, actualizar, limpiar, leer, registro, leerEnRegistro } from '../../store/usuario'
 import InputFile from "../../components/FileInput.vue";
 import {progressFile, setFile, borrarFile } from '../../store/storage.js';
-import { esLetra, esNumero } from '../../config/libreria'
 import { cerrarSesion, miUsuario } from '../../store/sesion'
 import { ref as refSt, getDownloadURL, getStorage } from "firebase/storage";
 const maxDocumento = ref(8);
 const route = useRoute()
 const { back } = useRouter()
 const usuarioaqui = miUsuario().uid
-const mensaje = ref('')
-const hayError = ref(false)
 const storage = getStorage()
 const obtenerURLDescarga = async (rutaArchivo) => {
   try {
     const storageRef = refSt(storage, rutaArchivo);
     const downloadURL = await getDownloadURL(storageRef);
-    console.log("Enlace de descarga:", downloadURL);
     return downloadURL;
   } catch (error) {
     console.error("Error al obtener el enlace de descarga:", error);
@@ -27,7 +23,6 @@ const obtenerURLDescarga = async (rutaArchivo) => {
 }
 const guardarOActualizar = async () => {
   try {
-    mensaje.value = '';
     const keys = Object.keys(item.value);
     for (let key of keys) {
       const isFileList = item.value[key] instanceof FileList;
@@ -41,22 +36,20 @@ const guardarOActualizar = async () => {
         for await (let item of listaDeImagenes) {
           const url = await setFile(item, usuarioaqui);
           listaDeUrl.push(url);
-          console.log(url)
-          console.log(listaDeUrl)
         }
         item.value[key] = null;
         if (key === 'fotoPerfil') {
           item.value.fotoPerfil = listaDeUrl[0]
-        } else if (key === 'fotoMarca') {
-          item.value.fotoMarca = listaDeUrl[0]
+          item.value.linkPerfil = await obtenerURLDescarga(listaDeUrl[0])
+        } else if (key === 'fotoLogo') {
+          item.value.fotoLogo = listaDeUrl[0]
+          item.value.linkLogo = await obtenerURLDescarga(listaDeUrl[0])
         }
       }
     }
     await actualizar(item.value);
     progressFile.value = 0;
-    hayError.value = false;
   } catch (e) {
-    hayError.value = true;
     console.error(e);
   }
 }
@@ -87,7 +80,7 @@ const adios = ()=> {
   location.replace('https://quiru.app/')
   }
 const refresh = ()=> {
-  //location.reload()
+  location.reload()
 }
 
 const mayoriaEdad = () => {
@@ -162,15 +155,16 @@ Form( :onPromise="() => guardarOActualizar(item)" :onSuccess='() => refresh()')
         input.form-control(placeholder="Ingrese dirección" v-model="item.direccion" maxlength="60")
   .row.mt-2
     .col-6
-      label.form-label Foto de perfil
-      InputFile(v-if="!item.fotoPerfil" v-model='item.fotoPerfil')
-      p(v-else) Foto de perfil subida con éxito
+      label.form-label(v-if="!item.linkPerfil") Foto de perfil
+      label.form-label(v-else) Cambiar foto de perfil
+      InputFile(v-model='item.fotoPerfil')
+      Img.m-1(v-if ="item.linkPerfil" :src="item.linkPerfil" height="100")
     .col-6
-      label.form-label Foto de la marca
-      InputFile(v-if="!item.fotoMarca" v-model='item.fotoMarca')
-      p(v-else) Foto de la marca subida con éxito
+      label.form-label Logo
+      InputFile(v-if="!item.fotoLogo" v-model='item.fotoLogo')
+      p(v-else) Logo subido con éxito
   .row
-    .col-12.col-md-4.mx-auto.mt-4
+    .col-12.col-md-4.mx-auto.mt-3.mb-5
       button#btguardar.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center( 
         type='submit', style="border-radius: 50px"
         )
