@@ -2,14 +2,56 @@
 import { onUnmounted, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { item, actualizar, limpiar, leer, registro, leerEnRegistro } from '../../store/usuario'
-import { esLetra, esNumero } from '../../config/libreria'
+import InputFile from "../../components/FileInput.vue";
+import {progressFile, setFile, borrarFile } from '../../store/storage.js';
 import { cerrarSesion, miUsuario } from '../../store/sesion'
+import { ref as refSt, getDownloadURL, getStorage } from "firebase/storage";
 const maxDocumento = ref(8);
 const route = useRoute()
 const { back } = useRouter()
-const guardarOActualizar = () => {
-  if (item.value.id) return actualizar(item.value)
-  else return actualizar(item.value)
+const usuarioaqui = miUsuario().uid
+const storage = getStorage()
+const obtenerURLDescarga = async (rutaArchivo) => {
+  try {
+    const storageRef = refSt(storage, rutaArchivo);
+    const downloadURL = await getDownloadURL(storageRef);
+    return downloadURL;
+  } catch (error) {
+    console.error("Error al obtener el enlace de descarga:", error);
+    throw error;
+  }
+}
+const guardarOActualizar = async () => {
+  try {
+    const keys = Object.keys(item.value);
+    for (let key of keys) {
+      const isFileList = item.value[key] instanceof FileList;
+      if (isFileList && item.value[key].length > 0) {
+        const listaDeUrl = [];
+        const length = item.value[key].length;
+        const listaDeImagenes = [];
+        for (let i = 0; i < length; i++) {
+          listaDeImagenes.push(item.value[key][i]);
+        }
+        for await (let item of listaDeImagenes) {
+          const url = await setFile(item, usuarioaqui);
+          listaDeUrl.push(url);
+        }
+        item.value[key] = null;
+        if (key === 'fotoPerfil') {
+          item.value.fotoPerfil = listaDeUrl[0]
+          item.value.linkPerfil = await obtenerURLDescarga(listaDeUrl[0])
+        } else if (key === 'fotoLogo') {
+          item.value.fotoLogo = listaDeUrl[0]
+          item.value.linkLogo = await obtenerURLDescarga(listaDeUrl[0])
+        }
+      }
+    }
+    await actualizar(item.value);
+    progressFile.value = 0;
+  } catch (e) {
+    console.error(e);
+  }
 }
 onMounted(() => {
   leer(miUsuario().uid);
@@ -37,10 +79,11 @@ watch(
 const adios = ()=> {
   location.replace('https://quiru.app/')
   }
-const refresh = ()=> {
-  location.reload()
+const refresh = () => {
+  setTimeout(() => {
+    location.reload();
+  }, 2000);
 }
-
 const mayoriaEdad = () => {
   let currentDay = new Date().getTime()
   let minDay = currentDay - 568036800000
@@ -57,10 +100,8 @@ const mayoriaEdad = () => {
     button.btn.btn-outline-primary.border-0(@click="refresh()" )
       i.fa-solid.fa-arrow-left-long.fa-xl
   .col-2
-    //button.btn.btn-outline-primary.border-0.pb-md-0(title='Cerrar Sesion' @click="cerrarSesion(), adios()")
-      i.fa-solid.fa-power-off( style="color: var(--color-primary); font-size: 35px" )
 
-Form( :onPromise="() => guardarOActualizar()" :onSuccess='() => refresh()')
+Form( :onPromise="() => guardarOActualizar(item)" :onSuccess='() => refresh()')
   .row
     .col-12
       label.form-label() Nombre(s) y Apellidos*
@@ -113,8 +154,19 @@ Form( :onPromise="() => guardarOActualizar()" :onSuccess='() => refresh()')
       label.form-label() Dirección
       .input-group
         input.form-control(placeholder="Ingrese dirección" v-model="item.direccion" maxlength="60")
+  .row.mt-2
+    .col-6
+      label.form-label(v-if="!item.linkPerfil") Foto de perfil
+      label.form-label(v-else) Cambiar foto de perfil
+      InputFile(v-model='item.fotoPerfil')
+      Img.m-1(v-if ="item.linkPerfil" :src="item.linkPerfil" height="100")
+    .col-6
+      label.form-label(v-if="!item.linkLogo") Logo
+      label.form-label(v-else) Cambiar logo
+      InputFile(v-model='item.fotoLogo')
+      Img.m-1(v-if ="item.linkLogo" :src="item.linkLogo" height="100")
   .row
-    .col-12.col-md-4.mx-auto.mt-4
+    .col-12.col-md-4.mx-auto.mt-3.mb-5
       button#btguardar.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center( 
         type='submit', style="border-radius: 50px"
         )
