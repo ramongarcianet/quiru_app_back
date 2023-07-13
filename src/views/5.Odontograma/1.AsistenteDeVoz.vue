@@ -17,6 +17,7 @@ const myInput = document.getElementById('myInput')
 const route = useRoute()
 const { back, push } = useRouter();
 const itemSeleccionado = ref({})
+const groupedDataResumen = ref([])
 let canvas;
 let canvas_image_data;
 if (route.params.idPaciente) {
@@ -31,7 +32,9 @@ watch(
   () => route.params.idOdontograma,
   () => ObtenerOdontograma(route.params.idOdontograma),
 )
-
+const listaResumen = computed(() => {
+  return groupedDataResumen.value.filter((elem) => elem.diagnostico != "")
+});
 function printOdontograma() {
   var pdf = new jsPDF()
   canvas = document.getElementById('myCanvas');
@@ -71,7 +74,7 @@ function printOdontograma() {
           if (alterno) alterno = ' - ' + alterno.toString()
           if (ubicacion) ubicacion = ' - ' + ubicacion;
           if (sigla) sigla = ' (' + sigla + ')';
-          _body.push([ _item.diente + alterno, _item.descripcion + ubicacion + sigla])
+          _body.push([_item.diente + alterno, _item.descripcion + ubicacion + sigla])
         })
         var headerOptions = {
           fillColor: '#e8fffa',
@@ -232,6 +235,47 @@ function activarAyuda() {
     activarVoz()
   }
 }
+function verDiagnostico() {
+  console.log(itemodontograma.value)
+  const groupedData = {};
+  groupedDataResumen.value = [];
+  const dientesPorHallazgo = {};
+  let dientesvalue = [];
+  itemodontograma.value.hallazgos.forEach(item => {
+    const { diente } = item;
+    if (!(diente in dientesPorHallazgo)) {
+      dientesPorHallazgo[diente] = [];
+      dientesvalue.push({ diagnostico: item.hallazgo, diente: diente })
+    }
+  })
+  itemodontograma.value.hallazgos.forEach(item => {
+    const { hallazgo } = item;
+
+    if (!(hallazgo in groupedData)) {
+      let dientes = ""
+      let descie10 = ""
+      let CIE10 = ""
+      dientesvalue.filter((elem) => elem.diagnostico == hallazgo).forEach(item2 => {
+        dientes = dientes + ((dientes == "") ? "" : ", ") + item2.diente;
+      })
+      let countCaries = itemodontograma.value.hallazgos.reduce((count, item1) => {
+        if (item1.hallazgo === hallazgo) {
+          count++;
+        }
+        return count;
+      }, 0);
+      groupedData[hallazgo] = [];
+      Cie10.CIE10.filter((elem) => elem.HALLAZGO == hallazgo).forEach(item3 => {
+        descie10 = item3.DECRICIE10;
+        CIE10 = item3.CIE10;
+      })
+      descie10 = (descie10 == "") ? item.descripcion : descie10;
+      CIE10 = (CIE10 == "") ? "K0--" : CIE10;
+      groupedDataResumen.value.push({ diagnostico: descie10.toUpperCase(), cantidad: countCaries, dientes: dientes, CIE10: CIE10 })
+    }
+  });
+}
+
 </script>
 
 <template lang="pug">
@@ -312,20 +356,48 @@ function activarAyuda() {
               .title Agregar
               .subtitle Datos adicionales
             i.fa-solid.fa-file-circle-plus.icono
-      //.col-lg-4.col-md-6.col-sm-6.col-xs-12
-        div.opciones(v-if="itemodontograma?.estado==='2' && itemodontograma?.hallazgos && itemodontograma?.tipo === 'Diagnóstico' && itemodontograma?.tieneTratamiento!='Si'" id="holo")
-          a.outline-quiru.solid(style="margin-bottom: 1.8rem;"  class="list-group-item list-group-item-action" href="#list-item-1" @click="guardar_(route.params.idPaciente, 'Tratamiento','No',itemodontograma?.id)")
-            .contenido(style="width: 70%;")
-              .title.light-quiru Generar
-              .subtitle.light-quiru Odontograma de evolución
-            i.fa-solid.fa-briefcase-medical.icono.light-quiru
       .col-lg-4.col-md-6.col-sm-6.col-xs-12 
         div.opciones
           button.outline-quiru(style="margin-bottom: 1.8rem;" @click='push({ name: "plantratamiento", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
             .contenido(style="width: 60%;")
               .title Generar
               .subtitle Plan de Tratamiento
+            i.fa-solid.fa-file-circle-plus.icono 
+      .col-lg-4.col-md-6.col-sm-6.col-xs-12 
+        div.opciones
+          button.outline-quiru(style="margin-bottom: 1.8rem;" data-bs-toggle='modal', data-bs-target='#tratamientosAtModal' @click="verDiagnostico()" )
+            .contenido(style="width: 60%;")
+              .title Resumen
+              .subtitle Diagnóstico
             i.fa-solid.fa-file-circle-plus.icono   
+
+  #tratamientosAtModal.modal.fade(tabindex='-1')
+    .modal-dialog.modal-lg
+      .modal-content
+        .modal-header
+          .col-7.col-md-9
+            h2(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Resumen
+            h4.my-0(style="color: #395D56; font-size: 1.1em; font-family: var(--font-family)") Diagnóstico
+          button.btn-close(type='button' data-bs-dismiss='modal')
+        .modal-body
+          form
+            .row.mb-3
+              .card.d-none.d-md-block.mx-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
+                .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
+                  .col-md-2.col-lg-2 CIE 10
+                  .col-md-8.col-lg-6 Diagnóstico
+                  .col-md-2.col-lg-2 Cantidad  
+                  .col-md-2.col-lg-2 Piezas
+              .card.mt-1(v-for="item of listaResumen" style="border-radius: 40px; border-color: #839192")
+                .row.p-1.m-1         
+                  .col-md-2.col-lg-2 {{item.CIE10}}  
+                  .col-md-8.col-lg-6 {{item.diagnostico}} 
+                  .col-md-2.col-lg-2.text-center {{item.cantidad}}    
+                  .col-md-2.col-lg-2.text-center {{item.dientes}}            
+        .modal-footer
+          button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Salir
+
+
 </template>
 
 <style lang="sass" scoped>
