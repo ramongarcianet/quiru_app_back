@@ -79,10 +79,11 @@ watch(
 const adios = ()=> {
   location.replace('https://quiru.app/')
   }
-const refresh = ()=> {
-  location.reload()
+const refresh = () => {
+  setTimeout(() => {
+    location.reload();
+  }, 2000);
 }
-
 const mayoriaEdad = () => {
   let currentDay = new Date().getTime()
   let minDay = currentDay - 568036800000
@@ -160,9 +161,10 @@ Form( :onPromise="() => guardarOActualizar(item)" :onSuccess='() => refresh()')
       InputFile(v-model='item.fotoPerfil')
       Img.m-1(v-if ="item.linkPerfil" :src="item.linkPerfil" height="100")
     .col-6
-      label.form-label Logo
-      InputFile(v-if="!item.fotoLogo" v-model='item.fotoLogo')
-      p(v-else) Logo subido con éxito
+      label.form-label(v-if="!item.linkLogo") Logo
+      label.form-label(v-else) Cambiar logo
+      InputFile(v-model='item.fotoLogo')
+      Img.m-1(v-if ="item.linkLogo" :src="item.linkLogo" height="100")
   .row
     .col-12.col-md-4.mx-auto.mt-3.mb-5
       button#btguardar.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center( 
