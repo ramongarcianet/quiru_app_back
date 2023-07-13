@@ -89,8 +89,9 @@ const cerrar = ()=> {
           i.fa-regular.fa-face-smile.me-1
           | Déjanos tu opinión
       .avatar(type='button' data-bs-toggle='dropdown')
-        .text(v-if="item.nombre") {{item.nombre.substr(0,1) + item.nombre.substr(1,1)}}
-        .tuerca(v-else)
+        img.rounded-circle(v-if="item.linkPerfil" :src="item.linkPerfil" width="50" height="50")
+        .text(v-else) {{item.nombre.substr(0,1) + item.nombre.substr(1,1)}}
+        .tuerca(v-if="!item.nombre")
           i.fa-solid.fa-user.fa-sm(style="color: var(--color-light)")
       .col.dropdown-menu.dropdown-menu-end.dropdown-menu-lg-start
         li.d-flex(@click="push({name:'usuario'})" style="cursor: pointer")
