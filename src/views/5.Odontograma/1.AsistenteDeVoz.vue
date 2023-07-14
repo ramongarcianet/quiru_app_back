@@ -384,16 +384,22 @@ function verDiagnostico() {
             .row.mb-3
               .card.d-none.d-md-block.mx-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
                 .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
-                  .col-md-2.col-lg-2 CIE 10
-                  .col-md-8.col-lg-6 Diagnóstico
-                  .col-md-2.col-lg-2 Cantidad  
-                  .col-md-2.col-lg-2 Piezas
-              .card.mt-1(v-for="item of listaResumen" style="border-radius: 40px; border-color: #839192")
+                  .col-2 CIE 10
+                  .col-6 Diagnóstico
+                  .col-2 Cantidad
+                  .col-2 Piezas
+              .card.mt-1.d-none.d-md-block(v-for="item of listaResumen" style="border-radius: 40px; border-color: #839192")
                 .row.p-1.m-1         
-                  .col-md-2.col-lg-2 {{item.CIE10}}  
-                  .col-md-8.col-lg-6 {{item.diagnostico}} 
-                  .col-md-2.col-lg-2.text-center {{item.cantidad}}    
-                  .col-md-2.col-lg-2.text-center {{item.dientes}}            
+                  .col-2 {{item.CIE10}}
+                  .col-6 {{item.diagnostico}}
+                  .col-2.text-center {{item.cantidad}}
+                  .col-2.text-center {{item.dientes}}
+              .card.mt-1.d-block.d-md-none(v-for="item of listaResumen" style="border-radius: 40px; border-color: #839192")
+                .row.p-1.m-1         
+                  .col-md-2.col-12 CIE10: {{item.CIE10}}
+                  .col-md-6.col-12 Diagnóstico: {{item.diagnostico}}
+                  .col-md-2.col-12 Cantidad: {{item.cantidad}}
+                  .col-md-2.col-12 Dientes: {{item.dientes}}
         .modal-footer
           button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Salir
 
