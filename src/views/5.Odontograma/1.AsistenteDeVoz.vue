@@ -255,9 +255,25 @@ function verDiagnostico() {
       let dientes = ""
       let descie10 = ""
       let CIE10 = ""
+      let _monto = 0
+      let _acuenta = 0
+      let _resto = 0
       dientesvalue.filter((elem) => elem.diagnostico == hallazgo).forEach(item2 => {
         dientes = dientes + ((dientes == "") ? "" : ", ") + item2.diente;
       })
+      itemodontograma.value.planTrata.filter((elem) => elem.hallazgo == hallazgo).forEach(itemh => {
+        _monto = _monto + itemh.Tratamiento.reduce((precio, itemval) => {
+          precio = precio + itemval.Precio
+          return precio;
+        }, 0);
+      })
+      itemodontograma.value.planTrata.filter((elem) => elem.hallazgo == hallazgo).forEach(itemh => {
+        _acuenta = _acuenta + itemh.Tratamiento.reduce((precio, itemval) => {
+          precio = precio + itemval.Acuenta
+          return precio;
+        }, 0);
+      })
+
       let countCaries = itemodontograma.value.hallazgos.reduce((count, item1) => {
         if (item1.hallazgo === hallazgo) {
           count++;
@@ -271,11 +287,17 @@ function verDiagnostico() {
       })
       descie10 = (descie10 == "") ? item.descripcion : descie10;
       CIE10 = (CIE10 == "") ? "K0--" : CIE10;
-      groupedDataResumen.value.push({ diagnostico: descie10.toUpperCase(), cantidad: countCaries, dientes: dientes, CIE10: CIE10 })
+      console.log(Number(_monto).toLocaleString('en'))
+      groupedDataResumen.value.push({ diagnostico: descie10.toUpperCase(), cantidad: countCaries, dientes: dientes, CIE10: CIE10, monto: _monto, acuenta: _acuenta })
     }
   });
 }
-
+function NumFormatter(data) {
+  return parseFloat(data).toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}; 
 </script>
 
 <template lang="pug">
@@ -372,7 +394,7 @@ function verDiagnostico() {
             i.fa-solid.fa-file-circle-plus.icono   
 
   #tratamientosAtModal.modal.fade(tabindex='-1')
-    .modal-dialog.modal-lg
+    .modal-dialog.modal-xl
       .modal-content
         .modal-header
           .col-7.col-md-9
@@ -384,16 +406,22 @@ function verDiagnostico() {
             .row.mb-3
               .card.d-none.d-md-block.mx-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
                 .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
-                  .col-2 CIE 10
-                  .col-6 Diagnóstico
-                  .col-2 Cantidad
-                  .col-2 Piezas
+                  .col-1 CIE 10
+                  .col-3 Diagnóstico
+                  .col-2.text-center Cantidad
+                  .col-2.text-center Piezas
+                  .col-1.text-center Costo
+                  .col-2.text-center A Cuenta
+                  .col-1.text-center Resto
               .card.mt-1.d-none.d-md-block(v-for="item of listaResumen" style="border-radius: 40px; border-color: #839192")
                 .row.p-1.m-1         
-                  .col-2 {{item.CIE10}}
-                  .col-6 {{item.diagnostico}}
+                  .col-1 {{item.CIE10}}
+                  .col-3 {{item.diagnostico}}
                   .col-2.text-center {{item.cantidad}}
                   .col-2.text-center {{item.dientes}}
+                  .col-1.text-center {{item.monto}}
+                  .col-2.text-center {{item.acuenta}}
+                  .col-1.text-center {{item.monto - item.acuenta}}
               .card.mt-1.d-block.d-md-none(v-for="item of listaResumen" style="border-radius: 40px; border-color: #839192")
                 .row.p-1.m-1         
                   .col-md-2.col-12 CIE10: {{item.CIE10}}
