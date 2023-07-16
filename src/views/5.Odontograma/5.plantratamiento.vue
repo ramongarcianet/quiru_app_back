@@ -64,6 +64,7 @@ watch(
         let dg = element.ubicacion != '' ? ' - ' + element.ubicacion : element.ubicacion
         let sg = element.sigla != '' ? ' - ' + element.sigla : '';
         let fila = {
+          hallazgo:element.hallazgo,
           Pieza: element.diente + pz,
           Diagnostico: element.descripcion + dg + sg,
           Tratamiento: [],
@@ -76,6 +77,7 @@ watch(
     else if (planTrata > 0) {
       item.value?.planTrata.forEach(element => {
         let fila = {
+          hallazgo:element.hallazgo,
           Pieza: element.Pieza,
           Diagnostico: element.Diagnostico,
           Tratamiento: element.Tratamiento,
