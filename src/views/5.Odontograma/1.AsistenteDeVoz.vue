@@ -298,6 +298,16 @@ function NumFormatter(data) {
     maximumFractionDigits: 2
   });
 }; 
+function printTrataModal() {
+  var divContents = document.getElementById("tratamientoPrint").innerHTML
+  var a = window.open('', '', 'height=500, width=500')
+  a.document.write('<html>')
+  a.document.write('<body > <h1> <br>')
+  a.document.write(divContents);
+  a.document.write('</body></html>')
+  a.document.close()
+  a.print()
+}
 </script>
 
 <template lang="pug">
@@ -432,8 +442,8 @@ function NumFormatter(data) {
                   .col-md-2.col-12 A Cuenta: {{item.acuenta}}
                   .col-md-2.col-12 Resto: {{item.monto - item.acuenta}}
         .modal-footer
+          button.btn.btn-primary(type='button' @click='printTrataModal()') Imprimir
           button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Salir
-
 
 </template>
 
