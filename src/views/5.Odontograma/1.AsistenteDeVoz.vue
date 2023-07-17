@@ -428,6 +428,9 @@ function NumFormatter(data) {
                   .col-md-6.col-12 Diagnóstico: {{item.diagnostico}}
                   .col-md-2.col-12 Cantidad: {{item.cantidad}}
                   .col-md-2.col-12 Dientes: {{item.dientes}}
+                  .col-md-2.col-12 Costo: {{item.monto}}
+                  .col-md-2.col-12 A Cuenta: {{item.acuenta}}
+                  .col-md-2.col-12 Resto: {{item.monto - item.acuenta}}
         .modal-footer
           button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Salir
 
