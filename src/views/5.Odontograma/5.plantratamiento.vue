@@ -77,7 +77,7 @@ watch(
     else if (planTrata > 0) {
       item.value?.planTrata.forEach(element => {
         let fila = {
-          hallazgo:element.hallazgo,
+          hallazgo:element.hallazgo || element.Diagnostico,
           Pieza: element.Pieza,
           Diagnostico: element.Diagnostico,
           Tratamiento: element.Tratamiento,
