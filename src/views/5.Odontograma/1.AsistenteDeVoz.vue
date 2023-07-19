@@ -297,16 +297,13 @@ function NumFormatter(data) {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   });
-}; 
-function printTrataModal() {
-  var divContents = document.getElementById("tratamientoPrint").innerHTML
-  var a = window.open('', '', 'height=500, width=500')
-  a.document.write('<html>')
-  a.document.write('<body > <h1> <br>')
-  a.document.write(divContents);
-  a.document.write('</body></html>')
-  a.document.close()
-  a.print()
+}
+function imprimirContenidoSeleccionado() {
+  var contenidoSeleccionado = document.getElementById('tratamientosAtModal');
+  var botonCerrarCIE10 = document.getElementById('CerrarCIE10')
+  contenidoSeleccionado.style.backgroundColor = 'black'
+  window.print();
+  botonCerrarCIE10.click()
 }
 </script>
 
@@ -411,7 +408,7 @@ function printTrataModal() {
             h2(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Resumen
             h4.my-0(style="color: #395D56; font-size: 1.1em; font-family: var(--font-family)") Diagnóstico
           button.btn-close(type='button' data-bs-dismiss='modal')
-        #tratamientoPrint.modal-body
+        .modal-body
           form
             .row.mb-3
               .card.d-none.d-md-block.mx-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
@@ -442,8 +439,8 @@ function printTrataModal() {
                   .col-md-2.col-12 A Cuenta: {{item.acuenta}}
                   .col-md-2.col-12 Resto: {{item.monto - item.acuenta}}
         .modal-footer
-          button.btn.btn-primary(type='button' @click='printTrataModal()') Imprimir
-          button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Salir
+          button.btn.btn-primary(type='button' @click='imprimirContenidoSeleccionado()') Imprimir
+          button.btn.btn-secondary(type='button', data-bs-dismiss='modal' id="CerrarCIE10") Salir
 
 </template>
 
