@@ -411,7 +411,7 @@ function printTrataModal() {
             h2(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Resumen
             h4.my-0(style="color: #395D56; font-size: 1.1em; font-family: var(--font-family)") Diagnóstico
           button.btn-close(type='button' data-bs-dismiss='modal')
-        .modal-body
+        #tratamientoPrint.modal-body
           form
             .row.mb-3
               .card.d-none.d-md-block.mx-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
