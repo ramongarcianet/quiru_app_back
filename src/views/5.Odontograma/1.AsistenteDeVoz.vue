@@ -297,7 +297,14 @@ function NumFormatter(data) {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   });
-}; 
+}
+function imprimirContenidoSeleccionado() {
+  var contenidoSeleccionado = document.getElementById('tratamientosAtModal');
+  var botonCerrarCIE10 = document.getElementById('CerrarCIE10')
+  contenidoSeleccionado.style.backgroundColor = 'black'
+  window.print();
+  botonCerrarCIE10.click()
+}
 </script>
 
 <template lang="pug">
@@ -432,8 +439,8 @@ function NumFormatter(data) {
                   .col-md-2.col-12 A Cuenta: {{item.acuenta}}
                   .col-md-2.col-12 Resto: {{item.monto - item.acuenta}}
         .modal-footer
-          button.btn.btn-secondary(type='button', data-bs-dismiss='modal') Salir
-
+          button.btn.btn-primary(type='button' @click='imprimirContenidoSeleccionado()') Imprimir
+          button.btn.btn-secondary(type='button', data-bs-dismiss='modal' id="CerrarCIE10") Salir
 
 </template>
 
