@@ -142,6 +142,11 @@ const routes = [
                 path: 'citas',
                 name: 'citas',
                 component: ()=>import('../views/10.Citas/citas.vue')
+            },
+            {
+                path: 'administracion/:idUsuario?',
+                name: 'admin',
+                component: ()=> import('../views/5.Odontograma/0.Admin.vue'),
             }
         ]
     }
