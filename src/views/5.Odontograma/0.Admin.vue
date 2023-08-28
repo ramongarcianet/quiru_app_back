@@ -51,27 +51,22 @@ function exportCSVFile(headers, items, fileTitle) {
 function downloadOD(){
   var headers = {
     id: "ID odontograma",
-    nombre: "Nombre",
-    apellidoPaterno: "Apellido materno",
-    apellidoMaterno: "Apellido paterno",
-    //numeroHallazgos: "Num. hallazgos",
-    fechaCorta: "Fecha de registro",
-    tipoDocumento: "Tipo doc.",
-    numeroDocumento: "Número doc.",
+    fecha: "Fecha de Registro",
+    numeroHallazgos: "Hallazgos",
     userId: "User id"
   };
 
   var itemsFormatted = [];
   registroOD.value.forEach((item) => {
+    var day = new Date(item.fechaRegistro.seconds * 1000);
+    var optionsDay = { year: 'numeric', month: 'long', day: 'numeric' };
+    var formatter = new Intl.DateTimeFormat('es-ES', optionsDay);
+    var formattedDate = formatter.format(day);
+    console.log(formattedDate);
     itemsFormatted.push({
       id: item.id,
-      nombre: item.nombre,
-      apellidoPaterno: item.apellidoPaterno,
-      apellidoMaterno: item.apellidoMaterno,
-      //numeroHallazgos: item.numeroHallazgos,
-      fechaCorta: item.fechaCorta,
-      tipoDocumento: item.tipoDocumento,
-      numeroDocumento: item.numeroDocumento ,
+      fechaRegistro: formattedDate,
+      numeroHallazgos: item.hallazgos.length,
       userId: item.userId
     });
   });
@@ -143,11 +138,11 @@ obtenerTodosOD()
       .clearfix
         button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
         button.btn.btn-danger.deletebtn(@click="EliminarOdonto(), mostrar = false") Aceptar
+.mt-3
+  button.btn.btn-outline-primary.border-0( @click="back()")
+      i.fa-solid.fa-arrow-left-long.fa-xl
 
-button.btn.btn-outline-primary.border-0( @click="back()")
-    i.fa-solid.fa-arrow-left-long.fa-xl
-
-button.btn.btn-outline-dark.m-2(@click='borrarTodos()') Borrar vacios
+  button.btn.btn-outline-dark.m-2(@click='borrarTodos()') Borrar vacios
 
 .card.mb-2.p-2(v-for="itemOD of registroOD"  :key="itemOD.id"  :itemOD="itemOD" style="border-radius: 40px" :style='itemOD.nombre === "" ? "border-color: #c6c1c1 ":"border-color: var(--color-primary)"')
   .row.align-itemODs-center.p-1
@@ -155,13 +150,14 @@ button.btn.btn-outline-dark.m-2(@click='borrarTodos()') Borrar vacios
     .col-2(v-else style="color: black ") Tiene {{ itemOD.hallazgos.length }} hallazgo(s)
     .col-2(@click="push({ name: 'odontograma', params: { idOdontograma: itemOD.id } })") {{itemOD.fechaCorta}}
     .col-4 {{itemOD.userId}}
-    .col-3(@click="push({ name: 'odontograma', params: { idOdontograma: itemOD.id } })" style="color:#18b290; cursor: pointer") Ver Odontograma 
+    .col-3
+    //(@click="push({ name: 'odontograma', params: { idOdontograma: itemOD.id } })" style="color:#18b290; cursor: pointer") Ver Odontograma 
     .col-1.dropdown
       button.ms-auto.btn(title='eliminar' @click="CallConfirm2(itemOD)")
         i.fa.fa-solid.fa-trash
 
 .botones
-  button.btn.btn-outline-dark.m-2(@click='downloadOD()') Odontogramas
+  button.btn.btn-outline-dark.border.border-dark.m-2(@click='downloadOD()') Imprimir información de Odontogramas
   //button.btn.btn-outline-dark.m-2(@click='downloadUS()') Usuarios
 </template>
 
