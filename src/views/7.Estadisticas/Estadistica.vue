@@ -27,7 +27,9 @@ cargaOdontogramas()
       p.primary-text ahora 
       p 2
   .col-4
-    .card.p-2
+    p esta vista para editarla la encuentras en 7.Estadisticas
+    |  Saludos  😊
+    //.card.p-2
       p.primary-text Pacientes
       p {{ datoPacientes }}
   .col-4
