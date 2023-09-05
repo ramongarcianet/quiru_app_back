@@ -3,6 +3,7 @@ import { onUnmounted, ref,watch } from "vue";
 import { collection } from "@firebase/firestore";
 import { useRouter, useRoute } from "vue-router";
 import { obtenerTodos as obtenerTodosOD, item as itemOD, registro_ as registroOD, eliminar } from "../../store/AdminOdotogramas";
+import  Registro from "../2.Usuarios/Registro.vue" ;
 //import { obtenerTodos as obtenerTodosUS, item as itemUS, registro as registroUS} from "../../store/AdminUsuarios";
 
 const {push, back} = useRouter();
@@ -52,8 +53,8 @@ function downloadOD(){
   var headers = {
     id: "ID odontograma",
     fecha: "Fecha de Registro",
-    numeroHallazgos: "Hallazgos",
-    userId: "User id"
+    userId: "User id",
+    numeroHallazgos: "Hallazgos"
   };
 
   var itemsFormatted = [];
@@ -62,12 +63,11 @@ function downloadOD(){
     var optionsDay = { year: 'numeric', month: 'long', day: 'numeric' };
     var formatter = new Intl.DateTimeFormat('es-ES', optionsDay);
     var formattedDate = formatter.format(day);
-    console.log(formattedDate);
     itemsFormatted.push({
       id: item.id,
       fechaRegistro: formattedDate,
-      numeroHallazgos: item.hallazgos.length,
-      userId: item.userId
+      userId: item.userId,
+      numeroHallazgos: item.hallazgos?.length
     });
   });
   var fileTitle = 'Odontogramas de Quiru';
@@ -128,7 +128,6 @@ function borrarTodos() {
 obtenerTodosOD()
 //obtenerTodosUS()
 </script>
-
 <template lang="pug">
 #id02.modal(style="display:none;")
   .modal-content.modal-sm
@@ -140,25 +139,35 @@ obtenerTodosOD()
         button.btn.btn-danger.deletebtn(@click="EliminarOdonto(), mostrar = false") Aceptar
 .mt-3
   button.btn.btn-outline-primary.border-0( @click="back()")
-      i.fa-solid.fa-arrow-left-long.fa-xl
-
-  button.btn.btn-outline-dark.m-2(@click='borrarTodos()') Borrar vacios
-
-.card.mb-2.p-2(v-for="itemOD of registroOD"  :key="itemOD.id"  :itemOD="itemOD" style="border-radius: 40px" :style='itemOD.nombre === "" ? "border-color: #c6c1c1 ":"border-color: var(--color-primary)"')
-  .row.align-itemODs-center.p-1
-    .col-2(v-if="!itemOD.hallazgos" style="font-style: italic; color: #7e7b7b ") sin hallazgos
-    .col-2(v-else style="color: black ") Tiene {{ itemOD.hallazgos.length }} hallazgo(s)
-    .col-2(@click="push({ name: 'odontograma', params: { idOdontograma: itemOD.id } })") {{itemOD.fechaCorta}}
-    .col-4 {{itemOD.userId}}
-    .col-3
-    //(@click="push({ name: 'odontograma', params: { idOdontograma: itemOD.id } })" style="color:#18b290; cursor: pointer") Ver Odontograma 
-    .col-1.dropdown
-      button.ms-auto.btn(title='eliminar' @click="CallConfirm2(itemOD)")
-        i.fa.fa-solid.fa-trash
-
-.botones
-  button.btn.btn-outline-dark.border.border-dark.m-2(@click='downloadOD()') Imprimir información de Odontogramas
-  //button.btn.btn-outline-dark.m-2(@click='downloadUS()') Usuarios
+    i.fa-solid.fa-arrow-left-long.fa-xl
+#accordion1.accordion
+.accordion-item.border.border-dark.rounded-0
+  h2.accordion-header
+    button.accordion-button.collapsed(type='button' data-bs-toggle='collapse' data-bs-target='#SeccionOdo')
+      | Registro general de Odontogramas
+  #SeccionOdo.accordion-collapse.collapse(data-bs-parent='#accordion1')
+    .accordion-body
+      button.btn.btn-outline-dark.m-2(@click='borrarTodos()') Borrar vacios
+      .card.mb-2.p-2(v-for="itemOD of registroOD"  :key="itemOD.id"  :itemOD="itemOD" style="border-radius: 40px" :style='itemOD.nombre === "" ? "border-color: #c6c1c1 ":"border-color: var(--color-primary)"')
+        .row.align-itemODs-center.p-1
+          .col-2(v-if="!itemOD.hallazgos" style="font-style: italic; color: #7e7b7b ") sin hallazgos
+          .col-2(v-else style="color: black ") Tiene {{ itemOD.hallazgos.length }} hallazgo(s)
+          .col-2(@click="push({ name: 'odontograma', params: { idOdontograma: itemOD.id } })") {{itemOD.fechaCorta}}
+          .col-4 {{itemOD.userId}}
+          .col-3
+          //(@click="push({ name: 'odontograma', params: { idOdontograma: itemOD.id } })" style="color:#18b290; cursor: pointer") Ver Odontograma 
+          .col-1.dropdown
+            button.ms-auto.btn(title='eliminar' @click="CallConfirm2(itemOD)")
+              i.fa.fa-solid.fa-trash
+      button.btn.btn-outline-dark.border.border-dark.m-2(@click='downloadOD()') Imprimir información de Odontogramas
+#accordion2.accordion
+.accordion-item.border.border-dark.rounded-0.my-2
+  h2.accordion-header
+    button.accordion-button.collapsed(type='button' data-bs-toggle='collapse' data-bs-target='#SeccionUsu')
+      | Registro general de Usuarios
+  #SeccionUsu.accordion-collapse.collapse(data-bs-parent='#accordion2')
+    .accordion-body
+      Registro
 </template>
 
 <style scoped>
