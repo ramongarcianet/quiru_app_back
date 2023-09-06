@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from '@vue/runtime-core';
 import { useRoute, useRouter } from 'vue-router';
+import { item } from '../store/usuario'
 const route = useRoute()
 const {push} = useRouter()
 const routeName = computed(()=>route.name)
@@ -18,6 +19,11 @@ const rutas = [
         span.icon
           i(:class= 'ruta.icono')
         span.route {{ruta.name}}
+    //li.list(v-if="item.rol === 'admin'" @click="push({name: 'admin' })" :class=" 'admin' == routeName ? 'active' : '' ")
+      a
+        span.icon
+          i(class="fa-solid fa-gears")
+        span.route Administrador
     .indicador
 </template>
 <style lang="sass" scoped>

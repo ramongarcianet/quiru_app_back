@@ -59,7 +59,10 @@ const eliminar = (id) => {
     const referencia = doc(firestore, 'usuario', id)
     return deleteDoc(referencia)
 }
-
+export const desactivarUsuario = (id) => {
+    const referencia = doc(firestore, 'usuario', id)
+    return updateDoc(referencia, {estado: false})
+}
 export const interesarUsuario = (i) => {
     const referencia = doc(firestore, 'usuario', i)
     return updateDoc(referencia, {interesado: true})
