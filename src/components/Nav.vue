@@ -12,14 +12,14 @@ const rutas = [
 ]
 </script>
 <template lang="pug">
-.router(v-if=" route.name !== 'Detalle' ")
+.router(v-if=" route.name !== 'Detalle' " :class=" item.rol === 'admin' ? 'plusAdmin' : '' ")
   ul
     li.list(v-for="ruta of rutas"  @click="push({name:ruta.ruta})" :class=" ruta.ruta == routeName ? 'active' : '' ")
       a
         span.icon
           i(:class= 'ruta.icono')
         span.route {{ruta.name}}
-    //li.list(v-if="item.rol === 'admin'" @click="push({name: 'admin' })" :class=" 'admin' == routeName ? 'active' : '' ")
+    li.list(v-if="item.rol === 'admin'" @click="push({name: 'admin' })" :class=" 'admin' == routeName ? 'active' : '' ")
       a
         span.icon
           i(class="fa-solid fa-gears")
@@ -91,6 +91,11 @@ const rutas = [
           .route
             opacity: 1
             transform: translateY(15px)
+  &.plusAdmin
+    width: 280px
+    ul
+      width: 280px
+
 .router ul li:nth-child(1).active ~ .indicador
   transform: translateX(calc(70px * 0)) scale(1)
   opacity: 1
@@ -104,6 +109,9 @@ const rutas = [
 
 .router ul li:nth-child(3).active ~ .indicador
   transform: translateX(calc(70px * 2)) scale(1)
+  opacity: 1
+.router ul li:nth-child(4).active ~ .indicador
+  transform: translateX(calc(70px * 3)) scale(1)
   opacity: 1
 
 .indicador

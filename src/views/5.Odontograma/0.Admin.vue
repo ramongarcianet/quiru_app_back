@@ -164,13 +164,14 @@ obtenerTodosOD()
       .col
         button.btn.btn-outline-dark.border.border-dark.m-2(@click='borrarTodos()') Borrar vacios
         button.btn.btn-outline-dark.border.border-dark.m-2(@click='downloadOD()') Imprimir información de Odontogramas
-.accordion-item.border.border-0.rounded-0.my-2
+.accordion-item.border.border-0.rounded-0
   h2.accordion-header
     button.accordion-button.collapsed(type='button' data-bs-toggle='collapse' data-bs-target='#SeccionUsu')
       | Registro general de Usuarios
   #SeccionUsu.accordion-collapse.collapse(data-bs-parent='#accordion2')
     .accordion-body
       Registro
+.espacio-de-abajo(style="height: 100px")
 </template>
 
 <style scoped>
