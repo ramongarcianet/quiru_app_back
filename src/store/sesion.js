@@ -103,7 +103,7 @@ export const sesion = () => onAuthStateChanged(
     auth,
     ( user ) => {
         if( user ) 
-          router.push({name: 'pacientes'})
+          router.push({name: 'estadisticas'})
         else if( router.currentRoute.value.meta.requiereAuth && !user ) 
           router.push({name:'landing'})
         else return
