@@ -12,7 +12,7 @@ const adios = ()=> {
 <template lang="pug">
 .derecha
     .ladito
-        button.btn.border-0(@click="adios()" style="color: white")
+    //button.btn.border-0(@click="adios()" style="color: white")
             i.fa-solid.fa-arrow-left-long.fa-xl
     .centrar
         h1.text-center.light-text Bienvenido a QUIRU
@@ -31,7 +31,7 @@ const adios = ()=> {
                 button.btn.btn-outline-light.text-center.m-1( type='button' @click='push({name: "politica-privacidad"})' style="border: 0!important;") Política de privacidad
 
         .loginRedes.text-center
-            button(style="background-color: #3b5998" @click="logFacebook()")
+            //button(style="background-color: #3b5998" @click="logFacebook()")
                 i.fa.fa-facebook
                 span Iniciar con Facebook
             button(style="background-color: #B03A2E" @click="logGoogle()")
