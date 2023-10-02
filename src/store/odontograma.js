@@ -44,7 +44,7 @@ export const item = ref({
 
 if (annyang) {
 
-    annyang.setLanguage("es-PE");
+    annyang.setLanguage("es-CL");
 
     annyang.addCallback('result', function (frase) {
         if (isSpeech.value) {
