@@ -1,23 +1,29 @@
 <script setup>
 import { computed } from '@vue/runtime-core';
 import { useRoute, useRouter } from 'vue-router';
+import { item } from '../store/usuario'
 const route = useRoute()
 const {push} = useRouter()
 const routeName = computed(()=>route.name)
 const rutas = [
     {name:'Citas', icono:'fa-regular fa-calendar-days', ruta:'citas'},
     {name:'Pacientes', icono:'fa-regular fa-user', ruta:'pacientes'},
-    //{name:'Estadisticas', icono:'fa-solid fa-signal', ruta:'estadisticas'},
+    {name:'Estadisticas', icono:'fa-solid fa-signal', ruta:'estadisticas'},
 ]
 </script>
 <template lang="pug">
-.router(v-if=" route.name !== 'Detalle' ")
+.router(v-if=" route.name !== 'Detalle' " :class=" item.rol === 'admin' ? 'plusAdmin' : '' ")
   ul
     li.list(v-for="ruta of rutas"  @click="push({name:ruta.ruta})" :class=" ruta.ruta == routeName ? 'active' : '' ")
       a
         span.icon
           i(:class= 'ruta.icono')
         span.route {{ruta.name}}
+    li.list(v-if="item.rol === 'admin'" @click="push({name: 'admin' })" :class=" 'admin' == routeName ? 'active' : '' ")
+      a
+        span.icon
+          i(class="fa-solid fa-gears")
+        span.route Administrador
     .indicador
 </template>
 <style lang="sass" scoped>
@@ -85,6 +91,11 @@ const rutas = [
           .route
             opacity: 1
             transform: translateY(15px)
+  &.plusAdmin
+    width: 280px
+    ul
+      width: 280px
+
 .router ul li:nth-child(1).active ~ .indicador
   transform: translateX(calc(70px * 0)) scale(1)
   opacity: 1
@@ -98,6 +109,9 @@ const rutas = [
 
 .router ul li:nth-child(3).active ~ .indicador
   transform: translateX(calc(70px * 2)) scale(1)
+  opacity: 1
+.router ul li:nth-child(4).active ~ .indicador
+  transform: translateX(calc(70px * 3)) scale(1)
   opacity: 1
 
 .indicador
