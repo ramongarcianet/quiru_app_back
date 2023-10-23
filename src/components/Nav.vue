@@ -8,7 +8,7 @@ const routeName = computed(()=>route.name)
 const rutas = [
     {name:'Citas', icono:'fa-regular fa-calendar-days', ruta:'citas'},
     {name:'Pacientes', icono:'fa-regular fa-user', ruta:'pacientes'},
-    {name:'Estadisticas', icono:'fa-solid fa-signal', ruta:'estadisticas'},
+    //{name:'Estadisticas', icono:'fa-solid fa-signal', ruta:'estadisticas'},
 ]
 </script>
 <template lang="pug">
