@@ -108,7 +108,7 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
       .col.mb-12
         label.form-label Correo
         .input-group.mb-12
-          input.form-control(placeholder="Correo Electrónico" v-model="item.email" type="email" maxlength="30")
+          input.form-control(placeholder="Correo Electrónico" v-model="item.email" type="email" maxlength="100")
       .col.mb-12
         label.form-label Celular
         .input-group.mb-12
