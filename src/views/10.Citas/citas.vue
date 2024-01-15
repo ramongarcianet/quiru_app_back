@@ -229,7 +229,8 @@ function createEvent(item) {
     title: item.title,
     borderColor: "#0dcaf0",
     backgroundColor: "#37dfbb",
-    timedisplay: horadiotext,
+    textColor: "#fff",
+    timedisplay: horadiotext,    
     fechaDeCreacion: new Date().toISOString().slice(0, 10),
     UserId: ItemUsuario.id,
     timeStart: startStr,
@@ -271,7 +272,9 @@ function deleteEvent(id) {
 }
 function viewEvents(_id) {
   let item_data = registro.value.find(item => item.id == _id)
-  leerEnRegistroPac(item_data.idPaciente);
+  if (item_data.title !="Disponible"){
+    leerEnRegistroPac(item_data.idPaciente);
+  }
   cita.value = {
     idPaciente: item_data.idPaciente,
     start: item_data.start,
@@ -279,12 +282,12 @@ function viewEvents(_id) {
     title: item_data.title,
     borderColor: item_data.borderColor,
     textColor : item_data.textColor,
-    fontWeight : item_data.fontWeight,
     backgroundColor: item_data.backgroundColor,
     timedisplay: item_data.timedisplay,
     fechaDeCreacion: new Date().toISOString().slice(0, 10),
     UserId: item_data.UserId,
-    id: item_data.id
+    id: item_data.id,
+    Mensaje: item_data.Mensaje,
   };
 
   let control = document.getElementById("btnschedule");
@@ -433,7 +436,9 @@ const guardarCitaCompleta = (idPaciente) => new Promise((resolve, reject) => {
       end: cita.value.end,
     }
     actualizar(cita.value);
-    updateEventGCal(_item, cita.value.title)
+    if (_calendarId != "") {
+      updateEventGCal(_item, cita.value.title)
+    }
     resolve()
     return
   }
@@ -547,7 +552,6 @@ function createEventDisponible(item) {
     borderColor: "#039be5;",
     backgroundColor: "#f2f2f2",
     textColor:"#039BE5",
-    fontWeight: "bold",
     timedisplay: horadiotext,
     fechaDeCreacion: new Date().toISOString().slice(0, 10),
     UserId: ItemUsuario.id,
@@ -585,9 +589,9 @@ function createEventDisponible(item) {
     .modal-content(style="background-color: var(--color-light) !important")
       Form( :onPromise='()=>guardarAmbas()' :onSuccess='()=>closeEvent()')
         .modal-header
-          i.fa.fa-calendar-plus-o.fa-2x(style="color: var(--color-primary)")
-          h4.modal-title Agendar Cita
-          #btnsclose.button.btn.btn-primary(type='button', data-bs-dismiss='modal') &times;
+          i.fa.fa-calendar-plus-o(style="color: var(--color-primary)")
+          h3.modal-title Agenda de cita
+          #btnsclose(type='button', data-bs-dismiss='modal' style="font-size:20px; font-weight:bold") &times;
         .modal-body
           .input-group.mb-3
             span#basic-addon1.input-group-text
@@ -644,6 +648,9 @@ function createEventDisponible(item) {
               input#html(type='radio' name='Rojo' value='#d50000' v-model="cita.backgroundColor")
             span#basic-addon1.input-group-text(style="background-color: #f6bf26")
               input#html(type='radio' name='Amarillo' value='#f6bf26' v-model="cita.backgroundColor")
+          .col-md-12.col-sm-12
+            label(for='Message') Mesaje para el especialista
+            textarea#message.form-control(rows='5', name='message', placeholder='mensaje' v-model="cita.Mensaje")   
         .modal-footer
           button.btn.btn-info(v-if="cita.id" type='button' data-bs-dismiss='modal' @click="push({ name: 'pacienteVer', params: { idPaciente: itemPaciente.id } })") Atender
           button.ms-auto.btn.btn-danger(v-if="cita.id" type='button', data-bs-dismiss='modal' @click="deleteEvent(cita.id)") Borrar
