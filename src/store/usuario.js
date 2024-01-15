@@ -17,7 +17,9 @@ const item = ref({
     tipoConsultorio: '',
     nombreconsultorio: '',
     direccion: '',
-    interesado: ''
+    interesado: '',
+    comuna:'',
+    region:''
 })
 const item1 = ref({
     nombre: '',
@@ -33,7 +35,9 @@ const item1 = ref({
     tipoConsultorio: '',
     nombreconsultorio: '',
     direccion: '',
-    interesado: ''
+    interesado: '',
+    comuna:'',
+    region:''
 })
 export const crearUsuarioConId = item => {
     const referencia = doc(firestore, 'usuario', item.id)
