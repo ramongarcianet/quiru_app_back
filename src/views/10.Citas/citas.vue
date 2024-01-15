@@ -27,6 +27,7 @@ obtenerTodos()
 const _obtenerRegistro = obtenerTodos();
 const _obtenerTodosPaciente = obtenerTodosPaciente();
 const NombreDoctor = ref("");
+const isChecked= ref(false);
 let itemSelect = {};
 let EventSelect = {};
 let gcalendar = {};
@@ -277,6 +278,8 @@ function viewEvents(_id) {
     end: item_data.end,
     title: item_data.title,
     borderColor: item_data.borderColor,
+    textColor : item_data.textColor,
+    fontWeight : item_data.fontWeight,
     backgroundColor: item_data.backgroundColor,
     timedisplay: item_data.timedisplay,
     fechaDeCreacion: new Date().toISOString().slice(0, 10),
@@ -301,16 +304,16 @@ const options = reactive({
   dayMaxEvents: true,
   datesAboveResources: true,
   themeSystem: 'bootstrap5',
-  slotLabelFormat: { hour: 'numeric', minute: '2-digit', omitZeroMinute: true, hour12: true },
+  slotLabelFormat: { hour: 'numeric', minute: '2-digit', omitZeroMinute: true, hour24: true },
   slotMinTime: '08:00:00',
   slotMaxTime: '22:00:00',
   allDaySlot: false,
-  height: '100%',
+  //height: '100%',
   contentHeight: 'auto',
   headerToolbar: {
-    left: 'prev,next today',
+    left: 'prev,today',
     center: 'title',
-    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+    right: 'dayGridMonth,timeGridWeek,timeGridDay,next'
   },
   views: {
     dayGridMonth: {
@@ -319,7 +322,11 @@ const options = reactive({
     timeGridWeek: {
       titleFormat: {
         month: 'long'
-      }
+      },
+      dayHeaderFormat: {
+      weekday: 'short', 
+      day: 'numeric'  
+    }
     },
     listDay: {
       titleFormat: {
@@ -331,24 +338,34 @@ const options = reactive({
     id.value = id.value + 1
     const cal = arg.view.calendar
     cal.unselect()
-    createEvent(
+    if(isChecked.value){
+      let event = {
+        id: "0",
+        title: "Disponible",
+        start: arg.start,
+        end: arg.end
+      }     
+      createEventDisponible(event);
+    }
+    else{
+      createEvent(
       {
         id: "0",
         title: "",
         start: arg.start,
         end: arg.end
       })
+    }
+    
   },
   events: registro.value,
   eventAdd: (arg) => {
-    createEvent(
-      {
+    createEvent({
         id: arg.event.id,
         title: arg.event.title,
         start: arg.event.start,
         end: arg.event.end
-      }
-    )
+      })
   },
   eventChange: (arg) => {
     updateEvent(
@@ -497,6 +514,48 @@ function saludoCita() {
 
   /**/
 }
+
+function handleCheckboxChange()
+{
+  isChecked.value = false;
+  var checkbox = document.getElementById("chkDisponibilidad");
+    if (checkbox.checked) {
+      isChecked.value = true;
+    }
+}
+function createEventDisponible(item) {
+  itemSelect = item
+  let horadiotext = ""
+  const startDate = new Date(item.start);
+  const endDate = new Date(item.end);
+  startDate.setTime(startDate.getTime() + (5 * 60 * 60 * 1000));
+  endDate.setTime(endDate.getTime() + (5 * 60 * 60 * 1000));
+  let newTimeStart = startDate.toLocaleTimeString('es-ES');
+  let startStr = newTimeStart.substr(0, 5)
+  let newTimeEnd = endDate.toLocaleTimeString('es-ES');
+  let endStr = newTimeEnd.substr(0, 5)
+  const opciones = { weekday: 'long', month: 'long', day: 'numeric' };
+  horadiotext = startDate.toLocaleDateString('es-ES', opciones) + '     ' + startStr + " - " + endStr;
+  let _location = "" || ItemUsuario.value.nombreconsultorio + " - " + ItemUsuario.value.direccion;      
+  cita.value = {
+    idPaciente: '',
+    email:'',
+    location:_location,
+    start: item.start.toISOString(),
+    end: item.end.toISOString(),
+    title: item.title,
+    borderColor: "#039be5;",
+    backgroundColor: "#f2f2f2",
+    textColor:"#039BE5",
+    fontWeight: "bold",
+    timedisplay: horadiotext,
+    fechaDeCreacion: new Date().toISOString().slice(0, 10),
+    UserId: ItemUsuario.id,
+    timeStart: startStr,
+    timeEnd: endStr
+  };
+  guardarCita(cita.value)
+}
 </script>
 
 <template lang="pug">
@@ -504,10 +563,18 @@ function saludoCita() {
   .col-6.col-md-6
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Lista
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") de citas
-  .col-6.col-md-6
-    button.ms-auto.btn.btn-warning(id="IsVisibleLoginCalendar" type='button', @click="signIn()" style="float: right;padding-right: 3%;") 
+.row 
+  .col-md-6.col-sm-12
+    label.form-label(style="color: #395D56; font-size: 1.2em; font-weight: bold")
+      input#chkDisponibilidad(type='checkbox', @change='handleCheckboxChange')
+      | 
+      | Generar disponibilidad
+  .col-md-6.col-sm-12
+    button.ms-auto.btn.btn-warning(id="IsVisibleLoginCalendar1" type='button', @click="signIn()" style="float: right") 
       Img(style="opacity: 1; justify-content: start !important;height: 25px; align-items: start!important;" src="https://ssl.gstatic.com/calendar/images/dynamiclogo_2020q4/calendar_21_2x.png")
-        span(style="justify-content: center!important; align-items: center!important;") Enlazar
+        span(style="justify-content: center!important; align-items: center!important;") 
+        | 
+        | Enlazar a Google Calendar
 .row.desplazable
   .contenido( style="background-color: #fff")
     fullcalendar(v-bind:options='options')
@@ -571,8 +638,6 @@ function saludoCita() {
               i.fa.fa-paint-brush
             span#basic-addon1.input-group-text(style="background-color: #37dfbb")
               input#html(type='radio' name='Quiru' value='#37dfbb' checked v-model="cita.backgroundColor")
-            span#basic-addon1.input-group-text(style="background-color: #33b679")
-              input#html(type='radio' name='Verde' value='#33b679' v-model="cita.backgroundColor")
             span#basic-addon1.input-group-text(style="background-color: #3f51b5")
               input#html(type='radio' name='Azul' value='#3f51b5' v-model="cita.backgroundColor")
             span#basic-addon1.input-group-text(style="background-color: #d50000")
@@ -593,22 +658,6 @@ thead
   background-color: rgb(55, 223, 187)
 th
   border-color: white !important
-.fc-theme-bootstrap5
-  .fc-list, .fc-scrollgrid, td, th
-    border: 1px solid rgb(55, 223, 187)
-.fc .fc-daygrid-day
-  background-color: transparent
-.fc-theme-bootstrap5 a:not([href])
-  font-size: 13px
-  color: rgb(57, 93, 86)
-  text-decoration: inherit
-.fc .fc-toolbar-title
-  color: rgb(57, 93, 86) !important
-.fc .fc-timegrid-slot-label
-  color: rgb(57, 93, 86) !important
-.fc .fc-toolbar-chunk
-  button
-    margin:0px 3px
 
 .desplazable
   display: flex
