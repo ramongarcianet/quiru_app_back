@@ -30,9 +30,9 @@ const firebaseConfig = {
   messagingSenderId: "653678486808",
   appId: "1:653678486808:web:83dc647c2763b886dbea6d"
 };
-/**/
+*/
 //PRODUCIÓN
-/*
+/**/
 const firebaseConfig = {
   apiKey: "AIzaSyCmuv9CEw64vyP6RMNBje3X-feEsbdg4Lw",
   authDomain: "quiru-prod.firebaseapp.com",
@@ -42,7 +42,7 @@ const firebaseConfig = {
   appId: "1:605281793847:web:7635e785fb4472e24b0cb2",
   measurementId: "G-32SFW0E4RR"
 };
-*/
+
 // Initialize Firebase
 let app
 //let analytics
