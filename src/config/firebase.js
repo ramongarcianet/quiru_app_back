@@ -45,7 +45,7 @@ const firebaseConfig = {
 };
 
 //CHILE FREE
-  */
+ /*
 const firebaseConfig = {
   apiKey: "AIzaSyD7o0kBDInr5YOjuUozDzh0vnx-cRRKZ3M",
   authDomain: "quiru-cl.firebaseapp.com",
