@@ -250,7 +250,11 @@ Form( :onPromise="() => guardarOActualizar(item)" :onSuccess='() => refresh()')
     .col-12.col-md-6
       label.form-label() Dirección
       .input-group
-        input.form-control(placeholder="Ingrese dirección" v-model="item.direccion" maxlength="60")
+        input.form-control(placeholder="Ingrese dirección" v-model="item.direccion" maxlength="100")
+    .col-12.col-md-6
+      label.form-label() Alias para portal
+      .input-group
+        input.form-control(placeholder="alias" v-model="item.alias" maxlength="60")
   .row.mt-2
     .col-6
       label.form-label(v-if="!item.linkPerfil") Foto de perfil
