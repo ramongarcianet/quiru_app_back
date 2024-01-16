@@ -16,6 +16,9 @@
         ],
         "app-quiru": [
           "app-quiru"
+        ],
+        "cl-quiru": [
+          "cl-quiru"
         ]
       }
     }
