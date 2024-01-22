@@ -7,11 +7,13 @@ import {progressFile, setFile, borrarFile } from '../../store/storage.js';
 import { cerrarSesion, miUsuario } from '../../store/sesion'
 import { ref as refSt, getDownloadURL, getStorage } from "firebase/storage";
 //chile
-//import darach from '../../config/comunas-regiones.json';
+import darach from '../../config/comunas-regiones.json';
 //Peru
+/*
 import depa from '../../config/departamentos.json';
 import prov from '../../config/provincias.json';
 import dist from '../../config/distritos.json';
+*/
 const maxDocumento = ref(8);
 const route = useRoute()
 const { back } = useRouter()
@@ -110,8 +112,8 @@ const mayoriaEdad = () => {
   let otroDia = new Date(minDay).toISOString().slice(0, 10)
   return otroDia
 }
-
-/*
+//chile
+/**/
 const filteredComunas = computed(() => {
   let region=item.value.region !=undefined? item.value.region:"";
   const selectedRegionData = darach.regiones.find(q => q.region ===region);
@@ -126,7 +128,9 @@ const filteredRegistros = computed(() => {
   }
   return registro.value.filter(fila => fila.region === item.value.region);
 });
-*/
+
+//peru
+/*
 const filteredProv = computed(() => {
   const selectedProvData = prov.provincias.filter(q => q.department_id === item.value.departamento);
   return selectedProvData ? selectedProvData : [];
@@ -151,6 +155,7 @@ const filteredRegistros = computed(() => {
   }
   return registro.value.filter(item => item.departamento === item.value.comuna);
 });
+*/
 </script>
 
 <template lang="pug">
@@ -205,32 +210,32 @@ Form( :onPromise="() => guardarOActualizar(item)" :onSuccess='() => refresh()')
           input.form-control(placeholder="Número Celular" v-model="item.numeroTlf" :maxlength="9" :minlength="9")
     .col-12.col-md-6
       .row
-        .col-md-4.col-sm-4(style="text-align: left;")
+        //.col-md-4.col-sm-4(style="text-align: left;")
           label( for='select') Departamento
           select.form-control(v-model="item.departamento")
             option(value="" disabled selected) ::Seleccione un departamento::
             option(value="") Todos
             option(v-for="depa in depa.departamentos" :key="depa.id" :value="depa.id") {{ depa.name }}
-        .col-md-4.col-sm-4(style="text-align: left;")
+        //.col-md-4.col-sm-4(style="text-align: left;")
           label( for='select') Provincia
           select.form-control(v-model="item.region")
             option(value="" disabled selected) ::Seleccione una provincia::
             option(value="") Todos
             option(v-for="prov in filteredProv" :key="prov.id" :value="prov.id") {{ prov.name }}
-        .col-md-4.col-sm-4(style="text-align: left;")
+        //.col-md-4.col-sm-4(style="text-align: left;")
           label( for='select') Distrito
           select.form-control(v-model="item.comuna")
             option(value="" disabled selected) ::Seleccione un distrito::
             option(value="") Todos
             option(v-for="q in filteredDist" :key="q.id" :value="q.id") {{ q.name }}
-        //.col(style="text-align: left;")
+        .col(style="text-align: left;")
           label.form-label( for='select') Region
           .input-group
             select.form-control(v-model="item.region")
               option(value="" disabled selected) ::Seleccione una región::
               option(value="") Todos
               option(v-for="region in darach.regiones" :key="region.region" :value="region.region") {{ region.region }}
-        //.col(style="text-align: left;")
+        .col(style="text-align: left;")
           label.form-label(for='select') Comuna
           .input-group
             select.form-control(v-model="item.comuna")
