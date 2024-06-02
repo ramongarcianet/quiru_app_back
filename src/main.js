@@ -19,6 +19,8 @@ import StorageItem from './components/uikit/StorageItem.vue'
 import router from './config/router'
 import "./config/bootstrap/scss/bootstrap.scss"
 import './config/basics.sass'
+import 'bootstrap-vue-3/dist/bootstrap-vue-3.css';
+import BootstrapVue3 from 'bootstrap-vue-3';
 
 iniciarFirebase()
 
@@ -41,5 +43,6 @@ createApp(App)
 
 
 .use(router)
+.use(BootstrapVue3)
 .mount('#app')
 
