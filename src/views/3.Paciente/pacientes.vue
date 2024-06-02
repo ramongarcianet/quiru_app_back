@@ -1,10 +1,16 @@
 <script setup>
 import Registro from "./Registro.vue";
-import { dialog, verEliminados } from "../../store/paciente";
+import { dialog, verEliminados,guardar } from "../../store/paciente";
 import { useRouter } from "vue-router";
 import { item } from '../../store/usuario'
-
+//import PacientesRach from '../../config/RACHEL.json';
+//import { item, guardar, actualizar, limpiar, leerEnRegistro, revisarDNI, registro, obtenerTodos } from "../../store/paciente";
 const {push} = useRouter()
+
+//PacientesRach.forEach(fila => {
+  //return guardar(fila)
+  //console.log(item);
+//})
 </script>
 <template lang="pug">
 .row

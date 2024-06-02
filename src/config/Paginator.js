@@ -1,6 +1,6 @@
 
 import { ref } from 'vue';
-const pageSize = 8;
+const pageSize = 50;
 let curPage = 1;
 
 export let registro_ = ref([])

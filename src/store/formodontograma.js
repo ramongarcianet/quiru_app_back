@@ -5,7 +5,7 @@ import { firestore } from '../config/firebase'
 import { miUsuario } from './sesion';
 import { listaDeHallazgos, listaDeDientesCombo } from '../config/Parametros'
 import { isSpeech, speak } from './odontograma'
-import escenarios from '../config/Escenarios.json';
+//import escenarios from '../config/Escenarios.json';
 import {item as itemUsuario} from '../store/usuario'
 const dialog = ref(false)
 const regpasciente = ref([])
