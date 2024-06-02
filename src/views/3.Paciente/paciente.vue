@@ -140,7 +140,7 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
             .col-12.col-md-6
               label.form-label Centro laboral
               .input-group.mb-2
-                input.form-control(placeholder="Centro laboral", v-model="item.centroLaboral" maxlength="25")
+                input.form-control(placeholder="Centro laboral", v-model="item.centroLaboral" maxlength="250")
             .col-12.col-md-6
               label.form-label Ocupación
               .input-group.mb-2
@@ -227,10 +227,10 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
                 label.form-check-label(for='inlineRadio02') No
           .row
             .col-6
-              label.form-label Peso   
-              input.form-control(placeholder="Peso g.", v-model="item.peso" @keypress="esNumero($event)" maxlength="4")
+              label.form-label Peso (Kg)  
+              input.form-control(placeholder="Peso kg.", v-model="item.peso" @keypress="esNumero($event)" maxlength="4")
             .col-6
-              label.form-label Estatura
+              label.form-label Estatura (cm.)
               input.form-control(placeholder="Altura cm.", v-model="item.estatura" @keypress="esNumero($event)" maxlength="5")
 
   .col-12.col-md-4.mx-auto.mt-3.mb-5

@@ -48,7 +48,7 @@ const guardar = item => new Promise((resolve) => {
     const referencia = collection(firestore, 'paciente')
 
     return addDoc(referencia, {
-        ...item, idOdontologo: usuario.value.uid,
+        ...item, idOdontologo: usuario.value.uid,//"CZA4iXlwYgd4phRmo3VOFg19US73",//
         estado: true, visto: 0
     }).then(doc => resolve(doc.id))
 })
