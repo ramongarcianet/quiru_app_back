@@ -3,9 +3,9 @@ import route from './../config/router'
 import { addDoc, collection, onSnapshot, getDoc, getDocs, doc, updateDoc, deleteDoc, query, where, arrayUnion, orderBy } from 'firebase/firestore'
 import { firestore } from '../config/firebase'
 import { miUsuario } from './sesion';
-import { listaDeHallazgos, listaDeDientesCombo } from '../config/Parametros'
+//import { listaDeHallazgos, listaDeDientesCombo } from '../config/Parametros'
 import { isSpeech, speak } from './odontograma'
-import escenarios from '../config/Escenarios.json';
+//import escenarios from '../config/Escenarios.json';
 const dialog = ref(false)
 const refpaciente = ref([])
 const item = ref({
