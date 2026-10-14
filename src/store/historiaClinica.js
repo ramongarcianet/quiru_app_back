@@ -236,7 +236,6 @@ export function printHistoriaClinicaPaciente(idPaciente) {
                         let fotoPDF = (pacienteAdmision.archivos != undefined) ? pacienteAdmision.archivos : '';
                         getDocumentImageUrls(fotoPDF)
                             .then((imageUrls) => {
-                                console.log(imageUrls);
                                 imageUrls.forEach((imageUrl) => {
                                 var imageType = getImageType(imageUrl); // Obtener el tipo de imagen (PDF, PNG o JPEG)
                                 // Verificar si la URL de la imagen es un archivo PDF válido

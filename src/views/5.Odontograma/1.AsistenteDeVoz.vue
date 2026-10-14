@@ -77,8 +77,8 @@ function printOdontograma() {
           _body.push([_item.diente + alterno, _item.descripcion + ubicacion + sigla])
         })
         var headerOptions = {
-          fillColor: '#e8fffa',
-          textColor: '#395d56'
+          fillColor: '#eef4ff',
+          textColor: '#071b40'
         };
         var startX = 10;
         var startY = 25;
@@ -197,14 +197,14 @@ const finalizar = () => {
   actualizar(itemPas.value)
 }
 const visitaGuiada = [
-  { id: '1', topResponsiveCari: '80%', topBurbujaResponsive: '55%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '45%', left: '20px', topBurbuja: '30%', elementoDestacado: 'destacarMicrofono', scroll: '0', data: "Hola, soy Quiru. Puedes activarme diciendo,  “Hola Quiru” o presionando el micrófono" },
+  { id: '1', topResponsiveCari: '80%', topBurbujaResponsive: '55%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '45%', left: '20px', topBurbuja: '30%', elementoDestacado: 'destacarMicrofono', scroll: '0', data: "Hola, soy el asistente de voz de QUIRU Dent AI. Puedes activarme diciendo “Hola Quiru” o presionando el micrófono" },
   { id: '2', topResponsiveCari: '80%', topBurbujaResponsive: '25%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '77%', left: '20px', topBurbuja: '62%', elementoDestacado: 'destacarOdontograma', scroll: '500', data: "Este es tu nuevo odontograma, se llena de forma automática luego de cada registro dictado por voz." },
   { id: '3', topResponsiveCari: '80%', topBurbujaResponsive: '25%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '30%', left: '20px', topBurbuja: '15%', elementoDestacado: 'destacarImpresion', scroll: '0', data: "Este es el botón de impresión, para tener tu odontograma en formato pdf o mandarlo a imprimir de una vez" },
-  { id: "4", topResponsiveCari: '80%', topBurbujaResponsive: '25%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '30%', left: '20px', topBurbuja: '15%', elementoDestacado: 'destacarAyuda', scroll: '0', data: "Aquí puedes ver los distintos comandos de voz de Quiru." },
+  { id: "4", topResponsiveCari: '80%', topBurbujaResponsive: '25%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '30%', left: '20px', topBurbuja: '15%', elementoDestacado: 'destacarAyuda', scroll: '0', data: "Aquí puedes ver los distintos comandos de voz de QUIRU Dent AI." },
   { id: "5", topResponsiveCari: '80%', topBurbujaResponsive: '35%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '45%', left: '20px', topBurbuja: '30%', elementoDestacado: '', scroll: '0', data: "Y eso es todo, experimenta la nueva forma de atender a tus pacientes." },
 ]
 const indice = ref(0)
-const item2 = ref({ id: '1', topResponsiveCari: '80%', topBurbujaResponsive: '55%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '45%', left: '20px', topBurbuja: '30%', elementoDestacado: 'destacarMicrofono', scroll: '0', data: "Hola, soy Quiru. Puedes activarme diciendo,  “Hola Quiru” o presionando el micrófono" },
+const item2 = ref({ id: '1', topResponsiveCari: '80%', topBurbujaResponsive: '55%', leftResponsiveCari: '20px', leftResponsiveBurbuja: '20%', top: '45%', left: '20px', topBurbuja: '30%', elementoDestacado: 'destacarMicrofono', scroll: '0', data: "Hola, soy el asistente de voz de QUIRU Dent AI. Puedes activarme diciendo “Hola Quiru” o presionando el micrófono" },
 )
 let position = ref(0)
 const moverCarrusel = (adelanteOAtras) => {
@@ -236,7 +236,6 @@ function activarAyuda() {
   }
 }
 function verDiagnostico() {
-  console.log(itemodontograma.value)
   const groupedData = {};
   groupedDataResumen.value = [];
   const dientesPorHallazgo = {};
@@ -287,7 +286,6 @@ function verDiagnostico() {
       })
       descie10 = (descie10 == "") ? item.descripcion : descie10;
       CIE10 = (CIE10 == "") ? "K0--" : CIE10;
-      console.log(Number(_monto).toLocaleString('en'))
       groupedDataResumen.value.push({ diagnostico: descie10.toUpperCase(), cantidad: countCaries, dientes: dientes, CIE10: CIE10, monto: _monto, acuenta: _acuenta })
     }
   });
@@ -322,7 +320,7 @@ function imprimirContenidoSeleccionado() {
 #id02.modal(style="display:none;")
   .modal-content.modal-sm
     .container
-      p(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Eliminar Odontograma
+      p.modal-title Eliminar odontograma
       p ¿Esta seguro que desea eliminar?
       .clearfix
         button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
@@ -404,14 +402,14 @@ function imprimirContenidoSeleccionado() {
         .modal-content
           .modal-header
             .col-7.col-md-9
-              h2(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Resumen
-              h4.my-0(style="color: #395D56; font-size: 1.1em; font-family: var(--font-family)") Diagnóstico
+              h2.modal-title Resumen
+              h4.my-0(style="color: var(--text-secondary); font-size: 1.1em") Diagnóstico
             button.btn-close(type='button' data-bs-dismiss='modal')
           .modal-body
             form
               .row.mb-3
                 .card.resumen-tabla.d-none.d-md-block.mx-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
-                  .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
+                  .row.p-1(style="color:var(--brand-navy);font-weight: bold;")
                     .col-1 CIE 10
                     .col-3 Diagnóstico
                     .col-2.text-center Cantidad
@@ -462,7 +460,7 @@ function imprimirContenidoSeleccionado() {
   position: absolute
   width: 100%
   height: 170%
-  background-color: rgba(2, 55, 44, .8)
+  background-color: rgba(7, 27, 64, .82)
   z-index: 1
   left: 0 
   top: 0 
@@ -555,9 +553,9 @@ function imprimirContenidoSeleccionado() {
   .outline-quiru
     width: 100%
     height: 75px
-    border-radius: 50px
+    border-radius: 14px
     border: 1px solid var(--color-primary)
-    background-color: transparent
+    background-color: white
     display: flex
     flex-direction: row
     justify-content: space-around
@@ -610,7 +608,7 @@ function imprimirContenidoSeleccionado() {
     position: absolute
     width: 100%
     height: 100%
-    background-color: rgba(2, 55, 44, .8)
+    background-color: rgba(7, 27, 64, .82)
     z-index: 1
     left: 0 
     top: 0 

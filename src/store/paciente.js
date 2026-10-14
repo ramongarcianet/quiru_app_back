@@ -40,7 +40,6 @@ const revisarDNI = (item) => new Promise((resolve) => {
             })
     }
     catch (e) {
-        console.log(e)
     }
 })
 

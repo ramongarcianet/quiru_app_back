@@ -36,7 +36,7 @@ let obtener
 #id01.modal(style="display:none;")
     .modal-content.modal-sm
         .container
-            p(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Eliminar Paciente
+            p(style="color: var(--brand-navy); font-weight:bold; font-size: 1.5em") Eliminar Paciente
             p ¿Esta seguro que desea eliminar?
             .clearfix
                 button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar

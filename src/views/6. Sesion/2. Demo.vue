@@ -68,7 +68,7 @@ const instruccion = computed(()=> listaDeInstrucciones.value[numeroDeInstruccion
             .col-12.col-md-8.col-lg-6.d-flex.flex-column.align-items-center
                 .d-flex.align-items-center.justify-content-center.p-2
                     MicroButton( style='--size: 2rem' :class="{active: isSpeech}" @click="isSpeech ? detenerVoz() : activarVoz()")
-                    h1.ms-1.mt-2.light-text Quiru
+                    h1.ms-2.mt-2.light-text QUIRU Dent AI
                 .my-3
                     Odontograma( :registro='registro_')
 
@@ -92,7 +92,7 @@ i
     cursor: pointer
 .container-fluid
     width: 100%
-    background: var(--bs-primary)
+    background: linear-gradient(145deg, #071b40 0%, #38208f 100%)
 
 .mensaje
   min-height: calc( 24px + 1rem )

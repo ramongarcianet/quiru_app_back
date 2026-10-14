@@ -284,8 +284,8 @@ function crearPT2() {
 <template lang="pug">
 .row
   .col-7.col-md-9
-    h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Plan de
-    h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Tratamiento
+    h1.my-0(style="color: var(--brand-navy); font-size: 1.5em") Plan de
+    h1(style="color: var(--brand-blue); font-weight:bold; font-size: 1.5em") Tratamiento
     button.btn.btn-outline-primary.border-0(@click="back()" )
       i.bi.bi-arrow-left.fs-3
   .col-5.col-md-3.mt-5
@@ -302,7 +302,7 @@ function crearPT2() {
     Form( :onPromise="() => crear_(item)" :onSuccess='()=>mensaje= "Actualizado con éxito"' :onCatch='(e) => mensaje = e') 
       .row
         .card.d-none.d-md-block.mx-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
-          .row.align-items-center.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
+          .row.align-items-center.p-1(style="color:var(--brand-navy);font-weight: bold;")
             .col-2 Pieza
             .col-5 Diagnóstico
             .col-1 Precio
@@ -339,7 +339,7 @@ function crearPT2() {
               BotonSeguro.mt-0( :onSuccess= '() => borrar(item)' )
                 i.bi.bi-trash
         .card.mt-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
-          .row.p-2(style="color:rgb(57, 93, 86);font-weight: bold;")
+          .row.p-2(style="color:var(--brand-navy);font-weight: bold;")
             .col-md-7.col-6.d-none.d-md-block Total:
             .col-6.d-md-none.mt-1
               p(style="font-size: 0.89rem;") Total Precio:
@@ -372,7 +372,7 @@ function crearPT2() {
                 span Agregar tratamiento
             .text-center.py-4(v-if='registroRevertido.length === 0') No hay diagnósticos para planificar.
             .card.d-none.d-md-block.mx-1(v-if='registroRevertido.length' style="border-radius: 30px; background-color:var(--color-light) !important;")
-              .row.p-2(style="color:rgb(57, 93, 86);font-weight: bold")
+              .row.p-2(style="color:var(--brand-navy);font-weight: bold")
                 .col-md-1 Pieza
                 .col-md-2 Diagnóstico
                 .col-md-2 Tratamiento
@@ -409,7 +409,7 @@ function crearPT2() {
                     BotonSeguro.mt-0(:onSuccess='() => borrarPP(tratamiento, diagnostico)')
                       i.bi.bi-trash
             .card.mt-2(v-if='registroRevertido.length' style="border-radius: 30px; background-color:var(--color-light) !important;")
-              .row.p-2(style="color:rgb(57, 93, 86);font-weight: bold;")
+              .row.p-2(style="color:var(--brand-navy);font-weight: bold;")
                 .col-md-7.col-6 Total:
                 .col-md-1.col-6 {{ registro.reduce((total, diagnostico) => total + totalTratamientos(diagnostico, 'Precio'), 0) }}
                 .col-6.d-block.d-md-none A cuenta:
@@ -439,7 +439,7 @@ function crearPT2() {
                   h4.dark-text Pieza: {{registroSeleccionado.Pieza}}
               .row.mb-3
                 .card.d-none.d-md-block.mx-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
-                  .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
+                  .row.p-1(style="color:var(--brand-navy);font-weight: bold;")
                     .col-md-3.col-lg-3 Tratamiento
                     .col-md-4.col-lg-4 Comentarios
                 .card.mt-1(v-for="item of registroTratamiento" style="border-radius: 40px; border-color: #839192")
@@ -504,6 +504,6 @@ function crearPT2() {
         color: var(--color-white)
 
 #myCanvas
-  border: 1px solid #9c9898
+  border: 1px solid #212529
 
 </style>

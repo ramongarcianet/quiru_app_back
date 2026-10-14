@@ -29,6 +29,7 @@ const NombreDoctor = ref("");
 const isChecked= ref(false);
 const scheduleModalVisible = ref(false);
 const mensajeWhatsApp = ref('');
+const brandGradientFallback = '#eef3ff';
 let itemSelect = {};
 let EventSelect = {};
 let registroCargado = 0;
@@ -79,7 +80,7 @@ function createEvent(item) {
     end: item.end.toISOString(),
     title: item.title,
     borderColor: "#0dcaf0",
-    backgroundColor: "#37dfbb",
+    backgroundColor: brandGradientFallback,
     textColor: "#fff",
     timedisplay: horadiotext,    
     fechaDeCreacion: new Date().toISOString().slice(0, 10),
@@ -113,6 +114,18 @@ function addHoursToDate(date, hours) {
 
 function deleteEvent(id) {
   eliminar(id)
+}
+function applyBrandGradientToLegacyGreenEvent(arg) {
+  const color = String(arg.event.backgroundColor || arg.el.style.backgroundColor || '')
+    .toLowerCase()
+    .replace(/\s/g, '');
+  const usesLegacyGreen = color === '#37dfbb' || color === 'rgb(55,223,187)';
+  const usesBrandFallback = color === brandGradientFallback;
+  if (!usesLegacyGreen && !usesBrandFallback) return;
+
+  arg.el.style.setProperty('background', 'linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(100, 59, 255, 0.07))', 'important');
+  arg.el.style.setProperty('border-color', 'rgba(0, 102, 255, 0.18)', 'important');
+  arg.el.style.setProperty('color', '#071b40', 'important');
 }
 function viewEvents(_id) {
   let item_data = registro.value.find(item => item.id == _id)
@@ -232,6 +245,7 @@ const options = reactive({
   eventClick: (arg) => {
     viewEvents(arg.event.id)
   },
+  eventDidMount: applyBrandGradientToLegacyGreenEvent,
 })
 watch(
   () => registro.value,
@@ -421,18 +435,18 @@ function createEventDisponible(item) {
 </script>
 
 <template lang="pug">
-.row
-  .col-6.col-md-6
-    h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Lista
-    h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") de citas
+.row.mb-3
+  .col-12
+    span.eyebrow Agenda clínica
+    h1.page-title Citas
 .row 
   .col-12
-    label.form-label(style="color: #395D56; font-size: 1.2em; font-weight: bold")
-      input#chkDisponibilidad(type='checkbox', @change='handleCheckboxChange')
+    label.form-check-label.availability-toggle(for='chkDisponibilidad')
+      input#chkDisponibilidad.form-check-input(type='checkbox' @change='handleCheckboxChange')
       | 
       | Generar disponibilidad
 .row.desplazable
-  .contenido( style="background-color: #fff")
+  .contenido.calendar-surface
     fullcalendar(v-bind:options='options')
 .row(v-if='false')
   .schedule-modal-backdrop(@click='closeScheduleModal()')
@@ -492,8 +506,8 @@ function createEventDisponible(item) {
           .input-group
             span#basic-addon1.input-group-text 
               i.bi.bi-brush
-            span#basic-addon1.input-group-text(style="background-color: #37dfbb")
-              input#html(type='radio' name='Quiru' value='#37dfbb' checked v-model="cita.backgroundColor")
+            span#basic-addon1.input-group-text.brand-gradient-swatch
+              input#html(type='radio' name='Quiru' value='#eef3ff' checked v-model="cita.backgroundColor")
             span#basic-addon1.input-group-text(style="background-color: #3f51b5")
               input#html(type='radio' name='Azul' value='#3f51b5' v-model="cita.backgroundColor")
             span#basic-addon1.input-group-text(style="background-color: #d50000")
@@ -565,8 +579,8 @@ function createEventDisponible(item) {
             .input-group
               span#basic-addon1.input-group-text
                 i.bi.bi-brush
-              span#basic-addon1.input-group-text(style="background-color: #37dfbb")
-                input#html(type='radio' name='Quiru' value='#37dfbb' checked v-model="cita.backgroundColor")
+              span#basic-addon1.input-group-text.brand-gradient-swatch
+                input#html(type='radio' name='Quiru' value='#eef3ff' checked v-model="cita.backgroundColor")
               span#basic-addon1.input-group-text(style="background-color: #3f51b5")
                 input#html(type='radio' name='Azul' value='#3f51b5' v-model="cita.backgroundColor")
               span#basic-addon1.input-group-text(style="background-color: #d50000")
@@ -590,6 +604,54 @@ function createEventDisponible(item) {
 
 .btn-primary
   color:#fff
+
+.page-title
+  margin: .55rem 0 0
+  color: var(--brand-navy)
+  font-size: clamp(1.75rem, 3vw, 2.25rem)
+  font-weight: 800
+
+.availability-toggle
+  display: inline-flex
+  align-items: center
+  gap: .65rem
+  margin-bottom: .75rem
+  color: var(--brand-navy)
+  font-weight: 650
+
+.calendar-surface
+  width: 100%
+  padding: 1rem
+  border: 1px solid var(--color-border)
+  border-radius: var(--radius-card)
+  background: white
+
+.fc
+  color: var(--brand-navy)
+  .fc-toolbar-title
+    font-size: 1.15rem
+    font-weight: 750
+  .btn-primary
+    color: var(--brand-blue)
+    background: white
+    border-color: var(--color-border)
+    box-shadow: none
+    &:hover, &:focus, &.active
+      color: white
+      background: var(--brand-blue)
+      border-color: var(--brand-blue)
+  .fc-col-header-cell
+    background: #f3f7ff
+  .fc-theme-standard td, .fc-theme-standard th
+    border-color: var(--color-border)
+
+@media (max-width: 767px)
+  .calendar-surface
+    padding: .5rem
+  .fc .fc-toolbar
+    align-items: stretch
+    flex-direction: column
+    gap: .65rem
 
 .schedule-modal-backdrop
   position: fixed
@@ -616,9 +678,12 @@ function createEventDisponible(item) {
   overflow: auto
 
 thead
-  background-color: rgb(55, 223, 187)
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(100, 59, 255, 0.07))
 th
   border-color: white !important
+
+.brand-gradient-swatch
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(100, 59, 255, 0.07)) !important
 
 .desplazable
   display: flex

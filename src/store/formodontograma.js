@@ -68,7 +68,6 @@ const guardar = (idPaciente, tipo, tieneTratamiento, idRelacionado) => new Promi
 })
 
 export const guardarEnDiccionario = (e) => {
-    console.log('anotado')
     var palabras = {
         e,
         fecha: new Date().toISOString().slice(0, 10),

@@ -89,7 +89,7 @@ function printHistoriaMedica(idPaciente) {
 #id01.modal(style="display:none;")
   .modal-content.modal-sm
     .container
-      p(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Eliminar Paciente
+      p.modal-title Eliminar paciente
       p ¿Esta seguro que desea eliminar?
       .clearfix
         button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
@@ -97,7 +97,7 @@ function printHistoriaMedica(idPaciente) {
 #id03.modal(style="display:none;")
   .modal-content.modal-sm
     .container
-      p(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") ¿Estás seguro? 
+      p.modal-title ¿Estás seguro?
       p Si crea un nuevo diagnóstico, todos los anteriores se considerarán históricos.
       .clearfix
         button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
@@ -118,8 +118,7 @@ function printHistoriaMedica(idPaciente) {
         .row
           .col-6
             nav.navbar.navbar-expand-lg.bg-light(style='background-color:var(--color-light) !important;')
-              h1.my-0(style="color: #395D56; font-size: 1.25em; font-family: var(--font-family)") Información           
-                h1(style="color: #37DFBB; font-weight:bold; font-size: 1.25em; font-family: var(--font-family)") de Paciente
+              h2.clinical-heading Información del paciente
           .col-6
             .dropdown.d-flex.justify-content-end.mt-1.position-relative(ref="menuPaciente")
               button.btn.p-0.border-0.bg-transparent(
@@ -182,12 +181,29 @@ function printHistoriaMedica(idPaciente) {
     .card
       .card-header(style='background-color:var(--color-light) !important;')
         .d-flex.align-content-start.flex-wrap
-          h1.my-0(style="color: #395D56; font-size: 1.25em; font-family: var(--font-family)") Lista de          
-            h1(style="color: #37DFBB; font-weight:bold; font-size: 1.25em; font-family: var(--font-family)") odontogramas
+          h2.clinical-heading Lista de odontogramas
       .card-body
         RegistroOdontograma
 </template>
 <style scoped>
+.clinical-heading {
+  margin: 0;
+  color: var(--brand-navy);
+  font-size: 1.15rem;
+  font-weight: 750;
+}
+
+.card {
+  border-color: var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: none;
+}
+
+.card-header {
+  background: #f8faff !important;
+  border-color: var(--color-border);
+}
+
 #id01 {
   background-color: rgba(0, 0, 0, 0.6);
 }

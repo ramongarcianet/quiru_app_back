@@ -9,8 +9,8 @@ const {back, push} = useRouter()
 <template lang="pug">
 .row
   .col-7.col-md-9
-    h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Admisión
-    h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") del paciente
+    h1.my-0(style="color: var(--brand-navy); font-size: 1.5em") Admisión
+    h1(style="color: var(--brand-blue); font-weight:bold; font-size: 1.5em") del paciente
     button.btn.btn-outline-primary.border-0(@click="back()" )
       i.bi.bi-arrow-left.fs-3
   .col-5.col-md-3.mt-5.mb-3

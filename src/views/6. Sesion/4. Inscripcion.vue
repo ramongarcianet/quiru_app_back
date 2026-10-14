@@ -2,7 +2,7 @@
 import {ref, onMounted} from 'vue'
 import marketing from "../../store/marketing";
 import { useRouter, useRoute } from 'vue-router';
-import logo from "../../assets/logo.png"
+import BrandLogo from '../../components/BrandLogo.vue'
 
 const { item, agregar } = marketing;
 const mensajeDeRegistro = ref(false)
@@ -24,7 +24,7 @@ onMounted(()=>{
         .row.g-4.align-items-stretch
             .col-12.col-lg-6.d-flex
                 .lead-card.section-card
-                    img.logo(@click='push({ name: "landingConCodigo", params: {codigo: route.params.codigo} })' :src='logo' alt='Quiru')
+                    BrandLogo(@click='push({ name: "landingConCodigo", params: {codigo: route.params.codigo} })')
                     span.eyebrow Acceso anticipado
                     h1 Hola, Doc.
                     p.text-muted-ui La versión completa saldrá muy pronto. Déjanos tu correo para enviarte el acceso y sumarte antes que nadie.
@@ -37,11 +37,11 @@ onMounted(()=>{
                         p.coupon(v-if='item.codigo') Tu cupón activo:
                             strong  {{item.codigo}}
                         p.success(v-if='mensajeDeRegistro') Gracias, {{item.email}}. Te escribiremos para el lanzamiento de
-                            strong  Quiru
+                            strong  QUIRU Dent AI
             .col-12.col-lg-6
                 .preview-card
                     .preview-visual
-                        img.preview-logo(:src='logo' alt='Quiru')
+                        BrandLogo(inverse)
                     .preview-copy.glass-panel
                         strong Clínicas más organizadas
                         span Una experiencia visual más humana y una operación diaria más clara.
@@ -93,7 +93,7 @@ onMounted(()=>{
     border-radius: 32px
     overflow: hidden
     box-shadow: var(--shadow-card)
-    background: linear-gradient(145deg, #103e3c 0%, #1d6c66 100%)
+    background: linear-gradient(145deg, #071b40 0%, #38208f 100%)
 
 .preview-visual
     height: 100%

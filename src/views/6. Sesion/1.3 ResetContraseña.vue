@@ -9,14 +9,14 @@ const mensaje = ref('')
 <template lang="pug">
 .derecha
     .centrar
-        h2.text-center.mt-4(style="color:#395D56") Bienvenido a QUIRU
+        h2.text-center.mt-4 QUIRU Dent AI
         h1.text-center.light-text Recupera tu contraseña
-        Form( :onPromise='()=>resetContraseña(item)'  :onSuccess='()=>mensaje = "Correo enviado"' :onCatch='()=>mensaje = "Este correo no tiene una cuenta asociada a QUIRU"') 
+        Form( :onPromise='()=>resetContraseña(item)' :onSuccess='()=>mensaje = "Correo enviado"' :onCatch='()=>mensaje = "Este correo no tiene una cuenta asociada a QUIRU Dent AI"')
             label.form-label Correo electrónico
             input.form-control.mb-2(placeholder="Ejemplo@gmail.com" v-model='item.email' type='email' required)
             .row
-                button.btn.btn-outline-light.my-2(type='submit') Enviar
-                button.btn.btn-outline-light.mb-2(@click='push({ name: "iniciar-sesion" })') Volver al inicio
+                button.btn.btn-primary.my-2(type='submit') Enviar
+                button.btn.btn-outline-primary.mb-2(type='button' @click='push({ name: "iniciar-sesion" })') Volver al inicio
                 p.alert.alert-danger.alert-dismissible(v-if='mensaje') {{mensaje}}
 
 </template>
@@ -24,9 +24,10 @@ const mensaje = ref('')
 <style lang="sass" scoped>
 .derecha
     padding:5px 25px
-    background: #37DFBB
-    border-top-left-radius: 42px
-    border-top-right-radius: 42px
+    background: white
+    border: 1px solid var(--color-border)
+    border-radius: var(--radius-card)
+    box-shadow: var(--shadow-card)
     display: flex
     flex-direction: column
     width: 100%
@@ -34,11 +35,9 @@ const mensaje = ref('')
 @media (min-width: 575px)
     .derecha
         padding:0px 25px
-        border-top-left-radius: 35px
-        border-bottom-left-radius: 35px
-        border-top-right-radius: 0
+        border-radius: var(--radius-card)
         width: 100%
-        height: 100vh
+        height: auto
     .centrar
         padding: 22% 10%
         form

@@ -19,8 +19,8 @@ const iniciarConGoogle = async () => {
 .auth-card.section-card
     .auth-header
         span.eyebrow Acceso seguro
-        h1 Bienvenido a Quiru
-        p.text-muted-ui Ingresa a tu espacio de trabajo clínico para continuar con pacientes, agenda y seguimiento.
+        h1 Bienvenido a QUIRU Dent AI
+        p.text-muted-ui Tu asistente odontológico inteligente. Ingresa a tu espacio de trabajo clínico.
     Form(:onPromise='()=>iniciarSesion(item)' :onCatch='error => mensaje = error')
         .form-grid
             .field
@@ -114,11 +114,11 @@ const iniciarConGoogle = async () => {
     align-items: center
     gap: 0.75rem
     padding: 0.95rem 1rem
-    color: white
-    border: none
+    color: #3c4043
+    border: 1px solid var(--color-border)
     border-radius: 18px
-    background: linear-gradient(135deg, #df6a4f 0%, #b84a32 100%)
-    box-shadow: 0 16px 30px rgba(184, 74, 50, 0.24)
+    background: white
+    box-shadow: 0 6px 16px rgba(7, 27, 64, 0.08)
 
 @media (max-width: 575px)
     .auth-card

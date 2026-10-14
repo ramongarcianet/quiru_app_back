@@ -54,7 +54,6 @@
   })
   
   const test = day => {
-    console.log(day,)
     
   }
   

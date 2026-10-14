@@ -151,6 +151,6 @@ const crear_ = () => new Promise( async(resolve, reject) =>   {
         color: var(--color-white)
 
 #myCanvas
-  border: 1px solid #9c9898
+  border: 1px solid #212529
 
 </style>

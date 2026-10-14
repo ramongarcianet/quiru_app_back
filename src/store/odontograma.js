@@ -77,15 +77,11 @@ if (annyangInstance) {
     */
     annyangInstance.addCallback('resultMatch', function (e) {
         if (isSpeech.value) {
-            console.log('Empieza con número')
-            console.log(e)//comando
             guardarEnDiccionario(e)
         }
     });
     annyangInstance.addCallback('resultNoMatch', function (e) {
         if (isSpeech.value) {
-            console.log('No hay número')
-            console.log(e)//array
             //guardarEnDiccionario(e);
         }
     });
@@ -171,9 +167,35 @@ let synth = window.speechSynthesis;
 let voices = synth.getVoices();
 const convertirEnPalabra = num => convertToText(num.toString())
 const preferredSpanishVoices = ['es-MX', 'es-US', 'es-419', 'es-PE', 'es-AR', 'es-CL', 'es'];
+const preferredFemaleVoiceNames = [
+    'sabina', 'dalia', 'monica', 'paulina', 'helena', 'elvira', 'paloma',
+    'ximena', 'luciana', 'laura', 'sofia', 'catalina', 'carolina',
+    'victoria', 'gabriela', 'google espanol'
+];
+
+function isPreferredFemaleVoice(voice) {
+    const normalizedName = voice.name
+        ?.toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '') || '';
+
+    return preferredFemaleVoiceNames.some(name => normalizedName.includes(name));
+}
 
 function getPreferredVoice() {
     voices = synth.getVoices();
+    for (const lang of preferredSpanishVoices) {
+        const match = voices.find(voice =>
+            voice.lang?.toLowerCase() === lang.toLowerCase() && isPreferredFemaleVoice(voice)
+        );
+        if (match) return match;
+    }
+    for (const lang of preferredSpanishVoices) {
+        const match = voices.find(voice =>
+            voice.lang?.toLowerCase().startsWith(lang.toLowerCase()) && isPreferredFemaleVoice(voice)
+        );
+        if (match) return match;
+    }
     for (const lang of preferredSpanishVoices) {
         const match = voices.find(voice => voice.lang?.toLowerCase() === lang.toLowerCase());
         if (match) return match;

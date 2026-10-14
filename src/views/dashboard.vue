@@ -3,7 +3,7 @@ import { alertMensaje } from "../store/helper";
 import { ref, watch } from "vue";
 import Nav from "../components/Nav.vue";
 import Avatar from "../components/Avatar.vue";
-import logo from "../assets/logo.png";
+import BrandLogo from "../components/BrandLogo.vue";
 
 const verDialog = ref(false);
 
@@ -17,7 +17,7 @@ watch(
 
 <template lang="pug">
 Dialog(v-model='verDialog')
-  template(#title) Quiru
+  template(#title) QUIRU Dent AI
   template(#body) {{ alertMensaje }}
   template(#footer)
     button.btn.btn-primary(type='button' data-bs-dismiss='modal') Aceptar
@@ -27,13 +27,10 @@ Dialog(v-model='verDialog')
   .dashboard-glow.dashboard-glow-b
   .container.py-3.py-md-4
     .dashboard-shell
-      .dashboard-hero
+      header.dashboard-hero
         .brand-block
-          img.brand-logo(:src='logo' alt='Quiru')
-          .hero-copy
-            h1 QUIRU
+          BrandLogo
         .hero-side
-          .hero-badge.glass-panel
           Avatar
       #body
         .content-card
@@ -47,7 +44,7 @@ Dialog(v-model='verDialog')
   position: relative
   isolation: isolate
   padding-bottom: 6.5rem
-  overflow: hidden
+  overflow-x: hidden
 
 .dashboard-glow
   position: fixed
@@ -55,19 +52,19 @@ Dialog(v-model='verDialog')
   border-radius: 50%
   filter: blur(24px)
   pointer-events: none
-  opacity: 0.55
+  opacity: 0.34
   &.dashboard-glow-a
     width: 18rem
     height: 18rem
     top: -5rem
     left: -4rem
-    background: rgba(var(--color-primary-rgb), 0.20)
+    background: rgba(var(--color-primary-rgb), 0.14)
   &.dashboard-glow-b
     width: 16rem
     height: 16rem
     top: 10rem
     right: -4rem
-    background: rgba(var(--color-secondary-rgb), 0.18)
+    background: rgba(var(--color-secondary-rgb), 0.12)
 
 .dashboard-shell
   position: relative
@@ -75,61 +72,28 @@ Dialog(v-model='verDialog')
 
 .dashboard-hero
   display: flex
+  align-items: center
   justify-content: space-between
-  gap: 1.5rem
-  margin-bottom: 1.5rem
-  padding: 1.4rem 1.4rem 1rem
-  border-radius: 30px
-  background: linear-gradient(135deg, rgba(255,255,255,0.88) 0%, rgba(244,255,251,0.96) 100%)
-  border: 1px solid rgba(18, 60, 58, 0.06)
+  gap: 1rem
+  min-height: 72px
+  margin-bottom: 1rem
+  padding: 0.7rem 1rem
+  border-radius: var(--radius-card)
+  background: rgba(255,255,255,0.96)
+  border: 1px solid var(--color-border)
   box-shadow: var(--shadow-soft)
 
 .brand-block
   display: flex
-  flex-direction: column
-  gap: 1rem
-  max-width: 42rem
-
-.brand-logo
-  width: 9rem
-  height: auto
-
-.hero-copy
-  h1
-    margin: 0
-    font-size: clamp(1.8rem, 3vw, 2.6rem)
-    font-weight: 800
-    line-height: 1.05
-    color: var(--color-dark)
-  p
-    margin: 0.75rem 0 0
-    max-width: 36rem
-    font-size: 1rem
+  align-items: center
 
 .hero-side
   display: flex
   flex-direction: column
   align-items: flex-end
-  gap: 1rem
-
-.hero-badge
-  display: inline-flex
-  align-items: center
-  gap: 0.65rem
-  padding: 0.85rem 1rem
-  border-radius: 18px
-  font-weight: 700
-  color: var(--color-dark)
-
-.dot
-  width: 0.7rem
-  height: 0.7rem
-  border-radius: 999px
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%)
-  box-shadow: 0 0 0 0.35rem rgba(var(--color-primary-rgb), 0.12)
 
 #body
-  min-height: calc(100vh - 14rem)
+  min-height: calc(100vh - 10.5rem)
   width: 100%
   overflow-y: auto
 
@@ -137,20 +101,18 @@ Dialog(v-model='verDialog')
   min-height: 100%
   padding: 1.25rem
   background: rgba(255,255,255,0.96)
-  border: 1px solid rgba(18, 60, 58, 0.06)
-  border-radius: 30px
+  border: 1px solid var(--color-border)
+  border-radius: var(--radius-card)
   box-shadow: var(--shadow-card)
 
 @media (max-width: 767px)
   .dashboard-page
     padding-bottom: 7.2rem
   .dashboard-hero
-    flex-direction: column
-    padding: 1.1rem
+    min-height: 64px
+    padding: 0.6rem 0.75rem
   .hero-side
-    align-items: stretch
-  .brand-logo
-    width: 7.2rem
+    align-items: flex-end
   .content-card
     padding: 1rem
 </style>

@@ -25,13 +25,13 @@ function Cancelar() {
 #id03.modal(style="display:none;")
   .modal-content.modal-sm
     .container
-      p(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Eliminar Usuario
+      p(style="color: var(--brand-navy); font-weight:bold; font-size: 1.5em") Eliminar Usuario
       p ¿Esta seguro que desea eliminar?
       .clearfix
         button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
         button.btn.btn-danger.deletebtn(@click="EliminarUsuario()") Aceptar
 .card.mb-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
-  .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
+  .row.p-1(style="color:var(--brand-navy);font-weight: bold;")
     .col-2.ps-4 Doc. Identidad
     .col-3 Nombre
     .col-3 Email

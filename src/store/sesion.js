@@ -22,7 +22,6 @@ export const logFacebook = () => {
       const user = result.user;
       const credential = FacebookAuthProvider.credentialFromResult(result);
       const accessToken = credential.accessToken;
-      console.log(result.user)
       crearUsuarioConGoogle( {
         nombre: result.user.displayName,
         email: result.user.email,

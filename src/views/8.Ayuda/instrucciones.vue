@@ -19,11 +19,11 @@ function ocultarAyuda() {
 <template lang="pug">
 .row
   .col-11
-    input#myInput.form-control.parpadea(style='border-color: rgb(57, 93, 86);' type='text' placeholder='Escriba una palabra para buscar en la lista el hallazgos')
+    input#myInput.form-control.parpadea(style='border-color: var(--color-border);' type='text' placeholder='Escriba una palabra para buscar en la lista el hallazgos')
   .col-1.p-0
     a(href='#SeccionPrincipal' style="color: black; cursor: default" id="act1" @click="ocultarAyuda()")
       i.bi.bi-x-lg.fs-3(style="margin-top: 5px; margin-left: 10px")
-span.m-1(style='font-weight: bold; font-size: 12px; color:rgb(57, 93, 86)') Pruebe diciendo un ejemplo, Quiru está escuchando
+span.m-1(style='font-weight: bold; font-size: 12px; color:var(--brand-navy)') Pruebe diciendo un ejemplo, QUIRU Dent AI está escuchando
 .Contenido  
   table.table.table-bordered.table-striped
     thead(style='position: sticky;top: 0')

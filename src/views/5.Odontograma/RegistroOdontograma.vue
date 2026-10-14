@@ -61,7 +61,7 @@ else
 #id02.modal(style="display:none;")
     .modal-content.modal-sm
         .container
-            p(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Eliminar Odontograma
+            p.modal-title Eliminar odontograma
             p ¿Esta seguro que desea eliminar?
             .clearfix
                 button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
@@ -71,8 +71,12 @@ else
         |  Este Odontograma tiene hallazgos registrados
     a.close(@click="Cancelar()" href='#' data-dismiss='alert') &times;
 
+.empty-state(v-if='registroodonto.length === 0')
+  i.bi.bi-clipboard2-pulse(aria-hidden='true')
+  strong Este paciente aún no tiene odontogramas registrados.
+  span Usa la acción Crear nuevo diagnóstico.
 template(v-for="item of registroodonto" :key="item.id" :item="item" )
-  .card.mb-2.p-3(v-if="item.tipo === 'Diagnóstico'" style="border-radius: 40px; border-width: 3px" :style='item.estado=== "2" ? "border-color: var(--color-primary)":"border-color: #d7d8d8"' )
+  .card.odontogram-row.mb-2.p-3(v-if="item.tipo === 'Diagnóstico'" :style='item.estado=== "2" ? "border-color: var(--color-primary)":"border-color: #d7d8d8"' )
     .row(style="cursor: pointer" )
       .col-3.d-none.d-md-block(@click="push({name: 'Detalle', params: {idOdontograma: item.id,idPaciente: item.idPaciente, tipoOdonto:item.tipo} })") {{item.fechaRegistro.toDate().toISOString().slice(0, 10)}}
       //--------------------------------------------------------------------------------------------------------------------------------------------- Pc
@@ -96,6 +100,27 @@ template(v-for="item of registroodonto" :key="item.id" :item="item" )
 
 </template>
 <style scoped>
+  .odontogram-row {
+    border-radius: 12px;
+    border-width: 1px;
+    box-shadow: none;
+  }
+  .empty-state {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: .45rem;
+    padding: 2.5rem 1rem;
+    color: var(--text-secondary);
+    text-align: center;
+  }
+  .empty-state i {
+    color: var(--brand-blue);
+    font-size: 2rem;
+  }
+  .empty-state strong {
+    color: var(--brand-navy);
+  }
   .btn:disabled, .btn.disabled, fieldset:disabled .btn {
     opacity: 0.35;
 }

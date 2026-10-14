@@ -1,28 +1,42 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap')
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap')
 
 :root
-    --color-primary: #22c7a6
-    --color-primary-tint: #15957f
-    --color-primary-rgb: 34, 199, 166
-    --color-primary-soft: #dcfbf3
-    --color-secondary: #ff8d6b
-    --color-secondary-rgb: 255, 141, 107
-    --color-light: #f4fffb
+    --brand-navy: #071b40
+    --brand-blue: #0066ff
+    --brand-blue-rgb: 0, 102, 255
+    --electric-blue: #008cff
+    --voice-cyan: #00d4ff
+    --ai-purple: #643bff
+    --color-primary: var(--brand-blue)
+    --color-primary-tint: var(--electric-blue)
+    --color-primary-rgb: var(--brand-blue-rgb)
+    --color-primary-soft: #eaf2ff
+    --color-secondary: var(--ai-purple)
+    --color-secondary-rgb: 100, 59, 255
+    --color-light: #f5f7fb
     --color-white: #ffffff
     --color-surface: #ffffff
-    --color-surface-alt: #ecf8f4
-    --color-dark: #123c3a
-    --color-dark-soft: #51706d
-    --color-border: #d5e8e1
-    --color-danger: #d6465e
+    --color-surface-alt: #f0f5ff
+    --color-dark: var(--brand-navy)
+    --color-dark-soft: #52657f
+    --text-secondary: #52657f
+    --color-border: #e2e8f0
+    --color-danger: #d92d42
+    --color-warning: #b7791f
+    --color-success: #138a5b
     --color-transparent: transparent 
-    --font-family: 'Plus Jakarta Sans', sans-serif
-    --font-family-heading: 'Manrope', sans-serif
+    --gradient-brand: linear-gradient(135deg, #0066ff 0%, #643bff 100%)
+    --gradient-voice: linear-gradient(135deg, #008cff 0%, #00d4ff 100%)
+    --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif
+    --font-family-heading: var(--font-family)
     --element-height: 46px
-    --element-border: 18px
-    --shadow-soft: 0 20px 60px rgba(18, 60, 58, 0.08)
-    --shadow-card: 0 16px 40px rgba(18, 60, 58, 0.10)
+    --element-border: 12px
+    --radius-card: 16px
+    --shadow-soft: 0 10px 28px rgba(7, 27, 64, 0.07)
+    --shadow-card: 0 8px 24px rgba(7, 27, 64, 0.06)
     --shadow-focus: 0 0 0 0.25rem rgba(var(--color-primary-rgb), 0.18)
+    --bs-primary: #0066ff
+    --bs-primary-rgb: 0, 102, 255
     
 h1, h2, h3, h4, h5, h6
     font-family: var(--font-family-heading)
@@ -31,15 +45,17 @@ h1, h2, h3, h4, h5, h6, p, span, button, input, textarea, li, a, label, small, :
     font-family: var(--font-family)
 
 body
-    background: radial-gradient(circle at top left, rgba(var(--color-primary-rgb), 0.16), transparent 24%), linear-gradient(180deg, #f7fffc 0%, #eff9f6 100%)
+    background: #f5f7fb
     color: var(--color-dark)
+    font-size: 15px
+    line-height: 1.5
 
 a
     color: inherit
 
 button, .btn
     border-radius: var(--element-border)
-    font-weight: 700
+    font-weight: 650
     transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease
     &:hover
         transform: translateY(-1px)
@@ -49,42 +65,56 @@ button, .btn
     align-items: center
     justify-content: center
     gap: 0.75rem
-    min-height: 52px
-    padding: 0.75rem 2rem
-    border-radius: 999px
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-tint) 100%)
+    min-height: 46px
+    padding: 0.65rem 1.35rem
+    background: var(--brand-blue)
     border-color: transparent
     color: var(--color-white)
-    box-shadow: 0 16px 30px rgba(var(--color-primary-rgb), 0.24)
+    box-shadow: 0 8px 18px rgba(var(--color-primary-rgb), 0.2)
     &:hover, &:focus, &:active
-        background: linear-gradient(135deg, var(--color-primary-tint) 0%, #117868 100%)
+        background: var(--electric-blue)
         border-color: transparent
         color: var(--color-white)
 
 .btn-outline-primary
     border-color: rgba(var(--color-primary-rgb), 0.35)
-    color: var(--color-primary-tint)
-    background: rgba(var(--color-primary-rgb), 0.06)
+    color: var(--brand-blue)
+    background: white
     &:hover, &:focus, &:active
         color: var(--color-white)
         border-color: transparent
-        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-tint) 100%)
+        background: var(--brand-blue)
 
 .btn-secondary
-    background: rgba(var(--color-secondary-rgb), 0.12)
-    color: #ad563c
+    background: white
+    color: var(--brand-blue)
+    border-color: var(--color-border)
+
+.btn-ai
+    color: white
+    background: var(--gradient-brand)
+    border-color: transparent
+
+.btn-voice
+    color: var(--brand-navy)
+    background: var(--gradient-voice)
     border-color: transparent
 
 .card, .modal-content, .dropdown-menu
-    border: 1px solid rgba(18, 60, 58, 0.06)
-    border-radius: 24px
+    border: 1px solid var(--color-border)
+    border-radius: var(--radius-card)
     box-shadow: var(--shadow-card)
+
+.card-header, .modal-header
+    color: var(--brand-navy)
+    background: #f8faff
+    border-color: var(--color-border)
 
 .form-control, .form-select, textarea
     min-height: var(--element-height)
     border-radius: var(--element-border)
     border: 1px solid var(--color-border)
-    background: rgba(255,255,255,0.9)
+    background: white
     color: var(--color-dark)
     box-shadow: none
     &:focus
@@ -108,8 +138,8 @@ button, .btn
 
 .section-card
     background: var(--color-surface)
-    border: 1px solid rgba(18, 60, 58, 0.06)
-    border-radius: 28px
+    border: 1px solid var(--color-border)
+    border-radius: var(--radius-card)
     box-shadow: var(--shadow-card)
 
 .eyebrow
@@ -119,18 +149,48 @@ button, .btn
     padding: 0.45rem 0.9rem
     border-radius: 999px
     background: rgba(var(--color-primary-rgb), 0.10)
-    color: var(--color-primary-tint)
+    color: var(--brand-blue)
     font-size: 0.85rem
     font-weight: 700
 
 .text-muted-ui
-    color: var(--color-dark-soft)
+    color: var(--text-secondary)
 
 *:focus-visible
-    outline: none
-    box-shadow: var(--shadow-focus)
+    outline: 3px solid rgba(var(--brand-blue-rgb), 0.28)
+    outline-offset: 2px
 
-$colors: primary, primary-tint, light, white, dark, danger, transparent, secondary
+.table
+    --bs-table-bg: white
+    --bs-table-hover-bg: #f0f6ff
+    color: var(--brand-navy)
+    border-color: var(--color-border)
+    thead
+        color: var(--brand-navy)
+        background: #eef4ff
+
+.pagination .page-link
+    color: var(--brand-blue)
+    border-color: var(--color-border)
+
+.pagination .active > .page-link
+    color: white
+    background: var(--brand-blue)
+    border-color: var(--brand-blue)
+
+.modal-title
+    color: var(--brand-navy)
+    font-weight: 750
+
+.badge-ai
+    color: var(--ai-purple)
+    background: rgba(var(--color-secondary-rgb), 0.1)
+
+.badge-voice
+    color: #006b82
+    background: rgba(0, 212, 255, 0.14)
+
+$colors: primary, primary-tint, light, white, dark, danger, transparent, secondary, success, warning
 
 @each $color in $colors 
   .#{""+$color} 

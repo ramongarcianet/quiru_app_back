@@ -35,7 +35,6 @@ export const setFile = (file, idOdontograma) => new Promise( (resolve, reject )=
 
 export const dowFile = (file) => new Promise ( (resolve, reject)=>{
     if(!file) reject( false )
-    console.log(file)
     return getDownloadURL(StorageRef(storage, file))
         .then((url) => {
             const xhr = new XMLHttpRequest();
@@ -48,7 +47,6 @@ export const dowFile = (file) => new Promise ( (resolve, reject)=>{
             resolve()
         })
         .catch((error) => {
-        console.log('error')
         });
 })
 

@@ -161,8 +161,8 @@ const filteredRegistros = computed(() => {
 <template lang="pug">
 .row.mb-3
   .col-10
-    h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Vista de
-    h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Configuración
+    h1.my-0(style="color: var(--brand-navy); font-size: 1.5em") Vista de
+    h1(style="color: var(--brand-blue); font-weight:bold; font-size: 1.5em") Configuración
     button.btn.btn-outline-primary.border-0(@click="refresh()" )
       i.bi.bi-arrow-left.fs-3
   .col-2

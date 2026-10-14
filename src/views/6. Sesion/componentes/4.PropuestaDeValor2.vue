@@ -15,7 +15,7 @@ const {push} = useRouter()
                         h1.primary-text Registra un odontograma 
                             span.dark-text correcto 
                         Img.ms-3( width='60' src="https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/quiru%2Fevitar-perdida-de-informacion.webp?alt=media&token=b3c6d1ca-7b90-4d94-9f9d-7f55d4125e6b")
-                span Olvídate de los colores y el corrector, Quiru de una sola vez registrará el odontograma de acuerdo a los estándares según la norma actual.
+                span Olvídate de los colores y el corrector: QUIRU Dent AI registrará el odontograma de acuerdo con los estándares de la norma actual.
                 button.btn.btn-primary.mt-5( @click='push({ name: "demo" })') Iniciar prueba
             .col-12.col-md-7.h-100.d-flex.align-items-end
                 Img.w-100(src="https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/quiru%2FAPP-2.webp?alt=media&token=1ecd739b-f318-4765-8837-52365fb33d8e")                                              

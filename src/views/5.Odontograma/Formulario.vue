@@ -3,7 +3,7 @@ import { onMounted, onUnmounted, watch, computed, ref } from "vue";
 import OdonOficial from "./2.impresion.vue";
 import { limpiarSinVoz } from "../../store/comandosDeVoz";
 import { obtenerTodoDiccionario, obtenerTodoPieza, obtenerTodoHallazgo, obtenerTodoCaries, } from "../../store/odonto";
-import { detenerVoz, activarVoz, isSpeech, Hallazgo, item, paginaOdontograma, textoEscuchado, resizeWindow, } from "../../store/odontograma";
+import { detenerVoz, activarVoz, isSpeech, speechError, Hallazgo, item, paginaOdontograma, textoEscuchado, resizeWindow, } from "../../store/odontograma";
 import { actualizarDetalle, leerEnRegistro, item as itemodontograma, agregarLista, mensajeExistePieza, getItemEnRegistro, validaDoble } from '../../store/formodontograma';
 import { VerFormato } from "../../store/Canvas";
 import { useRoute, useRouter } from "vue-router";
@@ -285,10 +285,12 @@ function onKeyDownSoloLetras(event) {
 
 <template lang="pug">
 
-.contenedor(:hidden="itemodontograma?.estado === '1' ")
-  .anim(v-if='isSpeech')
-  .microfono( @click="isSpeech ? detenerVoz() : activarVoz()" )#destacarMicrofono
-    i.icono.bi.bi-mic-fill.fs-3
+.voice-control(:hidden="itemodontograma?.estado === '1' ")#destacarMicrofono
+  MicroButton(:class='{ active: isSpeech }' style='--size: 4.75rem' @click="isSpeech ? detenerVoz() : activarVoz()")
+  .voice-copy
+    strong {{ isSpeech ? 'Escuchando...' : 'Asistente de voz' }}
+    span {{ isSpeech ? 'Habla con naturalidad' : 'Activa Voice AI para registrar hallazgos' }}
+  p.voice-error(v-if='speechError' role='alert') {{ speechError }}
 .row(:hidden="itemodontograma?.estado === '1'")
   p(style="background-color: var(--color-light)!important; margin: 0px !important;") {{ textoEscuchado }}
 .row
@@ -311,7 +313,7 @@ function onKeyDownSoloLetras(event) {
     .row.mt-2(v-if="!isSpeech")
       .col.d-flex.justify-content-center
         button.btn.btn-primary.m-1(type="submit", @click="AgregarHallazgo" style="width: 7rem;") Agregar
-        button.btn.btn-primary.m-1(type="submit", @click="limpiarHallazgoDiente()" style="width: 7rem;") Limpiar
+        button.btn.btn-secondary.m-1(type="button" @click="limpiarHallazgoDiente()" style="width: 7rem;") Limpiar
     .row.mt-2(v-if="!isSpeech")
     #mensaje
 .col.mt-2.d-flex.justify-content.desplazable
@@ -320,7 +322,7 @@ function onKeyDownSoloLetras(event) {
   .col.item
     .div(style="background-color: white; border-radius: 2%;")
       table.table.table-hover
-        thead(style='position: sticky;top: 0; background-color: var(--color-light)!important; font-weight: bold; color:rgb(57, 93, 86);')
+        thead(style='position: sticky;top: 0; background-color: #eef4ff!important; font-weight: bold; color:var(--brand-navy);')
           tr
             th N°
             th Pieza
@@ -396,45 +398,31 @@ function onKeyDownSoloLetras(event) {
   flex: 0 0 100%
   scroll-snap-align: start
   scroll-snap-stop: always
-.contenedor
+.voice-control
   display: flex
-  flex-direction: row
+  flex-wrap: wrap
   justify-content: center
   align-items: center
-  margin-top: 4px
-  margin-bottom: 4px
-  position: relative
-  .microfono
-    height: 90px
-    width: 90px
-    background-color: var(--color-primary)
-    border-radius: 100%
+  gap: 1rem
+  margin: .75rem 0 1rem
+  padding: 1rem
+  border: 1px solid rgba(100, 59, 255, .18)
+  border-radius: var(--radius-card)
+  background: linear-gradient(135deg, rgba(0, 102, 255, .05), rgba(100, 59, 255, .07))
+  .voice-copy
     display: flex
-    justify-content: center
-    align-items: center
-    position: relative
-    z-index: 1
-    .icono
-      font-size: 60px
-      color: var(--color-white)
-  .anim
-    content: ""
-    height: 100px
-    width: 100px
-    background-color: var(--color-primary)
-    opacity: .3
-    position: absolute
-    border-radius: 100%
-    animation: palpitar 2s  infinite
-    z-index: 0
-  
-@keyframes palpitar
-  0%
-    transform: scale(1)  
-  50%  
-    transform: scale(1.2)  
-  100%
-    transform: scale(1)  
+    flex-direction: column
+    strong
+      color: var(--ai-purple)
+      font-size: 1rem
+    span
+      color: var(--text-secondary)
+      font-size: .85rem
+  .voice-error
+    flex-basis: 100%
+    margin: 0
+    color: var(--color-danger)
+    text-align: center
 
 @media (min-width: 800px)
   .desplazable

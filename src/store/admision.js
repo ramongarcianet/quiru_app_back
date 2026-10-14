@@ -11,7 +11,6 @@ export const registro = ref([])
 
 export const guardar = (item, idPaciente) => {
     const referencia = collection(firestore, 'admision')
-    console.log(item);
     return addDoc(referencia, {
         ...item,
         idPaciente: idPaciente,

@@ -314,7 +314,7 @@ function slelecteditem(ubicacion) {
                     opacity: .6
                 &:hover
                     &::before
-                        background: mix(black, #37DFBB, 10%)!important
+                        background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(100, 59, 255, 0.07))!important
             &.caries, &.manchablanca, &.lesionesmalte, &.lesiondentina, &.lesionpulpa
                 &.active
                     color: var(--bs-white)

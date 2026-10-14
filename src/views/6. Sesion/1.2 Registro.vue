@@ -18,8 +18,9 @@ const mensaje = ref('')
 <template lang="pug">
 .derecha
     .centrar
-        h2.text-center.mt-4(style="color:#395D56") Bienvenido
-        h2.text-center.light-text Registro de nuevo usuario
+        span.eyebrow Crea tu cuenta
+        h2.text-center.mt-4 QUIRU Dent AI
+        p.text-center.text-muted-ui Registro de nuevo usuario
         Form( :onPromise='()=>verificacion(item)' :onCatch='(e)=>mensaje = e') 
             label.form-label Nombre*
             input.form-control(placeholder="Nombre(s)" v-model.trim='item.nombre' maxlength="40" required)
@@ -35,30 +36,30 @@ const mensaje = ref('')
             label.form-label Vuelve a escribir tu contraseña*
             input.form-control(pattern="(?=.*)(?=.*[a-z])(?=.*[A-Z]).{8,}" title='Ingrese min. 8 caracteres en combinación de números, minúsculas y mayúsculas' v-model='item.contrasena' type='password' placeholder="********")
             label.ms-3(id="malaContraseña" style="display: none") La contraseña no coincide 
-            button.btn.btn-outline-light.m-1( type='submit') Registrarme
-            button.btn.btn-outline-light.m-2( type='button' @click='push({name: "iniciar-sesion"})' style="border: 0!important;") Iniciar sesión
+            button.btn.btn-primary.m-1(type='submit') Registrarme
+            button.btn.btn-outline-primary.m-2(type='button' @click='push({name: "iniciar-sesion"})') Iniciar sesión
             p.alert.alert-danger.alert-dismissible(v-if='mensaje') {{mensaje}}
 
 </template>
 <style lang="sass" scoped>
 
 .derecha
-        background: #37DFBB
-        border-top-left-radius: 42px
-        border-top-right-radius: 42px
+        padding: 1.5rem
+        background: white
+        border: 1px solid var(--color-border)
+        border-radius: var(--radius-card)
+        box-shadow: var(--shadow-card)
 form
     padding:5px 25px
     display: flex
     flex-direction: column
-    background: #37DFBB
+    background: white
 
 @media (min-width: 575px)
     .derecha
-        background: #37DFBB
-        border-top-left-radius: 35px
-        border-bottom-left-radius: 35px
-        border-top-right-radius: 0
-        height: 100vh
+        background: white
+        border-radius: var(--radius-card)
+        height: auto
         width: 100%
     .centrar
         padding: 5% 10%

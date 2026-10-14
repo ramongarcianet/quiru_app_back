@@ -18,7 +18,7 @@ cargaOdontogramas()
 
 <template lang="pug">
 .d-flex.align-content-start.flex-wrap
-  h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Bienvenido
+  h1(style="color: var(--brand-blue); font-weight:bold; font-size: 1.5em") Bienvenido
 .container.fluid.row
   .col-4
     .card.p-2

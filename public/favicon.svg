@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="QUIRU Dent AI">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0066FF"/>
+      <stop offset="1" stop-color="#643BFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#g)"/>
+  <path d="M18 15c6-2 10 4 14 4s8-6 14-4c7 2 9 9 7 17-2 9-7 22-13 22-4 0-5-8-8-8s-4 8-8 8c-6 0-11-13-13-22-2-8 0-15 7-17Z" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="47" cy="17" r="4" fill="#00D4FF"/>
+</svg>

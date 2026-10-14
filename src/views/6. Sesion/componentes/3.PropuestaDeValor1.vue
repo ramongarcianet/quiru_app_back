@@ -15,7 +15,7 @@ const {push} = useRouter()
                         h1.primary-text Tu nuevo asistente de 
                             span.dark-text voz 
                         Img.ms-3( width='60' src="https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/quiru%2FAsistente-de-voz.webp?alt=media&token=e8ca81fb-bed4-489d-a115-34cc92090bfc")
-                span ¿Recuerdas cuando te sacabas 3 veces los guantes para tomar notas y esperar a que acabe la atención para llenar tus formatos? Con Quiru se acabó, el asistente de voz te acompaña durante tu atención registrando el odontograma una sola vez.
+                span ¿Recuerdas cuando te sacabas 3 veces los guantes para tomar notas y esperar a que acabe la atención para llenar tus formatos? Con QUIRU Dent AI, el asistente de voz te acompaña durante tu atención registrando el odontograma una sola vez.
                 button.btn.btn-primary.mt-5( @click='push({ name: "demo" })') Iniciar prueba
             .col-12.col-md-7.h-100.d-flex.align-items-end
                 Img.w-100(src="https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/quiru%2FGroup-74-_3_.webp?alt=media&token=36a5ae62-c1d3-4989-8a0a-207cd288c06d")

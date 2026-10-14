@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute, useRouter } from "vue-router";
-import Logo from "../../../assets/logoQuiru.vue";
+import BrandLogo from '../../../components/BrandLogo.vue'
 import marketing from "../../../store/marketing";
 const { push } = useRouter();
 //const {registrarEvento} = marketing
@@ -18,7 +18,7 @@ const router = [
 <template lang="pug">
 nav.navbar.navbar-expand-lg.bg-light
   .container
-    Img.navbar-brand(src="https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/Group%2073%20(1).png?alt=media&token=13f628f8-46ea-41f4-a4f4-b4d2aa604323")
+    BrandLogo(compact)
     button.navbar-toggler.ms-auto.me-2(type="button", data-bs-toggle="collapse", data-bs-target="#navbarSupportedContent", aria-controls="navbarSupportedContent", aria-expanded="false", aria-label="Toggle navigation")
         i.bi.bi-list
 

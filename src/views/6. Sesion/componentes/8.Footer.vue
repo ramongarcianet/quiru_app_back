@@ -1,6 +1,6 @@
 <script setup>
 import { useRouter } from "vue-router";
-import Logo from "../../../assets/logoQuiru.vue";
+import BrandLogo from '../../../components/BrandLogo.vue'
 
 const { push } = useRouter();
 
@@ -18,9 +18,10 @@ const listaDeRedes = [
 .container.d-flex.w-100
     .d-flex.w-100.justify-content-between.align-items-center
         div
-            Img( height='50' src="https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/Group%2073%20(1).png?alt=media&token=13f628f8-46ea-41f4-a4f4-b4d2aa604323")
+            BrandLogo(compact)
             p.m-0
-                small 2022 Quiru | Trujillo - Perú
+                small QUIRU Dent AI es un producto de QUIRU Labs.
+            a.labs-link(href='https://quirulabs.web.app/' target='_blank' rel='noopener noreferrer') AI &amp; Software Solutions
         .d-flex
             a(v-for='{icono, ruta} of listaDeRedes'  :href='ruta' target='_blank').me-3
                 i.fs-3.primary-text(:class='icono')
@@ -34,4 +35,10 @@ button
 
 .container
     padding-top: 7rem
+
+.labs-link
+    color: var(--brand-blue)
+    font-size: .8rem
+    font-weight: 700
+    text-decoration: none
 </style>

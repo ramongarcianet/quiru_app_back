@@ -5,7 +5,7 @@ export function VerFormato(registro) {
     contexto.clearRect(0, 0, canvas.width, canvas.height);
     var canvas = document.getElementById('myCanvas');
     var context = canvas.getContext('2d');
-    var colo_cab = '#bfbfbf';
+    var colo_cab = '#212529';
     context.font = '8pt Calibri';
     context.textAlign = 'center';
     context.fillStyle = 'blue';
@@ -151,7 +151,7 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza) {
     var ctx = context;
     var cua = med / 4;
     var ter = cua * 3;
-    var color_line = 'black';
+    var color_line = '#212529';
 
     if (ctx) {
         ctx.strokeStyle = color_line;
@@ -194,11 +194,14 @@ function dibuja_contorno(context, inicio_x, inicio_y, med, pieza) {
         ctx.stroke();
     }
 
-    dibuja_seccion(ctx, pieza, 1, "#37DFBB", med, inicio_x, inicio_y)
-    dibuja_seccion(ctx, pieza, 2, "#37DFBB", med, inicio_x, inicio_y)
-    dibuja_seccion(ctx, pieza, 3, "#37DFBB", med, inicio_x, inicio_y)
-    dibuja_seccion(ctx, pieza, 4, "#37DFBB", med, inicio_x, inicio_y)
-    dibuja_seccion(ctx, pieza, 5, "#37DFBB", med, inicio_x, inicio_y)
+    const brandSurfaceGradient = ctx.createLinearGradient(inicio_x, inicio_y, inicio_x + med, inicio_y + med);
+    brandSurfaceGradient.addColorStop(0, 'rgba(0, 102, 255, 0.05)');
+    brandSurfaceGradient.addColorStop(1, 'rgba(100, 59, 255, 0.07)');
+    dibuja_seccion(ctx, pieza, 1, brandSurfaceGradient, med, inicio_x, inicio_y)
+    dibuja_seccion(ctx, pieza, 2, brandSurfaceGradient, med, inicio_x, inicio_y)
+    dibuja_seccion(ctx, pieza, 3, brandSurfaceGradient, med, inicio_x, inicio_y)
+    dibuja_seccion(ctx, pieza, 4, brandSurfaceGradient, med, inicio_x, inicio_y)
+    dibuja_seccion(ctx, pieza, 5, brandSurfaceGradient, med, inicio_x, inicio_y)
 }
 function dibuja_raiz(contexto, inicio_x, medida, inicio_y, color, tipo) {
     var ctx = contexto;
@@ -278,7 +281,7 @@ function dibuja_seccion(contexto, num_diente, seccion, color_pas, medida, inicio
     var cua = med / 4;
     var ter = cua * 3;
     var color_line = color_pas;
-    var color_line2 = 'white';
+    var color_line2 = '#212529';
     const Diente_seccionOclusal = listaDeDientesCombo.filter((elem) => elem.value == num_diente);
     //Arriba
     if (seccion == 1) {

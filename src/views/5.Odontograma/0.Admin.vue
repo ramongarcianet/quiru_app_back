@@ -67,7 +67,7 @@ function downloadOD(){
       numeroHallazgos: item.hallazgos?.length
     });
   });
-  var fileTitle = 'Odontogramas de Quiru';
+  var fileTitle = 'Odontogramas de QUIRU Dent AI';
   exportCSVFile(headers, itemsFormatted, fileTitle);
 }
 
@@ -100,7 +100,7 @@ function downloadOD(){
       email: item.email
     });
   });
-  var fileTitle = 'Usuarios de Quiru';
+  var fileTitle = 'Usuarios de QUIRU Dent AI';
   exportCSVFile(headers, itemsFormatted, fileTitle);
 }*/
 
@@ -129,7 +129,7 @@ obtenerTodosOD()
 #id02.modal(style="display:none;")
   .modal-content.modal-sm
     .container
-      p(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Eliminar Odontograma
+      p(style="color: var(--brand-navy); font-weight:bold; font-size: 1.5em") Eliminar Odontograma
       p ¿Esta seguro que desea eliminar?
       .clearfix
         button.btn.btn-secondary.cancelbtn(@click="Cancelar()") Cancelar
@@ -144,7 +144,7 @@ obtenerTodosOD()
   #SeccionOdo.accordion-collapse.collapse(data-bs-parent='#accordion1')
     .accordion-body
       .card.mb-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
-        .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
+        .row.p-1(style="color:var(--brand-navy);font-weight: bold;")
           .col-2.ps-4 Nro. hallazgos
           .col-3 ID odontograma
           .col-3 ID del usuario

@@ -32,5 +32,5 @@ body
   height: 30px
   color: currentcolor
 ::selection
-  background: rgba(34, 199, 166, 0.22)
+  background: rgba(0, 102, 255, 0.2)
 </style>

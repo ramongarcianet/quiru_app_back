@@ -12,13 +12,13 @@ let beneficios = [
   },
   {
     beneficio: "Odontogramas bajo los estándares",
-    descripcion: "Quiru llena los odontogramas bajo la norma actual",
+    descripcion: "QUIRU Dent AI registra odontogramas bajo la norma actual",
     icono:
       "https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/quiru%2FOdontogramas-_1_.webp?alt=media&token=d0cac0ed-5a0b-46f1-9896-1b47507990b1",
   },
   {
     beneficio: "Información a mano",
-    descripcion: "Con Quiru adiós al papeleo. Registros ordenados y disponibles las 24 horas en tu celular.",
+    descripcion: "Con QUIRU Dent AI, adiós al papeleo. Registros ordenados y disponibles las 24 horas en tu celular.",
     icono:
       "https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/quiru%2Fevitar-perdida-de-informacion.webp?alt=media&token=b3c6d1ca-7b90-4d94-9f9d-7f55d4125e6b",
   },
@@ -44,7 +44,7 @@ let beneficios = [
         .row
             .col-12.col-md-5.d-flex.flex-column.justify-content-start.beneficios
                 h1.primary-text Beneficios por usar  
-                    span.dark-text Quiru
+                    span.dark-text QUIRU Dent AI
                 span Tu nuevo asistente de voz que reduce un 75% en toma de datos para el registro de odontogramas
         .row
             .col-12.col-md-6.h-100.d-flex.align-items-end.mt-5

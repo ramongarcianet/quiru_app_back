@@ -1,5 +1,5 @@
 <script setup>
-import logo from "../../assets/logo.png"
+import BrandLogo from '../../components/BrandLogo.vue'
 </script>
 
 <template lang="pug">
@@ -10,21 +10,25 @@ import logo from "../../assets/logo.png"
         .row.g-4.h-100.align-items-stretch
             .col-12.col-lg-6
                 .session-brand-panel
-                    span.eyebrow Plataforma clínica
-                    h1 Quiru te acompaña en cada momento de la atención
-                    p.text-muted-ui Desde la primera cita hasta el seguimiento del tratamiento, todo vive en una experiencia más clara, más confiable y más agradable para tu equipo.
-                    .brand-preview
-                        img.preview-logo(:src='logo' alt='Quiru')
+                    BrandLogo(inverse)
+                    span.eyebrow HEALTHTECH · VOICE AI · DENTAL TECHNOLOGY
+                    h1 Tu práctica odontológica, impulsada por Inteligencia Artificial.
+                    p QUIRU Dent AI combina tecnología odontológica, Inteligencia Artificial y reconocimiento de voz para ofrecer una experiencia digital más natural e intuitiva.
+                    .voice-visual(aria-hidden='true')
+                        i.bi.bi-mic-fill
+                        span.wave.wave-one
+                        span.wave.wave-two
+                        span.wave.wave-three
                     .brand-metrics
                         .metric-card
-                            strong Agenda
-                            span Control diario con foco clínico
+                            strong Voz
+                            span Interacción natural durante la atención
                         .metric-card
-                            strong Pacientes
-                            span Información siempre disponible
+                            strong Inteligencia Artificial
+                            span Asistencia integrada al flujo clínico
                         .metric-card
-                            strong Tratamientos
-                            span Operación mejor conectada
+                            strong Odontología
+                            span Herramientas claras para tu práctica
             .col-12.col-lg-6.d-flex
                 .session-form-shell
                     router-view
@@ -46,7 +50,7 @@ import logo from "../../assets/logo.png"
         height: 20rem
         top: -4rem
         left: -3rem
-        background: rgba(var(--color-primary-rgb), 0.24)
+        background: rgba(var(--color-primary-rgb), 0.2)
     &.session-glow-b
         width: 18rem
         height: 18rem
@@ -65,10 +69,10 @@ import logo from "../../assets/logo.png"
     justify-content: center
     gap: 1.2rem
     padding: 2rem
-    background: linear-gradient(145deg, #103e3c 0%, #1d6c66 100%)
+    background: linear-gradient(145deg, #071b40 0%, #092d66 52%, #38208f 100%)
     color: white
     border-radius: 34px
-    box-shadow: 0 28px 60px rgba(16, 62, 60, 0.28)
+    box-shadow: 0 28px 60px rgba(7, 27, 64, 0.26)
     h1
         margin: 0
         font-size: clamp(2rem, 3.8vw, 3.5rem)
@@ -83,21 +87,34 @@ import logo from "../../assets/logo.png"
     .eyebrow
         align-self: flex-start
         background: rgba(255,255,255,0.12)
-        color: #d8fffb
+        color: #ccefff
 
-.brand-preview
-    padding: 1.25rem
-    border-radius: 28px
-    background: rgba(255,255,255,0.08)
-    border: 1px solid rgba(255,255,255,0.12)
-    display: flex
-    align-items: center
-    justify-content: center
-
-.preview-logo
-    width: min(100%, 22rem)
-    height: auto
-    object-fit: contain
+.voice-visual
+    position: relative
+    display: grid
+    place-items: center
+    width: 6rem
+    height: 6rem
+    margin: 0.5rem auto
+    border-radius: 50%
+    color: white
+    background: var(--gradient-voice)
+    box-shadow: 0 0 0 0.75rem rgba(0, 212, 255, 0.08), 0 18px 40px rgba(0, 140, 255, 0.3)
+    i
+        position: relative
+        z-index: 2
+        font-size: 2rem
+    .wave
+        position: absolute
+        inset: -0.65rem
+        border: 1px solid rgba(0, 212, 255, 0.36)
+        border-radius: 50%
+    .wave-two
+        inset: -1.25rem
+        opacity: 0.64
+    .wave-three
+        inset: -1.85rem
+        opacity: 0.34
 
 .brand-metrics
     display: grid
@@ -132,4 +149,7 @@ import logo from "../../assets/logo.png"
         grid-template-columns: 1fr
     .session-form-shell
         padding-top: 0
+    .voice-visual
+        width: 5rem
+        height: 5rem
 </style>

@@ -14,13 +14,13 @@ const rutas = [
 <template lang="pug">
 .router(v-if=" route.name !== 'Detalle' " :class=" item.rol === 'admin' ? 'plusAdmin' : '' ")
   ul
-    li.list(v-for="ruta of rutas"  @click="push({name:ruta.ruta})" :class=" ruta.ruta == routeName ? 'active' : '' ")
-      a
+    li.list(v-for="ruta of rutas" :class=" ruta.ruta == routeName ? 'active' : '' ")
+      button.nav-action(type='button' @click="push({name:ruta.ruta})" :aria-current="ruta.ruta == routeName ? 'page' : undefined" :aria-label="`Ir a ${ruta.name}`")
         span.icon
           i(:class= 'ruta.icono')
         span.route {{ruta.name}}
-    li.list(v-if="item.rol === 'admin'" @click="push({name: 'admin' })" :class=" 'admin' == routeName ? 'active' : '' ")
-      a
+    li.list(v-if="item.rol === 'admin'" :class=" 'admin' == routeName ? 'active' : '' ")
+      button.nav-action(type='button' @click="push({name: 'admin' })" :aria-current="'admin' == routeName ? 'page' : undefined" aria-label='Ir a Administrador')
         span.icon
           i(class="bi bi-sliders")
         span.route Administrador
@@ -34,7 +34,7 @@ const rutas = [
   right: 0
   margin: auto
   width: 280px
-  min-height: 78px
+  min-height: 72px
   padding: 0.5rem
   background: rgba(255,255,255,0.88)
   backdrop-filter: blur(20px)
@@ -42,9 +42,9 @@ const rutas = [
   display: flex
   justify-content: center
   align-items: center
-  border-radius: 28px
-  border: 1px solid rgba(18, 60, 58, 0.08)
-  box-shadow: 0 18px 40px rgba(18, 60, 58, 0.16)
+  border-radius: 20px
+  border: 1px solid var(--color-border)
+  box-shadow: 0 14px 34px rgba(7, 27, 64, 0.14)
   ul
     display: flex
     width: 100%
@@ -58,19 +58,22 @@ const rutas = [
       flex: 1
       z-index: 3
       cursor: pointer
-      a
+      .nav-action
         position: relative
         display: flex
         justify-content: center
         align-items: center
         flex-direction: column
         width: 100%
-        min-height: 64px
+        min-height: 58px
         gap: 0.2rem
         text-align: center
-        border-radius: 22px
+        border-radius: 14px
         font-weight: 700
         transition: background-color 0.25s ease, transform 0.25s ease, color 0.25s ease
+        padding: 0.35rem
+        border: 0
+        background: transparent
         .route
           color: var(--color-dark-soft)
           font-size: 0.72rem
@@ -84,17 +87,17 @@ const rutas = [
           font-size: 1.2rem
           text-align: center
           transition: 0.25s ease
-          color: var(--color-primary-tint)
+          color: var(--text-secondary)
 
       &:hover
-        a
-          background: rgba(var(--color-primary-rgb), 0.07)
+        .nav-action
+          background: rgba(var(--color-primary-rgb), 0.06)
 
       &.active
-        a
-          background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-tint) 100%)
-          box-shadow: 0 14px 24px rgba(var(--color-primary-rgb), 0.28)
-          transform: translateY(-6px)
+        .nav-action
+          background: var(--brand-blue)
+          box-shadow: 0 8px 18px rgba(var(--color-primary-rgb), 0.22)
+          transform: translateY(-3px)
           .icon
             color: var(--color-white)
 

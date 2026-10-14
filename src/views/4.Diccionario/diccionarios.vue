@@ -7,7 +7,7 @@ const { push } = useRouter()
 <template  lang="pug">
 
 .d-flex.justify-content-between
-  i.bi.bi-list-ul(style="color: #37DFBB; font-weight:bold; font-family: var(--font-family); font-size: 1.5em;")
+  i.bi.bi-list-ul(style="color: var(--brand-blue); font-weight:bold; font-size: 1.5em;")
     |  Diccionario
   br
 row

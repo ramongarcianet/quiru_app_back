@@ -75,18 +75,18 @@ function searchData() {
             b-form-group.mb-0(label='Por página' label-for='per-page-select' label-cols-sm='3' label-cols-md='3' label-cols-lg='3' label-align-sm='right' label-size='mb')
                 b-form-select#per-page-select(v-model='perPage' :options='pageOptions' size='mb')
         .col-7.d-none.d-md-block
-            input#SearchInput.form-control.mb-2.ms-auto(v-on:keyup='searchData(registro)', placeholder="Buscar")
+            input#SearchInput.form-control.mb-2.ms-auto(v-on:keyup='searchData(registro)' placeholder="Buscar por nombre o documento" aria-label='Buscar pacientes')
         .d-block.d-md-none
-            input#SearchInput.form-control.mb-2.ms-auto(v-on:keyup='searchData(registro)', placeholder="Buscar")
+            input#SearchInput.form-control.mb-2.ms-auto(v-on:keyup='searchData(registro)' placeholder="Buscar por nombre o documento" aria-label='Buscar pacientes')
     .div.mb-5
-        .card.mb-1.d-none.d-md-block(style="border-radius: 30px; background-color:var(--color-light) !important;")
-            .row.align-items-center.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
+        .card.table-heading.mb-1.d-none.d-md-block
+            .row.align-items-center.p-2
                 .col-3.ps-4.d-none.d-md-block Doc. Identidad
                 .col-3.d-none.d-md-block Nombre
                 .col-2.d-none.d-md-block Teléfono
                 .col-2.d-none.d-md-block Email
                 .col-1
-        .card.mb-2.p-2.d-block.d-md-none(v-for="item of paginatedData"  :key="item.id"  :item="item" @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })" style="border-radius: 40px")
+        .card.patient-row.mb-2.p-3.d-block.d-md-none(v-for="item of paginatedData" :key="item.id" :item="item" @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })")
             .row.align-items-center.p-1(style="cursor: pointer")
                 .col-10 {{item.tipoDocumento + ' ' +item.numeroDocumento }}
                 .col-1.dropdown(style="max-height: 24px")
@@ -94,7 +94,7 @@ function searchData() {
                         i.bi.bi-person
                 .col-10 {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }}
 
-        .card.mb-2.p-2.d-none.d-md-block(v-for="item of paginatedData"  :key="item.id"  :item="item" style="border-radius: 40px" )
+        .card.patient-row.mb-2.p-2.d-none.d-md-block(v-for="item of paginatedData" :key="item.id" :item="item")
             .row.align-items-center.p-1(style="cursor: pointer")
                 .col.ps-3(@click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })") {{item.tipoDocumento}}
                 .col-2(@click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })") {{ item.numeroDocumento }}
@@ -105,9 +105,47 @@ function searchData() {
                 .col-1.dropdown
                     button.ms-auto.btn(title='Odontograma' @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })")
                         i.bi.bi-person
+        .empty-state(v-if='paginatedData.length === 0')
+            i.bi.bi-people(aria-hidden='true')
+            h2 Todavía no tienes pacientes registrados.
+            p Registra tu primer paciente para comenzar.
+            button.btn.btn-primary(type='button' @click="push({name: 'paciente'})") Nuevo paciente
         b-col.my-1(sm='12' md='12')
             b-pagination.my-0(v-model='currentPage' :total-rows='totalRows' :per-page='perPage' align='center' size='lg')
             
     </b-container>
 </template>
+<style lang="sass" scoped>
+.table-heading
+    color: var(--brand-navy)
+    background: #eef4ff
+    border-radius: 12px
+    box-shadow: none
+    font-weight: 700
+
+.patient-row
+    border-radius: 12px
+    box-shadow: none
+    transition: border-color .18s ease, background-color .18s ease
+    &:hover
+        border-color: rgba(var(--brand-blue-rgb), .28)
+        background: #f7faff
+
+.empty-state
+    display: flex
+    align-items: center
+    flex-direction: column
+    padding: 3rem 1rem
+    text-align: center
+    color: var(--text-secondary)
+    i
+        color: var(--brand-blue)
+        font-size: 2.5rem
+    h2
+        margin: 1rem 0 .35rem
+        color: var(--brand-navy)
+        font-size: 1.15rem
+    p
+        margin-bottom: 1.25rem
+</style>
   

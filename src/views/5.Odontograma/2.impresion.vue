@@ -40,12 +40,12 @@ VerFormato(itemodontograma?.value?.hallazgos);
   position: relative
   z-index: 0 !important
 #myCanvas
-  border: 0px solid #9c9898
+  border: 0px solid #212529
   height: 370px
   overflow: hidden
 @media (min-width: 800px)
   #myCanvas
-    border: 0px solid #9c9898
+    border: 0px solid #212529
     height: 490px
     overflow: hidden
 
