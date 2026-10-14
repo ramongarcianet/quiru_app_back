@@ -1,0 +1,30 @@
+Speech ejecutivo por slide
+Presentacion: Quiru_arquitectura_ejecutiva_grafica.pptx
+
+Slide 1: Apertura
+Quiru es una plataforma web que conecta al paciente, al odontologo y los servicios cloud en una sola experiencia clinica. La propuesta combina gestion odontologica, reconocimiento de voz, almacenamiento seguro y procesamiento inteligente de lenguaje. Esta arquitectura nos permite reducir friccion operativa, capturar datos clinicos en tiempo real y preparar el camino para capacidades avanzadas de IA.
+
+Slide 2: Arquitectura De Interconexiones
+En esta vista vemos el ecosistema completo. El cliente y el odontologo interactuan con quiru_app, una aplicacion web Vue que corre en el navegador. Desde alli se conectan los modulos de pacientes, citas, admision, odontograma, planes y PDFs. Firebase sostiene autenticacion, datos, archivos y hosting; Annyang captura la voz en el navegador; Google Cloud NLP apoya la normalizacion del lenguaje; y como evolucion propuesta, un Agente IA genera planes de tratamiento para revision del odontologo.
+
+Slide 3: Flujo De Voz Y Procesamiento De Lenguaje
+El flujo de voz esta pensado para que el odontologo no pierda tiempo durante la atencion. El profesional dicta un hallazgo, el navegador captura el audio, Annyang lo transforma en texto y Quiru interpreta la pieza dental y el hallazgo. Si el texto requiere correccion, Google Cloud NLP puede apoyar la normalizacion. Finalmente, el dato se guarda en Firestore y queda disponible para odontograma, resumen, plan y PDF. La evolucion natural es que esos hallazgos alimenten un Agente IA que proponga tratamientos.
+
+Slide 4: Flujo Clinico Y De Datos
+Esta lamina muestra el recorrido clinico de punta a punta. El paciente solicita o llega a una consulta, el odontologo lo registra, completa admision, dicta hallazgos, genera plan, cotizacion, consentimientos y documentos. Firebase actua como columna vertebral de identidad, datos, archivos y despliegue. El Agente IA se ubica despues del diagnostico: asiste sugiriendo un plan, pero la decision clinica queda siempre en manos del odontologo.
+
+Slide 5: Responsabilidades Por Componente
+Aqui separo responsabilidades para que el modelo sea facil de gobernar. El paciente aporta datos y documentos; el odontologo gestiona la atencion; quiru_app orquesta la experiencia; Annyang resuelve la entrada por voz; Firebase asegura persistencia y sincronizacion; Google Cloud NLP mejora el procesamiento del lenguaje. El nuevo componente propuesto, el Agente IA, usaria hallazgos, admision, CIE10, precios y tratamientos previos para generar una propuesta revisable.
+
+Slide 6: Seguridad Y Gobierno
+Como trabajamos con datos clinicos, la arquitectura debe crecer con controles claros. Necesitamos identidad robusta, reglas de acceso por rol y odontologo, privacidad, retencion documental, monitoreo, backups y configuracion por ambientes. La automatizacion por voz y la IA agregan valor, pero deben estar acompanadas de trazabilidad, auditoria y validacion de acceso.
+
+Slide 7: Modelo Operativo 
+El valor se resume en tres frentes: experiencia, plataforma y gobierno. 
+En experiencia, reducimos friccion para el odontologo y conectamos mejor al paciente. 
+En plataforma, centralizamos operacion clinica sobre quiru_app, Firebase y servicios cloud. 
+En gobierno, aseguramos reglas, auditoria y pruebas. 
+
+Slide 8: Agente IA De Plan De Tratamiento
+Esta es la funcionalidad nueva que estamos desarrollando. El Agente IA tomaria como entradas el odontograma, hallazgos, admision, historia clinica, CIE10, diccionarios, precios y tratamientos. Con apoyo de Google Cloud API podria generar un plan sugerido por fases, con prioridades, justificacion, costos estimados y alternativas. 
+El punto clave es el gobierno clinico: el agente no decide automaticamente; propone, explica y deja trazabilidad. El odontologo valida, edita y aprueba.

@@ -60,7 +60,7 @@ const crear_ = () => new Promise( async(resolve, reject) =>   {
     h1 Datos 
     h1 Adicionales
     button.btn.btn-outline-primary.border-0(@click="back()" )
-      i.fa-solid.fa-arrow-left-long.fa-xl
+      i.bi.bi-arrow-left.fs-3
 .row
   .col.m-2
     Form( :onPromise="() => crear_(item)" :onSuccess='()=>mensaje= "Actualizado con éxito"' :onCatch='(e) => mensaje = e') 
@@ -96,7 +96,7 @@ const crear_ = () => new Promise( async(resolve, reject) =>   {
             
               td.ms-3
                 BotonSeguro( :onSuccess= '() => eliminarDelDocumento(file, i)' )
-                  i.fa.fa-trash-o(aria-hidden='true')
+                  i.bi.bi-trash(aria-hidden='true')
 
 </template>
 

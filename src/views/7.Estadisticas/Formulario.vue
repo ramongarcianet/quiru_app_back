@@ -38,7 +38,7 @@ onUnmounted(()=> {
 <template lang="pug">
 
 //.d-flex.justify-content-between
-  i.fa.fa-coins-ul(style="color: #37DFBB; font-weight:bold; font-size: 1.5em;")
+  i.bi.bi-cash-coin(style="color: #37DFBB; font-weight:bold; font-size: 1.5em;")
   h1(style="color: #37DFBB; font-family: var(--font-family)") Llenar Precios
 
 Form( :onPromise='()=>guardarOActualizar()' :onSuccess='()=>back()')

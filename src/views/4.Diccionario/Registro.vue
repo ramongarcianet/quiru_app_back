@@ -41,14 +41,14 @@ watch(
                 td
                 td.dropdown
                     button.ms-auto.btn( @click="push({ name: 'diccionario', params: { idDiccionario: item.id } })")
-                        i.fa.fa-pencil-square-o(aria-hidden='true')
+                        i.bi.bi-pencil-square(aria-hidden='true')
                 td.dropdown
                     button.ms-auto.btn(@click="confirmar == false ? confirmar = true : confirmarEliminar(item.id)") {{ confirmar ? '¿Está seguro?' : '' }}    
-                        i.fa.fa-trash-o(aria-hidden='true' style="color: black;")
+                        i.bi.bi-trash(aria-hidden='true' style="color: black;")
     .div(style="text-align: center;")
         button#prevButton.btn.btn-primary(@click="previousPage(registro)") 
-            i.fa.fa-angle-double-left(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;") 
+            i.bi.bi-chevron-double-left(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;") 
         button#nextButton.btn.btn-primary(@click="nextPage(registro)") 
-            i.fa.fa-angle-double-right(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;") 
+            i.bi.bi-chevron-double-right(aria-hidden='true' style="font-size: 1em; font-weight: bold; color: white;") 
 </template>
 

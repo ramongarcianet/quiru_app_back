@@ -4,17 +4,17 @@ import { convertToText } from "./numeroLetras.js"
 import router from '../config/router'
 import comandosDeVoz from './comandosDeVoz';
 import { item as itemodontograma } from './formodontograma';
-import { useRoute } from "vue-router";
 import { guardarEnDiccionario } from './formodontograma';
-import '../assets/annyang.min'
-const route = useRoute()
+import '../assets/annyang.min.js'
 const { push } = router;
 export const isSpeech = ref(false);
 let flagAnnyang;
+const annyangInstance = typeof window !== 'undefined' ? window.annyang : null;
 export const resizeWindow = ref(1366)
 export const verOdontograma = ref(true)
 export let flagLimpiar = ref(false)
 export const textoEscuchado = ref()
+export const speechError = ref('')
 export const paginaOdontograma = ref(false);
 export const listaDeDientes = [
     [[[{ diente: '18', clase: "raiz-3 " }, { diente: "17", clase: "raiz-3" }, { diente: "16", clase: "raiz-3" }, { diente: "15", clase: "raiz-1" }, { diente: "14", clase: "raiz-2" }, { diente: "13", clase: "raiz-1 toCenter" }, { diente: "12", clase: "raiz-1 toCenter" }, { diente: "11", clase: "raiz-1 toCenter" }], [{ diente: "21", clase: "raiz-1 toLeft toCenter" }, { diente: "22", clase: "raiz-1 toLeft toCenter" }, { diente: "23", clase: "raiz-1 toLeft toCenter" }, { diente: "24", clase: "raiz-2 toLeft" }, { diente: "25", clase: "raiz-1  toLeft" }, { diente: "26", clase: "raiz-3  toLeft" }, { diente: "27", clase: "raiz-3  toLeft" }, { diente: "28", clase: "raiz-3  toLeft" },]],
@@ -42,11 +42,28 @@ export const item = ref({
     hallazgos: []
 })
 
-if (annyang) {
+function startAnnyang(paused = false) {
+    if (!annyangInstance) return false;
+    try {
+        annyangInstance.start({
+            autoRestart: true,
+            continuous: true,
+            paused
+        });
+        speechError.value = '';
+        return true;
+    } catch (error) {
+        console.error('No se pudo iniciar annyang', error);
+        speechError.value = 'No se pudo iniciar el micrófono';
+        return false;
+    }
+}
 
-    annyang.setLanguage("es-CL");
+if (annyangInstance) {
 
-    annyang.addCallback('result', function (frase) {
+    annyangInstance.setLanguage("es-MX");
+
+    annyangInstance.addCallback('result', function (frase) {
         if (isSpeech.value) {
             textoEscuchado.value = frase[0];
         }
@@ -58,89 +75,121 @@ if (annyang) {
         }
     });
     */
-    annyang.addCallback('resultMatch', function (e) {
+    annyangInstance.addCallback('resultMatch', function (e) {
         if (isSpeech.value) {
             console.log('Empieza con número')
             console.log(e)//comando
             guardarEnDiccionario(e)
         }
     });
-    annyang.addCallback('resultNoMatch', function (e) {
+    annyangInstance.addCallback('resultNoMatch', function (e) {
         if (isSpeech.value) {
             console.log('No hay número')
             console.log(e)//array
             //guardarEnDiccionario(e);
         }
     });
-    annyang.addCallback('error', function (e) {
+    annyangInstance.addCallback('error', function (e) {
+        speechError.value = e?.error || 'Error de reconocimiento de voz';
         if (e.error == 'aborted') {
-            annyang.abort()
-            annyang.start()
+            annyangInstance.abort()
+            startAnnyang(!isSpeech.value)
         }
 
     });
-    annyang.addCallback('errorNetwork', function () {
-        if (!isSpeech.value) {
-            detenerVozAutomat()
-        }
+    annyangInstance.addCallback('errorNetwork', function () {
+        speechError.value = 'Error de red del reconocimiento de voz';
+        detenerVozAutomat()
     });
-    annyang.addCallback('errorPermissionBlocked', function () {
-        if (!isSpeech.value) {
-            detenerVozAutomat()
-        }
+    annyangInstance.addCallback('errorPermissionBlocked', function () {
+        speechError.value = 'Permiso de micrófono bloqueado';
+        detenerVozAutomat()
     });
-    annyang.addCallback('errorPermissionDenied', function () {
+    annyangInstance.addCallback('errorPermissionDenied', function () {
+        speechError.value = 'Permiso de micrófono denegado';
        /* if (resizeWindow.value < 500)
             console.log('Reconectando al micrófono')*/
     });
-    annyang.getSpeechRecognizer()?.grammars?.addFromString(comandosDeVoz?.gramatica, 1);
-    annyang.addCommands(comandosDeVoz.conVozApagada)
+    annyangInstance.getSpeechRecognizer()?.grammars?.addFromString(comandosDeVoz?.gramatica, 1);
+    annyangInstance.addCommands(comandosDeVoz.conVozApagada)
 } 
 //--fin speech recognition
 export function escucharInicializarVoz() {
-    annyang.resume();
+    if (!annyangInstance) return;
+    annyangInstance.resume();
 }
 export function detenerInicializarVoz() {
-    annyang.abort();
+    if (!annyangInstance) return;
+    annyangInstance.abort();
 }
 
 export function activarVoz() {
-    //if (paginaOdontograma.value) {
-    annyang.removeCommands();
-    annyang.addCommands(comandosDeVoz.conVozEncendida)
+    if (!annyangInstance) {
+        speechError.value = 'Este navegador no soporta reconocimiento de voz';
+        return;
+    }
+    annyangInstance.removeCommands();
+    annyangInstance.addCommands(comandosDeVoz.conVozEncendida)
     isSpeech.value = true;
-    comandosDeVoz.saludar()
-    //console.log(annyang.getSpeechRecognizer());
-    // }
+    startAnnyang(false);
+    setTimeout(() => {
+        if (isSpeech.value) {
+            comandosDeVoz.saludar()
+        }
+    }, 250);
 }
 export function reactivarVoz() {
-    if (paginaOdontograma.value) {
-        annyang.removeCommands();
-        annyang.addCommands(comandosDeVoz.conVozEncendida)
+    if (annyangInstance && paginaOdontograma.value) {
+        annyangInstance.removeCommands();
+        annyangInstance.addCommands(comandosDeVoz.conVozEncendida)
         isSpeech.value = true;
+        startAnnyang(false);
     }
 }
 export function detenerVoz() {
-    annyang.removeCommands();
-    annyang.addCommands(comandosDeVoz.conVozApagada)
+    if (!annyangInstance) return;
+    annyangInstance.removeCommands();
+    annyangInstance.addCommands(comandosDeVoz.conVozApagada)
     isSpeech.value = false;//stop
     textoEscuchado.value = '';
     item.value = {
         diente: '',
         hallazgos: []
     }
-    speak("Gracias")
+    annyangInstance.pause();
 }
 export function detenerVozAutomat() {
-    annyang.removeCommands();
-    annyang.addCommands(comandosDeVoz.conVozApagada)
+    if (!annyangInstance) return;
+    annyangInstance.removeCommands();
+    annyangInstance.addCommands(comandosDeVoz.conVozApagada)
     isSpeech.value = false;//stop
     textoEscuchado.value = '';
+    annyangInstance.pause();
 }
 let synth = window.speechSynthesis;
 
 let voices = synth.getVoices();
 const convertirEnPalabra = num => convertToText(num.toString())
+const preferredSpanishVoices = ['es-MX', 'es-US', 'es-419', 'es-PE', 'es-AR', 'es-CL', 'es'];
+
+function getPreferredVoice() {
+    voices = synth.getVoices();
+    for (const lang of preferredSpanishVoices) {
+        const match = voices.find(voice => voice.lang?.toLowerCase() === lang.toLowerCase());
+        if (match) return match;
+    }
+    for (const lang of preferredSpanishVoices) {
+        const match = voices.find(voice => voice.lang?.toLowerCase().startsWith(lang.toLowerCase()));
+        if (match) return match;
+    }
+    return voices.find(voice => voice.lang?.toLowerCase().startsWith('es')) || voices[0];
+}
+
+if (typeof speechSynthesis !== 'undefined') {
+    speechSynthesis.onvoiceschanged = () => {
+        voices = synth.getVoices();
+    };
+}
 
 export function speak(pHablar) {
 
@@ -151,11 +200,15 @@ export function speak(pHablar) {
     if (pHablar !== '') {
         const arregloDePalabras = pHablar.split(" ")
         const frase = arregloDePalabras.map(item => !Number(item) ? item : convertirEnPalabra(Number(item))).join(" ")
+        const shouldPauseRecognition = !isSpeech.value;
         const tiempoEnPausa = frase.length / 2 * 150
-        detenerInicializarVoz()
-        setTimeout(() => escucharInicializarVoz(), tiempoEnPausa);
+        if (shouldPauseRecognition) {
+            detenerInicializarVoz()
+            setTimeout(() => escucharInicializarVoz(), tiempoEnPausa);
+        }
         let utterThis = new SpeechSynthesisUtterance(pHablar);
-        utterThis.voice = voices[8];
+        utterThis.lang = 'es-MX';
+        utterThis.voice = getPreferredVoice();
         utterThis.pitch = '1';
         utterThis.rate = '1';
         synth.speak(utterThis);

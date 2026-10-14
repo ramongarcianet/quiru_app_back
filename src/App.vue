@@ -14,17 +14,23 @@ const listaDiccionario = obtenerTodoDiccionario();
 <style lang="sass">
 html
   height: -webkit-fill-available
+  scroll-behavior: smooth
 body
   margin: 0
   height: 100%
   padding: 0
+  min-height: 100vh
 #app
   height: 100%
+  min-height: 100vh
 @media (max-width 575px)
   .container
-    padding: 0
+    padding-left: 1rem
+    padding-right: 1rem
 .icon
   width: 30px
   height: 30px
   color: currentcolor
+::selection
+  background: rgba(34, 199, 166, 0.22)
 </style>

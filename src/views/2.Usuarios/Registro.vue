@@ -47,7 +47,7 @@ function Cancelar() {
     .col-1(v-if="item.estado === true") Activo
     .col-1.dropdown(v-if="item.estado === true")
       button.ms-auto.btn(title='eliminar' @click="CallConfirm3(item)")
-        i.fa.fa-solid.fa-trash
+        i.bi.bi-trash
     .col-2(v-else) Desactivado
 </template>
 <style scoped>

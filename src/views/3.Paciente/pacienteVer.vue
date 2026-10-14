@@ -1,5 +1,5 @@
 <script setup>
-import { onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { item, guardar, actualizar, limpiar, leerEnRegistro, obtenerTodos, registro, updateEstado } from "../../store/paciente";
 import RegistroOdontograma from "../5.Odontograma/RegistroOdontograma.vue";
@@ -7,7 +7,21 @@ import { guardar as guardarOdontograma, registroodonto, obtenerTodos as obtenerO
 import { printHistoriaClinicaPaciente, printHistoriaMedicaPaciente } from "../../store/historiaClinica";
 const obtenerRegistro = obtenerTodos();
 const confirmar = ref(false);
+const visible = ref(false);
+const menuPaciente = ref(null);
 let itemseleccionado = {};
+function toggleMenuPaciente() {
+  visible.value = !visible.value;
+}
+function cerrarMenuPaciente() {
+  visible.value = false;
+}
+function handleClickOutside(event) {
+  if (!menuPaciente.value) return;
+  if (!menuPaciente.value.contains(event.target)) {
+    cerrarMenuPaciente();
+  }
+}
 function avisoHistorico() {
   var modal = document.getElementById('id03');
   modal.style.display = 'block';
@@ -18,6 +32,7 @@ function cerrarAvisoHistorico() {
   guardarOdontograma(route.params.idPaciente, 'Diagnóstico','No')
 }
 function CallConfirm(item) {
+  cerrarMenuPaciente();
   itemseleccionado = item;
   obtenerOdontograma(item.id);
   var modal = document.getElementById('id01');
@@ -50,16 +65,21 @@ let obtener
 if (route.params.idPaciente) {
   leerEnRegistro(route.params.idPaciente)
 }
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+})
 onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside);
   //limpiar()
   if (obtener) obtener();
 })
-const visible = ref(false) 
 
 function printHistoriaClinica(idPaciente) {
+  cerrarMenuPaciente();
   printHistoriaClinicaPaciente(idPaciente)
 }
 function printHistoriaMedica(idPaciente) {
+  cerrarMenuPaciente();
   printHistoriaMedicaPaciente(idPaciente)
 }
 </script>
@@ -85,7 +105,7 @@ function printHistoriaMedica(idPaciente) {
 .row.mt-4
   .col-4.col-md-8
     button.btn.btn-outline-primary.border-0.pb-md-0(title='Volver' @click="push({ name: 'pacientes', params: {} })" )
-      i.fa-solid.fa-arrow-left-long.fa-xl
+      i.bi.bi-arrow-left.fs-3
   .col-8.col-md-3
 #alerta.alert.alert-danger.alert-dismissible(style='display:none')
   strong Cuidado!
@@ -101,32 +121,37 @@ function printHistoriaMedica(idPaciente) {
               h1.my-0(style="color: #395D56; font-size: 1.25em; font-family: var(--font-family)") Información           
                 h1(style="color: #37DFBB; font-weight:bold; font-size: 1.25em; font-family: var(--font-family)") de Paciente
           .col-6
-            .dropdown.d-flex.justify-content-end.mt-1
-              i.fa.fa-ellipsis-v.fa-xl.p-3(href='#' role='button' data-bs-toggle='dropdown' style="color: var(--color-primary)")
-              ul.dropdown-menu(style="cursor: pointer")
+            .dropdown.d-flex.justify-content-end.mt-1.position-relative(ref="menuPaciente")
+              button.btn.p-0.border-0.bg-transparent(
+                type='button'
+                @click.stop="toggleMenuPaciente()"
+                :aria-expanded="visible ? 'true' : 'false'"
+              )
+                i.bi.bi-three-dots-vertical.fs-3.p-3(style="color: var(--color-primary)")
+              ul.dropdown-menu.dropdown-menu-end.show(v-if="visible" style="cursor: pointer")
                 li                    
-                  a.dropdown-item(@click="push({name: 'Admision', params: { idPaciente: item.id }})") 
-                    i.fa-solid.fa-file-circle-plus.fa-sm(style="color: var(--color-primary)")
+                  a.dropdown-item(@click="cerrarMenuPaciente(); push({name: 'Admision', params: { idPaciente: item.id }})") 
+                    i.bi.bi-file-earmark-plus(style="color: var(--color-primary)")
                     |     Admisión
                 li
                 li                    
                   a.dropdown-item(@click="printHistoriaClinica(item.id)") 
-                    i.fa-solid.fa-briefcase-medical.fa-sm(style="color: var(--color-primary)")
+                    i.bi.bi-briefcase(style="color: var(--color-primary)")
                     |     Imprimir historia clínica
                 li
                 li                    
                   a.dropdown-item(@click="printHistoriaMedica(item.id)") 
-                    i.fa-solid.fa-briefcase-medical.fa-sm(style="color: var(--color-primary)")
+                    i.bi.bi-briefcase(style="color: var(--color-primary)")
                     |     Imprimir historia médica general
                 li
                 li
-                  a.dropdown-item(@click="push({ name: 'paciente', params: { idPaciente: item.id } })") 
-                    i.fa-solid.fa-pen-to-square.fa-sm(style="color: var(--color-primary)")
+                  a.dropdown-item(@click="cerrarMenuPaciente(); push({ name: 'paciente', params: { idPaciente: item.id } })") 
+                    i.bi.bi-pencil-square(style="color: var(--color-primary)")
                     |     Editar paciente
                 li
                 li
                   a.dropdown-item(@click="CallConfirm(item)") 
-                    i.fa-regular.fa-trash-can.fa-sm(style="color: var(--color-primary)")
+                    i.bi.bi-trash(style="color: var(--color-primary)")
                     |     Eliminar paciente  
       .card-body
         Form.mt-md-4
@@ -146,13 +171,13 @@ function printHistoriaMedica(idPaciente) {
         div
           strong(style="color: white") Crear Nuevo
           p.mb-0(style="color: white") Diagnóstico
-        i.fa-solid.fa-teeth-open.fa-xl
+        i.bi.bi-clipboard2-pulse.fs-3
     .col-12.mx-auto.my-3(v-if="item.visto == 1")
       button.w-100.text-white.text-start.btn.btn-primary.d-flex.justify-content-between.px-5.align-items-center(style="border-radius: 50px" @click="avisoHistorico()")
         div
           strong(style="color: white") Crear Nuevo
           p.mb-0(style="color: white") Diagnóstico
-        i.fa-solid.fa-teeth-open.fa-xl
+        i.bi.bi-clipboard2-pulse.fs-3
   .col.col-md-8
     .card
       .card-header(style='background-color:var(--color-light) !important;')

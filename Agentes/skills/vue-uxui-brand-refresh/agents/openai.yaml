@@ -1,0 +1,4 @@
+interface:
+  display_name: "Vue UXUI Brand Refresh"
+  short_description: "Refresh UX/UI corporativo para apps Vue"
+  default_prompt: "Use $vue-uxui-brand-refresh to restyle a Vue application with a corporate visual system, stronger hierarchy and accessible components."

@@ -5,9 +5,9 @@ import Logo from "../../../assets/logoQuiru.vue";
 const { push } = useRouter();
 
 const listaDeRedes = [
-  { icono: "fa-brands fa-facebook", ruta: "https://www.facebook.com/QUIRUOFICIAL" },
-  { icono: "fa-brands fa-instagram", ruta: "https://www.instagram.com/Quiru_app/" },
-  { icono: "fa-brands fa-linkedin", ruta: "https://www.linkedin.com/company/quiru/" },
+  { icono: "bi bi-facebook", ruta: "https://www.facebook.com/QUIRUOFICIAL" },
+  { icono: "bi bi-instagram", ruta: "https://www.instagram.com/Quiru_app/" },
+  { icono: "bi bi-linkedin", ruta: "https://www.linkedin.com/company/quiru/" },
 
   
 ];
@@ -23,7 +23,7 @@ const listaDeRedes = [
                 small 2022 Quiru | Trujillo - Perú
         .d-flex
             a(v-for='{icono, ruta} of listaDeRedes'  :href='ruta' target='_blank').me-3
-                i.fa-2x.primary-text(:class='icono')
+                i.fs-3.primary-text(:class='icono')
     
 </template>
 

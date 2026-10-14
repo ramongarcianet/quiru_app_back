@@ -12,13 +12,13 @@ const {back, push} = useRouter()
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Admisión
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") del paciente
     button.btn.btn-outline-primary.border-0(@click="back()" )
-      i.fa-solid.fa-arrow-left-long.fa-xl
+      i.bi.bi-arrow-left.fs-3
   .col-5.col-md-3.mt-5.mb-3
     div.opciones
       button.btn.btn-primary.white-text(title='Consentimientos' type='button' data-bs-toggle='modal' data-bs-target='#consentimientosModal')
         .contenido
           .title Consentimientos
-        i.fa-regular.fa-file-pdf.fa-xl.icono
+        i.bi.bi-filetype-pdf.fs-3.icono
     #consentimientosModal.modal.fade(tabindex='-1')
       .modal-dialog.modal-lg
         .modal-content

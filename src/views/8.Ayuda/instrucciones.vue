@@ -22,7 +22,7 @@ function ocultarAyuda() {
     input#myInput.form-control.parpadea(style='border-color: rgb(57, 93, 86);' type='text' placeholder='Escriba una palabra para buscar en la lista el hallazgos')
   .col-1.p-0
     a(href='#SeccionPrincipal' style="color: black; cursor: default" id="act1" @click="ocultarAyuda()")
-      i.fa-solid.fa-xmark.fa-xl(style="margin-top: 5px; margin-left: 10px")
+      i.bi.bi-x-lg.fs-3(style="margin-top: 5px; margin-left: 10px")
 span.m-1(style='font-weight: bold; font-size: 12px; color:rgb(57, 93, 86)') Pruebe diciendo un ejemplo, Quiru está escuchando
 .Contenido  
   table.table.table-bordered.table-striped

@@ -141,7 +141,7 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
         small
           strong Guardar
         p.mb-0 Admisión
-      i.fa-solid.fa-save.fa-lg.ms-5(style=" color: white;")
+      i.bi.bi-floppy.fs-4.ms-5(style=" color: white;")
 .card.card-body.mt-2(style="margin-bottom: 50px")
   .div(style="background-color: white; border-radius: 2%;")
     table.table.table-hover
@@ -155,6 +155,6 @@ Form( :onPromise='() => guardarOActualizar(item, idPaciente)' :onSuccess='() => 
           StorageItem( :storageRef='file')
           td.ms-3
             BotonSeguro( :onSuccess= '() => eliminarDelDocumento(file, i)' )
-              i.fa.fa-trash-o
+              i.bi.bi-trash
 </template>
 

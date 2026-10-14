@@ -9,7 +9,7 @@ const mostrar = ref(false)
 <template lang='pug'>
 
 button(@click="mostrar=true" title='Eliminar')
-    i.fa-solid.fa-trash
+    i.bi.bi-trash
 #id01.modal(v-if='mostrar')
   span.close(@click="mostrar=false" title='Cerrar') &times;
   .modal-content.modal-sm

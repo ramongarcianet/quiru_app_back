@@ -18,7 +18,6 @@ import { obtenerTodos as obtenerTodosPaciente, leer as leerPaciente, registro as
 import { item as ItemUsuario, leer as LeerUser, registro as RegistroUsuario, leerEnRegistro } from '../../store/usuario'
 import { miUsuario, item as itemUser } from '../../store/sesion'
 import { esLetra, esNumero } from '../../config/libreria'
-import { gapi } from 'gapi-script';
 const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const maxDocumento = ref(9);
 const { push, back } = useRouter();
@@ -28,172 +27,24 @@ const _obtenerRegistro = obtenerTodos();
 const _obtenerTodosPaciente = obtenerTodosPaciente();
 const NombreDoctor = ref("");
 const isChecked= ref(false);
+const scheduleModalVisible = ref(false);
+const mensajeWhatsApp = ref('');
 let itemSelect = {};
 let EventSelect = {};
-let gcalendar = {};
-let _calendarId = "";
 let registroCargado = 0;
 onMounted(() => {
   LeerUser(miUsuario().uid);
-  gapi.load('client:auth2', () => {
-    gapi.client.init({
-      apiKey: 'AIzaSyCjAPoUZWjo_-xUEsgpiLn9-2TLcAcpJZ0',
-      clientId: '226083957898-5bq5sd9ha906pq41oiha6bsb6ae82jp7.apps.googleusercontent.com',
-      discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
-      scope: 'https://www.googleapis.com/auth/calendar'
-    }).then(() => {
-      gapi.client.calendar.calendarList.list().then(function (response) {
-        var calendars = response.result.items;
-        for (var i = 0; i < calendars.length; i++) {
-          var calendar = calendars[i];
-          if (calendar.id == calendar.summary) {
-            _calendarId = calendar.id
-          }
-          var x = document.getElementById("IsVisibleLoginCalendar");
-          x.style.display = "none"
-        }
-      }, (error) => {
-        var x = document.getElementById("IsVisibleLoginCalendar");
-        x.style.display = "block"
-        //console.log('Error login Google calendar:', error);
-      });
-    }, (error) => {
-      console.log('Error loading Google API client:', error);
-    });
-  });
   registroCargado = 1;
 });
-function getEvents() {
-  var request = gapi.client.calendar.events.list({
-    'calendarId': _calendarId,
-    'timeMin': (new Date(2023, 3, 1)).toISOString(),
-    'showDeleted': false,
-    'singleEvents': true,
-    'maxResults': 10,
-    'orderBy': 'startTime'
-  });
-
-  request.execute(function (response) {
-    var events = response.items;
-  });
+function openScheduleModal() {
+  mensajeWhatsApp.value = '';
+  scheduleModalVisible.value = true;
+  document.body.classList.add('modal-open');
 }
-
-function signIn() {
-  gapi.auth2.getAuthInstance().signIn().then(function (googleUser) {
-    gapi.client.calendar.calendarList.list().then(function (response) {
-      var calendars = response.result.items;
-      for (var i = 0; i < calendars.length; i++) {
-        var calendar = calendars[i];
-        if (calendar.id == calendar.summary) {
-          _calendarId = calendar.id
-        }
-        var x = document.getElementById("IsVisibleLoginCalendar");
-        x.style.display = "none"
-      }
-    }, (error) => {
-      var x = document.getElementById("IsVisibleLoginCalendar");
-      x.style.display = "block"
-      //console.log('Error login Google calendar:', error);
-    });
-  }
-    , (error) => {
-      console.log('Error signing in user:');
-    });
+function closeScheduleModal() {
+  scheduleModalVisible.value = false;
+  document.body.classList.remove('modal-open');
 }
-
-function addEvent(_cita) {
-  const startDate = new Date(itemSelect.start);
-  const endDate = new Date(itemSelect.end);
-  startDate.setTime(startDate.getTime() + (5 * 60 * 60 * 1000));
-  endDate.setTime(endDate.getTime() + (5 * 60 * 60 * 1000));
-  const event = {
-    'summary': _cita.title,
-    'location': _cita.location,
-    'description': 'Cita Odontológica',
-    'start': {
-      'dateTime': startDate.toISOString(),
-      'timeZone': userTimeZone
-    },
-    'end': {
-      'dateTime': endDate.toISOString(),
-      'timeZone': userTimeZone
-    },
-    'reminders': {
-      'useDefault': false,
-      'overrides': [
-        { 'method': 'popup', 'minutes': 30 }
-      ]
-    },
-    'attendees': [
-      {
-        "email": miUsuario().email,
-        "responseStatus": "needsAction"
-      },
-      {
-        "email": _cita.email,
-        "responseStatus": "needsAction"
-      }
-    ],
-    'timeZone': userTimeZone
-  };
-
-  const request = gapi.client.calendar.events.insert({
-    'calendarId': _calendarId,
-    'resource': event
-  });
-
-  request.execute((event) => {
-    _cita.gcalendar = {} || event.result
-    guardarCita(_cita)
-  });
-}
-
-function updateEventGCal(arg, sumary) {
-  let item_data = registro.value.find(item => item.id == arg.id)
-  const eventId = item_data.gcalendar.id;
-  const startDate = new Date(arg.start);
-  const endDate = new Date(arg.end);
-  startDate.setTime(startDate.getTime() + (5 * 60 * 60 * 1000));
-  endDate.setTime(endDate.getTime() + (5 * 60 * 60 * 1000));
-
-  const request = gapi.client.calendar.events.get({
-    'calendarId': _calendarId,
-    'eventId': eventId
-  });
-
-  request.execute((event) => {
-    event.summary = (sumary == "") ? item_data.title : sumary;;
-    event.start.dateTime = startDate.toISOString();
-    event.start.timeZone = userTimeZone;
-    event.end.dateTime = endDate.toISOString();
-    event.end.timeZone = userTimeZone;
-    event.timeZone = userTimeZone;
-    const updateRequest = gapi.client.calendar.events.update({
-      'calendarId': _calendarId,
-      'eventId': eventId,
-      'resource': event
-    });
-
-    updateRequest.execute((event) => {
-      console.log('Evento actualizado: ');
-    });
-  });
-}
-function deleteEventGCal(id) {
-  let item_data = registro.value.find(item => item.id == id)
-  const eventId = item_data.gcalendar.id;
-
-  gapi.client.calendar.events.delete({
-    'calendarId': _calendarId,
-    'eventId': eventId
-  }).then(function (response) {
-    console.log('Evento eliminado:');
-  }, function (error) {
-    console.error('Error al eliminar evento:', error);
-  });
-
-}
-
 watch(
   () => RegistroUsuario.value,
   () => {
@@ -236,12 +87,7 @@ function createEvent(item) {
     timeStart: startStr,
     timeEnd: endStr
   };
-  let control = document.getElementById("btnschedule");
-  if (item) {
-    control.click();
-  } else {
-    control.click();
-  }
+  openScheduleModal();
 }
 function updateEvent(arg) {
   let horadiotext = ""
@@ -260,7 +106,6 @@ function updateEvent(arg) {
     timedisplay: horadiotext
   }
   actualizar(_item)
-  updateEventGCal(_item, "")
 }
 function addHoursToDate(date, hours) {
   return new Date(new Date(date).setHours(date.getHours() + hours));
@@ -268,7 +113,6 @@ function addHoursToDate(date, hours) {
 
 function deleteEvent(id) {
   eliminar(id)
-  deleteEventGCal(id)
 }
 function viewEvents(_id) {
   let item_data = registro.value.find(item => item.id == _id)
@@ -290,8 +134,7 @@ function viewEvents(_id) {
     Mensaje: item_data.Mensaje,
   };
 
-  let control = document.getElementById("btnschedule");
-  control.click();
+  openScheduleModal();
 }
 const options = reactive({
   timeZone: userTimeZone,
@@ -420,25 +263,12 @@ const guardarCitaCompleta = (idPaciente) => new Promise((resolve, reject) => {
   cita.value.location = "" || ItemUsuario.value.nombreconsultorio + " - " + ItemUsuario.value.direccion;
   let index = registro.value?.findIndex(i => i.id == cita.value.id);
   if (index == -1 || index == undefined) {
-    if (_calendarId == "") {
-      guardarCita(cita.value)
-    }
-    else {
-      addEvent(cita.value)
-    }
+    guardarCita(cita.value)
     resolve()
     return
   }
   else {
-    let _item = {
-      id: cita.value.id,
-      start: cita.value.start,
-      end: cita.value.end,
-    }
     actualizar(cita.value);
-    if (_calendarId != "") {
-      updateEventGCal(_item, cita.value.title)
-    }
     resolve()
     return
   }
@@ -462,8 +292,36 @@ const guardarPacienteNuevo = () => {
   })
 }
 function closeEvent() {
-  let control = document.getElementById("btnsclose");
-  control.click();
+  closeScheduleModal();
+}
+function confirmarCitaWhatsApp() {
+  mensajeWhatsApp.value = '';
+  const numero = String(itemPaciente.value?.telefono || '').replace(/\D/g, '');
+  if (!numero) {
+    mensajeWhatsApp.value = 'El paciente no tiene un número de celular registrado.';
+    return;
+  }
+
+  const nombrePaciente = [
+    itemPaciente.value?.nombre,
+    itemPaciente.value?.apellidoPaterno,
+    itemPaciente.value?.apellidoMaterno
+  ].filter(Boolean).join(' ');
+  const nombreConsultorio = ItemUsuario.value?.nombreconsultorio;
+  const direccion = ItemUsuario.value?.direccion || 'dirección por confirmar';
+  const fechaHora = cita.value?.timedisplay || 'fecha y hora por confirmar';
+  const mensaje = [
+    `Hola${nombrePaciente ? ` ${nombrePaciente}` : ''}, esperamos que se encuentre bien.`,
+    '',
+    `Le escribimos de ${nombreConsultorio || 'nuestro consultorio odontológico'} para solicitar la confirmación de su cita:`,
+    `Fecha y hora: ${fechaHora}`,
+    `Dirección: ${direccion}`,
+    '',
+    'Por favor, confírmenos su asistencia respondiendo a este mensaje. Muchas gracias.'
+  ].join('\n');
+
+  const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
+  window.open(url, '_blank', 'noopener,noreferrer');
 }
 function saludoCita() {
   var lang = window.navigator.languages ? window.navigator.languages[0] : null;
@@ -568,38 +426,32 @@ function createEventDisponible(item) {
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Lista
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") de citas
 .row 
-  .col-md-6.col-sm-12
+  .col-12
     label.form-label(style="color: #395D56; font-size: 1.2em; font-weight: bold")
       input#chkDisponibilidad(type='checkbox', @change='handleCheckboxChange')
       | 
       | Generar disponibilidad
-  .col-md-6.col-sm-12
-    button.ms-auto.btn.btn-warning(id="IsVisibleLoginCalendar1" type='button', @click="signIn()" style="float: right") 
-      Img(style="opacity: 1; justify-content: start !important;height: 25px; align-items: start!important;" src="https://ssl.gstatic.com/calendar/images/dynamiclogo_2020q4/calendar_21_2x.png")
-        span(style="justify-content: center!important; align-items: center!important;") 
-        | 
-        | Enlazar a Google Calendar
 .row.desplazable
   .contenido( style="background-color: #fff")
     fullcalendar(v-bind:options='options')
-.row
-#btnschedule.button.btn.btn-primary.ms-auto(type='button' hidden="hidden" data-bs-toggle='modal' data-bs-target='#schedule-add') 
-#schedule-add.modal(tabindex='-1')
-  .modal-dialog
-    .modal-content(style="background-color: var(--color-light) !important")
-      Form( :onPromise='()=>guardarAmbas()' :onSuccess='()=>closeEvent()')
-        .modal-header
-          i.fa.fa-calendar-plus-o(style="color: var(--color-primary)")
-          h3.modal-title Agenda de cita
-          #btnsclose(type='button', data-bs-dismiss='modal' style="font-size:20px; font-weight:bold") &times;
-        .modal-body
-          .input-group.mb-3
+.row(v-if='false')
+  .schedule-modal-backdrop(@click='closeScheduleModal()')
+  #schedule-add.schedule-modal
+    .modal-dialog.modal-dialog-centered.modal-dialog-scrollable(@click.stop)
+      .modal-content(style="background-color: var(--color-light) !important")
+        Form( :onPromise='()=>guardarAmbas()' :onSuccess='()=>closeEvent()')
+          .modal-header
+            i.bi.bi-calendar-plus(style="color: var(--color-primary)")
+            h3.modal-title Agenda de cita
+            button#btnsclose.btn-close(type='button', @click="closeScheduleModal()" aria-label='Close')
+          .modal-body
+            .input-group.mb-3
             span#basic-addon1.input-group-text
-              i.fa.fa-text-height
+              i.bi.bi-type
             input.form-control(placeholder="Añade un Título", v-model="cita.title", required)       
           .input-group.mb-3
             span#basic-addon1.input-group-text
-              i.fa.fa-clock-o
+              i.bi.bi-clock
             input.form-control(v-model="cita.timedisplay" readonly style="font-weight:bold")
           .input-group.mb-3
             span#basic-addon1.input-group-text
@@ -607,39 +459,39 @@ function createEventDisponible(item) {
             input.form-control(placeholder='Registrar un nuevo paciente', readonly, style="font-weight:bold")
           .input-group.mb-3(v-if="mostrar == false")
             span#basic-addon1.input-group-text
-              i.fa-solid.fa-magnifying-glass
+              i.bi.bi-search
             input.form-control(placeholder='Buscar paciente por documento de identidad' required :maxlength="maxDocumento" @keypress="esNumero($event)" v-model="itemPaciente.numeroDocumento" v-on:focusout="GetPaciente($event)")
           .input-group.mb-3(v-if="mostrar == false")
             span#basic-addon1.input-group-text
-              i.fa.fa-id-card
+              i.bi.bi-person-vcard
             input.form-control(placeholder='Nombre Paciente', required, v-model="itemPaciente.nombre" readonly )
             input.form-control(placeholder='Apellido Paciente', required, v-model="itemPaciente.apellidoPaterno" readonly)
           .pacienteNuevo(v-if="mostrar == true")
             .input-group.mb-3
               span#basic-addon1.input-group-text 
-                i.fa.fa-user-o
+                i.bi.bi-person
               input.form-control(placeholder='Nombre Paciente', required, v-model="itemPaciente.nombre" )
               input.form-control(placeholder='Apellido Paciente', required, v-model="itemPaciente.apellidoPaterno" )
               input.form-control(placeholder='Apellido Paciente', required, v-model="itemPaciente.apellidoMaterno" )
             .input-group.mb-3
               span#basic-addon1.input-group-text
-                i.fa.fa-id-card
+                i.bi.bi-person-vcard
               select.form-select(v-model="itemPaciente.tipoDocumento")
                 option(value="DNI" selected) DNI
                 option(value="CE") CARNET DE EXTRANJERIA
               input.form-control(placeholder='DNI/CE. Paciente', required, :maxlength="maxDocumento" @keypress="esNumero($event)" v-model="itemPaciente.numeroDocumento")
             .input-group.mb-3
               span#basic-addon1.input-group-text
-                i.fa.fa-at
+                i.bi.bi-at
               input.form-control(placeholder='Email', type="email" required, v-model="itemPaciente.email")
               input.form-control(placeholder='Celular' required @keypress="esNumero($event)" minlength="9" maxlength="12" v-model="itemPaciente.telefono")
           .input-group.mb-3(hidden="true")
             span#basic-addon1.input-group-text
-              i.fa.fa-user-md
+              i.bi.bi-person-badge
             input.form-control(v-model="ItemUsuario.nombre", readonly, style="font-weight:bold")
           .input-group
             span#basic-addon1.input-group-text 
-              i.fa.fa-paint-brush
+              i.bi.bi-brush
             span#basic-addon1.input-group-text(style="background-color: #37dfbb")
               input#html(type='radio' name='Quiru' value='#37dfbb' checked v-model="cita.backgroundColor")
             span#basic-addon1.input-group-text(style="background-color: #3f51b5")
@@ -651,16 +503,118 @@ function createEventDisponible(item) {
           .col-md-12.col-sm-12
             label(for='Message') Mesaje para el especialista
             textarea#message.form-control(rows='5', name='message', placeholder='mensaje' v-model="cita.Mensaje")   
-        .modal-footer
-          button.btn.btn-info(v-if="cita.id" type='button' data-bs-dismiss='modal' @click="push({ name: 'pacienteVer', params: { idPaciente: itemPaciente.id } })") Atender
-          button.ms-auto.btn.btn-danger(v-if="cita.id" type='button', data-bs-dismiss='modal' @click="deleteEvent(cita.id)") Borrar
+          .modal-footer
+          button.btn.btn-info(v-if="cita.id" type='button' @click="closeScheduleModal(); push({ name: 'pacienteVer', params: { idPaciente: itemPaciente.id } })") Atender
+          button.ms-auto.btn.btn-danger(v-if="cita.id" type='button', @click="closeScheduleModal(); deleteEvent(cita.id)") Borrar
           button.ms-auto.btn.btn-primary(type="submit") Grabar
+.schedule-modal-root(v-if='scheduleModalVisible')
+  .schedule-modal-backdrop(@click='closeScheduleModal()')
+  #schedule-add.schedule-modal
+    .modal-dialog.modal-dialog-centered.modal-dialog-scrollable(@click.stop)
+      .modal-content(style="background-color: var(--color-light) !important")
+        Form(:onPromise='()=>guardarAmbas()' :onSuccess='()=>closeEvent()')
+          .modal-header
+            i.bi.bi-calendar-plus(style="color: var(--color-primary)")
+            h3.modal-title Agenda de cita
+            button#btnsclose.btn-close(type='button', @click="closeScheduleModal()" aria-label='Close')
+          .modal-body
+            .input-group.mb-3
+              span#basic-addon1.input-group-text
+                i.bi.bi-type
+              input.form-control(placeholder="AÃ±ade un TÃ­tulo", v-model="cita.title", required)
+            .input-group.mb-3
+              span#basic-addon1.input-group-text
+                i.bi.bi-clock
+              input.form-control(v-model="cita.timedisplay" readonly style="font-weight:bold")
+            .input-group.mb-3
+              span#basic-addon1.input-group-text
+                input.form-check-input(type='checkbox' id="checkbox" v-model="mostrar")
+              input.form-control(placeholder='Registrar un nuevo paciente', readonly, style="font-weight:bold")
+            .input-group.mb-3(v-if="mostrar == false")
+              span#basic-addon1.input-group-text
+                i.bi.bi-search
+              input.form-control(placeholder='Buscar paciente por documento de identidad' required :maxlength="maxDocumento" @keypress="esNumero($event)" v-model="itemPaciente.numeroDocumento" v-on:focusout="GetPaciente($event)")
+            .input-group.mb-3(v-if="mostrar == false")
+              span#basic-addon1.input-group-text
+                i.bi.bi-person-vcard
+              input.form-control(placeholder='Nombre Paciente', required, v-model="itemPaciente.nombre" readonly)
+              input.form-control(placeholder='Apellido Paciente', required, v-model="itemPaciente.apellidoPaterno" readonly)
+            .pacienteNuevo(v-if="mostrar == true")
+              .input-group.mb-3
+                span#basic-addon1.input-group-text
+                  i.bi.bi-person
+                input.form-control(placeholder='Nombre Paciente', required, v-model="itemPaciente.nombre")
+                input.form-control(placeholder='Apellido Paciente', required, v-model="itemPaciente.apellidoPaterno")
+                input.form-control(placeholder='Apellido Paciente', required, v-model="itemPaciente.apellidoMaterno")
+              .input-group.mb-3
+                span#basic-addon1.input-group-text
+                  i.bi.bi-person-vcard
+                select.form-select(v-model="itemPaciente.tipoDocumento")
+                  option(value="DNI" selected) DNI
+                  option(value="CE") CARNET DE EXTRANJERIA
+                input.form-control(placeholder='DNI/CE. Paciente', required, :maxlength="maxDocumento" @keypress="esNumero($event)" v-model="itemPaciente.numeroDocumento")
+              .input-group.mb-3
+                span#basic-addon1.input-group-text
+                  i.bi.bi-at
+                input.form-control(placeholder='Email', type="email" required, v-model="itemPaciente.email")
+                input.form-control(placeholder='Celular' required @keypress="esNumero($event)" minlength="9" maxlength="12" v-model="itemPaciente.telefono")
+            .input-group.mb-3(hidden="true")
+              span#basic-addon1.input-group-text
+                i.bi.bi-person-badge
+              input.form-control(v-model="ItemUsuario.nombre", readonly, style="font-weight:bold")
+            .input-group
+              span#basic-addon1.input-group-text
+                i.bi.bi-brush
+              span#basic-addon1.input-group-text(style="background-color: #37dfbb")
+                input#html(type='radio' name='Quiru' value='#37dfbb' checked v-model="cita.backgroundColor")
+              span#basic-addon1.input-group-text(style="background-color: #3f51b5")
+                input#html(type='radio' name='Azul' value='#3f51b5' v-model="cita.backgroundColor")
+              span#basic-addon1.input-group-text(style="background-color: #d50000")
+                input#html(type='radio' name='Rojo' value='#d50000' v-model="cita.backgroundColor")
+              span#basic-addon1.input-group-text(style="background-color: #f6bf26")
+                input#html(type='radio' name='Amarillo' value='#f6bf26' v-model="cita.backgroundColor")
+            .col-md-12.col-sm-12
+              label(for='Message') Mesaje para el especialista
+              textarea#message.form-control(rows='5', name='message', placeholder='mensaje' v-model="cita.Mensaje")
+            .alert.alert-warning.mt-3.mb-0(v-if='mensajeWhatsApp' role='alert') {{ mensajeWhatsApp }}
+          .modal-footer
+            button.btn.btn-success(type='button' @click='confirmarCitaWhatsApp()')
+              i.bi.bi-whatsapp.me-2
+              span Confirmar cita
+            button.btn.btn-info(v-if="cita.id" type='button' @click="closeScheduleModal(); push({ name: 'pacienteVer', params: { idPaciente: itemPaciente.id } })") Atender
+            button.ms-auto.btn.btn-danger(v-if="cita.id" type='button' @click="closeScheduleModal(); deleteEvent(cita.id)") Borrar
+            button.ms-auto.btn.btn-primary(type="submit") Grabar
 </template>
 <style lang="sass">
 
 
 .btn-primary
   color:#fff
+
+.schedule-modal-backdrop
+  position: fixed
+  inset: 0
+  background: rgba(0, 0, 0, 0.45)
+  z-index: 1050
+
+.schedule-modal
+  position: fixed
+  inset: 0
+  z-index: 1055
+  display: flex
+  align-items: center
+  justify-content: center
+  padding: 1rem
+
+.schedule-modal .modal-dialog
+  width: 100%
+  max-width: 700px
+  margin: 0
+
+.schedule-modal .modal-content
+  max-height: calc(100vh - 2rem)
+  overflow: auto
+
 thead
   background-color: rgb(55, 223, 187)
 th

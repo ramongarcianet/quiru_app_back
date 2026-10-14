@@ -106,7 +106,7 @@ function AddItemsAutomatico() {
 
 <template lang="pug">
 h2.primary-text 
-  i.fa-solid.fa-clipboard-list.me-2
+  i.bi.bi-clipboard2-pulse.me-2
   span Cotizacion
 .container.fluid
   .container
@@ -144,7 +144,7 @@ h2.primary-text
                 td S/ {{ FormatNumber.format(item.subtotal) }} 
                 td
                   BotonSeguro( :onSuccess= '() => eliminar(item.id)' )
-                    i.fa.fa-trash-o(aria-hidden='true')
+                    i.bi.bi-trash(aria-hidden='true')
             tfoot
               tr
                 th Total

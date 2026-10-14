@@ -2,6 +2,16 @@ import { ref as StorageRef, uploadBytesResumable, getDownloadURL, getStorage, ge
 import {ref} from 'vue'
 import {storage} from '../config/firebase'
 export const progressFile = ref(0)
+const mensajeErrorStorage = (codigo) => {
+    const mensajes = {
+        'storage/quota-exceeded': 'No se pudo cargar el archivo porque se superó la cuota de almacenamiento. Contacta al administrador del sistema.',
+        'storage/unauthenticated': 'Debes iniciar sesión para cargar archivos.',
+        'storage/unauthorized': 'No tienes permisos para cargar archivos.',
+        'storage/retry-limit-exceeded': 'La carga tardó demasiado. Inténtalo nuevamente.',
+        'storage/canceled': 'La carga fue cancelada.'
+    }
+    return mensajes[codigo] || 'No se pudo cargar el archivo. Inténtalo nuevamente.'
+}
 export const setFile = (file, idOdontograma) => new Promise( (resolve, reject )=> {
     if(!file) return reject( false )
     if(file.type != 'image/jpeg' && file.type != 'image/png' && file.type != 'application/pdf') return reject('formato no admitido')
@@ -15,7 +25,10 @@ export const setFile = (file, idOdontograma) => new Promise( (resolve, reject )=
     uploadTask.on(
         'state_changed',
         snapshot => progressFile.value = (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
-        error => reject(error.code),
+        error => {
+            progressFile.value = 0
+            reject(mensajeErrorStorage(error.code))
+        },
         () => resolve(uploadTask.snapshot.ref.fullPath )
     )
 })

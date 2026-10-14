@@ -16,16 +16,17 @@ onMounted(() => {
 </script>
 
 <template lang="pug">
-.modal.fade( ref='dialog' tabindex="-1" aria-hidden="true")
-  .modal-dialog.modal-dialog-centered
-    .modal-content
-      .modal-header
-        h5.modal-title
-            slot(name='title') 
-        button.btn-close(type="button" @click='$emit("update:modelValue", false)' aria-label="Close")
-      .modal-body
-        slot(name='body')
-      .modal-footer
-        slot(name='footer')
+teleport(to='body')
+  .modal.fade( ref='dialog' tabindex="-1" aria-hidden="true")
+    .modal-dialog.modal-dialog-centered
+      .modal-content
+        .modal-header
+          h5.modal-title
+              slot(name='title') 
+          button.btn-close(type="button" @click='$emit("update:modelValue", false)' aria-label="Close")
+        .modal-body
+          slot(name='body')
+        .modal-footer
+          slot(name='footer')
         
 </template>

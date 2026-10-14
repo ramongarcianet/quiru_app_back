@@ -1,24 +1,136 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap')
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap')
 
 :root
-    --color-primary: #37DFBB
-    --color-primary-tint: #18b290
-    --color-primary-rgb: 55, 223, 187
-    --color-light: #E8FFFA
+    --color-primary: #22c7a6
+    --color-primary-tint: #15957f
+    --color-primary-rgb: 34, 199, 166
+    --color-primary-soft: #dcfbf3
+    --color-secondary: #ff8d6b
+    --color-secondary-rgb: 255, 141, 107
+    --color-light: #f4fffb
     --color-white: #ffffff
-    --color-dark: #02372C
-    --color-danger: red
+    --color-surface: #ffffff
+    --color-surface-alt: #ecf8f4
+    --color-dark: #123c3a
+    --color-dark-soft: #51706d
+    --color-border: #d5e8e1
+    --color-danger: #d6465e
     --color-transparent: transparent 
-    --font-family: 'Poppins', sans-serif
-    --element-height: 35px
-    --element-border: 14px
+    --font-family: 'Plus Jakarta Sans', sans-serif
+    --font-family-heading: 'Manrope', sans-serif
+    --element-height: 46px
+    --element-border: 18px
+    --shadow-soft: 0 20px 60px rgba(18, 60, 58, 0.08)
+    --shadow-card: 0 16px 40px rgba(18, 60, 58, 0.10)
+    --shadow-focus: 0 0 0 0.25rem rgba(var(--color-primary-rgb), 0.18)
     
-h1, h2, h3, h4, h5, h6, p, span, button, input, textarea, li, ::after
+h1, h2, h3, h4, h5, h6
+    font-family: var(--font-family-heading)
+
+h1, h2, h3, h4, h5, h6, p, span, button, input, textarea, li, a, label, small, ::after, ::before
     font-family: var(--font-family)
 
+body
+    background: radial-gradient(circle at top left, rgba(var(--color-primary-rgb), 0.16), transparent 24%), linear-gradient(180deg, #f7fffc 0%, #eff9f6 100%)
+    color: var(--color-dark)
 
+a
+    color: inherit
 
-$colors: primary, primary-tint, light, white, dark, danger, transparent
+button, .btn
+    border-radius: var(--element-border)
+    font-weight: 700
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease
+    &:hover
+        transform: translateY(-1px)
+
+.btn-primary
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    gap: 0.75rem
+    min-height: 52px
+    padding: 0.75rem 2rem
+    border-radius: 999px
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-tint) 100%)
+    border-color: transparent
+    color: var(--color-white)
+    box-shadow: 0 16px 30px rgba(var(--color-primary-rgb), 0.24)
+    &:hover, &:focus, &:active
+        background: linear-gradient(135deg, var(--color-primary-tint) 0%, #117868 100%)
+        border-color: transparent
+        color: var(--color-white)
+
+.btn-outline-primary
+    border-color: rgba(var(--color-primary-rgb), 0.35)
+    color: var(--color-primary-tint)
+    background: rgba(var(--color-primary-rgb), 0.06)
+    &:hover, &:focus, &:active
+        color: var(--color-white)
+        border-color: transparent
+        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-tint) 100%)
+
+.btn-secondary
+    background: rgba(var(--color-secondary-rgb), 0.12)
+    color: #ad563c
+    border-color: transparent
+
+.card, .modal-content, .dropdown-menu
+    border: 1px solid rgba(18, 60, 58, 0.06)
+    border-radius: 24px
+    box-shadow: var(--shadow-card)
+
+.form-control, .form-select, textarea
+    min-height: var(--element-height)
+    border-radius: var(--element-border)
+    border: 1px solid var(--color-border)
+    background: rgba(255,255,255,0.9)
+    color: var(--color-dark)
+    box-shadow: none
+    &:focus
+        border-color: rgba(var(--color-primary-rgb), 0.6)
+        box-shadow: var(--shadow-focus)
+
+.modal-backdrop.show
+    opacity: 0.25
+
+.modal-backdrop
+    z-index: 1050 !important
+
+.modal
+    z-index: 1055 !important
+
+.glass-panel
+    background: rgba(255,255,255,0.82)
+    backdrop-filter: blur(14px)
+    border: 1px solid rgba(255,255,255,0.45)
+    box-shadow: var(--shadow-soft)
+
+.section-card
+    background: var(--color-surface)
+    border: 1px solid rgba(18, 60, 58, 0.06)
+    border-radius: 28px
+    box-shadow: var(--shadow-card)
+
+.eyebrow
+    display: inline-flex
+    align-items: center
+    gap: 0.5rem
+    padding: 0.45rem 0.9rem
+    border-radius: 999px
+    background: rgba(var(--color-primary-rgb), 0.10)
+    color: var(--color-primary-tint)
+    font-size: 0.85rem
+    font-weight: 700
+
+.text-muted-ui
+    color: var(--color-dark-soft)
+
+*:focus-visible
+    outline: none
+    box-shadow: var(--shadow-focus)
+
+$colors: primary, primary-tint, light, white, dark, danger, transparent, secondary
 
 @each $color in $colors 
   .#{""+$color} 

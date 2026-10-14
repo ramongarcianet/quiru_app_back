@@ -299,11 +299,9 @@ function NumFormatter(data) {
   });
 }
 function imprimirContenidoSeleccionado() {
-  var contenidoSeleccionado = document.getElementById('tratamientosAtModal');
   var botonCerrarCIE10 = document.getElementById('CerrarCIE10')
-  contenidoSeleccionado.style.backgroundColor = 'black'
   window.print();
-  botonCerrarCIE10.click()
+  botonCerrarCIE10?.click()
 }
 </script>
 
@@ -314,11 +312,11 @@ function imprimirContenidoSeleccionado() {
     span {{item2.data}}
     .accionables
       btn.atras(v-if='indice!=0' @click='moverCarrusel(-1)')
-        i.fa-solid.fa-circle-chevron-left.fa-xl
+        i.bi.bi-arrow-left-circle.fs-3
       btn.siguiente(v-if='indice != 4 ' @click="moverCarrusel(1)") 
-        i.fa-solid.fa-circle-chevron-right.fa-xl
+        i.bi.bi-arrow-right-circle.fs-3
       btn.siguiente(v-else @click='finalizar()')
-        i.fa-solid.fa-circle-chevron-right.fa-xl
+        i.bi.bi-arrow-right-circle.fs-3
     a.btn.align-self-start.light(@click='finalizar()') omitir
 
 #id02.modal(style="display:none;")
@@ -361,15 +359,15 @@ function imprimirContenidoSeleccionado() {
     .row
       .col-2
         button.mb-2.btn(@click='push({ name: "pacienteVer", params: { idPaciente: route.params.idPaciente } })')       
-          i.fa-solid.fa-arrow-left-long(style="color: var(--color-primary); font-size: 35px" )
+          i.bi.bi-arrow-left(style="color: var(--color-primary); font-size: 35px" )
       .col-10
         .left
           button.btn(v-if="itemodontograma?.tipo === 'Tratamiento'" title='Borrar'  @click="CallConfirm2(itemodontograma)")
-            i.fa-regular.fa-trash-can.fa-xl(style="color: var(--color-primary)")
+            i.bi.bi-trash.fs-3(style="color: var(--color-primary)")
           button.btn(title='Imprimir' @click="printOdontograma()")
-            i.fa-solid.fa-print.fa-xl(style="color: var(--color-primary)")#destacarImpresion
+            i.bi.bi-printer.fs-3(style="color: var(--color-primary)")#destacarImpresion
           a.btn(title='Ejemplos' href="#SeccionAyuda" @click='activarAyuda()')
-            i.fa-solid.fa-question.fa-xl(style="color: var(--color-primary)")#destacarAyuda
+            i.bi.bi-question-circle.fs-3(style="color: var(--color-primary)")#destacarAyuda
 
     Formulario
     .col.mt-1.justify-content.desplazable(style="display: none" id="AyudaCard")
@@ -384,63 +382,64 @@ function imprimirContenidoSeleccionado() {
             .contenido(style="width: 60%;")
               .title Agregar
               .subtitle Datos adicionales
-            i.fa-solid.fa-file-circle-plus.icono
+            i.bi.bi-file-earmark-plus.icono
       .col-lg-4.col-md-6.col-sm-6.col-xs-12 
         div.opciones
           button.outline-quiru(style="margin-bottom: 1.8rem;" @click='push({ name: "plantratamiento", params: { idOdontograma: route.params.idOdontograma, idPaciente: route.params.idPaciente, tipoOdonto: itemodontograma.tipo } })' )
             .contenido(style="width: 60%;")
               .title Generar
               .subtitle Plan de Tratamiento
-            i.fa-solid.fa-file-circle-plus.icono 
+            i.bi.bi-file-earmark-plus.icono 
       .col-lg-4.col-md-6.col-sm-6.col-xs-12 
         div.opciones
           button.outline-quiru(style="margin-bottom: 1.8rem;" data-bs-toggle='modal', data-bs-target='#tratamientosAtModal' @click="verDiagnostico()" )
             .contenido(style="width: 60%;")
               .title Resumen
               .subtitle Diagnóstico
-            i.fa-solid.fa-file-circle-plus.icono   
+            i.bi.bi-file-earmark-plus.icono   
 
-  #tratamientosAtModal.modal.fade(tabindex='-1')
-    .modal-dialog.modal-xl
-      .modal-content
-        .modal-header
-          .col-7.col-md-9
-            h2(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Resumen
-            h4.my-0(style="color: #395D56; font-size: 1.1em; font-family: var(--font-family)") Diagnóstico
-          button.btn-close(type='button' data-bs-dismiss='modal')
-        .modal-body
-          form
-            .row.mb-3
-              .card.d-none.d-md-block.mx-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
-                .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
-                  .col-1 CIE 10
-                  .col-3 Diagnóstico
-                  .col-2.text-center Cantidad
-                  .col-2.text-center Piezas
-                  .col-1.text-center Costo
-                  .col-2.text-center A Cuenta
-                  .col-1.text-center Resto
-              .card.mt-1.d-none.d-md-block(v-for="item of listaResumen" style="border-radius: 40px; border-color: #839192")
-                .row.p-1.m-1         
-                  .col-1 {{item.CIE10}}
-                  .col-3 {{item.diagnostico}}
-                  .col-2.text-center {{item.cantidad}}
-                  .col-2.text-center {{item.dientes}}
-                  .col-1.text-center {{item.monto}}
-                  .col-2.text-center {{item.acuenta}}
-                  .col-1.text-center {{item.monto - item.acuenta}}
-              .card.mt-1.d-block.d-md-none(v-for="item of listaResumen" style="border-radius: 40px; border-color: #839192")
-                .row.p-1.m-1         
-                  .col-md-2.col-12 CIE10: {{item.CIE10}}
-                  .col-md-6.col-12 Diagnóstico: {{item.diagnostico}}
-                  .col-md-2.col-12 Cantidad: {{item.cantidad}}
-                  .col-md-2.col-12 Dientes: {{item.dientes}}
-                  .col-md-2.col-12 Costo: {{item.monto}}
-                  .col-md-2.col-12 A Cuenta: {{item.acuenta}}
-                  .col-md-2.col-12 Resto: {{item.monto - item.acuenta}}
-        .modal-footer
-          button.btn.btn-primary(type='button' @click='imprimirContenidoSeleccionado()') Imprimir
-          button.btn.btn-secondary(type='button', data-bs-dismiss='modal' id="CerrarCIE10") Salir
+  Teleport(to='body')
+    #tratamientosAtModal.modal.fade(tabindex='-1')
+      .modal-dialog.modal-xl
+        .modal-content
+          .modal-header
+            .col-7.col-md-9
+              h2(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Resumen
+              h4.my-0(style="color: #395D56; font-size: 1.1em; font-family: var(--font-family)") Diagnóstico
+            button.btn-close(type='button' data-bs-dismiss='modal')
+          .modal-body
+            form
+              .row.mb-3
+                .card.resumen-tabla.d-none.d-md-block.mx-1(style="border-radius: 30px; background-color:var(--color-light) !important;")
+                  .row.p-1(style="color:rgb(57, 93, 86);font-weight: bold;")
+                    .col-1 CIE 10
+                    .col-3 Diagnóstico
+                    .col-2.text-center Cantidad
+                    .col-2.text-center Piezas
+                    .col-1.text-center Costo
+                    .col-2.text-center A Cuenta
+                    .col-1.text-center Resto
+                .card.resumen-tabla.mt-1.d-none.d-md-block(v-for="item of listaResumen" style="border-radius: 40px; border-color: #839192")
+                  .row.p-1.m-1         
+                    .col-1 {{item.CIE10}}
+                    .col-3 {{item.diagnostico}}
+                    .col-2.text-center {{item.cantidad}}
+                    .col-2.text-center {{item.dientes}}
+                    .col-1.text-center {{item.monto}}
+                    .col-2.text-center {{item.acuenta}}
+                    .col-1.text-center {{item.monto - item.acuenta}}
+                .card.resumen-movil.mt-1.d-block.d-md-none(v-for="item of listaResumen" style="border-radius: 40px; border-color: #839192")
+                  .row.p-1.m-1         
+                    .col-md-2.col-12 CIE10: {{item.CIE10}}
+                    .col-md-6.col-12 Diagnóstico: {{item.diagnostico}}
+                    .col-md-2.col-12 Cantidad: {{item.cantidad}}
+                    .col-md-2.col-12 Dientes: {{item.dientes}}
+                    .col-md-2.col-12 Costo: {{item.monto}}
+                    .col-md-2.col-12 A Cuenta: {{item.acuenta}}
+                    .col-md-2.col-12 Resto: {{item.monto - item.acuenta}}
+          .modal-footer
+            button.btn.btn-primary(type='button' @click='imprimirContenidoSeleccionado()') Imprimir
+            button.btn.btn-secondary(type='button', data-bs-dismiss='modal' id="CerrarCIE10") Salir
 
 </template>
 
@@ -520,7 +519,7 @@ function imprimirContenidoSeleccionado() {
 .container 
   padding: 16px 
   text-align: center 
-.modal
+#id02
   position: fixed 
   left: 0 
   top: 0 
@@ -529,7 +528,7 @@ function imprimirContenidoSeleccionado() {
   overflow: auto 
   opacity: 1 
   padding-top: 50px 
-.modal-content 
+#id02 .modal-content 
   background-color: #fefefe 
   margin: 5% auto 15% auto 
   border: 1px solid #888 
@@ -655,6 +654,45 @@ function imprimirContenidoSeleccionado() {
         right: 20px
         .atras, .siguiente
           color: var(--color-primary)
+
+@media print
+  :global(body > *:not(#tratamientosAtModal))
+    display: none !important
+  :global(body)
+    margin: 0 !important
+    background: white !important
+  #tratamientosAtModal
+    position: static !important
+    display: block !important
+    width: 100% !important
+    height: auto !important
+    overflow: visible !important
+    padding: 0 !important
+    opacity: 1 !important
+    background: white !important
+    -webkit-print-color-adjust: exact
+    print-color-adjust: exact
+    .modal-dialog
+      width: 100% !important
+      max-width: none !important
+      margin: 0 !important
+    .modal-content
+      width: 100% !important
+      margin: 0 !important
+      border: 0 !important
+      border-radius: 0 !important
+      box-shadow: none !important
+    .modal-body
+      padding: 0.5rem 0 !important
+    .btn-close,
+    .modal-footer
+      display: none !important
+    .resumen-tabla
+      display: block !important
+      break-inside: avoid
+      page-break-inside: avoid
+    .resumen-movil
+      display: none !important
     
 @keyframes cari
   0%

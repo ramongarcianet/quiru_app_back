@@ -1,0 +1,4 @@
+interface:
+  display_name: "Vue Data List Screen"
+  short_description: "Crear pantallas Vue con listados y filtro"
+  default_prompt: "Use $vue-data-list-screen to build a Vue 3 data list view with local JSON data and a search action."

@@ -81,7 +81,7 @@ const instruccion = computed(()=> listaDeInstrucciones.value[numeroDeInstruccion
                 .d-flex.mt-auto
                     button.mb-4.btn.btn-light(@click='push({name: "inscripcion", params: {codigo: route.params.codigo} })') Probar la versión completa
 
-        i.fa-solid.fa-times.fa-2x.light-text( @click='back()')
+        i.bi.bi-x-lg.light-text( @click='back()')
 </template>
 
 <style lang="sass" scoped>

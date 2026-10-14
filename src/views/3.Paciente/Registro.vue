@@ -91,7 +91,7 @@ function searchData() {
                 .col-10 {{item.tipoDocumento + ' ' +item.numeroDocumento }}
                 .col-1.dropdown(style="max-height: 24px")
                     button.ms-auto.btn.p-0.m-0(title='Odontograma')
-                        i.fa.fa-solid.fa-user
+                        i.bi.bi-person
                 .col-10 {{ item.nombre + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno }}
 
         .card.mb-2.p-2.d-none.d-md-block(v-for="item of paginatedData"  :key="item.id"  :item="item" style="border-radius: 40px" )
@@ -104,7 +104,7 @@ function searchData() {
                 .col-1
                 .col-1.dropdown
                     button.ms-auto.btn(title='Odontograma' @click="push({ name: 'pacienteVer', params: { idPaciente: item.id } })")
-                        i.fa.fa-solid.fa-user       
+                        i.bi.bi-person
         b-col.my-1(sm='12' md='12')
             b-pagination.my-0(v-model='currentPage' :total-rows='totalRows' :per-page='perPage' align='center' size='lg')
             

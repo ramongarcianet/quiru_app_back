@@ -20,7 +20,7 @@ nav.navbar.navbar-expand-lg.bg-light
   .container
     Img.navbar-brand(src="https://firebasestorage.googleapis.com/v0/b/app-keepers.appspot.com/o/Group%2073%20(1).png?alt=media&token=13f628f8-46ea-41f4-a4f4-b4d2aa604323")
     button.navbar-toggler.ms-auto.me-2(type="button", data-bs-toggle="collapse", data-bs-target="#navbarSupportedContent", aria-controls="navbarSupportedContent", aria-expanded="false", aria-label="Toggle navigation")
-        i.fa-solid.fa-bars
+        i.bi.bi-list
 
     .collapse.navbar-collapse#navbarSupportedContent
         ul.navbar-nav.me-auto.mb-2.mb-lg-0

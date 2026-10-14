@@ -1,125 +1,199 @@
 <script setup>
-import { onUnmounted, onMounted, ref, watch, computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { item, leer, registro, leerEnRegistro, actualizar  } from '../store/usuario'
+import { computed, onMounted, onBeforeUnmount, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import { item, leer, registro, leerEnRegistro, actualizar } from '../store/usuario'
 import { cerrarSesion, miUsuario } from '../store/sesion'
 
-const route = useRoute()
 const { push } = useRouter()
-onMounted(() => {
-  leer(miUsuario().uid);
-});
-watch(
-    () => registro.value,
-    () => {
-        let valores= registro.value.find(item => item.idUsuario == miUsuario().uid)
-        if(valores !=undefined) {
-            leerEnRegistro(miUsuario().uid);
-        }
-    }
-);
-const siglas = computed ( ()=> item.nombre.charAt(0) + item.apellido.charAt(0)||"")
-const adios = ()=> {
-  push({name:'iniciar-sesion'})
+const modalElement = ref()
+const dropdownButton = ref()
+let modalInstance
+let dropdownInstance
+const opinionDefaults = {
+  recomendacion: "",
+  tuvoError: "",
+  comentario: "",
 }
+
+const formItem = computed(() => {
+  if (!item.value || typeof item.value !== "object") {
+    item.value = { ...opinionDefaults }
+  }
+
+  return item.value
+})
+
+const asegurarCamposOpinion = () => {
+  if (!item.value || typeof item.value !== "object") {
+    item.value = {}
+  }
+
+  if (item.value.recomendacion === undefined || item.value.recomendacion === null) {
+    item.value.recomendacion = opinionDefaults.recomendacion
+  }
+  if (item.value.tuvoError === undefined || item.value.tuvoError === null) {
+    item.value.tuvoError = opinionDefaults.tuvoError
+  }
+  if (item.value.comentario === undefined || item.value.comentario === null) {
+    item.value.comentario = opinionDefaults.comentario
+  }
+}
+
+onMounted(() => {
+  leer(miUsuario().uid)
+  asegurarCamposOpinion()
+
+  if (modalElement.value) {
+    modalInstance = new bootstrap.Modal(modalElement.value)
+  }
+  if (dropdownButton.value) {
+    dropdownInstance = new bootstrap.Dropdown(dropdownButton.value)
+  }
+})
+
+onBeforeUnmount(() => {
+  modalInstance?.dispose?.()
+  dropdownInstance?.dispose?.()
+})
+
+watch(
+  () => registro.value,
+  () => {
+    const valores = registro.value.find((registroItem) => registroItem.idUsuario == miUsuario().uid)
+    if (valores != undefined) {
+      leerEnRegistro(miUsuario().uid)
+      asegurarCamposOpinion()
+    }
+  }
+)
+
+const adios = () => {
+  push({ name: 'iniciar-sesion' })
+}
+
 const dejaOpinion = () => {
+  asegurarCamposOpinion()
   return actualizar(item.value)
 }
-const cerrar = ()=> {
-  let control = document.getElementById("btnsclose");
-  control.click();
+
+const cerrar = () => {
+  modalInstance?.hide()
+}
+
+const abrirOpinion = () => {
+  asegurarCamposOpinion()
+  modalInstance?.show()
+}
+
+const toggleSesionMenu = () => {
+  dropdownInstance?.toggle()
+}
+
+const cerrarSesionMenu = () => {
+  dropdownInstance?.hide()
+}
+
+const irAConfiguracion = () => {
+  cerrarSesionMenu()
+  push({ name: 'usuario' })
+}
+
+const salirSesion = () => {
+  cerrarSesionMenu()
+  cerrarSesion()
+  adios()
 }
 </script>
 
 <template lang="pug">
-#exampleModal.modal.fade(tabindex='-1')
-  .modal-dialog
-    .modal-content
-      Form( :onPromise='() => dejaOpinion()' :onSuccess='() => cerrar()')
-        .modal-header
-          h2.primary-text Déjanos tu opinión
-          #btnsclose.button.btn-close(type='button' data-bs-dismiss='modal')
-        .modal-body
-          p ¿Qué tan probable es que recomiendes Quiru a un amigo o colega?*
-          .btn-group(role='group')
-            input#btnradio0.btn-check(type='radio' name='btnradio' autocomplete='off' value='0' v-model="item.recomendacion")
-            label.btn.btn-outline-primary(for='btnradio0') 0
-            input#btnradio1.btn-check(type='radio' name='btnradio' autocomplete='off' value='1' v-model="item.recomendacion")
-            label.btn.btn-outline-primary(for='btnradio1') 1
-            input#btnradio2.btn-check(type='radio' name='btnradio' autocomplete='off' value='2' v-model="item.recomendacion")
-            label.btn.btn-outline-primary(for='btnradio2') 2
-            input#btnradio3.btn-check(type='radio' name='btnradio' autocomplete='off' value='3' v-model="item.recomendacion")
-            label.btn.btn-outline-primary(for='btnradio3') 3
-            input#btnradio4.btn-check(type='radio' name='btnradio' autocomplete='off' value='4' v-model="item.recomendacion")
-            label.btn.btn-outline-primary(for='btnradio4') 4
-            input#btnradio5.btn-check(type='radio' name='btnradio' autocomplete='off' value='5' v-model="item.recomendacion")
-            label.btn.btn-outline-primary(for='btnradio5') 5
-            input#btnradio6.btn-check(type='radio' name='btnradio' autocomplete='off' value='6' v-model="item.recomendacion")
-            label.btn.btn-outline-primary(for='btnradio6') 6
-            input#btnradio7.btn-check(type='radio' name='btnradio' autocomplete='off' value='7' v-model="item.recomendacion")
-            label.btn.btn-outline-primary(for='btnradio7') 7
-            input#btnradio8.btn-check(type='radio' name='btnradio' autocomplete='off' value='8' v-model="item.recomendacion")
-            label.btn.btn-outline-primary(for='btnradio8') 8
-            input#btnradio9.btn-check(type='radio' name='btnradio' autocomplete='off' value='9' v-model="item.recomendacion")
-            label.btn.btn-outline-primary(for='btnradio9') 9
-            input#btnradio10.btn-check(type='radio' name='btnradio' autocomplete='off' value='10' v-model="item.recomendacion")
-            label.btn.btn-outline-primary(for='btnradio10') 10
-          p.mt-3 ¿Tuviste algún problema en el uso de la aplicación?
-            .form-check.form-check-inline
-              input#inlineRadio1.form-check-input(type='radio' name='inlineRadioOptions' value='SiError'  v-model="item.tuvoError")
-              label.form-check-label(for='inlineRadio1') Si
-            .form-check.form-check-inline
-              input#inlineRadio2.form-check-input(type='radio' name='inlineRadioOptions' value='NoError' v-model="item.tuvoError")
-              label.form-check-label(for='inlineRadio2' ) No
-          .siHayError(v-if="item.tuvoError == 'SiError' ")
-            label.form-label Cuentanos cual fue el error
+teleport(to='body')
+  #exampleModal.modal.fade(ref='modalElement' tabindex='-1')
+    .modal-dialog.modal-dialog-centered
+      .modal-content
+        Form(:onPromise='() => dejaOpinion()' :onSuccess='() => cerrar()')
+          .modal-header
+            h2.primary-text Déjanos tu opinión
+            button.btn-close(type='button' @click='cerrar()')
+          .modal-body
+            p ¿Qué tan probable es que recomiendes Quiru a un amigo o colega?*
+            .btn-group(role='group')
+              input#btnradio0.btn-check(type='radio' name='btnradio' autocomplete='off' value='0' v-model="formItem.recomendacion")
+              label.btn.btn-outline-primary(for='btnradio0') 0
+              input#btnradio1.btn-check(type='radio' name='btnradio' autocomplete='off' value='1' v-model="formItem.recomendacion")
+              label.btn.btn-outline-primary(for='btnradio1') 1
+              input#btnradio2.btn-check(type='radio' name='btnradio' autocomplete='off' value='2' v-model="formItem.recomendacion")
+              label.btn.btn-outline-primary(for='btnradio2') 2
+              input#btnradio3.btn-check(type='radio' name='btnradio' autocomplete='off' value='3' v-model="formItem.recomendacion")
+              label.btn.btn-outline-primary(for='btnradio3') 3
+              input#btnradio4.btn-check(type='radio' name='btnradio' autocomplete='off' value='4' v-model="formItem.recomendacion")
+              label.btn.btn-outline-primary(for='btnradio4') 4
+              input#btnradio5.btn-check(type='radio' name='btnradio' autocomplete='off' value='5' v-model="formItem.recomendacion")
+              label.btn.btn-outline-primary(for='btnradio5') 5
+              input#btnradio6.btn-check(type='radio' name='btnradio' autocomplete='off' value='6' v-model="formItem.recomendacion")
+              label.btn.btn-outline-primary(for='btnradio6') 6
+              input#btnradio7.btn-check(type='radio' name='btnradio' autocomplete='off' value='7' v-model="formItem.recomendacion")
+              label.btn.btn-outline-primary(for='btnradio7') 7
+              input#btnradio8.btn-check(type='radio' name='btnradio' autocomplete='off' value='8' v-model="formItem.recomendacion")
+              label.btn.btn-outline-primary(for='btnradio8') 8
+              input#btnradio9.btn-check(type='radio' name='btnradio' autocomplete='off' value='9' v-model="formItem.recomendacion")
+              label.btn.btn-outline-primary(for='btnradio9') 9
+              input#btnradio10.btn-check(type='radio' name='btnradio' autocomplete='off' value='10' v-model="formItem.recomendacion")
+              label.btn.btn-outline-primary(for='btnradio10') 10
+            p.mt-3 ¿Tuviste algún problema en el uso de la aplicación?
+              .form-check.form-check-inline
+                input#inlineRadio1.form-check-input(type='radio' name='inlineRadioOptions' value='SiError' v-model="formItem.tuvoError")
+                label.form-check-label(for='inlineRadio1') Si
+              .form-check.form-check-inline
+                input#inlineRadio2.form-check-input(type='radio' name='inlineRadioOptions' value='NoError' v-model="formItem.tuvoError")
+                label.form-check-label(for='inlineRadio2') No
+            .siHayError(v-if="formItem.tuvoError == 'SiError'")
+              label.form-label Cuéntanos cuál fue el error
+              .input-group
+                textarea.form-control(v-model="formItem.comentario")
+            label.form-label Déjanos un comentario sobre qué podríamos mejorar
             .input-group
-              textarea.form-control(v-model="item.comentario")
-          label.form-label Déjanos un comentario sobre que podriamos mejorar
-          .input-group
-            textarea.form-control(v-model="item.comentario")
-          .modal-footer
-            button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Cerrar
-            button.btn.btn-primary(type='submit') Enviar
+              textarea.form-control(v-model="formItem.comentario")
+            .modal-footer
+              button.btn.btn-secondary(type='button' @click='cerrar()') Cerrar
+              button.btn.btn-primary(type='submit') Enviar
+
 .dropdown(style="height: 3.7rem;")
   .row.perfil
     .cuadro
       .comentario.mx-2
-        button.btn.btn-outline-primary.d-none.d-md-block(data-bs-toggle="modal" data-bs-target="#exampleModal" )
-          i.fa-regular.fa-face-smile.me-1
+        button.btn.btn-outline-primary.d-none.d-md-block(type='button' @click='abrirOpinion()')
+          i.bi.bi-emoji-smile.me-1
           | Déjanos tu opinión
-      .avatar(type='button' data-bs-toggle='dropdown')
-        img.rounded-circle(v-if="item.linkPerfil" :src="item.linkPerfil" width="50" height="50")
-        .text(v-else) {{item.nombre.substr(0,1) + item.nombre.substr(1,1)}}
-        .tuerca(v-if="!item.nombre")
-          i.fa-solid.fa-user.fa-sm(style="color: var(--color-light)")
-      .col.dropdown-menu.dropdown-menu-end.dropdown-menu-lg-start
-        li.d-flex(@click="push({name:'usuario'})" style="cursor: pointer")
-        li                    
-          a.dropdown-item(@click="push({name:'usuario'})" style="cursor: pointer") 
-            i.fa-solid.fa-gear.fa-sm(style="color: var(--color-primary)")
-            |     Configuración
+      button.avatar(type='button' ref='dropdownButton' @click='toggleSesionMenu()')
+        i.bi.bi-person-circle.session-icon
+      ul.dropdown-menu.dropdown-menu-end
         li
-        li                    
-          a.dropdown-item(@click="cerrarSesion(), adios()" style="cursor: pointer") 
-            i.fa-solid.fa-right-from-bracket.fa-sm(style="color: var(--color-primary)")
-            |     Salir
+          button.dropdown-item(type='button' @click='irAConfiguracion()')
+            i.bi.bi-gear(style="color: var(--color-primary)")
+            |  Configuración
+        li
+          button.dropdown-item(type='button' @click='salirSesion()')
+            i.bi.bi-box-arrow-right(style="color: var(--color-primary)")
+            |  Salir
   .row.sugerenciaMovil
     .col-6
     .col-6.d-flex.justify-content-end
-      button.btn.btn-outline-primary.d-block.d-md-none(data-bs-toggle="modal" data-bs-target="#exampleModal" )
-        i.fa-regular.fa-face-smile.me-1
+      button.btn.btn-outline-primary.d-block.d-md-none(type='button' @click='abrirOpinion()')
+        i.bi.bi-emoji-smile.me-1
         | Sugerencias
 </template>
+
 <style lang="sass" scoped>
 .puerta
   display: flex
   flex-direction: row
   justify-content: end
   padding: 10px 20px
+
 .sugerenciaMovil
   margin-top: -30px
   padding: 0px
+
 .perfil
   width: 100%
   height: 90px
@@ -135,6 +209,7 @@ const cerrar = ()=> {
     align-items: center
     height: 3rem
     .avatar
+      border: none
       display: flex
       flex-direction: column
       justify-content: center
@@ -143,8 +218,8 @@ const cerrar = ()=> {
       height: 50px
       border-radius: 60px
       background-color: var(--color-primary)
-      .text
-        font-size: 20px
+      cursor: pointer
+      .session-icon
+        font-size: 1.7rem
         color: var(--color-light)
-
 </style>

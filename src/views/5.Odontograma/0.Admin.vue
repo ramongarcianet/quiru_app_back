@@ -136,7 +136,7 @@ obtenerTodosOD()
         button.btn.btn-danger.deletebtn(@click="EliminarOdonto()") Aceptar
 .mt-4
   button.btn.btn-outline-primary.border-0( @click="back()")
-    i.fa-solid.fa-arrow-left-long.fa-xl
+    i.bi.bi-arrow-left.fs-3
 .accordion-item.border.border-0.rounded-0
   h2.accordion-header
     button.accordion-button.collapsed(type='button' data-bs-toggle='collapse' data-bs-target='#SeccionOdo')
@@ -160,7 +160,7 @@ obtenerTodosOD()
           //(@click="push({ name: 'odontograma', params: { idOdontograma: itemOD.id } })" style="color:#18b290; cursor: pointer") Ver Odontograma 
           .col-1.dropdown
             button.ms-auto.btn(title='eliminar' @click="CallConfirm2(itemOD)")
-              i.fa.fa-solid.fa-trash
+              i.bi.bi-trash
       .col
         button.btn.btn-outline-dark.border.border-dark.m-2(@click='borrarTodos()') Borrar vacios
         button.btn.btn-outline-dark.border.border-dark.m-2(@click='downloadOD()') Imprimir información de Odontogramas

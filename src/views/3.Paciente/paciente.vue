@@ -77,7 +77,7 @@ function incompleto() {
 h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Nuevo
 h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") paciente
 button.btn.btn-outline-primary.border-0(@click="back()" )
-  i.fa-solid.fa-arrow-left-long.fa-xl
+  i.bi.bi-arrow-left.fs-3
 Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError='incompleto()')
   .row
     .col-md-6 
@@ -243,7 +243,7 @@ Form( :onPromise='() => guardarOActualizar()' :onSuccess='() => back()' :onError
           strong(v-if="item.id") Actualizar
         p.mb-0(v-if="!item.id") Nuevo Paciente
         p.mb-0(v-if="item.id") Paciente
-      i.fa-solid.fa-save.fa-lg.ms-5(style=" color: white;")
+      i.bi.bi-floppy.fs-4.ms-5(style=" color: white;")
   .row.mb-5
     #alerta.alert.alert-danger.alert-dismissible(style='display:none')   
       strong Cuidado! te falta completar campos

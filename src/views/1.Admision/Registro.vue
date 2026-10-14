@@ -23,9 +23,9 @@ const confirmarEliminar = id => eliminar(id).then(()=> confirmar.value = false)
     .col-2 {{item.fechaAdmision}}
     .col-2
       button.ms-auto.btn.p-0.m-0(@click='leerEnRegistro(item.id)')
-        i.fa.fa-solid.fa-pen
+        i.bi.bi-pen
     .col-2
       BotonSeguro( :onSuccess= '() => confirmarEliminar(item.id)' )
-        i.fa.fa-trash-o
+        i.bi.bi-trash
 </template>
 

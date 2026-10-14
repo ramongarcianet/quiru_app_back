@@ -5,21 +5,15 @@ import { crearUsuarioConId, crearUsuarioConGoogle, crearUsuarioConFacebook } fro
 import router from '../config/router'
 export const providerG = new GoogleAuthProvider();
 export const logGoogle = () => signInWithPopup(auth, providerG)
-  .then((result) => {
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential.accessToken;
-    const user = result.user;
-    console.log(result.user)
-    crearUsuarioConGoogle( {
+  .then(async (result) => {
+    await crearUsuarioConGoogle({
       nombre: result.user.displayName,
       email: result.user.email,
       id: result.user.uid
     })
-  }).catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    const credential = GoogleAuthProvider.credentialFromError(error);
-  });
+    return result.user
+  })
+  .catch((error) => Promise.reject(devolverError(error)));
 export const providerF = new FacebookAuthProvider();
 export const logFacebook = () => {
   const auth = getAuth();
@@ -61,6 +55,18 @@ const devolverError = e => {
       break
     case 'auth/email-already-in-use':
       mensajeDeError = 'Este correo ya tiene una cuenta registrada'
+      break
+    case 'auth/unauthorized-domain':
+      mensajeDeError = 'Este dominio no está autorizado para iniciar sesión con Google'
+      break
+    case 'auth/operation-not-allowed':
+      mensajeDeError = 'El acceso con Google no está habilitado en Firebase'
+      break
+    case 'auth/popup-blocked':
+      mensajeDeError = 'El navegador bloqueó la ventana de Google. Habilita las ventanas emergentes e inténtalo nuevamente'
+      break
+    case 'auth/popup-closed-by-user':
+      mensajeDeError = 'Se cerró la ventana de Google antes de completar el acceso'
       break
     default:
       mensajeDeError = e.code

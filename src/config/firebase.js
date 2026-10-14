@@ -33,7 +33,7 @@ const firebaseConfig = {
 };
 */
 //PRODUCIÓN
-/*
+/**/
 const firebaseConfig = {
   apiKey: "AIzaSyCmuv9CEw64vyP6RMNBje3X-feEsbdg4Lw",
   authDomain: "quiru-prod.firebaseapp.com",
@@ -43,9 +43,9 @@ const firebaseConfig = {
   appId: "1:605281793847:web:7635e785fb4472e24b0cb2",
   measurementId: "G-32SFW0E4RR"
 };
-*/
+
 //CHILE FREE
- /**/
+ /*
 const firebaseConfig = {
   apiKey: "AIzaSyD7o0kBDInr5YOjuUozDzh0vnx-cRRKZ3M",
   authDomain: "quiru-cl.firebaseapp.com",
@@ -55,7 +55,7 @@ const firebaseConfig = {
   appId: "1:279094495226:web:75892af3195f0c6a8c4643",
   measurementId: "G-VW1PZD0EHV"
 };
-
+*/
 // Initialize Firebase
 let app
 //let analytics

@@ -164,7 +164,7 @@ const filteredRegistros = computed(() => {
     h1.my-0(style="color: #395D56; font-size: 1.5em; font-family: var(--font-family)") Vista de
     h1(style="color: #37DFBB; font-weight:bold; font-size: 1.5em; font-family: var(--font-family)") Configuración
     button.btn.btn-outline-primary.border-0(@click="refresh()" )
-      i.fa-solid.fa-arrow-left-long.fa-xl
+      i.bi.bi-arrow-left.fs-3
   .col-2
 
 Form( :onPromise="() => guardarOActualizar(item)" :onSuccess='() => refresh()')
@@ -283,6 +283,6 @@ Form( :onPromise="() => guardarOActualizar(item)" :onSuccess='() => refresh()')
           small
           strong Guardar
           p.mb-0 Mis Datos
-        i.fa-solid.fa-save.fa-lg.ms-5(style=" color: white;")
+        i.bi.bi-floppy.fs-4.ms-5(style=" color: white;")
 </template>
 

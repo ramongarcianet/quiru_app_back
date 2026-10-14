@@ -63,8 +63,9 @@ watch(
 )
 watch(
   () => {
-    let mensaje = document.getElementById('mensaje');
+    const mensaje = getMensajeElement();
     if (mensajeExistePieza.value != '') {
+      if (!mensaje) return;
       mensaje.style.display = "block"
       mensaje.innerHTML = [
         `<div class="alert alert-danger alert-dismissible fade show" role="alert">`,
@@ -75,6 +76,9 @@ watch(
     }
   }
 )
+function getMensajeElement() {
+  return document.getElementById('mensaje');
+}
 const borrar = ({ diente, hallazgo, ubicacion }) => {
   const index = itemodontograma.value?.hallazgos?.findIndex(i => i.diente == diente && i.hallazgo == hallazgo && i.ubicacion == ubicacion)
   if (index > -1) {
@@ -84,7 +88,8 @@ const borrar = ({ diente, hallazgo, ubicacion }) => {
   }
 }
 function LimpiarMensaje() {
-  let mensaje = document.getElementById('mensaje');
+  const mensaje = getMensajeElement();
+  if (!mensaje) return;
   mensaje.style.display = "none"
   mensaje.innerHTML = [''].join('')
 }
@@ -104,9 +109,9 @@ function ordenarDesc(listado, p_key) {
   return listado.reverse();
 }
 watch(
-  () => annyang.isListening(),
+  () => window.annyang?.isListening?.(),
   () => {
-    annyang.start({ autoRestart: true });
+    if (!window.annyang) return;
   }
 
 )
@@ -283,7 +288,7 @@ function onKeyDownSoloLetras(event) {
 .contenedor(:hidden="itemodontograma?.estado === '1' ")
   .anim(v-if='isSpeech')
   .microfono( @click="isSpeech ? detenerVoz() : activarVoz()" )#destacarMicrofono
-    i.icono.fa-solid.fa-microphone.fa-xl
+    i.icono.bi.bi-mic-fill.fs-3
 .row(:hidden="itemodontograma?.estado === '1'")
   p(style="background-color: var(--color-light)!important; margin: 0px !important;") {{ textoEscuchado }}
 .row
@@ -330,7 +335,7 @@ function onKeyDownSoloLetras(event) {
             td {{ item.sigla }}
             td
               BotonSeguro.mt-0( :onSuccess= '() => borrar(item)' :hidden="itemodontograma?.estado === '1' && !itemodontograma.idRelacionado")
-                i.fa.fa-trash-o(aria-hidden='true')
+                i.bi.bi-trash(aria-hidden='true')
       .div(v-if="itemodontograma?.hallazgos?.length > 8",style="text-align: center;")
         nav.d-flex.justify-content-center(aria-label='Page navigation example')
           ul.pagination

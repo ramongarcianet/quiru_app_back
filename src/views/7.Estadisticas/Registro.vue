@@ -38,10 +38,10 @@ watch(
                 td S/. {{ item.precio }}.00
                 td
                     button.ms-auto.btn( @click="push({ name: 'formulario', params: { idPaciente: item.id } })")
-                        i.fa-solid.fa-pen-clip
+                        i.bi.bi-pencil-square
                 td
                     BotonSeguro(:onSuccess= '() => eliminar(item.id)' )
-                        i.fa.fa-trash-o(aria-hidden='true')
+                        i.bi.bi-trash(aria-hidden='true')
     .div(v-if="registro.length > 8",style="text-align: center;")
         nav.d-flex.justify-content-center(aria-label='Page navigation example')
             ul.pagination

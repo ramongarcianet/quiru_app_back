@@ -328,10 +328,17 @@ export function eliminarFila(filaEliminar) {
 }
 
 const prefijosParaUbicacion = '(vestibular) (distal) (oclusal) (mesial) (palatino) (incisal) (lingual)'
-const listaDeComandosDeDientes = {}
-listaDeDientes_?.map(num => {
-    listaDeComandosDeDientes[`${num} *frase`] = (frase) => seleccionHallazgo(num, frase, "")
-})
+const piezasReconocibles = listaDeDientes_.map(num => String(num).replace('.', '\\.'));
+const comandoPiezaRegex = new RegExp(`^(${piezasReconocibles.join('|')})\\s+(.+)$`, 'i');
+const listaDeComandosDeDientes = {
+    piezaHallazgo: {
+        regexp: comandoPiezaRegex,
+        callback: (pieza, frase) => {
+            const piezaNormalizada = String(pieza).replace(',', '.');
+            seleccionHallazgo(piezaNormalizada, frase, "")
+        }
+    }
+}
 
 
 export default {
